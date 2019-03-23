@@ -1,4 +1,4 @@
-package Color_yr.ALLmusic_BC;
+package Color_yr.ALLmusic;
 
 import java.io.File;
 import java.io.FileNotFoundException;

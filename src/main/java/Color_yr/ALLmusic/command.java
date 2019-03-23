@@ -1,4 +1,4 @@
-package Color_yr.ALLmusic_BC;
+package Color_yr.ALLmusic;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -16,7 +16,6 @@ public class command extends Command {
 		Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
 		return pattern.matcher(str).matches();
 	}
-
 
 	public void execute(CommandSender sender, String[] args) {
 		if (args[0].equalsIgnoreCase("help")) {

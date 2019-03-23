@@ -1,4 +1,4 @@
-package Color_yr.ALLmusic_BC;
+package Color_yr.ALLmusic;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -66,7 +66,7 @@ public class ALLmusic_BC extends Plugin {
         setConfig();
         reloadConfig();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new ChannelListener());
-        ProxyServer.getInstance().registerChannel("ALLmusic");
+        ProxyServer.getInstance().registerChannel("ALLmusic_BC");
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command());
         log.info("§d[ALLmusic_BC]§e已启动-" + Version);;
     }
