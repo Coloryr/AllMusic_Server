@@ -44,5 +44,8 @@ public class command extends Command {
 				return;
 			}
 		}
+		else if(args[0].equalsIgnoreCase("stop")) {
+			ChannelListener.sendToBukkit("stpo", sender.getName());
+		}
 	}
 }

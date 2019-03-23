@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.logging.Logger;
 
+import static Color_yr.ALLmusic.PlayMusic.PlayMusic_Start;
+
 public class ALLmusic_BC extends Plugin {
 
     public static String Version = "1.0.0";
@@ -65,6 +67,7 @@ public class ALLmusic_BC extends Plugin {
         log.info("§d[ALLmusic_BC]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
         reloadConfig();
+        PlayMusic_Start();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new ChannelListener());
         ProxyServer.getInstance().registerChannel("ALLmusic_BC");
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command());
