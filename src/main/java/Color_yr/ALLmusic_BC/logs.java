@@ -30,9 +30,9 @@ public class logs {
 			pw.close();
 			fw.close();
 		} catch (FileNotFoundException e) {
-			Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
+			ALLmusic_BC.log.warning("§d[ALLmusic_BC]§c日志文件写入失败" + e);
 		} catch (IOException e) {
-			Minecraft_QQ.log.warning("§d[Minecraft_QQ]§c日志文件写入失败" + e);
+			ALLmusic_BC.log.warning("§d[ALLmusic_BC]§c日志文件写入失败" + e);
 		}
 	}
 }
