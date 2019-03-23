@@ -1,8 +1,15 @@
 package Color_yr.ALLmusic;
 
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+
+import javazoom.jl.decoder.Bitstream;
+import javazoom.jl.decoder.BitstreamException;
+import javazoom.jl.decoder.Header;
 import java.util.Map;
 
 public class PlayMusic {
@@ -11,6 +18,28 @@ public class PlayMusic {
     public static void PlayMusic_Start()
     {
         playgo.run();
+    }
+    public static int Music_Time(String music) {
+        try {
+            URL urlfile = new URL(music);
+            URLConnection con = null;
+
+            con = urlfile.openConnection();
+
+            int b = con.getContentLength();//
+            BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
+            Bitstream bt = new Bitstream(bis);
+            Header h = bt.readFrame();
+            int time = (int) h.total_ms(b);
+            System.out.println(time / 1000);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (BitstreamException e)
+        {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
 
@@ -29,6 +58,7 @@ class playgo implements Runnable {
                 String playsong = PlayMusic.playlist.get(key);
                 ChannelListener.sendToBukkit("play", playsong);
                 PlayMusic.playlist.remove(key);
+                ALLmusic_BC.log.info("音乐时长"+PlayMusic.Music_Time(playsong));
             }
         }
     }
