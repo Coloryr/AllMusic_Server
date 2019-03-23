@@ -34,7 +34,7 @@ public class command extends Command {
 			}
 			else {
 				if (isInteger(args[1])==true) {
-					ChannelListener.sendToBukkit("ALLmusic", args[1]);
+					ChannelListener.sendToBukkit("play", args[1]);
 					sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§2已发送" + args[1]));
 				} else
 					sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§c错误，请输入歌曲数字ID"));
