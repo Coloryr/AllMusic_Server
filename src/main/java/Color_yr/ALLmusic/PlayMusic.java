@@ -22,13 +22,13 @@ public class PlayMusic {
     private static Integer warningTimes;
     public static int Mode = 0;
     public static int All_music = 0;
-    public static String Music_name;
-
+    public static Map<String, String> Vote = new HashMap<String, String>();
+    public static int Vote_time = 0;
     public static void PlayMusic_Start() {
         playgo.start();
     }
 
-    public static int Music_Time(String music){
+    public static int Music_Time(String music) {
         try {
             URL urlfile = new URL(music);
             URLConnection con = urlfile.openConnection();
@@ -38,8 +38,7 @@ public class PlayMusic {
             Header h = bt.readFrame();
             int time = (int) h.total_ms(b);
             return time / 1000;
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.getMessage();
         }
         return 0;
@@ -76,19 +75,21 @@ public class PlayMusic {
 
 class playgo extends Thread {
     public static void music_list() {
-        if (PlayMusic.playlist.size() != 0) {
+        if (PlayMusic.playlist.size() == 1) {
+            String a = PlayMusic.playlist.get("1");
+            PlayMusic.playlist.put("0", a);
+            PlayMusic.playlist.remove("1");
+        } else if (PlayMusic.playlist.size() > 1) {
             int i = 0;
             for (; PlayMusic.playlist.size() - 1 > i; i++) {
-                String a = PlayMusic.playlist.get("" + (i + 1));
-                ALLmusic_BC.log.info("处理队列" + "[" + (i + 1) + "]" + a);
-                PlayMusic.playlist.put("" + i, a);
-                ALLmusic_BC.log.info("到队列" + "[" + i + "]" + a);
+                String a = PlayMusic.playlist.get(String.valueOf(i + 1));
+                PlayMusic.playlist.put(String.valueOf(i), a);
             }
-            PlayMusic.playlist.remove("" + (PlayMusic.playlist.size()));
-            ALLmusic_BC.log.info("删除队列" + (PlayMusic.playlist.size()));
+            PlayMusic.playlist.remove(String.valueOf(PlayMusic.All_music - 1));
         }
         PlayMusic.All_music = PlayMusic.playlist.size();
     }
+
     public synchronized void run() {
         while (true) {
             if (PlayMusic.playlist.size() == 0) {
@@ -101,27 +102,25 @@ class playgo extends Thread {
                 String playsong = PlayMusic.playlist.get("0");
                 String song = PlayMusic.realURL("http://music.163.com/song/media/outer/url?id=" + playsong);
                 int Music_time = PlayMusic.Music_Time(song);
-                ALLmusic_BC.log.info("音乐时长"+Music_time);
                 ChannelListener.sendToBukkit("play", playsong);
-                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2"+"正在播放歌曲"+playsong));
+                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "正在播放歌曲" + playsong));
                 PlayMusic.playlist.remove("0");
-                ALLmusic_BC.log.info("删除队列" + "[0]");
                 music_list();
                 try {
-                    while(Music_time>0)
-                    {
+                    while (Music_time > 0) {
                         Thread.sleep(1000);
-                        Music_time -- ;
-                        if(PlayMusic.Mode==1)
-                        {
-                            ChannelListener.sendToBukkit("stopALL", "");
-                            music_list();
-                            Music_time=0;
-                            if(PlayMusic.All_music==0)
-                            {
-                                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2"+"队列中无歌曲"));
+                        Music_time--;
+                        if(PlayMusic.Vote_time>0) {
+                            PlayMusic.Vote_time--;
+                            if (PlayMusic.Vote.size() >= ProxyServer.getInstance().getOnlineCount()) {
+                                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "已切歌"));
+                                ChannelListener.sendToBukkit("stopALL", "");
+                                Music_time = 0;
+                                if (PlayMusic.All_music == 0) {
+                                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "队列中无歌曲"));
+                                }
+                                PlayMusic.Mode = 0;
                             }
-                            PlayMusic.Mode=0;
                         }
                     }
                 } catch (InterruptedException e) {
