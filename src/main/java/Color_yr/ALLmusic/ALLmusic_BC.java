@@ -68,8 +68,6 @@ public class ALLmusic_BC extends Plugin {
         setConfig();
         reloadConfig();
         PlayMusic_Start();
-        ProxyServer.getInstance().getPluginManager().registerListener(this, new ChannelListener());
-        ProxyServer.getInstance().registerChannel("ALLmusic_BC");
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command());
         log.info("§d[ALLmusic_BC]§e已启动-" + Version);;
     }

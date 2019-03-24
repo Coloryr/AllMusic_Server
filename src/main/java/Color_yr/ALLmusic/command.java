@@ -46,7 +46,7 @@ public class command extends Command {
 				return;
 			}
 		} else if (args[0].equalsIgnoreCase("stop")) {
-			ChannelListener.sendToBukkit("stop", sender.getName());
+			PlayMusic.SendToOnePlayer("[Stop]",sender.getName());
 			sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§2已停止" + sender.getName() + "的音乐播放"));
 		} else if (args[0].equalsIgnoreCase("now")) {
 			if (PlayMusic.playlist.size() == 0) {

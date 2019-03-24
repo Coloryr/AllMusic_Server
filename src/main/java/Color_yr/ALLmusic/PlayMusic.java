@@ -3,6 +3,7 @@ package Color_yr.ALLmusic;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.io.BufferedInputStream;
@@ -12,7 +13,10 @@ import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.BitstreamException;
 import javazoom.jl.decoder.Header;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Map;
 
@@ -28,6 +32,20 @@ public class PlayMusic {
         playgo.start();
     }
 
+    public static void SendToPlayer(String data)
+    {
+        Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
+        Iterator<ProxiedPlayer> iterator = values.iterator();
+        while (iterator.hasNext()) {
+            ProxiedPlayer players = iterator.next();
+            players.sendData("AudioBuffer", data.getBytes());
+        }
+    }
+    public static void SendToOnePlayer(String data, String Player)
+    {
+        ProxiedPlayer players = ProxyServer.getInstance().getPlayer(Player);
+        players.sendData("AudioBuffer", data.getBytes());
+    }
     public static int Music_Time(String music) {
         try {
             URL urlfile = new URL(music);
@@ -100,8 +118,8 @@ class playgo extends Thread {
                 String song = PlayMusic.realURL("http://music.163.com/song/media/outer/url?id=" + playsong);
                 if(song!=null) {
                     int Music_time = PlayMusic.Music_Time(song);
-                    ChannelListener.sendToBukkit("play", playsong);
                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "正在播放歌曲" + playsong));
+                    PlayMusic.SendToPlayer("[Net]" +song);
                     PlayMusic.playlist.remove("0");
                     music_list();
                     try {
@@ -112,7 +130,7 @@ class playgo extends Thread {
                                 PlayMusic.Vote_time--;
                                 if (PlayMusic.Vote.size() >= ProxyServer.getInstance().getOnlineCount()) {
                                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "已切歌"));
-                                    ChannelListener.sendToBukkit("stopALL", "");
+                                    PlayMusic.SendToPlayer("[Stop]");
                                     Music_time = 0;
                                     if (PlayMusic.All_music == 0) {
                                         ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "队列中无歌曲"));
