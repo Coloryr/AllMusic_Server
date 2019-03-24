@@ -20,7 +20,6 @@ public class PlayMusic {
     static Map<String, String> playlist = new HashMap<String, String>();
     static Thread playgo = new playgo();
     private static Integer warningTimes;
-    public static int Mode = 0;
     public static int All_music = 0;
     public static Map<String, String> Vote = new HashMap<String, String>();
     public static int Vote_time = 0;
@@ -119,7 +118,7 @@ class playgo extends Thread {
                                 if (PlayMusic.All_music == 0) {
                                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "队列中无歌曲"));
                                 }
-                                PlayMusic.Mode = 0;
+                                PlayMusic.Vote_time=0;
                             }
                         }
                     }
