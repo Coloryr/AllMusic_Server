@@ -38,6 +38,8 @@ public class command extends Command {
 				if (isInteger(args[1]) == true) {
 					PlayMusic.playlist.put(String.valueOf(PlayMusic.All_music), args[1]);
 					PlayMusic.All_music++;
+					ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + sender.getName()+
+							"点歌"+args[1]));
 					sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§2已添加" + args[1]));
 				} else
 					sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§c错误，请输入歌曲数字ID"));

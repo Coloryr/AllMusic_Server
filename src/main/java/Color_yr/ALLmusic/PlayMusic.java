@@ -23,6 +23,7 @@ public class PlayMusic {
     public static int All_music = 0;
     public static Map<String, String> Vote = new HashMap<String, String>();
     public static int Vote_time = 0;
+
     public static void PlayMusic_Start() {
         playgo.start();
     }
@@ -59,16 +60,13 @@ public class PlayMusic {
             if (connection == null) {
                 var5.printStackTrace();
                 return null;
-            } else {
-                if (warningTimes > 0) {
-                    Integer var3 = warningTimes;
-                    warningTimes = warningTimes - 1;
-                    ALLmusic_BC.log.warning("> 警告: 网页请求反馈出错.");
-                }
-
-                return connection.getURL().toString();
             }
+        } catch (NullPointerException e) {
+            e.getMessage();
+            return null;
+
         }
+        return null;
     }
 }
 
@@ -100,30 +98,38 @@ class playgo extends Thread {
             } else {
                 String playsong = PlayMusic.playlist.get("0");
                 String song = PlayMusic.realURL("http://music.163.com/song/media/outer/url?id=" + playsong);
-                int Music_time = PlayMusic.Music_Time(song);
-                ChannelListener.sendToBukkit("play", playsong);
-                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "正在播放歌曲" + playsong));
-                PlayMusic.playlist.remove("0");
-                music_list();
-                try {
-                    while (Music_time > 0) {
-                        Thread.sleep(1000);
-                        Music_time--;
-                        if(PlayMusic.Vote_time>0) {
-                            PlayMusic.Vote_time--;
-                            if (PlayMusic.Vote.size() >= ProxyServer.getInstance().getOnlineCount()) {
-                                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "已切歌"));
-                                ChannelListener.sendToBukkit("stopALL", "");
-                                Music_time = 0;
-                                if (PlayMusic.All_music == 0) {
-                                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "队列中无歌曲"));
+                if(song!=null) {
+                    int Music_time = PlayMusic.Music_Time(song);
+                    ChannelListener.sendToBukkit("play", playsong);
+                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "正在播放歌曲" + playsong));
+                    PlayMusic.playlist.remove("0");
+                    music_list();
+                    try {
+                        while (Music_time > 0) {
+                            Thread.sleep(1000);
+                            Music_time--;
+                            if (PlayMusic.Vote_time > 0) {
+                                PlayMusic.Vote_time--;
+                                if (PlayMusic.Vote.size() >= ProxyServer.getInstance().getOnlineCount()) {
+                                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "已切歌"));
+                                    ChannelListener.sendToBukkit("stopALL", "");
+                                    Music_time = 0;
+                                    if (PlayMusic.All_music == 0) {
+                                        ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "队列中无歌曲"));
+                                    }
+                                    PlayMusic.Vote_time = 0;
                                 }
-                                PlayMusic.Vote_time=0;
                             }
                         }
+                    } catch (InterruptedException e) {
+                        e.getMessage();
                     }
-                } catch (InterruptedException e) {
-                    e.getMessage();
+                }
+                else
+                {
+                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "无效歌曲歌曲" + playsong));
+                    PlayMusic.playlist.remove("0");
+                    music_list();
                 }
             }
         }

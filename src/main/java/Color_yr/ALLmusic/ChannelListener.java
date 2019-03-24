@@ -23,14 +23,11 @@ public class ChannelListener implements Listener {
                     ServerInfo server = ProxyServer.getInstance().getPlayer(e.getReceiver().toString()).getServer().getInfo();
                     String input = in.readUTF(); // the inputstring
                     if (input.equals("test")) {
-
                     }
-
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-
         }
     }
 
@@ -45,9 +42,9 @@ public class ChannelListener implements Listener {
         }
         Map<String, ServerInfo> Server = ProxyServer.getInstance().getServers();
         Collection<ServerInfo> values = Server.values();
-        Iterator<ServerInfo> iterator2 = values.iterator();
-        while (iterator2.hasNext()) {
-            ServerInfo server = iterator2.next();
+        Iterator<ServerInfo> iterator = values.iterator();
+        while (iterator.hasNext()) {
+            ServerInfo server = iterator.next();
             server.sendData("ALLmusic", stream.toByteArray());
         }
     }
