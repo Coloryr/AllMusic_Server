@@ -4,6 +4,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.util.Iterator;
 import java.util.regex.Pattern;
 
 public class command extends Command {
@@ -37,7 +38,8 @@ public class command extends Command {
 			}
 			else {
 				if (isInteger(args[1])==true) {
-					ChannelListener.sendToBukkit("play", args[1]);
+					PlayMusic.playlist.put(String.valueOf(PlayMusic.All_music),args[1]);
+					PlayMusic.All_music ++;
 					sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§2已发送" + args[1]));
 				} else
 					sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§c错误，请输入歌曲数字ID"));
@@ -45,7 +47,19 @@ public class command extends Command {
 			}
 		}
 		else if(args[0].equalsIgnoreCase("stop")) {
-			ChannelListener.sendToBukkit("stpo", sender.getName());
+			ChannelListener.sendToBukkit("stop", sender.getName());
+			sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§2已停止" + sender.getName()+"的音乐播放"));
+		}else if(args[0].equalsIgnoreCase("now"))
+		{
+			Iterator<String> iterator = PlayMusic.playlist.keySet().iterator();
+			while (iterator.hasNext())
+			{
+				String key = iterator.next();
+				sender.sendMessage(new TextComponent("§d[ALLmusic_BC]§2当前队列"+key+"->"+PlayMusic.playlist.get(key)));
+			}
+		}else if(args[0].equalsIgnoreCase("next"))
+		{
+			PlayMusic.Mode=1;
 		}
 	}
 }

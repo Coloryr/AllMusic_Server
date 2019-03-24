@@ -76,7 +76,6 @@ public class ALLmusic_BC extends Plugin {
 
     @Override
     public void onDisable() {
-
         log.info("§d[ALLmusic_BC]§e已停止，感谢使用");
     }
 }
