@@ -3,6 +3,7 @@ package Color_yr.ALLmusic;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.AlgorithmConstraints;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -115,11 +116,11 @@ class playgo extends Thread {
                 }
             } else {
                 String playsong = PlayMusic.playlist.get("0");
-                String song = PlayMusic.realURL("http://music.163.com/song/media/outer/url?id=" + playsong);
-                if(song!=null) {
+                String song = PlayMusic.realURL(ALLmusic_BC.Music_Api1 + playsong);
+                if (song != null) {
                     int Music_time = PlayMusic.Music_Time(song);
-                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "正在播放歌曲" + playsong));
-                    PlayMusic.SendToPlayer("[Net]" +song);
+                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "正在播放歌曲" + playsong));
+                    PlayMusic.SendToPlayer("[Net]" + song);
                     PlayMusic.playlist.remove("0");
                     music_list();
                     try {
@@ -129,11 +130,11 @@ class playgo extends Thread {
                             if (PlayMusic.Vote_time > 0) {
                                 PlayMusic.Vote_time--;
                                 if (PlayMusic.Vote.size() >= ProxyServer.getInstance().getOnlineCount()) {
-                                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "已切歌"));
+                                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "已切歌"));
                                     PlayMusic.SendToPlayer("[Stop]");
                                     Music_time = 0;
                                     if (PlayMusic.All_music == 0) {
-                                        ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "队列中无歌曲"));
+                                        ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "队列中无歌曲"));
                                     }
                                     PlayMusic.Vote_time = 0;
                                 }
@@ -142,10 +143,8 @@ class playgo extends Thread {
                     } catch (InterruptedException e) {
                         e.getMessage();
                     }
-                }
-                else
-                {
-                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic_BC]§2" + "无效歌曲歌曲" + playsong));
+                } else {
+                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "无效歌曲歌曲" + playsong));
                     PlayMusic.playlist.remove("0");
                     music_list();
                 }

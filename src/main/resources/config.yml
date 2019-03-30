@@ -1,2 +1,6 @@
+#最大音乐队列
+Maxlist: 10
+#音乐网页API
+Music_Api1: http://music.163.com/song/media/outer/url?id=
 #配置文件版本号
 Version: 1.0.0
