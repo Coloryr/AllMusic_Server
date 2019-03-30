@@ -86,6 +86,10 @@ public class command extends Command {
                             PlayMusic.Vote.size() + "名玩家同意切歌。"));
                 }
             }
+        }else if(args[0].equalsIgnoreCase("reload"))
+        {
+            ALLmusic_BC.reloadConfig();
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§2已重读配置文件"));
         }
     }
 }
