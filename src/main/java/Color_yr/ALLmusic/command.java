@@ -41,6 +41,11 @@ public class command extends Command {
                         sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，队列已满"));
                         return;
                     }
+                    else if(ALLmusic_BC.Banconfig.getBoolean(args[1],false)==true)
+                    {
+                        sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌被禁点了"));
+                        return;
+                    }
                     PlayMusic.playlist.put(String.valueOf(PlayMusic.All_music), args[1]);
                     PlayMusic.All_music++;
                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + sender.getName() +
