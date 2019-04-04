@@ -130,7 +130,7 @@ class playgo extends Thread {
                             if (PlayMusic.Vote_time > 0) {
                                 PlayMusic.Vote_time--;
                                 int players = ProxyServer.getInstance().getOnlineCount();
-                                if (PlayMusic.Vote.size() > ALLmusic_BC.min_vote || (players < ALLmusic_BC.min_vote && players == PlayMusic.Vote.size())) {
+                                if (PlayMusic.Vote.size() >= ALLmusic_BC.min_vote || (players < ALLmusic_BC.min_vote && players == PlayMusic.Vote.size())) {
                                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "已切歌"));
                                     PlayMusic.SendToPlayer("[Stop]");
                                     Music_time = 0;

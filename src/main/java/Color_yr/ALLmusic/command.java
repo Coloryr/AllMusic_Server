@@ -86,12 +86,14 @@ public class command extends Command {
             ALLmusic_BC.reloadConfig();
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已重读配置文件"));
         } else if (args[0].equalsIgnoreCase("next") && sender.hasPermission("ALLmusic.admin")) {
-            PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
-            if (PlayMusic.Vote_time <= 3)
+            if (PlayMusic.Vote_time <= 3) {
+                sender.sendMessage(new TextComponent("§d[ALLmusic]§2剩余时长过短"));
                 return;
-            else
+            } else {
                 PlayMusic.Vote_time = 0;
-            sender.sendMessage(new TextComponent("§d[ALLmusic]§2已切歌"));
+                PlayMusic.SendToPlayer("[Stop]");
+                sender.sendMessage(new TextComponent("§d[ALLmusic]§2已切歌"));
+            }
         } else
             add_music(sender, args);
     }
