@@ -20,42 +20,38 @@ public class command extends Command {
         return pattern.matcher(str).matches();
     }
 
+    public void add_music(CommandSender sender, String[] args) { ;
+        String music_id = null;
+        if (isInteger(args[0]) == true) {
+            music_id = args[0];
+            if (PlayMusic.playlist.size() == ALLmusic_BC.Maxlist) {
+                sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，队列已满"));
+                return;
+            } else if (ALLmusic_BC.Banconfig.getBoolean(music_id, false) == true) {
+                sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌被禁点了"));
+                return;
+            }
+            PlayMusic.playlist.put(String.valueOf(PlayMusic.All_music), music_id);
+            PlayMusic.All_music++;
+            ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + sender.getName() +
+                    "点歌" + music_id));
+            logs logs = new logs();
+            logs.log_write("玩家：" + sender.getName() + " 点歌：" + music_id);
+        } else
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，请输入歌曲数字ID"));
+    }
+
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，请使用/music help 获取帮助"));
             return;
         } else if (args[0].equalsIgnoreCase("help")) {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2帮助手册"));
-            sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music play [音乐ID] 来点歌"));
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music [音乐ID] 来点歌"));
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music stop 停止播放歌曲"));
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music now 查看歌曲队列"));
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music vote 投票切歌"));
             return;
-        } else if (args[0].equalsIgnoreCase("play")) {
-            if (args.length < 2) {
-                sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，请输入歌曲ID"));
-                return;
-            } else {
-                if (isInteger(args[1]) == true) {
-                    if (PlayMusic.playlist.size() == ALLmusic_BC.Maxlist) {
-                        sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，队列已满"));
-                        return;
-                    }
-                    else if(ALLmusic_BC.Banconfig.getBoolean(args[1],false)==true)
-                    {
-                        sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌被禁点了"));
-                        return;
-                    }
-                    PlayMusic.playlist.put(String.valueOf(PlayMusic.All_music), args[1]);
-                    PlayMusic.All_music++;
-                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + sender.getName() +
-                            "点歌" + args[1]));
-                    logs logs = new logs();
-                    logs.log_write("玩家：" + sender.getName() + " 点歌：" + args[1]);
-                } else
-                    sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，请输入歌曲数字ID"));
-                return;
-            }
         } else if (args[0].equalsIgnoreCase("stop")) {
             PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已停止" + sender.getName() + "的音乐播放"));
@@ -86,10 +82,17 @@ public class command extends Command {
                             PlayMusic.Vote.size() + "名玩家同意切歌。"));
                 }
             }
-        }else if(args[0].equalsIgnoreCase("reload"))
-        {
+        } else if (args[0].equalsIgnoreCase("reload")) {
             ALLmusic_BC.reloadConfig();
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已重读配置文件"));
-        }
+        } else if (args[0].equalsIgnoreCase("next") && sender.hasPermission("ALLmusic.admin")) {
+            PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
+            if (PlayMusic.Vote_time <= 3)
+                return;
+            else
+                PlayMusic.Vote_time = 0;
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§2已切歌"));
+        } else
+            add_music(sender, args);
     }
 }

@@ -2,5 +2,7 @@
 Maxlist: 10
 #音乐网页API
 Music_Api1: http://music.163.com/song/media/outer/url?id=
+#最小投票人数
+min_vote: 3
 #配置文件版本号
 Version: 1.0.0

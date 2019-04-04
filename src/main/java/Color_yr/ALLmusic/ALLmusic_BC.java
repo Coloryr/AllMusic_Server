@@ -19,11 +19,11 @@ public class ALLmusic_BC extends Plugin {
     public static String Version = "1.0.0";
 
     public static int Maxlist = 0;
+    public static int min_vote = 0;
     public static String Music_Api1 = null;
 
     public static Configuration config;
     private static File FileName;
-
     public static Configuration Banconfig;
     public static File BanFileName;
 
@@ -34,6 +34,7 @@ public class ALLmusic_BC extends Plugin {
                 + "，你的配置文件版本为：" + config.getString("Version"));
 
         Maxlist = config.getInt("Maxlist", 10);
+        min_vote = config.getInt("min_vote", 3);
         Music_Api1 = config.getString("Music_Api1", "http://music.163.com/song/media/outer/url?id=");
     }
 
