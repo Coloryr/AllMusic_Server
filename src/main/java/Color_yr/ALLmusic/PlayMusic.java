@@ -23,11 +23,12 @@ import java.util.Map;
 
 public class PlayMusic {
     static Map<String, String> playlist = new HashMap<String, String>();
-    static Thread playgo = new playgo();
-    private static Integer warningTimes;
-    public static int All_music = 0;
     public static Map<String, String> Vote = new HashMap<String, String>();
+
     public static int Vote_time = 0;
+    public static int All_music = 0;
+
+    static Thread playgo = new playgo();
 
     public static void PlayMusic_Start() {
         playgo.start();
@@ -83,7 +84,6 @@ public class PlayMusic {
         } catch (NullPointerException e) {
             e.getMessage();
             return null;
-
         }
         return null;
     }

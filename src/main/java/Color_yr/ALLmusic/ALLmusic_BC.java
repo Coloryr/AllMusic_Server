@@ -87,7 +87,6 @@ public class ALLmusic_BC extends Plugin {
         PlayMusic_Start();
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command());
         log.info("§d[ALLmusic]§e已启动-" + Version);
-        ;
     }
 
     @Override
