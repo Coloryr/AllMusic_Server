@@ -27,6 +27,7 @@ public class PlayMusic {
 
     public static int Vote_time = 0;
     public static int All_music = 0;
+    public static int Music_time = 0;
 
     static Thread playgo = new playgo();
 
@@ -118,22 +119,22 @@ class playgo extends Thread {
                 String playsong = PlayMusic.playlist.get("0");
                 String song = PlayMusic.realURL(ALLmusic_BC.Music_Api1 + playsong);
                 if (song != null) {
-                    int Music_time = PlayMusic.Music_Time(song);
+                    PlayMusic.Music_time = PlayMusic.Music_Time(song);
                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "正在播放歌曲" + playsong));
                     PlayMusic.SendToPlayer("[Net]" + song);
                     PlayMusic.playlist.remove("0");
                     music_list();
                     try {
-                        while (Music_time > 0) {
+                        while (PlayMusic.Music_time > 0) {
                             Thread.sleep(1000);
-                            Music_time--;
+                            PlayMusic.Music_time--;
                             if (PlayMusic.Vote_time > 0) {
                                 PlayMusic.Vote_time--;
                                 int players = ProxyServer.getInstance().getOnlineCount();
                                 if (PlayMusic.Vote.size() >= ALLmusic_BC.min_vote || (players < ALLmusic_BC.min_vote && players == PlayMusic.Vote.size())) {
                                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "已切歌"));
                                     PlayMusic.SendToPlayer("[Stop]");
-                                    Music_time = 0;
+                                    PlayMusic.Music_time = 0;
                                     if (PlayMusic.All_music == 0) {
                                         ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "队列中无歌曲"));
                                     }

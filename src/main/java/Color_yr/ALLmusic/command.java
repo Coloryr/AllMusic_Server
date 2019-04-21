@@ -91,7 +91,7 @@ public class command extends Command {
             ALLmusic_BC.reloadConfig();
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已重读配置文件"));
         } else if (args[0].equalsIgnoreCase("next") && sender.hasPermission("ALLmusic.admin")) {
-            PlayMusic.Vote_time = 0;
+            PlayMusic.Music_time = 1;
             PlayMusic.SendToPlayer("[Stop]");
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已切歌"));
         } else
