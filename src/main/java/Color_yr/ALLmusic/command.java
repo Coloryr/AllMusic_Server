@@ -4,6 +4,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.scheduler.GroupedThreadFactory;
 
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
@@ -20,18 +21,34 @@ public class command extends Command {
         return pattern.matcher(str).matches();
     }
 
+    public String get_string(String a, String b, String c) {
+        int x = a.indexOf(b) + b.length();
+        int y;
+        if (c != null)
+            y = a.indexOf(c);
+        else y = a.length();
+        return a.substring(x, y);
+    }
+
     public void add_music(CommandSender sender, String[] args) {
         ;
-        String music_id = null;
-        if (isInteger(args[0]) == true) {
+        String music_id;
+        if (args[0].indexOf("http") == 0) {
+            if (args[0].indexOf("&user") != -1)
+                music_id = get_string(args[0], "id=", "&user");
+            else
+                music_id = get_string(args[0], "id=", null);
+        } else
             music_id = args[0];
+        ALLmusic_BC.log.info(music_id);
+        if (isInteger(music_id)) {
             if (PlayMusic.playlist.size() == ALLmusic_BC.Maxlist) {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，队列已满"));
                 return;
             } else if (ALLmusic_BC.Banconfig.getBoolean(music_id, false) == true) {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌被禁点了"));
                 return;
-            }else if(PlayMusic.playlist.containsValue(music_id)) {
+            } else if (PlayMusic.playlist.containsValue(music_id)) {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌已经在队列了"));
                 return;
             }
