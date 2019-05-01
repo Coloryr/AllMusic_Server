@@ -52,7 +52,10 @@ public class command extends Command {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌已经在队列了"));
                 return;
             }
-            PlayMusic.playlist.put(String.valueOf(PlayMusic.All_music), music_id);
+            if (PlayMusic.stop.get(sender.getName()) == 2) {
+                PlayMusic.stop.put(sender.getName(), 1);
+            }
+            PlayMusic.playlist.put(PlayMusic.All_music, music_id);
             PlayMusic.All_music++;
             ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + sender.getName() +
                     "点歌" + music_id));
@@ -72,6 +75,7 @@ public class command extends Command {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music stop 停止播放歌曲"));
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music now 查看歌曲队列"));
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music vote 投票切歌"));
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music nomusic 不再参与点歌"));
             return;
         } else if (args[0].equalsIgnoreCase("stop")) {
             PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
@@ -81,9 +85,9 @@ public class command extends Command {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2队列中无歌曲"));
             }
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2队列中有歌曲数：" + PlayMusic.playlist.size()));
-            Iterator<String> iterator = PlayMusic.playlist.keySet().iterator();
+            Iterator<Integer> iterator = PlayMusic.playlist.keySet().iterator();
             while (iterator.hasNext()) {
-                String key = iterator.next();
+                Integer key = iterator.next();
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2当前队列" + key + "->" + PlayMusic.playlist.get(key)));
             }
         } else if (args[0].equalsIgnoreCase("vote")) {
@@ -111,6 +115,10 @@ public class command extends Command {
             PlayMusic.Music_time = 1;
             PlayMusic.SendToPlayer("[Stop]");
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已切歌"));
+        } else if (args[0].equalsIgnoreCase("nomusic")) {
+            PlayMusic.stop.put(sender.getName(), 2);
+            PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§2你不会再收到点歌了！"));
         } else
             add_music(sender, args);
     }
