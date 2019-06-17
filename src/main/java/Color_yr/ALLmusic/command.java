@@ -52,10 +52,12 @@ public class command extends Command {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌已经在队列了"));
                 return;
             }
-            if (PlayMusic.stop.get(sender.getName()) == 2) {
-                PlayMusic.stop.put(sender.getName(), 1);
+            if(PlayMusic.stop.size() !=0 ) {
+                if (PlayMusic.stop.get(sender.getName()).equals("true") == true) {
+                    PlayMusic.stop.put(sender.getName(), "false");
+                }
             }
-            PlayMusic.playlist.put(PlayMusic.All_music, music_id);
+            PlayMusic.playlist.put(String.valueOf(PlayMusic.All_music), music_id);
             PlayMusic.All_music++;
             ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + sender.getName() +
                     "点歌" + music_id));
@@ -85,9 +87,9 @@ public class command extends Command {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2队列中无歌曲"));
             }
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2队列中有歌曲数：" + PlayMusic.playlist.size()));
-            Iterator<Integer> iterator = PlayMusic.playlist.keySet().iterator();
+            Iterator<String> iterator = PlayMusic.playlist.keySet().iterator();
             while (iterator.hasNext()) {
-                Integer key = iterator.next();
+                String key = iterator.next();
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2当前队列" + key + "->" + PlayMusic.playlist.get(key)));
             }
         } else if (args[0].equalsIgnoreCase("vote")) {
@@ -116,9 +118,9 @@ public class command extends Command {
             PlayMusic.SendToPlayer("[Stop]");
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已切歌"));
         } else if (args[0].equalsIgnoreCase("nomusic")) {
-            PlayMusic.stop.put(sender.getName(), 2);
+            PlayMusic.stop.put(sender.getName(), "true");
             PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
-            sender.sendMessage(new TextComponent("§d[ALLmusic]§2你不会再收到点歌了！"));
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！"));
         } else
             add_music(sender, args);
     }
