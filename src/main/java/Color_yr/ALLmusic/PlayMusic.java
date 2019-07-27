@@ -46,7 +46,6 @@ public class PlayMusic {
                     players.sendData("AudioBuffer", data.getBytes());
             } else
                 players.sendData("AudioBuffer", data.getBytes());
-
         }
     }
     public static void SendToOnePlayer(String data, String Player)
