@@ -50,8 +50,13 @@ public class PlayMusic {
     }
     public static void SendToOnePlayer(String data, String Player)
     {
-        ProxiedPlayer players = ProxyServer.getInstance().getPlayer(Player);
-        players.sendData("AudioBuffer", data.getBytes());
+        try {
+            ProxiedPlayer players = ProxyServer.getInstance().getPlayer(Player);
+            players.sendData("AudioBuffer", data.getBytes());
+        }catch(Exception e)
+        {
+
+        }
     }
     public static int Music_Time(String music) {
         try {

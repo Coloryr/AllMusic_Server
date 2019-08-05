@@ -52,13 +52,14 @@ public class command extends Command {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌已经在队列了"));
                 return;
             }
-            if(PlayMusic.stop.size() !=0 ) {
+            if (PlayMusic.stop.size() != 0) {
                 if (PlayMusic.stop.get(sender.getName()).equals("true") == true) {
                     PlayMusic.stop.put(sender.getName(), "false");
                 }
             }
             PlayMusic.playlist.put(String.valueOf(PlayMusic.All_music), music_id);
             PlayMusic.All_music++;
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§c点歌" + music_id + "成功"));
             ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + sender.getName() +
                     "点歌" + music_id));
             logs logs = new logs();
