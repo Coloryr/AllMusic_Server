@@ -4,9 +4,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.AlgorithmConstraints;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 
@@ -19,18 +17,18 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.util.Map;
-
 public class PlayMusic {
-    public static Map<String, String> playlist = new HashMap<String, String>();
-    public static Map<String, String> Vote = new HashMap<String, String>();
-    public static Map<String, String> stop = new HashMap<String, String>();
+
+    public static Map<Integer, String> playlist = new HashMap<Integer, String>();
+    public static List<String> Vote = new ArrayList<String>();
+    public static Map<String, Boolean> stop = new HashMap<String, Boolean>();
 
     public static int Vote_time = 0;
     public static int All_music = 0;
     public static int Music_time = 0;
+    public static String now_music;
 
-    static Thread playgo = new playgo();
+    private static Thread playgo = new playgo();
 
     public static void PlayMusic_Start() {
         playgo.start();
@@ -42,22 +40,22 @@ public class PlayMusic {
         while (iterator.hasNext()) {
             ProxiedPlayer players = iterator.next();
             if (stop.size() != 0) {
-                if (stop.get(players.getDisplayName()).equals("true") == false)
+                if (!stop.get(players.getName()).booleanValue())
                     players.sendData("AudioBuffer", data.getBytes());
             } else
                 players.sendData("AudioBuffer", data.getBytes());
         }
     }
-    public static void SendToOnePlayer(String data, String Player)
-    {
+
+    public static void SendToOnePlayer(String data, String Player) {
         try {
             ProxiedPlayer players = ProxyServer.getInstance().getPlayer(Player);
             players.sendData("AudioBuffer", data.getBytes());
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }
+
     public static int Music_Time(String music) {
         try {
             URL urlfile = new URL(music);
@@ -100,38 +98,40 @@ public class PlayMusic {
 }
 
 class playgo extends Thread {
+
     public static void music_list() {
+        String a;
         if (PlayMusic.playlist.size() == 1) {
-            String a = PlayMusic.playlist.get("1");
-            PlayMusic.playlist.put("0", a);
-            PlayMusic.playlist.remove("1");
+            a = PlayMusic.playlist.get(1);
+            PlayMusic.playlist.put(0, a);
+            PlayMusic.playlist.remove(1);
         } else if (PlayMusic.playlist.size() > 1) {
-            int i = 0;
-            for (; PlayMusic.playlist.size() - 1 > i; i++) {
-                String a = PlayMusic.playlist.get(String.valueOf(i + 1));
-                PlayMusic.playlist.put(String.valueOf(i), a);
+            for (int i = 0; PlayMusic.playlist.size() - 1 > i; i++) {
+                a = PlayMusic.playlist.get(i + 1);
+                PlayMusic.playlist.put(i, a);
             }
-            PlayMusic.playlist.remove(String.valueOf(PlayMusic.All_music - 1));
+            PlayMusic.playlist.remove(PlayMusic.All_music - 1);
         }
         PlayMusic.All_music = PlayMusic.playlist.size();
     }
 
+    @Override
     public synchronized void run() {
         while (true) {
             if (PlayMusic.playlist.size() == 0) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.getMessage();
                 }
             } else {
-                String playsong = PlayMusic.playlist.get("0");
-                String song = PlayMusic.realURL(ALLmusic_BC.Music_Api1 + playsong);
+                PlayMusic.now_music = PlayMusic.playlist.get(0);
+                String song = PlayMusic.realURL(ALLmusic_BC.Music_Api1 + PlayMusic.now_music);
                 if (song != null) {
                     PlayMusic.Music_time = PlayMusic.Music_Time(song);
-                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "正在播放歌曲" + playsong));
+                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "正在播放歌曲" + PlayMusic.now_music));
                     PlayMusic.SendToPlayer("[Net]" + song);
-                    PlayMusic.playlist.remove("0");
+                    PlayMusic.playlist.remove(0);
                     music_list();
                     try {
                         while (PlayMusic.Music_time > 0) {
@@ -148,6 +148,7 @@ class playgo extends Thread {
                                         ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "队列中无歌曲"));
                                     }
                                     PlayMusic.Vote_time = 0;
+                                    PlayMusic.now_music = null;
                                 }
                             }
                         }
@@ -155,8 +156,9 @@ class playgo extends Thread {
                         e.getMessage();
                     }
                 } else {
-                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "无效歌曲歌曲" + playsong));
-                    PlayMusic.playlist.remove("0");
+                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "无效歌曲歌曲" + PlayMusic.now_music));
+                    PlayMusic.playlist.remove(0);
+                    PlayMusic.now_music = null;
                     music_list();
                 }
             }

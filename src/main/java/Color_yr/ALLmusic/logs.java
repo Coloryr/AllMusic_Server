@@ -10,11 +10,6 @@ import java.util.Date;
 public class logs {
 	public static File file;
 
-	public static Boolean Socket_log = false;
-	public static Boolean Group_log = false;
-	public static Boolean Send_log = false;
-	public static Boolean Error_log = false;
-
 	public void log_write(String text) {
 		FileWriter fw = null;
 		try {

@@ -4,5 +4,8 @@ Maxlist: 10
 Music_Api1: http://music.163.com/song/media/outer/url?id=
 #最小投票人数
 min_vote: 3
+#不参与点歌的人
+nomusic:
+  Color_yr: true
 #配置文件版本号
 Version: 1.0.0
