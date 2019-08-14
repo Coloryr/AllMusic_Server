@@ -21,7 +21,7 @@ public class PlayMusic {
 
     public static Map<Integer, String> playlist = new HashMap<Integer, String>();
     public static List<String> Vote = new ArrayList<String>();
-    public static Map<String, Boolean> stop = new HashMap<String, Boolean>();
+    public static Map<String, String> stop = new HashMap<String, String>();
 
     public static int Vote_time = 0;
     public static int All_music = 0;
@@ -39,8 +39,8 @@ public class PlayMusic {
         Iterator<ProxiedPlayer> iterator = values.iterator();
         while (iterator.hasNext()) {
             ProxiedPlayer players = iterator.next();
-            if (stop.size() != 0) {
-                if (!stop.get(players.getName()).booleanValue())
+            if (stop.containsKey(players.getName())) {
+                if (!stop.get(players.getName()).equalsIgnoreCase("true"))
                     players.sendData("AudioBuffer", data.getBytes());
             } else
                 players.sendData("AudioBuffer", data.getBytes());
@@ -110,7 +110,7 @@ class playgo extends Thread {
                 a = PlayMusic.playlist.get(i + 1);
                 PlayMusic.playlist.put(i, a);
             }
-            PlayMusic.playlist.remove(PlayMusic.All_music - 1);
+            PlayMusic.playlist.remove(PlayMusic.playlist.size() - 1);
         }
         PlayMusic.All_music = PlayMusic.playlist.size();
     }
@@ -143,7 +143,7 @@ class playgo extends Thread {
                                 if (PlayMusic.Vote.size() >= ALLmusic_BC.min_vote || (players < ALLmusic_BC.min_vote && players == PlayMusic.Vote.size())) {
                                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "已切歌"));
                                     PlayMusic.SendToPlayer("[Stop]");
-                                    PlayMusic.Music_time = 0;
+                                    PlayMusic.Music_time = 1;
                                     if (PlayMusic.All_music == 0) {
                                         ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "队列中无歌曲"));
                                     }

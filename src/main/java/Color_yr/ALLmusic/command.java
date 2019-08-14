@@ -34,7 +34,7 @@ public class command extends Command {
     public void add_music(CommandSender sender, String[] args) {
 
         String music_id;
-        if (args[0].indexOf("id=") == 0) {
+        if (args[0].indexOf("id=") != -1) {
             if (args[0].indexOf("&user") != -1)
                 music_id = get_string(args[0], "id=", "&user");
             else
@@ -58,7 +58,14 @@ public class command extends Command {
                 logs logs = new logs();
                 logs.log_write("玩家：" + sender.getName() + " 点歌：" + music_id);
             }
-            PlayMusic.stop.put(sender.getName(), false);
+            PlayMusic.stop.put(sender.getName(), "false");
+            ALLmusic_BC.config.set("nomusic", PlayMusic.stop);
+            try {
+                ConfigurationProvider.getProvider(YamlConfiguration.class).save(ALLmusic_BC.config, ALLmusic_BC.FileName);
+            } catch (Exception e) {
+                logs log = new logs();
+                log.log_write(e.getMessage());
+            }
         } else
             sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，请输入歌曲数字ID"));
     }
@@ -118,7 +125,7 @@ public class command extends Command {
             PlayMusic.SendToPlayer("[Stop]");
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已强制切歌"));
         } else if (args[0].equalsIgnoreCase("nomusic")) {
-            PlayMusic.stop.put(sender.getName(), true);
+            PlayMusic.stop.put(sender.getName(), "true");
             PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！"));
             ALLmusic_BC.config.set("nomusic", PlayMusic.stop);
