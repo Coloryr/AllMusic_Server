@@ -39,11 +39,13 @@ public class PlayMusic {
         Iterator<ProxiedPlayer> iterator = values.iterator();
         while (iterator.hasNext()) {
             ProxiedPlayer players = iterator.next();
-            if (stop.containsKey(players.getName())) {
-                if (!stop.get(players.getName()).equalsIgnoreCase("true"))
+            if(!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
+                if (stop.containsKey(players.getName())) {
+                    if (!stop.get(players.getName()).equalsIgnoreCase("true"))
+                        players.sendData("AudioBuffer", data.getBytes());
+                } else
                     players.sendData("AudioBuffer", data.getBytes());
-            } else
-                players.sendData("AudioBuffer", data.getBytes());
+            }
         }
     }
 

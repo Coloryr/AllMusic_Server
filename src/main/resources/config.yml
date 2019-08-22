@@ -7,5 +7,9 @@ min_vote: 3
 #不参与点歌的人
 nomusic:
   Color_yr: true
+Admin:
+  - Color_yr
+nomusic_server:
+  - lobby
 #配置文件版本号
 Version: 1.0.0

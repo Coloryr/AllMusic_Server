@@ -7,7 +7,6 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -71,6 +70,7 @@ public class command extends Command {
     }
 
     public void execute(CommandSender sender, String[] args) {
+        String name = sender.getName();
         if (args.length == 0) {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，请使用/music help 获取帮助"));
             return;
@@ -83,8 +83,8 @@ public class command extends Command {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music nomusic 不再参与点歌"));
             return;
         } else if (args[0].equalsIgnoreCase("stop")) {
-            PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
-            sender.sendMessage(new TextComponent("§d[ALLmusic]§2已停止" + sender.getName() + "的音乐播放"));
+            PlayMusic.SendToOnePlayer("[Stop]", name);
+            sender.sendMessage(new TextComponent("§d[ALLmusic]§2已停止" + name + "的音乐播放"));
         } else if (args[0].equalsIgnoreCase("list")) {
             if (PlayMusic.now_music == null) {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2无正在播放的歌曲"));
@@ -105,28 +105,28 @@ public class command extends Command {
             } else if (PlayMusic.Vote_time == 0) {
                 PlayMusic.Vote_time = 30;
                 PlayMusic.Vote.clear();
-                PlayMusic.Vote.add(sender.getName());
+                PlayMusic.Vote.add(name);
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2已发起切歌投票"));
-                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + sender.getName() +
+                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + name +
                         "发起了切歌投票，30秒后结束，输入/music vote 同意切歌。"));
             } else if (PlayMusic.Vote_time > 0) {
-                if (!PlayMusic.Vote.contains(sender.getName())) {
-                    PlayMusic.Vote.add(sender.getName());
-                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + sender.getName() + "同意切歌，共有" +
+                if (!PlayMusic.Vote.contains(name)) {
+                    PlayMusic.Vote.add(name);
+                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + name + "同意切歌，共有" +
                             PlayMusic.Vote.size() + "名玩家同意切歌。"));
                 }
             }
         } else if (args[0].equalsIgnoreCase("reload")) {
             ALLmusic_BC music = new ALLmusic_BC();
-            music.loadconfig();
+            music.setConfig();
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已重读配置文件"));
-        } else if (args[0].equalsIgnoreCase("next") && sender.hasPermission("ALLmusic.admin")) {
+        } else if (args[0].equalsIgnoreCase("next") && ALLmusic_BC.Admin.contains(name)) {
             PlayMusic.Music_time = 1;
             PlayMusic.SendToPlayer("[Stop]");
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已强制切歌"));
         } else if (args[0].equalsIgnoreCase("nomusic")) {
-            PlayMusic.stop.put(sender.getName(), "true");
-            PlayMusic.SendToOnePlayer("[Stop]", sender.getName());
+            PlayMusic.stop.put(name, "true");
+            PlayMusic.SendToOnePlayer("[Stop]", name);
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！"));
             ALLmusic_BC.config.set("nomusic", PlayMusic.stop);
             try {
@@ -135,7 +135,55 @@ public class command extends Command {
                 logs log = new logs();
                 log.log_write(e.getMessage());
             }
+        } else if (args[0].equalsIgnoreCase("ban") && args.length == 2
+                && ALLmusic_BC.Admin.contains(name)) {
+            if (isInteger(args[1])) {
+                ALLmusic_BC.Banconfig.set(args[1], "true");
+                try {
+                    ConfigurationProvider.getProvider(YamlConfiguration.class).save(ALLmusic_BC.Banconfig, ALLmusic_BC.BanFileName);
+                    sender.sendMessage(new TextComponent("§d[ALLmusic]§2已禁止" + args[1]));
+                } catch (Exception e) {
+                    logs log = new logs();
+                    log.log_write(e.getMessage());
+                }
+            } else {
+                sender.sendMessage(new TextComponent("§d[ALLmusic]§2请输入有效的ID"));
+                return;
+            }
+        } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
+                && ALLmusic_BC.Admin.contains(name)) {
+            if (isInteger(args[1])) {
+                String music = args[1];
+                if (PlayMusic.playlist.containsValue(music)) {
+                    String a;
+                    if (PlayMusic.playlist.size() == 1) {
+                        PlayMusic.playlist.remove(1);
+                    } else if (PlayMusic.playlist.size() > 1) {
+                        int i = 0;
+                        for (Map.Entry<Integer, String> b : PlayMusic.playlist.entrySet()) {
+                            if (b.getValue().equalsIgnoreCase(music))
+                                break;
+                            else
+                                i++;
+                        }
+                        for (; PlayMusic.playlist.size() - 1 > i; i++) {
+                            a = PlayMusic.playlist.get(i + 1);
+                            PlayMusic.playlist.put(i, a);
+                        }
+                        PlayMusic.playlist.remove(i);
+                    }
+                    PlayMusic.All_music = PlayMusic.playlist.size();
+                    sender.sendMessage(new TextComponent("§d[ALLmusic]§2已删除" + music));
+                } else {
+                    sender.sendMessage(new TextComponent("§d[ALLmusic]§2找不到" + music));
+                    return;
+                }
+            } else {
+                sender.sendMessage(new TextComponent("§d[ALLmusic]§2请输入有效的ID"));
+                return;
+            }
         } else
             add_music(sender, args);
+
     }
 }
