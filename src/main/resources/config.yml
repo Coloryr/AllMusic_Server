@@ -12,4 +12,4 @@ Admin:
 nomusic_server:
   - lobby
 #配置文件版本号
-Version: 1.0.0
+Version: 1.1.0
