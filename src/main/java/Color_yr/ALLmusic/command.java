@@ -12,16 +12,16 @@ import java.util.regex.Pattern;
 
 public class command extends Command {
 
-    public command() {
+    command() {
         super("music");
     }
 
-    public boolean isInteger(String str) {
-        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+    private boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-+]?[\\d]*$");
         return pattern.matcher(str).matches();
     }
 
-    public String get_string(String a, String b, String c) {
+    private String get_string(String a, String b, String c) {
         int x = a.indexOf(b) + b.length();
         int y;
         if (c != null)
@@ -30,21 +30,26 @@ public class command extends Command {
         return a.substring(x, y);
     }
 
-    public void add_music(CommandSender sender, String[] args) {
+    private void add_music(CommandSender sender, String[] args) {
 
         String music_id;
-        if (args[0].indexOf("id=") != -1) {
-            if (args[0].indexOf("&user") != -1)
+        if (args[0].contains("id=")) {
+            if (args[0].contains("&user"))
                 music_id = get_string(args[0], "id=", "&user");
             else
                 music_id = get_string(args[0], "id=", null);
+        } else if (args[0].contains("song/")) {
+            if (args[0].contains("/?userid"))
+                music_id = get_string(args[0], "song/", "/?userid");
+            else
+                music_id = get_string(args[0], "song/", null);
         } else
             music_id = args[0];
         if (isInteger(music_id)) {
             if (PlayMusic.playlist.size() == ALLmusic_BC.Maxlist) {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，队列已满"));
                 return;
-            } else if (ALLmusic_BC.Banconfig.getBoolean(music_id, false) == true) {
+            } else if (ALLmusic_BC.Banconfig.getBoolean(music_id, false)) {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌被禁点了"));
             } else if (PlayMusic.playlist.containsValue(music_id)) {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，这首歌已经在队列了"));
@@ -73,7 +78,6 @@ public class command extends Command {
         String name = sender.getName();
         if (args.length == 0) {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，请使用/music help 获取帮助"));
-            return;
         } else if (args[0].equalsIgnoreCase("help")) {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2帮助手册"));
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music [音乐ID] 来点歌"));
@@ -81,7 +85,6 @@ public class command extends Command {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music list 查看歌曲队列"));
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music vote 投票切歌"));
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2使用/music nomusic 不再参与点歌"));
-            return;
         } else if (args[0].equalsIgnoreCase("stop")) {
             PlayMusic.SendToOnePlayer("[Stop]", name);
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已停止" + name + "的音乐播放"));
@@ -148,7 +151,6 @@ public class command extends Command {
                 }
             } else {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2请输入有效的ID"));
-                return;
             }
         } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
                 && ALLmusic_BC.Admin.contains(name)) {
@@ -176,11 +178,9 @@ public class command extends Command {
                     sender.sendMessage(new TextComponent("§d[ALLmusic]§2已删除" + music));
                 } else {
                     sender.sendMessage(new TextComponent("§d[ALLmusic]§2找不到" + music));
-                    return;
                 }
             } else {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2请输入有效的ID"));
-                return;
             }
         } else
             add_music(sender, args);

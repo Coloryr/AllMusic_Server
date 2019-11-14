@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
-public class logs {
-	public static File file;
+class logs {
+	static File file;
 
-	public void log_write(String text) {
+	void log_write(String text) {
 		FileWriter fw = null;
 		try {
 			fw = new FileWriter(file, true);
@@ -24,8 +24,6 @@ public class logs {
 			fw.flush();
 			pw.close();
 			fw.close();
-		} catch (FileNotFoundException e) {
-			ALLmusic_BC.log.warning("§d[ALLmusic_BC]§c日志文件写入失败" + e);
 		} catch (IOException e) {
 			ALLmusic_BC.log.warning("§d[ALLmusic_BC]§c日志文件写入失败" + e);
 		}

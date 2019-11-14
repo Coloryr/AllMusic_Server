@@ -30,16 +30,14 @@ public class PlayMusic {
 
     private static Thread playgo = new playgo();
 
-    public static void PlayMusic_Start() {
+    static void PlayMusic_Start() {
         playgo.start();
     }
 
-    public static void SendToPlayer(String data) {
+    static void SendToPlayer(String data) {
         Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-        Iterator<ProxiedPlayer> iterator = values.iterator();
-        while (iterator.hasNext()) {
-            ProxiedPlayer players = iterator.next();
-            if(!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
+        for (ProxiedPlayer players : values) {
+            if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
                 if (stop.containsKey(players.getName())) {
                     if (!stop.get(players.getName()).equalsIgnoreCase("true"))
                         players.sendData("AudioBuffer", data.getBytes());
@@ -49,16 +47,16 @@ public class PlayMusic {
         }
     }
 
-    public static void SendToOnePlayer(String data, String Player) {
+    static void SendToOnePlayer(String data, String Player) {
         try {
             ProxiedPlayer players = ProxyServer.getInstance().getPlayer(Player);
             players.sendData("AudioBuffer", data.getBytes());
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
 
-    public static int Music_Time(String music) {
+    static int Music_Time(String music) {
         try {
             URL urlfile = new URL(music);
             URLConnection con = urlfile.openConnection();
@@ -68,13 +66,13 @@ public class PlayMusic {
             Header h = bt.readFrame();
             int time = (int) h.total_ms(b);
             return time / 1000;
-        } catch (Exception e) {
-            e.getMessage();
+        } catch (Exception ignored) {
+            ignored.getMessage();
         }
         return 0;
     }
 
-    public static String realURL(String path) {
+    static String realURL(String path) {
         HttpURLConnection connection = null;
 
         try {
@@ -101,7 +99,7 @@ public class PlayMusic {
 
 class playgo extends Thread {
 
-    public static void music_list() {
+    private static void music_list() {
         String a;
         if (PlayMusic.playlist.size() == 1) {
             a = PlayMusic.playlist.get(1);

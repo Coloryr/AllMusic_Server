@@ -20,7 +20,7 @@ import static Color_yr.ALLmusic.PlayMusic.PlayMusic_Start;
 
 public class ALLmusic_BC extends Plugin {
 
-    public static final String Version = "1.1.0";
+    private static final String Version = "1.1.0";
 
     public static int Maxlist = 0;
     public static int min_vote = 0;
@@ -57,7 +57,7 @@ public class ALLmusic_BC extends Plugin {
         }
     }
 
-    public void setConfig() {
+    void setConfig() {
         try {
             if(FileName == null) {
                 FileName = new File(getDataFolder(), "config.yml");
