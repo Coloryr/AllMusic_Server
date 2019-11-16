@@ -123,7 +123,14 @@ public class command extends Command {
             ALLmusic_BC music = new ALLmusic_BC();
             music.setConfig();
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已重读配置文件"));
-        } else if (args[0].equalsIgnoreCase("next") && ALLmusic_BC.Admin.contains(name)) {
+        }else if (args[0].equalsIgnoreCase("v")) {
+            if (args.length == 2) {
+                PlayMusic.SendToPlayer("[V]" + args[1]);
+                sender.sendMessage(new TextComponent("§d[ALLmusic]§2已设置你的音量为：" + args[1]));
+            } else
+                sender.sendMessage(new TextComponent("§d[ALLmusic]§4请输入音量"));
+        }
+        else if (args[0].equalsIgnoreCase("next") && ALLmusic_BC.Admin.contains(name)) {
             PlayMusic.Music_time = 1;
             PlayMusic.SendToPlayer("[Stop]");
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已强制切歌"));

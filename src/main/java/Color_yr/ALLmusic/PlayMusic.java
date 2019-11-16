@@ -38,11 +38,8 @@ public class PlayMusic {
         Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
         for (ProxiedPlayer players : values) {
             if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
-                if (stop.containsKey(players.getName())) {
-                    if (!stop.get(players.getName()).equalsIgnoreCase("true"))
-                        players.sendData("AudioBuffer", data.getBytes());
-                } else
-                    players.sendData("AudioBuffer", data.getBytes());
+                if (stop.get(players.getName()).equalsIgnoreCase("false"))
+                    players.sendData("allmusic", data.getBytes());
             }
         }
     }
@@ -50,7 +47,7 @@ public class PlayMusic {
     static void SendToOnePlayer(String data, String Player) {
         try {
             ProxiedPlayer players = ProxyServer.getInstance().getPlayer(Player);
-            players.sendData("AudioBuffer", data.getBytes());
+            players.sendData("ALLMUSIC", data.getBytes());
         } catch (Exception ignored) {
 
         }
@@ -130,7 +127,7 @@ class playgo extends Thread {
                 if (song != null) {
                     PlayMusic.Music_time = PlayMusic.Music_Time(song);
                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "正在播放歌曲" + PlayMusic.now_music));
-                    PlayMusic.SendToPlayer("[Net]" + song);
+                    PlayMusic.SendToPlayer("[Play]" + song);
                     PlayMusic.playlist.remove(0);
                     music_list();
                     try {
