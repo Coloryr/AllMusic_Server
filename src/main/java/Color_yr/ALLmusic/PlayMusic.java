@@ -38,7 +38,7 @@ public class PlayMusic {
         Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
         for (ProxiedPlayer players : values) {
             if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
-                if (stop.get(players.getName()).equalsIgnoreCase("false"))
+                if (stop== null || stop.get(players.getName()).equalsIgnoreCase("false"))
                     players.sendData("allmusic", data.getBytes());
             }
         }
@@ -47,7 +47,7 @@ public class PlayMusic {
     static void SendToOnePlayer(String data, String Player) {
         try {
             ProxiedPlayer players = ProxyServer.getInstance().getPlayer(Player);
-            players.sendData("ALLMUSIC", data.getBytes());
+            players.sendData("allmusic", data.getBytes());
         } catch (Exception ignored) {
 
         }
@@ -137,7 +137,7 @@ class playgo extends Thread {
                             if (PlayMusic.Vote_time > 0) {
                                 PlayMusic.Vote_time--;
                                 int players = ProxyServer.getInstance().getOnlineCount();
-                                if (PlayMusic.Vote.size() >= ALLmusic_BC.min_vote || (players < ALLmusic_BC.min_vote && players == PlayMusic.Vote.size())) {
+                                if (PlayMusic.Vote.size() >= ALLmusic_BC.min_vote || (players <= ALLmusic_BC.min_vote && players == PlayMusic.Vote.size())) {
                                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "已切歌"));
                                     PlayMusic.SendToPlayer("[Stop]");
                                     PlayMusic.Music_time = 1;
@@ -147,6 +147,10 @@ class playgo extends Thread {
                                     PlayMusic.Vote_time = 0;
                                     PlayMusic.now_music = null;
                                 }
+                            }else if(PlayMusic.Vote_time == 0)
+                            {
+                                PlayMusic.Vote.clear();
+                                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "切歌时间结束"));
                             }
                         }
                     } catch (InterruptedException e) {

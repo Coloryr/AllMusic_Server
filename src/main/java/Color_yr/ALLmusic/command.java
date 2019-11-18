@@ -107,7 +107,6 @@ public class command extends Command {
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2队列中无歌曲"));
             } else if (PlayMusic.Vote_time == 0) {
                 PlayMusic.Vote_time = 30;
-                PlayMusic.Vote.clear();
                 PlayMusic.Vote.add(name);
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2已发起切歌投票"));
                 ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + name +
@@ -117,6 +116,8 @@ public class command extends Command {
                     PlayMusic.Vote.add(name);
                     ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + name + "同意切歌，共有" +
                             PlayMusic.Vote.size() + "名玩家同意切歌。"));
+                } else {
+                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2你已申请切歌"));
                 }
             }
         } else if (args[0].equalsIgnoreCase("reload")) {
@@ -125,14 +126,13 @@ public class command extends Command {
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已重读配置文件"));
         }else if (args[0].equalsIgnoreCase("v")) {
             if (args.length == 2) {
-                PlayMusic.SendToPlayer("[V]" + args[1]);
+                PlayMusic.SendToOnePlayer("[V]" + args[1], sender.getName());
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§2已设置你的音量为：" + args[1]));
             } else
                 sender.sendMessage(new TextComponent("§d[ALLmusic]§4请输入音量"));
         }
         else if (args[0].equalsIgnoreCase("next") && ALLmusic_BC.Admin.contains(name)) {
             PlayMusic.Music_time = 1;
-            PlayMusic.SendToPlayer("[Stop]");
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已强制切歌"));
         } else if (args[0].equalsIgnoreCase("nomusic")) {
             PlayMusic.stop.put(name, "true");
