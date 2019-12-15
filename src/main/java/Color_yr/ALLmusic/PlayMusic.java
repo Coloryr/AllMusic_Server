@@ -34,7 +34,7 @@ public class PlayMusic {
         Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
         for (ProxiedPlayer players : values) {
             if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
-                if (stop == null || stop.get(players.getName()).equalsIgnoreCase("false"))
+                if (stop != null || stop.get(players.getName()).equalsIgnoreCase("false"))
                     players.sendData("allmusic", data.getBytes());
             }
         }
@@ -132,20 +132,23 @@ class playgo extends Thread {
                             PlayMusic.Music_time--;
                             if (PlayMusic.Vote_time > 0) {
                                 PlayMusic.Vote_time--;
-                                int players = ProxyServer.getInstance().getOnlineCount();
-                                if (PlayMusic.Vote.size() >= ALLmusic_BC.min_vote || (players <= ALLmusic_BC.min_vote && players == PlayMusic.Vote.size())) {
-                                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "已切歌"));
-                                    PlayMusic.SendToPlayer("[Stop]");
-                                    PlayMusic.Music_time = 1;
-                                    if (PlayMusic.All_music == 0) {
-                                        ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "队列中无歌曲"));
-                                    }
-                                    PlayMusic.Vote_time = 0;
-                                    PlayMusic.now_music = null;
+                                if (PlayMusic.Vote_time == 0) {
+                                    PlayMusic.Vote.clear();
+                                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "切歌时间结束"));
                                 }
-                            } else if (PlayMusic.Vote_time == 0) {
-                                PlayMusic.Vote.clear();
-                                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "切歌时间结束"));
+                                else {
+                                    int players = ProxyServer.getInstance().getOnlineCount();
+                                    if (PlayMusic.Vote.size() >= ALLmusic_BC.min_vote || (players <= ALLmusic_BC.min_vote && players == PlayMusic.Vote.size())) {
+                                        ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "已切歌"));
+                                        PlayMusic.SendToPlayer("[Stop]");
+                                        PlayMusic.Music_time = 1;
+                                        if (PlayMusic.All_music == 0) {
+                                            ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "队列中无歌曲"));
+                                        }
+                                        PlayMusic.Vote_time = 0;
+                                        PlayMusic.now_music = null;
+                                    }
+                                }
                             }
                         }
                     } catch (InterruptedException e) {
