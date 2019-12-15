@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import static Color_yr.ALLmusic.PlayMusic.PlayMusic_Start;
@@ -59,7 +58,7 @@ public class ALLmusic_BC extends Plugin {
 
     void setConfig() {
         try {
-            if(FileName == null) {
+            if (FileName == null) {
                 FileName = new File(getDataFolder(), "config.yml");
                 BanFileName = new File(getDataFolder(), "banlist.yml");
                 logs.file = new File(getDataFolder(), "logs.log");

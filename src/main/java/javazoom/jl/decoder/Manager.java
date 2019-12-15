@@ -1,5 +1,5 @@
 /*
- * 11/19/04		1.0 moved to LGPL. 
+ * 11/19/04		1.0 moved to LGPL.
  *-----------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU Library General Public License as published
@@ -21,26 +21,23 @@ package javazoom.jl.decoder;
 
 /**
  * Work in progress.
- * 
+ * <p>
  * Manages a number of controls.
  */
 public class Manager //implements Control
 {
-	public void addControl(Control c)
-	{
-		
-	}
-	
-	public void removeControl(Control c)
-	{
-		
-	}
-	
-	public void removeAll()
-	{
-		
-	}
-	
-	// control interface delegates to a managed control
-	
+    public void addControl(Control c) {
+
+    }
+
+    public void removeControl(Control c) {
+
+    }
+
+    public void removeAll() {
+
+    }
+
+    // control interface delegates to a managed control
+
 }

@@ -1,21 +1,17 @@
 package Color_yr.ALLmusic;
 
+import javazoom.jl.decoder.Bitstream;
+import javazoom.jl.decoder.Header;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.AlgorithmConstraints;
 import java.util.*;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-
-import javazoom.jl.decoder.Bitstream;
-import javazoom.jl.decoder.BitstreamException;
-import javazoom.jl.decoder.Header;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.ServerPing;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class PlayMusic {
 
@@ -38,7 +34,7 @@ public class PlayMusic {
         Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
         for (ProxiedPlayer players : values) {
             if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
-                if (stop== null || stop.get(players.getName()).equalsIgnoreCase("false"))
+                if (stop == null || stop.get(players.getName()).equalsIgnoreCase("false"))
                     players.sendData("allmusic", data.getBytes());
             }
         }
@@ -147,8 +143,7 @@ class playgo extends Thread {
                                     PlayMusic.Vote_time = 0;
                                     PlayMusic.now_music = null;
                                 }
-                            }else if(PlayMusic.Vote_time == 0)
-                            {
+                            } else if (PlayMusic.Vote_time == 0) {
                                 PlayMusic.Vote.clear();
                                 ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLmusic]§2" + "切歌时间结束"));
                             }
