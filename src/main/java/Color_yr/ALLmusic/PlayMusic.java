@@ -32,11 +32,16 @@ public class PlayMusic {
 
     static void SendToPlayer(String data) {
         Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-        for (ProxiedPlayer players : values) {
-            if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
-                if (!stop.get(players.getName()))
-                    players.sendData("allmusic", data.getBytes());
+        try {
+            for (ProxiedPlayer players : values) {
+                if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
+                    if (stop.containsKey(players.getName()) && !stop.get(players.getName()))
+                        players.sendData("allmusic", data.getBytes());
+                }
             }
+        } catch (Exception e) {
+            logs logs = new logs();
+            logs.log_write(Arrays.toString(e.getStackTrace()));
         }
     }
 
