@@ -1,5 +1,7 @@
 package Color_yr.ALLmusic;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
 import net.md_5.bungee.api.ProxyServer;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class PlayMusic {
@@ -33,14 +36,19 @@ public class PlayMusic {
     static void SendToPlayer(String data) {
         Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
         try {
+            byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
+            buf.writeByte(666);
+            buf.writeBytes(bytes);
             for (ProxiedPlayer players : values) {
                 if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
                     if (stop.containsKey(players.getName()) && !stop.get(players.getName()))
-                        players.sendData("allmusic", data.getBytes());
+                        players.sendData("allmusic:channel", buf.array());
                 }
             }
         } catch (Exception e) {
             logs logs = new logs();
+            logs.log_write(e.toString());
             logs.log_write(Arrays.toString(e.getStackTrace()));
         }
     }
@@ -48,9 +56,12 @@ public class PlayMusic {
     static void SendToOnePlayer(String data, String Player) {
         try {
             ProxiedPlayer players = ProxyServer.getInstance().getPlayer(Player);
-            players.sendData("allmusic", data.getBytes());
+            byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
+            buf.writeByte(666);
+            buf.writeBytes(bytes);
+            players.sendData("allmusic:channel", buf.array());
         } catch (Exception ignored) {
-
         }
     }
 
