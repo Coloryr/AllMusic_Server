@@ -62,7 +62,7 @@ public class command extends Command {
                 logs logs = new logs();
                 logs.log_write("玩家：" + sender.getName() + " 点歌：" + music_id);
             }
-            PlayMusic.stop.put(sender.getName(), "false");
+            PlayMusic.stop.put(sender.getName(), false);
             ALLmusic_BC.config.set("nomusic", PlayMusic.stop);
             try {
                 ConfigurationProvider.getProvider(YamlConfiguration.class).save(ALLmusic_BC.config, ALLmusic_BC.FileName);
@@ -134,7 +134,7 @@ public class command extends Command {
             PlayMusic.Music_time = 1;
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2已强制切歌"));
         } else if (args[0].equalsIgnoreCase("nomusic")) {
-            PlayMusic.stop.put(name, "true");
+            PlayMusic.stop.put(name, true);
             PlayMusic.SendToOnePlayer("[Stop]", name);
             sender.sendMessage(new TextComponent("§d[ALLmusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！"));
             ALLmusic_BC.config.set("nomusic", PlayMusic.stop);

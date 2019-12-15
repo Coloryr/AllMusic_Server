@@ -51,7 +51,7 @@ public class ALLmusic_BC extends Plugin {
         Collection<String> b = a.getKeys();
         for (String c : b) {
             boolean d = a.getBoolean(c, false);
-            PlayMusic.stop.put(c, String.valueOf(d));
+            PlayMusic.stop.put(c, d);
             log.info("玩家：" + c + "的点歌状态：" + !d);
         }
     }

@@ -17,7 +17,7 @@ public class PlayMusic {
 
     public static Map<Integer, String> playlist = new HashMap<Integer, String>();
     public static List<String> Vote = new ArrayList<String>();
-    public static Map<String, String> stop = new HashMap<String, String>();
+    public static Map<String, Boolean> stop = new HashMap<String, Boolean>();
 
     public static int Vote_time = 0;
     public static int All_music = 0;
@@ -34,7 +34,7 @@ public class PlayMusic {
         Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
         for (ProxiedPlayer players : values) {
             if (!ALLmusic_BC.server.contains(players.getServer().getInfo().getName())) {
-                if (stop != null || stop.get(players.getName()).equalsIgnoreCase("false"))
+                if (!stop.get(players.getName()))
                     players.sendData("allmusic", data.getBytes());
             }
         }
