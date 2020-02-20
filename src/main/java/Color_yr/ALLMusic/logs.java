@@ -1,4 +1,4 @@
-package Color_yr.ALLmusic;
+package Color_yr.ALLMusic;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,12 +8,12 @@ import java.util.Date;
 
 class logs {
     static File file;
+    static FileWriter fw;
+    static Date date = new Date();
 
-    void log_write(String text) {
-        FileWriter fw = null;
+    public static void log_write(String text) {
         try {
             fw = new FileWriter(file, true);
-            Date date = new Date();
             String year = String.format("%tF", date);
             String time = String.format("%tT", date);
             String write = "[" + year + "]" + "[" + time + "]" + text;
@@ -24,7 +24,8 @@ class logs {
             pw.close();
             fw.close();
         } catch (IOException e) {
-            ALLmusic_BC.log.warning("§d[ALLmusic_BC]§c日志文件写入失败" + e);
+            ALLMusic.log.warning("§d[AllMusic]§c日志文件写入失败");
+            e.printStackTrace();
         }
     }
 }

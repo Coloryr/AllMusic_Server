@@ -1,0 +1,12 @@
+{
+  "Music_Api1": "http://music.163.com/song/media/outer/url?id=",
+  "Lyric_Api1": "https://api.imjad.cn/cloudmusic/?type=lyric&id=",
+  "MaxList": 10,
+  "MinVote": 3,
+  "Delay": 2,
+  "Admin": [],
+  "NoMusicServer": [],
+  "NoMusicPlayer": [],
+  "BanMusic": [],
+  "Version": "1.3.0"
+}
