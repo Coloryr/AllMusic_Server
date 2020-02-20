@@ -14,36 +14,22 @@ public class CommandBC extends Command {
         super("music");
     }
 
-    private boolean isInteger(String str) {
-        Pattern pattern = Pattern.compile("^[-+]?[\\d]*$");
-        return pattern.matcher(str).matches();
-    }
-
-    private String get_string(String a, String b, String c) {
-        int x = a.indexOf(b) + b.length();
-        int y;
-        if (c != null)
-            y = a.indexOf(c);
-        else y = a.length();
-        return a.substring(x, y);
-    }
-
     private void add_music(CommandSender sender, String[] args) {
 
         String MusicID;
         if (args[0].contains("id=")) {
             if (args[0].contains("&user"))
-                MusicID = get_string(args[0], "id=", "&user");
+                MusicID = Utils.getString(args[0], "id=", "&user");
             else
-                MusicID = get_string(args[0], "id=", null);
+                MusicID = Utils.getString(args[0], "id=", null);
         } else if (args[0].contains("song/")) {
             if (args[0].contains("/?userid"))
-                MusicID = get_string(args[0], "song/", "/?userid");
+                MusicID = Utils.getString(args[0], "song/", "/?userid");
             else
-                MusicID = get_string(args[0], "song/", null);
+                MusicID = Utils.getString(args[0], "song/", null);
         } else
             MusicID = args[0];
-        if (isInteger(MusicID)) {
+        if (Utils.isInteger(MusicID)) {
             if (PlayMusic.PlayList.size() == ALLMusic.Config.getMaxList()) {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§c错误，队列已满"));
                 return;
@@ -128,7 +114,7 @@ public class CommandBC extends Command {
             sender.sendMessage(new TextComponent("§d[ALLMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！"));
         } else if (args[0].equalsIgnoreCase("ban") && args.length == 2
                 && ALLMusic.Config.getAdmin().contains(name)) {
-            if (isInteger(args[1])) {
+            if (Utils.isInteger(args[1])) {
                 ALLMusic.Config.addBanID(args[1]);
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§2已禁止" + args[1]));
             } else {
@@ -136,7 +122,7 @@ public class CommandBC extends Command {
             }
         } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
                 && ALLMusic.Config.getAdmin().contains(name)) {
-            if (isInteger(args[1])) {
+            if (Utils.isInteger(args[1])) {
                 String music = args[1];
                 if (PlayMusic.PlayList.contains(music)) {
                     PlayMusic.PlayList.remove(music);

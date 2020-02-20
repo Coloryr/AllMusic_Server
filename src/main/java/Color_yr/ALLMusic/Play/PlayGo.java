@@ -24,6 +24,8 @@ class PlayGo extends Thread {
                 PlayMusic.nowLyric = "";
                 PlayMusic.haveLyric = false;
                 PlayMusic.Lyric = null;
+                PlayMusic.MusicNowTime = 0;
+                PlayMusic.MusicAllTime = 0;
                 ALLMusic.Side.SendLyric("");
                 String songURL = Get.realURL(ALLMusic.Config.getMusic_Api1() + PlayMusic.NowPlayMusic);
                 String Lyric = Get.realData(ALLMusic.Config.getLyric_Api1() + PlayMusic.NowPlayMusic);
@@ -62,7 +64,7 @@ class PlayGo extends Thread {
                                     }
                                 }
                             }
-                            if(PlayMusic.haveLyric) {
+                            if (PlayMusic.haveLyric) {
                                 ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
                                 if (show != null) {
                                     String now = show.toString();
