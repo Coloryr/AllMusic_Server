@@ -81,7 +81,7 @@ public class ALLMusicBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         ALLMusicP = this;
-        ALLMusic.log = ProxyServer.getInstance().getLogger();
+        ALLMusic.log = getLogger();
         ALLMusic.log.info("§d[ALLMusic]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
         PlayMusic.Start();

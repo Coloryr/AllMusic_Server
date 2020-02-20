@@ -1,6 +1,7 @@
 package Color_yr.ALLMusic.Side;
 
 import Color_yr.ALLMusic.ALLMusic;
+import Color_yr.ALLMusic.ALLMusicBC;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.ChatMessageType;
@@ -47,6 +48,16 @@ public class SideBC implements ISide {
                         players.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
             }
         }
+    }
+
+    @Override
+    public void bq(String data) {
+        ProxyServer.getInstance().broadcast(new TextComponent(data));
+    }
+
+    @Override
+    public void save() {
+        ALLMusicBC.save();
     }
 
     private void Send(ProxiedPlayer players, String data,Boolean isplay) {

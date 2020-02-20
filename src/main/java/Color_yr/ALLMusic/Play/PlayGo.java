@@ -41,7 +41,7 @@ class PlayGo extends Thread {
                 }
                 if (songURL != null) {
                     PlayMusic.MusicAllTime = Get.getMusicTime(songURL);
-                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLMusic]§2" + "正在播放歌曲" + PlayMusic.NowPlayMusic));
+                    ALLMusic.Side.bq("§d[ALLMusic]§2" + "正在播放歌曲" + PlayMusic.NowPlayMusic);
                     ALLMusic.Side.Send("[Play]" + songURL, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {

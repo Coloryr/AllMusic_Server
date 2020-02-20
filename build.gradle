@@ -9,17 +9,47 @@ configurations.all {
 
 // Version strings used for CI
 // Note the spaces before and after the equals sign
-ext.majorVersion = 1
-ext.minorVersion = 0
-ext.minecraftVersion = "1.8"
+ext.majorVersion = 0
+ext.minorVersion = 1
+ext.minecraftVersion = "1.15.1"
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext.mavenDirectory = System.env.MAVEN_DIR == null ? "$projectDir/repo" : "$System.env.MAVEN_DIR"
+
+// Search for spigot nms jar file
+String spigotNmsPath = "";
+if (System.env.NMS_JAR != null) {
+    // use NMS_JAR if it's explicitly specified
+    spigotNmsPath = "$System.env.NMS_JAR"
+    if (new File(spigotNmsPath).exists()) {
+        logger.warn("NMS jar is set manually: ${spigotNmsPath}")
+    } else {
+        throw new GradleException("NMS jar not found: ${spigotNmsPath}")
+    }
+} else if (new File("${mavenDirectory}/spigot-${minecraftVersion}-latest.jar").exists()) {
+    // ci environment
+    spigotNmsPath = "${mavenDirectory}/spigot-${minecraftVersion}-latest.jar"
+} else {
+    // check local dir (dev environment)
+    spigotNmsPath = "${projectDir}/../nms_binaries/spigot-${minecraftVersion}.jar"
+    if (!(new File(spigotNmsPath).exists())) {
+        // nms not found, download from nyaaci
+        def f = new File(spigotNmsPath)
+        println "Downloading spigot-${minecraftVersion}.jar"
+        f.getParentFile().mkdirs();
+        new URL("https://ci.nyaacat.com/maven/spigot-${minecraftVersion}-latest.jar").withInputStream{ i -> f.withOutputStream{ it << i }}
+    }
+}
 
 repositories {
     jcenter()
 
     maven {
-        name 'bungeecord-repo'
+        name 'Spigot'
         url 'https://hub.spigotmc.org/nexus/content/groups/public'
     }
+    maven { name 'NyaaCat';     url 'https://ci.nyaacat.com/maven/' }
 }
 
 dependencies {

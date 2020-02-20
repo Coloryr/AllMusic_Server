@@ -5,4 +5,6 @@ public interface ISide {
     void Send(String data, Boolean isplay);
     int GetAllPlayer();
     void SendLyric(String data);
+    void bq(String data);
+    void save();
 }

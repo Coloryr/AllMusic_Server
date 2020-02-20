@@ -75,16 +75,16 @@ public class ConfigOBJ {
     public void addBanID(String ID) {
         if (!BanMusic.contains(ID))
             BanMusic.add(ID);
-        ALLMusicBC.save();
+        ALLMusic.Side.save();
     }
 
     public void AddNoMusicPlayer(String ID) {
         if (!NoMusicPlayer.contains(ID))
             NoMusicPlayer.add(ID);
-        ALLMusicBC.save();
+        ALLMusic.Side.save();
     }
     public void RemoveNoMusicPlayer(String ID) {
         NoMusicPlayer.remove(ID);
-        ALLMusicBC.save();
+        ALLMusic.Side.save();
     }
 }
