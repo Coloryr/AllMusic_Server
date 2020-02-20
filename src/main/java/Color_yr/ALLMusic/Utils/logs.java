@@ -1,4 +1,6 @@
-package Color_yr.ALLMusic;
+package Color_yr.ALLMusic.Utils;
+
+import Color_yr.ALLMusic.ALLMusic;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,10 +8,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
-class logs {
-    static File file;
-    static FileWriter fw;
-    static Date date = new Date();
+public class logs {
+    public static File file;
+    private static FileWriter fw;
+    private static Date date = new Date();
 
     public static void log_write(String text) {
         try {

@@ -5,5 +5,5 @@ version: 1.3.0
 
 commands:
   music:
-    description: ALLmusic的主要指令
-    usage: §4[ALLmusic]§6/music help来查看帮助
+    description: ALLMusic的主要指令
+    usage: §4[ALLMusic]§6/music help来查看帮助

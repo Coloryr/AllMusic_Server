@@ -1,7 +1,10 @@
 package Color_yr.ALLMusic;
 
+import Color_yr.ALLMusic.Command.CommandBC;
+import Color_yr.ALLMusic.Event.EventBC;
 import Color_yr.ALLMusic.Play.PlayMusic;
 import Color_yr.ALLMusic.Side.SideBC;
+import Color_yr.ALLMusic.Utils.logs;
 import com.google.gson.Gson;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -12,8 +15,7 @@ import java.nio.file.Files;
 
 public class ALLMusicBC extends Plugin {
 
-    public static void save()
-    {
+    public static void save() {
         try {
             String data = new Gson().toJson(ALLMusic.Config);
             if (ALLMusic.ConfigFile.exists()) {
@@ -21,9 +23,7 @@ public class ALLMusicBC extends Plugin {
                 out.write(data);
                 out.close();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             ALLMusic.log.warning("§d[ALLMusic]§c配置文件错误");
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class ALLMusicBC extends Plugin {
         }
     }
 
-    void setConfig() {
+    public void setConfig() {
         try {
             if (ALLMusic.ConfigFile == null) {
                 ALLMusic.ConfigFile = new File(getDataFolder(), "config.json");
@@ -82,6 +82,7 @@ public class ALLMusicBC extends Plugin {
         PlayMusic.Start();
         ALLMusic.Side = new SideBC();
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new CommandBC());
+        ProxyServer.getInstance().getPluginManager().registerListener(this, new EventBC());
         ALLMusic.log.info("§d[ALLMusic]§e已启动-" + ALLMusic.Version);
     }
 

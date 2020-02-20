@@ -7,7 +7,7 @@ import net.md_5.bungee.event.EventHandler;
 
 public class EventBC implements Listener {
     @EventHandler
-    public void onPlayerquit(PlayerDisconnectEvent event) {
+    public void onPlayerquit(final PlayerDisconnectEvent event) {
         PlayMusic.NowPlay.remove(event.getPlayer().getName());
     }
 }

@@ -1,35 +1,41 @@
-package Color_yr.ALLMusic;
+package Color_yr.ALLMusic.Command;
 
+import Color_yr.ALLMusic.ALLMusic;
+import Color_yr.ALLMusic.ALLMusicBC;
 import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.Utils.Function;
+import Color_yr.ALLMusic.Utils.logs;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CommandBC extends Command {
+public class CommandBC extends Command implements TabExecutor {
 
-    CommandBC() {
+    public CommandBC() {
         super("music");
     }
 
-    private void add_music(CommandSender sender, String[] args) {
+    private void AddMusic(CommandSender sender, String[] args) {
 
         String MusicID;
         if (args[0].contains("id=")) {
             if (args[0].contains("&user"))
-                MusicID = Utils.getString(args[0], "id=", "&user");
+                MusicID = Function.getString(args[0], "id=", "&user");
             else
-                MusicID = Utils.getString(args[0], "id=", null);
+                MusicID = Function.getString(args[0], "id=", null);
         } else if (args[0].contains("song/")) {
             if (args[0].contains("/?userid"))
-                MusicID = Utils.getString(args[0], "song/", "/?userid");
+                MusicID = Function.getString(args[0], "song/", "/?userid");
             else
-                MusicID = Utils.getString(args[0], "song/", null);
+                MusicID = Function.getString(args[0], "song/", null);
         } else
             MusicID = args[0];
-        if (Utils.isInteger(MusicID)) {
+        if (Function.isInteger(MusicID)) {
             if (PlayMusic.PlayList.size() == ALLMusic.Config.getMaxList()) {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§c错误，队列已满"));
                 return;
@@ -114,7 +120,7 @@ public class CommandBC extends Command {
             sender.sendMessage(new TextComponent("§d[ALLMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！"));
         } else if (args[0].equalsIgnoreCase("ban") && args.length == 2
                 && ALLMusic.Config.getAdmin().contains(name)) {
-            if (Utils.isInteger(args[1])) {
+            if (Function.isInteger(args[1])) {
                 ALLMusic.Config.addBanID(args[1]);
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§2已禁止" + args[1]));
             } else {
@@ -122,7 +128,7 @@ public class CommandBC extends Command {
             }
         } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
                 && ALLMusic.Config.getAdmin().contains(name)) {
-            if (Utils.isInteger(args[1])) {
+            if (Function.isInteger(args[1])) {
                 String music = args[1];
                 if (PlayMusic.PlayList.contains(music)) {
                     PlayMusic.PlayList.remove(music);
@@ -134,6 +140,23 @@ public class CommandBC extends Command {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§2请输入有效的ID"));
             }
         } else
-            add_music(sender, args);
+            AddMusic(sender, args);
+    }
+
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        List<String> arguments = new ArrayList<>();
+        if (args.length == 0) {
+            arguments.add("stop");
+            arguments.add("list");
+            arguments.add("vote");
+            arguments.add("nomusic");
+            if (ALLMusic.Config.getAdmin().contains(sender.getName())) {
+                arguments.add("reload");
+                arguments.add("next");
+                arguments.add("ban");
+                arguments.add("delete");
+            }
+        }
+        return arguments;
     }
 }

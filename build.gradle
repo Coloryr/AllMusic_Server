@@ -24,7 +24,8 @@ repositories {
 
 dependencies {
     compile 'net.md-5:bungeecord-api:1.15-SNAPSHOT'
-    compile 'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT'
+    //compile 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    dependencies { compile fileTree(dir:'lib',include:['*.jar'])}
 }
 
 publishing {
