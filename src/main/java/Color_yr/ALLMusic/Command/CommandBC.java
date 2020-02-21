@@ -44,11 +44,7 @@ public class CommandBC extends Command implements TabExecutor {
             } else if (PlayMusic.PlayList.contains(MusicID)) {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§c错误，这首歌已经在队列了"));
             } else {
-                PlayMusic.PlayList.add(MusicID);
-                sender.sendMessage(new TextComponent("§d[ALLMusic]§c点歌" + MusicID + "成功"));
-                ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLMusic]§2" + sender.getName() +
-                        "点歌" + MusicID));
-                logs.log_write("玩家：" + sender.getName() + " 点歌：" + MusicID);
+                PlayMusic.AddMusic(MusicID, sender.getName());
             }
             ALLMusic.Config.RemoveNoMusicPlayer(sender.getName());
         } else
@@ -73,15 +69,13 @@ public class CommandBC extends Command implements TabExecutor {
             if (PlayMusic.NowPlayMusic == null) {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§2无正在播放的歌曲"));
             } else {
-                sender.sendMessage(new TextComponent("§d[ALLMusic]§2正在播放：" + PlayMusic.NowPlayMusic));
+                sender.sendMessage(new TextComponent("§d[ALLMusic]§2正在播放：" + PlayMusic.NowPlayMusic.getInfo()));
             }
             if (PlayMusic.PlayList.size() == 0) {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§2队列中无歌曲"));
             } else {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§2队列中有歌曲数：" + PlayMusic.PlayList.size()));
-                for (int now = 0; now < PlayMusic.PlayList.size(); now++) {
-                    sender.sendMessage(new TextComponent("§d[ALLMusic]§2当前队列" + now + "->" + PlayMusic.PlayList.get(now)));
-                }
+                sender.sendMessage(new TextComponent("§d[ALLMusic]§2当前队列\n" + PlayMusic.getList()));
             }
         } else if (args[0].equalsIgnoreCase("vote")) {
             if (PlayMusic.PlayList.size() == 0) {
@@ -130,12 +124,8 @@ public class CommandBC extends Command implements TabExecutor {
                 && ALLMusic.Config.getAdmin().contains(name)) {
             if (Function.isInteger(args[1])) {
                 String music = args[1];
-                if (PlayMusic.PlayList.contains(music)) {
-                    PlayMusic.PlayList.remove(music);
-                    sender.sendMessage(new TextComponent("§d[ALLMusic]§2已删除" + music));
-                } else {
-                    sender.sendMessage(new TextComponent("§d[ALLMusic]§2找不到" + music));
-                }
+                PlayMusic.PlayList.removeIf(info -> info.getID().equalsIgnoreCase(music));
+                sender.sendMessage(new TextComponent("§d[ALLMusic]§2已删除" + music));
             } else {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§2请输入有效的ID"));
             }

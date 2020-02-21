@@ -23,13 +23,20 @@ public class SideBC implements ISide {
     }
     @Override
     public void Send(String data, Boolean isplay) {
-        Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-        for (ProxiedPlayer players : values) {
-            if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
-                if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
-                    Send(players, data, isplay);
+        try {
+            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
+            for (ProxiedPlayer players : values) {
+                if (players == null || players.getServer() == null)
+                    continue;
+                if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
+                    if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
+                        Send(players, data, isplay);
+                    }
                 }
             }
+        } catch (Exception e) {
+            ALLMusic.log.warning("§d[ALLMusic]§c歌曲发送发生错误");
+            e.printStackTrace();
         }
     }
 
@@ -40,13 +47,20 @@ public class SideBC implements ISide {
 
     @Override
     public void SendLyric(String data) {
-        Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-        for (ProxiedPlayer players : values) {
-            if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
-                if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName()))
-                    if (NowPlay.contains(players.getName()))
-                        players.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
+        try {
+            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
+            for (ProxiedPlayer players : values) {
+                if (players == null || players.getServer() == null)
+                    continue;
+                if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
+                    if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName()))
+                        if (NowPlay.contains(players.getName()))
+                            players.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
+                }
             }
+        } catch (Exception e) {
+            ALLMusic.log.warning("§d[ALLMusic]§c歌词发生出错");
+            e.printStackTrace();
         }
     }
 

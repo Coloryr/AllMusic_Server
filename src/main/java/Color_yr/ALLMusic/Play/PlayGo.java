@@ -7,6 +7,8 @@ import Color_yr.ALLMusic.Lyric.ShowOBJ;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import java.security.AlgorithmConstraints;
+
 class PlayGo extends Thread {
 
     @Override
@@ -27,8 +29,8 @@ class PlayGo extends Thread {
                 PlayMusic.MusicNowTime = 0;
                 PlayMusic.MusicAllTime = 0;
                 ALLMusic.Side.SendLyric("");
-                String songURL = Get.realURL(ALLMusic.Config.getMusic_Api1() + PlayMusic.NowPlayMusic);
-                String Lyric = Get.realData(ALLMusic.Config.getLyric_Api1() + PlayMusic.NowPlayMusic);
+                String songURL = Get.realURL(ALLMusic.Config.getMusic_Api1() + PlayMusic.NowPlayMusic.getID());
+                String Lyric = Get.realData(ALLMusic.Config.getLyric_Api1() + PlayMusic.NowPlayMusic.getID());
                 if (Lyric != null) {
                     try {
                         PlayMusic.Lyric = new LyricDo(Lyric);
@@ -41,7 +43,7 @@ class PlayGo extends Thread {
                 }
                 if (songURL != null) {
                     PlayMusic.MusicAllTime = Get.getMusicTime(songURL);
-                    ALLMusic.Side.bq("§d[ALLMusic]§2" + "正在播放歌曲" + PlayMusic.NowPlayMusic);
+                    ALLMusic.Side.bq("§d[ALLMusic]§2" + "正在播放歌曲" + PlayMusic.NowPlayMusic.getInfo());
                     ALLMusic.Side.Send("[Play]" + songURL, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
@@ -80,7 +82,7 @@ class PlayGo extends Thread {
                         e.getMessage();
                     }
                 } else {
-                    ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLMusic]§2" + "无效歌曲歌曲" + PlayMusic.NowPlayMusic));
+                    ALLMusic.Side.bq("§d[ALLMusic]§2" + "无效歌曲歌曲" + PlayMusic.NowPlayMusic.getID());
                     PlayMusic.NowPlayMusic = null;
                 }
             }

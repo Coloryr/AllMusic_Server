@@ -1,6 +1,7 @@
 {
   "Music_Api1": "http://music.163.com/song/media/outer/url?id=",
   "Lyric_Api1": "https://api.imjad.cn/cloudmusic/?type=lyric&id=",
+  "Info_Api1": "https://api.imjad.cn/cloudmusic/?type=detail&id=",
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 2,

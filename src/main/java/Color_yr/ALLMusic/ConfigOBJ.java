@@ -6,6 +6,7 @@ import java.util.List;
 public class ConfigOBJ {
     private String Music_Api1;
     private String Lyric_Api1;
+    private String Info_Api1;
 
     private int MaxList;
     private int MinVote;
@@ -21,6 +22,7 @@ public class ConfigOBJ {
     public ConfigOBJ() {
         Music_Api1 = "http://music.163.com/song/media/outer/url?id=";
         Lyric_Api1 = "https://api.imjad.cn/cloudmusic/?type=lyric&id=";
+        Info_Api1 = "https://api.imjad.cn/cloudmusic/?type=detail&id=";
         MaxList = 10;
         MinVote = 3;
         Delay = 2;
@@ -30,6 +32,10 @@ public class ConfigOBJ {
         BanMusic = new ArrayList<>();
 
         Version = ALLMusic.Version;
+    }
+
+    public String getInfo_Api1() {
+        return Info_Api1;
     }
 
     public String getLyric_Api1() {
