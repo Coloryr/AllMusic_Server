@@ -57,6 +57,7 @@ class PlayGo extends Thread {
                                     if (PlayMusic.Vote.size() >= ALLMusic.Config.getMinVote() || (players <= ALLMusic.Config.getMinVote() && players == PlayMusic.Vote.size())) {
                                         ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLMusic]§2" + "已切歌"));
                                         ALLMusic.Side.Send("[Stop]", false);
+                                        PlayMusic.Vote.clear();
                                         PlayMusic.MusicAllTime = 1;
                                         if (PlayMusic.PlayList.size() == 0) {
                                             ProxyServer.getInstance().broadcast(new TextComponent("§d[ALLMusic]§2" + "队列中无歌曲"));

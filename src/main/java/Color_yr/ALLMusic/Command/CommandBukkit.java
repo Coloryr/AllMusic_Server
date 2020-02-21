@@ -3,9 +3,7 @@ package Color_yr.ALLMusic.Command;
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBC;
 import Color_yr.ALLMusic.Play.PlayMusic;
-import Color_yr.ALLMusic.Song.Info;
 import Color_yr.ALLMusic.Utils.Function;
-import Color_yr.ALLMusic.Utils.logs;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,10 +36,9 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                 return;
             } else if (ALLMusic.Config.getBanMusic().contains(MusicID)) {
                 sender.sendMessage("§d[ALLMusic]§c错误，这首歌被禁点了");
-            } else if (PlayMusic.PlayList.contains(MusicID)) {
-                sender.sendMessage("§d[ALLMusic]§c错误，这首歌已经在队列了");
             } else {
                 PlayMusic.AddMusic(MusicID, sender.getName());
+                sender.sendMessage("§d[ALLMusic]§2点歌成功");
             }
             ALLMusic.Config.RemoveNoMusicPlayer(sender.getName());
         } else
@@ -74,7 +71,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                     sender.sendMessage("§d[ALLMusic]§2队列中无歌曲");
                 } else {
                     sender.sendMessage("§d[ALLMusic]§2队列中有歌曲数：" + PlayMusic.PlayList.size());
-                    sender.sendMessage("§d[ALLMusic]§2当前队列\n" + PlayMusic.getList());
+                    sender.sendMessage(PlayMusic.getList());
                 }
             } else if (args[0].equalsIgnoreCase("vote")) {
                 if (PlayMusic.PlayList.size() == 0) {
@@ -88,6 +85,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                 } else if (PlayMusic.Vote_time > 0) {
                     if (!PlayMusic.Vote.contains(name)) {
                         PlayMusic.Vote.add(name);
+                        sender.sendMessage("§d[ALLMusic]§2你已同意");
                         Bukkit.broadcastMessage("§d[ALLMusic]§2" + name + "同意切歌，共有" +
                                 PlayMusic.Vote.size() + "名玩家同意切歌。");
                     } else {
@@ -122,11 +120,11 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
             } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
                     && ALLMusic.Config.getAdmin().contains(name)) {
                 if (Function.isInteger(args[1])) {
-                    String music = args[1];
-                    PlayMusic.PlayList.removeIf(info -> info.getID().equalsIgnoreCase(music));
-                    sender.sendMessage("§d[ALLMusic]§2已删除" + music);
+                    int music = Integer.parseInt(args[1]);
+                    PlayMusic.PlayList.remove(music);
+                    sender.sendMessage("§d[ALLMusic]§2已删除序列" + music);
                 } else {
-                    sender.sendMessage("§d[ALLMusic]§2请输入有效的ID");
+                    sender.sendMessage("§d[ALLMusic]§2请输入有效的序列ID");
                 }
             } else
                 AddMusic(sender, args);

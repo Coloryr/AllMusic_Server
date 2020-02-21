@@ -46,6 +46,8 @@ public class LyricDo {
                 continue;
             if (!Function.isInteger(sec))
                 continue;
+            if(min.isEmpty() || sec.isEmpty())
+                continue;
             time = Integer.parseInt(min) * 60 + Integer.parseInt(sec);
             if (time > 0)
                 time -= ALLMusic.Config.getDelay();

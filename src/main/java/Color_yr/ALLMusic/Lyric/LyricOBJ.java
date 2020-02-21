@@ -20,7 +20,7 @@ class lrc {
     private String lyric;
 
     public String getLyric() {
-        return lyric;
+        return lyric == null ? "" : lyric;
     }
 }
 class tlyric {
