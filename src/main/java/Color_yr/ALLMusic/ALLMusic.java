@@ -11,6 +11,7 @@ public class ALLMusic {
     public static File ConfigFile;
 
     public static ISide Side;
+    public static final String channel = "allmusic:channel";
 
     public static final String Version = "1.3.0";
 }

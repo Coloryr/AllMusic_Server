@@ -86,6 +86,7 @@ public class ALLMusicBukkit extends JavaPlugin {
         setConfig();
         PlayMusic.Start();
         ALLMusic.Side = new SideBukkit();
+        getServer().getMessenger().registerOutgoingPluginChannel(this, ALLMusic.channel);
         Bukkit.getPluginCommand("music").setExecutor(new CommandBukkit());
         Bukkit.getPluginCommand("music").setTabCompleter(new CommandBukkit());
         Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);

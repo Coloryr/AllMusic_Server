@@ -70,7 +70,7 @@ public class SideBukkit implements ISide {
             ByteBuf buf = Unpooled.buffer(bytes.length + 1);
             buf.writeByte(666);
             buf.writeBytes(bytes);
-            players.sendPluginMessage(ALLMusicP, "allmusic:channel", buf.array());
+            players.sendPluginMessage(ALLMusicP, ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
                     NowPlay.add(players.getName());

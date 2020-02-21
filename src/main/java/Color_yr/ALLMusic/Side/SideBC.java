@@ -66,7 +66,7 @@ public class SideBC implements ISide {
             ByteBuf buf = Unpooled.buffer(bytes.length + 1);
             buf.writeByte(666);
             buf.writeBytes(bytes);
-            players.sendData("allmusic:channel", buf.array());
+            players.sendData(ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
                     NowPlay.add(players.getName());
