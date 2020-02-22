@@ -6,7 +6,6 @@ import Color_yr.ALLMusic.Play.PlayMusic;
 import Color_yr.ALLMusic.Side.SideBukkit;
 import Color_yr.ALLMusic.Utils.logs;
 import com.google.gson.Gson;
-import net.md_5.bungee.api.ProxyServer;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +32,7 @@ public class ALLMusicBukkit extends JavaPlugin {
         }
     }
 
-    private void LoadConfig() throws FileNotFoundException {
+    private static void LoadConfig() throws FileNotFoundException {
 
         InputStreamReader reader = new InputStreamReader(new FileInputStream(ALLMusic.ConfigFile), StandardCharsets.UTF_8);
         BufferedReader bf = new BufferedReader(reader);
@@ -55,15 +54,15 @@ public class ALLMusicBukkit extends JavaPlugin {
         }
     }
 
-    public void setConfig() {
+    public static void setConfig() {
         try {
             if (ALLMusic.ConfigFile == null) {
-                ALLMusic.ConfigFile = new File(getDataFolder(), "config.json");
-                logs.file = new File(getDataFolder(), "logs.log");
-                if (!getDataFolder().exists())
-                    getDataFolder().mkdir();
+                ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
+                logs.file = new File(ALLMusicP.getDataFolder(), "logs.log");
+                if (!ALLMusicP.getDataFolder().exists())
+                    ALLMusicP.getDataFolder().mkdir();
                 if (!ALLMusic.ConfigFile.exists()) {
-                    InputStream in = getResource("config_BC.json");
+                    InputStream in = ALLMusicP.getResource("config_BC.json");
                     Files.copy(in, ALLMusic.ConfigFile.toPath());
                 }
                 if (!logs.file.exists()) {
@@ -95,6 +94,7 @@ public class ALLMusicBukkit extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        PlayMusic.stop();
         PlayMusic.PlayList.clear();
         PlayMusic.Vote.clear();
         ALLMusic.Side.Send("[Stop]", false);

@@ -31,9 +31,17 @@ public class PlayMusic {
     public static boolean haveLyric;
     public static String nowLyric = "";
 
-    private static Thread PlayGo = new PlayGo();
+    private static PlayGo PlayGo;
+
+    public static void stop() {
+        if (PlayGo != null && PlayGo.isAlive()) {
+            PlayGo.close();
+            PlayGo.stop();
+        }
+    }
 
     public static void Start() {
+        PlayGo = new PlayGo();
         PlayGo.start();
     }
 

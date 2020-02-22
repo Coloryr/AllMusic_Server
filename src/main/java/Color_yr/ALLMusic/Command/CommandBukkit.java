@@ -2,6 +2,7 @@ package Color_yr.ALLMusic.Command;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBC;
+import Color_yr.ALLMusic.ALLMusicBukkit;
 import Color_yr.ALLMusic.Play.PlayMusic;
 import Color_yr.ALLMusic.Utils.Function;
 import org.bukkit.Bukkit;
@@ -93,8 +94,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                     }
                 }
             } else if (args[0].equalsIgnoreCase("reload")) {
-                ALLMusicBC music = new ALLMusicBC();
-                music.setConfig();
+                ALLMusicBukkit.setConfig();
                 sender.sendMessage("§d[ALLMusic]§2已重读配置文件");
             } else if (args[0].equalsIgnoreCase("v")) {
                 if (args.length == 2) {

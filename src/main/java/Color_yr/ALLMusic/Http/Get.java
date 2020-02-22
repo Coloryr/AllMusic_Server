@@ -22,8 +22,7 @@ public class Get {
             BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
             Bitstream bt = new Bitstream(bis);
             Header h = bt.readFrame();
-            int time = (int) h.total_ms(b);
-            return time / 1000;
+            return (int) h.total_ms(b) / 1000;
         } catch (Exception e) {
             ALLMusic.log.warning("§d[ALLMusic]§c获取音乐长度错误");
             e.printStackTrace();

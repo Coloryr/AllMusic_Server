@@ -29,30 +29,40 @@ public class LyricDo {
         }
         String min;
         String sec;
+        String mil;
         String Tlyric = null;
         String temp;
         String temp2;
         int time;
-        for (int now = 0; now < lyric.length; now++) {
-            if (Function.countChar(lyric[now], ':') > 1) {
-                String[] a = lyric[now].split(":");
+        int milt;
+        for (String s : lyric) {
+            if (Function.countChar(Function.getString(s, "[", "]"), ':') > 1) {
+                String[] a = s.split(":");
                 min = a[0].substring(1);
                 sec = a[1];
+                mil = a[2];
             } else {
-                min = Function.getString(lyric[now], "[", ":");
-                sec = Function.getString(lyric[now], ":", ".");
+                min = Function.getString(s, "[", ":");
+                sec = Function.getString(s, ":", ".");
+                mil = Function.getString(s, ".", "]");
             }
             if (!Function.isInteger(min))
                 continue;
             if (!Function.isInteger(sec))
                 continue;
-            if(min.isEmpty() || sec.isEmpty())
+            if (!Function.isInteger(mil))
                 continue;
-            time = Integer.parseInt(min) * 60 + Integer.parseInt(sec);
-            if (time > 0)
-                time -= ALLMusic.Config.getDelay();
+            if (min.isEmpty() || sec.isEmpty() || mil.isEmpty())
+                continue;
+            milt = Integer.parseInt(mil);
+            if(mil.length() == 3) {
+                milt /= 10;
+            }
+            time = Integer.parseInt(min) * 60 * 1000 + Integer.parseInt(sec) * 1000 + milt * 10;
+            if (time > 0 && time + ALLMusic.Config.getDelay() > 0)
+                time += ALLMusic.Config.getDelay();
             if (haveT) {
-                temp = Function.getString(lyric[now], "[", "]");
+                temp = Function.getString(s, "[", "]");
                 for (String item : tlyric) {
                     temp2 = Function.getString(item, "[", "]");
                     if (temp.startsWith(temp2) || temp2.startsWith(temp)) {
@@ -63,7 +73,7 @@ public class LyricDo {
                 }
             }
             Lyric.put(time, new ShowOBJ(time, haveT,
-                    Function.getString(lyric[now], "]", null), Tlyric));
+                    Function.getString(s, "]", null), Tlyric));
         }
     }
 

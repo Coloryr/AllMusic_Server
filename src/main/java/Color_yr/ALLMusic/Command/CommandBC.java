@@ -95,8 +95,7 @@ public class CommandBC extends Command implements TabExecutor {
                 }
             }
         } else if (args[0].equalsIgnoreCase("reload")) {
-            ALLMusicBC music = new ALLMusicBC();
-            music.setConfig();
+            ALLMusicBC.setConfig();
             sender.sendMessage(new TextComponent("§d[ALLMusic]§2已重读配置文件"));
         } else if (args[0].equalsIgnoreCase("v")) {
             if (args.length == 2) {

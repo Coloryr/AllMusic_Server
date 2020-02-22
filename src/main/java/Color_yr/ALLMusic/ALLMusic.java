@@ -13,5 +13,5 @@ public class ALLMusic {
     public static ISide Side;
     public static final String channel = "allmusic:channel";
 
-    public static final String Version = "1.3.0";
+    public static final String Version = "1.4.0";
 }

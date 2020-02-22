@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class ALLMusicBC extends Plugin {
-
+    public static Plugin ALLMusicP;
     public static void save() {
         try {
             String data = new Gson().toJson(ALLMusic.Config);
@@ -29,7 +29,7 @@ public class ALLMusicBC extends Plugin {
         }
     }
 
-    private void LoadConfig() throws FileNotFoundException {
+    private static void LoadConfig() throws FileNotFoundException {
 
         InputStreamReader reader = new InputStreamReader(new FileInputStream(ALLMusic.ConfigFile), StandardCharsets.UTF_8);
         BufferedReader bf = new BufferedReader(reader);
@@ -51,15 +51,15 @@ public class ALLMusicBC extends Plugin {
         }
     }
 
-    public void setConfig() {
+    public static void setConfig() {
         try {
             if (ALLMusic.ConfigFile == null) {
-                ALLMusic.ConfigFile = new File(getDataFolder(), "config.json");
-                logs.file = new File(getDataFolder(), "logs.log");
-                if (!getDataFolder().exists())
-                    getDataFolder().mkdir();
+                ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
+                logs.file = new File(ALLMusicP.getDataFolder(), "logs.log");
+                if (!ALLMusicP.getDataFolder().exists())
+                    ALLMusicP.getDataFolder().mkdir();
                 if (!ALLMusic.ConfigFile.exists()) {
-                    InputStream in = getResourceAsStream("config_BC.json");
+                    InputStream in = ALLMusicP.getResourceAsStream("config_BC.json");
                     Files.copy(in, ALLMusic.ConfigFile.toPath());
                 }
                 if (!logs.file.exists()) {
@@ -76,6 +76,7 @@ public class ALLMusicBC extends Plugin {
 
     @Override
     public void onEnable() {
+        ALLMusicP = this;
         ALLMusic.log = ProxyServer.getInstance().getLogger();
         ALLMusic.log.info("§d[ALLMusic]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
@@ -88,6 +89,7 @@ public class ALLMusicBC extends Plugin {
 
     @Override
     public void onDisable() {
+        PlayMusic.stop();
         PlayMusic.PlayList.clear();
         PlayMusic.Vote.clear();
         ALLMusic.Side.Send("[Stop]", false);
