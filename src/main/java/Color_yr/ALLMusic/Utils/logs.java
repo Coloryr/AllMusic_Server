@@ -10,12 +10,11 @@ import java.util.Date;
 
 public class logs {
     public static File file;
-    private static FileWriter fw;
     private static Date date = new Date();
 
     public static void log_write(String text) {
         try {
-            fw = new FileWriter(file, true);
+            FileWriter fw = new FileWriter(file, true);
             String year = String.format("%tF", date);
             String time = String.format("%tT", date);
             String write = "[" + year + "]" + "[" + time + "]" + text;
@@ -28,6 +27,13 @@ public class logs {
         } catch (IOException e) {
             ALLMusic.log.warning("§d[AllMusic]§c日志文件写入失败");
             e.printStackTrace();
+        }
+    }
+
+    public void Init(File Dir) throws IOException {
+        file = new File(Dir, "logs.log");
+        if (!logs.file.exists()) {
+            logs.file.createNewFile();
         }
     }
 }

@@ -15,6 +15,7 @@ public class LyricOBJ {
         return tlyric.getLyric();
     }
 }
+
 class lrc {
     private int version;
     private String lyric;
@@ -23,6 +24,7 @@ class lrc {
         return lyric == null ? "" : lyric;
     }
 }
+
 class tlyric {
     private int version;
     private String lyric;

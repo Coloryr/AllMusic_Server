@@ -7,6 +7,7 @@ public class ConfigOBJ {
     private String Music_Api1;
     private String Lyric_Api1;
     private String Info_Api1;
+    private String List_Api1;
 
     private int MaxList;
     private int MinVote;
@@ -16,6 +17,10 @@ public class ConfigOBJ {
     private List<String> NoMusicServer;
     private List<String> NoMusicPlayer;
     private List<String> BanMusic;
+    private List<String> PlayList;
+
+    private boolean PlayListSwitch;
+    private boolean PlayListRandom;
 
     private String Version;
 
@@ -23,6 +28,7 @@ public class ConfigOBJ {
         Music_Api1 = "http://music.163.com/song/media/outer/url?id=";
         Lyric_Api1 = "https://api.imjad.cn/cloudmusic/?type=lyric&id=";
         Info_Api1 = "https://api.imjad.cn/cloudmusic/?type=detail&id=";
+        List_Api1 = "https://api.imjad.cn/cloudmusic/?type=playlist&id=";
         MaxList = 10;
         MinVote = 3;
         Delay = 2;
@@ -30,12 +36,31 @@ public class ConfigOBJ {
         NoMusicServer = new ArrayList<>();
         NoMusicPlayer = new ArrayList<>();
         BanMusic = new ArrayList<>();
+        PlayList = new ArrayList<>();
+        PlayListSwitch = true;
+        PlayListRandom = true;
 
         Version = ALLMusic.Version;
     }
 
+    public boolean isPlayListRandom() {
+        return PlayListRandom;
+    }
+
+    public List<String> getPlayList() {
+        return PlayList;
+    }
+
+    public boolean isPlayListSwitch() {
+        return PlayListSwitch;
+    }
+
     public String getInfo_Api1() {
         return Info_Api1;
+    }
+
+    public String getList_Api1() {
+        return List_Api1;
     }
 
     public String getLyric_Api1() {
@@ -89,6 +114,7 @@ public class ConfigOBJ {
             NoMusicPlayer.add(ID);
         ALLMusic.Side.save();
     }
+
     public void RemoveNoMusicPlayer(String ID) {
         NoMusicPlayer.remove(ID);
         ALLMusic.Side.save();

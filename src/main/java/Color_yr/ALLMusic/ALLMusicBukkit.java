@@ -58,18 +58,14 @@ public class ALLMusicBukkit extends JavaPlugin {
         try {
             if (ALLMusic.ConfigFile == null) {
                 ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
-                logs.file = new File(ALLMusicP.getDataFolder(), "logs.log");
                 if (!ALLMusicP.getDataFolder().exists())
                     ALLMusicP.getDataFolder().mkdir();
+                new logs().Init(ALLMusicP.getDataFolder());
                 if (!ALLMusic.ConfigFile.exists()) {
                     InputStream in = ALLMusicP.getResource("config_BC.json");
                     Files.copy(in, ALLMusic.ConfigFile.toPath());
                 }
-                if (!logs.file.exists()) {
-                    logs.file.createNewFile();
-                }
             }
-
             LoadConfig();
         } catch (IOException e) {
             ALLMusic.log.warning("§d[ALLMusic]§c配置文件错误");

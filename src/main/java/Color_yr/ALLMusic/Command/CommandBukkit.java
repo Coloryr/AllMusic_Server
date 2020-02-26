@@ -1,9 +1,9 @@
 package Color_yr.ALLMusic.Command;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.ALLMusicBC;
 import Color_yr.ALLMusic.ALLMusicBukkit;
 import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.PlayList.GetList;
 import Color_yr.ALLMusic.Utils.Function;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -11,7 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CommandBukkit implements CommandExecutor, TabExecutor {
@@ -34,21 +33,28 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
         if (Function.isInteger(MusicID)) {
             if (PlayMusic.PlayList.size() == ALLMusic.Config.getMaxList()) {
                 sender.sendMessage("§d[ALLMusic]§c错误，队列已满");
-                return;
             } else if (ALLMusic.Config.getBanMusic().contains(MusicID)) {
                 sender.sendMessage("§d[ALLMusic]§c错误，这首歌被禁点了");
             } else {
-                PlayMusic.AddMusic(MusicID, sender.getName());
-                sender.sendMessage("§d[ALLMusic]§2点歌成功");
+                ALLMusic.Config.RemoveNoMusicPlayer(sender.getName());
+                if (ALLMusic.Side.NeedPlay()) {
+                    PlayMusic.AddMusic(MusicID, sender.getName());
+                    if (PlayMusic.isList && ALLMusic.Config.isPlayListSwitch()) {
+                        PlayMusic.MusicAllTime = 1;
+                        PlayMusic.isList = false;
+                    }
+                    sender.sendMessage("§d[ALLMusic]§2点歌成功");
+                }
+                else
+                    sender.sendMessage("§d[ALLMusic]§c没有播放的玩家");
             }
-            ALLMusic.Config.RemoveNoMusicPlayer(sender.getName());
         } else
             sender.sendMessage("§d[ALLmusic]§c错误，请输入歌曲数字ID");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(command.getName().equalsIgnoreCase("music")) {
+        if (command.getName().equalsIgnoreCase("music")) {
             String name = sender.getName();
             if (args.length == 0) {
                 sender.sendMessage("§d[ALLMusic]§c错误，请使用/music help 获取帮助");
@@ -126,6 +132,14 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
                 } else {
                     sender.sendMessage("§d[ALLMusic]§2请输入有效的序列ID");
                 }
+            } else if (args[0].equalsIgnoreCase("addlist") && args.length == 2
+                    && ALLMusic.Config.getAdmin().contains(name)) {
+                if (Function.isInteger(args[1])) {
+                    GetList.GetL(args[1]);
+                    sender.sendMessage("§d[ALLMusic]§2添加音乐列表" + args[1]);
+                } else {
+                    sender.sendMessage("§d[ALLMusic]§2请输入有效的音乐列表ID");
+                }
             } else
                 AddMusic(sender, args);
             return true;
@@ -135,21 +149,8 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if(command.getName().equalsIgnoreCase("music")) {
-            List<String> arguments = new ArrayList<>();
-            if (args.length == 0) {
-                arguments.add("stop");
-                arguments.add("list");
-                arguments.add("vote");
-                arguments.add("nomusic");
-                if (ALLMusic.Config.getAdmin().contains(sender.getName())) {
-                    arguments.add("reload");
-                    arguments.add("next");
-                    arguments.add("ban");
-                    arguments.add("delete");
-                }
-            }
-            return arguments;
+        if (command.getName().equalsIgnoreCase("music")) {
+            return TabCommand.GetTabList(sender.getName());
         }
         return null;
     }

@@ -6,21 +6,24 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.Title;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.connection.Server;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static Color_yr.ALLMusic.Play.PlayMusic.NowPlay;
-import static Color_yr.ALLMusic.Play.PlayMusic.PlayList;
 
 public class SideBC implements ISide {
     @Override
     public void Send(String data, String player, Boolean isplay) {
         Send(ProxyServer.getInstance().getPlayer(player), data, isplay);
     }
+
     @Override
     public void Send(String data, Boolean isplay) {
         try {
@@ -74,7 +77,23 @@ public class SideBC implements ISide {
         ALLMusicBC.save();
     }
 
-    private void Send(ProxiedPlayer players, String data,Boolean isplay) {
+    @Override
+    public boolean NeedPlay() {
+        int online = GetAllPlayer();
+        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName())) {
+                online--;
+            } else {
+                ServerInfo server = player.getServer().getInfo();
+                if (server != null && ALLMusic.Config.getNoMusicServer().contains(server.getName())) {
+                    online--;
+                }
+            }
+        }
+        return online > 0;
+    }
+
+    private void Send(ProxiedPlayer players, String data, Boolean isplay) {
         try {
             byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
             ByteBuf buf = Unpooled.buffer(bytes.length + 1);

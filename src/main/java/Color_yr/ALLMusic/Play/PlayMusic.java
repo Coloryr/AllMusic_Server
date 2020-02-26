@@ -5,16 +5,9 @@ import Color_yr.ALLMusic.Lyric.LyricDo;
 import Color_yr.ALLMusic.Song.GetInfo;
 import Color_yr.ALLMusic.Song.Info;
 import Color_yr.ALLMusic.Utils.logs;
-import javazoom.jl.decoder.Bitstream;
-import javazoom.jl.decoder.Header;
-import org.bukkit.Bukkit;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayMusic {
 
@@ -32,6 +25,8 @@ public class PlayMusic {
     public static String nowLyric = "";
 
     private static PlayGo PlayGo;
+
+    public static boolean isList = false;
 
     public static void stop() {
         if (PlayGo != null && PlayGo.isAlive()) {

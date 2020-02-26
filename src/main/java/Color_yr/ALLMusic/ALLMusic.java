@@ -6,12 +6,10 @@ import java.io.File;
 import java.util.logging.Logger;
 
 public class ALLMusic {
+    public static final String channel = "allmusic:channel";
+    public static final String Version = "1.5.0";
     public static ConfigOBJ Config;
     public static Logger log;
     public static File ConfigFile;
-
     public static ISide Side;
-    public static final String channel = "allmusic:channel";
-
-    public static final String Version = "1.4.0";
 }

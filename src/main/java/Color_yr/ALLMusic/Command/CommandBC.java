@@ -3,15 +3,13 @@ package Color_yr.ALLMusic.Command;
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBC;
 import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.PlayList.GetList;
 import Color_yr.ALLMusic.Utils.Function;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CommandBC extends Command implements TabExecutor {
 
@@ -20,7 +18,6 @@ public class CommandBC extends Command implements TabExecutor {
     }
 
     private void AddMusic(CommandSender sender, String[] args) {
-
         String MusicID;
         if (args[0].contains("id=")) {
             if (args[0].contains("&user"))
@@ -37,14 +34,21 @@ public class CommandBC extends Command implements TabExecutor {
         if (Function.isInteger(MusicID)) {
             if (PlayMusic.PlayList.size() == ALLMusic.Config.getMaxList()) {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§c错误，队列已满"));
-                return;
             } else if (ALLMusic.Config.getBanMusic().contains(MusicID)) {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§c错误，这首歌被禁点了"));
             } else {
-                PlayMusic.AddMusic(MusicID, sender.getName());
-                sender.sendMessage(new TextComponent("§d[ALLMusic]§2点歌成功"));
+                ALLMusic.Config.RemoveNoMusicPlayer(sender.getName());
+                if (ALLMusic.Side.NeedPlay()) {
+                    PlayMusic.AddMusic(MusicID, sender.getName());
+                    if (PlayMusic.isList && ALLMusic.Config.isPlayListSwitch()) {
+                        PlayMusic.MusicAllTime = 1;
+                        PlayMusic.isList = false;
+                    }
+                    sender.sendMessage(new TextComponent("§d[ALLMusic]§2点歌成功"));
+                }
+                else
+                    sender.sendMessage(new TextComponent("§d[ALLMusic]§c没有播放的玩家"));
             }
-            ALLMusic.Config.RemoveNoMusicPlayer(sender.getName());
         } else
             sender.sendMessage(new TextComponent("§d[ALLmusic]§c错误，请输入歌曲数字ID"));
     }
@@ -127,24 +131,19 @@ public class CommandBC extends Command implements TabExecutor {
             } else {
                 sender.sendMessage(new TextComponent("§d[ALLMusic]§2请输入有效的序列ID"));
             }
+        } else if (args[0].equalsIgnoreCase("addlist") && args.length == 2
+                && ALLMusic.Config.getAdmin().contains(name)) {
+            if (Function.isInteger(args[1])) {
+                GetList.GetL(args[1]);
+                sender.sendMessage(new TextComponent("§d[ALLMusic]§2添加音乐列表" + args[1]));
+            } else {
+                sender.sendMessage(new TextComponent("§d[ALLMusic]§2请输入有效的音乐列表ID"));
+            }
         } else
             AddMusic(sender, args);
     }
 
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        List<String> arguments = new ArrayList<>();
-        if (args.length == 0) {
-            arguments.add("stop");
-            arguments.add("list");
-            arguments.add("vote");
-            arguments.add("nomusic");
-            if (ALLMusic.Config.getAdmin().contains(sender.getName())) {
-                arguments.add("reload");
-                arguments.add("next");
-                arguments.add("ban");
-                arguments.add("delete");
-            }
-        }
-        return arguments;
+        return TabCommand.GetTabList(sender.getName());
     }
 }

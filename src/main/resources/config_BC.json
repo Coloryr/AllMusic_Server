@@ -2,6 +2,7 @@
   "Music_Api1": "http://music.163.com/song/media/outer/url?id=",
   "Lyric_Api1": "https://api.imjad.cn/cloudmusic/?type=lyric&id=",
   "Info_Api1": "https://api.imjad.cn/cloudmusic/?type=detail&id=",
+  "List_Api1": "https://api.imjad.cn/cloudmusic/?type=playlist&id=",
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 2,
@@ -9,5 +10,8 @@
   "NoMusicServer": [],
   "NoMusicPlayer": [],
   "BanMusic": [],
-  "Version": "1.4.0"
+  "PlayList": [],
+  "PlayListSwitch": true,
+  "PlayListRandom": true,
+  "Version": "1.5.0"
 }

@@ -15,6 +15,12 @@ public class LyricDo {
         this.obj = new Gson().fromJson(obj, LyricOBJ.class);
     }
 
+    public LyricDo(Map<Integer, ShowOBJ> Lyric) {
+        if (Lyric == null)
+            return;
+        this.Lyric = Lyric;
+    }
+
     public void Check() {
         String[] lyric;
 
@@ -22,17 +28,41 @@ public class LyricDo {
         if (obj.getLyric() == null)
             return;
         lyric = obj.getLyric().split("\n");
-        List<String> tlyric = new ArrayList<>();
+        List<String> Tlyric = new ArrayList<>();
         if (obj.getTlyric() != null) {
-            tlyric = Arrays.asList(obj.getTlyric().split("\n"));
+            Tlyric = Arrays.asList(obj.getTlyric().split("\n"));
             haveT = true;
         }
+        Map<Integer, String> temp = GetTime(Arrays.asList(lyric));
+        if (haveT) {
+            Map<Integer, String> temp1 = GetTime(Tlyric);
+            for (Map.Entry<Integer, String> item : temp.entrySet()) {
+                Lyric.put(item.getKey(), new ShowOBJ(haveT,
+                        item.getValue(), temp1.get(item.getKey())));
+            }
+        } else {
+            for (Map.Entry<Integer, String> item : temp.entrySet()) {
+                Lyric.put(item.getKey(), new ShowOBJ(haveT,
+                        item.getValue(), null));
+            }
+        }
+    }
+
+    public ShowOBJ checkTime(int playNow) {
+        if (Lyric.containsKey(playNow))
+            return Lyric.get(playNow);
+        return null;
+    }
+
+    public Map<Integer, ShowOBJ> getLyric() {
+        return Lyric;
+    }
+
+    private Map<Integer, String> GetTime(List<String> lyric) {
+        Map<Integer, String> Lyric = new HashMap<>();
         String min;
         String sec;
         String mil;
-        String Tlyric = null;
-        String temp;
-        String temp2;
         int time;
         int milt;
         for (String s : lyric) {
@@ -55,31 +85,14 @@ public class LyricDo {
             if (min.isEmpty() || sec.isEmpty() || mil.isEmpty())
                 continue;
             milt = Integer.parseInt(mil);
-            if(mil.length() == 3) {
+            if (mil.length() == 3) {
                 milt /= 10;
             }
             time = Integer.parseInt(min) * 60 * 1000 + Integer.parseInt(sec) * 1000 + milt * 10;
             if (time > 0 && time + ALLMusic.Config.getDelay() > 0)
-                time += ALLMusic.Config.getDelay();
-            if (haveT) {
-                temp = Function.getString(s, "[", "]");
-                for (String item : tlyric) {
-                    temp2 = Function.getString(item, "[", "]");
-                    if (temp.startsWith(temp2) || temp2.startsWith(temp)) {
-                        Tlyric = Function.getString(item, "]", null);
-                        break;
-                    } else
-                        Tlyric = null;
-                }
-            }
-            Lyric.put(time, new ShowOBJ(time, haveT,
-                    Function.getString(s, "]", null), Tlyric));
+                time += ALLMusic.Config.getDelay() * 10;
+            Lyric.put(time, Function.getString(s, "]", null));
         }
-    }
-
-    public ShowOBJ checkTime(int playNow) {
-        if (Lyric.containsKey(playNow))
-            return Lyric.get(playNow);
-        return null;
+        return Lyric;
     }
 }

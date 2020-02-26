@@ -4,13 +4,15 @@ import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBukkit;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static Color_yr.ALLMusic.ALLMusicBukkit.ALLMusicP;
 import static Color_yr.ALLMusic.Play.PlayMusic.NowPlay;
@@ -62,6 +64,17 @@ public class SideBukkit implements ISide {
     @Override
     public void save() {
         ALLMusicBukkit.save();
+    }
+
+    @Override
+    public boolean NeedPlay() {
+        int online = GetAllPlayer();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName())) {
+                online--;
+            }
+        }
+        return online > 0;
     }
 
     private void Send(Player players, String data, Boolean isplay) {

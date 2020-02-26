@@ -15,6 +15,7 @@ import java.nio.file.Files;
 
 public class ALLMusicBC extends Plugin {
     public static Plugin ALLMusicP;
+
     public static void save() {
         try {
             String data = new Gson().toJson(ALLMusic.Config);
@@ -55,9 +56,9 @@ public class ALLMusicBC extends Plugin {
         try {
             if (ALLMusic.ConfigFile == null) {
                 ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
-                logs.file = new File(ALLMusicP.getDataFolder(), "logs.log");
                 if (!ALLMusicP.getDataFolder().exists())
                     ALLMusicP.getDataFolder().mkdir();
+                new logs().Init(ALLMusicP.getDataFolder());
                 if (!ALLMusic.ConfigFile.exists()) {
                     InputStream in = ALLMusicP.getResourceAsStream("config_BC.json");
                     Files.copy(in, ALLMusic.ConfigFile.toPath());
@@ -66,7 +67,6 @@ public class ALLMusicBC extends Plugin {
                     logs.file.createNewFile();
                 }
             }
-
             LoadConfig();
         } catch (IOException e) {
             ALLMusic.log.warning("§d[ALLMusic]§c配置文件错误");
