@@ -84,9 +84,11 @@ public class SideBC implements ISide {
             if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName())) {
                 online--;
             } else {
-                ServerInfo server = player.getServer().getInfo();
-                if (server != null && ALLMusic.Config.getNoMusicServer().contains(server.getName())) {
-                    online--;
+                if(player.getServer()!=null) {
+                    ServerInfo server = player.getServer().getInfo();
+                    if (server != null && ALLMusic.Config.getNoMusicServer().contains(server.getName())) {
+                        online--;
+                    }
                 }
             }
         }

@@ -57,7 +57,7 @@ class PlayGo extends Thread {
                         }
                     }
                 } catch (InterruptedException ignored) {
-
+                    ignored.printStackTrace();
                 }
             } else {
                 PlayMusic.NowPlayMusic = PlayMusic.PlayList.get(0);
