@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 class PlayGo extends Thread {
 
+    private int times = 0;
     //创建 run 方法
     Runnable runnable = () -> PlayMusic.MusicNowTime += 10;
     Runnable runnable1 = () -> {
@@ -19,9 +20,18 @@ class PlayGo extends Thread {
         if (show != null) {
             String now = show.toString();
             PlayMusic.nowLyric = now != null ? now : PlayMusic.nowLyric;
+            times = 0;
+            ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
         }
-        ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
+        else {
+            times++;
+            if (times == 200) {
+                times = 0;
+                ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
+            }
+        }
     };
+
     private ScheduledExecutorService service;
     private ScheduledExecutorService service1;
 
