@@ -1,13 +1,13 @@
 package Color_yr.ALLMusic.Song;
 
-public class Info {
+public class SongInfo {
     private String Author;
     private String Name;
     private String ID;
     private String Alia;
     private String Call;
 
-    public Info(String Author, String Name, String ID, String Alia, String Call) {
+    public SongInfo(String Author, String Name, String ID, String Alia, String Call) {
         this.Author = Author;
         this.Name = Name;
         this.ID = ID;
@@ -24,10 +24,10 @@ public class Info {
         if (Name != null && !Name.isEmpty()) {
             info += Name;
             if (Author != null && !Author.isEmpty()) {
-                info += " " + Author;
+                info += " | " + Author;
             }
             if (Alia != null && !Alia.isEmpty()) {
-                info += " " + Alia;
+                info += " | " + Alia;
             }
         } else
             info = ID;

@@ -12,6 +12,8 @@ public class TabCommand {
         arguments.add("list");
         arguments.add("vote");
         arguments.add("nomusic");
+        arguments.add("search");
+        arguments.add("select");
         if (ALLMusic.Config.getAdmin().contains(name)) {
             arguments.add("reload");
             arguments.add("next");

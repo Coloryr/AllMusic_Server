@@ -22,8 +22,7 @@ class PlayGo extends Thread {
             PlayMusic.nowLyric = now != null ? now : PlayMusic.nowLyric;
             times = 0;
             ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
-        }
-        else {
+        } else {
             times++;
             if (times == 200) {
                 times = 0;
@@ -74,7 +73,6 @@ class PlayGo extends Thread {
                 PlayMusic.PlayList.remove(0);
                 PlayMusic.MusicNowTime = 0;
                 PlayMusic.MusicAllTime = 0;
-                close();
                 PlayMusic.Lyric = null;
                 PlayMusic.nowLyric = "";
                 PlayMusic.haveLyric = false;
@@ -130,10 +128,12 @@ class PlayGo extends Thread {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌曲播放出现错误");
                         e.printStackTrace();
                     }
+                    if (PlayMusic.haveLyric)
+                        close();
                 } else {
                     ALLMusic.Side.bq("§d[ALLMusic]§2" + "无效歌曲歌曲" + PlayMusic.NowPlayMusic.getID());
-                    PlayMusic.NowPlayMusic = null;
                 }
+                PlayMusic.NowPlayMusic = null;
             }
         }
     }

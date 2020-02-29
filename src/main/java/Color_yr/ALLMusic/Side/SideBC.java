@@ -5,6 +5,7 @@ import Color_yr.ALLMusic.ALLMusicBC;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -93,6 +94,22 @@ public class SideBC implements ISide {
             }
         }
         return online > 0;
+    }
+
+    @Override
+    public void SendMessage(Object obj, String Message) {
+        CommandSender sender = (CommandSender) obj;
+        sender.sendMessage(new TextComponent(Message));
+    }
+
+    @Override
+    public void RunTask(Runnable run) {
+        ProxyServer.getInstance().getScheduler().runAsync(ALLMusicBC.ALLMusicP, run);
+    }
+
+    @Override
+    public void reload() {
+        ALLMusicBC.setConfig();
     }
 
     private void Send(ProxiedPlayer players, String data, Boolean isplay) {

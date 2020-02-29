@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -73,6 +74,22 @@ public class SideBukkit implements ISide {
             }
         }
         return online > 0;
+    }
+
+    @Override
+    public void SendMessage(Object obj, String Message) {
+        CommandSender sender = (CommandSender) obj;
+        sender.sendMessage(Message);
+    }
+
+    @Override
+    public void RunTask(Runnable run) {
+        Bukkit.getScheduler().runTask(ALLMusicP, run);
+    }
+
+    @Override
+    public void reload() {
+        ALLMusicBukkit.setConfig();
     }
 
     private void Send(Player players, String data, Boolean isplay) {

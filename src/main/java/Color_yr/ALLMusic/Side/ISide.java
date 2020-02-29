@@ -16,4 +16,10 @@ public interface ISide {
     void save();
 
     boolean NeedPlay();
+
+    void SendMessage(Object obj, String Message);
+
+    void RunTask(Runnable run);
+
+    void reload();
 }

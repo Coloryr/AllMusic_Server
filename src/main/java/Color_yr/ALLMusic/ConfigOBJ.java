@@ -8,6 +8,7 @@ public class ConfigOBJ {
     private String Lyric_Api1;
     private String Info_Api1;
     private String List_Api1;
+    private String Search_Api1;
 
     private int MaxList;
     private int MinVote;
@@ -29,6 +30,7 @@ public class ConfigOBJ {
         Lyric_Api1 = "https://api.imjad.cn/cloudmusic/?type=lyric&id=";
         Info_Api1 = "https://api.imjad.cn/cloudmusic/?type=detail&id=";
         List_Api1 = "https://api.imjad.cn/cloudmusic/?type=playlist&id=";
+        Search_Api1 = "https://music.163.com/api/search/get/web?type=1&s=";
         MaxList = 10;
         MinVote = 3;
         Delay = 2;
@@ -41,6 +43,10 @@ public class ConfigOBJ {
         PlayListRandom = true;
 
         Version = ALLMusic.Version;
+    }
+
+    public String getSearch_Api1() {
+        return Search_Api1;
     }
 
     public boolean isPlayListRandom() {
