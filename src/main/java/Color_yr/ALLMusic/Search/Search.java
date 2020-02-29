@@ -11,8 +11,12 @@ public class Search {
     private List<SearchOBJ> res = new ArrayList<>();
     private boolean done = false;
 
-    public Search(String name) {
-        String data = Get.realData(ALLMusic.Config.getSearch_Api1() + name);
+    public Search(String[] name) {
+        StringBuilder name1 = new StringBuilder();
+        for (int a = 1; a < name.length; a++) {
+            name1.append(name[a]).append(" ");
+        }
+        String data = Get.realData(ALLMusic.Config.getSearch_Api1() + name1.toString());
         if (data != null) {
             DataOBJ obj = new Gson().fromJson(data, DataOBJ.class);
             if (obj != null && obj.getResult() != null) {

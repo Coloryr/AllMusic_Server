@@ -40,9 +40,9 @@ public class PlayMusic {
         PlayGo.start();
     }
 
-    public static boolean AddMusic(String ID, String player) {
+    public static void AddMusic(String ID, String player) {
         if (isHave(ID))
-            return false;
+            return;
         ALLMusic.Side.bq("§d[ALLMusic]§2" + player +
                 "点歌" + ID);
         logs.log_write("玩家：" + player + " 点歌：" + ID);
@@ -54,7 +54,6 @@ public class PlayMusic {
             e.printStackTrace();
         }
         PlayList.add(info);
-        return true;
     }
 
     public static String getList() {

@@ -1,7 +1,5 @@
 package Color_yr.ALLMusic.Side;
 
-import java.util.List;
-
 public interface ISide {
     void Send(String player, String data, Boolean isplay);
 

@@ -131,16 +131,14 @@ public class CommandEX {
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2请输入有效的音乐列表ID");
             }
-        } else if (args[0].equalsIgnoreCase("search") && args.length == 2) {
-            ALLMusic.Side.RunTask(() -> {
-                Search search = new Search(args[1]);
-                if (!search.isDone())
-                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法搜索歌曲：" + args[1]);
-                else {
-                    ALLMusic.Side.SendMessage(sender, "§2" + search.GetInfo());
-                    PlayerSearch.SearchSave.put(Name, search);
-                }
-            });
+        } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
+            Search search = new Search(args);
+            if (!search.isDone())
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法搜索歌曲：" + args[1]);
+            else {
+                ALLMusic.Side.SendMessage(sender, "§2" + search.GetInfo());
+                PlayerSearch.SearchSave.put(Name, search);
+            }
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
             Search obj = PlayerSearch.SearchSave.get(Name);
             if (obj == null) {

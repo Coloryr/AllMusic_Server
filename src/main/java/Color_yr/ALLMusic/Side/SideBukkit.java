@@ -4,10 +4,9 @@ import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBukkit;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.nio.charset.StandardCharsets;
@@ -40,19 +39,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void SendLyric(String data) {
-        Collection<Player> values = (Collection<Player>) Bukkit.getOnlinePlayers();
-        for (Player players : values) {
-            if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
-                if (NowPlay.contains(players.getName())) {
-                    ChatComponentText chat = new ChatComponentText(data);
-                    PacketPlayOutChat pack = new PacketPlayOutChat(chat, ChatMessageType.GAME_INFO);
-                    CraftPlayer player = (CraftPlayer) players;
-                    EntityPlayer entityPlayer = player.getHandle();
-                    PlayerConnection playerConnection = entityPlayer.playerConnection;
-                    playerConnection.sendPacket(pack);
-                }
-            }
-        }
+
     }
 
     @Override
