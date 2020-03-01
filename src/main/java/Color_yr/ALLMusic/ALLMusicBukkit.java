@@ -5,6 +5,7 @@ import Color_yr.ALLMusic.Event.EventBukkit;
 import Color_yr.ALLMusic.Play.PlayMusic;
 import Color_yr.ALLMusic.Side.SideBukkit;
 import Color_yr.ALLMusic.Side.SideBukkit1_12;
+import Color_yr.ALLMusic.Side.SideBukkit1_14;
 import Color_yr.ALLMusic.Side.SideBukkit1_15;
 import Color_yr.ALLMusic.Utils.logs;
 import com.google.gson.Gson;
@@ -83,10 +84,13 @@ public class ALLMusicBukkit extends JavaPlugin {
         ALLMusic.log.info("§d[ALLMusic]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
         PlayMusic.Start();
-        if (Bukkit.getBukkitVersion().startsWith("1.15"))
-            ALLMusic.Side = new SideBukkit1_15();
-        else if (Bukkit.getBukkitVersion().startsWith("1.12"))
+        String Version = Bukkit.getBukkitVersion();
+        if (Version.startsWith("1.12"))
             ALLMusic.Side = new SideBukkit1_12();
+        else if (Version.startsWith("1.14"))
+            ALLMusic.Side = new SideBukkit1_14();
+        else if(Version.startsWith("1.15"))
+            ALLMusic.Side = new SideBukkit1_15();
         else
             ALLMusic.Side = new SideBukkit();
         getServer().getMessenger().registerOutgoingPluginChannel(this, ALLMusic.channel);
