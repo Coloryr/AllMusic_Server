@@ -23,10 +23,8 @@ public class PlayMusic {
     public static LyricDo Lyric;
     public static boolean haveLyric;
     public static String nowLyric = "";
-
-    private static PlayGo PlayGo;
-
     public static boolean isList = false;
+    private static PlayGo PlayGo;
 
     public static void stop() {
         if (PlayGo != null && PlayGo.isAlive()) {
@@ -46,7 +44,7 @@ public class PlayMusic {
         ALLMusic.Side.bq("§d[ALLMusic]§2" + player +
                 "点歌" + ID);
         logs.log_write("玩家：" + player + " 点歌：" + ID);
-        SongInfo info = new SongInfo(null, null, ID, null, player);
+        SongInfo info = new SongInfo(null, null, ID, null, player, null);
         try {
             info = GetInfo.Get(ID, player);
         } catch (Exception e) {

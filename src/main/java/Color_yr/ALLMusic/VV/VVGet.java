@@ -1,0 +1,174 @@
+package Color_yr.ALLMusic.VV;
+
+import Color_yr.ALLMusic.ALLMusic;
+import Color_yr.ALLMusic.Lyric.ShowOBJ;
+import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.Song.SongInfo;
+import Color_yr.ALLMusic.Utils.Function;
+import lk.vexview.api.VexViewAPI;
+import lk.vexview.hud.VexTextShow;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class VVGet {
+    public static String version;
+
+    public VVGet() {
+        version = VexViewAPI.getVexView().getVersion();
+        ALLMusic.log.info("§d[ALLMusic]§2VexView支持已启动");
+    }
+
+    public boolean SetPot(String player, String pos, String local, String data) {
+        VVSaveOBJ obj = ALLMusic.Config.getVVSave(player);
+        if (obj == null)
+            obj = new VVSaveOBJ();
+        Pos pos1 = Pos.valueOf(pos);
+        PosOBJ posOBJ = new PosOBJ(0, 0);
+        int data1 = Integer.parseInt(data);
+        Local local1 = Local.valueOf(local);
+        if (!Function.isInteger(data))
+            return false;
+        switch (pos1) {
+            case lyric:
+                posOBJ = obj.getLyric();
+                break;
+            case list:
+                posOBJ = obj.getList();
+                break;
+            case info:
+                posOBJ = obj.getInfo();
+                break;
+        }
+        switch (local1) {
+            case x:
+                posOBJ.setX(data1);
+                break;
+            case y:
+                posOBJ.setY(data1);
+                break;
+        }
+        switch (pos1) {
+            case lyric:
+                obj.setLyric(posOBJ);
+                break;
+            case list:
+                obj.setList(posOBJ);
+                break;
+            case info:
+                obj.setInfo(posOBJ);
+                break;
+        }
+
+        ALLMusic.Config.setVVSave(obj, player);
+        ALLMusic.Side.save();
+
+        return true;
+    }
+
+    public void SendList() {
+        VexTextShow show;
+        List<String> list = new ArrayList<>();
+        boolean save = false;
+        if (PlayMusic.PlayList.size() == 0) {
+            list.add("队列中无歌曲");
+        } else {
+            String now;
+            for (SongInfo info : PlayMusic.PlayList) {
+                now = info.getInfo();
+                if (now.length() > 30)
+                    now = now.substring(0, 29) + "...";
+                list.add(now);
+            }
+        }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
+            if (obj == null) {
+                obj = new VVSaveOBJ();
+                ALLMusic.Config.setVVSave(obj, player.getName());
+                save = true;
+            }
+
+            show = new VexTextShow("ALLMusicList", obj.getList().getX(), obj.getList().getY(), 0, list, 0);
+            VexViewAPI.sendHUD(player, show);
+        }
+        if (save) {
+            ALLMusic.Side.save();
+        }
+    }
+
+    public void SendInfo() {
+        VexTextShow show;
+        List<String> list = new ArrayList<>();
+        boolean save = false;
+        if (PlayMusic.NowPlayMusic == null) {
+            list.add("没有播放的音乐");
+        } else {
+            list.add(PlayMusic.NowPlayMusic.getName());
+            list.add(PlayMusic.NowPlayMusic.getAuthor());
+            list.add(PlayMusic.NowPlayMusic.getAlia());
+            list.add(PlayMusic.NowPlayMusic.getAl());
+            list.add("by:" + PlayMusic.NowPlayMusic.getCall());
+        }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
+            if (obj == null) {
+                obj = new VVSaveOBJ();
+                ALLMusic.Config.setVVSave(obj, player.getName());
+                save = true;
+            }
+
+            show = new VexTextShow("ALLMusicInfo", obj.getInfo().getX(), obj.getInfo().getY(), 0, list, 0);
+            VexViewAPI.sendHUD(player, show);
+        }
+        if (save) {
+            ALLMusic.Side.save();
+        }
+    }
+
+    public void SendLyric(ShowOBJ showobj) {
+        VexTextShow show;
+        List<String> list = new ArrayList<>();
+        boolean save = false;
+        if (showobj == null) {
+            list.add("无歌词");
+        } else {
+            if (showobj.getLyric() != null)
+                list.add(showobj.getLyric());
+            if (showobj.isHaveT() && showobj.getTlyric() != null)
+                list.add(showobj.getTlyric());
+        }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
+            if (obj == null) {
+                obj = new VVSaveOBJ();
+                ALLMusic.Config.setVVSave(obj, player.getName());
+                save = true;
+            }
+
+            show = new VexTextShow("ALLMusicLyric", obj.getLyric().getX(), obj.getLyric().getY(), 0, list, 0);
+            VexViewAPI.sendHUD(player, show);
+        }
+        if (save) {
+            ALLMusic.Side.save();
+        }
+    }
+
+    public void clear() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            VexViewAPI.removeHUD(player, "ALLMusicInfo");
+            VexViewAPI.removeHUD(player, "ALLMusicList");
+            VexViewAPI.removeHUD(player, "ALLMusicLyric");
+        }
+    }
+
+    public enum Pos {
+        info, list, lyric
+    }
+
+    public enum Local {
+        x, y
+    }
+}

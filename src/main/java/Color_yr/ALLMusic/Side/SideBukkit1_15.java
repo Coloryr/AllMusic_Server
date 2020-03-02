@@ -10,10 +10,9 @@ import java.util.Collection;
 
 import static Color_yr.ALLMusic.Play.PlayMusic.NowPlay;
 
-public class SideBukkit1_15 extends SideBukkit{
+public class SideBukkit1_15 extends SideBukkit {
     @Override
-    public void SendLyric(String data)
-    {
+    public void SendLyric(String data) {
         Collection<Player> values = (Collection<Player>) Bukkit.getOnlinePlayers();
         for (Player players : values) {
             if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {

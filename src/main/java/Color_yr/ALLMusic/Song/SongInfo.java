@@ -6,13 +6,35 @@ public class SongInfo {
     private String ID;
     private String Alia;
     private String Call;
+    private String Al;
 
-    public SongInfo(String Author, String Name, String ID, String Alia, String Call) {
+    public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al) {
         this.Author = Author;
         this.Name = Name;
         this.ID = ID;
         this.Alia = Alia;
         this.Call = Call;
+        this.Al = Al;
+    }
+
+    public String getAuthor() {
+        return Author;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public String getCall() {
+        return Call;
+    }
+
+    public String getAlia() {
+        return Alia;
+    }
+
+    public String getAl() {
+        return Al;
     }
 
     public String getID() {
@@ -28,6 +50,9 @@ public class SongInfo {
             }
             if (Alia != null && !Alia.isEmpty()) {
                 info += " | " + Alia;
+            }
+            if (Al != null && Al.isEmpty()) {
+                info += " | " + Al;
             }
         } else
             info = ID;

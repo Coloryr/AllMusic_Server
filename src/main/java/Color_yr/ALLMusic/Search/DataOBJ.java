@@ -9,13 +9,15 @@ public class DataOBJ {
         return result.getSongs();
     }
 }
-class result{
+
+class result {
     private List<songs> songs;
 
     public List<songs> getSongs() {
         return songs;
     }
 }
+
 class songs {
     private int id;
     private String name;
@@ -42,14 +44,16 @@ class songs {
         return a.substring(0, a.length() - 1);
     }
 }
-class artists{
+
+class artists {
     private String name;
 
     public String getName() {
         return name;
     }
 }
-class album{
+
+class album {
     private String name;
 
     public String getName() {

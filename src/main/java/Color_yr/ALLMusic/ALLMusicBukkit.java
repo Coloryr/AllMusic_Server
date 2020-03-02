@@ -8,6 +8,7 @@ import Color_yr.ALLMusic.Side.SideBukkit1_12;
 import Color_yr.ALLMusic.Side.SideBukkit1_14;
 import Color_yr.ALLMusic.Side.SideBukkit1_15;
 import Color_yr.ALLMusic.Utils.logs;
+import Color_yr.ALLMusic.VV.VVGet;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -17,9 +18,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-
 public class ALLMusicBukkit extends JavaPlugin {
     public static Plugin ALLMusicP;
+    public static boolean VVEnable = false;
 
     public static void save() {
         try {
@@ -89,7 +90,7 @@ public class ALLMusicBukkit extends JavaPlugin {
             ALLMusic.Side = new SideBukkit1_12();
         else if (Version.startsWith("1.14"))
             ALLMusic.Side = new SideBukkit1_14();
-        else if(Version.startsWith("1.15"))
+        else if (Version.startsWith("1.15"))
             ALLMusic.Side = new SideBukkit1_15();
         else
             ALLMusic.Side = new SideBukkit();
@@ -97,6 +98,10 @@ public class ALLMusicBukkit extends JavaPlugin {
         Bukkit.getPluginCommand("music").setExecutor(new CommandBukkit());
         Bukkit.getPluginCommand("music").setTabCompleter(new CommandBukkit());
         Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);
+        if (ALLMusic.Config.isVexView() && Bukkit.getPluginManager().isPluginEnabled("VexView")) {
+            ALLMusic.VV = new VVGet();
+            VVEnable = true;
+        }
         ALLMusic.log.info("§d[ALLMusic]§e已启动-" + ALLMusic.Version);
     }
 
@@ -105,6 +110,9 @@ public class ALLMusicBukkit extends JavaPlugin {
         PlayMusic.stop();
         PlayMusic.PlayList.clear();
         PlayMusic.Vote.clear();
+        if (ALLMusic.VV != null) {
+            ALLMusic.VV.clear();
+        }
         ALLMusic.Side.Send("[Stop]", false);
         ALLMusic.log.info("§d[ALLMusic]§e已停止，感谢使用");
     }

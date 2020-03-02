@@ -1,7 +1,11 @@
 package Color_yr.ALLMusic;
 
+import Color_yr.ALLMusic.VV.VVSaveOBJ;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConfigOBJ {
     private String Music_Api1;
@@ -23,6 +27,9 @@ public class ConfigOBJ {
     private boolean PlayListSwitch;
     private boolean PlayListRandom;
 
+    private boolean VexView;
+    private Map<String, VVSaveOBJ> VVSave;
+
     private String Version;
 
     public ConfigOBJ() {
@@ -41,8 +48,22 @@ public class ConfigOBJ {
         PlayList = new ArrayList<>();
         PlayListSwitch = true;
         PlayListRandom = true;
+        VexView = false;
+        VVSave = new HashMap<>();
 
         Version = ALLMusic.Version;
+    }
+
+    public VVSaveOBJ getVVSave(String player) {
+        return VVSave.get(player);
+    }
+
+    public void setVVSave(VVSaveOBJ obj, String player) {
+        VVSave.put(player, obj);
+    }
+
+    public boolean isVexView() {
+        return VexView;
     }
 
     public String getSearch_Api1() {

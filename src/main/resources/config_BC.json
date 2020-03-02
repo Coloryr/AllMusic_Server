@@ -14,5 +14,6 @@
   "PlayList": [],
   "PlayListSwitch": true,
   "PlayListRandom": true,
-  "Version": "1.6.0"
+  "VexView": false,
+  "Version": "1.7.0"
 }

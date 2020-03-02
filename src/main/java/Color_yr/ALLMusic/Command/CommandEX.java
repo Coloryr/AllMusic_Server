@@ -59,6 +59,7 @@ public class CommandEX {
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music v [音量] 调节音量");
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music search [歌名] 搜索歌曲");
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music select [序列] 选择歌曲");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv [位置] [坐标] [数值] 设置VV位置");
         } else if (args[0].equalsIgnoreCase("stop")) {
             ALLMusic.Side.Send("[Stop]", Name, false);
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已停止" + Name + "的音乐播放");
@@ -160,6 +161,23 @@ public class CommandEX {
                 PlayerSearch.SearchSave.remove(Name);
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c请输入正确的序号");
+            }
+        } else if (args[0].equalsIgnoreCase("vv")) {
+            if (ALLMusic.VV == null) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c服务器没有启用VV");
+            } else if (args.length != 4) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
+            } else {
+                ALLMusic.Side.RunTask(() -> {
+                    try {
+                        if (!ALLMusic.VV.SetPot(Name, args[1], args[2], args[3]))
+                            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
+                        else
+                            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已设置");
+                    } catch (Exception e) {
+                        ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
+                    }
+                });
             }
         } else
             AddMusic(sender, Name, args);

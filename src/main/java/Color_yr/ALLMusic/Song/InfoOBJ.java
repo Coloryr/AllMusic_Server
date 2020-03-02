@@ -31,12 +31,17 @@ public class InfoOBJ {
         }
         return Alia;
     }
+
+    public String getAl() {
+        return songs.get(0).getAl();
+    }
 }
 
 class Songs {
     private String name;
     private List<ar> ar;
     private List<String> alia;
+    private al al;
 
     public String getName() {
         return name;
@@ -49,9 +54,21 @@ class Songs {
     public List<String> getAlia() {
         return alia;
     }
+
+    public String getAl() {
+        return al.getName();
+    }
 }
 
 class ar {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+}
+
+class al {
     private String name;
 
     public String getName() {

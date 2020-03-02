@@ -6,7 +6,7 @@ public class SearchOBJ {
     private String Author;
     private String Aila;
 
-    public SearchOBJ(String ID, String Name, String Author, String  Aila) {
+    public SearchOBJ(String ID, String Name, String Author, String Aila) {
         this.ID = ID;
         this.Name = Name;
         this.Author = Author;

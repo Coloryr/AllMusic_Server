@@ -10,12 +10,9 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.connection.Server;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static Color_yr.ALLMusic.Play.PlayMusic.NowPlay;
 
@@ -85,7 +82,7 @@ public class SideBC implements ISide {
             if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName())) {
                 online--;
             } else {
-                if(player.getServer()!=null) {
+                if (player.getServer() != null) {
                     ServerInfo server = player.getServer().getInfo();
                     if (server != null && ALLMusic.Config.getNoMusicServer().contains(server.getName())) {
                         online--;

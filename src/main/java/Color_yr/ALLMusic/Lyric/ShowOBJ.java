@@ -11,6 +11,18 @@ public class ShowOBJ {
         this.tlyric = tlyric;
     }
 
+    public boolean isHaveT() {
+        return haveT;
+    }
+
+    public String getTlyric() {
+        return tlyric;
+    }
+
+    public String getLyric() {
+        return lyric;
+    }
+
     @Override
     public String toString() {
         if (lyric == null || lyric.isEmpty())

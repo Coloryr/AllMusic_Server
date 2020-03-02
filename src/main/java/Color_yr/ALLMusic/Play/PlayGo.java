@@ -1,6 +1,7 @@
 package Color_yr.ALLMusic.Play;
 
 import Color_yr.ALLMusic.ALLMusic;
+import Color_yr.ALLMusic.ALLMusicBukkit;
 import Color_yr.ALLMusic.Http.Get;
 import Color_yr.ALLMusic.Lyric.LyricDo;
 import Color_yr.ALLMusic.Lyric.ShowOBJ;
@@ -12,17 +13,20 @@ import java.util.concurrent.TimeUnit;
 
 class PlayGo extends Thread {
 
-    private int times = 0;
-    //创建 run 方法
     Runnable runnable = () -> PlayMusic.MusicNowTime += 10;
+    private int times = 0;
     Runnable runnable1 = () -> {
         ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
         if (show != null) {
-            String now = show.toString();
-            PlayMusic.nowLyric = now != null ? now : PlayMusic.nowLyric;
             times = 0;
-            ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
-        } else {
+            if (ALLMusic.VV != null) {
+                ALLMusic.VV.SendLyric(show);
+            } else {
+                String now = show.toString();
+                PlayMusic.nowLyric = now != null ? now : PlayMusic.nowLyric;
+                ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
+            }
+        } else if (ALLMusic.VV == null) {
             times++;
             if (times == 200) {
                 times = 0;
@@ -97,6 +101,10 @@ class PlayGo extends Thread {
                     ALLMusic.Side.Send("[Play]" + songURL, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
+                            if (ALLMusic.Config.isVexView() && ALLMusicBukkit.VVEnable) {
+                                ALLMusic.VV.SendList();
+                                ALLMusic.VV.SendInfo();
+                            }
                             if (!ALLMusic.Side.NeedPlay()) {
                                 PlayMusic.MusicAllTime = 1;
                             }
