@@ -90,6 +90,8 @@ public class VVGet {
                 ALLMusic.Config.setVVSave(obj, player.getName());
                 save = true;
             }
+            if (!obj.isEnable())
+                continue;
 
             show = new VexTextShow("ALLMusicList", obj.getList().getX(), obj.getList().getY(), 0, list, 0);
             VexViewAPI.sendHUD(player, show);
@@ -119,6 +121,8 @@ public class VVGet {
                 ALLMusic.Config.setVVSave(obj, player.getName());
                 save = true;
             }
+            if (!obj.isEnable())
+                continue;
 
             show = new VexTextShow("ALLMusicInfo", obj.getInfo().getX(), obj.getInfo().getY(), 0, list, 0);
             VexViewAPI.sendHUD(player, show);
@@ -147,6 +151,8 @@ public class VVGet {
                 ALLMusic.Config.setVVSave(obj, player.getName());
                 save = true;
             }
+            if (!obj.isEnable())
+                continue;
 
             show = new VexTextShow("ALLMusicLyric", obj.getLyric().getX(), obj.getLyric().getY(), 0, list, 0);
             VexViewAPI.sendHUD(player, show);
@@ -156,12 +162,30 @@ public class VVGet {
         }
     }
 
+    public void SetEnable(String player) {
+        VVSaveOBJ obj = ALLMusic.Config.getVVSave(player);
+        if (obj == null)
+            obj = new VVSaveOBJ();
+        obj.setEnable(!obj.isEnable());
+        if (!obj.isEnable()) {
+            clear(Bukkit.getPlayer(player));
+        }
+        ALLMusic.Config.setVVSave(obj, player);
+        ALLMusic.Side.save();
+    }
+
     public void clear() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             VexViewAPI.removeHUD(player, "ALLMusicInfo");
             VexViewAPI.removeHUD(player, "ALLMusicList");
             VexViewAPI.removeHUD(player, "ALLMusicLyric");
         }
+    }
+
+    public void clear(Player player) {
+        VexViewAPI.removeHUD(player, "ALLMusicInfo");
+        VexViewAPI.removeHUD(player, "ALLMusicList");
+        VexViewAPI.removeHUD(player, "ALLMusicLyric");
     }
 
     public enum Pos {

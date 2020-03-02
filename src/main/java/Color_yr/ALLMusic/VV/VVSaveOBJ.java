@@ -4,11 +4,21 @@ public class VVSaveOBJ {
     private PosOBJ List;
     private PosOBJ Lyric;
     private PosOBJ Info;
+    private boolean Enable;
 
     public VVSaveOBJ() {
+        Enable = true;
         List = new PosOBJ(2, 80);
         Lyric = new PosOBJ(2, 325);
         Info = new PosOBJ(2, 2);
+    }
+
+    public boolean isEnable() {
+        return Enable;
+    }
+
+    public void setEnable(boolean enable) {
+        Enable = enable;
     }
 
     public PosOBJ getInfo() {

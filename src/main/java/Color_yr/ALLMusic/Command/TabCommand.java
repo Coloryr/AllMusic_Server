@@ -15,6 +15,8 @@ public class TabCommand {
             arguments.add("nomusic");
             arguments.add("search");
             arguments.add("select");
+            if (ALLMusic.VV != null)
+                arguments.add("vv");
             if (ALLMusic.Config.getAdmin().contains(name)) {
                 arguments.add("reload");
                 arguments.add("next");
@@ -22,11 +24,12 @@ public class TabCommand {
                 arguments.add("delete");
                 arguments.add("addlist");
             }
-        } else if (arg[0].equalsIgnoreCase("vv")) {
+        } else if (ALLMusic.VV != null && arg[0].equalsIgnoreCase("vv")) {
             if (arg.length == 2) {
                 arguments.add("info");
                 arguments.add("list");
                 arguments.add("lyric");
+                arguments.add("enable");
             } else if (arg.length == 3) {
                 arguments.add("x");
                 arguments.add("y");

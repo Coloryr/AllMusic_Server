@@ -6,6 +6,7 @@ import Color_yr.ALLMusic.Http.Get;
 import Color_yr.ALLMusic.Lyric.LyricDo;
 import Color_yr.ALLMusic.Lyric.ShowOBJ;
 import Color_yr.ALLMusic.PlayList.GetList;
+import org.bukkit.entity.Player;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,14 +20,13 @@ class PlayGo extends Thread {
         ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
         if (show != null) {
             times = 0;
+            String now = show.toString();
+            PlayMusic.nowLyric = now != null ? now : PlayMusic.nowLyric;
+            ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
             if (ALLMusic.VV != null) {
                 ALLMusic.VV.SendLyric(show);
-            } else {
-                String now = show.toString();
-                PlayMusic.nowLyric = now != null ? now : PlayMusic.nowLyric;
-                ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
             }
-        } else if (ALLMusic.VV == null) {
+        } else {
             times++;
             if (times == 200) {
                 times = 0;
@@ -142,6 +142,9 @@ class PlayGo extends Thread {
                     ALLMusic.Side.bq("§d[ALLMusic]§2" + "无效歌曲歌曲" + PlayMusic.NowPlayMusic.getID());
                 }
                 PlayMusic.NowPlayMusic = null;
+                if (ALLMusic.VV != null && PlayMusic.PlayList.size() == 0) {
+                    ALLMusic.VV.clear();
+                }
             }
         }
     }

@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 
 import static Color_yr.ALLMusic.ALLMusicBukkit.ALLMusicP;
 import static Color_yr.ALLMusic.Play.PlayMusic.NowPlay;
@@ -23,8 +22,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void Send(String data, Boolean isplay) {
-        Collection<Player> values = (Collection<Player>) Bukkit.getOnlinePlayers();
-        for (Player players : values) {
+        for (Player players : Bukkit.getOnlinePlayers()) {
             if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
                 Send(players, data, isplay);
             }
