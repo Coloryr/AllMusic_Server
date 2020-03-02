@@ -16,7 +16,9 @@ public class Search {
         for (int a = 1; a < name.length; a++) {
             name1.append(name[a]).append(" ");
         }
-        String data = Get.realData(ALLMusic.Config.getSearch_Api1() + name1.toString());
+        String data = name1.toString();
+        data = data.substring(0, data.length() - 1);
+        data = Get.realData(ALLMusic.Config.getSearch_Api1() , data);
         if (data != null) {
             DataOBJ obj = new Gson().fromJson(data, DataOBJ.class);
             if (obj != null && obj.getResult() != null) {

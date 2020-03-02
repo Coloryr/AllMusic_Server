@@ -6,14 +6,15 @@ import javazoom.jl.decoder.Header;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class Get {
+
     public static int getMusicTime(String music) {
         try {
             URL urlfile = new URL(music);
@@ -31,42 +32,34 @@ public class Get {
     }
 
     public static String realURL(String path) {
-        HttpURLConnection connection = null;
-
         try {
             URL realUrl = new URL(path);
-            connection = (HttpURLConnection) realUrl.openConnection();
-            connection.setRequestProperty("accept", "*/*");
-            connection.setRequestProperty("connection", "Keep-Alive");
-            connection.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
             connection.connect();
             connection.getContent();
             return connection.getURL().toString();
-        } catch (IOException e) {
-            if (connection == null) {
-                ALLMusic.log.warning("§d[ALLMusic]§c获取网页错误");
-                e.printStackTrace();
-                return null;
-            }
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             ALLMusic.log.warning("§d[ALLMusic]§c获取网页错误");
             e.printStackTrace();
         }
         return null;
     }
 
-    public static String realData(String path) {
-        HttpURLConnection connection = null;
-
+    public static String realData(String path, String data) {
         try {
-            URL realUrl = new URL(path);
-            connection = (HttpURLConnection) realUrl.openConnection();
-            connection.setRequestProperty("accept", "*/*");
-            connection.setRequestProperty("connection", "Keep-Alive");
-            connection.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            data = URLEncoder.encode(data, "UTF-8");
+            URL realUrl = new URL(path + data);
+            HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(4 * 1000);
+            connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             connection.connect();
-            connection.getContent();
-            InputStream inputStream = connection.getInputStream();
+            InputStream inputStream;
+            if (connection.getResponseCode() >= 400) {
+                inputStream = connection.getErrorStream();
+            } else {
+                inputStream = connection.getInputStream();
+            }
             ByteArrayOutputStream result = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int length;
@@ -74,13 +67,7 @@ public class Get {
                 result.write(buffer, 0, length);
             }
             return result.toString(StandardCharsets.UTF_8.name());
-        } catch (IOException e) {
-            if (connection == null) {
-                ALLMusic.log.warning("§d[ALLMusic]§c获取网页错误");
-                e.printStackTrace();
-                return null;
-            }
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             ALLMusic.log.warning("§d[ALLMusic]§c获取网页错误");
             e.printStackTrace();
         }

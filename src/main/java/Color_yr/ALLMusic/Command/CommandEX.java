@@ -56,6 +56,9 @@ public class CommandEX {
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music list 查看歌曲队列");
             ALLMusic.Side.SendMessage(sender, "§d[ALLmusic]§2使用/music vote 投票切歌");
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music nomusic 不再参与点歌");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music v [音量] 调节音量");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music search [歌名] 搜索歌曲");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music select [序列] 选择歌曲");
         } else if (args[0].equalsIgnoreCase("stop")) {
             ALLMusic.Side.Send("[Stop]", Name, false);
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已停止" + Name + "的音乐播放");
@@ -136,6 +139,7 @@ public class CommandEX {
             if (!search.isDone())
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法搜索歌曲：" + args[1]);
             else {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2搜索结果");
                 ALLMusic.Side.SendMessage(sender, "§2" + search.GetInfo());
                 PlayerSearch.SearchSave.put(Name, search);
             }

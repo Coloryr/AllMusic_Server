@@ -78,7 +78,7 @@ class PlayGo extends Thread {
                 PlayMusic.haveLyric = false;
                 ALLMusic.Side.SendLyric("");
                 String songURL = Get.realURL(ALLMusic.Config.getMusic_Api1() + PlayMusic.NowPlayMusic.getID());
-                String Lyric = Get.realData(ALLMusic.Config.getLyric_Api1() + PlayMusic.NowPlayMusic.getID());
+                String Lyric = Get.realData(ALLMusic.Config.getLyric_Api1(), PlayMusic.NowPlayMusic.getID());
                 if (Lyric != null) {
                     try {
                         PlayMusic.Lyric = new LyricDo(Lyric);

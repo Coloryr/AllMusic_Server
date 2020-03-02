@@ -13,7 +13,7 @@ public class GetList {
     public static void GetL(String ID) {
         Thread thread = new Thread(() ->
         {
-            String data = Get.realData(ALLMusic.Config.getList_Api1() + ID);
+            String data = Get.realData(ALLMusic.Config.getList_Api1(), ID);
             if (data != null)
                 try {
                     isUpdata = true;
