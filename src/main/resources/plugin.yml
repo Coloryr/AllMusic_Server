@@ -4,6 +4,8 @@ author: Color_yr
 version: 1.7.0
 loadbefore:
   - vexview
+softdepend:
+  - vexview
 
 commands:
   music:
