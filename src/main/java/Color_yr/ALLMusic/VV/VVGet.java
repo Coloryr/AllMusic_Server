@@ -84,6 +84,8 @@ public class VVGet {
             }
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName()))
+                continue;
             VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
             if (obj == null) {
                 obj = new VVSaveOBJ();
@@ -115,6 +117,8 @@ public class VVGet {
             list.add("by:" + PlayMusic.NowPlayMusic.getCall());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName()))
+                continue;
             VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
             if (obj == null) {
                 obj = new VVSaveOBJ();
@@ -145,6 +149,10 @@ public class VVGet {
                 list.add(showobj.getTlyric());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (!PlayMusic.NowPlay.contains(player.getName()))
+                continue;
+            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName()))
+                continue;
             VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
             if (obj == null) {
                 obj = new VVSaveOBJ();
@@ -186,6 +194,15 @@ public class VVGet {
         VexViewAPI.removeHUD(player, "ALLMusicInfo");
         VexViewAPI.removeHUD(player, "ALLMusicList");
         VexViewAPI.removeHUD(player, "ALLMusicLyric");
+    }
+
+    public void clear(String Name) {
+        Player player = Bukkit.getPlayer(Name);
+        if (player != null) {
+            VexViewAPI.removeHUD(player, "ALLMusicInfo");
+            VexViewAPI.removeHUD(player, "ALLMusicList");
+            VexViewAPI.removeHUD(player, "ALLMusicLyric");
+        }
     }
 
     public enum Pos {

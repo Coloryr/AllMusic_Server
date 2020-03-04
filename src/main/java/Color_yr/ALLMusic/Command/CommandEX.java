@@ -5,7 +5,9 @@ import Color_yr.ALLMusic.Play.PlayMusic;
 import Color_yr.ALLMusic.PlayList.GetList;
 import Color_yr.ALLMusic.Search.PlayerSearch;
 import Color_yr.ALLMusic.Search.Search;
+import Color_yr.ALLMusic.Search.SearchOBJ;
 import Color_yr.ALLMusic.Utils.Function;
+import net.md_5.bungee.api.chat.ClickEvent;
 
 public class CommandEX {
 
@@ -46,25 +48,52 @@ public class CommandEX {
             ALLMusic.Side.SendMessage(sender, "§d[ALLmusic]§c错误，请输入歌曲数字ID");
     }
 
+    private static void ShowSearch(Object sender, Search search) {
+        int a = 1;
+        for (SearchOBJ item : search.getRes()) {
+            ALLMusic.Side.SendMessage(sender, "§b[点我选择]§2" +
+                            a + "->"
+                            + item.getName() + " | "
+                            + item.getAuthor() + " | "
+                            + item.getAila(),
+                    ClickEvent.Action.RUN_COMMAND, "/music select " + a);
+            a++;
+        }
+    }
+
     public static void EX(Object sender, String Name, String[] args) {
         if (args.length == 0) {
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c错误，请使用/music help 获取帮助");
         } else if (args[0].equalsIgnoreCase("help")) {
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2帮助手册");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music [音乐ID] 来点歌");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music stop 停止播放歌曲");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music list 查看歌曲队列");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLmusic]§2使用/music vote 投票切歌");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music nomusic 不再参与点歌");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music v [音量] 调节音量");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music search [歌名] 搜索歌曲");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music select [序列] 选择歌曲");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music [音乐ID] 来点歌§e[点我]",
+                    ClickEvent.Action.SUGGEST_COMMAND, "/music ");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music stop 停止播放歌曲§e[点我]",
+                    ClickEvent.Action.RUN_COMMAND, "/music stop");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music list 查看歌曲队列§e[点我]",
+                    ClickEvent.Action.RUN_COMMAND, "/music list");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLmusic]§2使用/music vote 投票切歌§e[点我]",
+                    ClickEvent.Action.RUN_COMMAND, "/music vote");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music nomusic 不再参与点歌§e[点我]",
+                    ClickEvent.Action.RUN_COMMAND, "/music nomusic");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music v [音量] 调节音量§e[点我]",
+                    ClickEvent.Action.SUGGEST_COMMAND, "/music v ");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music search [歌名] 搜索歌曲§e[点我]",
+                    ClickEvent.Action.SUGGEST_COMMAND, "/music search ");
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music select [序列] 选择歌曲§e[点我]",
+                    ClickEvent.Action.SUGGEST_COMMAND, "/music select ");
             if (ALLMusic.VV != null) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv enable 启用关闭VV");
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv [位置] [坐标] [数值] 设置VV位置");
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv enable 启用关闭VV§e[点我]",
+                        ClickEvent.Action.RUN_COMMAND, "/music vv enable");
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv [位置] [坐标] [数值] 设置VV位置§e[点我]",
+                        ClickEvent.Action.SUGGEST_COMMAND, "/music vv ");
             }
         } else if (args[0].equalsIgnoreCase("stop")) {
             ALLMusic.Side.Send("[Stop]", Name, false);
+            if (ALLMusic.VV != null) {
+                ALLMusic.VV.clear(Name);
+            }
+            PlayMusic.NowPlay.remove(Name);
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已停止" + Name + "的音乐播放");
         } else if (args[0].equalsIgnoreCase("list")) {
             if (PlayMusic.NowPlayMusic == null) {
@@ -139,14 +168,16 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2请输入有效的音乐列表ID");
             }
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
-            Search search = new Search(args);
-            if (!search.isDone())
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法搜索歌曲：" + args[1]);
-            else {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2搜索结果");
-                ALLMusic.Side.SendMessage(sender, "§2" + search.GetInfo());
-                PlayerSearch.SearchSave.put(Name, search);
-            }
+            ALLMusic.Side.RunTask(() -> {
+                Search search = new Search(args);
+                if (!search.isDone())
+                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法搜索歌曲：" + args[1]);
+                else {
+                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2搜索结果");
+                    ShowSearch(sender, search);
+                    PlayerSearch.SearchSave.put(Name, search);
+                }
+            });
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
             Search obj = PlayerSearch.SearchSave.get(Name);
             if (obj == null) {

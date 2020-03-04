@@ -4,6 +4,8 @@ import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBukkit;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -64,6 +66,14 @@ public class SideBukkit implements ISide {
     public void SendMessage(Object obj, String Message) {
         CommandSender sender = (CommandSender) obj;
         sender.sendMessage(Message);
+    }
+
+    @Override
+    public void SendMessage(Object obj, String Message, ClickEvent.Action action, String Command) {
+        CommandSender sender = (CommandSender) obj;
+        TextComponent send = new TextComponent(Message);
+        send.setClickEvent(new ClickEvent(action, Command));
+        sender.spigot().sendMessage(send);
     }
 
     @Override

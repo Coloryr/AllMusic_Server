@@ -41,17 +41,20 @@ public class PlayMusic {
     public static void AddMusic(String ID, String player) {
         if (isHave(ID))
             return;
-        ALLMusic.Side.bq("§d[ALLMusic]§2" + player +
-                "点歌" + ID);
-        logs.log_write("玩家：" + player + " 点歌：" + ID);
-        SongInfo info = new SongInfo(null, null, ID, null, player, null);
-        try {
-            info = GetInfo.Get(ID, player);
-        } catch (Exception e) {
-            ALLMusic.log.warning("§d[ALLMusic]§c歌曲信息解析错误");
-            e.printStackTrace();
-        }
-        PlayList.add(info);
+        ALLMusic.Side.RunTask(() ->
+        {
+            ALLMusic.Side.bq("§d[ALLMusic]§2" + player +
+                    "点歌" + ID);
+            logs.log_write("玩家：" + player + " 点歌：" + ID);
+            SongInfo info = new SongInfo(null, null, ID, null, player, null);
+            try {
+                info = GetInfo.Get(ID, player);
+            } catch (Exception e) {
+                ALLMusic.log.warning("§d[ALLMusic]§c歌曲信息解析错误");
+                e.printStackTrace();
+            }
+            PlayList.add(info);
+        });
     }
 
     public static String getList() {

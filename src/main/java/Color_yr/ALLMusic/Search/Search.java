@@ -37,14 +37,8 @@ public class Search {
         return res.get(index).getID();
     }
 
-    public String GetInfo() {
-        StringBuilder Info = new StringBuilder();
-        int a = 1;
-        for (SearchOBJ item : res) {
-            Info.append(a).append("->").append(item.getName()).append(" | ").append(item.getAuthor()).append(" | ").append(item.getAila()).append("\n");
-            a++;
-        }
-        return Info.substring(0, Info.length() - 1);
+    public List<SearchOBJ> getRes() {
+        return res;
     }
 
     public boolean isDone() {

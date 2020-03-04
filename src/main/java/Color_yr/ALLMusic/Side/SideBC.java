@@ -7,6 +7,7 @@ import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -97,6 +98,14 @@ public class SideBC implements ISide {
     public void SendMessage(Object obj, String Message) {
         CommandSender sender = (CommandSender) obj;
         sender.sendMessage(new TextComponent(Message));
+    }
+
+    @Override
+    public void SendMessage(Object obj, String Message, ClickEvent.Action action, String Command) {
+        CommandSender sender = (CommandSender) obj;
+        TextComponent send = new TextComponent(Message);
+        send.setClickEvent(new ClickEvent(action, Command));
+        sender.sendMessage();
     }
 
     @Override
