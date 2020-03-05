@@ -3,14 +3,14 @@ package Color_yr.ALLMusic.Search;
 import java.util.List;
 
 public class DataOBJ {
-    private result result;
+    private data data;
 
     public List<songs> getResult() {
-        return result.getSongs();
+        return data.getSongs();
     }
 }
 
-class result {
+class data {
     private List<songs> songs;
 
     public List<songs> getSongs() {
@@ -21,8 +21,8 @@ class result {
 class songs {
     private int id;
     private String name;
-    private List<artists> artists;
-    private album album;
+    private List<artists> ar;
+    private album al;
 
     public int getId() {
         return id;
@@ -33,12 +33,12 @@ class songs {
     }
 
     public String getAlbum() {
-        return album.getName();
+        return al.getName();
     }
 
     public String getArtists() {
         StringBuilder a = new StringBuilder();
-        for (artists temp : artists) {
+        for (artists temp : ar) {
             a.append(temp.getName()).append(",");
         }
         return a.substring(0, a.length() - 1);

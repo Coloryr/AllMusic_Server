@@ -3,7 +3,7 @@
   "Lyric_Api1": "https://api.imjad.cn/cloudmusic/?type=lyric&id=",
   "Info_Api1": "https://api.imjad.cn/cloudmusic/?type=detail&id=",
   "List_Api1": "https://api.imjad.cn/cloudmusic/?type=playlist&id=",
-  "Search_Api1": "https://music.163.com/api/search/get/web?type=1&s=",
+  "Search_Api1": "https://v1.itooi.cn/netease/search?type=song&keyword=",
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 2,
@@ -15,5 +15,6 @@
   "PlayListSwitch": true,
   "PlayListRandom": true,
   "VexView": false,
+  "VVSave": {},
   "Version": "1.7.0"
 }

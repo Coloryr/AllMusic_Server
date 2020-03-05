@@ -49,15 +49,24 @@ public class CommandEX {
     }
 
     private static void ShowSearch(Object sender, Search search) {
-        int a = 1;
-        for (SearchOBJ item : search.getRes()) {
+        int index = search.getIndex();
+        SearchOBJ item;
+        for (int a = 0; a< index; a++) {
+            item = search.getRes(a + search.getPage());
             ALLMusic.Side.SendMessage(sender, "§b[点我选择]§2" +
                             a + "->"
                             + item.getName() + " | "
                             + item.getAuthor() + " | "
                             + item.getAila(),
-                    ClickEvent.Action.RUN_COMMAND, "/music select " + a);
-            a++;
+                    ClickEvent.Action.RUN_COMMAND, "/music select " + (a + 1));
+        }
+        if(search.haveNextPage()) {
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§e[点我下一页]",
+                    ClickEvent.Action.RUN_COMMAND, "/music nextpage");
+        }
+        if(search.haveLastPage()) {
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§e[点我上一页]",
+                    ClickEvent.Action.RUN_COMMAND, "/music lastpage");
         }
     }
 
@@ -189,14 +198,32 @@ public class CommandEX {
                     return;
                 }
                 String[] ID = new String[1];
-                ID[0] = obj.GetSong(a - 1);
+                ID[0] = obj.GetSong((obj.getPage() * 10) + (a - 1));
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2你选择了序号" + a);
                 AddMusic(sender, Name, ID);
                 PlayerSearch.SearchSave.remove(Name);
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c请输入正确的序号");
             }
-        } else if (ALLMusic.VV != null && args[0].equalsIgnoreCase("vv")) {
+        } else if(args[0].equalsIgnoreCase("nextpage")) {
+            Search obj = PlayerSearch.SearchSave.get(Name);
+            if (obj == null) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
+            } else if(obj.nextPage()){
+                ShowSearch(sender, obj);
+            } else{
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法下一页");
+            }
+        }else if(args[0].equalsIgnoreCase("lastpage")) {
+            Search obj = PlayerSearch.SearchSave.get(Name);
+            if (obj == null) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
+            } else if(obj.lastPage()){
+                ShowSearch(sender, obj);
+            } else{
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法上一页");
+            }
+        }else if (ALLMusic.VV != null && args[0].equalsIgnoreCase("vv")) {
             if (args[1].equalsIgnoreCase("enable")) {
                 ALLMusic.VV.SetEnable(Name);
             } else if (args.length != 4) {

@@ -10,6 +10,8 @@ import java.util.List;
 public class Search {
     private List<SearchOBJ> res = new ArrayList<>();
     private boolean done = false;
+    private int page = 0;
+    private int maxpage = 0;
 
     public Search(String[] name) {
         StringBuilder name1 = new StringBuilder();
@@ -28,6 +30,7 @@ public class Search {
                     item = new SearchOBJ(String.valueOf(temp.getId()), temp.getName(), temp.getArtists(), temp.getAlbum());
                     res.add(item);
                 }
+                maxpage = res.size() / 10;
                 done = true;
             }
         }
@@ -37,11 +40,42 @@ public class Search {
         return res.get(index).getID();
     }
 
-    public List<SearchOBJ> getRes() {
-        return res;
+    public SearchOBJ getRes(int a) {
+        return res.get(a);
     }
 
     public boolean isDone() {
         return done;
+    }
+
+    public boolean nextPage() {
+        if (page == maxpage)
+            return false;
+        page++;
+        return true;
+    }
+
+    public boolean lastPage() {
+        if (page == 0)
+            return false;
+        page--;
+        return true;
+    }
+
+    public int getIndex() {
+        int a = res.size() - page * 10;
+        return Math.min(res.size(), 10);
+    }
+
+    public boolean haveNextPage() {
+        return page < maxpage;
+    }
+
+    public boolean haveLastPage() {
+        return page != 0;
+    }
+
+    public int getPage() {
+        return page;
     }
 }
