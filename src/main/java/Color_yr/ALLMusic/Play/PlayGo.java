@@ -139,7 +139,7 @@ class PlayGo extends Thread {
                     if (PlayMusic.haveLyric)
                         close();
                 } else {
-                    ALLMusic.Side.bq("§d[ALLMusic]§2" + "无效歌曲歌曲" + PlayMusic.NowPlayMusic.getID());
+                    ALLMusic.Side.bq("§d[ALLMusic]§2" + "无效歌曲" + PlayMusic.NowPlayMusic.getID());
                 }
                 PlayMusic.NowPlayMusic = null;
                 if (ALLMusic.VV != null && PlayMusic.PlayList.size() == 0) {

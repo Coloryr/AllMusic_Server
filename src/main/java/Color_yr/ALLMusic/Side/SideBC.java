@@ -105,7 +105,7 @@ public class SideBC implements ISide {
         CommandSender sender = (CommandSender) obj;
         TextComponent send = new TextComponent(Message);
         send.setClickEvent(new ClickEvent(action, Command));
-        sender.sendMessage();
+        sender.sendMessage(send);
     }
 
     @Override
