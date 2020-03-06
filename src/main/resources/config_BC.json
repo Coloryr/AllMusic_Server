@@ -6,7 +6,7 @@
   "Search_Api1": "https://v1.itooi.cn/netease/search?type=song&keyword=",
   "MaxList": 10,
   "MinVote": 3,
-  "Delay": 2,
+  "Delay": 0,
   "Admin": [],
   "NoMusicServer": [],
   "NoMusicPlayer": [],

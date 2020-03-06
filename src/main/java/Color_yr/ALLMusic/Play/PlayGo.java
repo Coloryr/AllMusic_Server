@@ -61,7 +61,7 @@ class PlayGo extends Thread {
         while (true) {
             if (PlayMusic.PlayList.size() == 0) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                     if (ALLMusic.Side.NeedPlay()) {
                         String obj = GetList.GetMusic();
                         if (obj != null) {
