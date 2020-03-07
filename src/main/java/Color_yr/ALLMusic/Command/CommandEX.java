@@ -26,7 +26,7 @@ public class CommandEX {
         } else
             MusicID = args[0];
         if (Function.isInteger(MusicID)) {
-            if (PlayMusic.getSize() == ALLMusic.Config.getMaxList()) {
+            if (PlayMusic.getSize() >= ALLMusic.Config.getMaxList()) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c错误，队列已满");
             } else if (ALLMusic.Config.getBanMusic().contains(MusicID)) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c错误，这首歌被禁点了");
@@ -240,9 +240,10 @@ public class CommandEX {
                     }
                 });
             }
-        } else if (ALLMusic.Side.checkPermission(Name, "ALLMusic.addmusic"))
-            AddMusic(sender, Name, args);
-        else
+        } else if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.addmusic"))
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限点歌");
+        else
+            AddMusic(sender, Name, args);
+
     }
 }
