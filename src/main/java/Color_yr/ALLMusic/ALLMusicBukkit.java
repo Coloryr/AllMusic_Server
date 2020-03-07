@@ -84,7 +84,6 @@ public class ALLMusicBukkit extends JavaPlugin {
         ALLMusic.log = getLogger();
         ALLMusic.log.info("§d[ALLMusic]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
-        PlayMusic.Start();
         String Version = Bukkit.getBukkitVersion();
         if (Version.startsWith("1.12"))
             ALLMusic.Side = new SideBukkit1_12();
@@ -102,14 +101,15 @@ public class ALLMusicBukkit extends JavaPlugin {
             ALLMusic.VV = new VVGet();
             VVEnable = true;
         }
+        PlayMusic.start();
         ALLMusic.log.info("§d[ALLMusic]§e已启动-" + ALLMusic.Version);
     }
 
     @Override
     public void onDisable() {
         PlayMusic.stop();
-        PlayMusic.PlayList.clear();
-        PlayMusic.Vote.clear();
+        PlayMusic.clear();
+        PlayMusic.VotePlayer.clear();
         if (ALLMusic.VV != null) {
             ALLMusic.VV.clear();
         }

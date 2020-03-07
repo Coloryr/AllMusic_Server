@@ -15,7 +15,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
-import static Color_yr.ALLMusic.Play.PlayMusic.NowPlay;
+import static Color_yr.ALLMusic.Play.PlayMusic.NowPlayPlayer;
 
 public class SideBC implements ISide {
     @Override
@@ -56,7 +56,7 @@ public class SideBC implements ISide {
                     continue;
                 if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
                     if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName()))
-                        if (NowPlay.contains(players.getName()))
+                        if (NowPlayPlayer.contains(players.getName()))
                             players.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
                 }
             }
@@ -118,6 +118,14 @@ public class SideBC implements ISide {
         ALLMusicBC.setConfig();
     }
 
+    @Override
+    public boolean checkPermission(String player, String permission) {
+        ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
+        if (player1 == null)
+            return false;
+        return player1.hasPermission(permission);
+    }
+
     private void Send(ProxiedPlayer players, String data, Boolean isplay) {
         try {
             byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
@@ -127,9 +135,9 @@ public class SideBC implements ISide {
             players.sendData(ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
-                    NowPlay.add(players.getName());
+                    NowPlayPlayer.add(players.getName());
                 } else {
-                    NowPlay.remove(players.getName());
+                    NowPlayPlayer.remove(players.getName());
                 }
             }
         } catch (Exception e) {

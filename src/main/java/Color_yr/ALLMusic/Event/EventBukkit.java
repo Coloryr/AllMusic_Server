@@ -8,6 +8,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class EventBukkit implements Listener {
     @EventHandler
     public void onPlayerQuit(final PlayerQuitEvent e) {
-        PlayMusic.NowPlay.remove(e.getPlayer().getName());
+        PlayMusic.NowPlayPlayer.remove(e.getPlayer().getName());
     }
 }

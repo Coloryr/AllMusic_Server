@@ -11,11 +11,10 @@ import java.util.List;
 
 public class PlayMusic {
 
-    public static List<SongInfo> PlayList = new ArrayList<>();
-    public static List<String> Vote = new ArrayList<>();
-    public static List<String> NowPlay = new ArrayList<>();
-
-    public static int Vote_time = 0;
+    public static final List<String> VotePlayer = new ArrayList<>();
+    public static final List<String> NowPlayPlayer = new ArrayList<>();
+    private static final List<SongInfo> PlayList = new ArrayList<>();
+    public static int VoteTime = 0;
     public static int MusicAllTime = 0;
     public static int MusicNowTime = 0;
     public static SongInfo NowPlayMusic;
@@ -23,7 +22,6 @@ public class PlayMusic {
     public static LyricDo Lyric;
     public static boolean haveLyric;
     public static String nowLyric = "";
-    public static boolean isList = false;
     private static PlayGo PlayGo;
 
     public static void stop() {
@@ -33,31 +31,56 @@ public class PlayMusic {
         }
     }
 
-    public static void Start() {
+    public static void start() {
         PlayGo = new PlayGo();
         PlayGo.start();
     }
 
-    public static void AddMusic(String ID, String player) {
-        if (isHave(ID))
-            return;
-        ALLMusic.Side.RunTask(() ->
-        {
+    public static void addMusic(String ID, String player, boolean isList) {
+        synchronized (PlayList) {
+            if (isHave(ID))
+                return;
             ALLMusic.Side.bq("§d[ALLMusic]§2" + player +
                     "点歌" + ID);
             logs.log_write("玩家：" + player + " 点歌：" + ID);
-            SongInfo info = new SongInfo(null, null, ID, null, player, null);
+            SongInfo info = new SongInfo(null, null, ID, null, player, null, isList);
             try {
-                info = GetInfo.Get(ID, player);
+                info = GetInfo.Get(ID, player, isList);
             } catch (Exception e) {
                 ALLMusic.log.warning("§d[ALLMusic]§c歌曲信息解析错误");
                 e.printStackTrace();
             }
             PlayList.add(info);
-        });
+        }
     }
 
-    public static String getList() {
+    public static SongInfo getMusic(int index) {
+        synchronized (PlayList) {
+            return PlayList.get(index);
+        }
+    }
+
+    public static int getSize() {
+        synchronized (PlayList) {
+            return PlayList.size();
+        }
+    }
+
+    public static List<SongInfo> getList() {
+        return new ArrayList<>(PlayList);
+    }
+
+    public static void clear() {
+        PlayList.clear();
+    }
+
+    public static void remove(int index) {
+        synchronized (PlayList) {
+            PlayList.remove(index);
+        }
+    }
+
+    public static String getAllList() {
         StringBuilder list = new StringBuilder();
         for (int i = 0; i < PlayList.size(); i++) {
             SongInfo info = PlayList.get(i);

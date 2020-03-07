@@ -24,4 +24,6 @@ public interface ISide {
     void RunTask(Runnable run);
 
     void reload();
+
+    boolean checkPermission(String player, String permission);
 }

@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.nio.charset.StandardCharsets;
 
 import static Color_yr.ALLMusic.ALLMusicBukkit.ALLMusicP;
-import static Color_yr.ALLMusic.Play.PlayMusic.NowPlay;
+import static Color_yr.ALLMusic.Play.PlayMusic.NowPlayPlayer;
 
 public class SideBukkit implements ISide {
 
@@ -86,6 +86,14 @@ public class SideBukkit implements ISide {
         ALLMusicBukkit.setConfig();
     }
 
+    @Override
+    public boolean checkPermission(String player, String permission) {
+        Player player1 = Bukkit.getPlayer(player);
+        if (player1 == null)
+            return false;
+        return player1.hasPermission(permission);
+    }
+
     private void Send(Player players, String data, Boolean isplay) {
         try {
             byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
@@ -95,9 +103,9 @@ public class SideBukkit implements ISide {
             players.sendPluginMessage(ALLMusicP, ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
-                    NowPlay.add(players.getName());
+                    NowPlayPlayer.add(players.getName());
                 } else {
-                    NowPlay.remove(players.getName());
+                    NowPlayPlayer.remove(players.getName());
                 }
             }
         } catch (Exception e) {

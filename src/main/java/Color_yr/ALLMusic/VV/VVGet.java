@@ -72,11 +72,11 @@ public class VVGet {
         VexTextShow show;
         List<String> list = new ArrayList<>();
         boolean save = false;
-        if (PlayMusic.PlayList.size() == 0) {
+        if (PlayMusic.getSize() == 0) {
             list.add("队列中无歌曲");
         } else {
             String now;
-            for (SongInfo info : PlayMusic.PlayList) {
+            for (SongInfo info : PlayMusic.getList()) {
                 now = info.getInfo();
                 if (now.length() > 30)
                     now = now.substring(0, 29) + "...";
@@ -149,7 +149,7 @@ public class VVGet {
                 list.add(showobj.getTlyric());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!PlayMusic.NowPlay.contains(player.getName()))
+            if (!PlayMusic.NowPlayPlayer.contains(player.getName()))
                 continue;
             if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName()))
                 continue;

@@ -32,7 +32,7 @@ public class GetList {
 
     public static String GetMusic() {
         if (!isUpdata && ALLMusic.Config.getPlayList().size() != 0) {
-            String obj = null;
+            String obj;
             if (ALLMusic.Config.isPlayListRandom()) {
                 obj = ALLMusic.Config.getPlayList().get(new Random().nextInt(ALLMusic.Config.getPlayList().size() - 1));
             } else {

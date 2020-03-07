@@ -80,18 +80,18 @@ public class ALLMusicBC extends Plugin {
         ALLMusic.log = ProxyServer.getInstance().getLogger();
         ALLMusic.log.info("§d[ALLMusic]§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
-        PlayMusic.Start();
         ALLMusic.Side = new SideBC();
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new CommandBC());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new EventBC());
+        PlayMusic.start();
         ALLMusic.log.info("§d[ALLMusic]§e已启动-" + ALLMusic.Version);
     }
 
     @Override
     public void onDisable() {
         PlayMusic.stop();
-        PlayMusic.PlayList.clear();
-        PlayMusic.Vote.clear();
+        PlayMusic.clear();
+        PlayMusic.VotePlayer.clear();
         ALLMusic.Side.Send("[Stop]", false);
         ALLMusic.log.info("§d[ALLMusic]§e已停止，感谢使用");
     }

@@ -6,7 +6,6 @@ import Color_yr.ALLMusic.Http.Get;
 import Color_yr.ALLMusic.Lyric.LyricDo;
 import Color_yr.ALLMusic.Lyric.ShowOBJ;
 import Color_yr.ALLMusic.PlayList.GetList;
-import org.bukkit.entity.Player;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,9 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 class PlayGo extends Thread {
 
-    Runnable runnable = () -> PlayMusic.MusicNowTime += 10;
+    private final Runnable runnable = () -> PlayMusic.MusicNowTime += 10;
     private int times = 0;
-    Runnable runnable1 = () -> {
+    private final Runnable runnable1 = () -> {
         ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
         if (show != null) {
             times = 0;
@@ -49,7 +48,7 @@ class PlayGo extends Thread {
         }
     }
 
-    private void startTime() {
+    private void startTimer() {
         service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(runnable, 0, 10, TimeUnit.MILLISECONDS);
         service1 = Executors.newSingleThreadScheduledExecutor();
@@ -59,35 +58,36 @@ class PlayGo extends Thread {
     @Override
     public synchronized void run() {
         while (true) {
-            if (PlayMusic.PlayList.size() == 0) {
+            if (PlayMusic.getSize() == 0) {
                 try {
-                    Thread.sleep(2000);
                     if (ALLMusic.Side.NeedPlay()) {
                         String obj = GetList.GetMusic();
                         if (obj != null) {
-                            PlayMusic.isList = true;
-                            PlayMusic.AddMusic(obj, "空闲列表");
+                            PlayMusic.addMusic(obj, "空闲列表", true);
                         }
                     }
-                } catch (InterruptedException ignored) {
-                    ignored.printStackTrace();
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             } else {
-                PlayMusic.NowPlayMusic = PlayMusic.PlayList.get(0);
-                PlayMusic.PlayList.remove(0);
+                PlayMusic.NowPlayMusic = PlayMusic.getMusic(0);
+                PlayMusic.remove(0);
                 PlayMusic.MusicNowTime = 0;
                 PlayMusic.MusicAllTime = 0;
                 PlayMusic.Lyric = null;
                 PlayMusic.nowLyric = "";
                 PlayMusic.haveLyric = false;
                 ALLMusic.Side.SendLyric("");
-                String songURL = Get.realURL(ALLMusic.Config.getMusic_Api1() + PlayMusic.NowPlayMusic.getID());
+                String songURL = Get.realURL(ALLMusic.Config.getMusic_Api1() +
+                        PlayMusic.NowPlayMusic.getID());
                 String Lyric = Get.realData(ALLMusic.Config.getLyric_Api1(), PlayMusic.NowPlayMusic.getID());
                 if (Lyric != null) {
                     try {
                         PlayMusic.Lyric = new LyricDo(Lyric);
                         PlayMusic.Lyric.Check();
-                        PlayMusic.haveLyric = true;
+                        if (ALLMusic.Config.isSendLyric() || ALLMusic.VV != null)
+                            PlayMusic.haveLyric = true;
                     } catch (Exception e) {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误");
                         e.printStackTrace();
@@ -97,7 +97,7 @@ class PlayGo extends Thread {
                     PlayMusic.MusicAllTime = Get.getMusicTime(songURL);
                     ALLMusic.Side.bq("§d[ALLMusic]§2" + "正在播放歌曲" + PlayMusic.NowPlayMusic.getInfo());
                     if (PlayMusic.haveLyric)
-                        startTime();
+                        startTimer();
                     ALLMusic.Side.Send("[Play]" + songURL, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
@@ -108,23 +108,23 @@ class PlayGo extends Thread {
                             if (!ALLMusic.Side.NeedPlay()) {
                                 PlayMusic.MusicAllTime = 1;
                             }
-                            if (PlayMusic.Vote_time > 0) {
-                                PlayMusic.Vote_time--;
-                                if (PlayMusic.Vote_time == 0) {
-                                    PlayMusic.Vote.clear();
+                            if (PlayMusic.VoteTime > 0) {
+                                PlayMusic.VoteTime--;
+                                if (PlayMusic.VoteTime == 0) {
+                                    PlayMusic.VotePlayer.clear();
                                     ALLMusic.Side.bq("§d[ALLMusic]§2" + "切歌时间结束");
                                 } else {
                                     int players = ALLMusic.Side.GetAllPlayer();
-                                    if (PlayMusic.Vote.size() >= ALLMusic.Config.getMinVote() ||
-                                            (players <= ALLMusic.Config.getMinVote() && players <= PlayMusic.Vote.size())) {
+                                    if (PlayMusic.VotePlayer.size() >= ALLMusic.Config.getMinVote() ||
+                                            (players <= ALLMusic.Config.getMinVote() && players <= PlayMusic.VotePlayer.size())) {
                                         ALLMusic.Side.bq("§d[ALLMusic]§2" + "已切歌");
                                         ALLMusic.Side.Send("[Stop]", false);
-                                        PlayMusic.Vote.clear();
+                                        PlayMusic.VotePlayer.clear();
                                         PlayMusic.MusicAllTime = 1;
-                                        if (PlayMusic.PlayList.size() == 0) {
+                                        if (PlayMusic.getSize() == 0) {
                                             ALLMusic.Side.bq("§d[ALLMusic]§2" + "队列中无歌曲");
                                         }
-                                        PlayMusic.Vote_time = 0;
+                                        PlayMusic.VoteTime = 0;
                                         PlayMusic.NowPlayMusic = null;
                                     }
                                 }
@@ -142,7 +142,7 @@ class PlayGo extends Thread {
                     ALLMusic.Side.bq("§d[ALLMusic]§2" + "无效歌曲" + PlayMusic.NowPlayMusic.getID());
                 }
                 PlayMusic.NowPlayMusic = null;
-                if (ALLMusic.VV != null && PlayMusic.PlayList.size() == 0) {
+                if (ALLMusic.VV != null && PlayMusic.getSize() == 0) {
                     ALLMusic.VV.clear();
                 }
             }

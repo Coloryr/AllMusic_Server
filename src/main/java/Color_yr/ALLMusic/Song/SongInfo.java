@@ -8,13 +8,21 @@ public class SongInfo {
     private String Call;
     private String Al;
 
-    public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al) {
+    private boolean isList;
+
+    public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al, boolean isList) {
         this.Author = Author;
         this.Name = Name;
         this.ID = ID;
         this.Alia = Alia;
         this.Call = Call;
         this.Al = Al;
+
+        this.isList = isList;
+    }
+
+    public boolean isList() {
+        return isList;
     }
 
     public String getAuthor() {

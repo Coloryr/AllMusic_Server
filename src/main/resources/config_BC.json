@@ -14,7 +14,9 @@
   "PlayList": [],
   "PlayListSwitch": true,
   "PlayListRandom": true,
+  "SendLyric": true,
+  "NeedPermission": false,
   "VexView": false,
   "VVSave": {},
-  "Version": "1.7.0"
+  "Version": "1.8.0"
 }

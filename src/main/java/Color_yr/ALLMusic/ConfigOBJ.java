@@ -26,6 +26,8 @@ public class ConfigOBJ {
 
     private boolean PlayListSwitch;
     private boolean PlayListRandom;
+    private boolean SendLyric;
+    private boolean NeedPermission;
 
     private boolean VexView;
     private Map<String, VVSaveOBJ> VVSave;
@@ -48,10 +50,20 @@ public class ConfigOBJ {
         PlayList = new ArrayList<>();
         PlayListSwitch = true;
         PlayListRandom = true;
+        SendLyric = true;
+        NeedPermission = false;
         VexView = false;
         VVSave = new HashMap<>();
 
         Version = ALLMusic.Version;
+    }
+
+    public boolean isNeedPermission() {
+        return NeedPermission;
+    }
+
+    public boolean isSendLyric() {
+        return SendLyric;
     }
 
     public VVSaveOBJ getVVSave(String player) {
