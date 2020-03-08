@@ -3,7 +3,7 @@ package Color_yr.ALLMusic.VV;
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.Lyric.ShowOBJ;
 import Color_yr.ALLMusic.Play.PlayMusic;
-import Color_yr.ALLMusic.Song.SongInfo;
+import Color_yr.ALLMusic.SongInfo.SongInfo;
 import Color_yr.ALLMusic.Utils.Function;
 import lk.vexview.api.VexViewAPI;
 import lk.vexview.hud.VexTextShow;

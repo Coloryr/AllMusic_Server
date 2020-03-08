@@ -1,4 +1,4 @@
-package Color_yr.ALLMusic.Song;
+package Color_yr.ALLMusic.SongInfo;
 
 import java.util.List;
 
@@ -7,6 +7,8 @@ public class InfoOBJ {
     private int code;
 
     public String getName() {
+        if (songs.size() == 0)
+            return null;
         return songs.get(0).getName();
     }
 
@@ -35,6 +37,10 @@ public class InfoOBJ {
     public String getAl() {
         return songs.get(0).getAl();
     }
+
+    public int getLength() {
+        return songs.get(0).getLength();
+    }
 }
 
 class Songs {
@@ -42,6 +48,11 @@ class Songs {
     private List<ar> ar;
     private List<String> alia;
     private al al;
+    private h h;
+
+    public int getLength() {
+        return h.getLength();
+    }
 
     public String getName() {
         return name;
@@ -73,5 +84,14 @@ class al {
 
     public String getName() {
         return name;
+    }
+}
+
+class h{
+    private int br;
+    private int size;
+
+    public int getLength() {
+        return size / br * 8000;
     }
 }

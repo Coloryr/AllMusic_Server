@@ -79,8 +79,6 @@ class PlayGo extends Thread {
                 PlayMusic.nowLyric = "";
                 PlayMusic.haveLyric = false;
                 ALLMusic.Side.SendLyric("");
-                String songURL = Get.realURL(ALLMusic.Config.getMusic_Api1() +
-                        PlayMusic.NowPlayMusic.getID());
                 String Lyric = Get.realData(ALLMusic.Config.getLyric_Api1(), PlayMusic.NowPlayMusic.getID());
                 if (Lyric != null) {
                     try {
@@ -93,12 +91,13 @@ class PlayGo extends Thread {
                         e.printStackTrace();
                     }
                 }
-                if (songURL != null) {
-                    PlayMusic.MusicAllTime = Get.getMusicTime(songURL);
+                if (PlayMusic.NowPlayMusic.getLength() != 0) {
+                    PlayMusic.MusicAllTime = PlayMusic.NowPlayMusic.getLength() / 1000;
                     ALLMusic.Side.bq("§d[ALLMusic]§2" + "正在播放歌曲" + PlayMusic.NowPlayMusic.getInfo());
                     if (PlayMusic.haveLyric)
                         startTimer();
-                    ALLMusic.Side.Send("[Play]" + songURL, true);
+                    ALLMusic.Side.Send("[Play]" + ALLMusic.Config.getMusic_Api1() +
+                            PlayMusic.NowPlayMusic.getID(), true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
                             if (ALLMusic.Config.isVexView() && ALLMusicBukkit.VVEnable) {

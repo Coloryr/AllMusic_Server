@@ -1,4 +1,4 @@
-package Color_yr.ALLMusic.Song;
+package Color_yr.ALLMusic.SongInfo;
 
 public class SongInfo {
     private String Author;
@@ -8,9 +8,11 @@ public class SongInfo {
     private String Call;
     private String Al;
 
+    private int Length;
+
     private boolean isList;
 
-    public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al, boolean isList) {
+    public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al, boolean isList, int Length) {
         this.Author = Author;
         this.Name = Name;
         this.ID = ID;
@@ -19,6 +21,11 @@ public class SongInfo {
         this.Al = Al;
 
         this.isList = isList;
+        this.Length = Length;
+    }
+
+    public int getLength() {
+        return Length;
     }
 
     public boolean isList() {
