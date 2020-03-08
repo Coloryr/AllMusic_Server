@@ -5,6 +5,7 @@ import Color_yr.ALLMusic.Event.EventBC;
 import Color_yr.ALLMusic.Play.PlayMusic;
 import Color_yr.ALLMusic.Side.SideBC;
 import Color_yr.ALLMusic.Utils.logs;
+import Color_yr.ALLMusic.bStats.MetricsBC;
 import com.google.gson.Gson;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -84,6 +85,7 @@ public class ALLMusicBC extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new CommandBC());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new EventBC());
         PlayMusic.start();
+        new MetricsBC(this, 6720);
         ALLMusic.log.info("§d[ALLMusic]§e已启动-" + ALLMusic.Version);
     }
 

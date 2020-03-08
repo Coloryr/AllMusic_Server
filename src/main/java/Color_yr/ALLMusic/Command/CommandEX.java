@@ -54,7 +54,7 @@ public class CommandEX {
         for (int a = 0; a < index; a++) {
             item = search.getRes(a + search.getPage());
             ALLMusic.Side.SendMessage(sender, "§b[点我选择]§2" +
-                            a + "->"
+                            (a + 1) + "->"
                             + item.getName() + " | "
                             + item.getAuthor() + " | "
                             + item.getAila(),
@@ -224,7 +224,11 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法上一页");
             }
         } else if (ALLMusic.VV != null && args[0].equalsIgnoreCase("vv")) {
-            if (args[1].equalsIgnoreCase("enable")) {
+            if(args.length == 1)
+            {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
+            }
+            else if (args[1].equalsIgnoreCase("enable")) {
                 ALLMusic.VV.SetEnable(Name);
             } else if (args.length != 4) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");

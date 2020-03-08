@@ -9,6 +9,7 @@ import Color_yr.ALLMusic.Side.SideBukkit1_14;
 import Color_yr.ALLMusic.Side.SideBukkit1_15;
 import Color_yr.ALLMusic.Utils.logs;
 import Color_yr.ALLMusic.VV.VVGet;
+import Color_yr.ALLMusic.bStats.MetricsBukkit;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -102,6 +103,7 @@ public class ALLMusicBukkit extends JavaPlugin {
             VVEnable = true;
         }
         PlayMusic.start();
+        new MetricsBukkit(this, 6720);
         ALLMusic.log.info("§d[ALLMusic]§e已启动-" + ALLMusic.Version);
     }
 
