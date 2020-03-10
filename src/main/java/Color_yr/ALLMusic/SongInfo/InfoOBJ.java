@@ -39,6 +39,8 @@ public class InfoOBJ {
     }
 
     public int getLength() {
+        if (songs == null)
+            return 0;
         return songs.get(0).getLength();
     }
 }

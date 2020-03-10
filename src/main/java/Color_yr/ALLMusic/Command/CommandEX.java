@@ -36,10 +36,6 @@ public class CommandEX {
                 ALLMusic.Config.RemoveNoMusicPlayer(Name);
                 if (ALLMusic.Side.NeedPlay()) {
                     ALLMusic.Side.RunTask(() -> PlayMusic.addMusic(MusicID, Name, false));
-                    if (ALLMusic.Config.isPlayListSwitch() && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
-                        PlayMusic.MusicAllTime = 1;
-                        ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2切换到玩家歌曲");
-                    }
                     ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2点歌成功");
                 } else
                     ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c没有播放的玩家");
