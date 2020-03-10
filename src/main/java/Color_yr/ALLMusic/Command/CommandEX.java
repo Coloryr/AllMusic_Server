@@ -163,7 +163,15 @@ public class CommandEX {
                 && ALLMusic.Config.getAdmin().contains(Name)) {
             if (!args[1].isEmpty() && Function.isInteger(args[1])) {
                 int music = Integer.parseInt(args[1]);
-                PlayMusic.remove(music);
+                if (music == 0) {
+                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2请输入有效的序列ID");
+                    return;
+                }
+                if (music > PlayMusic.getSize()) {
+                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2序列号过大");
+                    return;
+                }
+                PlayMusic.remove(music - 1);
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已删除序列" + music);
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2请输入有效的序列ID");
