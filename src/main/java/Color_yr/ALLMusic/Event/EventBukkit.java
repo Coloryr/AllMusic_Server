@@ -1,6 +1,6 @@
 package Color_yr.ALLMusic.Event;
 
-import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;

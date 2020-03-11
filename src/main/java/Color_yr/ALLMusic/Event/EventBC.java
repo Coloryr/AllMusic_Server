@@ -1,6 +1,6 @@
 package Color_yr.ALLMusic.Event;
 
-import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;

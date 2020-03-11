@@ -1,4 +1,4 @@
-package Color_yr.ALLMusic.Lyric;
+package Color_yr.ALLMusic.SongLyric;
 
 public class LyricOBJ {
     private boolean sgc;
@@ -6,6 +6,11 @@ public class LyricOBJ {
     private boolean qfy;
     private lrc lrc;
     private tlyric tlyric;
+
+    public boolean isok()
+    {
+        return lrc!=null;
+    }
 
     public String getLyric() {
         return lrc.getLyric();

@@ -1,4 +1,4 @@
-package Color_yr.ALLMusic.Lyric;
+package Color_yr.ALLMusic.SongLyric;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.Utils.Function;
@@ -10,23 +10,30 @@ public class LyricDo {
 
     private Map<Integer, ShowOBJ> Lyric = new HashMap<>();
     private LyricOBJ obj;
+    private boolean haveLyric = false;
+
+    public boolean isHaveLyric() {
+        return haveLyric;
+    }
+
+    public void setHaveLyric(boolean haveLyric) {
+        this.haveLyric = haveLyric;
+    }
+
+    public LyricDo() {
+        Lyric = new HashMap<>();
+    }
 
     public LyricDo(String obj) {
         this.obj = new Gson().fromJson(obj, LyricOBJ.class);
     }
 
-    public LyricDo(Map<Integer, ShowOBJ> Lyric) {
-        if (Lyric == null)
-            return;
-        this.Lyric = Lyric;
-    }
-
-    public void Check() {
+    public boolean Check() {
         String[] lyric;
 
         boolean haveT = false;
-        if (obj.getLyric() == null)
-            return;
+        if (!obj.isok())
+            return false;
         lyric = obj.getLyric().split("\n");
         List<String> Tlyric = new ArrayList<>();
         if (obj.getTlyric() != null) {
@@ -46,16 +53,14 @@ public class LyricDo {
                         item.getValue(), null));
             }
         }
+        haveLyric = true;
+        return true;
     }
 
     public ShowOBJ checkTime(int playNow) {
         if (Lyric.containsKey(playNow))
             return Lyric.get(playNow);
         return null;
-    }
-
-    public Map<Integer, ShowOBJ> getLyric() {
-        return Lyric;
     }
 
     private Map<Integer, String> GetTime(List<String> lyric) {

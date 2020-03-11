@@ -3,45 +3,56 @@ package Color_yr.ALLMusic.SongInfo;
 import java.util.List;
 
 public class InfoOBJ {
-    private List<Songs> songs;
-    private int code;
+    private data data;
+
+    public boolean isok() {
+        return data != null;
+    }
 
     public String getName() {
-        if (songs.size() == 0)
+        if (data.getSongs().size() == 0)
             return null;
-        return songs.get(0).getName();
+        return data.getSongs().get(0).getName();
     }
 
     public String getAuthor() {
-        String Author = "";
-        for (ar ar : songs.get(0).getAr()) {
-            Author += ar.getName() + ",";
+        StringBuilder Author = new StringBuilder();
+        for (ar ar : data.getSongs().get(0).getAr()) {
+            Author.append(ar.getName()).append(",");
         }
         if (Author.length() != 0) {
-            Author = Author.substring(0, Author.length() - 1);
+            Author = new StringBuilder(Author.substring(0, Author.length() - 1));
         }
-        return Author;
+        return Author.toString();
     }
 
     public String getAlia() {
-        String Alia = "";
-        for (String alia : songs.get(0).getAlia()) {
-            Alia += alia + ",";
+        StringBuilder Alia = new StringBuilder();
+        for (String alia : data.getSongs().get(0).getAlia()) {
+            Alia.append(alia).append(",");
         }
         if (Alia.length() != 0) {
-            Alia = Alia.substring(0, Alia.length() - 1);
+            Alia = new StringBuilder(Alia.substring(0, Alia.length() - 1));
         }
-        return Alia;
+        return Alia.toString();
     }
 
     public String getAl() {
-        return songs.get(0).getAl();
+        return data.getSongs().get(0).getAl();
     }
 
     public int getLength() {
-        if (songs == null)
+        if (data.getSongs() == null)
             return 0;
-        return songs.get(0).getLength();
+        return data.getSongs().get(0).getLength();
+    }
+}
+
+class data{
+    private List<Songs> songs;
+
+    public List<Songs> getSongs() {
+        return songs;
     }
 }
 
@@ -89,7 +100,7 @@ class al {
     }
 }
 
-class h{
+class h {
     private int br;
     private int size;
 

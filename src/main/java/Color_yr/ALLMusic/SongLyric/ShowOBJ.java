@@ -1,4 +1,4 @@
-package Color_yr.ALLMusic.Lyric;
+package Color_yr.ALLMusic.SongLyric;
 
 public class ShowOBJ {
     private boolean haveT;

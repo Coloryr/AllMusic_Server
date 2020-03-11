@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import static Color_yr.ALLMusic.Play.PlayMusic.NowPlayPlayer;
+import static Color_yr.ALLMusic.MusicPlay.PlayMusic.NowPlayPlayer;
 
 public class SideBukkit1_12 extends SideBukkit {
     @Override

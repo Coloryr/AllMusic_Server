@@ -2,7 +2,7 @@ package Color_yr.ALLMusic;
 
 import Color_yr.ALLMusic.Command.CommandBukkit;
 import Color_yr.ALLMusic.Event.EventBukkit;
-import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Side.SideBukkit;
 import Color_yr.ALLMusic.Side.SideBukkit1_12;
 import Color_yr.ALLMusic.Side.SideBukkit1_14;
@@ -61,15 +61,13 @@ public class ALLMusicBukkit extends JavaPlugin {
 
     public static void setConfig() {
         try {
-            if (ALLMusic.ConfigFile == null) {
-                ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
-                if (!ALLMusicP.getDataFolder().exists())
-                    ALLMusicP.getDataFolder().mkdir();
-                new logs().Init(ALLMusicP.getDataFolder());
-                if (!ALLMusic.ConfigFile.exists()) {
-                    InputStream in = ALLMusicP.getResource("config_BC.json");
-                    Files.copy(in, ALLMusic.ConfigFile.toPath());
-                }
+            ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
+            if (!ALLMusicP.getDataFolder().exists())
+                ALLMusicP.getDataFolder().mkdir();
+            new logs().Init(ALLMusicP.getDataFolder());
+            if (!ALLMusic.ConfigFile.exists()) {
+                InputStream in = ALLMusicP.getResource("config_BC.json");
+                Files.copy(in, ALLMusic.ConfigFile.toPath());
             }
             LoadConfig();
         } catch (IOException e) {

@@ -1,11 +1,11 @@
-package Color_yr.ALLMusic.Play;
+package Color_yr.ALLMusic.MusicPlay;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBukkit;
-import Color_yr.ALLMusic.Http.Get;
-import Color_yr.ALLMusic.Lyric.LyricDo;
-import Color_yr.ALLMusic.Lyric.ShowOBJ;
-import Color_yr.ALLMusic.PlayList.GetList;
+import Color_yr.ALLMusic.SongInfo.GetMusicPlay;
+import Color_yr.ALLMusic.SongLyric.LyricGet;
+import Color_yr.ALLMusic.SongLyric.ShowOBJ;
+import Color_yr.ALLMusic.MusicList.GetList;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -37,7 +37,7 @@ class PlayGo extends Thread {
     private ScheduledExecutorService service;
     private ScheduledExecutorService service1;
 
-    public void close() {
+    public void closeTimer() {
         if (service != null) {
             service.shutdown();
             service.shutdownNow();
@@ -53,6 +53,18 @@ class PlayGo extends Thread {
         service.scheduleAtFixedRate(runnable, 0, 10, TimeUnit.MILLISECONDS);
         service1 = Executors.newSingleThreadScheduledExecutor();
         service1.scheduleAtFixedRate(runnable1, 0, 2, TimeUnit.MILLISECONDS);
+    }
+
+    public void clear() {
+        PlayMusic.MusicNowTime = 0;
+        PlayMusic.MusicAllTime = 0;
+        PlayMusic.Lyric = null;
+        PlayMusic.nowLyric = "";
+        ALLMusic.Side.SendLyric("");
+        PlayMusic.NowPlayMusic = null;
+        if (ALLMusic.VV != null && PlayMusic.getSize() == 0) {
+            ALLMusic.VV.clear();
+        }
     }
 
     @Override
@@ -71,33 +83,24 @@ class PlayGo extends Thread {
                     e.printStackTrace();
                 }
             } else {
+                clear();
                 PlayMusic.NowPlayMusic = PlayMusic.getMusic(0);
                 PlayMusic.remove(0);
-                PlayMusic.MusicNowTime = 0;
-                PlayMusic.MusicAllTime = 0;
-                PlayMusic.Lyric = null;
-                PlayMusic.nowLyric = "";
-                PlayMusic.haveLyric = false;
-                ALLMusic.Side.SendLyric("");
-                String Lyric = Get.realData(ALLMusic.Config.getLyric_Api1(), PlayMusic.NowPlayMusic.getID());
-                if (Lyric != null) {
-                    try {
-                        PlayMusic.Lyric = new LyricDo(Lyric);
-                        PlayMusic.Lyric.Check();
-                        if (ALLMusic.Config.isSendLyric() || ALLMusic.VV != null)
-                            PlayMusic.haveLyric = true;
-                    } catch (Exception e) {
-                        ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误");
-                        e.printStackTrace();
-                    }
+
+                String url = GetMusicPlay.Get(PlayMusic.NowPlayMusic.getID());
+                if(url==null) {
+                    ALLMusic.Side.RunTask(() -> ALLMusic.Side.bq("§d[ALLMusic]§c" + "无法播放歌曲" + PlayMusic.NowPlayMusic.getID() + "可能改歌曲为VIP歌曲"));
+                    continue;
                 }
+
+                PlayMusic.Lyric = new LyricGet().Get(PlayMusic.NowPlayMusic.getID());
+
                 if (PlayMusic.NowPlayMusic.getLength() != 0) {
-                    PlayMusic.MusicAllTime = PlayMusic.NowPlayMusic.getLength() / 1000;
+                    PlayMusic.MusicAllTime = (PlayMusic.NowPlayMusic.getLength() / 1000) + 10;
                     ALLMusic.Side.RunTask(() -> ALLMusic.Side.bq("§d[ALLMusic]§2" + "正在播放歌曲" + PlayMusic.NowPlayMusic.getInfo()));
-                    if (PlayMusic.haveLyric)
+                    if (PlayMusic.Lyric.isHaveLyric())
                         startTimer();
-                    ALLMusic.Side.Send("[Play]" + ALLMusic.Config.getMusic_Api1() +
-                            PlayMusic.NowPlayMusic.getID(), true);
+                    ALLMusic.Side.Send("[Play]" + url, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
                             if (ALLMusic.Config.isVexView() && ALLMusicBukkit.VVEnable) {
@@ -135,14 +138,10 @@ class PlayGo extends Thread {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌曲播放出现错误");
                         e.printStackTrace();
                     }
-                    if (PlayMusic.haveLyric)
-                        close();
+                    if (PlayMusic.Lyric.isHaveLyric())
+                        closeTimer();
                 } else {
                     ALLMusic.Side.RunTask(() -> ALLMusic.Side.bq("§d[ALLMusic]§2" + "无效歌曲" + PlayMusic.NowPlayMusic.getID()));
-                }
-                PlayMusic.NowPlayMusic = null;
-                if (ALLMusic.VV != null && PlayMusic.getSize() == 0) {
-                    ALLMusic.VV.clear();
                 }
             }
         }

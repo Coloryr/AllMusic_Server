@@ -8,11 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigOBJ {
-    private String Music_Api1;
-    private String Lyric_Api1;
-    private String Info_Api1;
-    private String List_Api1;
-    private String Search_Api1;
+    private String Netease_Api;
 
     private int MaxList;
     private int MinVote;
@@ -35,14 +31,10 @@ public class ConfigOBJ {
     private String Version;
 
     public ConfigOBJ() {
-        Music_Api1 = "http://music.163.com/song/media/outer/url?id=";
-        Lyric_Api1 = "https://api.imjad.cn/cloudmusic/?type=lyric&id=";
-        Info_Api1 = "https://api.imjad.cn/cloudmusic/?type=detail&id=";
-        List_Api1 = "https://api.imjad.cn/cloudmusic/?type=playlist&id=";
-        Search_Api1 = "https://music.163.com/api/search/get/web?type=1&s=";
+        Netease_Api = "https://v1.itooi.cn/netease/";
         MaxList = 10;
         MinVote = 3;
-        Delay = 2;
+        Delay = 0;
         Admin = new ArrayList<>();
         NoMusicServer = new ArrayList<>();
         NoMusicPlayer = new ArrayList<>();
@@ -66,6 +58,10 @@ public class ConfigOBJ {
         return SendLyric;
     }
 
+    public String getNetease_Api() {
+        return Netease_Api;
+    }
+
     public VVSaveOBJ getVVSave(String player) {
         return VVSave.get(player);
     }
@@ -78,9 +74,6 @@ public class ConfigOBJ {
         return VexView;
     }
 
-    public String getSearch_Api1() {
-        return Search_Api1;
-    }
 
     public boolean isPlayListRandom() {
         return PlayListRandom;
@@ -92,18 +85,6 @@ public class ConfigOBJ {
 
     public boolean isPlayListSwitch() {
         return PlayListSwitch;
-    }
-
-    public String getInfo_Api1() {
-        return Info_Api1;
-    }
-
-    public String getList_Api1() {
-        return List_Api1;
-    }
-
-    public String getLyric_Api1() {
-        return Lyric_Api1;
     }
 
     public int getDelay() {
@@ -132,10 +113,6 @@ public class ConfigOBJ {
 
     public List<String> getNoMusicServer() {
         return NoMusicServer;
-    }
-
-    public String getMusic_Api1() {
-        return Music_Api1;
     }
 
     public List<String> getBanMusic() {

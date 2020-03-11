@@ -1,9 +1,5 @@
 {
-  "Music_Api1": "http://music.163.com/song/media/outer/url?id=",
-  "Lyric_Api1": "https://api.imjad.cn/cloudmusic/?type=lyric&id=",
-  "Info_Api1": "https://api.imjad.cn/cloudmusic/?type=detail&id=",
-  "List_Api1": "https://api.imjad.cn/cloudmusic/?type=playlist&id=",
-  "Search_Api1": "https://v1.itooi.cn/netease/search?type=song&keyword=",
+  "Netease_Api": "https://v1.itooi.cn/netease/",
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 0,
@@ -18,5 +14,5 @@
   "NeedPermission": false,
   "VexView": false,
   "VVSave": {},
-  "Version": "1.8.0"
+  "Version": "1.9.0"
 }

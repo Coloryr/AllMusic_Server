@@ -1,8 +1,8 @@
 package Color_yr.ALLMusic.VV;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.Lyric.ShowOBJ;
-import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.SongLyric.ShowOBJ;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.SongInfo.SongInfo;
 import Color_yr.ALLMusic.Utils.Function;
 import lk.vexview.api.VexViewAPI;
@@ -170,7 +170,7 @@ public class VVGet {
         }
     }
 
-    public void SetEnable(String player) {
+    public boolean SetEnable(String player) {
         VVSaveOBJ obj = ALLMusic.Config.getVVSave(player);
         if (obj == null)
             obj = new VVSaveOBJ();
@@ -180,6 +180,7 @@ public class VVGet {
         }
         ALLMusic.Config.setVVSave(obj, player);
         ALLMusic.Side.save();
+        return obj.isEnable();
     }
 
     public void clear() {

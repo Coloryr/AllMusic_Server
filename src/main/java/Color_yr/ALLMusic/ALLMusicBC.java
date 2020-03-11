@@ -2,7 +2,7 @@ package Color_yr.ALLMusic;
 
 import Color_yr.ALLMusic.Command.CommandBC;
 import Color_yr.ALLMusic.Event.EventBC;
-import Color_yr.ALLMusic.Play.PlayMusic;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Side.SideBC;
 import Color_yr.ALLMusic.Utils.logs;
 import Color_yr.ALLMusic.bStats.MetricsBC;
@@ -55,18 +55,16 @@ public class ALLMusicBC extends Plugin {
 
     public static void setConfig() {
         try {
-            if (ALLMusic.ConfigFile == null) {
-                ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
-                if (!ALLMusicP.getDataFolder().exists())
-                    ALLMusicP.getDataFolder().mkdir();
-                new logs().Init(ALLMusicP.getDataFolder());
-                if (!ALLMusic.ConfigFile.exists()) {
-                    InputStream in = ALLMusicP.getResourceAsStream("config_BC.json");
-                    Files.copy(in, ALLMusic.ConfigFile.toPath());
-                }
-                if (!logs.file.exists()) {
-                    logs.file.createNewFile();
-                }
+            ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
+            if (!ALLMusicP.getDataFolder().exists())
+                ALLMusicP.getDataFolder().mkdir();
+            new logs().Init(ALLMusicP.getDataFolder());
+            if (!ALLMusic.ConfigFile.exists()) {
+                InputStream in = ALLMusicP.getResourceAsStream("config_BC.json");
+                Files.copy(in, ALLMusic.ConfigFile.toPath());
+            }
+            if (!logs.file.exists()) {
+                logs.file.createNewFile();
             }
             LoadConfig();
         } catch (IOException e) {

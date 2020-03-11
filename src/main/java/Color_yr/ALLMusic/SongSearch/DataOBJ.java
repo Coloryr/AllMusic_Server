@@ -1,9 +1,13 @@
-package Color_yr.ALLMusic.Search;
+package Color_yr.ALLMusic.SongSearch;
 
 import java.util.List;
 
 public class DataOBJ {
     private data data;
+
+    public boolean isok() {
+        return data != null;
+    }
 
     public List<songs> getResult() {
         return data.getSongs();

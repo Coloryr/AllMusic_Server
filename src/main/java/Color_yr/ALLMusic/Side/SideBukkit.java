@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.nio.charset.StandardCharsets;
 
 import static Color_yr.ALLMusic.ALLMusicBukkit.ALLMusicP;
-import static Color_yr.ALLMusic.Play.PlayMusic.NowPlayPlayer;
+import static Color_yr.ALLMusic.MusicPlay.PlayMusic.NowPlayPlayer;
 
 public class SideBukkit implements ISide {
 

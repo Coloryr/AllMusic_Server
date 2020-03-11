@@ -1,4 +1,4 @@
-package Color_yr.ALLMusic.Search;
+package Color_yr.ALLMusic.SongSearch;
 
 import java.util.HashMap;
 import java.util.Map;

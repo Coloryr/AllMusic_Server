@@ -15,7 +15,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
-import static Color_yr.ALLMusic.Play.PlayMusic.NowPlayPlayer;
+import static Color_yr.ALLMusic.MusicPlay.PlayMusic.NowPlayPlayer;
 
 public class SideBC implements ISide {
     @Override

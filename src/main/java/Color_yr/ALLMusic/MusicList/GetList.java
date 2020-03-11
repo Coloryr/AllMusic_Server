@@ -1,7 +1,8 @@
-package Color_yr.ALLMusic.PlayList;
+package Color_yr.ALLMusic.MusicList;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.Http.Get;
+import Color_yr.ALLMusic.Http.HttpGet;
+import Color_yr.ALLMusic.Http.Res;
 import com.google.gson.Gson;
 
 import java.util.Random;
@@ -13,14 +14,14 @@ public class GetList {
     public static void GetL(String ID) {
         Thread thread = new Thread(() ->
         {
-            String data = Get.realData(ALLMusic.Config.getList_Api1(), ID);
-            if (data != null)
+            Res res = HttpGet.realData(ALLMusic.Config.getNetease_Api() + "songList?id=", ID);
+            if (res != null && res.isOk())
                 try {
                     isUpdata = true;
-                    DataOBJ obj = new Gson().fromJson(data, DataOBJ.class);
+                    DataOBJ obj = new Gson().fromJson(res.getData(), DataOBJ.class);
                     ALLMusic.Config.getPlayList().addAll(obj.getPlaylist());
                     ALLMusic.Side.save();
-                    ALLMusic.log.info("§d[ALLMusic]§c歌曲列表" + ID + "获取成功");
+                    ALLMusic.log.info("§d[ALLMusic]§2歌曲列表" + obj.getName() + "获取成功");
                 } catch (Exception e) {
                     ALLMusic.log.warning("§d[ALLMusic]§c歌曲列表获取错误");
                     e.printStackTrace();

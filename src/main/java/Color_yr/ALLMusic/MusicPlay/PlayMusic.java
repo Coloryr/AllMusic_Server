@@ -1,7 +1,7 @@
-package Color_yr.ALLMusic.Play;
+package Color_yr.ALLMusic.MusicPlay;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.Lyric.LyricDo;
+import Color_yr.ALLMusic.SongLyric.LyricDo;
 import Color_yr.ALLMusic.SongInfo.GetInfo;
 import Color_yr.ALLMusic.SongInfo.SongInfo;
 import Color_yr.ALLMusic.Utils.logs;
@@ -20,13 +20,12 @@ public class PlayMusic {
     public static SongInfo NowPlayMusic;
 
     public static LyricDo Lyric;
-    public static boolean haveLyric;
     public static String nowLyric = "";
     private static PlayGo PlayGo;
 
     public static void stop() {
         if (PlayGo != null && PlayGo.isAlive()) {
-            PlayGo.close();
+            PlayGo.closeTimer();
             PlayGo.stop();
         }
     }

@@ -1,7 +1,7 @@
 package Color_yr.ALLMusic.Command;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.Search.PlayerSearch;
+import Color_yr.ALLMusic.SongSearch.PlayerSearch;
 
 import java.util.ArrayList;
 import java.util.List;
