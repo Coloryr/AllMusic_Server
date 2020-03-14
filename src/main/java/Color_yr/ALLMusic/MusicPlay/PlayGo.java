@@ -62,7 +62,7 @@ class PlayGo extends Thread {
         PlayMusic.nowLyric = "";
         ALLMusic.Side.SendLyric("");
         PlayMusic.NowPlayMusic = null;
-        if (ALLMusic.VV != null && PlayMusic.getSize() == 0) {
+        if (ALLMusic.VV != null) {
             ALLMusic.VV.clear();
         }
     }

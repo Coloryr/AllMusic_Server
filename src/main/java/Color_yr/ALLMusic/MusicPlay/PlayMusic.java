@@ -53,7 +53,8 @@ public class PlayMusic {
                 }
                 if (ALLMusic.Config.isPlayListSwitch() && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
                     PlayMusic.MusicAllTime = 1;
-                    ALLMusic.Side.bq("§d[ALLMusic]§2切换到玩家歌曲");
+                    if (!isList)
+                        ALLMusic.Side.bq("§d[ALLMusic]§2切换到玩家歌曲");
                 }
             } catch (Exception e) {
                 ALLMusic.log.warning("§d[ALLMusic]§c歌曲信息解析错误");
