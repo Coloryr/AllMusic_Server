@@ -13,6 +13,8 @@ public interface ISide {
 
     void bq(String data);
 
+    void bqt(String data);
+
     void save();
 
     boolean NeedPlay();

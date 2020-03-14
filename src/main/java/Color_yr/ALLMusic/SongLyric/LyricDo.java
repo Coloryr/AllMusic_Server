@@ -12,20 +12,20 @@ public class LyricDo {
     private LyricOBJ obj;
     private boolean haveLyric = false;
 
-    public boolean isHaveLyric() {
-        return haveLyric;
-    }
-
-    public void setHaveLyric(boolean haveLyric) {
-        this.haveLyric = haveLyric;
-    }
-
     public LyricDo() {
         Lyric = new HashMap<>();
     }
 
     public LyricDo(String obj) {
         this.obj = new Gson().fromJson(obj, LyricOBJ.class);
+    }
+
+    public boolean isHaveLyric() {
+        return haveLyric;
+    }
+
+    public void setHaveLyric(boolean haveLyric) {
+        this.haveLyric = haveLyric;
     }
 
     public boolean Check() {

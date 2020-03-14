@@ -7,9 +7,8 @@ public class LyricOBJ {
     private lrc lrc;
     private tlyric tlyric;
 
-    public boolean isok()
-    {
-        return lrc!=null;
+    public boolean isok() {
+        return lrc != null;
     }
 
     public String getLyric() {

@@ -33,14 +33,14 @@ public class GetList {
 
     public static String GetMusic() {
         if (!isUpdata && ALLMusic.Config.getPlayList().size() != 0) {
-            String obj;
+            String ID;
             if (ALLMusic.Config.isPlayListRandom()) {
-                obj = ALLMusic.Config.getPlayList().get(new Random().nextInt(ALLMusic.Config.getPlayList().size() - 1));
+                ID = ALLMusic.Config.getPlayList().get(new Random().nextInt(ALLMusic.Config.getPlayList().size()) - 1);
             } else {
-                obj = ALLMusic.Config.getPlayList().get(PlayNow);
+                ID = ALLMusic.Config.getPlayList().get(PlayNow);
                 PlayNow = PlayNow == ALLMusic.Config.getPlayList().size() ? 0 : +1;
             }
-            return obj;
+            return ID;
         }
         return null;
     }

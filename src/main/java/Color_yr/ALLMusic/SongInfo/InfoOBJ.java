@@ -48,7 +48,7 @@ public class InfoOBJ {
     }
 }
 
-class data{
+class data {
     private List<Songs> songs;
 
     public List<Songs> getSongs() {

@@ -1,9 +1,9 @@
 package Color_yr.ALLMusic.VV;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.SongLyric.ShowOBJ;
 import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.SongInfo.SongInfo;
+import Color_yr.ALLMusic.SongLyric.ShowOBJ;
 import Color_yr.ALLMusic.Utils.Function;
 import lk.vexview.api.VexViewAPI;
 import lk.vexview.hud.VexTextShow;

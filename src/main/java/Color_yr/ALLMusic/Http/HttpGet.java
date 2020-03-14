@@ -1,6 +1,6 @@
 package Color_yr.ALLMusic.Http;
 
-import Color_yr.ALLMusic.ALLMusic;;
+import Color_yr.ALLMusic.ALLMusic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
+;
 
 public class HttpGet {
     public static Res realData(String path, String data) {

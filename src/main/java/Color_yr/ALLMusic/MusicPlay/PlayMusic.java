@@ -1,9 +1,9 @@
 package Color_yr.ALLMusic.MusicPlay;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.SongLyric.LyricDo;
 import Color_yr.ALLMusic.SongInfo.GetInfo;
 import Color_yr.ALLMusic.SongInfo.SongInfo;
+import Color_yr.ALLMusic.SongLyric.LyricDo;
 import Color_yr.ALLMusic.Utils.logs;
 
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ public class PlayMusic {
     public static final List<String> VotePlayer = new ArrayList<>();
     public static final List<String> NowPlayPlayer = new ArrayList<>();
     private static final List<SongInfo> PlayList = new ArrayList<>();
+
     public static int VoteTime = 0;
     public static int MusicAllTime = 0;
     public static int MusicNowTime = 0;

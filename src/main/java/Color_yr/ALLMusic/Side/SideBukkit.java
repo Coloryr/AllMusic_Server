@@ -2,6 +2,7 @@ package Color_yr.ALLMusic.Side;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBukkit;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -11,9 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.nio.charset.StandardCharsets;
-
-import static Color_yr.ALLMusic.ALLMusicBukkit.ALLMusicP;
-import static Color_yr.ALLMusic.MusicPlay.PlayMusic.NowPlayPlayer;
 
 public class SideBukkit implements ISide {
 
@@ -44,6 +42,11 @@ public class SideBukkit implements ISide {
     @Override
     public void bq(String data) {
         Bukkit.broadcastMessage(data);
+    }
+
+    @Override
+    public void bqt(String data) {
+        Bukkit.getScheduler().runTask(ALLMusicBukkit.ALLMusicP, () -> Bukkit.broadcastMessage(data));
     }
 
     @Override
@@ -78,7 +81,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void RunTask(Runnable run) {
-        Bukkit.getScheduler().runTask(ALLMusicP, run);
+        Bukkit.getScheduler().runTask(ALLMusicBukkit.ALLMusicP, run);
     }
 
     @Override
@@ -100,12 +103,12 @@ public class SideBukkit implements ISide {
             ByteBuf buf = Unpooled.buffer(bytes.length + 1);
             buf.writeByte(666);
             buf.writeBytes(bytes);
-            players.sendPluginMessage(ALLMusicP, ALLMusic.channel, buf.array());
+            players.sendPluginMessage(ALLMusicBukkit.ALLMusicP, ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
-                    NowPlayPlayer.add(players.getName());
+                    PlayMusic.NowPlayPlayer.add(players.getName());
                 } else {
-                    NowPlayPlayer.remove(players.getName());
+                    PlayMusic.NowPlayPlayer.remove(players.getName());
                 }
             }
         } catch (Exception e) {

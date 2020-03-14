@@ -33,8 +33,7 @@ public class Search {
                 }
                 maxpage = res1.size() / 10;
                 done = true;
-            }
-            else {
+            } else {
                 ALLMusic.log.warning("§d[ALLMusic]§c歌曲搜索出现错误");
             }
         }
