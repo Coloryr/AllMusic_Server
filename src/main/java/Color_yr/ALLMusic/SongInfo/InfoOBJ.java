@@ -61,10 +61,18 @@ class Songs {
     private List<ar> ar;
     private List<String> alia;
     private al al;
+    private h l;
+    private h m;
     private h h;
 
     public int getLength() {
-        return h.getLength();
+        if (l != null)
+            return l.getLength();
+        if (m != null)
+            return m.getLength();
+        if (h != null)
+            return h.getLength();
+        return 0;
     }
 
     public String getName() {
