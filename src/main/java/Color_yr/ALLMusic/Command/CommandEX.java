@@ -113,6 +113,10 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, PlayMusic.getAllList());
             }
         } else if (args[0].equalsIgnoreCase("vote")) {
+            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.vote")) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限切歌");
+                return;
+            }
             if (PlayMusic.getSize() == 0) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2队列中无歌曲");
             } else if (PlayMusic.VoteTime == 0) {
@@ -181,6 +185,10 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2请输入有效的音乐列表ID");
             }
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
+            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
+                return;
+            }
             ALLMusic.Side.RunTask(() -> {
                 Search search = new Search(args);
                 if (!search.isDone())
@@ -192,6 +200,10 @@ public class CommandEX {
                 }
             });
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
+            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
+                return;
+            }
             Search obj = PlayerSearch.SearchSave.get(Name);
             if (obj == null) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
@@ -210,6 +222,10 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c请输入正确的序号");
             }
         } else if (args[0].equalsIgnoreCase("nextpage")) {
+            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
+                return;
+            }
             Search obj = PlayerSearch.SearchSave.get(Name);
             if (obj == null) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
@@ -219,6 +235,10 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法下一页");
             }
         } else if (args[0].equalsIgnoreCase("lastpage")) {
+            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
+                return;
+            }
             Search obj = PlayerSearch.SearchSave.get(Name);
             if (obj == null) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
