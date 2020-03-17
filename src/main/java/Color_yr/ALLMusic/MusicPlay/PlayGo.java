@@ -2,10 +2,7 @@ package Color_yr.ALLMusic.MusicPlay;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBukkit;
-import Color_yr.ALLMusic.MusicList.GetList;
-import Color_yr.ALLMusic.SongInfo.GetMusicPlay;
-import Color_yr.ALLMusic.SongLyric.LyricGet;
-import Color_yr.ALLMusic.SongLyric.ShowOBJ;
+import Color_yr.ALLMusic.MusicAPI.SongLyric.ShowOBJ;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -73,7 +70,7 @@ class PlayGo extends Thread {
             if (PlayMusic.getSize() == 0) {
                 try {
                     if (ALLMusic.Side.NeedPlay()) {
-                        String ID = GetList.GetMusic();
+                        String ID = ALLMusic.Music.GetListMusic();
                         if (ID != null) {
                             ALLMusic.Side.RunTask(() -> PlayMusic.addMusic(ID, "空闲列表", true));
                         }
@@ -87,13 +84,13 @@ class PlayGo extends Thread {
                 PlayMusic.NowPlayMusic = PlayMusic.getMusic(0);
                 PlayMusic.remove(0);
 
-                String url = GetMusicPlay.Get(PlayMusic.NowPlayMusic.getID());
+                String url = ALLMusic.Music.GetPlayUrl(PlayMusic.NowPlayMusic.getID());
                 if (url == null) {
                     ALLMusic.Side.bqt("§d[ALLMusic]§c" + "无法播放歌曲" + PlayMusic.NowPlayMusic.getID() + "可能改歌曲为VIP歌曲");
                     continue;
                 }
 
-                PlayMusic.Lyric = new LyricGet().Get(PlayMusic.NowPlayMusic.getID());
+                PlayMusic.Lyric = ALLMusic.Music.getLyric(PlayMusic.NowPlayMusic.getID());
 
                 if (PlayMusic.NowPlayMusic.getLength() != 0) {
                     PlayMusic.MusicAllTime = (PlayMusic.NowPlayMusic.getLength() / 1000) + 10;

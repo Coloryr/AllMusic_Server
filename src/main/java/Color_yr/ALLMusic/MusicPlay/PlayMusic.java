@@ -1,9 +1,8 @@
 package Color_yr.ALLMusic.MusicPlay;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.SongInfo.GetInfo;
-import Color_yr.ALLMusic.SongInfo.SongInfo;
-import Color_yr.ALLMusic.SongLyric.LyricDo;
+import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
+import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricDo;
 import Color_yr.ALLMusic.Utils.logs;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class PlayMusic {
                     "点歌" + ID);
             logs.log_write("玩家：" + player + " 点歌：" + ID);
             try {
-                SongInfo info = GetInfo.Get(ID, player, isList);
+                SongInfo info = ALLMusic.Music.GetMusic(ID, player, isList);
                 if (info != null) {
                     PlayList.add(info);
                     ALLMusic.Side.bq("§d[ALLMusic]§2音乐列表添加" + info.getName());

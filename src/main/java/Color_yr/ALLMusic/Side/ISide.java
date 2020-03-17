@@ -15,8 +15,6 @@ public interface ISide {
 
     void bqt(String data);
 
-    void save();
-
     boolean NeedPlay();
 
     void SendMessage(Object obj, String Message);

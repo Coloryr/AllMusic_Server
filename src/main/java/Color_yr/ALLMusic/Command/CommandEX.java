@@ -1,11 +1,9 @@
 package Color_yr.ALLMusic.Command;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.MusicList.GetList;
 import Color_yr.ALLMusic.MusicPlay.PlayMusic;
-import Color_yr.ALLMusic.SongSearch.PlayerSearch;
-import Color_yr.ALLMusic.SongSearch.Search;
-import Color_yr.ALLMusic.SongSearch.SearchOBJ;
+import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchOBJ;
+import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.ALLMusic.Utils.Function;
 import net.md_5.bungee.api.chat.ClickEvent;
 
@@ -44,7 +42,7 @@ public class CommandEX {
             ALLMusic.Side.SendMessage(sender, "§d[ALLmusic]§c错误，请输入歌曲数字ID");
     }
 
-    private static void ShowSearch(Object sender, Search search) {
+    private static void ShowSearch(Object sender, SearchPage search) {
         int index = search.getIndex();
         SearchOBJ item;
         for (int a = 0; a < index; a++) {
@@ -113,7 +111,7 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, PlayMusic.getAllList());
             }
         } else if (args[0].equalsIgnoreCase("vote")) {
-            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.vote")) {
+            if (ALLMusic.Config.isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.vote")) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限切歌");
                 return;
             }
@@ -179,32 +177,32 @@ public class CommandEX {
         } else if (args[0].equalsIgnoreCase("addlist") && args.length == 2
                 && ALLMusic.Config.getAdmin().contains(Name)) {
             if (Function.isInteger(args[1])) {
-                GetList.GetL(args[1]);
+                ALLMusic.Music.SetList(args[1]);
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2添加音乐列表" + args[1]);
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2请输入有效的音乐列表ID");
             }
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
-            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
+            if (ALLMusic.Config.isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
                 return;
             }
             ALLMusic.Side.RunTask(() -> {
-                Search search = new Search(args);
-                if (!search.isDone())
+                SearchPage search = ALLMusic.Music.Search(args);
+                if (search == null)
                     ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法搜索歌曲：" + args[1]);
                 else {
                     ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2搜索结果");
                     ShowSearch(sender, search);
-                    PlayerSearch.SearchSave.put(Name, search);
+                    ALLMusic.SearchSave.put(Name, search);
                 }
             });
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
-            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
+            if (ALLMusic.Config.isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
                 return;
             }
-            Search obj = PlayerSearch.SearchSave.get(Name);
+            SearchPage obj = ALLMusic.SearchSave.get(Name);
             if (obj == null) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
             } else if (!args[1].isEmpty() && Function.isInteger(args[1])) {
@@ -217,16 +215,16 @@ public class CommandEX {
                 ID[0] = obj.GetSong((obj.getPage() * 10) + (a - 1));
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2你选择了序号" + a);
                 AddMusic(sender, Name, ID);
-                PlayerSearch.SearchSave.remove(Name);
+                ALLMusic.SearchSave.remove(Name);
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c请输入正确的序号");
             }
         } else if (args[0].equalsIgnoreCase("nextpage")) {
-            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
+            if (ALLMusic.Config.isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
                 return;
             }
-            Search obj = PlayerSearch.SearchSave.get(Name);
+            SearchPage obj = ALLMusic.SearchSave.get(Name);
             if (obj == null) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
             } else if (obj.nextPage()) {
@@ -235,11 +233,11 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法下一页");
             }
         } else if (args[0].equalsIgnoreCase("lastpage")) {
-            if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
+            if (ALLMusic.Config.isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
                 return;
             }
-            Search obj = PlayerSearch.SearchSave.get(Name);
+            SearchPage obj = ALLMusic.SearchSave.get(Name);
             if (obj == null) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
             } else if (obj.lastPage()) {
@@ -267,7 +265,7 @@ public class CommandEX {
                     }
                 });
             }
-        } else if (ALLMusic.Config.isNeedPermission() && !ALLMusic.Side.checkPermission(Name, "ALLMusic.addmusic"))
+        } else if (ALLMusic.Config.isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.addmusic"))
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限点歌");
         else
             AddMusic(sender, Name, args);

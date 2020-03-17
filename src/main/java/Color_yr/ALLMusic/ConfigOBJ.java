@@ -1,6 +1,6 @@
 package Color_yr.ALLMusic;
 
-import Color_yr.ALLMusic.VV.VVSaveOBJ;
+import Color_yr.ALLMusic.Side.SideBukkit.VV.VVSaveOBJ;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigOBJ {
-    private String Netease_Api;
+    private String Music_Api1;
+    private String Music_Api2;
+
+    private int Music_Api;
 
     private int MaxList;
     private int MinVote;
@@ -31,7 +34,9 @@ public class ConfigOBJ {
     private String Version;
 
     public ConfigOBJ() {
-        Netease_Api = "https://v1.itooi.cn/netease/";
+        Music_Api1 = "https://v1.itooi.cn/netease/";
+        Music_Api2 = "https://api.imjad.cn/cloudmusic/";
+        Music_Api = 1;
         MaxList = 10;
         MinVote = 3;
         Delay = 0;
@@ -50,6 +55,14 @@ public class ConfigOBJ {
         Version = ALLMusic.Version;
     }
 
+    public int getMusic_Api() {
+        return Music_Api;
+    }
+
+    public String getMusic_Api2() {
+        return Music_Api2;
+    }
+
     public boolean isNeedPermission() {
         return NeedPermission;
     }
@@ -58,8 +71,8 @@ public class ConfigOBJ {
         return SendLyric;
     }
 
-    public String getNetease_Api() {
-        return Netease_Api;
+    public String getMusic_Api1() {
+        return Music_Api1;
     }
 
     public VVSaveOBJ getVVSave(String player) {
@@ -122,17 +135,17 @@ public class ConfigOBJ {
     public void addBanID(String ID) {
         if (!BanMusic.contains(ID))
             BanMusic.add(ID);
-        ALLMusic.Side.save();
+        ALLMusic.save();
     }
 
     public void AddNoMusicPlayer(String ID) {
         if (!NoMusicPlayer.contains(ID))
             NoMusicPlayer.add(ID);
-        ALLMusic.Side.save();
+        ALLMusic.save();
     }
 
     public void RemoveNoMusicPlayer(String ID) {
         NoMusicPlayer.remove(ID);
-        ALLMusic.Side.save();
+        ALLMusic.save();
     }
 }

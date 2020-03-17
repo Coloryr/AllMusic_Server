@@ -1,7 +1,6 @@
 package Color_yr.ALLMusic.Command;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.SongSearch.PlayerSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ public class TabCommand {
             arguments.add("vote");
             arguments.add("nomusic");
             arguments.add("search");
-            if (PlayerSearch.SearchSave.get(name) != null) {
+            if (ALLMusic.SearchSave.get(name) != null) {
                 arguments.add("select");
                 arguments.add("nextpage");
                 arguments.add("lastpage");

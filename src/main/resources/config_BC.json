@@ -1,5 +1,7 @@
 {
-  "Netease_Api": "https://v1.itooi.cn/netease/",
+  "Music_Api1": "https://v1.itooi.cn/netease/",
+  "Music_Api2": "https://api.imjad.cn/cloudmusic/",
+  "Music_Api": 1,
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 0,
@@ -14,5 +16,5 @@
   "NeedPermission": false,
   "VexView": false,
   "VVSave": {},
-  "Version": "1.9.0"
+  "Version": "1.10.0"
 }
