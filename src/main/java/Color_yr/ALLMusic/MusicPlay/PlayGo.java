@@ -10,7 +10,15 @@ import java.util.concurrent.TimeUnit;
 
 class PlayGo extends Thread {
 
-    private final Runnable runnable = () -> PlayMusic.MusicNowTime += 10;
+    private int count = 0;
+    private final Runnable runnable = () -> {
+        PlayMusic.MusicNowTime += 10;
+        count++;
+        if (count == 100) {
+            PlayMusic.MusicAllTime--;
+            count = 0;
+        }
+    };
     private int times = 0;
     private final Runnable runnable1 = () -> {
         ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
@@ -24,7 +32,7 @@ class PlayGo extends Thread {
             }
         } else {
             times++;
-            if (times == 200) {
+            if (times == 2000) {
                 times = 0;
                 ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
             }
@@ -38,18 +46,22 @@ class PlayGo extends Thread {
         if (service != null) {
             service.shutdown();
             service.shutdownNow();
+            service = null;
         }
         if (service1 != null) {
             service1.shutdown();
             service1.shutdownNow();
+            service1 = null;
         }
     }
 
     private void startTimer() {
         service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(runnable, 0, 10, TimeUnit.MILLISECONDS);
-        service1 = Executors.newSingleThreadScheduledExecutor();
-        service1.scheduleAtFixedRate(runnable1, 0, 2, TimeUnit.MILLISECONDS);
+        if (PlayMusic.Lyric.isHaveLyric()) {
+            service1 = Executors.newSingleThreadScheduledExecutor();
+            service1.scheduleAtFixedRate(runnable1, 0, 2, TimeUnit.MILLISECONDS);
+        }
     }
 
     public void clear() {
@@ -86,7 +98,7 @@ class PlayGo extends Thread {
 
                 String url = ALLMusic.Music.GetPlayUrl(PlayMusic.NowPlayMusic.getID());
                 if (url == null) {
-                    ALLMusic.Side.bqt("§d[ALLMusic]§c" + "无法播放歌曲" + PlayMusic.NowPlayMusic.getID() + "可能改歌曲为VIP歌曲");
+                    ALLMusic.Side.bqt("§d[ALLMusic]§c" + "无法播放歌曲" + PlayMusic.NowPlayMusic.getID() + "可能该歌曲为VIP歌曲");
                     continue;
                 }
 
@@ -95,8 +107,7 @@ class PlayGo extends Thread {
                 if (PlayMusic.NowPlayMusic.getLength() != 0) {
                     PlayMusic.MusicAllTime = (PlayMusic.NowPlayMusic.getLength() / 1000) + 10;
                     ALLMusic.Side.bqt("§d[ALLMusic]§2" + "正在播放歌曲" + PlayMusic.NowPlayMusic.getInfo());
-                    if (PlayMusic.Lyric.isHaveLyric())
-                        startTimer();
+                    startTimer();
                     ALLMusic.Side.Send("[Play]" + url, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
@@ -129,14 +140,12 @@ class PlayGo extends Thread {
                                 }
                             }
                             Thread.sleep(1000);
-                            PlayMusic.MusicAllTime--;
                         }
                     } catch (InterruptedException e) {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌曲播放出现错误");
                         e.printStackTrace();
                     }
-                    if (PlayMusic.Lyric.isHaveLyric())
-                        closeTimer();
+                    closeTimer();
                 } else {
                     ALLMusic.Side.bqt("§d[ALLMusic]§2" + "无效歌曲" + PlayMusic.NowPlayMusic.getID());
                 }
