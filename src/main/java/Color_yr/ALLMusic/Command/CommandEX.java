@@ -115,7 +115,7 @@ public class CommandEX {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限切歌");
                 return;
             }
-            if (PlayMusic.getSize() == 0) {
+            if (PlayMusic.getSize() == 0 && ALLMusic.Config.getPlayList().size() == 0) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2队列中无歌曲");
             } else if (PlayMusic.VoteTime == 0) {
                 PlayMusic.VoteTime = 30;
