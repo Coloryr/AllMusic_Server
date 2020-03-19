@@ -94,7 +94,8 @@ public class PlayMusic {
             SongInfo info = PlayList.get(i);
             list.append("§2").append(i + 1).append("->").append(info.getInfo()).append("\n");
         }
-        return list.toString();
+        String temp = list.toString();
+        return temp.substring(0, temp.length() - 1);
     }
 
     public static boolean isHave(String ID) {
