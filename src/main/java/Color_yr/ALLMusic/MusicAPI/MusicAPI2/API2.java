@@ -39,7 +39,7 @@ public class API2 implements IMusic {
                 info = new SongInfo(temp.getAuthor(), temp.getName(),
                         ID, temp.getAlia(), player, temp.getAl(), isList, temp.getLength());
             } else {
-                ALLMusic.log.warning("§d[ALLMusic]§c歌曲信息获取为空");
+                ALLMusic.log.warning("§c歌曲信息获取为空");
             }
         }
         return info;
@@ -56,7 +56,7 @@ public class API2 implements IMusic {
                 } else
                     return null;
             } catch (Exception e) {
-                ALLMusic.log.warning("§d[ALLMusic]§c播放连接解析错误");
+                ALLMusic.log.warning("§c播放连接解析错误");
                 e.printStackTrace();
                 return null;
             }
@@ -75,9 +75,9 @@ public class API2 implements IMusic {
                     DataOBJ obj = new Gson().fromJson(res.getData(), DataOBJ.class);
                     ALLMusic.Config.getPlayList().addAll(obj.getPlaylist());
                     ALLMusic.save();
-                    ALLMusic.log.info("§d[ALLMusic]§2歌曲列表" + obj.getName() + "获取成功");
+                    ALLMusic.log.info("§2歌曲列表" + obj.getName() + "获取成功");
                 } catch (Exception e) {
-                    ALLMusic.log.warning("§d[ALLMusic]§c歌曲列表获取错误");
+                    ALLMusic.log.warning("§c歌曲列表获取错误");
                     e.printStackTrace();
                 }
             isUpdata = false;
@@ -95,7 +95,7 @@ public class API2 implements IMusic {
                 LyricCheck temp = new LyricCheck(res.getData());
                 for (int times = 0; times < 3; times++) {
                     if (!temp.Check()) {
-                        ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误，正在进行第" + times + "重试");
+                        ALLMusic.log.warning("§c歌词解析错误，正在进行第" + times + "重试");
                     } else {
                         if (!ALLMusic.Config.isSendLyric() && ALLMusic.VV == null) {
                             Lyric.setHaveLyric(false);
@@ -107,9 +107,9 @@ public class API2 implements IMusic {
                     }
                     Thread.sleep(1000);
                 }
-                ALLMusic.log.warning("§d[ALLMusic]§c歌词解析失败");
+                ALLMusic.log.warning("§c歌词解析失败");
             } catch (Exception e) {
-                ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误");
+                ALLMusic.log.warning("§c歌词解析错误");
                 e.printStackTrace();
             }
         }
@@ -140,7 +140,7 @@ public class API2 implements IMusic {
                 maxpage = res1.size() / 10;
                 return new SearchPage(resData, maxpage);
             } else {
-                ALLMusic.log.warning("§d[ALLMusic]§c歌曲搜索出现错误");
+                ALLMusic.log.warning("§c歌曲搜索出现错误");
 
             }
         }

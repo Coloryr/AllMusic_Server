@@ -9,8 +9,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-;
-
 public class HttpGet {
     public static Res realData(String path, String data) {
         try {
@@ -38,11 +36,11 @@ public class HttpGet {
             }
             String data1 = result.toString(StandardCharsets.UTF_8.name());
             if (!ok) {
-                ALLMusic.log.warning("§d[ALLMusic]§c服务器返回错误：" + data1);
+                ALLMusic.log.warning("§c服务器返回错误：" + data1);
             }
             return new Res(data1, ok);
         } catch (Exception e) {
-            ALLMusic.log.warning("§d[ALLMusic]§c获取网页错误");
+            ALLMusic.log.warning("§c获取网页错误");
             e.printStackTrace();
         }
         return null;

@@ -11,21 +11,24 @@ import java.util.Date;
 public class logs {
     public static File file;
     private static Date date = new Date();
+    private static FileWriter fw;
+    private static PrintWriter pw;
 
     public static void log_write(String text) {
         try {
-            FileWriter fw = new FileWriter(file, true);
+            if (fw == null)
+                fw = new FileWriter(file, true);
             String year = String.format("%tF", date);
             String time = String.format("%tT", date);
             String write = "[" + year + "]" + "[" + time + "]" + text;
-            PrintWriter pw = new PrintWriter(fw);
+            if (pw == null)
+                pw = new PrintWriter(fw);
             pw.println(write);
             pw.flush();
             fw.flush();
-            pw.close();
-            fw.close();
+
         } catch (IOException e) {
-            ALLMusic.log.warning("§d[AllMusic]§c日志文件写入失败");
+            ALLMusic.log.warning("§c日志文件写入失败");
             e.printStackTrace();
         }
     }
@@ -35,5 +38,12 @@ public class logs {
         if (!logs.file.exists()) {
             logs.file.createNewFile();
         }
+    }
+
+    public static void stop() throws IOException {
+        if (fw != null)
+            pw.close();
+        if (fw != null)
+            fw.close();
     }
 }

@@ -56,7 +56,7 @@ public class PlayMusic {
                         ALLMusic.Side.bq("§d[ALLMusic]§2切换到玩家歌曲");
                 }
             } catch (Exception e) {
-                ALLMusic.log.warning("§d[ALLMusic]§c歌曲信息解析错误");
+                ALLMusic.log.warning("§c歌曲信息解析错误");
                 e.printStackTrace();
             }
         }

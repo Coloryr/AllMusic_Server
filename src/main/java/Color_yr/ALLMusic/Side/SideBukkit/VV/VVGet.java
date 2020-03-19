@@ -18,7 +18,7 @@ public class VVGet {
 
     public VVGet() {
         version = VexViewAPI.getVexView().getVersion();
-        ALLMusic.log.info("§d[ALLMusic]§2VexView支持已启动");
+        ALLMusic.log.info("§2VexView支持已启动");
     }
 
     public boolean SetPot(String player, String pos, String local, String data) {

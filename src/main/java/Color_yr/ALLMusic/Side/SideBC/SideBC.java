@@ -37,7 +37,7 @@ public class SideBC implements ISide {
                 }
             }
         } catch (Exception e) {
-            ALLMusic.log.warning("§d[ALLMusic]§c歌曲发送发生错误");
+            ALLMusic.log.warning("§c歌曲发送发生错误");
             e.printStackTrace();
         }
     }
@@ -61,7 +61,7 @@ public class SideBC implements ISide {
                 }
             }
         } catch (Exception e) {
-            ALLMusic.log.warning("§d[ALLMusic]§c歌词发生出错");
+            ALLMusic.log.warning("§c歌词发生出错");
             e.printStackTrace();
         }
     }
@@ -143,7 +143,7 @@ public class SideBC implements ISide {
                 }
             }
         } catch (Exception e) {
-            ALLMusic.log.warning("§d[ALLMusic]§c数据发送发生错误");
+            ALLMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
         }
     }

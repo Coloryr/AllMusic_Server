@@ -33,7 +33,7 @@ public class ALLMusicBukkit extends JavaPlugin {
             }
             ALLMusic.LoadConfig();
         } catch (IOException e) {
-            ALLMusic.log.warning("§d[ALLMusic]§c配置文件错误");
+            ALLMusic.log.warning("§c配置文件错误");
             e.printStackTrace();
         }
     }
@@ -43,7 +43,7 @@ public class ALLMusicBukkit extends JavaPlugin {
         ALLMusicP = this;
 
         ALLMusic.log = getLogger();
-        ALLMusic.log.info("§d[ALLMusic]§e正在启动，感谢使用，本插件交流群：571239090");
+        ALLMusic.log.info("§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
         String Version = Bukkit.getBukkitVersion();
         if (Version.startsWith("1.12"))
@@ -64,7 +64,7 @@ public class ALLMusicBukkit extends JavaPlugin {
         }
         PlayMusic.start();
         new MetricsBukkit(this, 6720);
-        ALLMusic.log.info("§d[ALLMusic]§e已启动-" + ALLMusic.Version);
+        ALLMusic.log.info("§e已启动-" + ALLMusic.Version);
     }
 
     @Override
@@ -75,8 +75,13 @@ public class ALLMusicBukkit extends JavaPlugin {
         if (ALLMusic.VV != null) {
             ALLMusic.VV.clear();
         }
+        try {
+            logs.stop();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ALLMusic.Side.Send("[Stop]", false);
-        ALLMusic.log.info("§d[ALLMusic]§e已停止，感谢使用");
+        ALLMusic.log.info("§e已停止，感谢使用");
     }
 
 }

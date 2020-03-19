@@ -142,7 +142,7 @@ class PlayGo extends Thread {
                             Thread.sleep(1000);
                         }
                     } catch (InterruptedException e) {
-                        ALLMusic.log.warning("§d[ALLMusic]§c歌曲播放出现错误");
+                        ALLMusic.log.warning("§c歌曲播放出现错误");
                         e.printStackTrace();
                     }
                     closeTimer();

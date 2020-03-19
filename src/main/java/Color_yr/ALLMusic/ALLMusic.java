@@ -35,7 +35,7 @@ public class ALLMusic {
                 out.close();
             }
         } catch (Exception e) {
-            ALLMusic.log.warning("§d[ALLMusic]§c配置文件错误");
+            ALLMusic.log.warning("§c配置文件错误");
             e.printStackTrace();
         }
     }
@@ -51,7 +51,7 @@ public class ALLMusic {
             ALLMusic.Config = new ConfigOBJ();
         }
 
-        ALLMusic.log.info("§d[ALLMusic]§e当前插件版本为：" + ALLMusic.Version
+        ALLMusic.log.info("§e当前插件版本为：" + ALLMusic.Version
                 + "，你的配置文件版本为：" + ALLMusic.Config.getVersion());
 
         for (String item : ALLMusic.Config.getNoMusicPlayer()) {

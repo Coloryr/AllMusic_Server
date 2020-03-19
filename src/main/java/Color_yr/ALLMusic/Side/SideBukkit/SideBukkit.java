@@ -108,7 +108,7 @@ public class SideBukkit implements ISide {
                 }
             }
         } catch (Exception e) {
-            ALLMusic.log.warning("§d[ALLMusic]§c数据发送发生错误");
+            ALLMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
         }
     }
