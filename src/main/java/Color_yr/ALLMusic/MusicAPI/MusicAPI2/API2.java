@@ -93,13 +93,14 @@ public class API2 implements IMusic {
         if (res != null && res.isOk()) {
             try {
                 LyricCheck temp = new LyricCheck(res.getData());
-                for(int times = 0 ; times <3;times++ ) {
+                for (int times = 0; times < 3; times++) {
                     if (!temp.Check()) {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误，正在进行第" + times + "重试");
-                    }
-                    else {
+                    } else {
                         if (!ALLMusic.Config.isSendLyric() && ALLMusic.VV == null) {
                             Lyric.setHaveLyric(false);
+                        } else {
+                            Lyric.setHaveLyric(true);
                         }
                         Lyric.setLyric(temp.getTemp());
                         return Lyric;

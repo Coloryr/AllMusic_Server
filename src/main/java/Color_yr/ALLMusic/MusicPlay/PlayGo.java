@@ -32,7 +32,7 @@ class PlayGo extends Thread {
             }
         } else {
             times++;
-            if (times == 2000) {
+            if (times == 1000) {
                 times = 0;
                 ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
             }
