@@ -6,7 +6,7 @@ public class InfoOBJ {
     private List<Songs> songs;
 
     public boolean isok() {
-        return songs != null;
+        return (songs != null && songs.size() != 0);
     }
 
     public String getName() {
@@ -17,6 +17,8 @@ public class InfoOBJ {
 
     public String getAuthor() {
         StringBuilder Author = new StringBuilder();
+        if(songs.size() == 0)
+            return null;
         for (ar ar : songs.get(0).getAr()) {
             Author.append(ar.getName()).append(",");
         }

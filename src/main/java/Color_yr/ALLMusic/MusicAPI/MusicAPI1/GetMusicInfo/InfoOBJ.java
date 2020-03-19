@@ -6,11 +6,11 @@ public class InfoOBJ {
     private data data;
 
     public boolean isok() {
-        return data != null;
+        return (data != null && data.getSongs().size() != 0);
     }
 
     public String getName() {
-        if (data.getSongs().size() == 0)
+        if (data == null || data.getSongs().size() == 0)
             return null;
         return data.getSongs().get(0).getName();
     }
