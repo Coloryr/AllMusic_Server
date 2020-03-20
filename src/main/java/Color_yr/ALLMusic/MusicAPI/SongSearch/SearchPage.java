@@ -7,7 +7,7 @@ public class SearchPage {
     private int page = 0;
     private int maxpage = 0;
 
-    public SearchPage(List<SearchOBJ> resData,int maxpage) {
+    public SearchPage(List<SearchOBJ> resData, int maxpage) {
         this.resData = resData;
         this.maxpage = maxpage;
     }

@@ -23,7 +23,6 @@ class data {
 }
 
 
-
 class artists {
     private String name;
 

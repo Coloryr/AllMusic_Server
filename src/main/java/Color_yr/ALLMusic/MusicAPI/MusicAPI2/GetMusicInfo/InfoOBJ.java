@@ -10,14 +10,14 @@ public class InfoOBJ {
     }
 
     public String getName() {
-        if(songs == null || songs.size() == 0)
+        if (songs == null || songs.size() == 0)
             return null;
         return songs.get(0).getName();
     }
 
     public String getAuthor() {
         StringBuilder Author = new StringBuilder();
-        if(songs.size() == 0)
+        if (songs.size() == 0)
             return null;
         for (ar ar : songs.get(0).getAr()) {
             Author.append(ar.getName()).append(",");

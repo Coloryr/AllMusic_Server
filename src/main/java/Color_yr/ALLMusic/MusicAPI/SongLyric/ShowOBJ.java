@@ -1,5 +1,7 @@
 package Color_yr.ALLMusic.MusicAPI.SongLyric;
 
+import Color_yr.ALLMusic.ALLMusic;
+
 public class ShowOBJ {
     private boolean haveT;
     private String lyric;
@@ -27,10 +29,15 @@ public class ShowOBJ {
     public String toString() {
         if (lyric == null || lyric.isEmpty())
             return null;
+        String data;
         if (haveT) {
-            if (tlyric != null && !tlyric.isEmpty())
-                return lyric + "(" + tlyric + ")";
+            if (tlyric != null && !tlyric.isEmpty()) {
+                data = ALLMusic.Message.getLyric().getTData();
+                return data.replace("%Lyric%", lyric)
+                        .replace("%TLyric%", tlyric);
+            }
         }
-        return lyric;
+        data = ALLMusic.Message.getLyric().getTData();
+        return data.replace("%Lyric%", lyric);
     }
 }

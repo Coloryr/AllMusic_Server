@@ -7,14 +7,19 @@ import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit;
 import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit1_12;
 import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit1_14;
 import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit1_15;
-import Color_yr.ALLMusic.Utils.logs;
 import Color_yr.ALLMusic.Side.SideBukkit.VV.VVGet;
+import Color_yr.ALLMusic.Utils.logs;
 import Color_yr.ALLMusic.bStats.MetricsBukkit;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class ALLMusicBukkit extends JavaPlugin {
@@ -24,12 +29,17 @@ public class ALLMusicBukkit extends JavaPlugin {
     public static void setConfig() {
         try {
             ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
+            ALLMusic.MessageFile = new File(ALLMusicP.getDataFolder(), "Message.json");
             if (!ALLMusicP.getDataFolder().exists())
                 ALLMusicP.getDataFolder().mkdir();
             new logs().Init(ALLMusicP.getDataFolder());
             if (!ALLMusic.ConfigFile.exists()) {
                 InputStream in = ALLMusicP.getResource("config_BC.json");
                 Files.copy(in, ALLMusic.ConfigFile.toPath());
+            }
+            if (!ALLMusic.MessageFile.exists()) {
+                InputStream in = ALLMusicP.getResource("Message.json");
+                Files.copy(in, ALLMusic.MessageFile.toPath());
             }
             ALLMusic.LoadConfig();
         } catch (IOException e) {
@@ -55,6 +65,17 @@ public class ALLMusicBukkit extends JavaPlugin {
         else
             ALLMusic.Side = new SideBukkit();
         getServer().getMessenger().registerOutgoingPluginChannel(this, ALLMusic.channel);
+        getServer().getMessenger().registerIncomingPluginChannel(this, ALLMusic.channel,
+                (channel, player, message) -> {
+                    if (channel.equalsIgnoreCase(ALLMusic.channel)) {
+                        ByteBuf buf = Unpooled.wrappedBuffer(message);
+                        String data = buf.toString(StandardCharsets.UTF_8);
+                        if (data.contains("666")) {
+                            ALLMusic.haveMOD.add(player.getName());
+                            player.sendMessage(ALLMusic.Message.getCheck().getMOD());
+                        }
+                    }
+                });
         Bukkit.getPluginCommand("music").setExecutor(new CommandBukkit());
         Bukkit.getPluginCommand("music").setTabCompleter(new CommandBukkit());
         Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);
@@ -71,7 +92,7 @@ public class ALLMusicBukkit extends JavaPlugin {
     public void onDisable() {
         PlayMusic.stop();
         PlayMusic.clear();
-        PlayMusic.VotePlayer.clear();
+        ALLMusic.VotePlayer.clear();
         if (ALLMusic.VV != null) {
             ALLMusic.VV.clear();
         }
@@ -80,8 +101,6 @@ public class ALLMusicBukkit extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ALLMusic.Side.Send("[Stop]", false);
         ALLMusic.log.info("§e已停止，感谢使用");
     }
-
 }

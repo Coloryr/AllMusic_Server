@@ -2,7 +2,6 @@ package Color_yr.ALLMusic.Side.SideBukkit;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBukkit;
-import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Side.ISide;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -24,6 +23,8 @@ public class SideBukkit implements ISide {
     @Override
     public void Send(String data, Boolean isplay) {
         for (Player players : Bukkit.getOnlinePlayers()) {
+            if (!ALLMusic.haveMOD.contains(players.getName()))
+                continue;
             if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
                 Send(players, data, isplay);
             }
@@ -62,6 +63,11 @@ public class SideBukkit implements ISide {
     }
 
     @Override
+    public void SendMessaget(Object obj, String Message) {
+        Bukkit.getScheduler().runTask(ALLMusicBukkit.ALLMusicP, () -> ((CommandSender) obj).sendMessage(Message));
+    }
+
+    @Override
     public void SendMessage(Object obj, String Message) {
         CommandSender sender = (CommandSender) obj;
         sender.sendMessage(Message);
@@ -94,6 +100,8 @@ public class SideBukkit implements ISide {
     }
 
     private void Send(Player players, String data, Boolean isplay) {
+        if (players == null)
+            return;
         try {
             byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
             ByteBuf buf = Unpooled.buffer(bytes.length + 1);
@@ -102,9 +110,9 @@ public class SideBukkit implements ISide {
             players.sendPluginMessage(ALLMusicBukkit.ALLMusicP, ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
-                    PlayMusic.NowPlayPlayer.add(players.getName());
+                    ALLMusic.NowPlayPlayer.add(players.getName());
                 } else {
-                    PlayMusic.NowPlayPlayer.remove(players.getName());
+                    ALLMusic.NowPlayPlayer.remove(players.getName());
                 }
             }
         } catch (Exception e) {

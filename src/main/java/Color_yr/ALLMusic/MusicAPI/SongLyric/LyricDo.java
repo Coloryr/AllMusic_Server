@@ -13,12 +13,12 @@ public class LyricDo {
         Lyric = lyric;
     }
 
-    public void setHaveLyric(boolean haveLyric) {
-        this.haveLyric = haveLyric;
-    }
-
     public boolean isHaveLyric() {
         return haveLyric;
+    }
+
+    public void setHaveLyric(boolean haveLyric) {
+        this.haveLyric = haveLyric;
     }
 
     public ShowOBJ checkTime(int playNow) {

@@ -10,10 +10,6 @@ import java.util.List;
 
 public class PlayMusic {
 
-    public static final List<String> VotePlayer = new ArrayList<>();
-    public static final List<String> NowPlayPlayer = new ArrayList<>();
-    private static final List<SongInfo> PlayList = new ArrayList<>();
-
     public static int VoteTime = 0;
     public static int MusicAllTime = 0;
     public static int MusicNowTime = 0;
@@ -36,63 +32,79 @@ public class PlayMusic {
     }
 
     public static void addMusic(String ID, String player, boolean isList) {
-        synchronized (PlayList) {
+        synchronized (ALLMusic.PlayList) {
             if (isHave(ID))
                 return;
-            ALLMusic.Side.bq("§d[ALLMusic]§2" + player +
-                    "点歌" + ID);
-            logs.log_write("玩家：" + player + " 点歌：" + ID);
+            String text = ALLMusic.Message.getMusicPlay().getPlayerAdd();
+            text = text.replace("%PlayerName%", player)
+                    .replace("%MusicID%", ID);
+            ALLMusic.Side.bq(text);
+            logs.logWrite("玩家：" + player + " 点歌：" + ID);
             try {
                 SongInfo info = ALLMusic.Music.GetMusic(ID, player, isList);
                 if (info != null) {
-                    PlayList.add(info);
-                    ALLMusic.Side.bq("§d[ALLMusic]§2音乐列表添加" + info.getName());
+                    ALLMusic.PlayList.add(info);
+                    String data = ALLMusic.Message.getMusicPlay().getAddMusic();
+                    data = data.replace("%MusicName%", info.getName())
+                            .replace("%MusicAuthor%", info.getAuthor())
+                            .replace("%MusicAl%", info.getAl())
+                            .replace("%MusicAlia%", info.getAlia());
+                    ALLMusic.Side.bq(data);
                 } else {
-                    ALLMusic.Side.bq("§d[ALLMusic]§2无效歌曲" + ID);
+                    String data = ALLMusic.Message.getMusicPlay().getNoCanPlay();
+                    ALLMusic.Side.bq(data.replace("%MusicID%", ID));
                 }
                 if (ALLMusic.Config.isPlayListSwitch() && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
                     PlayMusic.MusicAllTime = 1;
                     if (!isList)
-                        ALLMusic.Side.bq("§d[ALLMusic]§2切换到玩家歌曲");
+                        ALLMusic.Side.bq(ALLMusic.Message.getMusicPlay().getSwitch());
                 }
             } catch (Exception e) {
-                ALLMusic.log.warning("§c歌曲信息解析错误");
+                ALLMusic.log.warning("§d[ALLMusic]§c歌曲信息解析错误");
                 e.printStackTrace();
             }
         }
     }
 
     public static SongInfo getMusic(int index) {
-        synchronized (PlayList) {
-            return PlayList.get(index);
+        synchronized (ALLMusic.PlayList) {
+            return ALLMusic.PlayList.get(index);
         }
     }
 
     public static int getSize() {
-        synchronized (PlayList) {
-            return PlayList.size();
+        synchronized (ALLMusic.PlayList) {
+            return ALLMusic.PlayList.size();
         }
     }
 
     public static List<SongInfo> getList() {
-        return new ArrayList<>(PlayList);
+        return new ArrayList<>(ALLMusic.PlayList);
     }
 
     public static void clear() {
-        PlayList.clear();
+        ALLMusic.PlayList.clear();
     }
 
     public static void remove(int index) {
-        synchronized (PlayList) {
-            PlayList.remove(index);
+        synchronized (ALLMusic.PlayList) {
+            ALLMusic.PlayList.remove(index);
         }
     }
 
     public static String getAllList() {
         StringBuilder list = new StringBuilder();
-        for (int i = 0; i < PlayList.size(); i++) {
-            SongInfo info = PlayList.get(i);
-            list.append("§2").append(i + 1).append("->").append(info.getInfo()).append("\n");
+        String a;
+        SongInfo info;
+        for (int i = 0; i < ALLMusic.PlayList.size(); i++) {
+            info = ALLMusic.PlayList.get(i);
+            a = ALLMusic.Message.getMusicPlay().getListMusic().getItem();
+            a = a.replace("%index%", "" + (i + 1))
+                    .replace("%MusicName%", info.getName())
+                    .replace("%MusicAuthor%", info.getAuthor())
+                    .replace("%MusicAl%", info.getAl())
+                    .replace("%MusicAlia%", info.getAlia());
+            list.append(a).append("\n");
         }
         String temp = list.toString();
         return temp.substring(0, temp.length() - 1);
@@ -101,7 +113,7 @@ public class PlayMusic {
     public static boolean isHave(String ID) {
         if (NowPlayMusic != null && NowPlayMusic.getID().equalsIgnoreCase(ID))
             return true;
-        for (SongInfo item : PlayList) {
+        for (SongInfo item : ALLMusic.PlayList) {
             if (item.getID().equalsIgnoreCase(ID))
                 return true;
         }

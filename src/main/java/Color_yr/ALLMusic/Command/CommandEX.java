@@ -1,9 +1,9 @@
 package Color_yr.ALLMusic.Command;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Utils.Function;
 import net.md_5.bungee.api.chat.ClickEvent;
 
@@ -25,43 +25,47 @@ public class CommandEX {
             MusicID = args[0];
         if (Function.isInteger(MusicID)) {
             if (PlayMusic.getSize() >= ALLMusic.Config.getMaxList()) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c错误，队列已满");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getAddMusic().getListFull());
             } else if (ALLMusic.Config.getBanMusic().contains(MusicID)) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c错误，这首歌被禁点了");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getAddMusic().getBanMusic());
             } else if (PlayMusic.isHave(MusicID)) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c错误，这首歌已经存在了");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getAddMusic().getExistMusic());
             } else {
                 ALLMusic.Config.RemoveNoMusicPlayer(Name);
                 if (ALLMusic.Side.NeedPlay()) {
                     ALLMusic.Side.RunTask(() -> PlayMusic.addMusic(MusicID, Name, false));
-                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2点歌成功");
+                    ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getAddMusic().getSuccess());
                 } else
-                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c没有播放的玩家");
+                    ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getAddMusic().getNoPlayer());
             }
         } else
-            ALLMusic.Side.SendMessage(sender, "§d[ALLmusic]§c错误，请输入歌曲数字ID");
+            ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getAddMusic().getNoID());
     }
 
     private static void ShowSearch(Object sender, SearchPage search) {
         int index = search.getIndex();
         SearchOBJ item;
+        String info;
+        ALLMusic.Side.SendMessage(sender, "");
         for (int a = 0; a < index; a++) {
             item = search.getRes(a + search.getPage());
-            ALLMusic.Side.SendMessage(sender, "§b[§n点我选择§r§b]§2" +
-                            (a + 1) + "->"
-                            + item.getName() + " | "
-                            + item.getAuthor() + " | "
-                            + item.getAila(),
+            info = ALLMusic.Message.getPage().getChoice();
+            info = info.replace("%index%", "" + (a + 1))
+                    .replace("%MusicName%", item.getName())
+                    .replace("%MusicAuthor%", item.getAuthor())
+                    .replace("%MusicAl%", item.getAl());
+            ALLMusic.Side.SendMessage(sender, info,
                     ClickEvent.Action.RUN_COMMAND, "/music select " + (a + 1));
         }
         if (search.haveNextPage()) {
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§e[§n点我下一页§r§b]",
+            ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getPage().getNext(),
                     ClickEvent.Action.RUN_COMMAND, "/music nextpage");
         }
         if (search.haveLastPage()) {
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§e[§n点我上一页§r§b]",
+            ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getPage().getLast(),
                     ClickEvent.Action.RUN_COMMAND, "/music lastpage");
         }
+        ALLMusic.Side.SendMessage(sender, "");
     }
 
     public static void EX(Object sender, String Name, String[] args) {
@@ -79,8 +83,6 @@ public class CommandEX {
                     ClickEvent.Action.RUN_COMMAND, "/music vote");
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music nomusic 不再参与点歌§e[§n点我§r§b]",
                     ClickEvent.Action.RUN_COMMAND, "/music nomusic");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music v [音量] 调节音量§e[§n点我§r§b]",
-                    ClickEvent.Action.SUGGEST_COMMAND, "/music v ");
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music search [歌名] 搜索歌曲§e[§n点我§r§b]",
                     ClickEvent.Action.SUGGEST_COMMAND, "/music search ");
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music select [序列] 选择歌曲§e[§n点我§r§b]",
@@ -96,59 +98,63 @@ public class CommandEX {
             if (ALLMusic.VV != null) {
                 ALLMusic.VV.clear(Name);
             }
-            PlayMusic.NowPlayPlayer.remove(Name);
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已停止" + Name + "的音乐播放");
+            ALLMusic.NowPlayPlayer.remove(Name);
+            ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getMusicPlay().getStopPlay());
         } else if (args[0].equalsIgnoreCase("list")) {
             if (PlayMusic.NowPlayMusic == null) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2无正在播放的歌曲");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getMusicPlay().getNoMusic());
             } else {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2正在播放：" + PlayMusic.NowPlayMusic.getInfo());
+                String info = ALLMusic.Message.getMusicPlay().getPlay();
+                info = info.replace("%MusicName%", PlayMusic.NowPlayMusic.getName())
+                        .replace("%MusicAuthor%", PlayMusic.NowPlayMusic.getAuthor())
+                        .replace("%MusicAl%", PlayMusic.NowPlayMusic.getAl())
+                        .replace("%MusicAlia%", PlayMusic.NowPlayMusic.getAlia())
+                        .replace("%PlayerName%", PlayMusic.NowPlayMusic.getCall());
+                ALLMusic.Side.SendMessage(sender, info);
             }
             if (PlayMusic.getSize() == 0) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2队列中无歌曲");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getMusicPlay().getNoPlay());
             } else {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2队列中有歌曲数：" + PlayMusic.getSize());
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getMusicPlay().getListMusic().getHead().replace("&Count&", "" + ALLMusic.PlayList.size()));
                 ALLMusic.Side.SendMessage(sender, PlayMusic.getAllList());
             }
         } else if (args[0].equalsIgnoreCase("vote")) {
             if (ALLMusic.Config.isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.vote")) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限切歌");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getVote().getNoPermission());
                 return;
             }
             if (PlayMusic.getSize() == 0 && ALLMusic.Config.getPlayList().size() == 0) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2队列中无歌曲");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getMusicPlay().getNoPlay());
             } else if (PlayMusic.VoteTime == 0) {
                 PlayMusic.VoteTime = 30;
-                PlayMusic.VotePlayer.add(Name);
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已发起切歌投票");
-                ALLMusic.Side.bq("§d[ALLMusic]§2" + Name +
-                        "发起了切歌投票，30秒后结束，输入/music vote 同意切歌。");
+                ALLMusic.VotePlayer.add(Name);
+                ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getVote().getDoVote());
+                String data = ALLMusic.Message.getVote().getBQ();
+                ALLMusic.Side.bq(data.replace("%PlayerName%", Name));
             } else if (PlayMusic.VoteTime > 0) {
-                if (!PlayMusic.VotePlayer.contains(Name)) {
-                    PlayMusic.VotePlayer.add(Name);
-                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2你已同意");
-                    ALLMusic.Side.bq("§d[ALLMusic]§2" + Name + "同意切歌，共有" +
-                            PlayMusic.VotePlayer.size() + "名玩家同意切歌。");
+                if (!ALLMusic.VotePlayer.contains(Name)) {
+                    ALLMusic.VotePlayer.add(Name);
+                    ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getVote().getAgree());
+                    String data = ALLMusic.Message.getVote().getBQAgree();
+                    data = data.replace("%PlayerName%", Name)
+                            .replace("%Count%", "" + ALLMusic.VotePlayer.size());
+                    ALLMusic.Side.bq(data);
                 } else {
-                    ALLMusic.Side.bq("§d[ALLMusic]§2你已申请切歌");
+                    ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getVote().getARAgree());
                 }
             }
+            ALLMusic.Config.RemoveNoMusicPlayer(Name);
         } else if (args[0].equalsIgnoreCase("reload")) {
             ALLMusic.Side.reload();
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已重读配置文件");
-        } else if (args[0].equalsIgnoreCase("v")) {
-            if (args.length == 2) {
-                ALLMusic.Side.Send("[V]" + args[1], Name, null);
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已设置你的音量为：" + args[1]);
-            } else
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§4请输入音量");
         } else if (args[0].equalsIgnoreCase("next") && ALLMusic.Config.getAdmin().contains(Name)) {
             PlayMusic.MusicAllTime = 1;
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已强制切歌");
+            ALLMusic.Config.RemoveNoMusicPlayer(Name);
         } else if (args[0].equalsIgnoreCase("nomusic")) {
             ALLMusic.Side.Send("[Stop]", Name, false);
             ALLMusic.Config.AddNoMusicPlayer(Name);
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！");
+            ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getMusicPlay().getNoPlayMusic());
         } else if (args[0].equalsIgnoreCase("ban") && args.length == 2
                 && ALLMusic.Config.getAdmin().contains(Name)) {
             if (Function.isInteger(args[1])) {
@@ -177,7 +183,7 @@ public class CommandEX {
         } else if (args[0].equalsIgnoreCase("addlist") && args.length == 2
                 && ALLMusic.Config.getAdmin().contains(Name)) {
             if (Function.isInteger(args[1])) {
-                ALLMusic.Music.SetList(args[1]);
+                ALLMusic.Music.SetList(args[1], sender);
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2添加音乐列表" + args[1]);
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2请输入有效的音乐列表ID");

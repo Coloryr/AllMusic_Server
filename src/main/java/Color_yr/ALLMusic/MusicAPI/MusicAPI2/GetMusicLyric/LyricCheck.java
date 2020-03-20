@@ -11,6 +11,7 @@ public class LyricCheck {
 
     private Map<Integer, ShowOBJ> temp = new HashMap<>();
     private LyricOBJ obj;
+
     public LyricCheck(String obj) {
         this.obj = new Gson().fromJson(obj, LyricOBJ.class);
     }

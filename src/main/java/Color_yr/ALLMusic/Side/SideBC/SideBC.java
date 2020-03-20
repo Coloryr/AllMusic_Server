@@ -2,7 +2,6 @@ package Color_yr.ALLMusic.Side.SideBC;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.ALLMusicBC;
-import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Side.ISide;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -30,6 +29,8 @@ public class SideBC implements ISide {
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
                     continue;
+                if (!ALLMusic.haveMOD.contains(players.getName()))
+                    continue;
                 if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
                     if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
                         Send(players, data, isplay);
@@ -37,7 +38,7 @@ public class SideBC implements ISide {
                 }
             }
         } catch (Exception e) {
-            ALLMusic.log.warning("§c歌曲发送发生错误");
+            ALLMusic.log.warning("§d[ALLMusic]§c歌曲发送发生错误");
             e.printStackTrace();
         }
     }
@@ -54,14 +55,16 @@ public class SideBC implements ISide {
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
                     continue;
+                if (!ALLMusic.haveMOD.contains(players.getName()))
+                    continue;
                 if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
                     if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName()))
-                        if (PlayMusic.NowPlayPlayer.contains(players.getName()))
+                        if (ALLMusic.NowPlayPlayer.contains(players.getName()))
                             players.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
                 }
             }
         } catch (Exception e) {
-            ALLMusic.log.warning("§c歌词发生出错");
+            ALLMusic.log.warning("§d[ALLMusic]§c歌词发生出错");
             e.printStackTrace();
         }
     }
@@ -92,6 +95,12 @@ public class SideBC implements ISide {
             }
         }
         return online > 0;
+    }
+
+    @Override
+    public void SendMessaget(Object obj, String Message) {
+        CommandSender sender = (CommandSender) obj;
+        sender.sendMessage(new TextComponent(Message));
     }
 
     @Override
@@ -137,13 +146,13 @@ public class SideBC implements ISide {
             players.sendData(ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
-                    PlayMusic.NowPlayPlayer.add(players.getName());
+                    ALLMusic.NowPlayPlayer.add(players.getName());
                 } else {
-                    PlayMusic.NowPlayPlayer.remove(players.getName());
+                    ALLMusic.NowPlayPlayer.remove(players.getName());
                 }
             }
         } catch (Exception e) {
-            ALLMusic.log.warning("§c数据发送发生错误");
+            ALLMusic.log.warning("§d[ALLMusic]§c数据发送发生错误");
             e.printStackTrace();
         }
     }

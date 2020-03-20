@@ -1,9 +1,9 @@
 package Color_yr.ALLMusic.Side.SideBukkit.VV;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongLyric.ShowOBJ;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Utils.Function;
 import lk.vexview.api.VexViewAPI;
 import lk.vexview.hud.VexTextShow;
@@ -149,7 +149,7 @@ public class VVGet {
                 list.add(showobj.getTlyric());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!PlayMusic.NowPlayPlayer.contains(player.getName()))
+            if (!ALLMusic.NowPlayPlayer.contains(player.getName()))
                 continue;
             if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName()))
                 continue;

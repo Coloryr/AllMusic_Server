@@ -1,7 +1,6 @@
 package Color_yr.ALLMusic.Side.SideBukkit;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
@@ -12,7 +11,9 @@ public class SideBukkit1_15 extends SideBukkit {
     public void SendLyric(String data) {
         for (Player players : Bukkit.getOnlinePlayers()) {
             if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
-                if (PlayMusic.NowPlayPlayer.contains(players.getName())) {
+                if (!ALLMusic.haveMOD.contains(players.getName()))
+                    continue;
+                if (ALLMusic.NowPlayPlayer.contains(players.getName())) {
                     if (ALLMusic.VV == null || !ALLMusic.Config.getVVSave(players.getName()).isEnable()) {
                         ChatComponentText chat = new ChatComponentText(data);
                         PacketPlayOutChat pack = new PacketPlayOutChat(chat, ChatMessageType.GAME_INFO);

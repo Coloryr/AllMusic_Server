@@ -4,16 +4,16 @@ import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.Http.HttpGet;
 import Color_yr.ALLMusic.Http.Res;
 import Color_yr.ALLMusic.MusicAPI.IMusic;
-import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicSearch.SearchDataOBJ;
-import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
-import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricDo;
-import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchOBJ;
-import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicInfo.InfoOBJ;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicInfo.PlayOBJ;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicList.DataOBJ;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicLyric.LyricCheck;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicSearch.SearchDataOBJ;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicSearch.songs;
+import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
+import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricDo;
+import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchOBJ;
+import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class API2 implements IMusic {
     public boolean isUpdata;
 
     public API2() {
-        ALLMusic.log.info("使用API2");
+        ALLMusic.log.info("§d[ALLMusic]§e使用API2");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class API2 implements IMusic {
                 info = new SongInfo(temp.getAuthor(), temp.getName(),
                         ID, temp.getAlia(), player, temp.getAl(), isList, temp.getLength());
             } else {
-                ALLMusic.log.warning("§c歌曲信息获取为空");
+                ALLMusic.log.warning("§d[ALLMusic]§c歌曲信息获取为空");
             }
         }
         return info;
@@ -56,7 +56,7 @@ public class API2 implements IMusic {
                 } else
                     return null;
             } catch (Exception e) {
-                ALLMusic.log.warning("§c播放连接解析错误");
+                ALLMusic.log.warning("§d[ALLMusic]§c播放连接解析错误");
                 e.printStackTrace();
                 return null;
             }
@@ -65,7 +65,7 @@ public class API2 implements IMusic {
     }
 
     @Override
-    public void SetList(String ID) {
+    public void SetList(String ID, Object sender) {
         Thread thread = new Thread(() ->
         {
             Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api2() + "?type=playlist&id=", ID);
@@ -75,9 +75,9 @@ public class API2 implements IMusic {
                     DataOBJ obj = new Gson().fromJson(res.getData(), DataOBJ.class);
                     ALLMusic.Config.getPlayList().addAll(obj.getPlaylist());
                     ALLMusic.save();
-                    ALLMusic.log.info("§2歌曲列表" + obj.getName() + "获取成功");
+                    ALLMusic.Side.SendMessaget(sender, ALLMusic.Message.getMusicPlay().getListMusic().getGet().replace("%ListName%", obj.getName()));
                 } catch (Exception e) {
-                    ALLMusic.log.warning("§c歌曲列表获取错误");
+                    ALLMusic.log.warning("§d[ALLMusic]§c歌曲列表获取错误");
                     e.printStackTrace();
                 }
             isUpdata = false;
@@ -95,7 +95,7 @@ public class API2 implements IMusic {
                 LyricCheck temp = new LyricCheck(res.getData());
                 for (int times = 0; times < 3; times++) {
                     if (!temp.Check()) {
-                        ALLMusic.log.warning("§c歌词解析错误，正在进行第" + times + "重试");
+                        ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误，正在进行第" + times + "重试");
                     } else {
                         if (!ALLMusic.Config.isSendLyric() && ALLMusic.VV == null) {
                             Lyric.setHaveLyric(false);
@@ -107,9 +107,9 @@ public class API2 implements IMusic {
                     }
                     Thread.sleep(1000);
                 }
-                ALLMusic.log.warning("§c歌词解析失败");
+                ALLMusic.log.warning("§d[ALLMusic]§c歌词解析失败");
             } catch (Exception e) {
-                ALLMusic.log.warning("§c歌词解析错误");
+                ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误");
                 e.printStackTrace();
             }
         }
@@ -140,7 +140,7 @@ public class API2 implements IMusic {
                 maxpage = res1.size() / 10;
                 return new SearchPage(resData, maxpage);
             } else {
-                ALLMusic.log.warning("§c歌曲搜索出现错误");
+                ALLMusic.log.warning("§d[ALLMusic]§c歌曲搜索出现错误");
 
             }
         }

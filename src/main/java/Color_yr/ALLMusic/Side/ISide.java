@@ -17,6 +17,8 @@ public interface ISide {
 
     boolean NeedPlay();
 
+    void SendMessaget(Object obj, String Message);
+
     void SendMessage(Object obj, String Message);
 
     void SendMessage(Object obj, String Message, ClickEvent.Action action, String Command);

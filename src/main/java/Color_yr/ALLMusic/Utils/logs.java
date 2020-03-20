@@ -14,7 +14,7 @@ public class logs {
     private static FileWriter fw;
     private static PrintWriter pw;
 
-    public static void log_write(String text) {
+    public static void logWrite(String text) {
         try {
             if (fw == null)
                 fw = new FileWriter(file, true);
@@ -33,17 +33,17 @@ public class logs {
         }
     }
 
-    public void Init(File Dir) throws IOException {
-        file = new File(Dir, "logs.log");
-        if (!logs.file.exists()) {
-            logs.file.createNewFile();
-        }
-    }
-
     public static void stop() throws IOException {
         if (fw != null)
             pw.close();
         if (fw != null)
             fw.close();
+    }
+
+    public void Init(File Dir) throws IOException {
+        file = new File(Dir, "logs.log");
+        if (!logs.file.exists()) {
+            logs.file.createNewFile();
+        }
     }
 }

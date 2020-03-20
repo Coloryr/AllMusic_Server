@@ -4,13 +4,13 @@ public class SearchOBJ {
     private String ID;
     private String Name;
     private String Author;
-    private String Aila;
+    private String Al;
 
-    public SearchOBJ(String ID, String Name, String Author, String Aila) {
+    public SearchOBJ(String ID, String Name, String Author, String Al) {
         this.ID = ID;
         this.Name = Name;
         this.Author = Author;
-        this.Aila = Aila;
+        this.Al = Al;
     }
 
     public String getName() {
@@ -25,7 +25,7 @@ public class SearchOBJ {
         return ID;
     }
 
-    public String getAila() {
-        return Aila;
+    public String getAl() {
+        return Al;
     }
 }
