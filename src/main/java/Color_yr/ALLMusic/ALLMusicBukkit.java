@@ -39,6 +39,13 @@ public class ALLMusicBukkit extends JavaPlugin {
                 Files.copy(in, ALLMusic.MessageFile.toPath());
             }
             ALLMusic.LoadConfig();
+            if (ALLMusic.Config.isVexView() && Bukkit.getPluginManager().isPluginEnabled("VexView")) {
+                ALLMusic.VV = new VVGet();
+                VVEnable = true;
+            } else {
+                ALLMusic.VV = null;
+                VVEnable = false;
+            }
         } catch (IOException e) {
             ALLMusic.log.warning("§c配置文件错误");
             e.printStackTrace();
@@ -69,10 +76,6 @@ public class ALLMusicBukkit extends JavaPlugin {
         Bukkit.getPluginCommand("music").setExecutor(new CommandBukkit());
         Bukkit.getPluginCommand("music").setTabCompleter(new CommandBukkit());
         Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);
-        if (ALLMusic.Config.isVexView() && Bukkit.getPluginManager().isPluginEnabled("VexView")) {
-            ALLMusic.VV = new VVGet();
-            VVEnable = true;
-        }
         PlayMusic.start();
         new MetricsBukkit(this, 6720);
         ALLMusic.log.info("§e已启动-" + ALLMusic.Version);
