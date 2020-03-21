@@ -4,10 +4,7 @@ import Color_yr.ALLMusic.Command.CommandBukkit;
 import Color_yr.ALLMusic.Event.EventBukkit;
 import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit;
-import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit1_12;
-import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit1_14;
-import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit1_15;
-import Color_yr.ALLMusic.Side.SideBukkit.VV.VVGet;
+import Color_yr.ALLMusic.Side.SideBukkit.VVGet;
 import Color_yr.ALLMusic.Utils.logs;
 import Color_yr.ALLMusic.bStats.MetricsBukkit;
 import io.netty.buffer.ByteBuf;
@@ -55,15 +52,7 @@ public class ALLMusicBukkit extends JavaPlugin {
         ALLMusic.log = getLogger();
         ALLMusic.log.info("§e正在启动，感谢使用，本插件交流群：571239090");
         setConfig();
-        String Version = Bukkit.getBukkitVersion();
-        if (Version.startsWith("1.12"))
-            ALLMusic.Side = new SideBukkit1_12();
-        else if (Version.startsWith("1.14"))
-            ALLMusic.Side = new SideBukkit1_14();
-        else if (Version.startsWith("1.15"))
-            ALLMusic.Side = new SideBukkit1_15();
-        else
-            ALLMusic.Side = new SideBukkit();
+        ALLMusic.Side = new SideBukkit();
         getServer().getMessenger().registerOutgoingPluginChannel(this, ALLMusic.channel);
         if (ALLMusic.Config.isModCheck())
             getServer().getMessenger().registerIncomingPluginChannel(this, ALLMusic.channel,

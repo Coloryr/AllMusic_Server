@@ -7,7 +7,7 @@ import Color_yr.ALLMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.ALLMusic.Side.ISide;
-import Color_yr.ALLMusic.Side.SideBukkit.VV.VVGet;
+import Color_yr.ALLMusic.Side.SideBukkit.VVGet;
 import com.google.gson.Gson;
 
 import java.io.*;

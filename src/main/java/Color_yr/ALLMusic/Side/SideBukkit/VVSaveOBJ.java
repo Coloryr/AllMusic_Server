@@ -1,4 +1,4 @@
-package Color_yr.ALLMusic.Side.SideBukkit.VV;
+package Color_yr.ALLMusic.Side.SideBukkit;
 
 public class VVSaveOBJ {
     private PosOBJ List;

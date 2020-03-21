@@ -1,4 +1,4 @@
-package Color_yr.ALLMusic.Side.SideBukkit.VV;
+package Color_yr.ALLMusic.Side.SideBukkit;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;

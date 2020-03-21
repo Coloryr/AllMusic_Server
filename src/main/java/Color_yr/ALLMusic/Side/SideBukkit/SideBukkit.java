@@ -5,6 +5,7 @@ import Color_yr.ALLMusic.ALLMusicBukkit;
 import Color_yr.ALLMusic.Side.ISide;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -38,7 +39,17 @@ public class SideBukkit implements ISide {
 
     @Override
     public void SendLyric(String data) {
-
+        for (Player players : Bukkit.getOnlinePlayers()) {
+            if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
+                if (!ALLMusic.havelPlayer(players.getName()))
+                    continue;
+                if (ALLMusic.NowPlayPlayer.contains(players.getName())) {
+                    if (ALLMusic.VV == null || !ALLMusic.Config.getVVSave(players.getName()).isEnable()) {
+                       players.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
+                    }
+                }
+            }
+        }
     }
 
     @Override
