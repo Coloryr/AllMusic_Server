@@ -26,14 +26,14 @@ public class EventBC implements Listener {
         new Thread(() -> {
             ProxiedPlayer player = e.getPlayer();
             try {
-                Thread.sleep(500);
+                Thread.sleep(2000);
                 String data = "[Check]";
                 byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
                 ByteBuf buf = Unpooled.buffer(bytes.length + 1);
                 buf.writeByte(666);
                 buf.writeBytes(bytes);
                 player.sendData(ALLMusic.channel, buf.array());
-                Thread.sleep(2000);
+                Thread.sleep(5000);
             } catch (Exception ex) {
 
             }

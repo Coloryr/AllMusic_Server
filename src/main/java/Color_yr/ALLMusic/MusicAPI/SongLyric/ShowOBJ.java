@@ -37,7 +37,7 @@ public class ShowOBJ {
                         .replace("%TLyric%", tlyric);
             }
         }
-        data = ALLMusic.Message.getLyric().getTData();
+        data = ALLMusic.Message.getLyric().getData();
         return data.replace("%Lyric%", lyric);
     }
 }

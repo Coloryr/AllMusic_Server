@@ -23,7 +23,7 @@ public class EventBukkit implements Listener {
     public void onPlayerLogin(final PlayerLoginEvent event) {
         new Thread(() -> {
             try {
-                Thread.sleep(500);
+                Thread.sleep(2000);
                 Player player = event.getPlayer();
                 try {
                     String data = "[Check]";
@@ -37,7 +37,7 @@ public class EventBukkit implements Listener {
                     ALLMusic.log.warning("§c数据发送发生错误");
                     e.printStackTrace();
                 }
-                Thread.sleep(2000);
+                Thread.sleep(5000);
                 if (!ALLMusic.haveMOD.contains(player.getName())) {
                     player.sendMessage(ALLMusic.Message.getCheck().getNoMOD());
                 }

@@ -93,7 +93,6 @@ class PlayGo extends Thread {
                     e.printStackTrace();
                 }
             } else {
-                clear();
                 PlayMusic.NowPlayMusic = PlayMusic.getMusic(0);
                 PlayMusic.remove(0);
 
@@ -149,11 +148,11 @@ class PlayGo extends Thread {
                         ALLMusic.log.warning("§c歌曲播放出现错误");
                         e.printStackTrace();
                     }
-                    clear();
                 } else {
                     String data = ALLMusic.Message.getMusicPlay().getNoCanPlay();
                     ALLMusic.Side.bqt(data.replace("%MusicID%", PlayMusic.NowPlayMusic.getID()));
                 }
+                clear();
             }
         }
     }
