@@ -7,7 +7,7 @@ import io.netty.buffer.Unpooled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.nio.charset.StandardCharsets;
@@ -16,11 +16,13 @@ public class EventBukkit implements Listener {
     @EventHandler
     public void onPlayerQuit(final PlayerQuitEvent e) {
         ALLMusic.NowPlayPlayer.remove(e.getPlayer().getName());
-        ALLMusic.haveMOD.remove(e.getPlayer().getName());
+        ALLMusic.RemovePlayer(e.getPlayer().getName());
     }
 
     @EventHandler
-    public void onPlayerLogin(final PlayerLoginEvent event) {
+    public void onPlayerLogin(final PlayerJoinEvent event) {
+        if(!ALLMusic.Config.isModCheck())
+            return;
         new Thread(() -> {
             try {
                 Thread.sleep(2000);
@@ -38,7 +40,7 @@ public class EventBukkit implements Listener {
                     e.printStackTrace();
                 }
                 Thread.sleep(5000);
-                if (!ALLMusic.haveMOD.contains(player.getName())) {
+                if (!ALLMusic.havelPlayer(player.getName())) {
                     player.sendMessage(ALLMusic.Message.getCheck().getNoMOD());
                 }
             } catch (Exception e) {

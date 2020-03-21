@@ -11,7 +11,7 @@ public class SideBukkit1_12 extends SideBukkit {
     public void SendLyric(String data) {
         for (Player players : Bukkit.getOnlinePlayers()) {
             if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
-                if (!ALLMusic.haveMOD.contains(players.getName()))
+                if (!ALLMusic.havelPlayer(players.getName()))
                     continue;
                 if (ALLMusic.NowPlayPlayer.contains(players.getName())) {
                     if (ALLMusic.VV == null || !ALLMusic.Config.getVVSave(players.getName()).isEnable()) {

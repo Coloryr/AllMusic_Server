@@ -29,7 +29,7 @@ public class SideBC implements ISide {
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
                     continue;
-                if (!ALLMusic.haveMOD.contains(players.getName()))
+                if (!ALLMusic.havelPlayer(players.getName()))
                     continue;
                 if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
                     if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
@@ -55,7 +55,7 @@ public class SideBC implements ISide {
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
                     continue;
-                if (!ALLMusic.haveMOD.contains(players.getName()))
+                if (!ALLMusic.havelPlayer(players.getName()))
                     continue;
                 if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
                     if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName()))

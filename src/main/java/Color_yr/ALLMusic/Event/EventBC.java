@@ -17,11 +17,13 @@ public class EventBC implements Listener {
     @EventHandler
     public void onPlayerquit(final PlayerDisconnectEvent event) {
         ALLMusic.NowPlayPlayer.remove(event.getPlayer().getName());
-        ALLMusic.haveMOD.remove(event.getPlayer().getName());
+        ALLMusic.RemovePlayer(event.getPlayer().getName());
     }
 
     @EventHandler
     public void onPlayerLogin(final PostLoginEvent e) {
+        if(!ALLMusic.Config.isModCheck())
+            return;
         ALLMusic.Side.Send(e.getPlayer().getName(), "[Check]", false);
         new Thread(() -> {
             ProxiedPlayer player = e.getPlayer();
@@ -37,7 +39,7 @@ public class EventBC implements Listener {
             } catch (Exception ex) {
 
             }
-            if (!ALLMusic.haveMOD.contains(player.getName())) {
+            if (!ALLMusic.havelPlayer(player.getName())) {
                 player.sendMessage(new TextComponent(ALLMusic.Message.getCheck().getNoMOD()));
             }
         }).start();
@@ -50,7 +52,7 @@ public class EventBC implements Listener {
             if (a.contains("666")) {
                 if (e.getSender() instanceof ProxiedPlayer) {
                     ProxiedPlayer player = (ProxiedPlayer) e.getSender();
-                    ALLMusic.haveMOD.add(player.getName());
+                    ALLMusic.AddPlayer(player.getName());
                     player.sendMessage(new TextComponent(ALLMusic.Message.getCheck().getMOD()));
                 }
             }

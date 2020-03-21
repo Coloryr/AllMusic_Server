@@ -65,17 +65,18 @@ public class ALLMusicBukkit extends JavaPlugin {
         else
             ALLMusic.Side = new SideBukkit();
         getServer().getMessenger().registerOutgoingPluginChannel(this, ALLMusic.channel);
-        getServer().getMessenger().registerIncomingPluginChannel(this, ALLMusic.channel,
-                (channel, player, message) -> {
-                    if (channel.equalsIgnoreCase(ALLMusic.channel)) {
-                        ByteBuf buf = Unpooled.wrappedBuffer(message);
-                        String data = buf.toString(StandardCharsets.UTF_8);
-                        if (data.contains("666")) {
-                            ALLMusic.haveMOD.add(player.getName());
-                            player.sendMessage(ALLMusic.Message.getCheck().getMOD());
+        if (ALLMusic.Config.isModCheck())
+            getServer().getMessenger().registerIncomingPluginChannel(this, ALLMusic.channel,
+                    (channel, player, message) -> {
+                        if (channel.equalsIgnoreCase(ALLMusic.channel)) {
+                            ByteBuf buf = Unpooled.wrappedBuffer(message);
+                            String data = buf.toString(StandardCharsets.UTF_8);
+                            if (data.contains("666")) {
+                                ALLMusic.AddPlayer(player.getName());
+                                player.sendMessage(ALLMusic.Message.getCheck().getMOD());
+                            }
                         }
-                    }
-                });
+                    });
         Bukkit.getPluginCommand("music").setExecutor(new CommandBukkit());
         Bukkit.getPluginCommand("music").setTabCompleter(new CommandBukkit());
         Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);

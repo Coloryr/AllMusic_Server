@@ -23,7 +23,7 @@ public class ALLMusic {
     public static final String Version = "1.11.0";
 
     public final static Map<String, SearchPage> SearchSave = new HashMap<>();
-    public static final List<String> haveMOD = new ArrayList<>();
+    private static final List<String> haveMOD = new ArrayList<>();
     public static final List<String> VotePlayer = new ArrayList<>();
     public static final List<String> NowPlayPlayer = new ArrayList<>();
     public static final List<SongInfo> PlayList = new ArrayList<>();
@@ -39,6 +39,23 @@ public class ALLMusic {
     public static ISide Side;
     public static VVGet VV;
     public static IMusic Music;
+
+    public static void AddPlayer(String player) {
+        if (ALLMusic.Config.isModCheck())
+            if (!haveMOD.contains(player))
+                haveMOD.add(player);
+    }
+
+    public static void RemovePlayer(String player) {
+        if (ALLMusic.Config.isModCheck())
+            haveMOD.remove(player);
+    }
+
+    public static boolean havelPlayer(String player) {
+        if (ALLMusic.Config.isModCheck())
+            return haveMOD.contains(player);
+        return true;
+    }
 
     public static void save() {
         try {
