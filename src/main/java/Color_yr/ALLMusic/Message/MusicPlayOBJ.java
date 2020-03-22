@@ -11,6 +11,7 @@ public class MusicPlayOBJ {
     private String Switch;
     private String AddMusic;
     private String PlayerAdd;
+    private String MusicInfo;
 
     public MusicPlayOBJ() {
         StopPlay = "§d[ALLMusic]§2已停止%PlayerName%的音乐播放";
@@ -23,6 +24,11 @@ public class MusicPlayOBJ {
         Switch = "§d[ALLMusic]§2切换到玩家歌曲";
         AddMusic = "§d[ALLMusic]§2音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
         PlayerAdd = "§d[ALLMusic]§2%PlayerName%点歌%MusicID%";
+        MusicInfo = "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
+    }
+
+    public String getMusicInfo() {
+        return MusicInfo;
     }
 
     public String getPlayerAdd() {

@@ -1,6 +1,7 @@
 package Color_yr.ALLMusic.MusicAPI.MusicAPI2;
 
 import Color_yr.ALLMusic.ALLMusic;
+import Color_yr.ALLMusic.ALLMusicBukkit;
 import Color_yr.ALLMusic.Http.HttpGet;
 import Color_yr.ALLMusic.Http.Res;
 import Color_yr.ALLMusic.MusicAPI.IMusic;
@@ -97,11 +98,7 @@ public class API2 implements IMusic {
                     if (!temp.Check()) {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误，正在进行第" + times + "重试");
                     } else {
-                        if (!ALLMusic.Config.isSendLyric() && ALLMusic.VV == null) {
-                            Lyric.setHaveLyric(false);
-                        } else {
-                            Lyric.setHaveLyric(true);
-                        }
+                        Lyric.setHaveLyric(ALLMusic.Config.isSendLyric());
                         Lyric.setLyric(temp.getTemp());
                         return Lyric;
                     }

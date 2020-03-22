@@ -6,7 +6,7 @@ public class SearchDataOBJ {
     private data data;
 
     public boolean isok() {
-        return data != null;
+        return data != null && data.getSongs() != null;
     }
 
     public List<songs> getResult() {

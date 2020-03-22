@@ -1,11 +1,9 @@
 name: ALLMusic
 main: Color_yr.ALLMusic.ALLMusicBukkit
 author: Color_yr
-version: 1.11.0
-loadbefore:
-  - vexview
-softdepend:
-  - vexview
+version: 1.12.0
+loadbefore: [vexview, PlaceholderAPI]
+softdepend: [vexview, PlaceholderAPI]
 
 commands:
   music:

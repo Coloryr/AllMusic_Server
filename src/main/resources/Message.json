@@ -13,7 +13,8 @@
     "NoPlayMusic": "§d[ALLMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌或者参与切歌投票吧！",
     "Switch": "§d[ALLMusic]§2切换到玩家歌曲",
     "AddMusic": "§d[ALLMusic]§2音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%",
-    "PlayerAdd": "§d[ALLMusic]§2%PlayerName%点歌%MusicID%"
+    "PlayerAdd": "§d[ALLMusic]§2%PlayerName%点歌%MusicID%",
+    "MusicInfo": "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%"
   },
   "AddMusic": {
     "ListFull": "§d[ALLMusic]§c错误，队列已满",

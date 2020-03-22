@@ -7,7 +7,6 @@ import Color_yr.ALLMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.ALLMusic.Side.ISide;
-import Color_yr.ALLMusic.Side.SideBukkit.VVGet;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -20,7 +19,7 @@ import java.util.logging.Logger;
 
 public class ALLMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "1.11.0";
+    public static final String Version = "1.12.0";
 
     public final static Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> haveMOD = new ArrayList<>();
@@ -37,7 +36,6 @@ public class ALLMusic {
     public static File MessageFile;
 
     public static ISide Side;
-    public static VVGet VV;
     public static IMusic Music;
 
     public static void AddPlayer(String player) {

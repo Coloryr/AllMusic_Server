@@ -25,8 +25,7 @@ public class ShowOBJ {
         return lyric;
     }
 
-    @Override
-    public String toString() {
+    public String getString() {
         if (lyric == null || lyric.isEmpty())
             return null;
         String data;

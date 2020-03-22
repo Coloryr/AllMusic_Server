@@ -1,6 +1,7 @@
 package Color_yr.ALLMusic.Command;
 
 import Color_yr.ALLMusic.ALLMusic;
+import Color_yr.ALLMusic.ALLMusicBukkit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class TabCommand {
                 arguments.add("nextpage");
                 arguments.add("lastpage");
             }
-            if (ALLMusic.VV != null)
+            if (ALLMusicBukkit.VVEnable)
                 arguments.add("vv");
             if (ALLMusic.Config.getAdmin().contains(name)) {
                 arguments.add("reload");
@@ -28,7 +29,7 @@ public class TabCommand {
                 arguments.add("delete");
                 arguments.add("addlist");
             }
-        } else if (ALLMusic.VV != null && arg[0].equalsIgnoreCase("vv")) {
+        } else if (ALLMusicBukkit.VVEnable && arg[0].equalsIgnoreCase("vv")) {
             if (arg.length == 2) {
                 arguments.add("info");
                 arguments.add("list");

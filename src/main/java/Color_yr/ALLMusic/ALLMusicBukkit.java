@@ -3,6 +3,7 @@ package Color_yr.ALLMusic;
 import Color_yr.ALLMusic.Command.CommandBukkit;
 import Color_yr.ALLMusic.Event.EventBukkit;
 import Color_yr.ALLMusic.MusicPlay.PlayMusic;
+import Color_yr.ALLMusic.Side.SideBukkit.PAPI;
 import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit;
 import Color_yr.ALLMusic.Side.SideBukkit.VVGet;
 import Color_yr.ALLMusic.Utils.logs;
@@ -22,6 +23,8 @@ import java.nio.file.Files;
 public class ALLMusicBukkit extends JavaPlugin {
     public static Plugin ALLMusicP;
     public static boolean VVEnable = false;
+    public static VVGet VV;
+    public static PAPI PAPI;
 
     public static void setConfig() {
         try {
@@ -39,12 +42,22 @@ public class ALLMusicBukkit extends JavaPlugin {
                 Files.copy(in, ALLMusic.MessageFile.toPath());
             }
             ALLMusic.LoadConfig();
-            if (ALLMusic.Config.isVexView() && Bukkit.getPluginManager().isPluginEnabled("VexView")) {
-                ALLMusic.VV = new VVGet();
+            if (Bukkit.getPluginManager().isPluginEnabled("VexView")) {
+                VV = new VVGet();
                 VVEnable = true;
+                ALLMusic.log.info("§2VexView支持已启动");
             } else {
-                ALLMusic.VV = null;
+                VV = null;
                 VVEnable = false;
+                ALLMusic.log.info("§cVexView未挂钩");
+            }
+            if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                PAPI = new PAPI(ALLMusicP);
+                if (!PAPI.register()) {
+                    ALLMusic.log.info("§2PAPI支持已启动");
+                }
+            } else {
+                ALLMusic.log.info("§2PAPI未挂钩");
             }
         } catch (IOException e) {
             ALLMusic.log.warning("§c配置文件错误");
@@ -86,8 +99,8 @@ public class ALLMusicBukkit extends JavaPlugin {
         PlayMusic.stop();
         PlayMusic.clear();
         ALLMusic.VotePlayer.clear();
-        if (ALLMusic.VV != null) {
-            ALLMusic.VV.clear();
+        if (ALLMusicBukkit.VVEnable) {
+            VV.clear();
         }
         try {
             logs.stop();

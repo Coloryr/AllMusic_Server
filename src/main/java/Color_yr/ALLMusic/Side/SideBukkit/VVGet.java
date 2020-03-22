@@ -14,13 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VVGet {
-    public static String version;
-
-    public VVGet() {
-        version = VexViewAPI.getVexView().getVersion();
-        ALLMusic.log.info("§2VexView支持已启动");
-    }
-
     public boolean SetPot(String player, String pos, String local, String data) {
         VVSaveOBJ obj = ALLMusic.Config.getVVSave(player);
         if (obj == null)

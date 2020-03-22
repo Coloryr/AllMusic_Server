@@ -1,5 +1,8 @@
 package Color_yr.ALLMusic.MusicAPI.SongInfo;
 
+import Color_yr.ALLMusic.ALLMusic;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
+
 public class SongInfo {
     private String Author;
     private String Name;
@@ -57,21 +60,12 @@ public class SongInfo {
     }
 
     public String getInfo() {
-        String info = "";
-        if (Name != null && !Name.isEmpty()) {
-            info += Name;
-            if (Author != null && !Author.isEmpty()) {
-                info += " | " + Author;
-            }
-            if (Alia != null && !Alia.isEmpty()) {
-                info += " | " + Alia;
-            }
-            if (Al != null && Al.isEmpty()) {
-                info += " | " + Al;
-            }
-        } else
-            info = ID;
-        info += " by:" + Call;
+        String info = ALLMusic.Message.getMusicPlay().getMusicInfo();
+        info = info.replace("%MusicName%", Name)
+                .replace("%MusicAuthor%", Author)
+                .replace("%MusicAl%", Al)
+                .replace("%MusicAlia%", Alia)
+                .replace("%PlayerName%", Call);
         return info;
     }
 }

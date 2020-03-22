@@ -3,6 +3,7 @@ package Color_yr.ALLMusic.MusicPlay;
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricDo;
+import Color_yr.ALLMusic.MusicAPI.SongLyric.ShowOBJ;
 import Color_yr.ALLMusic.Utils.logs;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class PlayMusic {
     public static SongInfo NowPlayMusic;
 
     public static LyricDo Lyric;
-    public static String nowLyric = "";
+    public static ShowOBJ nowLyric;
     private static PlayGo PlayGo;
 
     public static void stop() {

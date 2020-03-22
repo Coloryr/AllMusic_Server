@@ -23,18 +23,17 @@ class PlayGo extends Thread {
     private final Runnable runnable1 = () -> {
         ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
         if (show != null) {
+            PlayMusic.nowLyric = show;
             times = 0;
-            String now = show.toString();
-            PlayMusic.nowLyric = now != null ? now : PlayMusic.nowLyric;
-            ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
-            if (ALLMusic.VV != null) {
-                ALLMusic.VV.SendLyric(show);
+            ALLMusic.Side.SendLyric(PlayMusic.nowLyric.getString());
+            if (ALLMusicBukkit.VVEnable) {
+                ALLMusicBukkit.VV.SendLyric(show);
             }
         } else {
             times++;
             if (times == 1000) {
                 times = 0;
-                ALLMusic.Side.SendLyric(PlayMusic.nowLyric);
+                ALLMusic.Side.SendLyric(PlayMusic.nowLyric.getString());
             }
         }
     };
@@ -68,12 +67,12 @@ class PlayGo extends Thread {
         PlayMusic.MusicNowTime = 0;
         PlayMusic.MusicAllTime = 0;
         PlayMusic.Lyric = null;
-        PlayMusic.nowLyric = "";
+        PlayMusic.nowLyric = null;
         ALLMusic.Side.SendLyric("");
         PlayMusic.NowPlayMusic = null;
         closeTimer();
-        if (ALLMusic.VV != null) {
-            ALLMusic.VV.clear();
+        if (ALLMusicBukkit.VVEnable) {
+            ALLMusicBukkit.VV.clear();
         }
     }
 
@@ -118,9 +117,9 @@ class PlayGo extends Thread {
                     ALLMusic.Side.Send("[Play]" + url, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
-                            if (ALLMusic.Config.isVexView() && ALLMusicBukkit.VVEnable) {
-                                ALLMusic.VV.SendList();
-                                ALLMusic.VV.SendInfo();
+                            if (ALLMusicBukkit.VVEnable) {
+                                ALLMusicBukkit.VV.SendList();
+                                ALLMusicBukkit.VV.SendInfo();
                             }
                             if (!ALLMusic.Side.NeedPlay()) {
                                 PlayMusic.MusicAllTime = 1;
