@@ -4,7 +4,6 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 
-
 public class CommandBC extends Command implements TabExecutor {
 
     public CommandBC() {

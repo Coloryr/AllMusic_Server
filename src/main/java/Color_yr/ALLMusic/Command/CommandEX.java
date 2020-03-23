@@ -1,7 +1,6 @@
 package Color_yr.ALLMusic.Command;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.ALLMusicBukkit;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.ALLMusic.MusicPlay.PlayMusic;
@@ -88,7 +87,7 @@ public class CommandEX {
                     ClickEvent.Action.SUGGEST_COMMAND, "/music search ");
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music select [序列] 选择歌曲§e[§n点我§r§b]",
                     ClickEvent.Action.SUGGEST_COMMAND, "/music select ");
-            if (ALLMusicBukkit.VVEnable) {
+            if (ALLMusic.VVEnable) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv enable 启用关闭VV§e[§n点我§r§b]",
                         ClickEvent.Action.RUN_COMMAND, "/music vv enable");
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv [位置] [坐标] [数值] 设置VV位置",
@@ -96,8 +95,8 @@ public class CommandEX {
             }
         } else if (args[0].equalsIgnoreCase("stop")) {
             ALLMusic.Side.Send("[Stop]", Name, false);
-            if (ALLMusicBukkit.VVEnable) {
-                ALLMusicBukkit.VV.clear(Name);
+            if (ALLMusic.VVEnable) {
+                ALLMusic.VV.clear(Name);
             }
             ALLMusic.NowPlayPlayer.remove(Name);
             ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getMusicPlay().getStopPlay());
@@ -252,18 +251,18 @@ public class CommandEX {
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法上一页");
             }
-        } else if (ALLMusicBukkit.VVEnable && args[0].equalsIgnoreCase("vv")) {
+        } else if (ALLMusic.VVEnable && args[0].equalsIgnoreCase("vv")) {
             if (args.length == 1) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
             } else if (args[1].equalsIgnoreCase("enable")) {
-                boolean temp = ALLMusicBukkit.VV.SetEnable(Name);
+                boolean temp = ALLMusic.VV.SetEnable(Name);
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2当然VV状态：" + (temp ? "启用" : "关闭"));
             } else if (args.length != 4) {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
             } else {
                 ALLMusic.Side.RunTask(() -> {
                     try {
-                        if (!ALLMusicBukkit.VV.SetPot(Name, args[1], args[2], args[3]))
+                        if (!ALLMusic.VV.SetPot(Name, args[1], args[2], args[3]))
                             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
                         else
                             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已设置");

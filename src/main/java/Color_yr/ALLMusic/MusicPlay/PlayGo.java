@@ -1,7 +1,6 @@
 package Color_yr.ALLMusic.MusicPlay;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.ALLMusicBukkit;
 import Color_yr.ALLMusic.MusicAPI.SongLyric.ShowOBJ;
 
 import java.util.concurrent.Executors;
@@ -26,8 +25,8 @@ class PlayGo extends Thread {
             PlayMusic.nowLyric = show;
             times = 0;
             ALLMusic.Side.SendLyric(PlayMusic.nowLyric.getString());
-            if (ALLMusicBukkit.VVEnable) {
-                ALLMusicBukkit.VV.SendLyric(show);
+            if (ALLMusic.VVEnable) {
+                ALLMusic.VV.SendLyric(show);
             }
         } else {
             times++;
@@ -71,8 +70,8 @@ class PlayGo extends Thread {
         ALLMusic.Side.SendLyric("");
         PlayMusic.NowPlayMusic = null;
         closeTimer();
-        if (ALLMusicBukkit.VVEnable) {
-            ALLMusicBukkit.VV.clear();
+        if (ALLMusic.VVEnable) {
+            ALLMusic.VV.clear();
         }
     }
 
@@ -117,9 +116,9 @@ class PlayGo extends Thread {
                     ALLMusic.Side.Send("[Play]" + url, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
-                            if (ALLMusicBukkit.VVEnable) {
-                                ALLMusicBukkit.VV.SendList();
-                                ALLMusicBukkit.VV.SendInfo();
+                            if (ALLMusic.VVEnable) {
+                                ALLMusic.VV.SendList();
+                                ALLMusic.VV.SendInfo();
                             }
                             if (!ALLMusic.Side.NeedPlay()) {
                                 PlayMusic.MusicAllTime = 1;

@@ -22,8 +22,6 @@ import java.nio.file.Files;
 
 public class ALLMusicBukkit extends JavaPlugin {
     public static Plugin ALLMusicP;
-    public static boolean VVEnable = false;
-    public static VVGet VV;
     public static PAPI PAPI;
 
     public static void setConfig() {
@@ -43,12 +41,12 @@ public class ALLMusicBukkit extends JavaPlugin {
             }
             ALLMusic.LoadConfig();
             if (Bukkit.getPluginManager().isPluginEnabled("VexView")) {
-                VV = new VVGet();
-                VVEnable = true;
+                ALLMusic.VV = new VVGet();
+                ALLMusic.VVEnable = true;
                 ALLMusic.log.info("§2VexView支持已启动");
             } else {
-                VV = null;
-                VVEnable = false;
+                ALLMusic.VV = null;
+                ALLMusic.VVEnable = false;
                 ALLMusic.log.info("§cVexView未挂钩");
             }
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
@@ -99,8 +97,8 @@ public class ALLMusicBukkit extends JavaPlugin {
         PlayMusic.stop();
         PlayMusic.clear();
         ALLMusic.VotePlayer.clear();
-        if (ALLMusicBukkit.VVEnable) {
-            VV.clear();
+        if (ALLMusic.VVEnable) {
+            ALLMusic.VV.clear();
         }
         try {
             logs.stop();

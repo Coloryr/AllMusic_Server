@@ -7,6 +7,7 @@ import Color_yr.ALLMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.ALLMusic.Side.ISide;
+import Color_yr.ALLMusic.Side.SideBukkit.VVGet;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -37,6 +38,8 @@ public class ALLMusic {
 
     public static ISide Side;
     public static IMusic Music;
+    public static boolean VVEnable = false;
+    public static VVGet VV;
 
     public static void AddPlayer(String player) {
         if (ALLMusic.Config.isModCheck())
