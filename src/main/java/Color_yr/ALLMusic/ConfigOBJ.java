@@ -40,7 +40,9 @@ public class ConfigOBJ {
         MaxList = 10;
         MinVote = 3;
         Delay = 0;
-        Admin = new ArrayList<>();
+        Admin = new ArrayList<String>(){{
+            this.add("CONSOLE");
+        }};
         NoMusicServer = new ArrayList<>();
         NoMusicPlayer = new ArrayList<>();
         BanMusic = new ArrayList<>();
