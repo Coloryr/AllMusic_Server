@@ -73,22 +73,22 @@ public class CommandEX {
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c错误，请使用/music help 获取帮助");
         } else if (args[0].equalsIgnoreCase("help")) {
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2帮助手册");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music [音乐ID] 来点歌§e[§n点我§r§b]",
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music [音乐ID] 来点歌§e[§n点我§r§e]",
                     ClickEvent.Action.SUGGEST_COMMAND, "/music ");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music stop 停止播放歌曲§e[§n点我§r§b]",
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music stop 停止播放歌曲§e[§n点我§r§e]",
                     ClickEvent.Action.RUN_COMMAND, "/music stop");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music list 查看歌曲队列§e[§n点我§r§b]",
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music list 查看歌曲队列§e[§n点我§r§e]",
                     ClickEvent.Action.RUN_COMMAND, "/music list");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLmusic]§2使用/music vote 投票切歌§e[§n点我§r§b]",
+            ALLMusic.Side.SendMessage(sender, "§d[ALLmusic]§2使用/music vote 投票切歌§e[§n点我§r§e]",
                     ClickEvent.Action.RUN_COMMAND, "/music vote");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music nomusic 不再参与点歌§e[§n点我§r§b]",
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music nomusic 不再参与点歌§e[§n点我§r§e]",
                     ClickEvent.Action.RUN_COMMAND, "/music nomusic");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music search [歌名] 搜索歌曲§e[§n点我§r§b]",
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music search [歌名] 搜索歌曲§e[§n点我§r§e]",
                     ClickEvent.Action.SUGGEST_COMMAND, "/music search ");
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music select [序列] 选择歌曲§e[§n点我§r§b]",
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music select [序列] 选择歌曲§e[§n点我§r§e]",
                     ClickEvent.Action.SUGGEST_COMMAND, "/music select ");
             if (ALLMusic.VVEnable) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv enable 启用关闭VV§e[§n点我§r§b]",
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv enable 启用关闭VV§e[§n点我§r§e]",
                         ClickEvent.Action.RUN_COMMAND, "/music vv enable");
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music vv [位置] [坐标] [数值] 设置VV位置",
                         ClickEvent.Action.SUGGEST_COMMAND, "/music vv ");

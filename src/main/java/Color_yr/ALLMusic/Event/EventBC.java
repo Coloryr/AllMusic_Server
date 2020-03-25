@@ -22,7 +22,7 @@ public class EventBC implements Listener {
 
     @EventHandler
     public void onPlayerLogin(final PostLoginEvent e) {
-        if(!ALLMusic.Config.isModCheck())
+        if (!ALLMusic.Config.isModCheck())
             return;
         ALLMusic.Side.Send(e.getPlayer().getName(), "[Check]", false);
         new Thread(() -> {

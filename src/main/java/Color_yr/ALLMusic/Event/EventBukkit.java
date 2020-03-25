@@ -21,7 +21,7 @@ public class EventBukkit implements Listener {
 
     @EventHandler
     public void onPlayerLogin(final PlayerJoinEvent event) {
-        if(!ALLMusic.Config.isModCheck())
+        if (!ALLMusic.Config.isModCheck())
             return;
         new Thread(() -> {
             try {

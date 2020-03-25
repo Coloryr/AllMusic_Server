@@ -10,6 +10,7 @@ import java.util.Map;
 public class ConfigOBJ {
     private String Music_Api1;
     private String Music_Api2;
+    private String Music_Api3;
 
     private int Music_Api;
 
@@ -36,11 +37,12 @@ public class ConfigOBJ {
     public ConfigOBJ() {
         Music_Api1 = "https://v1.itooi.cn/netease/";
         Music_Api2 = "https://api.imjad.cn/cloudmusic/";
+        Music_Api3 = "http://localhost:3000/";
         Music_Api = 1;
         MaxList = 10;
         MinVote = 3;
         Delay = 0;
-        Admin = new ArrayList<String>(){{
+        Admin = new ArrayList<String>() {{
             this.add("CONSOLE");
         }};
         NoMusicServer = new ArrayList<>();
@@ -55,6 +57,10 @@ public class ConfigOBJ {
         VVSave = new HashMap<>();
 
         Version = ALLMusic.Version;
+    }
+
+    public String getMusic_Api3() {
+        return Music_Api3;
     }
 
     public boolean isModCheck() {

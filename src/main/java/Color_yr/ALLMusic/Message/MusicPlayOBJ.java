@@ -19,7 +19,7 @@ public class MusicPlayOBJ {
         Play = "§d[ALLMusic]§2正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
         NoPlay = "§d[ALLMusic]§2队列中无歌曲";
         ListMusic = new ListMusicOBJ();
-        NoCanPlay="§d[ALLMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲";
+        NoCanPlay = "§d[ALLMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲";
         NoPlayMusic = "§d[ALLMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！";
         Switch = "§d[ALLMusic]§2切换到玩家歌曲";
         AddMusic = "§d[ALLMusic]§2音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";

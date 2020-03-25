@@ -45,7 +45,7 @@ public class SideBukkit implements ISide {
                     continue;
                 if (ALLMusic.NowPlayPlayer.contains(players.getName())) {
                     if (!ALLMusic.VVEnable || !ALLMusic.Config.getVVSave(players.getName()).isEnable()) {
-                       players.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
+                        players.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
                     }
                 }
             }

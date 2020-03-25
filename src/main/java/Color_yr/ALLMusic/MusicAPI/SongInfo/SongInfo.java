@@ -1,7 +1,6 @@
 package Color_yr.ALLMusic.MusicAPI.SongInfo;
 
 import Color_yr.ALLMusic.ALLMusic;
-import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 
 public class SongInfo {
     private String Author;

@@ -6,9 +6,9 @@ public class PageOBJ {
     private String Last;
 
     public PageOBJ() {
-        Choice = "§b[§n点我选择§r§b]§2%index%->%MusicName% | %MusicAuthor% | %MusicAl%";
-        Next = "§d[ALLMusic]§e[§n点我下一页§r§b]";
-        Last = "§d[ALLMusic]§e[§n点我上一页§r§b]";
+        Choice = "§e[§n点我选择§r§e]§2%index%->%MusicName% | %MusicAuthor% | %MusicAl%";
+        Next = "§d[ALLMusic]§e[§n点我下一页§r§e]";
+        Last = "§d[ALLMusic]§e[§n点我上一页§r§e]";
     }
 
     public String getLast() {

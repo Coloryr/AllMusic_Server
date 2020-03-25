@@ -4,6 +4,7 @@ import Color_yr.ALLMusic.Message.MessageOBJ;
 import Color_yr.ALLMusic.MusicAPI.IMusic;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI1.API1;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI2.API2;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI3.API3;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.ALLMusic.Side.ISide;
@@ -20,14 +21,13 @@ import java.util.logging.Logger;
 
 public class ALLMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "1.12.0";
+    public static final String Version = "1.12.1";
 
     public final static Map<String, SearchPage> SearchSave = new HashMap<>();
-    private static final List<String> haveMOD = new ArrayList<>();
     public static final List<String> VotePlayer = new ArrayList<>();
     public static final List<String> NowPlayPlayer = new ArrayList<>();
     public static final List<SongInfo> PlayList = new ArrayList<>();
-
+    private static final List<String> haveMOD = new ArrayList<>();
     public static Logger log;
 
     public static ConfigOBJ Config;
@@ -109,6 +109,10 @@ public class ALLMusic {
         switch (ALLMusic.Config.getMusic_Api()) {
             case 2: {
                 ALLMusic.Music = new API2();
+                break;
+            }
+            case 3: {
+                ALLMusic.Music = new API3();
                 break;
             }
             case 1:

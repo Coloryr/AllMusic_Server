@@ -1,15 +1,15 @@
-package Color_yr.ALLMusic.MusicAPI.MusicAPI2;
+package Color_yr.ALLMusic.MusicAPI.MusicAPI3;
 
 import Color_yr.ALLMusic.ALLMusic;
 import Color_yr.ALLMusic.Http.HttpGet;
 import Color_yr.ALLMusic.Http.Res;
 import Color_yr.ALLMusic.MusicAPI.IMusic;
-import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicInfo.InfoOBJ;
-import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicInfo.PlayOBJ;
-import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicList.DataOBJ;
-import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicLyric.LyricCheck;
-import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicSearch.SearchDataOBJ;
-import Color_yr.ALLMusic.MusicAPI.MusicAPI2.GetMusicSearch.songs;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI3.GetMusicInfo.InfoOBJ;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI3.GetMusicInfo.PlayOBJ;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI3.GetMusicList.DataOBJ;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI3.GetMusicLyric.LyricCheck;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI3.GetMusicSearch.SearchDataOBJ;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI3.GetMusicSearch.songs;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricDo;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchOBJ;
@@ -20,18 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class API2 implements IMusic {
+public class API3 implements IMusic {
 
     public int PlayNow = 0;
     public boolean isUpdata;
 
-    public API2() {
-        ALLMusic.log.info("§d[ALLMusic]§e使用API2");
+    public API3() {
+        ALLMusic.log.info("§d[ALLMusic]§e使用API3");
     }
 
     @Override
     public SongInfo GetMusic(String ID, String player, boolean isList) {
-        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api2() + "?type=detail&id=", ID);
+        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/song/detail?ids=", ID);
         SongInfo info = null;
         if (res != null && res.isOk()) {
             InfoOBJ temp = new Gson().fromJson(res.getData(), InfoOBJ.class);
@@ -47,7 +47,7 @@ public class API2 implements IMusic {
 
     @Override
     public String GetPlayUrl(String ID) {
-        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api2() + "?type=song&br=198000&id=", ID);
+        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/song/url?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -68,7 +68,7 @@ public class API2 implements IMusic {
     public void SetList(String ID, Object sender) {
         Thread thread = new Thread(() ->
         {
-            Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api2() + "?type=playlist&id=", ID);
+            Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/playlist/detail?id=", ID);
             if (res != null && res.isOk())
                 try {
                     isUpdata = true;
@@ -88,7 +88,7 @@ public class API2 implements IMusic {
     @Override
     public LyricDo getLyric(String ID) {
         LyricDo Lyric = new LyricDo();
-        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api2() + "?type=lyric&id=", ID);
+        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/lyric?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 LyricCheck temp = new LyricCheck(res.getData());
@@ -122,7 +122,7 @@ public class API2 implements IMusic {
         }
         String MusicName = name1.toString();
         MusicName = MusicName.substring(0, MusicName.length() - 1);
-        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api2() + "?type=search&s=", MusicName);
+        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/search?keywords=", MusicName);
         if (res != null && res.isOk()) {
             SearchDataOBJ obj = new Gson().fromJson(res.getData(), SearchDataOBJ.class);
             if (obj != null && obj.isok()) {

@@ -11,8 +11,7 @@ public class ListMusicOBJ {
         Get = "§d[ALLMusic]§2歌曲列表%ListName%获取成功";
     }
 
-    public String getGet()
-    {
+    public String getGet() {
         return Get;
     }
 
