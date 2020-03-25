@@ -27,7 +27,7 @@ public class ShowOBJ {
 
     public String getString() {
         if (lyric == null || lyric.isEmpty())
-            return null;
+            return "";
         String data;
         if (haveT) {
             if (tlyric != null && !tlyric.isEmpty()) {

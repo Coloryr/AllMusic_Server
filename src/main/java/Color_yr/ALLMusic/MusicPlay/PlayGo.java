@@ -30,7 +30,7 @@ class PlayGo extends Thread {
             }
         } else {
             times++;
-            if (times == 1000) {
+            if (times == 1000 && PlayMusic.nowLyric != null) {
                 times = 0;
                 ALLMusic.Side.SendLyric(PlayMusic.nowLyric.getString());
             }
@@ -43,12 +43,10 @@ class PlayGo extends Thread {
     public void closeTimer() {
         if (service != null) {
             service.shutdown();
-            service.shutdownNow();
             service = null;
         }
         if (service1 != null) {
             service1.shutdown();
-            service1.shutdownNow();
             service1 = null;
         }
     }
