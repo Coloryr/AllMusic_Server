@@ -47,8 +47,12 @@ public class CommandEX {
         SearchOBJ item;
         String info;
         ALLMusic.Side.SendMessage(sender, "");
+        if (search.haveLastPage()) {
+            ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getPage().getLast(),
+                    ClickEvent.Action.RUN_COMMAND, "/music lastpage");
+        }
         for (int a = 0; a < index; a++) {
-            item = search.getRes(a + search.getPage());
+            item = search.getRes(a + search.getPage() * 10);
             info = ALLMusic.Message.getPage().getChoice();
             info = info.replace("%index%", "" + (a + 1))
                     .replace("%MusicName%", item.getName())
@@ -60,10 +64,6 @@ public class CommandEX {
         if (search.haveNextPage()) {
             ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getPage().getNext(),
                     ClickEvent.Action.RUN_COMMAND, "/music nextpage");
-        }
-        if (search.haveLastPage()) {
-            ALLMusic.Side.SendMessage(sender, ALLMusic.Message.getPage().getLast(),
-                    ClickEvent.Action.RUN_COMMAND, "/music lastpage");
         }
         ALLMusic.Side.SendMessage(sender, "");
     }

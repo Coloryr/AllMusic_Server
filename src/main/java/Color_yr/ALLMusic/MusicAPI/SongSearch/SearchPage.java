@@ -5,7 +5,7 @@ import java.util.List;
 public class SearchPage {
     private List<SearchOBJ> resData;
     private int page = 0;
-    private int maxpage = 0;
+    private int maxpage;
 
     public SearchPage(List<SearchOBJ> resData, int maxpage) {
         this.resData = resData;
@@ -21,14 +21,14 @@ public class SearchPage {
     }
 
     public boolean nextPage() {
-        if (page == maxpage)
+        if (!haveNextPage())
             return false;
         page++;
         return true;
     }
 
     public boolean lastPage() {
-        if (page == 0)
+        if (!haveLastPage())
             return false;
         page--;
         return true;
@@ -40,7 +40,7 @@ public class SearchPage {
     }
 
     public boolean haveNextPage() {
-        return page < maxpage;
+        return page != (maxpage - 1);
     }
 
     public boolean haveLastPage() {
