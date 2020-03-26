@@ -147,10 +147,13 @@ public class API3 implements IMusic {
         if (!isUpdata && ALLMusic.Config.getPlayList().size() != 0) {
             String ID;
             if (ALLMusic.Config.isPlayListRandom()) {
-                ID = ALLMusic.Config.getPlayList().get(new Random().nextInt(ALLMusic.Config.getPlayList().size()) - 1);
+                ID = ALLMusic.Config.getPlayList().get(new Random().nextInt(ALLMusic.Config.getPlayList().size() - 1));
             } else {
                 ID = ALLMusic.Config.getPlayList().get(PlayNow);
-                PlayNow = PlayNow == ALLMusic.Config.getPlayList().size() ? 0 : +1;
+                if (PlayNow == ALLMusic.Config.getPlayList().size())
+                    PlayNow = 0;
+                else
+                    PlayNow++;
             }
             return ID;
         }
