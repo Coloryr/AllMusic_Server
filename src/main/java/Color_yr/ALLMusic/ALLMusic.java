@@ -21,13 +21,12 @@ import java.util.logging.Logger;
 
 public class ALLMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "1.12.1";
+    public static final String Version = "1.13.0";
 
     public final static Map<String, SearchPage> SearchSave = new HashMap<>();
     public static final List<String> VotePlayer = new ArrayList<>();
     public static final List<String> NowPlayPlayer = new ArrayList<>();
     public static final List<SongInfo> PlayList = new ArrayList<>();
-    private static final List<String> haveMOD = new ArrayList<>();
     public static Logger log;
 
     public static ConfigOBJ Config;
@@ -40,23 +39,6 @@ public class ALLMusic {
     public static IMusic Music;
     public static boolean VVEnable = false;
     public static VVGet VV;
-
-    public static void AddPlayer(String player) {
-        if (ALLMusic.Config.isModCheck())
-            if (!haveMOD.contains(player))
-                haveMOD.add(player);
-    }
-
-    public static void RemovePlayer(String player) {
-        if (ALLMusic.Config.isModCheck())
-            haveMOD.remove(player);
-    }
-
-    public static boolean havelPlayer(String player) {
-        if (ALLMusic.Config.isModCheck())
-            return haveMOD.contains(player);
-        return true;
-    }
 
     public static void save() {
         try {

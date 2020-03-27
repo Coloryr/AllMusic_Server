@@ -17,45 +17,5 @@ public class EventBC implements Listener {
     @EventHandler
     public void onPlayerquit(final PlayerDisconnectEvent event) {
         ALLMusic.NowPlayPlayer.remove(event.getPlayer().getName());
-        ALLMusic.RemovePlayer(event.getPlayer().getName());
-    }
-
-    @EventHandler
-    public void onPlayerLogin(final PostLoginEvent e) {
-        if (!ALLMusic.Config.isModCheck())
-            return;
-        ALLMusic.Side.Send(e.getPlayer().getName(), "[Check]", false);
-        new Thread(() -> {
-            ProxiedPlayer player = e.getPlayer();
-            try {
-                Thread.sleep(2000);
-                String data = "[Check]";
-                byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-                ByteBuf buf = Unpooled.buffer(bytes.length + 1);
-                buf.writeByte(666);
-                buf.writeBytes(bytes);
-                player.sendData(ALLMusic.channel, buf.array());
-                Thread.sleep(5000);
-            } catch (Exception ex) {
-
-            }
-            if (!ALLMusic.havelPlayer(player.getName())) {
-                player.sendMessage(new TextComponent(ALLMusic.Message.getCheck().getNoMOD()));
-            }
-        }).start();
-    }
-
-    @EventHandler
-    public void onRE(final PluginMessageEvent e) {
-        if (e.getTag().equalsIgnoreCase(ALLMusic.channel)) {
-            String a = new String(e.getData());
-            if (a.contains("666")) {
-                if (e.getSender() instanceof ProxiedPlayer) {
-                    ProxiedPlayer player = (ProxiedPlayer) e.getSender();
-                    ALLMusic.AddPlayer(player.getName());
-                    player.sendMessage(new TextComponent(ALLMusic.Message.getCheck().getMOD()));
-                }
-            }
-        }
     }
 }

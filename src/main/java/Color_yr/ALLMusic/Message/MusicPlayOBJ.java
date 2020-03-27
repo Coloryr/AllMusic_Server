@@ -14,7 +14,7 @@ public class MusicPlayOBJ {
     private String MusicInfo;
 
     public MusicPlayOBJ() {
-        StopPlay = "§d[ALLMusic]§2已停止%PlayerName%的音乐播放";
+        StopPlay = "§d[ALLMusic]§2已停止你的音乐播放";
         NoMusic = "§d[ALLMusic]§2无正在播放的歌曲";
         Play = "§d[ALLMusic]§2正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
         NoPlay = "§d[ALLMusic]§2队列中无歌曲";

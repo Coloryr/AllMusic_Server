@@ -7,9 +7,9 @@ public class VVSaveOBJ {
     private boolean Enable;
 
     public VVSaveOBJ() {
-        Enable = true;
+        Enable = false;
         List = new PosOBJ(2, 80);
-        Lyric = new PosOBJ(2, 325);
+        Lyric = new PosOBJ(2, 40);
         Info = new PosOBJ(2, 2);
     }
 

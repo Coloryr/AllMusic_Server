@@ -24,8 +24,6 @@ public class SideBukkit implements ISide {
     @Override
     public void Send(String data, Boolean isplay) {
         for (Player players : Bukkit.getOnlinePlayers()) {
-            if (!ALLMusic.havelPlayer(players.getName()))
-                continue;
             if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
                 Send(players, data, isplay);
             }
@@ -41,8 +39,6 @@ public class SideBukkit implements ISide {
     public void SendLyric(String data) {
         for (Player players : Bukkit.getOnlinePlayers()) {
             if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
-                if (!ALLMusic.havelPlayer(players.getName()))
-                    continue;
                 if (ALLMusic.NowPlayPlayer.contains(players.getName())) {
                     if (!ALLMusic.VVEnable || !ALLMusic.Config.getVVSave(players.getName()).isEnable()) {
                         players.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));

@@ -6,7 +6,7 @@
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 0,
-  "Admin": [],
+  "Admin": ["CONSOLE"],
   "NoMusicServer": [],
   "NoMusicPlayer": [],
   "BanMusic": [],
@@ -15,7 +15,6 @@
   "PlayListRandom": true,
   "SendLyric": true,
   "NeedPermission": false,
-  "ModCheck": false,
   "VVSave": {},
   "Version": "1.12.1"
 }

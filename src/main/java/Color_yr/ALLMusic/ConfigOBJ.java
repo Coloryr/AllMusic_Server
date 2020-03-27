@@ -28,7 +28,6 @@ public class ConfigOBJ {
     private boolean PlayListRandom;
     private boolean SendLyric;
     private boolean NeedPermission;
-    private boolean ModCheck;
 
     private Map<String, VVSaveOBJ> VVSave;
 
@@ -53,7 +52,6 @@ public class ConfigOBJ {
         PlayListRandom = true;
         SendLyric = true;
         NeedPermission = false;
-        ModCheck = false;
         VVSave = new HashMap<>();
 
         Version = ALLMusic.Version;
@@ -61,10 +59,6 @@ public class ConfigOBJ {
 
     public String getMusic_Api3() {
         return Music_Api3;
-    }
-
-    public boolean isModCheck() {
-        return ModCheck;
     }
 
     public int getMusic_Api() {

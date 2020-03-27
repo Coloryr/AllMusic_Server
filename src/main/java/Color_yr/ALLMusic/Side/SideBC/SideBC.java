@@ -29,8 +29,6 @@ public class SideBC implements ISide {
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
                     continue;
-                if (!ALLMusic.havelPlayer(players.getName()))
-                    continue;
                 if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
                     if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
                         Send(players, data, isplay);
@@ -54,8 +52,6 @@ public class SideBC implements ISide {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
-                    continue;
-                if (!ALLMusic.havelPlayer(players.getName()))
                     continue;
                 if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
                     if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName()))
