@@ -56,7 +56,8 @@ public class PlayMusic {
                     String data = ALLMusic.getMessage().getMusicPlay().getNoCanPlay();
                     ALLMusic.Side.bq(data.replace("%MusicID%", ID));
                 }
-                if (ALLMusic.getConfig().isPlayListSwitch() && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
+                if (ALLMusic.getConfig().isPlayListSwitch()
+                        && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
                     PlayMusic.MusicAllTime = 1;
                     if (!isList)
                         ALLMusic.Side.bq(ALLMusic.getMessage().getMusicPlay().getSwitch());

@@ -128,8 +128,9 @@ class PlayGo extends Thread {
                                     ALLMusic.Side.bqt(ALLMusic.getMessage().getVote().getTimeOut());
                                 } else {
                                     int players = ALLMusic.Side.GetAllPlayer();
-                                    if (ALLMusic.getVoteCount() >= ALLMusic.getConfig().getMinVote() ||
-                                            (players <= ALLMusic.getConfig().getMinVote() && players <= ALLMusic.getVoteCount())) {
+                                    if (ALLMusic.getVoteCount() >= ALLMusic.getConfig().getMinVote()
+                                            || (players <= ALLMusic.getConfig().getMinVote()
+                                            && players <= ALLMusic.getVoteCount())) {
                                         ALLMusic.Side.bqt(ALLMusic.getMessage().getVote().getDo());
                                         ALLMusic.Side.Send("[Stop]", false);
                                         ALLMusic.clearVote();

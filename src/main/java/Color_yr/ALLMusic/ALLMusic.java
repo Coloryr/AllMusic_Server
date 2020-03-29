@@ -120,7 +120,8 @@ public class ALLMusic {
 
     public static void LoadConfig() throws FileNotFoundException {
 
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(ALLMusic.ConfigFile), StandardCharsets.UTF_8);
+        InputStreamReader reader = new InputStreamReader(
+                new FileInputStream(ALLMusic.ConfigFile), StandardCharsets.UTF_8);
         BufferedReader bf = new BufferedReader(reader);
         ALLMusic.Config = new Gson().fromJson(bf, ConfigOBJ.class);
 
