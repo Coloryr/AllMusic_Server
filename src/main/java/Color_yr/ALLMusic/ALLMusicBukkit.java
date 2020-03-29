@@ -8,8 +8,6 @@ import Color_yr.ALLMusic.Side.SideBukkit.SideBukkit;
 import Color_yr.ALLMusic.Side.SideBukkit.VVGet;
 import Color_yr.ALLMusic.Utils.logs;
 import Color_yr.ALLMusic.bStats.MetricsBukkit;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class ALLMusicBukkit extends JavaPlugin {
@@ -26,18 +23,18 @@ public class ALLMusicBukkit extends JavaPlugin {
 
     public static void setConfig() {
         try {
-            ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
-            ALLMusic.MessageFile = new File(ALLMusicP.getDataFolder(), "Message.json");
+            ALLMusic.setConfigFile(new File(ALLMusicP.getDataFolder(), "config.json"));
+            ALLMusic.setMessageFile(new File(ALLMusicP.getDataFolder(), "Message.json"));
             if (!ALLMusicP.getDataFolder().exists())
                 ALLMusicP.getDataFolder().mkdir();
             new logs().Init(ALLMusicP.getDataFolder());
-            if (!ALLMusic.ConfigFile.exists()) {
+            if (!ALLMusic.getConfigFile().exists()) {
                 InputStream in = ALLMusicP.getResource("config_BC.json");
-                Files.copy(in, ALLMusic.ConfigFile.toPath());
+                Files.copy(in, ALLMusic.getConfigFile().toPath());
             }
-            if (!ALLMusic.MessageFile.exists()) {
+            if (!ALLMusic.getMessageFile().exists()) {
                 InputStream in = ALLMusicP.getResource("Message.json");
-                Files.copy(in, ALLMusic.MessageFile.toPath());
+                Files.copy(in, ALLMusic.getMessageFile().toPath());
             }
             ALLMusic.LoadConfig();
             if (Bukkit.getPluginManager().isPluginEnabled("VexView")) {
@@ -84,7 +81,7 @@ public class ALLMusicBukkit extends JavaPlugin {
     public void onDisable() {
         PlayMusic.stop();
         PlayMusic.clear();
-        ALLMusic.VotePlayer.clear();
+        ALLMusic.clearVote();
         if (ALLMusic.VVEnable) {
             ALLMusic.VV.clear();
         }

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class VVGet {
     public boolean SetPot(String player, String pos, String local, String data) {
-        VVSaveOBJ obj = ALLMusic.Config.getVVSave(player);
+        VVSaveOBJ obj = ALLMusic.getConfig().getVVSave(player);
         if (obj == null)
             obj = new VVSaveOBJ();
         Pos pos1 = Pos.valueOf(pos);
@@ -55,7 +55,7 @@ public class VVGet {
                 break;
         }
 
-        ALLMusic.Config.setVVSave(obj, player);
+        ALLMusic.getConfig().setVVSave(obj, player);
         ALLMusic.save();
 
         return true;
@@ -77,12 +77,12 @@ public class VVGet {
             }
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName()))
+            if (ALLMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
                 continue;
-            VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
+            VVSaveOBJ obj = ALLMusic.getConfig().getVVSave(player.getName());
             if (obj == null) {
                 obj = new VVSaveOBJ();
-                ALLMusic.Config.setVVSave(obj, player.getName());
+                ALLMusic.getConfig().setVVSave(obj, player.getName());
                 save = true;
             }
             if (!obj.isEnable())
@@ -110,12 +110,12 @@ public class VVGet {
             list.add("by:" + PlayMusic.NowPlayMusic.getCall());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName()))
+            if (ALLMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
                 continue;
-            VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
+            VVSaveOBJ obj = ALLMusic.getConfig().getVVSave(player.getName());
             if (obj == null) {
                 obj = new VVSaveOBJ();
-                ALLMusic.Config.setVVSave(obj, player.getName());
+                ALLMusic.getConfig().setVVSave(obj, player.getName());
                 save = true;
             }
             if (!obj.isEnable())
@@ -142,14 +142,14 @@ public class VVGet {
                 list.add(showobj.getTlyric());
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!ALLMusic.NowPlayPlayer.contains(player.getName()))
+            if (!ALLMusic.containNowPlay(player.getName()))
                 continue;
-            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName()))
+            if (ALLMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
                 continue;
-            VVSaveOBJ obj = ALLMusic.Config.getVVSave(player.getName());
+            VVSaveOBJ obj = ALLMusic.getConfig().getVVSave(player.getName());
             if (obj == null) {
                 obj = new VVSaveOBJ();
-                ALLMusic.Config.setVVSave(obj, player.getName());
+                ALLMusic.getConfig().setVVSave(obj, player.getName());
                 save = true;
             }
             if (!obj.isEnable())
@@ -164,14 +164,14 @@ public class VVGet {
     }
 
     public boolean SetEnable(String player) {
-        VVSaveOBJ obj = ALLMusic.Config.getVVSave(player);
+        VVSaveOBJ obj = ALLMusic.getConfig().getVVSave(player);
         if (obj == null)
             obj = new VVSaveOBJ();
         obj.setEnable(!obj.isEnable());
         if (!obj.isEnable()) {
             clear(Bukkit.getPlayer(player));
         }
-        ALLMusic.Config.setVVSave(obj, player);
+        ALLMusic.getConfig().setVVSave(obj, player);
         ALLMusic.save();
         return obj.isEnable();
     }

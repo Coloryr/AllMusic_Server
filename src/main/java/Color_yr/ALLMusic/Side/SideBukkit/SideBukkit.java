@@ -24,7 +24,7 @@ public class SideBukkit implements ISide {
     @Override
     public void Send(String data, Boolean isplay) {
         for (Player players : Bukkit.getOnlinePlayers()) {
-            if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
+            if (!ALLMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
                 Send(players, data, isplay);
             }
         }
@@ -38,9 +38,9 @@ public class SideBukkit implements ISide {
     @Override
     public void SendLyric(String data) {
         for (Player players : Bukkit.getOnlinePlayers()) {
-            if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
-                if (ALLMusic.NowPlayPlayer.contains(players.getName())) {
-                    if (!ALLMusic.VVEnable || !ALLMusic.Config.getVVSave(players.getName()).isEnable()) {
+            if (!ALLMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
+                if (ALLMusic.containNowPlay(players.getName())) {
+                    if (!ALLMusic.VVEnable || !ALLMusic.getConfig().getVVSave(players.getName()).isEnable()) {
                         players.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
                     }
                 }
@@ -62,7 +62,7 @@ public class SideBukkit implements ISide {
     public boolean NeedPlay() {
         int online = GetAllPlayer();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName())) {
+            if (ALLMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
                 online--;
             }
         }
@@ -117,9 +117,9 @@ public class SideBukkit implements ISide {
             players.sendPluginMessage(ALLMusicBukkit.ALLMusicP, ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
-                    ALLMusic.NowPlayPlayer.add(players.getName());
+                    ALLMusic.addNowPlayPlayer(players.getName());
                 } else {
-                    ALLMusic.NowPlayPlayer.remove(players.getName());
+                    ALLMusic.removeNowPlayPlayer(players.getName());
                 }
             }
         } catch (Exception e) {

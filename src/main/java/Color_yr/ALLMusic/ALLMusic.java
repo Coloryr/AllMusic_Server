@@ -7,6 +7,7 @@ import Color_yr.ALLMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI3.API3;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
+import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Side.ISide;
 import Color_yr.ALLMusic.Side.SideBukkit.VVGet;
 import com.google.gson.Gson;
@@ -23,22 +24,107 @@ public class ALLMusic {
     public static final String channel = "allmusic:channel";
     public static final String Version = "1.13.0";
 
-    public final static Map<String, SearchPage> SearchSave = new HashMap<>();
-    public static final List<String> VotePlayer = new ArrayList<>();
-    public static final List<String> NowPlayPlayer = new ArrayList<>();
-    public static final List<SongInfo> PlayList = new ArrayList<>();
+    private static final Map<String, SearchPage> SearchSave = new HashMap<>();
+    private static final List<String> VotePlayer = new ArrayList<>();
+    private static final List<String> NowPlayPlayer = new ArrayList<>();
+
     public static Logger log;
-
-    public static ConfigOBJ Config;
-    public static MessageOBJ Message;
-
-    public static File ConfigFile;
-    public static File MessageFile;
-
     public static ISide Side;
     public static IMusic Music;
     public static boolean VVEnable = false;
     public static VVGet VV;
+    private static ConfigOBJ Config;
+    private static MessageOBJ Message;
+    private static File ConfigFile;
+    private static File MessageFile;
+
+    public static File getConfigFile() {
+        return ConfigFile;
+    }
+
+    public static void setConfigFile(File file) {
+        ConfigFile = file;
+    }
+
+    public static File getMessageFile() {
+        return MessageFile;
+    }
+
+    public static void setMessageFile(File file) {
+        MessageFile = file;
+    }
+
+    public static boolean containNowPlay(String player) {
+        return NowPlayPlayer.contains(player);
+    }
+
+    public static ConfigOBJ getConfig() {
+        return Config;
+    }
+
+    public static int getPlayListSize() {
+        return PlayMusic.PlayList.size();
+    }
+
+    public static void removeList(int index) {
+        PlayMusic.PlayList.remove(index);
+    }
+
+    public static void addPlayList(SongInfo song) {
+        PlayMusic.PlayList.add(song);
+    }
+
+    public static SongInfo getFirst() {
+        SongInfo info = PlayMusic.PlayList.get(0);
+        PlayMusic.PlayList.remove(0);
+        return info;
+    }
+
+    public static SongInfo getList(int index) {
+        return PlayMusic.PlayList.get(index);
+    }
+
+    public static MessageOBJ getMessage() {
+        return Message;
+    }
+
+    public static void addSearch(String player, SearchPage page) {
+        SearchSave.put(player, page);
+    }
+
+    public static SearchPage getSearch(String player) {
+        return SearchSave.get(player);
+    }
+
+    public static void removeSearch(String player) {
+        SearchSave.remove(player);
+    }
+
+    public static void addVote(String player) {
+        if (!VotePlayer.contains(player))
+            VotePlayer.add(player);
+    }
+
+    public static int getVoteCount() {
+        return VotePlayer.size();
+    }
+
+    public static void clearVote() {
+        VotePlayer.clear();
+    }
+
+    public static boolean containVote(String player) {
+        return VotePlayer.contains(player);
+    }
+
+    public static void addNowPlayPlayer(String player) {
+        if (!NowPlayPlayer.contains(player))
+            NowPlayPlayer.add(player);
+    }
+
+    public static void removeNowPlayPlayer(String player) {
+        NowPlayPlayer.remove(player);
+    }
 
     public static void save() {
         try {

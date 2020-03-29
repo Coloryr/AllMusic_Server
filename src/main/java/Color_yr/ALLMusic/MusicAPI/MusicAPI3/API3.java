@@ -31,7 +31,7 @@ public class API3 implements IMusic {
 
     @Override
     public SongInfo GetMusic(String ID, String player, boolean isList) {
-        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/song/detail?ids=", ID);
+        Res res = HttpGet.realData(ALLMusic.getConfig().getMusic_Api3() + "/song/detail?ids=", ID);
         SongInfo info = null;
         if (res != null && res.isOk()) {
             InfoOBJ temp = new Gson().fromJson(res.getData(), InfoOBJ.class);
@@ -47,7 +47,7 @@ public class API3 implements IMusic {
 
     @Override
     public String GetPlayUrl(String ID) {
-        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/song/url?id=", ID);
+        Res res = HttpGet.realData(ALLMusic.getConfig().getMusic_Api3() + "/song/url?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -68,14 +68,14 @@ public class API3 implements IMusic {
     public void SetList(String ID, Object sender) {
         Thread thread = new Thread(() ->
         {
-            Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/playlist/detail?id=", ID);
+            Res res = HttpGet.realData(ALLMusic.getConfig().getMusic_Api3() + "/playlist/detail?id=", ID);
             if (res != null && res.isOk())
                 try {
                     isUpdata = true;
                     DataOBJ obj = new Gson().fromJson(res.getData(), DataOBJ.class);
-                    ALLMusic.Config.getPlayList().addAll(obj.getPlaylist());
+                    ALLMusic.getConfig().getPlayList().addAll(obj.getPlaylist());
                     ALLMusic.save();
-                    ALLMusic.Side.SendMessaget(sender, ALLMusic.Message.getMusicPlay().getListMusic().getGet().replace("%ListName%", obj.getName()));
+                    ALLMusic.Side.SendMessaget(sender, ALLMusic.getMessage().getMusicPlay().getListMusic().getGet().replace("%ListName%", obj.getName()));
                 } catch (Exception e) {
                     ALLMusic.log.warning("§d[ALLMusic]§c歌曲列表获取错误");
                     e.printStackTrace();
@@ -88,7 +88,7 @@ public class API3 implements IMusic {
     @Override
     public LyricDo getLyric(String ID) {
         LyricDo Lyric = new LyricDo();
-        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/lyric?id=", ID);
+        Res res = HttpGet.realData(ALLMusic.getConfig().getMusic_Api3() + "/lyric?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 LyricCheck temp = new LyricCheck(res.getData());
@@ -96,7 +96,7 @@ public class API3 implements IMusic {
                     if (!temp.Check()) {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误，正在进行第" + times + "重试");
                     } else {
-                        Lyric.setHaveLyric(ALLMusic.Config.isSendLyric());
+                        Lyric.setHaveLyric(ALLMusic.getConfig().isSendLyric());
                         Lyric.setLyric(temp.getTemp());
                         return Lyric;
                     }
@@ -122,7 +122,7 @@ public class API3 implements IMusic {
         }
         String MusicName = name1.toString();
         MusicName = MusicName.substring(0, MusicName.length() - 1);
-        Res res = HttpGet.realData(ALLMusic.Config.getMusic_Api3() + "/search?keywords=", MusicName);
+        Res res = HttpGet.realData(ALLMusic.getConfig().getMusic_Api3() + "/search?keywords=", MusicName);
         if (res != null && res.isOk()) {
             SearchDataOBJ obj = new Gson().fromJson(res.getData(), SearchDataOBJ.class);
             if (obj != null && obj.isok()) {
@@ -144,13 +144,13 @@ public class API3 implements IMusic {
 
     @Override
     public String GetListMusic() {
-        if (!isUpdata && ALLMusic.Config.getPlayList().size() != 0) {
+        if (!isUpdata && ALLMusic.getConfig().getPlayList().size() != 0) {
             String ID;
-            if (ALLMusic.Config.isPlayListRandom()) {
-                ID = ALLMusic.Config.getPlayList().get(new Random().nextInt(ALLMusic.Config.getPlayList().size() - 1));
+            if (ALLMusic.getConfig().isPlayListRandom()) {
+                ID = ALLMusic.getConfig().getPlayList().get(new Random().nextInt(ALLMusic.getConfig().getPlayList().size() - 1));
             } else {
-                ID = ALLMusic.Config.getPlayList().get(PlayNow);
-                if (PlayNow == ALLMusic.Config.getPlayList().size())
+                ID = ALLMusic.getConfig().getPlayList().get(PlayNow);
+                if (PlayNow == ALLMusic.getConfig().getPlayList().size())
                     PlayNow = 0;
                 else
                     PlayNow++;

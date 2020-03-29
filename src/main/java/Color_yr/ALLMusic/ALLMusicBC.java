@@ -19,18 +19,18 @@ public class ALLMusicBC extends Plugin {
 
     public static void setConfig() {
         try {
-            ALLMusic.ConfigFile = new File(ALLMusicP.getDataFolder(), "config.json");
-            ALLMusic.MessageFile = new File(ALLMusicP.getDataFolder(), "Message.json");
+            ALLMusic.setConfigFile(new File(ALLMusicP.getDataFolder(), "config.json"));
+            ALLMusic.setMessageFile(new File(ALLMusicP.getDataFolder(), "Message.json"));
             if (!ALLMusicP.getDataFolder().exists())
                 ALLMusicP.getDataFolder().mkdir();
             new logs().Init(ALLMusicP.getDataFolder());
-            if (!ALLMusic.ConfigFile.exists()) {
+            if (!ALLMusic.getConfigFile().exists()) {
                 InputStream in = ALLMusicP.getResourceAsStream("config_BC.json");
-                Files.copy(in, ALLMusic.ConfigFile.toPath());
+                Files.copy(in, ALLMusic.getConfigFile().toPath());
             }
-            if (!ALLMusic.MessageFile.exists()) {
+            if (!ALLMusic.getMessageFile().exists()) {
                 InputStream in = ALLMusicP.getResourceAsStream("Message.json");
-                Files.copy(in, ALLMusic.MessageFile.toPath());
+                Files.copy(in, ALLMusic.getMessageFile().toPath());
             }
             if (!logs.file.exists()) {
                 logs.file.createNewFile();
@@ -60,7 +60,7 @@ public class ALLMusicBC extends Plugin {
     public void onDisable() {
         PlayMusic.stop();
         PlayMusic.clear();
-        ALLMusic.VotePlayer.clear();
+        ALLMusic.clearVote();
         ALLMusic.Side.Send("[Stop]", false);
         try {
             logs.stop();

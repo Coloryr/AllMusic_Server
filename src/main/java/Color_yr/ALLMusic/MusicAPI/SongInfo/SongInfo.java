@@ -59,7 +59,7 @@ public class SongInfo {
     }
 
     public String getInfo() {
-        String info = ALLMusic.Message.getMusicPlay().getMusicInfo();
+        String info = ALLMusic.getMessage().getMusicPlay().getMusicInfo();
         info = info.replace("%MusicName%", Name)
                 .replace("%MusicAuthor%", Author)
                 .replace("%MusicAl%", Al)

@@ -16,12 +16,12 @@ public class TabCommand {
             arguments.add("search");
             if (ALLMusic.VVEnable)
                 arguments.add("vv");
-            if (ALLMusic.SearchSave.get(name) != null) {
+            if (ALLMusic.getSearch(name) != null) {
                 arguments.add("select");
                 arguments.add("nextpage");
                 arguments.add("lastpage");
             }
-            if (ALLMusic.Config.getAdmin().contains(name)) {
+            if (ALLMusic.getConfig().getAdmin().contains(name)) {
                 arguments.add("reload");
                 arguments.add("next");
                 arguments.add("ban");

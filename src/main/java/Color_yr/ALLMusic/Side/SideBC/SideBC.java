@@ -29,8 +29,8 @@ public class SideBC implements ISide {
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
                     continue;
-                if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
-                    if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName())) {
+                if (!ALLMusic.getConfig().getNoMusicServer().contains(players.getServer().getInfo().getName())) {
+                    if (!ALLMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
                         Send(players, data, isplay);
                     }
                 }
@@ -53,9 +53,9 @@ public class SideBC implements ISide {
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
                     continue;
-                if (!ALLMusic.Config.getNoMusicServer().contains(players.getServer().getInfo().getName())) {
-                    if (!ALLMusic.Config.getNoMusicPlayer().contains(players.getName()))
-                        if (ALLMusic.NowPlayPlayer.contains(players.getName()))
+                if (!ALLMusic.getConfig().getNoMusicServer().contains(players.getServer().getInfo().getName())) {
+                    if (!ALLMusic.getConfig().getNoMusicPlayer().contains(players.getName()))
+                        if (ALLMusic.containNowPlay(players.getName()))
                             players.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
                 }
             }
@@ -79,12 +79,12 @@ public class SideBC implements ISide {
     public boolean NeedPlay() {
         int online = GetAllPlayer();
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            if (ALLMusic.Config.getNoMusicPlayer().contains(player.getName())) {
+            if (ALLMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
                 online--;
             } else {
                 if (player.getServer() != null) {
                     ServerInfo server = player.getServer().getInfo();
-                    if (server != null && ALLMusic.Config.getNoMusicServer().contains(server.getName())) {
+                    if (server != null && ALLMusic.getConfig().getNoMusicServer().contains(server.getName())) {
                         online--;
                     }
                 }
@@ -142,9 +142,9 @@ public class SideBC implements ISide {
             players.sendData(ALLMusic.channel, buf.array());
             if (isplay != null) {
                 if (isplay) {
-                    ALLMusic.NowPlayPlayer.add(players.getName());
+                    ALLMusic.addNowPlayPlayer(players.getName());
                 } else {
-                    ALLMusic.NowPlayPlayer.remove(players.getName());
+                    ALLMusic.removeNowPlayPlayer(players.getName());
                 }
             }
         } catch (Exception e) {

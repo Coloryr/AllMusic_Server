@@ -94,7 +94,7 @@ class PlayGo extends Thread {
 
                 String url = ALLMusic.Music.GetPlayUrl(PlayMusic.NowPlayMusic.getID());
                 if (url == null) {
-                    String data = ALLMusic.Message.getMusicPlay().getNoCanPlay();
+                    String data = ALLMusic.getMessage().getMusicPlay().getNoCanPlay();
                     ALLMusic.Side.bqt(data.replace("%MusicID%", PlayMusic.NowPlayMusic.getID()));
                     continue;
                 }
@@ -103,7 +103,7 @@ class PlayGo extends Thread {
 
                 if (PlayMusic.NowPlayMusic.getLength() != 0) {
                     PlayMusic.MusicAllTime = (PlayMusic.NowPlayMusic.getLength() / 1000) + 10;
-                    String info = ALLMusic.Message.getMusicPlay().getPlay();
+                    String info = ALLMusic.getMessage().getMusicPlay().getPlay();
                     info = info.replace("%MusicName%", PlayMusic.NowPlayMusic.getName())
                             .replace("%MusicAuthor%", PlayMusic.NowPlayMusic.getAuthor())
                             .replace("%MusicAl%", PlayMusic.NowPlayMusic.getAl())
@@ -124,15 +124,15 @@ class PlayGo extends Thread {
                             if (PlayMusic.VoteTime > 0) {
                                 PlayMusic.VoteTime--;
                                 if (PlayMusic.VoteTime == 0) {
-                                    ALLMusic.VotePlayer.clear();
-                                    ALLMusic.Side.bqt(ALLMusic.Message.getVote().getTimeOut());
+                                    ALLMusic.clearVote();
+                                    ALLMusic.Side.bqt(ALLMusic.getMessage().getVote().getTimeOut());
                                 } else {
                                     int players = ALLMusic.Side.GetAllPlayer();
-                                    if (ALLMusic.VotePlayer.size() >= ALLMusic.Config.getMinVote() ||
-                                            (players <= ALLMusic.Config.getMinVote() && players <= ALLMusic.VotePlayer.size())) {
-                                        ALLMusic.Side.bqt(ALLMusic.Message.getVote().getDo());
+                                    if (ALLMusic.getVoteCount() >= ALLMusic.getConfig().getMinVote() ||
+                                            (players <= ALLMusic.getConfig().getMinVote() && players <= ALLMusic.getVoteCount())) {
+                                        ALLMusic.Side.bqt(ALLMusic.getMessage().getVote().getDo());
                                         ALLMusic.Side.Send("[Stop]", false);
-                                        ALLMusic.VotePlayer.clear();
+                                        ALLMusic.clearVote();
                                         PlayMusic.VoteTime = 0;
                                         break;
                                     }
@@ -145,7 +145,7 @@ class PlayGo extends Thread {
                         e.printStackTrace();
                     }
                 } else {
-                    String data = ALLMusic.Message.getMusicPlay().getNoCanPlay();
+                    String data = ALLMusic.getMessage().getMusicPlay().getNoCanPlay();
                     ALLMusic.Side.bqt(data.replace("%MusicID%", PlayMusic.NowPlayMusic.getID()));
                 }
                 clear();

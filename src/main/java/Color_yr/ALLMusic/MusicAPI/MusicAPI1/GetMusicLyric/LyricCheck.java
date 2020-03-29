@@ -79,8 +79,8 @@ public class LyricCheck {
                 milt /= 10;
             }
             time = Integer.parseInt(min) * 60 * 1000 + Integer.parseInt(sec) * 1000 + milt * 10;
-            if (time > 0 && time + ALLMusic.Config.getDelay() > 0)
-                time += ALLMusic.Config.getDelay() * 10;
+            if (time > 0 && time + ALLMusic.getConfig().getDelay() > 0)
+                time += ALLMusic.getConfig().getDelay() * 10;
             Lyric.put(time, Function.getString(s, "]", null));
         }
         return Lyric;

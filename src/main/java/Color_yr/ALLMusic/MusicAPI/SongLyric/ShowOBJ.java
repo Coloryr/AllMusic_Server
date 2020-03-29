@@ -31,12 +31,12 @@ public class ShowOBJ {
         String data;
         if (haveT) {
             if (tlyric != null && !tlyric.isEmpty()) {
-                data = ALLMusic.Message.getLyric().getTData();
+                data = ALLMusic.getMessage().getLyric().getTData();
                 return data.replace("%Lyric%", lyric)
                         .replace("%TLyric%", tlyric);
             }
         }
-        data = ALLMusic.Message.getLyric().getData();
+        data = ALLMusic.getMessage().getLyric().getData();
         return data.replace("%Lyric%", lyric);
     }
 }
