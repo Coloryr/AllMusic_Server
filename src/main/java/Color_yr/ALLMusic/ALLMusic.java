@@ -62,28 +62,6 @@ public class ALLMusic {
         return Config;
     }
 
-    public static int getPlayListSize() {
-        return PlayMusic.PlayList.size();
-    }
-
-    public static void removeList(int index) {
-        PlayMusic.PlayList.remove(index);
-    }
-
-    public static void addPlayList(SongInfo song) {
-        PlayMusic.PlayList.add(song);
-    }
-
-    public static SongInfo getFirst() {
-        SongInfo info = PlayMusic.PlayList.get(0);
-        PlayMusic.PlayList.remove(0);
-        return info;
-    }
-
-    public static SongInfo getList(int index) {
-        return PlayMusic.PlayList.get(index);
-    }
-
     public static MessageOBJ getMessage() {
         return Message;
     }

@@ -1,7 +1,7 @@
 package Color_yr.ALLMusic.MusicAPI;
 
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
-import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricDo;
+import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 
 public interface IMusic {
@@ -11,7 +11,7 @@ public interface IMusic {
 
     void SetList(String ID, Object sender);
 
-    LyricDo getLyric(String ID);
+    LyricSave getLyric(String ID);
 
     SearchPage Search(String[] name);
 

@@ -115,7 +115,8 @@ public class CommandEX {
             if (PlayMusic.getSize() == 0) {
                 ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getMusicPlay().getNoPlay());
             } else {
-                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getMusicPlay().getListMusic().getHead().replace("&Count&", "" + ALLMusic.getPlayListSize()));
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getMusicPlay().getListMusic().getHead()
+                        .replace("&Count&", "" + PlayMusic.getSize()));
                 ALLMusic.Side.SendMessage(sender, PlayMusic.getAllList());
             }
         } else if (args[0].equalsIgnoreCase("vote")) {

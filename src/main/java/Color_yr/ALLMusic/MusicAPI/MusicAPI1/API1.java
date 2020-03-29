@@ -7,11 +7,12 @@ import Color_yr.ALLMusic.MusicAPI.IMusic;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicInfo.InfoOBJ;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicInfo.PlayOBJ;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicList.DataOBJ;
-import Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicLyric.LyricCheck;
+import Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicLyric.LyricOBJ;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicSearch.SearchDataOBJ;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicSearch.songs;
 import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricDo;
+import Color_yr.ALLMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
 import com.google.gson.Gson;
@@ -86,14 +87,15 @@ public class API1 implements IMusic {
     }
 
     @Override
-    public LyricDo getLyric(String ID) {
-        LyricDo Lyric = new LyricDo();
+    public LyricSave getLyric(String ID) {
+        LyricSave Lyric = new LyricSave();
         Res res = HttpGet.realData("https://api.imjad.cn/cloudmusic/?type=lyric&id=", ID);
         if (res != null && res.isOk()) {
             try {
-                LyricCheck temp = new LyricCheck(res.getData());
+                LyricOBJ obj = new Gson().fromJson(res.getData(), LyricOBJ.class);
+                LyricDo temp = new LyricDo();
                 for (int times = 0; times < 3; times++) {
-                    if (!temp.Check()) {
+                    if (temp.Check(obj)) {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误，正在进行第" + times + "重试");
                     } else {
                         Lyric.setHaveLyric(ALLMusic.getConfig().isSendLyric());

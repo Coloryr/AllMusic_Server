@@ -1,6 +1,8 @@
 package Color_yr.ALLMusic.MusicAPI.MusicAPI3.GetMusicLyric;
 
-public class LyricOBJ {
+import Color_yr.ALLMusic.MusicAPI.SongLyric.Lyric;
+
+public class LyricOBJ implements Lyric {
     private lrc lrc;
     private tlyric tlyric;
 
