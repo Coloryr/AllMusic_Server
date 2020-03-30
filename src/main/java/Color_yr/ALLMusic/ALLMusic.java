@@ -5,9 +5,7 @@ import Color_yr.ALLMusic.MusicAPI.IMusic;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI1.API1;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.ALLMusic.MusicAPI.MusicAPI3.API3;
-import Color_yr.ALLMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.ALLMusic.MusicAPI.SongSearch.SearchPage;
-import Color_yr.ALLMusic.MusicPlay.PlayMusic;
 import Color_yr.ALLMusic.Side.ISide;
 import Color_yr.ALLMusic.Side.SideBukkit.VVGet;
 import com.google.gson.Gson;
@@ -22,7 +20,7 @@ import java.util.logging.Logger;
 
 public class ALLMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "1.13.0";
+    public static final String Version = "1.13.1";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();

@@ -5,6 +5,8 @@ import Color_yr.ALLMusic.MusicAPI.SongLyric.Lyric;
 public class LyricOBJ implements Lyric {
     private lrc lrc;
     private tlyric tlyric;
+    private boolean nolyric;
+    private boolean uncollected;
 
     public boolean isok() {
         return lrc != null;
@@ -16,6 +18,10 @@ public class LyricOBJ implements Lyric {
 
     public String getTlyric() {
         return tlyric.getLyric();
+    }
+
+    public boolean isNone() {
+        return nolyric || uncollected;
     }
 }
 

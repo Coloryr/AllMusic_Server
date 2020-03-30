@@ -19,6 +19,8 @@ public class LyricDo {
         boolean haveT = false;
         if (!obj.isok())
             return true;
+        else if (obj.isNone())
+            return false;
         lyric = obj.getLyric().split("\n");
         List<String> Tlyric = new ArrayList<>();
         if (obj.getTlyric() != null) {

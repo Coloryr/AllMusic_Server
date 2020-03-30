@@ -16,5 +16,5 @@
   "SendLyric": true,
   "NeedPermission": false,
   "VVSave": {},
-  "Version": "1.12.1"
+  "Version": "${version}"
 }

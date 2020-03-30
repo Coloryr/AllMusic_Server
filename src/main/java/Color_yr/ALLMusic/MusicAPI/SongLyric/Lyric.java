@@ -6,4 +6,6 @@ public interface Lyric {
     String getLyric();
 
     String getTlyric();
+
+    boolean isNone();
 }

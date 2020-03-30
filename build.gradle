@@ -2,45 +2,13 @@ plugins {
     id 'java'
     id 'maven-publish'
 }
-
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
 // Version strings used for CI
 // Note the spaces before and after the equals sign
 ext.majorVersion = 0
 ext.minorVersion = 1
-ext.minecraftVersion = "1.15.1"
+version = "1.13.1"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-ext.mavenDirectory = System.env.MAVEN_DIR == null ? "$projectDir/repo" : "$System.env.MAVEN_DIR"
-
-// Search for spigot nms jar file
-String spigotNmsPath = "";
-if (System.env.NMS_JAR != null) {
-    // use NMS_JAR if it's explicitly specified
-    spigotNmsPath = "$System.env.NMS_JAR"
-    if (new File(spigotNmsPath).exists()) {
-        logger.warn("NMS jar is set manually: ${spigotNmsPath}")
-    } else {
-        throw new GradleException("NMS jar not found: ${spigotNmsPath}")
-    }
-} else if (new File("${mavenDirectory}/spigot-${minecraftVersion}-latest.jar").exists()) {
-    // ci environment
-    spigotNmsPath = "${mavenDirectory}/spigot-${minecraftVersion}-latest.jar"
-} else {
-    // check local dir (dev environment)
-    spigotNmsPath = "${projectDir}/../nms_binaries/spigot-${minecraftVersion}.jar"
-    if (!(new File(spigotNmsPath).exists())) {
-        // nms not found, download from nyaaci
-        def f = new File(spigotNmsPath)
-        println "Downloading spigot-${minecraftVersion}.jar"
-        f.getParentFile().mkdirs();
-        new URL("https://ci.nyaacat.com/maven/spigot-${minecraftVersion}-latest.jar").withInputStream{ i -> f.withOutputStream{ it << i }}
-    }
-}
 
 repositories {
     jcenter()
@@ -49,9 +17,6 @@ repositories {
         name 'Spigot'
         url 'https://hub.spigotmc.org/nexus/content/groups/public'
     }
-    maven {
-        name 'NyaaCat';
-        url 'https://ci.nyaacat.com/maven/' }
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
@@ -81,4 +46,25 @@ publishing {
 }
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'bungee.yml'
+        include 'plugin.yml'
+        include 'config_BC.json'
+        // replace version and mcversion
+        expand 'version':project.version
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'bungee.yml'
+        exclude 'plugin.yml'
+        exclude 'config_BC.json'
+    }
 }

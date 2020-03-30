@@ -1,4 +1,4 @@
 name: ALLMusic
 main: Color_yr.ALLMusic.ALLMusicBC
 author: Color_yr
-version: 1.12.1
+version: ${version}
