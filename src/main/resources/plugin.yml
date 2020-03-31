@@ -7,5 +7,5 @@ softdepend: [vexview, PlaceholderAPI]
 
 commands:
   music:
-    description: ALLMusic的主要指令
-    usage: §4[ALLMusic]§6/music help来查看帮助
+    description: ALLMusic
+    usage: §4[ALLMusic]§6/music help
