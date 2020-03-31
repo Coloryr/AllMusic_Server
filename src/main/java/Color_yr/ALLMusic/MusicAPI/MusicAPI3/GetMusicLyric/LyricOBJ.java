@@ -9,7 +9,7 @@ public class LyricOBJ implements Lyric {
     private boolean uncollected;
 
     public boolean isok() {
-        return lrc != null;
+        return lrc != null || isNone();
     }
 
     public String getLyric() {

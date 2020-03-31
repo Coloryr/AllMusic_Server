@@ -98,8 +98,10 @@ public class API1 implements IMusic {
                     if (temp.Check(obj)) {
                         ALLMusic.log.warning("§d[ALLMusic]§c歌词解析错误，正在进行第" + times + "重试");
                     } else {
-                        Lyric.setHaveLyric(ALLMusic.getConfig().isSendLyric());
-                        Lyric.setLyric(temp.getTemp());
+                        if(temp.isHave) {
+                            Lyric.setHaveLyric(ALLMusic.getConfig().isSendLyric());
+                            Lyric.setLyric(temp.getTemp());
+                        }
                         return Lyric;
                     }
                     Thread.sleep(1000);

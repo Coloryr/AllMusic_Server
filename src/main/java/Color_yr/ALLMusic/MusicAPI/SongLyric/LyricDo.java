@@ -13,6 +13,8 @@ public class LyricDo {
         return temp;
     }
 
+    public boolean isHave = false;
+
     public boolean Check(Lyric obj) {
         String[] lyric;
 
@@ -40,6 +42,7 @@ public class LyricDo {
                         item.getValue(), null));
             }
         }
+        isHave = true;
         return false;
     }
 
