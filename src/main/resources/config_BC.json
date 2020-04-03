@@ -1,7 +1,6 @@
 {
-  "Music_Api1": "https://v1.itooi.cn/netease/",
-  "Music_Api2": "https://api.imjad.cn/cloudmusic/",
-  "Music_Api3": "http://localhost:4000",
+  "Music_Api1": "https://api.imjad.cn/cloudmusic/",
+  "Music_Api2": "http://localhost:4000",
   "Music_Api": 1,
   "MaxList": 10,
   "MinVote": 3,

@@ -3,21 +3,23 @@ package Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicInfo;
 import java.util.List;
 
 public class InfoOBJ {
-    private data data;
+    private List<Songs> songs;
 
     public boolean isok() {
-        return (data != null && data.getSongs().size() != 0);
+        return (songs != null && songs.size() != 0);
     }
 
     public String getName() {
-        if (data == null || data.getSongs().size() == 0)
+        if (songs == null || songs.size() == 0)
             return null;
-        return data.getSongs().get(0).getName();
+        return songs.get(0).getName();
     }
 
     public String getAuthor() {
         StringBuilder Author = new StringBuilder();
-        for (ar ar : data.getSongs().get(0).getAr()) {
+        if (songs.size() == 0)
+            return null;
+        for (ar ar : songs.get(0).getAr()) {
             Author.append(ar.getName()).append(",");
         }
         if (Author.length() != 0) {
@@ -28,7 +30,7 @@ public class InfoOBJ {
 
     public String getAlia() {
         StringBuilder Alia = new StringBuilder();
-        for (String alia : data.getSongs().get(0).getAlia()) {
+        for (String alia : songs.get(0).getAlia()) {
             Alia.append(alia).append(",");
         }
         if (Alia.length() != 0) {
@@ -38,21 +40,13 @@ public class InfoOBJ {
     }
 
     public String getAl() {
-        return data.getSongs().get(0).getAl();
+        return songs.get(0).getAl();
     }
 
     public int getLength() {
-        if (data.getSongs() == null)
+        if (songs == null)
             return 0;
-        return data.getSongs().get(0).getLength();
-    }
-}
-
-class data {
-    private List<Songs> songs;
-
-    public List<Songs> getSongs() {
-        return songs;
+        return songs.get(0).getLength();
     }
 }
 

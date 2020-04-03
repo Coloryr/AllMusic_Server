@@ -3,18 +3,18 @@ package Color_yr.ALLMusic.MusicAPI.MusicAPI1.GetMusicSearch;
 import java.util.List;
 
 public class SearchDataOBJ {
-    private data data;
+    private result result;
 
     public boolean isok() {
-        return data != null && data.getSongs() != null;
+        return result != null && result.getSongs() != null;
     }
 
     public List<songs> getResult() {
-        return data.getSongs();
+        return result.getSongs();
     }
 }
 
-class data {
+class result {
     private List<songs> songs;
 
     public List<songs> getSongs() {

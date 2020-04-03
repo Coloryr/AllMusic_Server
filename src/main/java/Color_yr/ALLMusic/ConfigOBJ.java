@@ -10,7 +10,6 @@ import java.util.Map;
 public class ConfigOBJ {
     private String Music_Api1;
     private String Music_Api2;
-    private String Music_Api3;
 
     private int Music_Api;
 
@@ -34,9 +33,8 @@ public class ConfigOBJ {
     private String Version;
 
     public ConfigOBJ() {
-        Music_Api1 = "https://v1.itooi.cn/netease/";
-        Music_Api2 = "https://api.imjad.cn/cloudmusic/";
-        Music_Api3 = "http://localhost:3000/";
+        Music_Api1 = "https://api.imjad.cn/cloudmusic/";
+        Music_Api2 = "http://localhost:4000";
         Music_Api = 1;
         MaxList = 10;
         MinVote = 3;
@@ -57,16 +55,16 @@ public class ConfigOBJ {
         Version = ALLMusic.Version;
     }
 
-    public String getMusic_Api3() {
-        return Music_Api3;
+    public String getMusic_Api2() {
+        return Music_Api2;
     }
 
     public int getMusic_Api() {
         return Music_Api;
     }
 
-    public String getMusic_Api2() {
-        return Music_Api2;
+    public String getMusic_Api1() {
+        return Music_Api1;
     }
 
     public boolean isNeedPermission() {
@@ -75,10 +73,6 @@ public class ConfigOBJ {
 
     public boolean isSendLyric() {
         return SendLyric;
-    }
-
-    public String getMusic_Api1() {
-        return Music_Api1;
     }
 
     public VVSaveOBJ getVVSave(String player) {
