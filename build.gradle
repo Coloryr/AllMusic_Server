@@ -7,8 +7,6 @@ plugins {
 ext.majorVersion = 0
 ext.minorVersion = 1
 version = "1.13.3"
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 repositories {
     jcenter()

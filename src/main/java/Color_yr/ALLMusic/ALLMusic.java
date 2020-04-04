@@ -152,10 +152,6 @@ public class ALLMusic {
     private static void initAPI() {
         switch (ALLMusic.Config.getMusic_Api()) {
             case 2: {
-                ALLMusic.Music = new API1();
-                break;
-            }
-            case 3: {
                 ALLMusic.Music = new API2();
                 break;
             }
