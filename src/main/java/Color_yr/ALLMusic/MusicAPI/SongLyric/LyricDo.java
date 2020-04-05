@@ -7,13 +7,12 @@ import java.util.*;
 
 public class LyricDo {
 
+    public boolean isHave = false;
     private Map<Integer, ShowOBJ> temp = new HashMap<>();
 
     public Map<Integer, ShowOBJ> getTemp() {
         return temp;
     }
-
-    public boolean isHave = false;
 
     public boolean Check(Lyric obj) {
         String[] lyric;
