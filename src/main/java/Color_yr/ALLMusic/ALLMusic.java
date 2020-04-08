@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 public class ALLMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "1.14.0";
+    public static final String Version = "1.15.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();

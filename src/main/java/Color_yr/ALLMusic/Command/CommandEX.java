@@ -70,7 +70,7 @@ public class CommandEX {
 
     public static void EX(Object sender, String Name, String[] args) {
         if (args.length == 0) {
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c错误，请使用/music help 获取帮助");
+            ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getCommand().getError());
         } else if (args[0].equalsIgnoreCase("help")) {
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2帮助手册");
             ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2使用/music [音乐ID] 来点歌§e[§n点我§r§e]",
@@ -191,89 +191,89 @@ public class CommandEX {
             }
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
             if (ALLMusic.getConfig().isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getNoPer());
                 return;
             }
             ALLMusic.Side.RunTask(() -> {
                 SearchPage search = ALLMusic.Music.Search(args);
                 if (search == null)
-                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法搜索歌曲：" + args[1]);
+                    ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getCantSearch().replace("%Music%", args[1]));
                 else {
-                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2搜索结果");
+                    ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getRes());
                     ShowSearch(sender, search);
                     ALLMusic.addSearch(Name, search);
                 }
             });
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
             if (ALLMusic.getConfig().isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getNoPer());
                 return;
             }
             SearchPage obj = ALLMusic.getSearch(Name);
             if (obj == null) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getNoSearch());
             } else if (!args[1].isEmpty() && Function.isInteger(args[1])) {
                 int a = Integer.parseInt(args[1]);
                 if (a == 0) {
-                    ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c请输入正确的序号");
+                    ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getErrorNum());
                     return;
                 }
                 String[] ID = new String[1];
                 ID[0] = obj.GetSong((obj.getPage() * 10) + (a - 1));
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2你选择了序号" + a);
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getChose().replace("%Num%", "" + a));
                 AddMusic(sender, Name, ID);
                 ALLMusic.removeSearch(Name);
             } else {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c请输入正确的序号");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getErrorNum());
             }
         } else if (args[0].equalsIgnoreCase("nextpage")) {
             if (ALLMusic.getConfig().isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getNoPer());
                 return;
             }
             SearchPage obj = ALLMusic.getSearch(Name);
             if (obj == null) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getNoSearch());
             } else if (obj.nextPage()) {
                 ShowSearch(sender, obj);
             } else {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法下一页");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getCantNext());
             }
         } else if (args[0].equalsIgnoreCase("lastpage")) {
             if (ALLMusic.getConfig().isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限搜歌");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getNoPer());
                 return;
             }
             SearchPage obj = ALLMusic.getSearch(Name);
             if (obj == null) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有搜索音乐");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getNoSearch());
             } else if (obj.lastPage()) {
                 ShowSearch(sender, obj);
             } else {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c无法上一页");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getCantLast());
             }
         } else if (ALLMusic.VVEnable && args[0].equalsIgnoreCase("vv")) {
             if (args.length == 1) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getCommand().getError());
             } else if (args[1].equalsIgnoreCase("enable")) {
                 boolean temp = ALLMusic.VV.SetEnable(Name);
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2当然VV状态：" + (temp ? "启用" : "关闭"));
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getVV().getState().replace("%State%", temp ? "启用" : "关闭"));
             } else if (args.length != 4) {
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
+                ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getCommand().getError());
             } else {
                 ALLMusic.Side.RunTask(() -> {
                     try {
                         if (!ALLMusic.VV.SetPot(Name, args[1], args[2], args[3]))
-                            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
+                            ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getCommand().getError());
                         else
-                            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2已设置");
+                            ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getVV().getSet());
                     } catch (Exception e) {
-                        ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c参数错误，请输入/music help获取帮助");
+                        ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getCommand().getError());
                     }
                 });
             }
         } else if (ALLMusic.getConfig().isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.addmusic"))
-            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§c你没有权限点歌");
+            ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getCommand().getNoPer());
         else
             AddMusic(sender, Name, args);
 

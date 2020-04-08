@@ -42,5 +42,23 @@
     "ARAgree": "§d[ALLMusic]§2你已申请切歌",
     "TimeOut": "§d[ALLMusic]§2切歌时间结束",
     "Do": "§d[ALLMusic]§2已切歌"
+  },
+  "Search": {
+    "NoPer": "§d[ALLMusic]§c你没有权限搜歌",
+    "CantSearch": "§d[ALLMusic]§c无法搜索歌曲：%Music%",
+    "Res": "§d[ALLMusic]§2搜索结果",
+    "NoSearch": "§d[ALLMusic]§c你没有搜索音乐",
+    "ErrorNum": "§d[ALLMusic]§c请输入正确的序号",
+    "Chose": "§d[ALLMusic]§2你选择了序号%Num%",
+    "CantNext": "§d[ALLMusic]§c无法下一页",
+    "CantLast": "§d[ALLMusic]§c无法上一页"
+  },
+  "VV": {
+    "State": "§d[ALLMusic]§2当前VV状态：%State%",
+    "Set": "§d[ALLMusic]§2已设置"
+  },
+  "Command": {
+    "Error": "§d[ALLMusic]§c参数错误，请输入/music help获取帮助",
+    "NoPer": "§d[ALLMusic]§c你没有权限点歌"
   }
 }
