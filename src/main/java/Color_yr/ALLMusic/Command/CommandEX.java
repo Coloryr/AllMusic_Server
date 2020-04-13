@@ -11,7 +11,7 @@ public class CommandEX {
 
     private static void AddMusic(Object sender, String Name, String[] args) {
         String MusicID;
-        if (args[0].contains("id=")) {
+        if (args[0].contains("id=") && !args[0].contains("/?userid")) {
             if (args[0].contains("&user"))
                 MusicID = Function.getString(args[0], "id=", "&user");
             else
@@ -185,10 +185,15 @@ public class CommandEX {
                 && ALLMusic.getConfig().getAdmin().contains(Name)) {
             if (Function.isInteger(args[1])) {
                 ALLMusic.Music.SetList(args[1], sender);
-                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2添加音乐列表" + args[1]);
+                ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2添加空闲音乐列表" + args[1]);
             } else {
                 ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2请输入有效的音乐列表ID");
             }
+        } else if (args[0].equalsIgnoreCase("clearlist")
+                && ALLMusic.getConfig().getAdmin().contains(Name)) {
+            ALLMusic.getConfig().getPlayList().clear();
+            ALLMusic.save();
+            ALLMusic.Side.SendMessage(sender, "§d[ALLMusic]§2添加空闲音乐列表已清空");
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
             if (ALLMusic.getConfig().isNeedPermission() && ALLMusic.Side.checkPermission(Name, "ALLMusic.search")) {
                 ALLMusic.Side.SendMessage(sender, ALLMusic.getMessage().getSearch().getNoPer());
