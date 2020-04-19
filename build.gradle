@@ -6,7 +6,7 @@ plugins {
 // Note the spaces before and after the equals sign
 ext.majorVersion = 0
 ext.minorVersion = 1
-version = "1.16.1"
+version = "1.16.2"
 
 repositories {
     jcenter()

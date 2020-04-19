@@ -1,0 +1,208 @@
+package Color_yr.AllMusic;
+
+import Color_yr.AllMusic.API.IMusicAPI;
+import Color_yr.AllMusic.API.ISide;
+import Color_yr.AllMusic.Message.MessageOBJ;
+import Color_yr.AllMusic.MusicAPI.MusicAPI1.API1;
+import Color_yr.AllMusic.MusicAPI.MusicAPI2.API2;
+import Color_yr.AllMusic.MusicAPI.MusicAPILocal.APILocal;
+import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
+import Color_yr.AllMusic.MusicPlay.PlayMusic;
+import Color_yr.AllMusic.Side.SideBukkit.VVGet;
+import Color_yr.AllMusic.Utils.logs;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
+public class AllMusic {
+    public static final String channel = "AllMusic:channel";
+    public static final String Version = "1.16.2";
+
+    private static final Map<String, SearchPage> SearchSave = new HashMap<>();
+    private static final List<String> VotePlayer = new ArrayList<>();
+    private static final List<String> NowPlayPlayer = new ArrayList<>();
+
+    public static Logger log;
+    public static ISide Side;
+    public static IMusicAPI Music;
+    public static boolean VVEnable;
+    public static VVGet VV;
+    public static boolean isRun;
+    private static ConfigOBJ Config;
+    private static MessageOBJ Message;
+    private static File ConfigFile;
+    private static File MessageFile;
+
+    public static boolean containNowPlay(String player) {
+        return NowPlayPlayer.contains(player);
+    }
+
+    public static ConfigOBJ getConfig() {
+        return Config;
+    }
+
+    public static MessageOBJ getMessage() {
+        return Message;
+    }
+
+    public static void addSearch(String player, SearchPage page) {
+        SearchSave.put(player, page);
+    }
+
+    public static SearchPage getSearch(String player) {
+        return SearchSave.get(player);
+    }
+
+    public static void removeSearch(String player) {
+        SearchSave.remove(player);
+    }
+
+    public static void addVote(String player) {
+        if (!VotePlayer.contains(player))
+            VotePlayer.add(player);
+    }
+
+    public static int getVoteCount() {
+        return VotePlayer.size();
+    }
+
+    public static void clearVote() {
+        VotePlayer.clear();
+    }
+
+    public static boolean containVote(String player) {
+        return VotePlayer.contains(player);
+    }
+
+    public static void addNowPlayPlayer(String player) {
+        if (!NowPlayPlayer.contains(player))
+            NowPlayPlayer.add(player);
+    }
+
+    public static void removeNowPlayPlayer(String player) {
+        NowPlayPlayer.remove(player);
+    }
+
+    private void initAPI() {
+        switch (AllMusic.Config.getMusic_Api()) {
+            case 3: {
+                AllMusic.Music = new API2();
+                break;
+            }
+            case 2: {
+                AllMusic.Music = new API1();
+                break;
+            }
+            case 1:
+            default: {
+                AllMusic.Music = new APILocal();
+                break;
+            }
+        }
+    }
+
+    private void LoadConfig() {
+        try {
+            InputStreamReader reader = new InputStreamReader(
+                    new FileInputStream(ConfigFile), StandardCharsets.UTF_8);
+            BufferedReader bf = new BufferedReader(reader);
+            Config = new Gson().fromJson(bf, ConfigOBJ.class);
+
+            if (Config == null) {
+                log.warning("§d[AllMusic]§c配置文件错误");
+                Config = new ConfigOBJ();
+            }
+
+            reader = new InputStreamReader(new FileInputStream(AllMusic.MessageFile), StandardCharsets.UTF_8);
+            bf = new BufferedReader(reader);
+            Message = new Gson().fromJson(bf, MessageOBJ.class);
+
+            if (Config == null) {
+                log.warning("§d[AllMusic]§c语言文件错误");
+                Message = new MessageOBJ();
+            }
+
+            log.info("§d[AllMusic]§e当前插件版本为：" + AllMusic.Version
+                    + "，你的配置文件版本为：" + AllMusic.Config.getVersion());
+
+            for (String item : AllMusic.Config.getNoMusicPlayer()) {
+                AllMusic.log.info("玩家：" + item + "不参与点歌");
+            }
+
+            for (String item : AllMusic.Config.getNoMusicServer()) {
+                AllMusic.log.info("服务器：" + item + "不参与点歌");
+            }
+            initAPI();
+        } catch (Exception e) {
+            log.warning("§d[AllMusic]§c读取配置文件错误");
+            e.printStackTrace();
+        }
+    }
+
+    public void init(File file) {
+        log.info("§d[AllMusic]§2§e正在启动，感谢使用，本插件交流群：571239090");
+        try {
+            if (ConfigFile == null)
+                ConfigFile = new File(file, "config.json");
+            if (MessageFile == null)
+                MessageFile = new File(file, "Message.json");
+            if (!ConfigFile.exists())
+                ConfigFile.mkdir();
+            if (!ConfigFile.exists()) {
+                Files.copy(this.getClass().getResourceAsStream("/config.json"), ConfigFile.toPath());
+            }
+            if (!MessageFile.exists()) {
+                Files.copy(this.getClass().getResourceAsStream("/Message.json"), MessageFile.toPath());
+            }
+            if (!logs.file.exists()) {
+                logs.file.createNewFile();
+            }
+            LoadConfig();
+            isRun = true;
+        } catch (IOException e) {
+            isRun = false;
+            log.warning("§d[AllMusic]§2§c启动失败");
+            e.printStackTrace();
+        }
+    }
+
+    public static void save() {
+        try {
+            String data = new GsonBuilder().setPrettyPrinting().create().toJson(Config);
+            Writer out = new FileWriter(ConfigFile);
+            out.write(data);
+            out.close();
+        } catch (Exception e) {
+            log.warning("§d[AllMusic]§c配置文件错误");
+            e.printStackTrace();
+        }
+    }
+
+    public static void start() {
+        PlayMusic.start();
+       log.info("§d[AllMusic]§2§e已启动-" + Version);
+    }
+
+    public static void stop() {
+        PlayMusic.stop();
+        PlayMusic.clear();
+        clearVote();
+        if (isRun)
+            Side.Send("[Stop]", false);
+        try {
+            logs.stop();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        log.info("§d[AllMusic]§2§e已停止，感谢使用");
+    }
+}

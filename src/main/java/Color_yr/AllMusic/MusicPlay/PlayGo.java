@@ -1,0 +1,156 @@
+package Color_yr.AllMusic.MusicPlay;
+
+import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+class PlayGo extends Thread {
+
+    private int count = 0;
+    private final Runnable runnable = () -> {
+        PlayMusic.MusicNowTime += 10;
+        count++;
+        if (count == 100) {
+            PlayMusic.MusicAllTime--;
+            count = 0;
+        }
+    };
+    private int times = 0;
+    private final Runnable runnable1 = () -> {
+        ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
+        if (show != null) {
+            PlayMusic.nowLyric = show;
+            times = 0;
+            AllMusic.Side.SendLyric(PlayMusic.nowLyric.getString());
+            if (AllMusic.VVEnable) {
+                AllMusic.VV.SendLyric(show);
+            }
+        } else {
+            times++;
+            if (times == 1000 && PlayMusic.nowLyric != null) {
+                times = 0;
+                AllMusic.Side.SendLyric(PlayMusic.nowLyric.getString());
+            }
+        }
+    };
+
+    private ScheduledExecutorService service;
+    private ScheduledExecutorService service1;
+
+    public void closeTimer() {
+        if (service != null) {
+            service.shutdown();
+            service = null;
+        }
+        if (service1 != null) {
+            service1.shutdown();
+            service1 = null;
+        }
+    }
+
+    private void startTimer() {
+        service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(runnable, 0, 10, TimeUnit.MILLISECONDS);
+        if (PlayMusic.Lyric.isHaveLyric()) {
+            service1 = Executors.newSingleThreadScheduledExecutor();
+            service1.scheduleAtFixedRate(runnable1, 0, 2, TimeUnit.MILLISECONDS);
+        }
+    }
+
+    public void clear() {
+        PlayMusic.MusicNowTime = 0;
+        PlayMusic.MusicAllTime = 0;
+        PlayMusic.Lyric = null;
+        PlayMusic.nowLyric = null;
+        AllMusic.Side.SendLyric("");
+        PlayMusic.NowPlayMusic = null;
+        closeTimer();
+        if (AllMusic.VVEnable) {
+            AllMusic.VV.clear();
+        }
+    }
+
+    @Override
+    public synchronized void run() {
+        while (true) {
+            if (PlayMusic.getSize() == 0) {
+                try {
+                    if (AllMusic.Side.NeedPlay()) {
+                        String ID = AllMusic.Music.GetListMusic();
+                        if (ID != null) {
+                            AllMusic.Side.RunTask(() -> PlayMusic.addMusic(ID, "空闲列表", true));
+                        }
+                    }
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                PlayMusic.NowPlayMusic = PlayMusic.getMusic(0);
+                PlayMusic.remove(0);
+
+                String url = AllMusic.Music.GetPlayUrl(PlayMusic.NowPlayMusic.getID());
+                if (url == null) {
+                    String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
+                    AllMusic.Side.bqt(data.replace("%MusicID%", PlayMusic.NowPlayMusic.getID()));
+                    continue;
+                }
+
+                PlayMusic.Lyric = AllMusic.Music.getLyric(PlayMusic.NowPlayMusic.getID());
+
+                if (PlayMusic.NowPlayMusic.getLength() != 0) {
+                    PlayMusic.MusicAllTime = (PlayMusic.NowPlayMusic.getLength() / 1000) + 10;
+                    String info = AllMusic.getMessage().getMusicPlay().getPlay();
+                    info = info.replace("%MusicName%", PlayMusic.NowPlayMusic.getName())
+                            .replace("%MusicAuthor%", PlayMusic.NowPlayMusic.getAuthor())
+                            .replace("%MusicAl%", PlayMusic.NowPlayMusic.getAl())
+                            .replace("%MusicAlia%", PlayMusic.NowPlayMusic.getAlia())
+                            .replace("%PlayerName%", PlayMusic.NowPlayMusic.getCall());
+                    AllMusic.Side.bqt(info);
+                    startTimer();
+                    AllMusic.Side.Send("[Play]" + url, true);
+                    try {
+                        while (PlayMusic.MusicAllTime > 0) {
+                            if (AllMusic.VVEnable) {
+                                AllMusic.VV.SendList();
+                                AllMusic.VV.SendInfo();
+                            }
+                            if (!AllMusic.Side.NeedPlay()) {
+                                PlayMusic.MusicAllTime = 1;
+                            }
+                            if (PlayMusic.VoteTime > 0) {
+                                PlayMusic.VoteTime--;
+                                if (PlayMusic.VoteTime == 0) {
+                                    AllMusic.clearVote();
+                                    AllMusic.Side.bqt(AllMusic.getMessage().getVote().getTimeOut());
+                                } else {
+                                    int players = AllMusic.Side.GetAllPlayer();
+                                    if (AllMusic.getVoteCount() >= AllMusic.getConfig().getMinVote()
+                                            || (players <= AllMusic.getConfig().getMinVote()
+                                            && players <= AllMusic.getVoteCount())) {
+                                        AllMusic.Side.bqt(AllMusic.getMessage().getVote().getDo());
+                                        AllMusic.Side.Send("[Stop]", false);
+                                        AllMusic.clearVote();
+                                        PlayMusic.VoteTime = 0;
+                                        break;
+                                    }
+                                }
+                            }
+                            Thread.sleep(1000);
+                        }
+                    } catch (InterruptedException e) {
+                        AllMusic.log.warning("§c歌曲播放出现错误");
+                        e.printStackTrace();
+                    }
+                } else {
+                    String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
+                    AllMusic.Side.bqt(data.replace("%MusicID%", PlayMusic.NowPlayMusic.getID()));
+                }
+                clear();
+            }
+        }
+    }
+}
