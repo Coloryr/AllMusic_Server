@@ -1,5 +1,5 @@
-name: ALLMusic
-main: Color_yr.ALLMusic.ALLMusicBukkit
+name: AllMusic
+main: Color_yr.AllMusic.AllMusicBukkit
 author: Color_yr
 version: ${version}
 loadbefore: [vexview, PlaceholderAPI]

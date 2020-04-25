@@ -1,4 +1,4 @@
-name: ALLMusic
-main: Color_yr.ALLMusic.ALLMusicBC
+name: AllMusic
+main: Color_yr.AllMusic.AllMusicBC
 author: Color_yr
 version: ${version}
