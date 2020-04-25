@@ -27,13 +27,13 @@ public class AllMusicBukkit extends JavaPlugin {
         AllMusic.log = getLogger();
         AllMusic.Side = new SideBukkit();
 
-        new AllMusic().init(this.getDataFolder());
+        new AllMusic().init(plugin.getDataFolder());
         if(!AllMusic.isRun) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        if (Bukkit.getPluginManager().isPluginEnabled("VexView")) {
+        if (Bukkit.getPluginManager().getPlugin("VexView") != null) {
             AllMusic.VV = new VVGet();
             AllMusic.VVEnable = true;
             AllMusic.log.info("§2VexView支持已启动");

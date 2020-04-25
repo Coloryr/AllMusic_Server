@@ -24,7 +24,7 @@ public class AllMusicBC extends Plugin {
         AllMusic.log = ProxyServer.getInstance().getLogger();
         AllMusic.Side = new SideBC();
 
-        new AllMusic().init(this.getDataFolder());
+        new AllMusic().init(plugin.getDataFolder());
 
         if (!AllMusic.isRun)
             return;

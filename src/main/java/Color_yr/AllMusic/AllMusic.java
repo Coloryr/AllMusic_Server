@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class AllMusic {
-    public static final String channel = "AllMusic:channel";
-    public static final String Version = "1.16.2";
+    public static final String channel = "allmusic:channel";
+    public static final String Version = "1.17.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -155,8 +155,10 @@ public class AllMusic {
                 ConfigFile = new File(file, "config.json");
             if (MessageFile == null)
                 MessageFile = new File(file, "Message.json");
-            if (!ConfigFile.exists())
-                ConfigFile.mkdir();
+            if (logs.file == null)
+                logs.file = new File(file, "logs.log");
+            if (!file.exists())
+                file.mkdir();
             if (!ConfigFile.exists()) {
                 Files.copy(this.getClass().getResourceAsStream("/config.json"), ConfigFile.toPath());
             }
