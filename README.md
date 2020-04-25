@@ -1,6 +1,6 @@
-# ALLmusic_BC-
+# ALLmusic插件
 
-全服KTV  
+全服点歌插件  
 
 PAPI变量  
 %AllMusic_NowMusicName%歌曲名字  
