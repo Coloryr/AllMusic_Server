@@ -55,7 +55,7 @@ public class APILocal implements IMusicAPI {
     public void SetList(String ID, Object sender) {
         Thread thread = new Thread(() ->
         {
-            Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api2() + "/playlist/detail?id=", ID);
+            Res res = HttpGet.realData("http://music.163.com/api/playlist/detail?limit=2000&id=", ID);
             if (res != null && res.isOk())
                 try {
                     isUpdata = true;
