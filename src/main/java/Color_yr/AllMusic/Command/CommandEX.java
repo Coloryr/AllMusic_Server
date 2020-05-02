@@ -260,7 +260,7 @@ public class CommandEX {
                 AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
             } else {
                 if (args[1].equalsIgnoreCase("enable")) {
-                    if (args.length == 2) {
+                    if (args.length == 3) {
                         try {
                             boolean temp = SendInfo.SetEnable(Name, args[2]);
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()

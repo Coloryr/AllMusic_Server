@@ -128,6 +128,7 @@ public class SendInfo {
         clear(player);
         AllMusic.getConfig().setInfoSave(obj, player);
         AllMusic.save();
+        SendInfo.SendSave(player);
         if (pos == null) {
             return true;
         } else {
@@ -141,7 +142,7 @@ public class SendInfo {
                     return obj.isEnableLyric();
             }
         }
-        SendInfo.SendSave(player);
+
         return false;
     }
 
@@ -155,6 +156,7 @@ public class SendInfo {
 
     public static void SendSave(String Name) {
         try {
+            Thread.sleep(3000);
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
             if (obj == null) {
                 obj = new SaveOBJ();

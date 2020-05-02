@@ -28,7 +28,7 @@ public class ConfigOBJ {
     private final boolean SendLyric;
     private final boolean NeedPermission;
 
-    private final Map<String, SaveOBJ> InfoSave;
+    private final Map<String, SaveOBJ> HudSave;
 
     private final String Version;
 
@@ -50,7 +50,7 @@ public class ConfigOBJ {
         PlayListRandom = true;
         SendLyric = true;
         NeedPermission = false;
-        InfoSave = new HashMap<>();
+        HudSave = new HashMap<>();
 
         Version = AllMusic.Version;
     }
@@ -76,11 +76,11 @@ public class ConfigOBJ {
     }
 
     public SaveOBJ getInfoSave(String player) {
-        return InfoSave.get(player);
+        return HudSave.get(player);
     }
 
     public void setInfoSave(SaveOBJ obj, String player) {
-        InfoSave.put(player, obj);
+        HudSave.put(player, obj);
     }
 
     public boolean isPlayListRandom() {

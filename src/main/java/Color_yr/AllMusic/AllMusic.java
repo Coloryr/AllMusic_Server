@@ -143,7 +143,8 @@ public class AllMusic {
                     new FileInputStream(ConfigFile), StandardCharsets.UTF_8);
             BufferedReader bf = new BufferedReader(reader);
             Config = new Gson().fromJson(bf, ConfigOBJ.class);
-
+            bf.close();
+            reader.close();
             if (Config == null) {
                 log.warning("§d[AllMusic]§c配置文件错误");
                 Config = new ConfigOBJ();
@@ -152,7 +153,8 @@ public class AllMusic {
             reader = new InputStreamReader(new FileInputStream(AllMusic.MessageFile), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
             Message = new Gson().fromJson(bf, MessageOBJ.class);
-
+            bf.close();
+            reader.close();
             if (Config == null) {
                 log.warning("§d[AllMusic]§c语言文件错误");
                 Message = new MessageOBJ();
