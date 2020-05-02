@@ -14,8 +14,7 @@ public class TabCommand {
             arguments.add("vote");
             arguments.add("nomusic");
             arguments.add("search");
-            if (AllMusic.VVEnable)
-                arguments.add("vv");
+            arguments.add("hud");
             if (AllMusic.getSearch(name) != null) {
                 arguments.add("select");
                 arguments.add("nextpage");
@@ -28,15 +27,18 @@ public class TabCommand {
                 arguments.add("delete");
                 arguments.add("addlist");
             }
-        } else if (AllMusic.VVEnable && arg[0].equalsIgnoreCase("vv")) {
+        } else if (arg[0].equalsIgnoreCase("hud")) {
             if (arg.length == 2) {
                 arguments.add("info");
                 arguments.add("list");
                 arguments.add("lyric");
                 arguments.add("enable");
             } else if (arg.length == 3) {
-                arguments.add("x");
-                arguments.add("y");
+                if (arg[1].equalsIgnoreCase("enable")) {
+                    arguments.add("info");
+                    arguments.add("list");
+                    arguments.add("lyric");
+                }
             }
         }
         return arguments;

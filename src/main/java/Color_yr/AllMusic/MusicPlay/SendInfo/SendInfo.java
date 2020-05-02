@@ -5,6 +5,7 @@ import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.Utils.Function;
+import com.google.gson.Gson;
 
 public class SendInfo {
     public static PosOBJ SetPot(String player, String pos, String x, String y) {
@@ -45,7 +46,7 @@ public class SendInfo {
 
         AllMusic.getConfig().setInfoSave(obj, player);
         AllMusic.save();
-
+        SendInfo.SendSave(player);
         return posOBJ;
     }
 
@@ -140,6 +141,7 @@ public class SendInfo {
                     return obj.isEnableLyric();
             }
         }
+        SendInfo.SendSave(player);
         return false;
     }
 
@@ -149,5 +151,21 @@ public class SendInfo {
 
     public static void clear(String Name) {
         AllMusic.Side.Clear(Name);
+    }
+
+    public static void SendSave(String Name) {
+        try {
+            SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
+            if (obj == null) {
+                obj = new SaveOBJ();
+                AllMusic.getConfig().setInfoSave(obj, Name);
+                AllMusic.save();
+            }
+            String data = new Gson().toJson(obj);
+            AllMusic.Side.Send(data, Name, null);
+        } catch (Exception e1) {
+            AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
+            e1.printStackTrace();
+        }
     }
 }
