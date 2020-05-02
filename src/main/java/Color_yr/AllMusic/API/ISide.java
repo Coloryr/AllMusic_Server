@@ -9,13 +9,21 @@ public interface ISide {
 
     int GetAllPlayer();
 
-    void SendLyric(String data);
-
     void bq(String data);
 
     void bqt(String data);
 
     boolean NeedPlay();
+
+    boolean SendLyric(String data);
+
+    boolean SendInfo(String data);
+
+    boolean SendList(String data);
+
+    void Clear(String player);
+
+    void ClearAll();
 
     void SendMessaget(Object obj, String Message);
 

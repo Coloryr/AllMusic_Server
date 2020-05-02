@@ -1,6 +1,6 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.Side.SideBukkit.VVSaveOBJ;
+import Color_yr.AllMusic.MusicPlay.SendInfo.SaveOBJ;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class ConfigOBJ {
     private final boolean SendLyric;
     private final boolean NeedPermission;
 
-    private final Map<String, VVSaveOBJ> VVSave;
+    private final Map<String, SaveOBJ> InfoSave;
 
     private final String Version;
 
@@ -50,7 +50,7 @@ public class ConfigOBJ {
         PlayListRandom = true;
         SendLyric = true;
         NeedPermission = false;
-        VVSave = new HashMap<>();
+        InfoSave = new HashMap<>();
 
         Version = AllMusic.Version;
     }
@@ -75,12 +75,12 @@ public class ConfigOBJ {
         return SendLyric;
     }
 
-    public VVSaveOBJ getVVSave(String player) {
-        return VVSave.get(player);
+    public SaveOBJ getInfoSave(String player) {
+        return InfoSave.get(player);
     }
 
-    public void setVVSave(VVSaveOBJ obj, String player) {
-        VVSave.put(player, obj);
+    public void setInfoSave(SaveOBJ obj, String player) {
+        InfoSave.put(player, obj);
     }
 
     public boolean isPlayListRandom() {

@@ -1,11 +1,11 @@
 package Color_yr.AllMusic.Side.SideBukkit;
 
+import Color_yr.AllMusic.API.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicBukkit;
-import Color_yr.AllMusic.API.ISide;
+import Color_yr.AllMusic.MusicPlay.SendInfo.SaveOBJ;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -36,16 +36,27 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public void SendLyric(String data) {
+    public boolean SendLyric(String data) {
+        boolean Save = false;
         for (Player players : Bukkit.getOnlinePlayers()) {
+            String name = players.getName();
             if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
-                if (AllMusic.containNowPlay(players.getName())) {
-                    if (!AllMusic.VVEnable || !AllMusic.getConfig().getVVSave(players.getName()).isEnable()) {
-                        players.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
-                    }
+                if (!AllMusic.containNowPlay(name))
+                    continue;
+                if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
+                    continue;
+                SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
+                if (obj == null) {
+                    obj = new SaveOBJ();
+                    AllMusic.getConfig().setInfoSave(obj, name);
+                    Save = true;
                 }
+                if (!obj.isEnableLyric())
+                    continue;
+                Send(players, "[Lyric]" + data, null);
             }
         }
+        return Save;
     }
 
     @Override
@@ -67,6 +78,62 @@ public class SideBukkit implements ISide {
             }
         }
         return online > 0;
+    }
+
+    @Override
+    public boolean SendInfo(String data) {
+        boolean Save = false;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            String Name = player.getName();
+            if (!AllMusic.containNowPlay(Name))
+                continue;
+            if (AllMusic.getConfig().getNoMusicPlayer().contains(Name))
+                continue;
+            SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
+            if (obj == null) {
+                obj = new SaveOBJ();
+                AllMusic.getConfig().setInfoSave(obj, Name);
+                Save = true;
+            }
+            if (!obj.isEnableInfo())
+                continue;
+            Send(player, "[Info]" + data, null);
+        }
+        return Save;
+    }
+
+    @Override
+    public boolean SendList(String data) {
+        boolean Save = false;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            String Name = player.getName();
+            if (!AllMusic.containNowPlay(Name))
+                continue;
+            if (AllMusic.getConfig().getNoMusicPlayer().contains(Name))
+                continue;
+            SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
+            if (obj == null) {
+                obj = new SaveOBJ();
+                AllMusic.getConfig().setInfoSave(obj, Name);
+                Save = true;
+            }
+            if (!obj.isEnableList())
+                continue;
+            Send(player, "[List]" + data, null);
+        }
+        return Save;
+    }
+
+    @Override
+    public void Clear(String player) {
+        Send("[clear]", player, null);
+    }
+
+    @Override
+    public void ClearAll() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Send(player, "[clear]", null);
+        }
     }
 
     @Override

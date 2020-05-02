@@ -1,7 +1,7 @@
 package Color_yr.AllMusic.MusicAPI.MusicAPI1;
 
-import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.API.IMusicAPI;
+import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.Http.HttpGet;
 import Color_yr.AllMusic.Http.Res;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicInfo.InfoOBJ;

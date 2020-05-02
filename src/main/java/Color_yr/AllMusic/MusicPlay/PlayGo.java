@@ -2,6 +2,7 @@ package Color_yr.AllMusic.MusicPlay;
 
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
+import Color_yr.AllMusic.MusicPlay.SendInfo.SendInfo;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,15 +25,12 @@ class PlayGo extends Thread {
         if (show != null) {
             PlayMusic.nowLyric = show;
             times = 0;
-            AllMusic.Side.SendLyric(PlayMusic.nowLyric.getString());
-            if (AllMusic.VVEnable) {
-                AllMusic.VV.SendLyric(show);
-            }
+            SendInfo.SendLyricData(show);
         } else {
             times++;
             if (times == 1000 && PlayMusic.nowLyric != null) {
                 times = 0;
-                AllMusic.Side.SendLyric(PlayMusic.nowLyric.getString());
+                SendInfo.SendLyricData(PlayMusic.nowLyric);
             }
         }
     };
@@ -65,12 +63,8 @@ class PlayGo extends Thread {
         PlayMusic.MusicAllTime = 0;
         PlayMusic.Lyric = null;
         PlayMusic.nowLyric = null;
-        AllMusic.Side.SendLyric("");
         PlayMusic.NowPlayMusic = null;
         closeTimer();
-        if (AllMusic.VVEnable) {
-            AllMusic.VV.clear();
-        }
     }
 
     @Override
@@ -78,6 +72,8 @@ class PlayGo extends Thread {
         while (true) {
             if (PlayMusic.getSize() == 0) {
                 try {
+                    SendInfo.SendNowData();
+                    SendInfo.SendListData();
                     if (AllMusic.Side.NeedPlay()) {
                         String ID = AllMusic.Music.GetListMusic();
                         if (ID != null) {
@@ -114,10 +110,8 @@ class PlayGo extends Thread {
                     AllMusic.Side.Send("[Play]" + url, true);
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
-                            if (AllMusic.VVEnable) {
-                                AllMusic.VV.SendList();
-                                AllMusic.VV.SendInfo();
-                            }
+                            SendInfo.SendNowData();
+                            SendInfo.SendListData();
                             if (!AllMusic.Side.NeedPlay()) {
                                 PlayMusic.MusicAllTime = 1;
                             }

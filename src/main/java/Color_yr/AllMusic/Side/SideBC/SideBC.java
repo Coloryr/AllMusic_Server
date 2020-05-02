@@ -1,11 +1,11 @@
 package Color_yr.AllMusic.Side.SideBC;
 
+import Color_yr.AllMusic.API.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicBC;
-import Color_yr.AllMusic.API.ISide;
+import Color_yr.AllMusic.MusicPlay.SendInfo.SaveOBJ;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -47,17 +47,121 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public void SendLyric(String data) {
+    public boolean SendLyric(String data) {
+        boolean Save = false;
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer players : values) {
                 if (players == null || players.getServer() == null)
                     continue;
-                if (!AllMusic.getConfig().getNoMusicServer().contains(players.getServer().getInfo().getName())) {
-                    if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName()))
-                        if (AllMusic.containNowPlay(players.getName()))
-                            players.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(data));
+                if (AllMusic.getConfig().getNoMusicServer()
+                        .contains(players.getServer().getInfo().getName()))
+                    continue;
+                String name = players.getName();
+                if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
+                    if (!AllMusic.containNowPlay(name))
+                        continue;
+                    if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
+                        continue;
+                    SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
+                    if (obj == null) {
+                        obj = new SaveOBJ();
+                        AllMusic.getConfig().setInfoSave(obj, name);
+                        Save = true;
+                    }
+                    if (!obj.isEnableLyric())
+                        continue;
+                    Send(players, "[Lyric]" + data, null);
                 }
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
+            e.printStackTrace();
+        }
+        return Save;
+    }
+
+    @Override
+    public boolean SendInfo(String data) {
+        boolean Save = false;
+        try {
+            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
+            for (ProxiedPlayer players : values) {
+                if (players == null || players.getServer() == null)
+                    continue;
+                String name = players.getName();
+                if (AllMusic.getConfig().getNoMusicServer()
+                        .contains(players.getServer().getInfo().getName()))
+                    continue;
+                if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
+                    if (!AllMusic.containNowPlay(name))
+                        continue;
+                    if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
+                        continue;
+                    SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
+                    if (obj == null) {
+                        obj = new SaveOBJ();
+                        AllMusic.getConfig().setInfoSave(obj, name);
+                        Save = true;
+                    }
+                    if (!obj.isEnableInfo())
+                        continue;
+                    Send(players, "[Info]" + data, null);
+                }
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
+            e.printStackTrace();
+        }
+        return Save;
+    }
+
+    @Override
+    public boolean SendList(String data) {
+        boolean Save = false;
+        try {
+            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
+            for (ProxiedPlayer players : values) {
+                if (players == null || players.getServer() == null)
+                    continue;
+                if (AllMusic.getConfig().getNoMusicServer()
+                        .contains(players.getServer().getInfo().getName()))
+                    continue;
+                String name = players.getName();
+                if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
+                    if (!AllMusic.containNowPlay(name))
+                        continue;
+                    if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
+                        continue;
+                    SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
+                    if (obj == null) {
+                        obj = new SaveOBJ();
+                        AllMusic.getConfig().setInfoSave(obj, name);
+                        Save = true;
+                    }
+                    if (!obj.isEnableList())
+                        continue;
+                    Send(players, "[List]" + data, null);
+                }
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
+            e.printStackTrace();
+        }
+        return Save;
+    }
+
+    @Override
+    public void Clear(String player) {
+        Send("[clear]", player, null);
+    }
+
+    @Override
+    public void ClearAll() {
+        try {
+            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
+            for (ProxiedPlayer players : values) {
+                Send(players, "[clear]", null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
@@ -92,6 +196,7 @@ public class SideBC implements ISide {
         }
         return online > 0;
     }
+
 
     @Override
     public void SendMessaget(Object obj, String Message) {

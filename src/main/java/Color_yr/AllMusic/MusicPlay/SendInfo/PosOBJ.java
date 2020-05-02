@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.Side.SideBukkit;
+package Color_yr.AllMusic.MusicPlay.SendInfo;
 
 public class PosOBJ {
     private int x;

@@ -4,6 +4,8 @@ import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
+import Color_yr.AllMusic.MusicPlay.SendInfo.PosOBJ;
+import Color_yr.AllMusic.MusicPlay.SendInfo.SendInfo;
 import Color_yr.AllMusic.Utils.Function;
 import net.md_5.bungee.api.chat.ClickEvent;
 
@@ -87,17 +89,13 @@ public class CommandEX {
                     ClickEvent.Action.SUGGEST_COMMAND, "/music search ");
             AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music select [序列] 选择歌曲§e[§n点我§r§e]",
                     ClickEvent.Action.SUGGEST_COMMAND, "/music select ");
-            if (AllMusic.VVEnable) {
-                AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music vv enable 启用关闭VV§e[§n点我§r§e]",
-                        ClickEvent.Action.RUN_COMMAND, "/music vv enable");
-                AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music vv [位置] [坐标] [数值] 设置VV位置",
-                        ClickEvent.Action.SUGGEST_COMMAND, "/music vv ");
-            }
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud§e[§n点我§r§e]",
+                    ClickEvent.Action.RUN_COMMAND, "/music vv enable");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置VV位置",
+                    ClickEvent.Action.SUGGEST_COMMAND, "/music vv ");
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.Side.Send("[Stop]", Name, false);
-            if (AllMusic.VVEnable) {
-                AllMusic.VV.clear(Name);
-            }
+            SendInfo.clear(Name);
             AllMusic.removeNowPlayPlayer(Name);
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getMusicPlay().getStopPlay());
         } else if (args[0].equalsIgnoreCase("list")) {
@@ -257,30 +255,45 @@ public class CommandEX {
             } else {
                 AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getCantLast());
             }
-        } else if (AllMusic.VVEnable && args[0].equalsIgnoreCase("vv")) {
+        } else if (args[0].equalsIgnoreCase("hud")) {
             if (args.length == 1) {
                 AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
-            } else if (args[1].equalsIgnoreCase("enable")) {
-                boolean temp = AllMusic.VV.SetEnable(Name);
-                AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getVV().getState().replace("%State%", temp ? "启用" : "关闭"));
-            } else if (args.length != 4) {
-                AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
             } else {
-                AllMusic.Side.RunTask(() -> {
-                    try {
-                        if (!AllMusic.VV.SetPot(Name, args[1], args[2], args[3]))
+                if (args[1].equalsIgnoreCase("enable")) {
+                    if (args.length == 2) {
+                        try {
+                            boolean temp = SendInfo.SetEnable(Name, args[2]);
+                            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
+                                    .replace("%State%", temp ? "启用" : "关闭")
+                                    .replace("%Hud%", args[2]));
+                        } catch (Exception e) {
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
-                        else
-                            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getVV().getSet());
-                    } catch (Exception e) {
-                        AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
+                        }
+                    } else {
+                        boolean temp = SendInfo.SetEnable(Name, null);
+                        AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
+                                .replace("%State%", temp ? "启用" : "关闭")
+                                .replace("%Hud%", "所有"));
                     }
-                });
+                } else if (args.length != 4) {
+                    AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
+                } else {
+                    PosOBJ obj = SendInfo.SetPot(Name, args[1], args[2], args[3]);
+                    if (obj == null) {
+                        AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
+                    } else {
+                        String temp = AllMusic.getMessage().getHud().getSet()
+                                .replace("%Hub%", args[1])
+                                .replace("%x%", args[2])
+                                .replace("%y%", args[3]);
+                        AllMusic.Side.SendMessage(sender, temp);
+                    }
+
+                }
             }
         } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.addmusic"))
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
         else
             AddMusic(sender, Name, args);
-
     }
 }

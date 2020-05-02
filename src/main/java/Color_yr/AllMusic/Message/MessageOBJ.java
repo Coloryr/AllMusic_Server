@@ -7,7 +7,7 @@ public class MessageOBJ {
     private final LyricOBJ Lyric;
     private final VoteOBJ Vote;
     private final SearchOBJ Search;
-    private final VVOBJ VV;
+    private final HudOBJ Hud;
     private final CommandOBJ Command;
 
     public MessageOBJ() {
@@ -17,7 +17,7 @@ public class MessageOBJ {
         Lyric = new LyricOBJ();
         Vote = new VoteOBJ();
         Search = new SearchOBJ();
-        VV = new VVOBJ();
+        Hud = new HudOBJ();
         Command = new CommandOBJ();
     }
 
@@ -25,8 +25,8 @@ public class MessageOBJ {
         return Command;
     }
 
-    public VVOBJ getVV() {
-        return VV;
+    public HudOBJ getHud() {
+        return Hud;
     }
 
     public SearchOBJ getSearch() {

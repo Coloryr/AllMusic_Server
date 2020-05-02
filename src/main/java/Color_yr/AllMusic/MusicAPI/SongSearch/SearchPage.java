@@ -4,8 +4,8 @@ import java.util.List;
 
 public class SearchPage {
     private final List<SearchOBJ> resData;
-    private int page = 0;
     private final int maxpage;
+    private int page = 0;
 
     public SearchPage(List<SearchOBJ> resData, int maxpage) {
         this.resData = resData;

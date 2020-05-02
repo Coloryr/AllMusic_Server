@@ -9,8 +9,8 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 public class logs {
-    public static File file;
     private static final Date date = new Date();
+    public static File file;
     private static FileWriter fw;
     private static PrintWriter pw;
 

@@ -53,9 +53,9 @@
     "CantNext": "§d[ALLMusic]§c无法下一页",
     "CantLast": "§d[ALLMusic]§c无法上一页"
   },
-  "VV": {
-    "State": "§d[ALLMusic]§2当前VV状态：%State%",
-    "Set": "§d[ALLMusic]§2已设置"
+  "Hud": {
+    "State": "§d[ALLMusic]§2设置信息位置：%Hud%，状态：%State%",
+    "Set": "§d[ALLMusic]§2已设置%Hud%的坐标为%x%, %y%"
   },
   "Command": {
     "Error": "§d[ALLMusic]§c参数错误，请输入/music help获取帮助",

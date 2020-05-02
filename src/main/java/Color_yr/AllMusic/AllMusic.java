@@ -8,13 +8,11 @@ import Color_yr.AllMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.AllMusic.MusicAPI.MusicAPILocal.APILocal;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
-import Color_yr.AllMusic.Side.SideBukkit.VVGet;
 import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -34,8 +32,6 @@ public class AllMusic {
     public static Logger log;
     public static ISide Side;
     public static IMusicAPI Music;
-    public static boolean VVEnable;
-    public static VVGet VV;
     public static boolean isRun;
     private static ConfigOBJ Config;
     private static MessageOBJ Message;
@@ -90,6 +86,37 @@ public class AllMusic {
 
     public static void removeNowPlayPlayer(String player) {
         NowPlayPlayer.remove(player);
+    }
+
+    public static void save() {
+        try {
+            String data = new GsonBuilder().setPrettyPrinting().create().toJson(Config);
+            Writer out = new FileWriter(ConfigFile);
+            out.write(data);
+            out.close();
+        } catch (Exception e) {
+            log.warning("§d[AllMusic]§c配置文件错误");
+            e.printStackTrace();
+        }
+    }
+
+    public static void start() {
+        PlayMusic.start();
+        log.info("§d[AllMusic]§2§e已启动-" + Version);
+    }
+
+    public static void stop() {
+        PlayMusic.stop();
+        PlayMusic.clear();
+        clearVote();
+        if (isRun)
+            Side.Send("[Stop]", false);
+        try {
+            logs.stop();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        log.info("§d[AllMusic]§2§e已停止，感谢使用");
     }
 
     private void initAPI() {
@@ -175,36 +202,5 @@ public class AllMusic {
             log.warning("§d[AllMusic]§2§c启动失败");
             e.printStackTrace();
         }
-    }
-
-    public static void save() {
-        try {
-            String data = new GsonBuilder().setPrettyPrinting().create().toJson(Config);
-            Writer out = new FileWriter(ConfigFile);
-            out.write(data);
-            out.close();
-        } catch (Exception e) {
-            log.warning("§d[AllMusic]§c配置文件错误");
-            e.printStackTrace();
-        }
-    }
-
-    public static void start() {
-        PlayMusic.start();
-       log.info("§d[AllMusic]§2§e已启动-" + Version);
-    }
-
-    public static void stop() {
-        PlayMusic.stop();
-        PlayMusic.clear();
-        clearVote();
-        if (isRun)
-            Side.Send("[Stop]", false);
-        try {
-            logs.stop();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        log.info("§d[AllMusic]§2§e已停止，感谢使用");
     }
 }
