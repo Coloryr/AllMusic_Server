@@ -21,6 +21,8 @@ public interface ISide {
 
     boolean SendList(String data);
 
+    void SendAll();
+
     void Clear(String player);
 
     void ClearAll();

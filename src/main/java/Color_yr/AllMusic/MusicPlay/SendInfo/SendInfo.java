@@ -155,19 +155,21 @@ public class SendInfo {
     }
 
     public static void SendSave(String Name) {
-        try {
-            Thread.sleep(3000);
-            SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
-            if (obj == null) {
-                obj = new SaveOBJ();
-                AllMusic.getConfig().setInfoSave(obj, Name);
-                AllMusic.save();
+        AllMusic.Side.RunTask(()-> {
+            try {
+                Thread.sleep(2000);
+                SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
+                if (obj == null) {
+                    obj = new SaveOBJ();
+                    AllMusic.getConfig().setInfoSave(obj, Name);
+                    AllMusic.save();
+                }
+                String data = new Gson().toJson(obj);
+                AllMusic.Side.Send(data, Name, null);
+            } catch (Exception e1) {
+                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
+                e1.printStackTrace();
             }
-            String data = new Gson().toJson(obj);
-            AllMusic.Side.Send(data, Name, null);
-        } catch (Exception e1) {
-            AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-            e1.printStackTrace();
-        }
+        });
     }
 }

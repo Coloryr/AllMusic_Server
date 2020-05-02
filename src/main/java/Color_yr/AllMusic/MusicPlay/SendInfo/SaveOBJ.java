@@ -11,7 +11,7 @@ public class SaveOBJ {
     public SaveOBJ() {
         EnableList = false;
         List = new PosOBJ(2, 80);
-        Lyric = new PosOBJ(2, 40);
+        Lyric = new PosOBJ(2, 55);
         Info = new PosOBJ(2, 2);
     }
 

@@ -4,6 +4,7 @@ import Color_yr.AllMusic.API.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicBC;
 import Color_yr.AllMusic.MusicPlay.SendInfo.SaveOBJ;
+import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.CommandSender;
@@ -149,6 +150,27 @@ public class SideBC implements ISide {
             e.printStackTrace();
         }
         return Save;
+    }
+
+    @Override
+    public void SendAll() {
+        Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
+        for (ProxiedPlayer players : values) {
+            String Name = players.getName();
+            try {
+                SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
+                if (obj == null) {
+                    obj = new SaveOBJ();
+                    AllMusic.getConfig().setInfoSave(obj, Name);
+                    AllMusic.save();
+                }
+                String data = new Gson().toJson(obj);
+                Send(data, Name, null);
+            } catch (Exception e1) {
+                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
+                e1.printStackTrace();
+            }
+        }
     }
 
     @Override

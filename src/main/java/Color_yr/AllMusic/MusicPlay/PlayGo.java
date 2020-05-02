@@ -65,6 +65,7 @@ class PlayGo extends Thread {
         PlayMusic.nowLyric = null;
         PlayMusic.NowPlayMusic = null;
         closeTimer();
+        SendInfo.clear();
     }
 
     @Override
@@ -108,6 +109,7 @@ class PlayGo extends Thread {
                     AllMusic.Side.bqt(info);
                     startTimer();
                     AllMusic.Side.Send("[Play]" + url, true);
+                    AllMusic.Side.SendAll();
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
                             SendInfo.SendNowData();

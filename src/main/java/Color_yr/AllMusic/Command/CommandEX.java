@@ -278,17 +278,20 @@ public class CommandEX {
                 } else if (args.length != 4) {
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                 } else {
-                    PosOBJ obj = SendInfo.SetPot(Name, args[1], args[2], args[3]);
-                    if (obj == null) {
+                    try {
+                        PosOBJ obj = SendInfo.SetPot(Name, args[1], args[2], args[3]);
+                        if (obj == null) {
+                            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
+                        } else {
+                            String temp = AllMusic.getMessage().getHud().getSet()
+                                    .replace("%Hud%", args[1])
+                                    .replace("%x%", args[2])
+                                    .replace("%y%", args[3]);
+                            AllMusic.Side.SendMessage(sender, temp);
+                        }
+                    } catch (Exception e) {
                         AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
-                    } else {
-                        String temp = AllMusic.getMessage().getHud().getSet()
-                                .replace("%Hub%", args[1])
-                                .replace("%x%", args[2])
-                                .replace("%y%", args[3]);
-                        AllMusic.Side.SendMessage(sender, temp);
                     }
-
                 }
             }
         } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.addmusic"))

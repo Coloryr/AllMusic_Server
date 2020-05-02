@@ -15,11 +15,4 @@ public class EventBukkit implements Listener {
     public void onPlayerQuit(final PlayerQuitEvent e) {
         AllMusic.removeNowPlayPlayer(e.getPlayer().getName());
     }
-
-    @EventHandler
-    public void onPlayJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
-        String Name = player.getName();
-        SendInfo.SendSave(Name);
-    }
 }
