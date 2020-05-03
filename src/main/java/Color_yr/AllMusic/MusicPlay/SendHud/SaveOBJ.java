@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicPlay.SendInfo;
+package Color_yr.AllMusic.MusicPlay.SendHud;
 
 public class SaveOBJ {
     private PosOBJ List;

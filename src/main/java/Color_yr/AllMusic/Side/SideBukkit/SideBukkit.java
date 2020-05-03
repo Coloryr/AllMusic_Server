@@ -3,7 +3,7 @@ package Color_yr.AllMusic.Side.SideBukkit;
 import Color_yr.AllMusic.API.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicBukkit;
-import Color_yr.AllMusic.MusicPlay.SendInfo.SaveOBJ;
+import Color_yr.AllMusic.MusicPlay.SendHud.SaveOBJ;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -16,6 +16,13 @@ import org.bukkit.entity.Player;
 import java.nio.charset.StandardCharsets;
 
 public class SideBukkit implements ISide {
+    private boolean isOK(String player) {
+        if (AllMusic.getConfig().getNoMusicPlayer().contains(player))
+            return false;
+        if (!AllMusic.containNowPlay(player))
+            return false;
+        return true;
+    }
 
     @Override
     public void Send(String data, String player, Boolean isplay) {
@@ -37,25 +44,21 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public boolean SendLyric(String data) {
+    public boolean SendHudLyric(String data) {
         boolean Save = false;
         for (Player players : Bukkit.getOnlinePlayers()) {
             String name = players.getName();
-            if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
-                if (!AllMusic.containNowPlay(name))
-                    continue;
-                if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
-                    continue;
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
-                if (obj == null) {
-                    obj = new SaveOBJ();
-                    AllMusic.getConfig().setInfoSave(obj, name);
-                    Save = true;
-                }
-                if (!obj.isEnableLyric())
-                    continue;
-                Send(players, "[Lyric]" + data, null);
+            if (!isOK(name))
+                continue;
+            SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
+            if (obj == null) {
+                obj = new SaveOBJ();
+                AllMusic.getConfig().setInfoSave(obj, name);
+                Save = true;
             }
+            if (!obj.isEnableLyric())
+                continue;
+            Send(players, "[Lyric]" + data, null);
         }
         return Save;
     }
@@ -82,13 +85,11 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public boolean SendInfo(String data) {
+    public boolean SendHudInfo(String data) {
         boolean Save = false;
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
-            if (!AllMusic.containNowPlay(Name))
-                continue;
-            if (AllMusic.getConfig().getNoMusicPlayer().contains(Name))
+            if (!isOK(Name))
                 continue;
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
             if (obj == null) {
@@ -104,13 +105,11 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public boolean SendList(String data) {
+    public boolean SendHudList(String data) {
         boolean Save = false;
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
-            if (!AllMusic.containNowPlay(Name))
-                continue;
-            if (AllMusic.getConfig().getNoMusicPlayer().contains(Name))
+            if (!isOK(Name))
                 continue;
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
             if (obj == null) {
@@ -126,9 +125,11 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public void SendAll() {
+    public void SendHudSaveAll() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
+            if (!isOK(Name))
+                continue;
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
                 if (obj == null) {
@@ -146,14 +147,14 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public void Clear(String player) {
-        Send("[clear]", player, null);
+    public void ClearHud(String player) {
+        Send("[clearHud]", player, null);
     }
 
     @Override
-    public void ClearAll() {
+    public void ClearHudAll() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Send(player, "[clear]", null);
+            Send(player, "[clearHud]", null);
         }
     }
 

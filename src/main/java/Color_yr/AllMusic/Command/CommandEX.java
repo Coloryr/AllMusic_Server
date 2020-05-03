@@ -4,8 +4,8 @@ import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
-import Color_yr.AllMusic.MusicPlay.SendInfo.PosOBJ;
-import Color_yr.AllMusic.MusicPlay.SendInfo.SendInfo;
+import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
+import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
 import Color_yr.AllMusic.Utils.Function;
 import net.md_5.bungee.api.chat.ClickEvent;
 
@@ -94,8 +94,9 @@ public class CommandEX {
             AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置VV位置",
                     ClickEvent.Action.SUGGEST_COMMAND, "/music vv ");
         } else if (args[0].equalsIgnoreCase("stop")) {
+            AllMusic.Side.ClearHud(Name);
             AllMusic.Side.Send("[Stop]", Name, false);
-            SendInfo.clear(Name);
+            Hud.clearHud(Name);
             AllMusic.removeNowPlayPlayer(Name);
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getMusicPlay().getStopPlay());
         } else if (args[0].equalsIgnoreCase("list")) {
@@ -152,6 +153,7 @@ public class CommandEX {
             AllMusic.getConfig().RemoveNoMusicPlayer(Name);
         } else if (args[0].equalsIgnoreCase("nomusic")) {
             AllMusic.Side.Send("[Stop]", Name, false);
+            AllMusic.Side.ClearHud(Name);
             AllMusic.getConfig().AddNoMusicPlayer(Name);
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getMusicPlay().getNoPlayMusic());
         } else if (args[0].equalsIgnoreCase("ban") && args.length == 2
@@ -262,7 +264,7 @@ public class CommandEX {
                 if (args[1].equalsIgnoreCase("enable")) {
                     if (args.length == 3) {
                         try {
-                            boolean temp = SendInfo.SetEnable(Name, args[2]);
+                            boolean temp = Hud.SetHudEnable(Name, args[2]);
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
                                     .replace("%State%", temp ? "启用" : "关闭")
                                     .replace("%Hud%", args[2]));
@@ -270,7 +272,7 @@ public class CommandEX {
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                         }
                     } else {
-                        boolean temp = SendInfo.SetEnable(Name, null);
+                        boolean temp = Hud.SetHudEnable(Name, null);
                         AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
                                 .replace("%State%", temp ? "启用" : "关闭")
                                 .replace("%Hud%", "所有"));
@@ -279,7 +281,7 @@ public class CommandEX {
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                 } else {
                     try {
-                        PosOBJ obj = SendInfo.SetPot(Name, args[1], args[2], args[3]);
+                        PosOBJ obj = Hud.SetHudPos(Name, args[1], args[2], args[3]);
                         if (obj == null) {
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                         } else {

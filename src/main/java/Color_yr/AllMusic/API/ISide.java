@@ -15,17 +15,17 @@ public interface ISide {
 
     boolean NeedPlay();
 
-    boolean SendLyric(String data);
+    boolean SendHudLyric(String data);
 
-    boolean SendInfo(String data);
+    boolean SendHudInfo(String data);
 
-    boolean SendList(String data);
+    boolean SendHudList(String data);
 
-    void SendAll();
+    void SendHudSaveAll();
 
-    void Clear(String player);
+    void ClearHud(String player);
 
-    void ClearAll();
+    void ClearHudAll();
 
     void SendMessaget(Object obj, String Message);
 

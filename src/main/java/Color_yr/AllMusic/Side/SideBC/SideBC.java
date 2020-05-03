@@ -3,7 +3,7 @@ package Color_yr.AllMusic.Side.SideBC;
 import Color_yr.AllMusic.API.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicBC;
-import Color_yr.AllMusic.MusicPlay.SendInfo.SaveOBJ;
+import Color_yr.AllMusic.MusicPlay.SendHud.SaveOBJ;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -18,6 +18,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 public class SideBC implements ISide {
+    private boolean isOK(ProxiedPlayer player) {
+        if (player == null || player.getServer() == null)
+            return false;
+        if (AllMusic.getConfig().getNoMusicServer()
+                .contains(player.getServer().getInfo().getName()))
+            return false;
+        String name = player.getName();
+        if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
+            return false;
+        if (!AllMusic.containNowPlay(name))
+            return false;
+        return true;
+    }
+
     @Override
     public void Send(String data, String player, Boolean isplay) {
         Send(ProxyServer.getInstance().getPlayer(player), data, isplay);
@@ -27,14 +41,10 @@ public class SideBC implements ISide {
     public void Send(String data, Boolean isplay) {
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-            for (ProxiedPlayer players : values) {
-                if (players == null || players.getServer() == null)
+            for (ProxiedPlayer player : values) {
+                if (!isOK(player))
                     continue;
-                if (!AllMusic.getConfig().getNoMusicServer().contains(players.getServer().getInfo().getName())) {
-                    if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
-                        Send(players, data, isplay);
-                    }
-                }
+                Send(player, data, isplay);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲发送发生错误");
@@ -48,32 +58,21 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public boolean SendLyric(String data) {
+    public boolean SendHudLyric(String data) {
         boolean Save = false;
         try {
-            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-            for (ProxiedPlayer players : values) {
-                if (players == null || players.getServer() == null)
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                if (!isOK(player))
                     continue;
-                if (AllMusic.getConfig().getNoMusicServer()
-                        .contains(players.getServer().getInfo().getName()))
-                    continue;
-                String name = players.getName();
-                if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
-                    if (!AllMusic.containNowPlay(name))
-                        continue;
-                    if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
-                        continue;
-                    SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
-                    if (obj == null) {
-                        obj = new SaveOBJ();
-                        AllMusic.getConfig().setInfoSave(obj, name);
-                        Save = true;
-                    }
-                    if (!obj.isEnableLyric())
-                        continue;
-                    Send(players, "[Lyric]" + data, null);
+                SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getName());
+                if (obj == null) {
+                    obj = new SaveOBJ();
+                    AllMusic.getConfig().setInfoSave(obj, player.getName());
+                    Save = true;
                 }
+                if (!obj.isEnableLyric())
+                    continue;
+                Send(player, "[Lyric]" + data, null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -83,32 +82,21 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public boolean SendInfo(String data) {
+    public boolean SendHudInfo(String data) {
         boolean Save = false;
         try {
-            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-            for (ProxiedPlayer players : values) {
-                if (players == null || players.getServer() == null)
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                if (!isOK(player))
                     continue;
-                String name = players.getName();
-                if (AllMusic.getConfig().getNoMusicServer()
-                        .contains(players.getServer().getInfo().getName()))
-                    continue;
-                if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
-                    if (!AllMusic.containNowPlay(name))
-                        continue;
-                    if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
-                        continue;
-                    SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
-                    if (obj == null) {
-                        obj = new SaveOBJ();
-                        AllMusic.getConfig().setInfoSave(obj, name);
-                        Save = true;
-                    }
-                    if (!obj.isEnableInfo())
-                        continue;
-                    Send(players, "[Info]" + data, null);
+                SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getName());
+                if (obj == null) {
+                    obj = new SaveOBJ();
+                    AllMusic.getConfig().setInfoSave(obj, player.getName());
+                    Save = true;
                 }
+                if (!obj.isEnableInfo())
+                    continue;
+                Send(player, "[Info]" + data, null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -118,32 +106,22 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public boolean SendList(String data) {
+    public boolean SendHudList(String data) {
         boolean Save = false;
         try {
-            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-            for (ProxiedPlayer players : values) {
-                if (players == null || players.getServer() == null)
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                if (!isOK(player))
                     continue;
-                if (AllMusic.getConfig().getNoMusicServer()
-                        .contains(players.getServer().getInfo().getName()))
-                    continue;
-                String name = players.getName();
-                if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
-                    if (!AllMusic.containNowPlay(name))
-                        continue;
-                    if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
-                        continue;
-                    SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
-                    if (obj == null) {
-                        obj = new SaveOBJ();
-                        AllMusic.getConfig().setInfoSave(obj, name);
-                        Save = true;
-                    }
-                    if (!obj.isEnableList())
-                        continue;
-                    Send(players, "[List]" + data, null);
+                String name = player.getName();
+                SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
+                if (obj == null) {
+                    obj = new SaveOBJ();
+                    AllMusic.getConfig().setInfoSave(obj, name);
+                    Save = true;
                 }
+                if (!obj.isEnableList())
+                    continue;
+                Send(player, "[List]" + data, null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -153,9 +131,10 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public void SendAll() {
-        Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-        for (ProxiedPlayer players : values) {
+    public void SendHudSaveAll() {
+        for (ProxiedPlayer players : ProxyServer.getInstance().getPlayers()) {
+            if(!isOK(players))
+                continue;
             String Name = players.getName();
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
@@ -174,16 +153,16 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public void Clear(String player) {
-        Send("[clear]", player, null);
+    public void ClearHud(String player) {
+        Send("[clearHud]", player, null);
     }
 
     @Override
-    public void ClearAll() {
+    public void ClearHudAll() {
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer players : values) {
-                Send(players, "[clear]", null);
+                Send(players, "[clearHud]", null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");

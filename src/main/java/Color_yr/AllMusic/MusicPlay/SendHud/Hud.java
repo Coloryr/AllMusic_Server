@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicPlay.SendInfo;
+package Color_yr.AllMusic.MusicPlay.SendHud;
 
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
@@ -7,8 +7,8 @@ import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.Utils.Function;
 import com.google.gson.Gson;
 
-public class SendInfo {
-    public static PosOBJ SetPot(String player, String pos, String x, String y) {
+public class Hud {
+    public static PosOBJ SetHudPos(String player, String pos, String x, String y) {
         SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
         if (obj == null)
             obj = new SaveOBJ();
@@ -46,11 +46,11 @@ public class SendInfo {
 
         AllMusic.getConfig().setInfoSave(obj, player);
         AllMusic.save();
-        SendInfo.SendSave(player);
+        Hud.SendHudSave(player);
         return posOBJ;
     }
 
-    public static void SendListData() {
+    public static void SendHudListData() {
         StringBuilder list = new StringBuilder();
         if (PlayMusic.getSize() == 0) {
             list.append("队列中无歌曲");
@@ -64,12 +64,12 @@ public class SendInfo {
             }
         }
 
-        if (AllMusic.Side.SendList(list.toString())) {
+        if (AllMusic.Side.SendHudList(list.toString())) {
             AllMusic.save();
         }
     }
 
-    public static void SendNowData() {
+    public static void SendHudNowData() {
         StringBuilder list = new StringBuilder();
         if (PlayMusic.NowPlayMusic == null) {
             list.append("没有播放的音乐");
@@ -81,12 +81,12 @@ public class SendInfo {
             list.append("by:").append(PlayMusic.NowPlayMusic.getCall());
         }
 
-        if (AllMusic.Side.SendInfo(list.toString())) {
+        if (AllMusic.Side.SendHudInfo(list.toString())) {
             AllMusic.save();
         }
     }
 
-    public static void SendLyricData(ShowOBJ showobj) {
+    public static void SendHudLyricData(ShowOBJ showobj) {
         StringBuilder list = new StringBuilder();
         if (showobj == null) {
             list.append("无歌词");
@@ -97,12 +97,12 @@ public class SendInfo {
                 list.append(showobj.getTlyric());
         }
 
-        if (AllMusic.Side.SendLyric(list.toString())) {
+        if (AllMusic.Side.SendHudLyric(list.toString())) {
             AllMusic.save();
         }
     }
 
-    public static boolean SetEnable(String player, String pos) {
+    public static boolean SetHudEnable(String player, String pos) {
         SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
         if (obj == null)
             obj = new SaveOBJ();
@@ -125,10 +125,10 @@ public class SendInfo {
                     break;
             }
         }
-        clear(player);
+        clearHud(player);
         AllMusic.getConfig().setInfoSave(obj, player);
         AllMusic.save();
-        SendInfo.SendSave(player);
+        Hud.SendHudSave(player);
         if (pos == null) {
             return true;
         } else {
@@ -146,18 +146,17 @@ public class SendInfo {
         return false;
     }
 
-    public static void clear() {
-        AllMusic.Side.ClearAll();
+    public static void clearHud() {
+        AllMusic.Side.ClearHudAll();
     }
 
-    public static void clear(String Name) {
-        AllMusic.Side.Clear(Name);
+    public static void clearHud(String Name) {
+        AllMusic.Side.ClearHud(Name);
     }
 
-    public static void SendSave(String Name) {
-        AllMusic.Side.RunTask(()-> {
+    public static void SendHudSave(String Name) {
+        AllMusic.Side.RunTask(() -> {
             try {
-                Thread.sleep(2000);
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
                 if (obj == null) {
                     obj = new SaveOBJ();

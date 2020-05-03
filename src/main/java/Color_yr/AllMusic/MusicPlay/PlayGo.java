@@ -2,7 +2,7 @@ package Color_yr.AllMusic.MusicPlay;
 
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
-import Color_yr.AllMusic.MusicPlay.SendInfo.SendInfo;
+import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -25,12 +25,12 @@ class PlayGo extends Thread {
         if (show != null) {
             PlayMusic.nowLyric = show;
             times = 0;
-            SendInfo.SendLyricData(show);
+            Hud.SendHudLyricData(show);
         } else {
             times++;
             if (times == 1000 && PlayMusic.nowLyric != null) {
                 times = 0;
-                SendInfo.SendLyricData(PlayMusic.nowLyric);
+                Hud.SendHudLyricData(PlayMusic.nowLyric);
             }
         }
     };
@@ -65,7 +65,7 @@ class PlayGo extends Thread {
         PlayMusic.nowLyric = null;
         PlayMusic.NowPlayMusic = null;
         closeTimer();
-        SendInfo.clear();
+        Hud.clearHud();
     }
 
     @Override
@@ -73,8 +73,8 @@ class PlayGo extends Thread {
         while (true) {
             if (PlayMusic.getSize() == 0) {
                 try {
-                    SendInfo.SendNowData();
-                    SendInfo.SendListData();
+                    Hud.SendHudNowData();
+                    Hud.SendHudListData();
                     if (AllMusic.Side.NeedPlay()) {
                         String ID = AllMusic.Music.GetListMusic();
                         if (ID != null) {
@@ -109,11 +109,11 @@ class PlayGo extends Thread {
                     AllMusic.Side.bqt(info);
                     startTimer();
                     AllMusic.Side.Send("[Play]" + url, true);
-                    AllMusic.Side.SendAll();
+                    AllMusic.Side.SendHudSaveAll();
                     try {
                         while (PlayMusic.MusicAllTime > 0) {
-                            SendInfo.SendNowData();
-                            SendInfo.SendListData();
+                            Hud.SendHudNowData();
+                            Hud.SendHudListData();
                             if (!AllMusic.Side.NeedPlay()) {
                                 PlayMusic.MusicAllTime = 1;
                             }
