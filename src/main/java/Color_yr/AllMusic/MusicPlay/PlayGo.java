@@ -15,7 +15,7 @@ class PlayGo extends Thread {
         PlayMusic.MusicNowTime += 10;
         count++;
         if (count == 100) {
-            PlayMusic.MusicAllTime--;
+            PlayMusic.MusicLessTime--;
             count = 0;
         }
     };
@@ -28,7 +28,7 @@ class PlayGo extends Thread {
             Hud.SendHudLyricData(show);
         } else {
             times++;
-            if (times == 1000 && PlayMusic.nowLyric != null) {
+            if (times == 500 && PlayMusic.nowLyric != null) {
                 times = 0;
                 Hud.SendHudLyricData(PlayMusic.nowLyric);
             }
@@ -61,6 +61,7 @@ class PlayGo extends Thread {
     public void clear() {
         PlayMusic.MusicNowTime = 0;
         PlayMusic.MusicAllTime = 0;
+        PlayMusic.MusicLessTime = 0;
         PlayMusic.Lyric = null;
         PlayMusic.nowLyric = null;
         PlayMusic.NowPlayMusic = null;
@@ -86,6 +87,7 @@ class PlayGo extends Thread {
                     e.printStackTrace();
                 }
             } else {
+                AllMusic.Side.SendHudSaveAll();
                 PlayMusic.NowPlayMusic = PlayMusic.getMusic(0);
                 PlayMusic.remove(0);
 
@@ -99,7 +101,7 @@ class PlayGo extends Thread {
                 PlayMusic.Lyric = AllMusic.Music.getLyric(PlayMusic.NowPlayMusic.getID());
 
                 if (PlayMusic.NowPlayMusic.getLength() != 0) {
-                    PlayMusic.MusicAllTime = (PlayMusic.NowPlayMusic.getLength() / 1000) + 10;
+                    PlayMusic.MusicAllTime = PlayMusic.MusicLessTime = (PlayMusic.NowPlayMusic.getLength() / 1000) + 3;
                     String info = AllMusic.getMessage().getMusicPlay().getPlay();
                     info = info.replace("%MusicName%", PlayMusic.NowPlayMusic.getName())
                             .replace("%MusicAuthor%", PlayMusic.NowPlayMusic.getAuthor())
@@ -109,13 +111,12 @@ class PlayGo extends Thread {
                     AllMusic.Side.bqt(info);
                     startTimer();
                     AllMusic.Side.Send("[Play]" + url, true);
-                    AllMusic.Side.SendHudSaveAll();
                     try {
-                        while (PlayMusic.MusicAllTime > 0) {
+                        while (PlayMusic.MusicLessTime > 0) {
                             Hud.SendHudNowData();
                             Hud.SendHudListData();
                             if (!AllMusic.Side.NeedPlay()) {
-                                PlayMusic.MusicAllTime = 1;
+                                PlayMusic.MusicLessTime = 1;
                             }
                             if (PlayMusic.VoteTime > 0) {
                                 PlayMusic.VoteTime--;

@@ -14,6 +14,7 @@ public class PlayMusic {
     public static final List<SongInfo> PlayList = new ArrayList<>();
     public static int VoteTime = 0;
     public static int MusicAllTime = 0;
+    public static int MusicLessTime = 0;
     public static int MusicNowTime = 0;
     public static SongInfo NowPlayMusic;
 
@@ -58,7 +59,7 @@ public class PlayMusic {
                 }
                 if (AllMusic.getConfig().isPlayListSwitch()
                         && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
-                    PlayMusic.MusicAllTime = 1;
+                    PlayMusic.MusicLessTime = 1;
                     if (!isList)
                         AllMusic.Side.bq(AllMusic.getMessage().getMusicPlay().getSwitch());
                 }

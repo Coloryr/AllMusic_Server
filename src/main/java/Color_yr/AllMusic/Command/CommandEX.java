@@ -148,7 +148,7 @@ public class CommandEX {
             AllMusic.Side.reload();
             AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2已重读配置文件");
         } else if (args[0].equalsIgnoreCase("next") && AllMusic.getConfig().getAdmin().contains(Name)) {
-            PlayMusic.MusicAllTime = 1;
+            PlayMusic.MusicLessTime = 1;
             AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2已强制切歌");
             AllMusic.getConfig().RemoveNoMusicPlayer(Name);
         } else if (args[0].equalsIgnoreCase("nomusic")) {

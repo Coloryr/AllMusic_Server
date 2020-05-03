@@ -69,12 +69,20 @@ public class Hud {
         }
     }
 
+    private static String tranTime(int time) {
+        int m = time / 60;
+        int s = time - m * 60;
+        return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    }
+
     public static void SendHudNowData() {
         StringBuilder list = new StringBuilder();
         if (PlayMusic.NowPlayMusic == null) {
             list.append("没有播放的音乐");
         } else {
-            list.append(PlayMusic.NowPlayMusic.getName()).append("\n");
+            list.append(PlayMusic.NowPlayMusic.getName()).append("   ")
+                    .append(tranTime(PlayMusic.MusicAllTime)).append("/")
+                    .append(tranTime(PlayMusic.MusicNowTime/1000)).append("\n");
             list.append(PlayMusic.NowPlayMusic.getAuthor()).append("\n");
             list.append(PlayMusic.NowPlayMusic.getAlia()).append("\n");
             list.append(PlayMusic.NowPlayMusic.getAl()).append("\n");
