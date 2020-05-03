@@ -6,7 +6,7 @@ plugins {
 // Note the spaces before and after the equals sign
 ext.majorVersion = 0
 ext.minorVersion = 1
-version = "2.0.1"
+version = "2.0.3"
 
 repositories {
     jcenter()
@@ -54,7 +54,7 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include 'bungee.yml'
         include 'plugin.yml'
-        include 'config_BC.json'
+        include 'config.json'
         // replace version and mcversion
         expand 'version':project.version
     }
@@ -63,6 +63,6 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'bungee.yml'
         exclude 'plugin.yml'
-        exclude 'config_BC.json'
+        exclude 'config.json'
     }
 }

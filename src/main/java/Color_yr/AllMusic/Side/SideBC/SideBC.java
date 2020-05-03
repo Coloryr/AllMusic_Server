@@ -42,8 +42,6 @@ public class SideBC implements ISide {
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer player : values) {
-                if (!isOK(player))
-                    continue;
                 Send(player, data, isplay);
             }
         } catch (Exception e) {
@@ -133,8 +131,6 @@ public class SideBC implements ISide {
     @Override
     public void SendHudSaveAll() {
         for (ProxiedPlayer players : ProxyServer.getInstance().getPlayers()) {
-            if(!isOK(players))
-                continue;
             String Name = players.getName();
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
@@ -154,7 +150,7 @@ public class SideBC implements ISide {
 
     @Override
     public void ClearHud(String player) {
-        Send("[clearHud]", player, null);
+        Send("[clear]", player, null);
     }
 
     @Override
@@ -162,7 +158,7 @@ public class SideBC implements ISide {
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer players : values) {
-                Send(players, "[clearHud]", null);
+                Send(players, "[clear]", null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
@@ -245,7 +241,7 @@ public class SideBC implements ISide {
             ByteBuf buf = Unpooled.buffer(bytes.length + 1);
             buf.writeByte(666);
             buf.writeBytes(bytes);
-            players.sendData(AllMusic.channel, buf.array());
+            RunTask(() -> players.sendData(AllMusic.channel, buf.array()));
             if (isplay != null) {
                 if (isplay) {
                     AllMusic.addNowPlayPlayer(players.getName());

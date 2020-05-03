@@ -128,8 +128,6 @@ public class SideBukkit implements ISide {
     public void SendHudSaveAll() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
-            if (!isOK(Name))
-                continue;
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
                 if (obj == null) {
@@ -148,13 +146,13 @@ public class SideBukkit implements ISide {
 
     @Override
     public void ClearHud(String player) {
-        Send("[clearHud]", player, null);
+        Send("[clear]", player, null);
     }
 
     @Override
     public void ClearHudAll() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Send(player, "[clearHud]", null);
+            Send(player, "[clear]", null);
         }
     }
 
@@ -203,7 +201,8 @@ public class SideBukkit implements ISide {
             ByteBuf buf = Unpooled.buffer(bytes.length + 1);
             buf.writeByte(666);
             buf.writeBytes(bytes);
-            players.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channel, buf.array());
+            RunTask(() ->
+                    players.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channel, buf.array()));
             if (isplay != null) {
                 if (isplay) {
                     AllMusic.addNowPlayPlayer(players.getName());
