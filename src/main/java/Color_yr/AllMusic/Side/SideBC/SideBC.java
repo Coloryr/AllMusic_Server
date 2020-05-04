@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 public class SideBC implements ISide {
-    private boolean isOK(ProxiedPlayer player) {
+    private boolean isOK(ProxiedPlayer player, boolean in) {
         if (player == null || player.getServer() == null)
             return false;
         if (AllMusic.getConfig().getNoMusicServer()
@@ -27,7 +27,7 @@ public class SideBC implements ISide {
         String name = player.getName();
         if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
             return false;
-        if (!AllMusic.containNowPlay(name))
+        if (in && !AllMusic.containNowPlay(name))
             return false;
         return true;
     }
@@ -42,6 +42,8 @@ public class SideBC implements ISide {
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer player : values) {
+                if(isplay && !isOK(player, false))
+                    continue;
                 Send(player, data, isplay);
             }
         } catch (Exception e) {
@@ -60,7 +62,7 @@ public class SideBC implements ISide {
         boolean Save = false;
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (!isOK(player))
+                if (!isOK(player, true))
                     continue;
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getName());
                 if (obj == null) {
@@ -84,7 +86,7 @@ public class SideBC implements ISide {
         boolean Save = false;
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (!isOK(player))
+                if (!isOK(player, true))
                     continue;
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getName());
                 if (obj == null) {
@@ -108,7 +110,7 @@ public class SideBC implements ISide {
         boolean Save = false;
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (!isOK(player))
+                if (!isOK(player, true))
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);

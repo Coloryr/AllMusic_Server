@@ -16,10 +16,10 @@ import org.bukkit.entity.Player;
 import java.nio.charset.StandardCharsets;
 
 public class SideBukkit implements ISide {
-    private boolean isOK(String player) {
+    private boolean isOK(String player, boolean in) {
         if (AllMusic.getConfig().getNoMusicPlayer().contains(player))
             return false;
-        if (!AllMusic.containNowPlay(player))
+        if (in && !AllMusic.containNowPlay(player))
             return false;
         return true;
     }
@@ -31,9 +31,11 @@ public class SideBukkit implements ISide {
 
     @Override
     public void Send(String data, Boolean isplay) {
-        for (Player players : Bukkit.getOnlinePlayers()) {
-            if (!AllMusic.getConfig().getNoMusicPlayer().contains(players.getName())) {
-                Send(players, data, isplay);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
+                if(isplay && !isOK(player.getName(), false))
+                    continue;
+                Send(player, data, isplay);
             }
         }
     }
@@ -46,9 +48,9 @@ public class SideBukkit implements ISide {
     @Override
     public boolean SendHudLyric(String data) {
         boolean Save = false;
-        for (Player players : Bukkit.getOnlinePlayers()) {
-            String name = players.getName();
-            if (!isOK(name))
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            String name = player.getName();
+            if (!isOK(player.getName(), true))
                 continue;
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
             if (obj == null) {
@@ -58,7 +60,7 @@ public class SideBukkit implements ISide {
             }
             if (!obj.isEnableLyric())
                 continue;
-            Send(players, "[Lyric]" + data, null);
+            Send(player, "[Lyric]" + data, null);
         }
         return Save;
     }
@@ -89,7 +91,7 @@ public class SideBukkit implements ISide {
         boolean Save = false;
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
-            if (!isOK(Name))
+            if (!isOK(player.getName(), true))
                 continue;
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
             if (obj == null) {
@@ -109,7 +111,7 @@ public class SideBukkit implements ISide {
         boolean Save = false;
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
-            if (!isOK(Name))
+            if (!isOK(player.getName(), true))
                 continue;
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
             if (obj == null) {

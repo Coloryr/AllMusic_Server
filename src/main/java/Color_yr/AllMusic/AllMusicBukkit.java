@@ -45,6 +45,7 @@ public class AllMusicBukkit extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        AllMusic.isRun = false;
         AllMusic.stop();
     }
 }
