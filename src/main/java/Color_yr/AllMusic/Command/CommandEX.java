@@ -91,7 +91,7 @@ public class CommandEX {
                     ClickEvent.Action.SUGGEST_COMMAND, "/music select ");
             AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud§e[§n点我§r§e]",
                     ClickEvent.Action.RUN_COMMAND, "/music vv enable");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置VV位置",
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置",
                     ClickEvent.Action.SUGGEST_COMMAND, "/music vv ");
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.Side.ClearHud(Name);
