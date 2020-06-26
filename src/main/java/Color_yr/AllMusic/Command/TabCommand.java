@@ -26,6 +26,7 @@ public class TabCommand {
                 arguments.add("ban");
                 arguments.add("delete");
                 arguments.add("addlist");
+                arguments.add("clearlist");
             }
         } else if (arg[0].equalsIgnoreCase("hud")) {
             if (arg.length == 2) {
