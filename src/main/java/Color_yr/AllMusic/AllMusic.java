@@ -163,6 +163,10 @@ public class AllMusic {
             log.info("§d[AllMusic]§e当前插件版本为：" + AllMusic.Version
                     + "，你的配置文件版本为：" + AllMusic.Config.getVersion());
 
+            if (!AllMusic.Version.equalsIgnoreCase(AllMusic.Config.getVersion())) {
+                log.warning("§d[AllMusic]§c请及时更新配置文件");
+            }
+
             for (String item : AllMusic.Config.getNoMusicPlayer()) {
                 AllMusic.log.info("玩家：" + item + "不参与点歌");
             }

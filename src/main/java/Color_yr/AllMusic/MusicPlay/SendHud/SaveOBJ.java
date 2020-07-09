@@ -8,8 +8,21 @@ public class SaveOBJ {
     private boolean EnableLyric;
     private boolean EnableInfo;
 
+    public SaveOBJ clone() {
+        SaveOBJ saveOBJ = new SaveOBJ();
+        saveOBJ.setEnableInfo(this.EnableInfo);
+        saveOBJ.setEnableList(this.EnableList);
+        saveOBJ.setEnableLyric(this.EnableLyric);
+        saveOBJ.setInfo(this.Info.clone());
+        saveOBJ.setList(this.List.clone());
+        saveOBJ.setLyric(this.Lyric.clone());
+        return saveOBJ;
+    }
+
     public SaveOBJ() {
-        EnableList = false;
+        EnableList = true;
+        EnableLyric = true;
+        EnableInfo = true;
         List = new PosOBJ(2, 80);
         Lyric = new PosOBJ(2, 55);
         Info = new PosOBJ(2, 2);

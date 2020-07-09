@@ -29,6 +29,7 @@ public class ConfigOBJ {
     private final boolean NeedPermission;
 
     private final Map<String, SaveOBJ> HudSave;
+    private final SaveOBJ DefaultHud;
 
     private final String Version;
 
@@ -51,8 +52,13 @@ public class ConfigOBJ {
         SendLyric = true;
         NeedPermission = false;
         HudSave = new HashMap<>();
+        DefaultHud = new SaveOBJ();
 
         Version = AllMusic.Version;
+    }
+
+    public SaveOBJ getDefaultHud() {
+        return DefaultHud;
     }
 
     public String getMusic_Api2() {

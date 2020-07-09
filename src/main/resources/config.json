@@ -15,5 +15,22 @@
   "SendLyric": true,
   "NeedPermission": false,
   "HudSave": {},
+  "DefaultHud": {
+    "List": {
+      "x": 2,
+      "y": 80
+    },
+    "Lyric": {
+      "x": 2,
+      "y": 55
+    },
+    "Info": {
+      "x": 2,
+      "y": 2
+    },
+    "EnableList": true,
+    "EnableLyric": true,
+    "EnableInfo": true
+  },
   "Version": "${version}"
 }

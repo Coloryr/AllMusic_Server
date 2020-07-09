@@ -25,4 +25,7 @@ public class PosOBJ {
         this.y = y;
     }
 
+    public PosOBJ clone() {
+        return new PosOBJ(this.x, this.y);
+    }
 }

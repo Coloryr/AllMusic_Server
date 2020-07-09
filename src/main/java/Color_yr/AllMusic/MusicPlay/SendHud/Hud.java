@@ -11,7 +11,7 @@ public class Hud {
     public static PosOBJ SetHudPos(String player, String pos, String x, String y) {
         SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
         if (obj == null)
-            obj = new SaveOBJ();
+            obj = AllMusic.getConfig().getDefaultHud().clone();
         Pos pos1 = Pos.valueOf(pos);
         PosOBJ posOBJ = new PosOBJ(0, 0);
         if (!Function.isInteger(x) && !Function.isInteger(y))
@@ -113,7 +113,7 @@ public class Hud {
     public static boolean SetHudEnable(String player, String pos) {
         SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
         if (obj == null)
-            obj = new SaveOBJ();
+            obj = AllMusic.getConfig().getDefaultHud().clone();
 
         if (pos == null) {
             obj.setEnableInfo(true);
@@ -167,7 +167,7 @@ public class Hud {
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().clone();
                     AllMusic.getConfig().setInfoSave(obj, Name);
                     AllMusic.save();
                 }
