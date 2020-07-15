@@ -1,17 +1,17 @@
 package Color_yr.AllMusic.Message;
 
 public class MusicPlayOBJ {
-    private final String StopPlay;
-    private final String NoMusic;
-    private final String Play;
-    private final String NoPlay;
-    private final ListMusicOBJ ListMusic;
-    private final String NoCanPlay;
-    private final String NoPlayMusic;
-    private final String Switch;
-    private final String AddMusic;
-    private final String PlayerAdd;
-    private final String MusicInfo;
+    private String StopPlay;
+    private String NoMusic;
+    private String Play;
+    private String NoPlay;
+    private ListMusicOBJ ListMusic;
+    private String NoCanPlay;
+    private String NoPlayMusic;
+    private String Switch;
+    private String AddMusic;
+    private String PlayerAdd;
+    private String MusicInfo;
 
     public MusicPlayOBJ() {
         StopPlay = "§d[AllMusic]§2已停止你的音乐播放";

@@ -267,7 +267,7 @@ public class CommandEX {
                             boolean temp = Hud.SetHudEnable(Name, args[2]);
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
                                     .replace("%State%", temp ? "启用" : "关闭")
-                                    .replace("%Hud%", args[2]));
+                                    .replace("%Hud%", AllMusic.getMessage().getHudList().Get(args[2])));
                         } catch (Exception e) {
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                         }
@@ -275,7 +275,7 @@ public class CommandEX {
                         boolean temp = Hud.SetHudEnable(Name, null);
                         AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
                                 .replace("%State%", temp ? "启用" : "关闭")
-                                .replace("%Hud%", "所有"));
+                                .replace("%Hud%", AllMusic.getMessage().getHudList().getAll()));
                     }
                 } else if (args.length != 4) {
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());

@@ -55,10 +55,19 @@
   },
   "Hud": {
     "State": "§d[ALLMusic]§2设置信息位置：%Hud%，状态：%State%",
-    "Set": "§d[ALLMusic]§2已设置%Hud%的坐标为%x%, %y%"
+    "Set": "§d[ALLMusic]§2已设置%Hud%的坐标为%x%, %y%",
+    "NoMusic": "没有播放的音乐",
+    "NoList": "队列中无歌曲",
+    "NoLyric": "无歌词"
   },
   "Command": {
     "Error": "§d[ALLMusic]§c参数错误，请输入/music help获取帮助",
     "NoPer": "§d[ALLMusic]§c你没有权限点歌"
+  },
+  "HudList": {
+    "List": "待播放列表",
+    "Lyric": "歌词",
+    "Info": "歌曲信息",
+    "All": "所有位置"
   }
 }

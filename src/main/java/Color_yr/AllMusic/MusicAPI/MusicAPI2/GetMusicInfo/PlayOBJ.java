@@ -27,4 +27,3 @@ class obj {
         return url;
     }
 }
-

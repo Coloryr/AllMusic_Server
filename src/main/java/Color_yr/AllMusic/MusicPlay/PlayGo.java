@@ -75,6 +75,7 @@ class PlayGo extends Thread {
             if (PlayMusic.getSize() == 0) {
                 try {
                     Hud.SendHudNowData();
+                    Hud.SendHudLyricData(null);
                     Hud.SendHudListData();
                     if (AllMusic.Side.NeedPlay()) {
                         String ID = AllMusic.Music.GetListMusic();

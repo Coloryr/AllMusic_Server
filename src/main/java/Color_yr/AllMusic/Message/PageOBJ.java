@@ -1,9 +1,9 @@
 package Color_yr.AllMusic.Message;
 
 public class PageOBJ {
-    private final String Choice;
-    private final String Next;
-    private final String Last;
+    private String Choice;
+    private String Next;
+    private String Last;
 
     public PageOBJ() {
         Choice = "§e[§n点我选择§r§e]§2%index%->%MusicName% | %MusicAuthor% | %MusicAl%";

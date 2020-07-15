@@ -1,8 +1,8 @@
 package Color_yr.AllMusic.Message;
 
 public class LyricOBJ {
-    private final String Data;
-    private final String TData;
+    private String Data;
+    private String TData;
 
     public LyricOBJ() {
         Data = "%Lyric%";

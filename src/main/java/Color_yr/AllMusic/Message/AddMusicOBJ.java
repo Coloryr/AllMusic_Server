@@ -1,12 +1,12 @@
 package Color_yr.AllMusic.Message;
 
 public class AddMusicOBJ {
-    private final String ListFull;
-    private final String BanMusic;
-    private final String ExistMusic;
-    private final String Success;
-    private final String NoPlayer;
-    private final String NoID;
+    private String ListFull;
+    private String BanMusic;
+    private String ExistMusic;
+    private String Success;
+    private String NoPlayer;
+    private String NoID;
 
     public AddMusicOBJ() {
         ListFull = "§d[AllMusic]§c错误，队列已满";

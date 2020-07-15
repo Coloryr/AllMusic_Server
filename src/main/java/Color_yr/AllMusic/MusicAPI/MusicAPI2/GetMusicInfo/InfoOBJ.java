@@ -19,7 +19,7 @@ public class InfoOBJ {
         StringBuilder Author = new StringBuilder();
         if (songs.size() == 0)
             return null;
-        for (ar ar : songs.get(0).getAr()) {
+        for (Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicInfo.ar ar : songs.get(0).getAr()) {
             Author.append(ar.getName()).append(",");
         }
         if (Author.length() != 0) {
@@ -52,20 +52,20 @@ public class InfoOBJ {
 
 class Songs {
     private String name;
-    private List<ar> ar;
-    private List<String> alia;
-    private al al;
-    private h l;
-    private h m;
-    private h h;
+    private List<ar> artists;
+    private List<String> alias;
+    private al album;
+    private h hMusic;
+    private h mMusic;
+    private h lMusic;
 
     public int getLength() {
-        if (l != null)
-            return l.getLength();
-        if (m != null)
-            return m.getLength();
-        if (h != null)
-            return h.getLength();
+        if (hMusic != null)
+            return hMusic.getLength();
+        if (mMusic != null)
+            return mMusic.getLength();
+        if (lMusic != null)
+            return lMusic.getLength();
         return 0;
     }
 
@@ -74,15 +74,15 @@ class Songs {
     }
 
     public List<ar> getAr() {
-        return ar;
+        return artists;
     }
 
     public List<String> getAlia() {
-        return alia;
+        return alias;
     }
 
     public String getAl() {
-        return al.getName();
+        return album.getName();
     }
 }
 
@@ -103,10 +103,9 @@ class al {
 }
 
 class h {
-    private int br;
-    private int size;
+    private int playTime;
 
     public int getLength() {
-        return size / br * 8000;
+        return playTime;
     }
 }

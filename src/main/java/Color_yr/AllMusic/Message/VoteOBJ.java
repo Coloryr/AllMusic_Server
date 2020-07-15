@@ -1,14 +1,14 @@
 package Color_yr.AllMusic.Message;
 
 public class VoteOBJ {
-    private final String NoPermission;
-    private final String DoVote;
-    private final String BQ;
-    private final String Agree;
-    private final String BQAgree;
-    private final String ARAgree;
-    private final String TimeOut;
-    private final String Do;
+    private String NoPermission;
+    private String DoVote;
+    private String BQ;
+    private String Agree;
+    private String BQAgree;
+    private String ARAgree;
+    private String TimeOut;
+    private String Do;
 
     public VoteOBJ() {
         NoPermission = "§d[AllMusic]§c你没有权限切歌";

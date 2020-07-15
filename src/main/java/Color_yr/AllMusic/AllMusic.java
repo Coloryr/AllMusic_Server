@@ -5,7 +5,6 @@ import Color_yr.AllMusic.API.ISide;
 import Color_yr.AllMusic.Message.MessageOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.API1;
 import Color_yr.AllMusic.MusicAPI.MusicAPI2.API2;
-import Color_yr.AllMusic.MusicAPI.MusicAPILocal.APILocal;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.Utils.logs;
@@ -23,7 +22,7 @@ import java.util.logging.Logger;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.0.6";
+    public static final String Version = "2.1.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -121,17 +120,13 @@ public class AllMusic {
 
     private void initAPI() {
         switch (AllMusic.Config.getMusic_Api()) {
-            case 3: {
-                AllMusic.Music = new API2();
-                break;
-            }
             case 2: {
                 AllMusic.Music = new API1();
                 break;
             }
             case 1:
             default: {
-                AllMusic.Music = new APILocal();
+                AllMusic.Music = new API2();
                 break;
             }
         }

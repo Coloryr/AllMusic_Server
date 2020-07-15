@@ -27,12 +27,12 @@ public class API1 implements IMusicAPI {
     public boolean isUpdata;
 
     public API1() {
-        AllMusic.log.info("§d[AllMusic]§e使用外置爬虫1");
+        AllMusic.log.info("§d[AllMusic]§e使用外置本地爬虫");
     }
 
     @Override
     public SongInfo GetMusic(String ID, String player, boolean isList) {
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api1() + "?type=detail&id=", ID);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api2() + "/song/detail?ids=", ID);
         SongInfo info = null;
         if (res != null && res.isOk()) {
             InfoOBJ temp = new Gson().fromJson(res.getData(), InfoOBJ.class);
@@ -48,7 +48,7 @@ public class API1 implements IMusicAPI {
 
     @Override
     public String GetPlayUrl(String ID) {
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api1() + "?type=song&br=198000&id=", ID);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api2() + "/song/url?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -69,7 +69,7 @@ public class API1 implements IMusicAPI {
     public void SetList(String ID, Object sender) {
         Thread thread = new Thread(() ->
         {
-            Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api1() + "?type=playlist&id=", ID);
+            Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api2() + "/playlist/detail?id=", ID);
             if (res != null && res.isOk())
                 try {
                     isUpdata = true;
@@ -89,7 +89,7 @@ public class API1 implements IMusicAPI {
     @Override
     public LyricSave getLyric(String ID) {
         LyricSave Lyric = new LyricSave();
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api1() + "?type=lyric&id=", ID);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api2() + "/lyric?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 LyricOBJ obj = new Gson().fromJson(res.getData(), LyricOBJ.class);
@@ -126,7 +126,7 @@ public class API1 implements IMusicAPI {
         }
         String MusicName = name1.toString();
         MusicName = MusicName.substring(0, MusicName.length() - 1);
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api1() + "?type=search&s=", MusicName);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Api2() + "/search?keywords=", MusicName);
         if (res != null && res.isOk()) {
             SearchDataOBJ obj = new Gson().fromJson(res.getData(), SearchDataOBJ.class);
             if (obj != null && obj.isok()) {

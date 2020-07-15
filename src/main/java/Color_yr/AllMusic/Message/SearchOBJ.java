@@ -1,14 +1,14 @@
 package Color_yr.AllMusic.Message;
 
 public class SearchOBJ {
-    private final String NoPer;
-    private final String CantSearch;
-    private final String Res;
-    private final String NoSearch;
-    private final String ErrorNum;
-    private final String Chose;
-    private final String CantNext;
-    private final String CantLast;
+    private String NoPer;
+    private String CantSearch;
+    private String Res;
+    private String NoSearch;
+    private String ErrorNum;
+    private String Chose;
+    private String CantNext;
+    private String CantLast;
 
     public SearchOBJ() {
         NoPer = "§d[AllMusic]§c你没有权限搜歌";

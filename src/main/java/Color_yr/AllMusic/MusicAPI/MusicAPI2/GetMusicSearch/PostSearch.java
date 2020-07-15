@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicAPI.MusicAPILocal.GetMusicSearch;
+package Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicSearch;
 
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.Http.Res;

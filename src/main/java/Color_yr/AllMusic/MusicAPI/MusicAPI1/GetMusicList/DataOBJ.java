@@ -28,11 +28,11 @@ class track {
 }
 
 class playlist {
-    private List<track> tracks;
+    private List<track> trackIds;
     private String name;
 
     public List<track> getTracks() {
-        return tracks;
+        return trackIds;
     }
 
     public String getName() {

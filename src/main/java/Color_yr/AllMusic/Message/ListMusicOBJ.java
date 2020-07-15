@@ -1,9 +1,9 @@
 package Color_yr.AllMusic.Message;
 
 public class ListMusicOBJ {
-    private final String Head;
-    private final String Item;
-    private final String Get;
+    private String Head;
+    private String Item;
+    private String Get;
 
     public ListMusicOBJ() {
         Head = "§d[AllMusic]§2队列中有歌曲数：&Count&";

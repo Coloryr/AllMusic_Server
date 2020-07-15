@@ -53,7 +53,7 @@ public class Hud {
     public static void SendHudListData() {
         StringBuilder list = new StringBuilder();
         if (PlayMusic.getSize() == 0) {
-            list.append("队列中无歌曲");
+            list.append(AllMusic.getMessage().getHud().getNoList());
         } else {
             String now;
             for (SongInfo info : PlayMusic.getList()) {
@@ -78,7 +78,7 @@ public class Hud {
     public static void SendHudNowData() {
         StringBuilder list = new StringBuilder();
         if (PlayMusic.NowPlayMusic == null) {
-            list.append("没有播放的音乐");
+            list.append(AllMusic.getMessage().getHud().getNoMusic());
         } else {
             list.append(PlayMusic.NowPlayMusic.getName()).append("   ")
                     .append(tranTime(PlayMusic.MusicAllTime)).append("/")
@@ -97,7 +97,7 @@ public class Hud {
     public static void SendHudLyricData(ShowOBJ showobj) {
         StringBuilder list = new StringBuilder();
         if (showobj == null) {
-            list.append("无歌词");
+            list.append(AllMusic.getMessage().getHud().getNoLyric());
         } else {
             if (showobj.getLyric() != null)
                 list.append(showobj.getLyric()).append("\n");
@@ -116,9 +116,15 @@ public class Hud {
             obj = AllMusic.getConfig().getDefaultHud().clone();
 
         if (pos == null) {
-            obj.setEnableInfo(true);
-            obj.setEnableList(true);
-            obj.setEnableLyric(true);
+            if (obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric()) {
+                obj.setEnableInfo(false);
+                obj.setEnableList(false);
+                obj.setEnableLyric(false);
+            } else {
+                obj.setEnableInfo(true);
+                obj.setEnableList(true);
+                obj.setEnableLyric(true);
+            }
         } else {
             Pos pos1 = Pos.valueOf(pos);
             switch (pos1) {
@@ -138,7 +144,7 @@ public class Hud {
         AllMusic.save();
         Hud.SendHudSave(player);
         if (pos == null) {
-            return true;
+            return !obj.isEnableInfo() || !obj.isEnableList() || !obj.isEnableLyric();
         } else {
             Pos pos1 = Pos.valueOf(pos);
             switch (pos1) {
@@ -150,7 +156,6 @@ public class Hud {
                     return obj.isEnableLyric();
             }
         }
-
         return false;
     }
 

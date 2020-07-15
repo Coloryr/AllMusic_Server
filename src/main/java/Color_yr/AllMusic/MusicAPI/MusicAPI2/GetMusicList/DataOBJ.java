@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataOBJ {
-    private playlist playlist;
+    private result result;
 
     public List<String> getPlaylist() {
         List<String> list = new ArrayList<>();
-        for (track item : playlist.getTracks()) {
+        for (track item : result.getTracks()) {
             list.add(item.getId());
         }
         return list;
     }
 
     public String getName() {
-        return playlist.getName();
+        return result.getName();
     }
 }
 
@@ -27,12 +27,12 @@ class track {
     }
 }
 
-class playlist {
-    private List<track> trackIds;
+class result {
+    private List<track> tracks;
     private String name;
 
     public List<track> getTracks() {
-        return trackIds;
+        return tracks;
     }
 
     public String getName() {

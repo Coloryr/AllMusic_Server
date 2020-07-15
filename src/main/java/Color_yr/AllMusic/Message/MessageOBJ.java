@@ -8,7 +8,8 @@ public class MessageOBJ {
     private final VoteOBJ Vote;
     private final SearchOBJ Search;
     private final HudOBJ Hud;
-    private final CommandOBJ Command;
+    private final HudListOBJ HudList;
+    private CommandOBJ Command;
 
     public MessageOBJ() {
         MusicPlay = new MusicPlayOBJ();
@@ -19,6 +20,11 @@ public class MessageOBJ {
         Search = new SearchOBJ();
         Hud = new HudOBJ();
         Command = new CommandOBJ();
+        HudList = new HudListOBJ();
+    }
+
+    public HudListOBJ getHudList() {
+        return HudList;
     }
 
     public CommandOBJ getCommand() {

@@ -26,7 +26,6 @@ public class LyricOBJ implements ILyric {
 }
 
 class lrc {
-    private int version;
     private String lyric;
 
     public String getLyric() {
@@ -35,7 +34,6 @@ class lrc {
 }
 
 class tlyric {
-    private int version;
     private String lyric;
 
     public String getLyric() {
