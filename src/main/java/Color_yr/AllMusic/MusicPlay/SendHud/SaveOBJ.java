@@ -8,14 +8,14 @@ public class SaveOBJ {
     private boolean EnableLyric;
     private boolean EnableInfo;
 
-    public SaveOBJ clone() {
+    public SaveOBJ copy() {
         SaveOBJ saveOBJ = new SaveOBJ();
         saveOBJ.setEnableInfo(this.EnableInfo);
         saveOBJ.setEnableList(this.EnableList);
         saveOBJ.setEnableLyric(this.EnableLyric);
-        saveOBJ.setInfo(this.Info.clone());
-        saveOBJ.setList(this.List.clone());
-        saveOBJ.setLyric(this.Lyric.clone());
+        saveOBJ.setInfo(this.Info.copy());
+        saveOBJ.setList(this.List.copy());
+        saveOBJ.setLyric(this.Lyric.copy());
         return saveOBJ;
     }
 

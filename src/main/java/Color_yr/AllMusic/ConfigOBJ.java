@@ -8,30 +8,30 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigOBJ {
-    private final String Music_Api1;
-    private final String Music_Api2;
+    private String Music_Api1;
+    private String Music_Api2;
 
-    private final int Music_Api;
+    private int Music_Api;
 
-    private final int MaxList;
-    private final int MinVote;
-    private final int Delay;
+    private int MaxList;
+    private int MinVote;
+    private int Delay;
 
-    private final List<String> Admin;
-    private final List<String> NoMusicServer;
-    private final List<String> NoMusicPlayer;
-    private final List<String> BanMusic;
-    private final List<String> PlayList;
+    private List<String> Admin;
+    private List<String> NoMusicServer;
+    private List<String> NoMusicPlayer;
+    private List<String> BanMusic;
+    private List<String> PlayList;
 
-    private final boolean PlayListSwitch;
-    private final boolean PlayListRandom;
-    private final boolean SendLyric;
-    private final boolean NeedPermission;
+    private boolean PlayListSwitch;
+    private boolean PlayListRandom;
+    private boolean SendLyric;
+    private boolean NeedPermission;
 
-    private final Map<String, SaveOBJ> HudSave;
-    private final SaveOBJ DefaultHud;
+    private Map<String, SaveOBJ> HudSave;
+    private SaveOBJ DefaultHud;
 
-    private final String Version;
+    private String Version;
 
     public ConfigOBJ() {
         Music_Api1 = "https://api.imjad.cn/cloudmusic/";

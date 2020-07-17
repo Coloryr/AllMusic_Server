@@ -11,7 +11,7 @@ public class Hud {
     public static PosOBJ SetHudPos(String player, String pos, String x, String y) {
         SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
         if (obj == null)
-            obj = AllMusic.getConfig().getDefaultHud().clone();
+            obj = AllMusic.getConfig().getDefaultHud().copy();
         Pos pos1 = Pos.valueOf(pos);
         PosOBJ posOBJ = new PosOBJ(0, 0);
         if (!Function.isInteger(x) && !Function.isInteger(y))
@@ -113,17 +113,19 @@ public class Hud {
     public static boolean SetHudEnable(String player, String pos) {
         SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
         if (obj == null)
-            obj = AllMusic.getConfig().getDefaultHud().clone();
-
+            obj = AllMusic.getConfig().getDefaultHud().copy();
+        boolean a = false;
         if (pos == null) {
             if (obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric()) {
                 obj.setEnableInfo(false);
                 obj.setEnableList(false);
                 obj.setEnableLyric(false);
+                a = false;
             } else {
                 obj.setEnableInfo(true);
                 obj.setEnableList(true);
                 obj.setEnableLyric(true);
+                a = true;
             }
         } else {
             Pos pos1 = Pos.valueOf(pos);
@@ -144,7 +146,7 @@ public class Hud {
         AllMusic.save();
         Hud.SendHudSave(player);
         if (pos == null) {
-            return !obj.isEnableInfo() || !obj.isEnableList() || !obj.isEnableLyric();
+            return a;
         } else {
             Pos pos1 = Pos.valueOf(pos);
             switch (pos1) {
@@ -172,7 +174,7 @@ public class Hud {
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
                 if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().clone();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, Name);
                     AllMusic.save();
                 }
