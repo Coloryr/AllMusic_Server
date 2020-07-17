@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.1.0";
+    public static final String Version = "2.1.1";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
