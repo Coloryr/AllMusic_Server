@@ -112,33 +112,37 @@ public class Hud {
 
     public static boolean SetHudEnable(String player, String pos) {
         SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
-        if (obj == null)
-            obj = AllMusic.getConfig().getDefaultHud().copy();
         boolean a = false;
-        if (pos == null) {
-            if (obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric()) {
-                obj.setEnableInfo(false);
-                obj.setEnableList(false);
-                obj.setEnableLyric(false);
-                a = false;
+        if (obj == null) {
+            obj = AllMusic.getConfig().getDefaultHud().copy();
+            a = obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric();
+        }
+        else {
+            if (pos == null) {
+                if (obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric()) {
+                    obj.setEnableInfo(false);
+                    obj.setEnableList(false);
+                    obj.setEnableLyric(false);
+                    a = false;
+                } else {
+                    obj.setEnableInfo(true);
+                    obj.setEnableList(true);
+                    obj.setEnableLyric(true);
+                    a = true;
+                }
             } else {
-                obj.setEnableInfo(true);
-                obj.setEnableList(true);
-                obj.setEnableLyric(true);
-                a = true;
-            }
-        } else {
-            Pos pos1 = Pos.valueOf(pos);
-            switch (pos1) {
-                case info:
-                    obj.setEnableInfo(!obj.isEnableInfo());
-                    break;
-                case list:
-                    obj.setEnableList(!obj.isEnableList());
-                    break;
-                case lyric:
-                    obj.setEnableLyric(!obj.isEnableLyric());
-                    break;
+                Pos pos1 = Pos.valueOf(pos);
+                switch (pos1) {
+                    case info:
+                        obj.setEnableInfo(!obj.isEnableInfo());
+                        break;
+                    case list:
+                        obj.setEnableList(!obj.isEnableList());
+                        break;
+                    case lyric:
+                        obj.setEnableLyric(!obj.isEnableLyric());
+                        break;
+                }
             }
         }
         clearHud(player);
@@ -185,5 +189,13 @@ public class Hud {
                 e1.printStackTrace();
             }
         });
+    }
+
+    public static void Reset(String name) {
+        SaveOBJ obj = AllMusic.getConfig().getDefaultHud().copy();
+        clearHud(name);
+        AllMusic.getConfig().setInfoSave(obj, name);
+        AllMusic.save();
+        Hud.SendHudSave(name);
     }
 }

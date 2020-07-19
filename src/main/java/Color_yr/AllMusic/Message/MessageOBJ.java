@@ -1,15 +1,16 @@
 package Color_yr.AllMusic.Message;
 
 public class MessageOBJ {
-    private final MusicPlayOBJ MusicPlay;
-    private final AddMusicOBJ AddMusic;
-    private final PageOBJ Page;
-    private final LyricOBJ Lyric;
-    private final VoteOBJ Vote;
-    private final SearchOBJ Search;
-    private final HudOBJ Hud;
-    private final HudListOBJ HudList;
+    private MusicPlayOBJ MusicPlay;
+    private AddMusicOBJ AddMusic;
+    private PageOBJ Page;
+    private LyricOBJ Lyric;
+    private VoteOBJ Vote;
+    private SearchOBJ Search;
+    private HudOBJ Hud;
+    private HudListOBJ HudList;
     private CommandOBJ Command;
+    private CustomOBJ Custom;
 
     public MessageOBJ() {
         MusicPlay = new MusicPlayOBJ();
@@ -21,6 +22,11 @@ public class MessageOBJ {
         Hud = new HudOBJ();
         Command = new CommandOBJ();
         HudList = new HudListOBJ();
+        Custom = new CustomOBJ();
+    }
+
+    public CustomOBJ getCustom() {
+        return Custom;
     }
 
     public HudListOBJ getHudList() {

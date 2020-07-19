@@ -5,7 +5,12 @@ import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
 import Color_yr.AllMusic.Utils.logs;
+import Color_yr.AllMusic.decoder.Bitstream;
+import Color_yr.AllMusic.decoder.Header;
 
+import java.io.BufferedInputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,6 +127,25 @@ public class PlayMusic {
                 return true;
         }
         return false;
+    }
+
+    public static void addUrl(String arg) {
+        synchronized (PlayList) {
+            try {
+                URL urlfile = new URL(arg);
+                URLConnection con = urlfile.openConnection();
+                int b = con.getContentLength();// 得到音乐文件的总长度
+                BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
+                Bitstream bt = new Bitstream(bis);
+                Header h = bt.readFrame();
+                int le = (int) h.total_ms(b);
+                SongInfo info = new SongInfo(AllMusic.getMessage().getCustom().getInfo(), arg, le);
+                PlayList.add(info);
+            } catch (Exception e) {
+                AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
+                e.printStackTrace();
+            }
+        }
     }
 }
 

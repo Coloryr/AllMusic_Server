@@ -34,6 +34,7 @@ public class TabCommand {
                 arguments.add("list");
                 arguments.add("lyric");
                 arguments.add("enable");
+                arguments.add("reset");
             } else if (arg.length == 3) {
                 if (arg[1].equalsIgnoreCase("enable")) {
                     arguments.add("info");

@@ -1,6 +1,7 @@
 package Color_yr.AllMusic.MusicPlay;
 
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
 import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
 
@@ -92,14 +93,19 @@ class PlayGo extends Thread {
                 PlayMusic.NowPlayMusic = PlayMusic.getMusic(0);
                 PlayMusic.remove(0);
 
-                String url = AllMusic.Music.GetPlayUrl(PlayMusic.NowPlayMusic.getID());
+                String url = PlayMusic.NowPlayMusic.getPlayerUrl() == null ?
+                        AllMusic.Music.GetPlayUrl(PlayMusic.NowPlayMusic.getID()) :
+                        PlayMusic.NowPlayMusic.getPlayerUrl();
                 if (url == null) {
                     String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
                     AllMusic.Side.bqt(data.replace("%MusicID%", PlayMusic.NowPlayMusic.getID()));
                     continue;
                 }
 
-                PlayMusic.Lyric = AllMusic.Music.getLyric(PlayMusic.NowPlayMusic.getID());
+                if (PlayMusic.NowPlayMusic.getPlayerUrl() == null)
+                    PlayMusic.Lyric = AllMusic.Music.getLyric(PlayMusic.NowPlayMusic.getID());
+                else
+                    PlayMusic.Lyric = new LyricSave();
 
                 if (PlayMusic.NowPlayMusic.getLength() != 0) {
                     PlayMusic.MusicAllTime = PlayMusic.MusicLessTime = (PlayMusic.NowPlayMusic.getLength() / 1000) + 3;

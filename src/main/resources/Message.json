@@ -56,6 +56,7 @@
   "Hud": {
     "State": "§d[ALLMusic]§2设置信息位置：%Hud%，状态：%State%",
     "Set": "§d[ALLMusic]§2已设置%Hud%的坐标为%x%, %y%",
+    "Reset": "§d[ALLMusic]§2Hud恢复至默认位置",
     "NoMusic": "没有播放的音乐",
     "NoList": "队列中无歌曲",
     "NoLyric": "无歌词"
@@ -69,5 +70,8 @@
     "Lyric": "歌词",
     "Info": "歌曲信息",
     "All": "所有位置"
+  },
+  "Custom": {
+    "Info": "自定义音乐"
   }
 }

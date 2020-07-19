@@ -8,6 +8,7 @@ import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
 import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
 import Color_yr.AllMusic.Utils.Function;
 import net.md_5.bungee.api.chat.ClickEvent;
+import org.bukkit.entity.Player;
 
 public class CommandEX {
 
@@ -164,7 +165,11 @@ public class CommandEX {
             } else {
                 AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2请输入有效的ID");
             }
-        } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
+        } else if(args[0].equalsIgnoreCase("url")&& args.length == 2
+                && AllMusic.getConfig().getAdmin().contains(Name)) {
+            PlayMusic.addUrl(args[1]);
+            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
+        }else if (args[0].equalsIgnoreCase("delete") && args.length == 2
                 && AllMusic.getConfig().getAdmin().contains(Name)) {
             if (!args[1].isEmpty() && Function.isInteger(args[1])) {
                 int music = Integer.parseInt(args[1]);
@@ -277,6 +282,9 @@ public class CommandEX {
                                 .replace("%State%", temp ? "启用" : "关闭")
                                 .replace("%Hud%", AllMusic.getMessage().getHudList().getAll()));
                     }
+                } else if (args[1].equalsIgnoreCase("reset")) {
+                    Hud.Reset(Name);
+                    AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getReset());
                 } else if (args.length != 4) {
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                 } else {
