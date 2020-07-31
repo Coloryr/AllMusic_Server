@@ -18,6 +18,7 @@ public class HttpGet {
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(4 * 1000);
             connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36");
             connection.connect();
             InputStream inputStream;
             boolean ok;
