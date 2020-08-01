@@ -3,6 +3,7 @@ package Color_yr.AllMusic.Side.SideBukkit;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -32,7 +33,7 @@ public class PAPI extends PlaceholderExpansion {
 
     @Override
     public String getAuthor() {
-        return plugin.getDescription().getAuthors().toString();
+        return "Color_yr";
     }
 
     @Override
@@ -47,36 +48,41 @@ public class PAPI extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, String identifier) {
+        return onRequest(player, identifier);
+    }
+
+    @Override
+    public String onRequest(OfflinePlayer player, String identifier) {
 
         switch (identifier) {
             case "NowMusicName": {
                 if (PlayMusic.NowPlayMusic == null)
-                    return null;
+                    return AllMusic.getMessage().getPAPI().getNoMusic();
                 return PlayMusic.NowPlayMusic.getName();
             }
             case "NowMusicAl": {
                 if (PlayMusic.NowPlayMusic == null)
-                    return null;
+                    return "";
                 return PlayMusic.NowPlayMusic.getAl();
             }
             case "NowMusicAlia": {
                 if (PlayMusic.NowPlayMusic == null)
-                    return null;
+                    return "";
                 return PlayMusic.NowPlayMusic.getAlia();
             }
             case "NowMusicAuthor": {
                 if (PlayMusic.NowPlayMusic == null)
-                    return null;
+                    return "";
                 return PlayMusic.NowPlayMusic.getAuthor();
             }
             case "NowMusicCall": {
                 if (PlayMusic.NowPlayMusic == null)
-                    return null;
+                    return "";
                 return PlayMusic.NowPlayMusic.getCall();
             }
             case "NowMusicInfo": {
                 if (PlayMusic.NowPlayMusic == null)
-                    return null;
+                    return "";
                 return PlayMusic.NowPlayMusic.getInfo();
             }
             case "ListSize": {
@@ -87,12 +93,12 @@ public class PAPI extends PlaceholderExpansion {
             }
             case "Lyric": {
                 if (PlayMusic.nowLyric == null)
-                    return null;
+                    return "";
                 return PlayMusic.nowLyric.getLyric();
             }
             case "TLyric": {
                 if (PlayMusic.nowLyric == null)
-                    return null;
+                    return "";
                 return PlayMusic.nowLyric.getTlyric();
             }
         }
