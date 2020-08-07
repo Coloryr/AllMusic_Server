@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigOBJ {
-    private String Music_Api1;
-    private String Music_Api2;
+    private String Music_Url;
 
     private int Music_Api;
 
@@ -34,8 +33,7 @@ public class ConfigOBJ {
     private String Version;
 
     public ConfigOBJ() {
-        Music_Api1 = "https://api.imjad.cn/cloudmusic/";
-        Music_Api2 = "http://localhost:4000";
+        Music_Url = "http://localhost:4000";
         Music_Api = 1;
         MaxList = 10;
         MinVote = 3;
@@ -61,16 +59,12 @@ public class ConfigOBJ {
         return DefaultHud;
     }
 
-    public String getMusic_Api2() {
-        return Music_Api2;
+    public String getMusic_Url() {
+        return Music_Url;
     }
 
     public int getMusic_Api() {
         return Music_Api;
-    }
-
-    public String getMusic_Api1() {
-        return Music_Api1;
     }
 
     public boolean isNeedPermission() {
