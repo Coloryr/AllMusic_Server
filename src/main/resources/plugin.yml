@@ -2,8 +2,8 @@ name: AllMusic
 main: Color_yr.AllMusic.AllMusicBukkit
 author: Color_yr
 version: ${version}
-loadbefore: [vexview, VexView, PlaceholderAPI]
-softdepend: [vexview, VexView, PlaceholderAPI]
+loadbefore: [PlaceholderAPI]
+softdepend: [PlaceholderAPI]
 
 commands:
   music:
