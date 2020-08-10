@@ -15,16 +15,13 @@ public class PostSearch {
     public static Res realData(String ID) {
         try {
             ID = URLEncoder.encode(ID, "UTF-8");
-            URL realUrl = new URL("http://music.163.com/api/search/get/web?csrf_token=");
+            URL realUrl = new URL("https://music.163.com/api/search/get/web?csrf_token=");
             HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
             connection.setRequestMethod("POST");
             connection.setConnectTimeout(4 * 1000);
             connection.setDoOutput(true);
-//            connection.setRequestProperty("Host", "music.163.com");
-//            connection.setRequestProperty("Origin", "http://music.163.com");
+            connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36");
-//            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//            connection.setRequestProperty("Referer", "http://music.163.com/search/");
 
             OutputStream out = connection.getOutputStream();
             String PostData = "type=1&offset=0&limit=50&s=" + ID;
