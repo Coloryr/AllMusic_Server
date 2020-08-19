@@ -2,8 +2,8 @@ name: AllMusic
 main: Color_yr.AllMusic.AllMusicBukkit
 author: Color_yr
 version: ${version}
-loadbefore: [PlaceholderAPI]
-softdepend: [PlaceholderAPI]
+loadbefore: [PlaceholderAPI, Vault, Essentials, CMI]
+softdepend: [PlaceholderAPI, Vault]
 
 commands:
   music:

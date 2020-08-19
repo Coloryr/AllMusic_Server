@@ -76,5 +76,10 @@
   },
   "PAPI": {
     "NoMusic": "没有播放的音乐"
+  },
+  "Cost": {
+    "Search": "§d[ALLMusic]§2你搜歌花费了%Cost%",
+    "AddMusic": "§d[ALLMusic]§2你点歌花费了%Cost%",
+    "NoMoney": "§d[ALLMusic]§c你没有足够的钱"
   }
 }

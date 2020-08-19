@@ -32,6 +32,11 @@ public class ConfigOBJ {
 
     private String Version;
 
+    private int SearchCost;
+    private int AddMusicCost;
+
+    private int DefaultAddMusic;
+
     public ConfigOBJ() {
         Music_Url = "http://localhost:4000";
         Music_Api = 1;
@@ -52,7 +57,24 @@ public class ConfigOBJ {
         HudSave = new HashMap<>();
         DefaultHud = new SaveOBJ();
 
+        SearchCost = 20;
+        AddMusicCost = 10;
+
+        DefaultAddMusic = 0;
+
         Version = AllMusic.Version;
+    }
+
+    public int getDefaultAddMusic() {
+        return DefaultAddMusic;
+    }
+
+    public int getAddMusicCost() {
+        return AddMusicCost;
+    }
+
+    public int getSearchCost() {
+        return SearchCost;
     }
 
     public SaveOBJ getDefaultHud() {

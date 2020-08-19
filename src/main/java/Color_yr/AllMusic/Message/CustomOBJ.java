@@ -3,8 +3,7 @@ package Color_yr.AllMusic.Message;
 public class CustomOBJ {
     private String Info;
 
-    public CustomOBJ()
-    {
+    public CustomOBJ() {
         Info = "自定义音乐";
     }
 

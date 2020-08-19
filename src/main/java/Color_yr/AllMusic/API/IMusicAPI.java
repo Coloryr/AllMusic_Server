@@ -13,7 +13,7 @@ public interface IMusicAPI {
 
     LyricSave getLyric(String ID);
 
-    SearchPage Search(String[] name);
+    SearchPage Search(String[] name, boolean isDefault);
 
     String GetListMusic();
 }

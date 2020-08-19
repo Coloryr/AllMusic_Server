@@ -83,7 +83,7 @@ public final class Bitstream implements BitstreamErrors {
     /**
      * The bytes read from the stream.
      */
-    private byte[] frame_bytes = new byte[BUFFER_INT_SIZE * 4];
+    private final byte[] frame_bytes = new byte[BUFFER_INT_SIZE * 4];
     /**
      * Index into <code>framebuffer</code> where the next bits are
      * retrieved.
@@ -107,7 +107,7 @@ public final class Bitstream implements BitstreamErrors {
      *
      */
     private boolean single_ch_mode;
-    private Crc16[] crc = new Crc16[1];
+    private final Crc16[] crc = new Crc16[1];
 
     private byte[] rawid3v2 = null;
 

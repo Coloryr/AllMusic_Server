@@ -19,9 +19,7 @@ public class SideBukkit implements ISide {
     private boolean isOK(String player, boolean in) {
         if (AllMusic.getConfig().getNoMusicPlayer().contains(player))
             return false;
-        if (in && !AllMusic.containNowPlay(player))
-            return false;
-        return true;
+        return !in || AllMusic.containNowPlay(player);
     }
 
     @Override
@@ -33,7 +31,7 @@ public class SideBukkit implements ISide {
     public void Send(String data, Boolean isplay) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
-                if(isplay && !isOK(player.getName(), false))
+                if (isplay && !isOK(player.getName(), false))
                     continue;
                 Send(player, data, isplay);
             }

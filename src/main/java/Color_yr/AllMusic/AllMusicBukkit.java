@@ -4,6 +4,7 @@ import Color_yr.AllMusic.Command.CommandBukkit;
 import Color_yr.AllMusic.Event.EventBukkit;
 import Color_yr.AllMusic.Side.SideBukkit.PAPI;
 import Color_yr.AllMusic.Side.SideBukkit.SideBukkit;
+import Color_yr.AllMusic.Side.SideBukkit.VaultHook;
 import Color_yr.AllMusic.bStats.MetricsBukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -33,6 +34,15 @@ public class AllMusicBukkit extends JavaPlugin {
         } else {
             AllMusic.log.info("§2PAPI未挂钩");
         }
+
+        AllMusic.Vault = new VaultHook();
+        if (AllMusic.Vault.setupEconomy()) {
+            AllMusic.log.info("§2Vault支持已启动");
+        } else {
+            AllMusic.log.info("§2Vault未挂钩");
+            AllMusic.Vault = null;
+        }
+
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);
         Bukkit.getPluginCommand("music").setExecutor(new CommandBukkit());

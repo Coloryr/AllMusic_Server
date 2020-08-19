@@ -116,12 +116,12 @@ public class API1 implements IMusicAPI {
     }
 
     @Override
-    public SearchPage Search(String[] name) {
+    public SearchPage Search(String[] name, boolean isDefault) {
         List<SearchOBJ> resData = new ArrayList<>();
         int maxpage;
 
         StringBuilder name1 = new StringBuilder();
-        for (int a = 1; a < name.length; a++) {
+        for (int a = isDefault ? 0 : 1; a < name.length; a++) {
             name1.append(name[a]).append(" ");
         }
         String MusicName = name1.toString();

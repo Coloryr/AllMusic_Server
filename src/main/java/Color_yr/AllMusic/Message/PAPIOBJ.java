@@ -3,8 +3,7 @@ package Color_yr.AllMusic.Message;
 public class PAPIOBJ {
     private String NoMusic;
 
-    public PAPIOBJ()
-    {
+    public PAPIOBJ() {
         NoMusic = "没有播放的音乐";
     }
 

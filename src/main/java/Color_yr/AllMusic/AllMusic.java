@@ -7,6 +7,7 @@ import Color_yr.AllMusic.MusicAPI.MusicAPI1.API1;
 import Color_yr.AllMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
+import Color_yr.AllMusic.Side.SideBukkit.VaultHook;
 import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.4.0";
+    public static final String Version = "2.5.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -36,6 +37,8 @@ public class AllMusic {
     private static MessageOBJ Message;
     private static File ConfigFile;
     private static File MessageFile;
+
+    public static VaultHook Vault;
 
     public static boolean containNowPlay(String player) {
         return NowPlayPlayer.contains(player);

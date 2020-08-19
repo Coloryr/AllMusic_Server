@@ -12,6 +12,7 @@ public class MessageOBJ {
     private CommandOBJ Command;
     private CustomOBJ Custom;
     private PAPIOBJ PAPI;
+    private CostObj Cost;
 
     public MessageOBJ() {
         MusicPlay = new MusicPlayOBJ();
@@ -25,6 +26,11 @@ public class MessageOBJ {
         HudList = new HudListOBJ();
         Custom = new CustomOBJ();
         PAPI = new PAPIOBJ();
+        Cost = new CostObj();
+    }
+
+    public CostObj getCost() {
+        return Cost;
     }
 
     public PAPIOBJ getPAPI() {

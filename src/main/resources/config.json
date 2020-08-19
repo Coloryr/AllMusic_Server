@@ -14,6 +14,7 @@
   "SendLyric": true,
   "NeedPermission": false,
   "HudSave": {},
+  "DefaultAddMusic": 0,
   "DefaultHud": {
     "List": {
       "x": 2,
@@ -31,5 +32,7 @@
     "EnableLyric": true,
     "EnableInfo": true
   },
+  "SearchCost": 0,
+  "AddMusicCost": 0,
   "Version": "${version}"
 }

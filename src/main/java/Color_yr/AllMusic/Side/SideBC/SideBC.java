@@ -27,9 +27,7 @@ public class SideBC implements ISide {
         String name = player.getName();
         if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
             return false;
-        if (in && !AllMusic.containNowPlay(name))
-            return false;
-        return true;
+        return !in || AllMusic.containNowPlay(name);
     }
 
     @Override
@@ -42,7 +40,7 @@ public class SideBC implements ISide {
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer player : values) {
-                if(isplay && !isOK(player, false))
+                if (isplay && !isOK(player, false))
                     continue;
                 Send(player, data, isplay);
             }

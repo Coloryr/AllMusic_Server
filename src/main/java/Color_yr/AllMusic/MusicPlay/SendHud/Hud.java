@@ -82,7 +82,7 @@ public class Hud {
         } else {
             list.append(PlayMusic.NowPlayMusic.getName()).append("   ")
                     .append(tranTime(PlayMusic.MusicAllTime)).append("/")
-                    .append(tranTime(PlayMusic.MusicNowTime/1000)).append("\n");
+                    .append(tranTime(PlayMusic.MusicNowTime / 1000)).append("\n");
             list.append(PlayMusic.NowPlayMusic.getAuthor()).append("\n");
             list.append(PlayMusic.NowPlayMusic.getAlia()).append("\n");
             list.append(PlayMusic.NowPlayMusic.getAl()).append("\n");
@@ -116,8 +116,7 @@ public class Hud {
         if (obj == null) {
             obj = AllMusic.getConfig().getDefaultHud().copy();
             a = obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric();
-        }
-        else {
+        } else {
             if (pos == null) {
                 if (obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric()) {
                     obj.setEnableInfo(false);

@@ -133,7 +133,7 @@ public final class Header {
     private int h_sample_frequency;
     private int h_number_of_subbands, h_intensity_stereo_bound;
     // VBR support added by E.B
-    private double[] h_vbr_time_per_frame = {-1, 384, 1152, 1152};
+    private final double[] h_vbr_time_per_frame = {-1, 384, 1152, 1152};
     private boolean h_vbr;
     private int h_vbr_frames;
     private int h_vbr_bytes;

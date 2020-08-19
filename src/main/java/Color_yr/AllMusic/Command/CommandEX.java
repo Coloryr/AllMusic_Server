@@ -4,13 +4,25 @@ import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
-import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
 import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
+import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
 import Color_yr.AllMusic.Utils.Function;
 import net.md_5.bungee.api.chat.ClickEvent;
-import org.bukkit.entity.Player;
 
 public class CommandEX {
+    private static void SearchMusic(Object sender, String Name, String[] args, boolean isDefault) {
+        AllMusic.Side.RunTask(() -> {
+            SearchPage search = AllMusic.Music.Search(args, isDefault);
+            if (search == null)
+                AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch()
+                        .getCantSearch().replace("%Music%", isDefault ? args[0] : args[1]));
+            else {
+                AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getRes());
+                ShowSearch(sender, search);
+                AllMusic.addSearch(Name, search);
+            }
+        });
+    }
 
     private static void AddMusic(Object sender, String Name, String[] args) {
         String MusicID;
@@ -34,10 +46,21 @@ public class CommandEX {
             } else if (PlayMusic.isHave(MusicID)) {
                 AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getExistMusic());
             } else {
+                if (AllMusic.Vault != null) {
+                    if (!AllMusic.Vault.check(Name, AllMusic.getConfig().getAddMusicCost())) {
+                        AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCost().getNoMoney());
+                        return;
+                    }
+                }
                 AllMusic.getConfig().RemoveNoMusicPlayer(Name);
                 if (AllMusic.Side.NeedPlay()) {
                     AllMusic.Side.RunTask(() -> PlayMusic.addMusic(MusicID, Name, false));
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
+                    if (AllMusic.Vault != null) {
+                        AllMusic.Vault.cost(Name, AllMusic.getConfig().getAddMusicCost(),
+                                AllMusic.getMessage().getCost().getAddMusic()
+                                        .replace("%Cost%", "" + AllMusic.getConfig().getAddMusicCost()));
+                    }
                 } else
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getNoPlayer());
             }
@@ -165,11 +188,11 @@ public class CommandEX {
             } else {
                 AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2请输入有效的ID");
             }
-        } else if(args[0].equalsIgnoreCase("url")&& args.length == 2
+        } else if (args[0].equalsIgnoreCase("url") && args.length == 2
                 && AllMusic.getConfig().getAdmin().contains(Name)) {
             PlayMusic.addUrl(args[1]);
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
-        }else if (args[0].equalsIgnoreCase("delete") && args.length == 2
+        } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
                 && AllMusic.getConfig().getAdmin().contains(Name)) {
             if (!args[1].isEmpty() && Function.isInteger(args[1])) {
                 int music = Integer.parseInt(args[1]);
@@ -204,16 +227,16 @@ public class CommandEX {
                 AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
-            AllMusic.Side.RunTask(() -> {
-                SearchPage search = AllMusic.Music.Search(args);
-                if (search == null)
-                    AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getCantSearch().replace("%Music%", args[1]));
-                else {
-                    AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getRes());
-                    ShowSearch(sender, search);
-                    AllMusic.addSearch(Name, search);
+            if (AllMusic.Vault != null) {
+                if (!AllMusic.Vault.check(Name, AllMusic.getConfig().getSearchCost())) {
+                    AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCost().getNoMoney());
+                    return;
                 }
-            });
+                AllMusic.Vault.cost(Name, AllMusic.getConfig().getAddMusicCost(),
+                        AllMusic.getMessage().getCost().getAddMusic()
+                                .replace("%Cost%", "" + AllMusic.getConfig().getAddMusicCost()));
+            }
+            SearchMusic(sender, Name, args, false);
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
             if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.search")) {
                 AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
@@ -306,7 +329,15 @@ public class CommandEX {
             }
         } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.addmusic"))
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
-        else
-            AddMusic(sender, Name, args);
+        else {
+            switch (AllMusic.getConfig().getDefaultAddMusic()) {
+                case 1:
+                    SearchMusic(sender, Name, args, true);
+                    break;
+                case 0:
+                default:
+                    AddMusic(sender, Name, args);
+            }
+        }
     }
 }
