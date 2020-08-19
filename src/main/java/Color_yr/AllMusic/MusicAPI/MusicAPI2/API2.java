@@ -5,20 +5,13 @@ import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.Http.HttpGet;
 import Color_yr.AllMusic.Http.Res;
 import Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicInfo.InfoOBJ;
-import Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicList.DataOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicLyric.LyricOBJ;
-import Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicSearch.PostSearch;
-import Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicSearch.SearchDataOBJ;
-import Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicSearch.songs;
 import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricDo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
-import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class API2 implements IMusicAPI {
@@ -53,23 +46,7 @@ public class API2 implements IMusicAPI {
 
     @Override
     public void SetList(String ID, Object sender) {
-        Thread thread = new Thread(() ->
-        {
-            Res res = HttpGet.realData("https://music.163.com/api/playlist/detail?limit=2000&id=", ID);
-            if (res != null && res.isOk())
-                try {
-                    isUpdata = true;
-                    DataOBJ obj = new Gson().fromJson(res.getData(), DataOBJ.class);
-                    AllMusic.getConfig().getPlayList().addAll(obj.getPlaylist());
-                    AllMusic.save();
-                    AllMusic.Side.SendMessaget(sender, AllMusic.getMessage().getMusicPlay().getListMusic().getGet().replace("%ListName%", obj.getName()));
-                } catch (Exception e) {
-                    AllMusic.log.warning("§d[AllMusic]§c歌曲列表获取错误");
-                    e.printStackTrace();
-                }
-            isUpdata = false;
-        });
-        thread.start();
+        AllMusic.log.warning("内置API不支持获取歌单，请用外置API，并且登录账户");
     }
 
     @Override
@@ -103,32 +80,7 @@ public class API2 implements IMusicAPI {
 
     @Override
     public SearchPage Search(String[] name, boolean isDefault) {
-        List<SearchOBJ> resData = new ArrayList<>();
-        int maxpage;
-
-        StringBuilder name1 = new StringBuilder();
-        for (int a = isDefault ? 0 : 1; a < name.length; a++) {
-            name1.append(name[a]).append(" ");
-        }
-        String MusicName = name1.toString();
-        MusicName = MusicName.substring(0, MusicName.length() - 1);
-        Res res = PostSearch.realData(MusicName);
-        if (res != null && res.isOk()) {
-            SearchDataOBJ obj = new Gson().fromJson(res.getData(), SearchDataOBJ.class);
-            if (obj != null && obj.isok()) {
-                List<songs> res1 = obj.getResult();
-                SearchOBJ item;
-                for (songs temp : res1) {
-                    item = new SearchOBJ(String.valueOf(temp.getId()), temp.getName(), temp.getArtists(), temp.getAlbum());
-                    resData.add(item);
-                }
-                maxpage = res1.size() / 10;
-                return new SearchPage(resData, maxpage);
-            } else {
-                AllMusic.log.warning("§d[AllMusic]§c歌曲搜索出现错误");
-
-            }
-        }
+        AllMusic.log.warning("内置API不支持搜歌，请使用外置API");
         return null;
     }
 
