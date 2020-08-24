@@ -35,15 +35,18 @@ public class AllMusicBukkit extends JavaPlugin {
             AllMusic.log.info("§2PAPI未挂钩");
         }
 
-        AllMusic.Vault = new VaultHook();
-        if (AllMusic.Vault.setupEconomy()) {
-            AllMusic.log.info("§2Vault支持已启动");
-        } else {
+        try {
+            AllMusic.Vault = new VaultHook();
+            if (AllMusic.Vault.setupEconomy()) {
+                AllMusic.log.info("§2Vault支持已启动");
+            } else {
+                AllMusic.log.info("§2Vault未挂钩");
+                AllMusic.Vault = null;
+            }
+        } catch (Exception e) {
             AllMusic.log.info("§2Vault未挂钩");
             AllMusic.Vault = null;
         }
-
-
         getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);
         Bukkit.getPluginCommand("music").setExecutor(new CommandBukkit());
         Bukkit.getPluginCommand("music").setTabCompleter(new CommandBukkit());
