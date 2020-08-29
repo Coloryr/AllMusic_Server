@@ -32,6 +32,7 @@ public class ConfigOBJ {
 
     private String Version;
 
+    private boolean UseCost;
     private int SearchCost;
     private int AddMusicCost;
 
@@ -57,12 +58,17 @@ public class ConfigOBJ {
         HudSave = new HashMap<>();
         DefaultHud = new SaveOBJ();
 
+        UseCost = false;
         SearchCost = 20;
         AddMusicCost = 10;
 
         DefaultAddMusic = 0;
 
         Version = AllMusic.Version;
+    }
+
+    public boolean isUseCost() {
+        return UseCost;
     }
 
     public int getDefaultAddMusic() {

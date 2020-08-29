@@ -46,7 +46,7 @@ public class CommandEX {
             } else if (PlayMusic.isHave(MusicID)) {
                 AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getExistMusic());
             } else {
-                if (AllMusic.Vault != null) {
+                if (AllMusic.getConfig().isUseCost() && AllMusic.Vault != null) {
                     if (!AllMusic.Vault.check(Name, AllMusic.getConfig().getAddMusicCost())) {
                         AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCost().getNoMoney());
                         return;
@@ -56,7 +56,7 @@ public class CommandEX {
                 if (AllMusic.Side.NeedPlay()) {
                     AllMusic.Side.RunTask(() -> PlayMusic.addMusic(MusicID, Name, false));
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
-                    if (AllMusic.Vault != null) {
+                    if (AllMusic.getConfig().isUseCost() && AllMusic.Vault != null) {
                         AllMusic.Vault.cost(Name, AllMusic.getConfig().getAddMusicCost(),
                                 AllMusic.getMessage().getCost().getAddMusic()
                                         .replace("%Cost%", "" + AllMusic.getConfig().getAddMusicCost()));
@@ -227,7 +227,7 @@ public class CommandEX {
                 AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
-            if (AllMusic.Vault != null) {
+            if (AllMusic.getConfig().isUseCost() && AllMusic.Vault != null) {
                 if (!AllMusic.Vault.check(Name, AllMusic.getConfig().getSearchCost())) {
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCost().getNoMoney());
                     return;
