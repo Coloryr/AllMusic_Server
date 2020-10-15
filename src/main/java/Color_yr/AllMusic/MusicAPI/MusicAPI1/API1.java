@@ -15,6 +15,7 @@ import Color_yr.AllMusic.MusicAPI.SongLyric.LyricDo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
+import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class API1 implements IMusicAPI {
 
     @Override
     public String GetPlayUrl(String ID) {
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?id=", ID + "&dr=320000");
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?dr=320000&id=", ID );
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -57,6 +58,7 @@ public class API1 implements IMusicAPI {
                 } else
                     return null;
             } catch (Exception e) {
+                logs.logWrite(res.getData());
                 AllMusic.log.warning("§d[AllMusic]§c播放连接解析错误");
                 e.printStackTrace();
                 return null;
