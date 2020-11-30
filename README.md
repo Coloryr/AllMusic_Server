@@ -4,7 +4,7 @@
 
 ## 使用方法
 >1. 安装AllMusic插件  
->只支持Spigot/Bungeecord服务器  
+>支持CraftBukkit/Spigot/Bungeecord服务器  
 >复制`AllMusic-2.6.1.jar`到你的`plugins`文件夹  
 >2. 安装客户端mod  
 >目前只支持  
