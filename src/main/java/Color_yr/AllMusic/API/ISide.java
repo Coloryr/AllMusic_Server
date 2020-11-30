@@ -1,7 +1,5 @@
 package Color_yr.AllMusic.API;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-
 public interface ISide {
     void Send(String player, String data, Boolean isplay);
 
@@ -30,8 +28,6 @@ public interface ISide {
     void SendMessaget(Object obj, String Message);
 
     void SendMessage(Object obj, String Message);
-
-    void SendMessage(Object obj, String Message, ClickEvent.Action action, String Command);
 
     void RunTask(Runnable run);
 

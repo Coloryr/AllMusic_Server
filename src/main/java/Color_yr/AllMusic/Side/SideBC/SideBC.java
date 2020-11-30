@@ -208,14 +208,6 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public void SendMessage(Object obj, String Message, ClickEvent.Action action, String Command) {
-        CommandSender sender = (CommandSender) obj;
-        TextComponent send = new TextComponent(Message);
-        send.setClickEvent(new ClickEvent(action, Command));
-        sender.sendMessage(send);
-    }
-
-    @Override
     public void RunTask(Runnable run) {
         ProxyServer.getInstance().getScheduler().runAsync(AllMusicBC.plugin, run);
     }

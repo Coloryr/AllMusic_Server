@@ -7,7 +7,6 @@ import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
 import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
 import Color_yr.AllMusic.Utils.Function;
-import net.md_5.bungee.api.chat.ClickEvent;
 
 public class CommandEX {
     private static void SearchMusic(Object sender, String Name, String[] args, boolean isDefault) {
@@ -74,8 +73,7 @@ public class CommandEX {
         String info;
         AllMusic.Side.SendMessage(sender, "");
         if (search.haveLastPage()) {
-            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getPage().getLast(),
-                    ClickEvent.Action.RUN_COMMAND, "/music lastpage");
+            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getPage().getLast());
         }
         for (int a = 0; a < index; a++) {
             item = search.getRes(a + search.getPage() * 10);
@@ -84,12 +82,10 @@ public class CommandEX {
                     .replace("%MusicName%", item.getName())
                     .replace("%MusicAuthor%", item.getAuthor())
                     .replace("%MusicAl%", item.getAl());
-            AllMusic.Side.SendMessage(sender, info,
-                    ClickEvent.Action.RUN_COMMAND, "/music select " + (a + 1));
+            AllMusic.Side.SendMessage(sender, info);
         }
         if (search.haveNextPage()) {
-            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getPage().getNext(),
-                    ClickEvent.Action.RUN_COMMAND, "/music nextpage");
+            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getPage().getNext());
         }
         AllMusic.Side.SendMessage(sender, "");
     }
@@ -99,24 +95,15 @@ public class CommandEX {
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
         } else if (args[0].equalsIgnoreCase("help")) {
             AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2帮助手册");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music [音乐ID] 来点歌§e[§n点我§r§e]",
-                    ClickEvent.Action.SUGGEST_COMMAND, "/music ");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music stop 停止播放歌曲§e[§n点我§r§e]",
-                    ClickEvent.Action.RUN_COMMAND, "/music stop");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music list 查看歌曲队列§e[§n点我§r§e]",
-                    ClickEvent.Action.RUN_COMMAND, "/music list");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music vote 投票切歌§e[§n点我§r§e]",
-                    ClickEvent.Action.RUN_COMMAND, "/music vote");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music nomusic 不再参与点歌§e[§n点我§r§e]",
-                    ClickEvent.Action.RUN_COMMAND, "/music nomusic");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music search [歌名] 搜索歌曲§e[§n点我§r§e]",
-                    ClickEvent.Action.SUGGEST_COMMAND, "/music search ");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music select [序列] 选择歌曲§e[§n点我§r§e]",
-                    ClickEvent.Action.SUGGEST_COMMAND, "/music select ");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud§e[§n点我§r§e]",
-                    ClickEvent.Action.RUN_COMMAND, "/music hud enable");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置",
-                    ClickEvent.Action.SUGGEST_COMMAND, "/music hud ");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music [音乐ID] 来点歌");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music stop 停止播放歌曲");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music list 查看歌曲队列");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music vote 投票切歌");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music nomusic 不再参与点歌");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music search [歌名] 搜索歌曲");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music select [序列] 选择歌曲");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud");
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置");
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.Side.ClearHud(Name);
             AllMusic.Side.Send("[Stop]", Name, false);
