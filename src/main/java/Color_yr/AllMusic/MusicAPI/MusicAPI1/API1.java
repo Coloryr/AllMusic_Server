@@ -49,7 +49,7 @@ public class API1 implements IMusicAPI {
 
     @Override
     public String GetPlayUrl(String ID) {
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?dr=320000&id=", ID );
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?dr=320000&id=", ID);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -153,8 +153,10 @@ public class API1 implements IMusicAPI {
         if (!isUpdata && AllMusic.getConfig().getPlayList().size() != 0) {
             String ID;
             if (AllMusic.getConfig().isPlayListRandom()) {
-                if(AllMusic.getConfig().getPlayList().size() == 0)
+                if (AllMusic.getConfig().getPlayList().size() == 0)
                     return null;
+                else if (AllMusic.getConfig().getPlayList().size() == 1)
+                    return AllMusic.getConfig().getPlayList().get(0);
                 ID = AllMusic.getConfig().getPlayList().get(new Random().nextInt(AllMusic.getConfig().getPlayList().size() - 1));
             } else {
                 ID = AllMusic.getConfig().getPlayList().get(PlayNow);
