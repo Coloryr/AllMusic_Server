@@ -15,7 +15,7 @@ jobs:
     - name: 设置权限
       run: chmod +x gradlew
     - name: 用Gradle构建
-      run: ./gradlew build
+      run: ./gradlew shadowjar
     - name: 更新Jar
       uses: actions/upload-artifact@v2
       with:

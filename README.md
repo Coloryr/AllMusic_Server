@@ -24,7 +24,8 @@
 
 ## 播放VIP歌曲
 1. 使用外置AIP
-2. 按照 [这个步骤](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=登录) 登录黑胶账户
+2. 在配置文件的`LoginUser`和`LoginPass`填写账户密码
+3. 重载插件或者重启服务器
 
 ## PAPI变量  
 > %AllMusic_NowMusicName%歌曲名字  

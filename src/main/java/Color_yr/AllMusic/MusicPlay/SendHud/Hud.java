@@ -57,6 +57,8 @@ public class Hud {
         } else {
             String now;
             for (SongInfo info : PlayMusic.getList()) {
+                if (info == null)
+                    continue;
                 now = info.getInfo();
                 if (now.length() > 30)
                     now = now.substring(0, 29) + "...";

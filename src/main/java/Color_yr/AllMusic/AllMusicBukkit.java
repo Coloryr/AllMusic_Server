@@ -48,8 +48,7 @@ public class AllMusicBukkit extends JavaPlugin {
                 AllMusic.log.info("§2Vault未挂钩");
                 AllMusic.Vault = null;
             }
-        }
-        else {
+        } else {
             AllMusic.log.info("§2Vault未挂钩");
             AllMusic.Vault = null;
         }

@@ -29,6 +29,12 @@ public class API1 implements IMusicAPI {
 
     public API1() {
         AllMusic.log.info("§d[AllMusic]§e使用外置本地爬虫");
+        if (!AllMusic.getConfig().getLoginPass().isEmpty() && !AllMusic.getConfig().getLoginUser().isEmpty()) {
+            HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
+                    + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
+            HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
+                    + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
+        }
     }
 
     @Override
@@ -49,7 +55,21 @@ public class API1 implements IMusicAPI {
 
     @Override
     public String GetPlayUrl(String ID) {
+        HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/check/music?id=", ID);
         Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?dr=320000&id=", ID);
+        if (res != null && res.isOk()) {
+            try {
+                PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
+                if (obj.getCode() == 200 && obj.getData() != null) {
+                    return obj.getData();
+                }
+            } catch (Exception e) {
+                logs.logWrite(res.getData());
+                AllMusic.log.warning("§d[AllMusic]§c播放连接解析错误");
+                e.printStackTrace();
+            }
+        }
+        res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);

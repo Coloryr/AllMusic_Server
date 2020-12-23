@@ -1,34 +1,36 @@
 package Color_yr.AllMusic.Http;
 
 import Color_yr.AllMusic.AllMusic;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class HttpGet {
+    private static final HttpClient client;
+    private static final RequestConfig defaultConfig;
+
+    static {
+        client = HttpClientBuilder.create().build();
+        defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
+    }
+
     public static Res realData(String path, String data) {
         try {
             data = URLEncoder.encode(data, "UTF-8");
-            URL realUrl = new URL(path + data);
-            HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(4 * 1000);
-            connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36");
-            connection.connect();
-            InputStream inputStream;
-            boolean ok;
-            if (connection.getResponseCode() >= 400) {
-                inputStream = connection.getErrorStream();
-                ok = false;
-            } else {
-                inputStream = connection.getInputStream();
-                ok = true;
-            }
+            org.apache.http.client.methods.HttpGet get = new org.apache.http.client.methods.HttpGet(path + data);
+            get.setConfig(defaultConfig);
+            get.setHeader("Content-Type", "application/json;charset=UTF-8");
+            get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36");
+            HttpResponse response = client.execute(get);
+            InputStream inputStream = response.getEntity().getContent();
+            boolean ok = response.getStatusLine().getStatusCode() == 200;
             ByteArrayOutputStream result = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int length;

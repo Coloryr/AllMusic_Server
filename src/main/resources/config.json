@@ -5,6 +5,8 @@
   "MinVote": 3,
   "Delay": 0,
   "Admin": ["CONSOLE"],
+  "LoginUser": "",
+  "LoginPass": "",
   "NoMusicServer": [],
   "NoMusicPlayer": [],
   "BanMusic": [],

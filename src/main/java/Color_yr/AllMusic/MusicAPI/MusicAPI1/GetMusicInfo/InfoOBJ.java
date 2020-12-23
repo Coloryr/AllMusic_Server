@@ -11,14 +11,14 @@ public class InfoOBJ {
 
     public String getName() {
         if (songs == null || songs.size() == 0)
-            return null;
+            return "";
         return songs.get(0).getName();
     }
 
     public String getAuthor() {
         StringBuilder Author = new StringBuilder();
         if (songs.size() == 0)
-            return null;
+            return "";
         for (ar ar : songs.get(0).getAr()) {
             Author.append(ar.getName()).append(",");
         }
@@ -70,7 +70,7 @@ class Songs {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public List<ar> getAr() {
@@ -82,7 +82,7 @@ class Songs {
     }
 
     public String getAl() {
-        return al.getName();
+        return al.getName() == null ? "" : al.getName();
     }
 }
 
@@ -90,7 +90,7 @@ class ar {
     private String name;
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 }
 
@@ -98,7 +98,7 @@ class al {
     private String name;
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 }
 

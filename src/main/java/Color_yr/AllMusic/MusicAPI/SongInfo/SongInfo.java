@@ -40,19 +40,19 @@ public class SongInfo {
     }
 
     public String getAl() {
-        return Al;
+        return Al == null ? "" : Al;
     }
 
     public String getAlia() {
-        return Alia;
+        return Alia == null ? "" : Alia;
     }
 
     public String getCall() {
-        return Call;
+        return Call == null ? "" : Call;
     }
 
     public String getAuthor() {
-        return Author;
+        return Author == null ? "" : Author;
     }
 
     public int getLength() {
@@ -64,7 +64,7 @@ public class SongInfo {
     }
 
     public String getName() {
-        return Name;
+        return Name == null ? "" : Name;
     }
 
     public String getID() {
@@ -73,11 +73,11 @@ public class SongInfo {
 
     public String getInfo() {
         String info = AllMusic.getMessage().getMusicPlay().getMusicInfo();
-        info = info.replace("%MusicName%", Name)
-                .replace("%MusicAuthor%", Author)
-                .replace("%MusicAl%", Al)
-                .replace("%MusicAlia%", Alia)
-                .replace("%PlayerName%", Call);
+        info = info.replace("%MusicName%", Name == null ? "" : Name)
+                .replace("%MusicAuthor%", Author == null ? "" : Author)
+                .replace("%MusicAl%", Al == null ? "" : Al)
+                .replace("%MusicAlia%", Alia == null ? "" : Alia)
+                .replace("%PlayerName%", Call == null ? "" : Call);
         return info;
     }
 

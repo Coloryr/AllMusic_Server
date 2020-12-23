@@ -93,7 +93,7 @@ public class API2 implements IMusicAPI {
                     return null;
                 else if (AllMusic.getConfig().getPlayList().size() == 1)
                     return AllMusic.getConfig().getPlayList().get(0);
-                ID = AllMusic.getConfig().getPlayList().get(new Random().nextInt( AllMusic.getConfig().getPlayList().size()- 1));
+                ID = AllMusic.getConfig().getPlayList().get(new Random().nextInt(AllMusic.getConfig().getPlayList().size() - 1));
             } else {
                 ID = AllMusic.getConfig().getPlayList().get(PlayNow);
                 if (PlayNow == AllMusic.getConfig().getPlayList().size())

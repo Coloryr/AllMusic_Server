@@ -38,6 +38,9 @@ public class ConfigOBJ {
 
     private int DefaultAddMusic;
 
+    private String LoginUser;
+    private String LoginPass;
+
     public ConfigOBJ() {
         Music_Url = "http://localhost:4000";
         Music_Api = 1;
@@ -63,12 +66,22 @@ public class ConfigOBJ {
         AddMusicCost = 10;
 
         DefaultAddMusic = 0;
+        LoginUser = "";
+        LoginPass = "";
 
         Version = AllMusic.Version;
     }
 
     public boolean isUseCost() {
         return UseCost;
+    }
+
+    public String getLoginUser() {
+        return LoginUser;
+    }
+
+    public String getLoginPass() {
+        return LoginPass;
     }
 
     public int getDefaultAddMusic() {
