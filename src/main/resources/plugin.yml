@@ -7,5 +7,5 @@ softdepend: [PlaceholderAPI, Vault]
 
 commands:
   music:
-    description: ALLMusic
-    usage: §4[ALLMusic]§6/music help
+    description: AllMusic
+    usage: §4[AllMusic]§6/music help

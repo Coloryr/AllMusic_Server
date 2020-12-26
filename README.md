@@ -5,7 +5,7 @@
 ## 使用方法
 >1. 安装AllMusic插件  
 >支持CraftBukkit/Spigot/Bungeecord服务器  
->复制`AllMusic-2.6.1.jar`到你的`plugins`文件夹  
+>复制`AllMusic-2.8.0-all.jar`到你的`plugins`文件夹  
 >2. 安装客户端mod  
 >目前只支持  
 >`forge:1.12.2 1.14 1.15 1.16`  
@@ -23,8 +23,8 @@
 >为启动成功
 
 ## 播放VIP歌曲
-1. 使用外置AIP
-2. 在配置文件的`LoginUser`和`LoginPass`填写账户密码
+1. 使用外置API
+2. 在插件配置文件的`LoginUser`和`LoginPass`填写账户密码
 3. 重载插件或者重启服务器
 
 ## PAPI变量  

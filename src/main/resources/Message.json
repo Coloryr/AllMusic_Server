@@ -25,9 +25,9 @@
     "NoID": "§d[ALLmusic]§c错误，请输入歌曲数字ID"
   },
   "Page": {
-    "Choice": "§b[§n点我选择§r§b]§2%index%->%MusicName% | %MusicAuthor% | %MusicAl%",
-    "Next": "§d[ALLMusic]§e[§n点我下一页§r§e]",
-    "Last": "§d[ALLMusic]§e[§n点我上一页§r§e]"
+    "Choice": "§2%index%->%MusicName% | %MusicAuthor% | %MusicAl%",
+    "Next": "§e[§n点我下一页§r§e]",
+    "Last": "§e[§n点我上一页§r§e]"
   },
   "Lyric": {
     "Data": "%Lyric%",
@@ -81,5 +81,9 @@
     "Search": "§d[ALLMusic]§2你搜歌花费了%Cost%",
     "AddMusic": "§d[ALLMusic]§2你点歌花费了%Cost%",
     "NoMoney": "§d[ALLMusic]§c你没有足够的钱"
+  },
+  "Click": {
+    "This": "§b[§n点我选择§r§b]",
+    "Check": "§b[§n点我查看§r§b]"
   }
 }
