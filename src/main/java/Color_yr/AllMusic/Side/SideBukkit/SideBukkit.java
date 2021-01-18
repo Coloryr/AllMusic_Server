@@ -166,6 +166,26 @@ public class SideBukkit implements ISide {
     }
 
     @Override
+    public void SendMessageRun(Object obj, String Message, String end, String command) {
+        if (AllMusicBukkit.SpigotSet) {
+            SpigotApi.SendMessageRun(obj, Message + end, command);
+        } else {
+            if (!Message.isEmpty())
+                SendMessage(obj, Message);
+        }
+    }
+
+    @Override
+    public void SendMessageSuggest(Object obj, String Message, String end, String command) {
+        if (AllMusicBukkit.SpigotSet) {
+            SpigotApi.SendMessageSuggest(obj, Message + end, command);
+        } else {
+            if (!Message.isEmpty())
+                SendMessage(obj, Message);
+        }
+    }
+
+    @Override
     public void RunTask(Runnable run) {
         Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, run);
     }

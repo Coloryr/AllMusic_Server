@@ -73,7 +73,8 @@ public class CommandEX {
         String info;
         AllMusic.Side.SendMessage(sender, "");
         if (search.haveLastPage()) {
-            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getPage().getLast());
+            AllMusic.Side.SendMessageRun(sender, "§d[AllMusic]§2输入/music lastpage上一页",
+                    AllMusic.getMessage().getPage().getLast(), "/music lastpage");
         }
         for (int a = 0; a < index; a++) {
             item = search.getRes(a + search.getPage() * 10);
@@ -82,10 +83,12 @@ public class CommandEX {
                     .replace("%MusicName%", item.getName())
                     .replace("%MusicAuthor%", item.getAuthor())
                     .replace("%MusicAl%", item.getAl());
-            AllMusic.Side.SendMessage(sender, info);
+            AllMusic.Side.SendMessageRun(sender, info,
+                    AllMusic.getMessage().getClick().This, "/music select " + (a + 1));
         }
         if (search.haveNextPage()) {
-            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getPage().getNext());
+            AllMusic.Side.SendMessageRun(sender, "§d[AllMusic]§2输入/music nextpage下一页",
+                    AllMusic.getMessage().getPage().getNext(), "/music nextpage");
         }
         AllMusic.Side.SendMessage(sender, "");
     }
@@ -95,15 +98,24 @@ public class CommandEX {
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
         } else if (args[0].equalsIgnoreCase("help")) {
             AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2帮助手册");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music [音乐ID] 来点歌");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music stop 停止播放歌曲");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music list 查看歌曲队列");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music vote 投票切歌");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music nomusic 不再参与点歌");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music search [歌名] 搜索歌曲");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music select [序列] 选择歌曲");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud");
-            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置");
+            AllMusic.Side.SendMessageSuggest(sender, "§d[AllMusic]§2使用/music [音乐ID] 来点歌",
+                    AllMusic.getMessage().getClick().Check, "/music ");
+            AllMusic.Side.SendMessageRun(sender, "§d[AllMusic]§2使用/music stop 停止播放歌曲",
+                    AllMusic.getMessage().getClick().This, "/music stop");
+            AllMusic.Side.SendMessageRun(sender, "§d[AllMusic]§2使用/music list 查看歌曲队列",
+                    AllMusic.getMessage().getClick().This, "/music list");
+            AllMusic.Side.SendMessageRun(sender, "§d[AllMusic]§2使用/music vote 投票切歌",
+                    AllMusic.getMessage().getClick().This, "/music vote");
+            AllMusic.Side.SendMessageRun(sender, "§d[AllMusic]§2使用/music nomusic 不再参与点歌",
+                    AllMusic.getMessage().getClick().This, "/music nomusic");
+            AllMusic.Side.SendMessageSuggest(sender, "§d[AllMusic]§2使用/music search [歌名] 搜索歌曲",
+                    AllMusic.getMessage().getClick().Check, "/music search ");
+            AllMusic.Side.SendMessageSuggest(sender, "§d[AllMusic]§2使用/music select [序列] 选择歌曲",
+                    AllMusic.getMessage().getClick().Check, "/music select ");
+            AllMusic.Side.SendMessageSuggest(sender, "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud",
+                    AllMusic.getMessage().getClick().Check, "/music hud enable ");
+            AllMusic.Side.SendMessageSuggest(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置",
+                    AllMusic.getMessage().getClick().Check, "/music hud ");
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.Side.ClearHud(Name);
             AllMusic.Side.Send("[Stop]", Name, false);

@@ -18,7 +18,9 @@ public class HttpGet {
 
     static {
         client = HttpClientBuilder.create().build();
-        defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
+        defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD)
+                .setConnectTimeout(2000).setSocketTimeout(2000)
+                .setConnectionRequestTimeout(2000).build();
     }
 
     public static Res realData(String path, String data) {

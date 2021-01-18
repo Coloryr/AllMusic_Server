@@ -29,6 +29,10 @@ public interface ISide {
 
     void SendMessage(Object obj, String Message);
 
+    void SendMessageRun(Object obj, String Message, String end, String command);
+
+    void SendMessageSuggest(Object obj, String Message, String end, String command);
+
     void RunTask(Runnable run);
 
     void reload();

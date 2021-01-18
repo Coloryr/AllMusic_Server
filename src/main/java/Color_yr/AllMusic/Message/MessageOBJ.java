@@ -13,6 +13,7 @@ public class MessageOBJ {
     private CustomOBJ Custom;
     private PAPIOBJ PAPI;
     private CostObj Cost;
+    private ClickObj Click;
 
     public MessageOBJ() {
         MusicPlay = new MusicPlayOBJ();
@@ -27,6 +28,11 @@ public class MessageOBJ {
         Custom = new CustomOBJ();
         PAPI = new PAPIOBJ();
         Cost = new CostObj();
+        Click = new ClickObj();
+    }
+
+    public ClickObj getClick() {
+        return Click;
     }
 
     public CostObj getCost() {
