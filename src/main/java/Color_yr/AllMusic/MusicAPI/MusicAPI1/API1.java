@@ -17,6 +17,9 @@ import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,20 +29,33 @@ public class API1 implements IMusicAPI {
 
     public int PlayNow = 0;
     public boolean isUpdata;
+    public String cookie = "";
 
     public API1() {
         AllMusic.log.info("§d[AllMusic]§e使用外置本地爬虫");
         if (!AllMusic.getConfig().getLoginPass().isEmpty() && !AllMusic.getConfig().getLoginUser().isEmpty()) {
-            HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
+            Res date = null;
+            JsonObject res;
+
+            if (!AllMusic.getConfig().getLoginUser().equals("@"))
+                date = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
                     + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
-            HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
+            else
+                date = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
                     + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
+
+            assert date != null;
+            if (date.isOk()){
+
+                res = (JsonObject) new JsonParser().parse(date.getData());
+                cookie = res.get("cookie").getAsString();
+            }
         }
     }
 
     @Override
     public SongInfo GetMusic(String ID, String player, boolean isList) {
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/detail?ids=", ID);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/detail?ids=", ID, cookie);
         SongInfo info = null;
         if (res != null && res.isOk()) {
             InfoOBJ temp = new Gson().fromJson(res.getData(), InfoOBJ.class);
@@ -55,8 +71,8 @@ public class API1 implements IMusicAPI {
 
     @Override
     public String GetPlayUrl(String ID) {
-        HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/check/music?id=", ID);
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?dr=320000&id=", ID);
+        HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/check/music?id=", ID, cookie);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?dr=320000&id=", ID, cookie);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -69,7 +85,7 @@ public class API1 implements IMusicAPI {
                 e.printStackTrace();
             }
         }
-        res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?id=", ID);
+        res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?id=", ID, cookie);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -91,7 +107,7 @@ public class API1 implements IMusicAPI {
     public void SetList(String ID, Object sender) {
         Thread thread = new Thread(() ->
         {
-            Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/playlist/detail?id=", ID);
+            Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/playlist/detail?id=", ID, cookie);
             if (res != null && res.isOk())
                 try {
                     isUpdata = true;
@@ -111,7 +127,7 @@ public class API1 implements IMusicAPI {
     @Override
     public LyricSave getLyric(String ID) {
         LyricSave Lyric = new LyricSave();
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/lyric?id=", ID);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/lyric?id=", ID, cookie);
         if (res != null && res.isOk()) {
             try {
                 LyricOBJ obj = new Gson().fromJson(res.getData(), LyricOBJ.class);
@@ -148,7 +164,7 @@ public class API1 implements IMusicAPI {
         }
         String MusicName = name1.toString();
         MusicName = MusicName.substring(0, MusicName.length() - 1);
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/search?keywords=", MusicName);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/search?keywords=", MusicName, cookie);
         if (res != null && res.isOk()) {
             SearchDataOBJ obj = new Gson().fromJson(res.getData(), SearchDataOBJ.class);
             if (obj != null && obj.isok()) {
