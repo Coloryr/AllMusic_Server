@@ -37,7 +37,7 @@ public class API1 implements IMusicAPI {
             Res date = null;
             JsonObject res;
 
-            if (!AllMusic.getConfig().getLoginUser().equals("@"))
+            if (AllMusic.getConfig().getLoginUser().equals("@"))
                 date = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
                     + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
             else
