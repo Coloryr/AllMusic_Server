@@ -16,11 +16,9 @@
 >下载群文件的`NeteaseCloudMusicApi.7z`并解压到一个地方  
 >windows双击`start.cmd`  
 >Linux`$ sudo ./start.sh`  
->出现  
->```
->server running @ http://localhost:4000
->```  
->为启动成功
+>出现`server running @ http://localhost:4000`为启动成功  
+>配置文件的`Music_Api`设置`2`  
+>重载插件
 
 ## 播放VIP歌曲
 1. 使用外置API
