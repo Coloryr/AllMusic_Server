@@ -108,12 +108,11 @@ public class AllMusic {
     }
 
     public static void stop() {
-        clearVote();
-        PlayMusic.stop();
-        if (isRun)
-            Side.Send("[Stop]", false);
         try {
+            clearVote();
             logs.stop();
+            Side.Send("[Stop]", false);
+            PlayMusic.stop();
         } catch (IOException e) {
             e.printStackTrace();
         }
