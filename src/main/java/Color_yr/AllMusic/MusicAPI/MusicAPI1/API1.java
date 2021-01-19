@@ -10,6 +10,7 @@ import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicList.DataOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicLyric.LyricOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicSearch.SearchDataOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicSearch.songs;
+import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetProgramInfo.PrInfoOBJ;
 import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricDo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
@@ -47,7 +48,24 @@ public class API1 implements IMusicAPI {
                 info = new SongInfo(temp.getAuthor(), temp.getName(),
                         ID, temp.getAlia(), player, temp.getAl(), isList, temp.getLength());
             } else {
-                AllMusic.log.warning("§d[AllMusic]§c歌曲信息获取为空");
+                Res res1 = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/dj/program/detail?id=", ID);
+                if (res1 != null && res1.isOk()) {
+                    PrInfoOBJ temp1 = new Gson().fromJson(res1.getData(), PrInfoOBJ.class);
+                    if (temp1.isOK()) {
+                        Res res2 = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/detail?ids=", temp1.getId());
+                        if (res2 != null && res2.isOk()) {
+                            InfoOBJ temp2 = new Gson().fromJson(res2.getData(), InfoOBJ.class);
+                            if (temp2.isok()) {
+                                info = new SongInfo(temp1.getDj(), temp1.getName(),
+                                        temp1.getId(), temp2.getAlia(), player, temp2.getAl(), isList, temp2.getLength());
+                            } else {
+                                AllMusic.log.warning("§d[AllMusic]§c歌曲信息获取为空");
+                            }
+                        }
+                    } else {
+                        AllMusic.log.warning("§d[AllMusic]§c歌曲信息获取为空");
+                    }
+                }
             }
         }
         return info;
