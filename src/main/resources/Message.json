@@ -1,28 +1,28 @@
 {
   "MusicPlay": {
-    "StopPlay": "§d[ALLMusic]§2已停止你的音乐播放",
-    "NoMusic": "§d[ALLMusic]§2无正在播放的歌曲",
-    "Play": "§d[ALLMusic]§2正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%",
-    "NoPlay": "§d[ALLMusic]§2队列中无歌曲",
+    "StopPlay": "§d[AllMusic]§2已停止你的音乐播放",
+    "NoMusic": "§d[AllMusic]§2无正在播放的歌曲",
+    "Play": "§d[AllMusic]§2正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%",
+    "NoPlay": "§d[AllMusic]§2队列中无歌曲",
     "ListMusic": {
-      "Head": "§d[ALLMusic]§2队列中有歌曲数：&Count&",
+      "Head": "§d[AllMusic]§2队列中有歌曲数：&Count&",
       "Item": "§2%index%->%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%",
-      "Get": "§d[ALLMusic]§2歌曲列表%ListName%获取成功"
+      "Get": "§d[AllMusic]§2歌曲列表%ListName%获取成功"
     },
-    "NoCanPlay": "§d[ALLMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲",
-    "NoPlayMusic": "§d[ALLMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌或者参与切歌投票吧！",
-    "Switch": "§d[ALLMusic]§2切换到玩家歌曲",
-    "AddMusic": "§d[ALLMusic]§2音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%",
-    "PlayerAdd": "§d[ALLMusic]§2%PlayerName%点歌%MusicID%",
+    "NoCanPlay": "§d[AllMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲",
+    "NoPlayMusic": "§d[AllMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌或者参与切歌投票吧！",
+    "Switch": "§d[AllMusic]§2切换到玩家歌曲",
+    "AddMusic": "§d[AllMusic]§2音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%",
+    "PlayerAdd": "§d[AllMusic]§2%PlayerName%点歌%MusicID%",
     "MusicInfo": "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%"
   },
   "AddMusic": {
-    "ListFull": "§d[ALLMusic]§c错误，队列已满",
-    "BanMusic": "§d[ALLMusic]§c错误，这首歌被禁点了",
-    "ExistMusic": "§d[ALLMusic]§c错误，这首歌已经存在了",
-    "Success": "§d[ALLMusic]§2点歌成功",
-    "NoPlayer": "§d[ALLMusic]§c没有播放的玩家",
-    "NoID": "§d[ALLmusic]§c错误，请输入歌曲数字ID"
+    "ListFull": "§d[AllMusic]§c错误，队列已满",
+    "BanMusic": "§d[AllMusic]§c错误，这首歌被禁点了",
+    "ExistMusic": "§d[AllMusic]§c错误，这首歌已经存在了",
+    "Success": "§d[AllMusic]§2点歌成功",
+    "NoPlayer": "§d[AllMusic]§c没有播放的玩家",
+    "NoID": "§d[AllMusic]§c错误，请输入歌曲数字ID"
   },
   "Page": {
     "Choice": "§2%index%->%MusicName% | %MusicAuthor% | %MusicAl%",
@@ -34,36 +34,36 @@
     "TData": "%Lyric%(%TLyric%)"
   },
   "Vote": {
-    "NoPermission": "§d[ALLMusic]§c你没有权限切歌",
-    "DoVote": "§d[ALLMusic]§2已发起切歌投票",
-    "BQ": "§d[ALLMusic]§2%PlayerName%发起了切歌投票，30秒后结束，输入/music vote 同意切歌。",
-    "Agree": "§d[ALLMusic]§2你同意切歌",
-    "BQAgree": "§d[ALLMusic]§2%PlayerName%同意切歌，共有%Count%名玩家同意切歌。",
-    "ARAgree": "§d[ALLMusic]§2你已申请切歌",
-    "TimeOut": "§d[ALLMusic]§2切歌时间结束",
-    "Do": "§d[ALLMusic]§2已切歌"
+    "NoPermission": "§d[AllMusic]§c你没有权限切歌",
+    "DoVote": "§d[AllMusic]§2已发起切歌投票",
+    "BQ": "§d[AllMusic]§2%PlayerName%发起了切歌投票，30秒后结束，输入/music vote 同意切歌。",
+    "Agree": "§d[AllMusic]§2你同意切歌",
+    "BQAgree": "§d[AllMusic]§2%PlayerName%同意切歌，共有%Count%名玩家同意切歌。",
+    "ARAgree": "§d[AllMusic]§2你已申请切歌",
+    "TimeOut": "§d[AllMusic]§2切歌时间结束",
+    "Do": "§d[AllMusic]§2已切歌"
   },
   "Search": {
-    "NoPer": "§d[ALLMusic]§c你没有权限搜歌",
-    "CantSearch": "§d[ALLMusic]§c无法搜索歌曲：%Music%",
-    "Res": "§d[ALLMusic]§2搜索结果",
-    "NoSearch": "§d[ALLMusic]§c你没有搜索音乐",
-    "ErrorNum": "§d[ALLMusic]§c请输入正确的序号",
-    "Chose": "§d[ALLMusic]§2你选择了序号%Num%",
-    "CantNext": "§d[ALLMusic]§c无法下一页",
-    "CantLast": "§d[ALLMusic]§c无法上一页"
+    "NoPer": "§d[AllMusic]§c你没有权限搜歌",
+    "CantSearch": "§d[AllMusic]§c无法搜索歌曲：%Music%",
+    "Res": "§d[AllMusic]§2搜索结果",
+    "NoSearch": "§d[AllMusic]§c你没有搜索音乐",
+    "ErrorNum": "§d[AllMusic]§c请输入正确的序号",
+    "Chose": "§d[AllMusic]§2你选择了序号%Num%",
+    "CantNext": "§d[AllMusic]§c无法下一页",
+    "CantLast": "§d[AllMusic]§c无法上一页"
   },
   "Hud": {
-    "State": "§d[ALLMusic]§2设置信息位置：%Hud%，状态：%State%",
-    "Set": "§d[ALLMusic]§2已设置%Hud%的坐标为%x%, %y%",
-    "Reset": "§d[ALLMusic]§2Hud恢复至默认位置",
+    "State": "§d[AllMusic]§2设置信息位置：%Hud%，状态：%State%",
+    "Set": "§d[AllMusic]§2已设置%Hud%的坐标为%x%, %y%",
+    "Reset": "§d[AllMusic]§2Hud恢复至默认位置",
     "NoMusic": "没有播放的音乐",
     "NoList": "队列中无歌曲",
     "NoLyric": "无歌词"
   },
   "Command": {
-    "Error": "§d[ALLMusic]§c参数错误，请输入/music help获取帮助",
-    "NoPer": "§d[ALLMusic]§c你没有权限点歌"
+    "Error": "§d[AllMusic]§c参数错误，请输入/music help获取帮助",
+    "NoPer": "§d[AllMusic]§c你没有权限点歌"
   },
   "HudList": {
     "List": "待播放列表",
@@ -78,9 +78,9 @@
     "NoMusic": "没有播放的音乐"
   },
   "Cost": {
-    "Search": "§d[ALLMusic]§2你搜歌花费了%Cost%",
-    "AddMusic": "§d[ALLMusic]§2你点歌花费了%Cost%",
-    "NoMoney": "§d[ALLMusic]§c你没有足够的钱"
+    "Search": "§d[AllMusic]§2你搜歌花费了%Cost%",
+    "AddMusic": "§d[AllMusic]§2你点歌花费了%Cost%",
+    "NoMoney": "§d[AllMusic]§c你没有足够的钱"
   },
   "Click": {
     "This": "§b[§n点我选择§r§b]",

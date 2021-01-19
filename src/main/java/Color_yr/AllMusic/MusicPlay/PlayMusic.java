@@ -28,6 +28,7 @@ public class PlayMusic {
     private static PlayGo PlayGo;
 
     public static void stop() {
+        PlayMusic.clear();
         if (PlayGo != null && PlayGo.isAlive()) {
             PlayGo.closeTimer();
             PlayGo.stop();

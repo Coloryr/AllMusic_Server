@@ -108,9 +108,8 @@ public class AllMusic {
     }
 
     public static void stop() {
-        PlayMusic.stop();
-        PlayMusic.clear();
         clearVote();
+        PlayMusic.stop();
         if (isRun)
             Side.Send("[Stop]", false);
         try {

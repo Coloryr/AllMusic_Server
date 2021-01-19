@@ -56,7 +56,7 @@ public class API1 implements IMusicAPI {
     @Override
     public String GetPlayUrl(String ID) {
         HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/check/music?id=", ID);
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?dr=320000&id=", ID);
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?br=320000&id=", ID);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
