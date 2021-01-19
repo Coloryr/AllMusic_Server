@@ -72,7 +72,7 @@ class PlayGo extends Thread {
 
     @Override
     public synchronized void run() {
-        while (true) {
+        while (AllMusic.isRun) {
             if (PlayMusic.getSize() == 0) {
                 try {
                     Hud.SendHudNowData();
