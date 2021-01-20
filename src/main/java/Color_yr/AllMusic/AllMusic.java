@@ -13,6 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ public class AllMusic {
     private static MessageOBJ Message;
     private static File ConfigFile;
     private static File MessageFile;
+    private static File DataFolder;
 
     public static VaultHook Vault;
 
@@ -86,6 +90,10 @@ public class AllMusic {
             NowPlayPlayer.add(player);
     }
 
+    public static String getDataFolder() {
+        return DataFolder.getPath();
+    }
+
     public static void removeNowPlayPlayer(String player) {
         NowPlayPlayer.remove(player);
     }
@@ -120,6 +128,13 @@ public class AllMusic {
     }
 
     private void initAPI() {
+        if (AllMusic.Config.isAutoApi()) {
+            try {
+                runAPI();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         switch (AllMusic.Config.getMusic_Api()) {
             case 2: {
                 AllMusic.Music = new API1();
@@ -132,6 +147,32 @@ public class AllMusic {
             }
         }
     }
+
+    private void runAPI() throws IOException {
+        if (!isPortUsing()) {
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                Runtime.getRuntime().exec("cmd /c start " + System.getProperty("user.dir") + "\\" + DataFolder + "\\NeteaseCloudMusicApi\\start.cmd");
+            } else {
+                Runtime.getRuntime().exec("bash " + System.getProperty("user.dir") + "\\" + DataFolder + "\\NeteaseCloudMusicApi\\start.sh");
+            }
+        } else {
+            AllMusic.log.info("Api开始失败,端口已被占用,可能是已经启动");
+        }
+    }
+
+    private boolean isPortUsing() throws UnknownHostException {
+        boolean flag = false;
+        InetAddress theAddress = InetAddress.getByName("127.0.0.1");
+        try {
+            Socket socket = new Socket(theAddress, 4000);
+            flag = true;
+        } catch (IOException e) {
+            //如果所测试端口号没有被占用，那么会抛出异常，这里利用这个机制来判断
+            //所以，这里在捕获异常后，什么也不用做
+        }
+        return flag;
+    }
+
 
     private void LoadConfig() {
         try {
@@ -197,6 +238,7 @@ public class AllMusic {
             if (!logs.file.exists()) {
                 logs.file.createNewFile();
             }
+            DataFolder = file;
             LoadConfig();
             isRun = true;
         } catch (IOException e) {

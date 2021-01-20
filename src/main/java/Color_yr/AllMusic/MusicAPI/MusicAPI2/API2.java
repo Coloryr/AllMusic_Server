@@ -20,7 +20,7 @@ public class API2 implements IMusicAPI {
     public boolean isUpdata;
 
     public API2() {
-        AllMusic.log.info("§d[AllMusic]§e使用内置爬虫");
+        AllMusic.log.info("§d[AllMusic]§e使用内置爬虫,你可以输入/music initApi来尝试自动搭建外置爬虫");
     }
 
     @Override

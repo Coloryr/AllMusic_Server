@@ -1,14 +1,22 @@
 package Color_yr.AllMusic.Command;
 
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.Http.HttpRequest;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
 import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
 import Color_yr.AllMusic.Utils.Function;
+import Color_yr.AllMusic.Utils.UnZip;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.io.File;
+import java.io.IOException;
 
 public class CommandEX {
+    private static boolean init = false;
+
     private static void SearchMusic(Object sender, String Name, String[] args, boolean isDefault) {
         AllMusic.Side.RunTask(() -> {
             SearchPage search = AllMusic.Music.Search(args, isDefault);
@@ -91,6 +99,22 @@ public class CommandEX {
                     AllMusic.getMessage().getPage().getNext(), "/music nextpage");
         }
         AllMusic.Side.SendMessage(sender, "");
+    }
+
+    private static void initApi() {
+        try {
+            AllMusic.log.info("开始下载");
+            File file = HttpRequest.downloadNet("http://save.s-yh-china.com/", "MusicApi.zip", AllMusic.getDataFolder());
+            AllMusic.log.info("下载完成,开始解压");
+            UnZip.unZip(file, AllMusic.getDataFolder() + "\\");
+            AllMusic.getConfig().setMusic_Api(2);
+            AllMusic.getConfig().setAutoApi(true);
+            AllMusic.save();
+            AllMusic.log.info("外置Api下载完成");
+            AllMusic.Side.reload();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void EX(Object sender, String Name, String[] args) {
@@ -326,6 +350,23 @@ public class CommandEX {
                     }
                 }
             }
+        } else if (args[0].equalsIgnoreCase("initApi")) {
+            if (AllMusic.getConfig().isAutoApi() || AllMusic.getConfig().getMusic_Api() == 2) {
+                AllMusic.log.info("你已经在使用外置api了,不需要安装哦");
+            } else {
+                if (!init) {
+                    AllMusic.log.info("你确定要安装Api吗,确定请再次输入/music initApi");
+                    init = true;
+                } else {
+                    init = false;
+                    try {
+                        new Thread(CommandEX::initApi).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
         } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.addmusic"))
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
         else {
