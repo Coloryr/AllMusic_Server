@@ -38,34 +38,31 @@ public class API1 implements IMusicAPI {
         }
     }
 
-    @Override
-    public SongInfo GetMusic(String ID, String player, boolean isList) {
+    private SongInfo GetMusicDetail(String ID, String player, boolean isList) {
         Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/detail?ids=", ID);
-        SongInfo info = null;
         if (res != null && res.isOk()) {
             InfoOBJ temp = new Gson().fromJson(res.getData(), InfoOBJ.class);
             if (temp.isok()) {
-                info = new SongInfo(temp.getAuthor(), temp.getName(),
+                return new SongInfo(temp.getAuthor(), temp.getName(),
                         ID, temp.getAlia(), player, temp.getAl(), isList, temp.getLength());
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public SongInfo GetMusic(String ID, String player, boolean isList) {
+        SongInfo info = GetMusicDetail(ID, player, isList);
+        if (info != null)
+            return info;
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/dj/program/detail?id=", ID);
+        if (res != null && res.isOk()) {
+            PrInfoOBJ temp = new Gson().fromJson(res.getData(), PrInfoOBJ.class);
+            if (temp.isOK()) {
+                return new SongInfo(temp.getAuthor(), temp.getName(),
+                        temp.getId(), temp.getAlia(), player, "电台", isList, temp.getLength());
             } else {
-                Res res1 = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/dj/program/detail?id=", ID);
-                if (res1 != null && res1.isOk()) {
-                    PrInfoOBJ temp1 = new Gson().fromJson(res1.getData(), PrInfoOBJ.class);
-                    if (temp1.isOK()) {
-                        Res res2 = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/detail?ids=", temp1.getId());
-                        if (res2 != null && res2.isOk()) {
-                            InfoOBJ temp2 = new Gson().fromJson(res2.getData(), InfoOBJ.class);
-                            if (temp2.isok()) {
-                                info = new SongInfo(temp1.getDj(), temp1.getName(),
-                                        temp1.getId(), temp2.getAlia(), player, temp2.getAl(), isList, temp2.getLength());
-                            } else {
-                                AllMusic.log.warning("§d[AllMusic]§c歌曲信息获取为空");
-                            }
-                        }
-                    } else {
-                        AllMusic.log.warning("§d[AllMusic]§c歌曲信息获取为空");
-                    }
-                }
+                AllMusic.log.warning("§d[AllMusic]§c歌曲信息获取为空");
             }
         }
         return info;
