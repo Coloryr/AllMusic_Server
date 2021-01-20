@@ -8,14 +8,12 @@ import Color_yr.AllMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.Side.SideBukkit.VaultHook;
+import Color_yr.AllMusic.Utils.RunApi;
 import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ import java.util.logging.Logger;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.8.0";
+    public static final String Version = "2.9.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -68,6 +66,10 @@ public class AllMusic {
         SearchSave.remove(player);
     }
 
+    public static String getDataFolder() {
+        return DataFolder.getPath();
+    }
+
     public static void addVote(String player) {
         if (!VotePlayer.contains(player))
             VotePlayer.add(player);
@@ -88,10 +90,6 @@ public class AllMusic {
     public static void addNowPlayPlayer(String player) {
         if (!NowPlayPlayer.contains(player))
             NowPlayPlayer.add(player);
-    }
-
-    public static String getDataFolder() {
-        return DataFolder.getPath();
     }
 
     public static void removeNowPlayPlayer(String player) {
@@ -121,6 +119,9 @@ public class AllMusic {
             logs.stop();
             Side.Send("[Stop]", false);
             PlayMusic.stop();
+            if (AllMusic.Config.isAutoApi()) {
+                RunApi.stop();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,10 +130,8 @@ public class AllMusic {
 
     private void initAPI() {
         if (AllMusic.Config.isAutoApi()) {
-            try {
-                runAPI();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (!RunApi.runAPI(DataFolder)) {
+                log.warning("§d[AllMusic]§c外置API启动失败");
             }
         }
         switch (AllMusic.Config.getMusic_Api()) {
@@ -147,32 +146,6 @@ public class AllMusic {
             }
         }
     }
-
-    private void runAPI() throws IOException {
-        if (!isPortUsing()) {
-            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-                Runtime.getRuntime().exec("cmd /c start " + System.getProperty("user.dir") + "\\" + DataFolder + "\\NeteaseCloudMusicApi\\start.cmd");
-            } else {
-                Runtime.getRuntime().exec("bash " + System.getProperty("user.dir") + "\\" + DataFolder + "\\NeteaseCloudMusicApi\\start.sh");
-            }
-        } else {
-            AllMusic.log.info("Api开始失败,端口已被占用,可能是已经启动");
-        }
-    }
-
-    private boolean isPortUsing() throws UnknownHostException {
-        boolean flag = false;
-        InetAddress theAddress = InetAddress.getByName("127.0.0.1");
-        try {
-            Socket socket = new Socket(theAddress, 4000);
-            flag = true;
-        } catch (IOException e) {
-            //如果所测试端口号没有被占用，那么会抛出异常，这里利用这个机制来判断
-            //所以，这里在捕获异常后，什么也不用做
-        }
-        return flag;
-    }
-
 
     private void LoadConfig() {
         try {
@@ -243,7 +216,7 @@ public class AllMusic {
             isRun = true;
         } catch (IOException e) {
             isRun = false;
-            log.warning("§d[AllMusic]§2§c启动失败");
+            log.warning("§d[AllMusic]§c启动失败");
             e.printStackTrace();
         }
     }

@@ -36,6 +36,13 @@ public class API1 implements IMusicAPI {
             HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
                     + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
         }
+        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url(), "");
+        if (res == null || !res.isOk()) {
+            AllMusic.log.info("§d[AllMusic]§c使用外置本地爬虫连接失败");
+            AllMusic.getConfig().setMusic_Api(1);
+            AllMusic.save();
+            AllMusic.Side.reload();
+        }
     }
 
     private SongInfo GetMusicDetail(String ID, String player, boolean isList) {

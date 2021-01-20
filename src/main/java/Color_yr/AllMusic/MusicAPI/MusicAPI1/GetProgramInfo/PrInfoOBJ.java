@@ -75,6 +75,7 @@ class program {
         return mainSong;
     }
 }
+
 class dj {
     private String brand;
     private String nickname;
