@@ -31,9 +31,11 @@ public class API1 implements IMusicAPI {
     public API1() {
         AllMusic.log.info("§d[AllMusic]§e使用外置本地爬虫");
         if (!AllMusic.getConfig().getLoginPass().isEmpty() && !AllMusic.getConfig().getLoginUser().isEmpty()) {
-            HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
+            if (!AllMusic.getConfig().getLoginUser().contains("@"))
+                HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
                     + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
-            HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
+            else
+                HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
                     + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
         }
         Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url(), "");
