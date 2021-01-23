@@ -20,6 +20,8 @@
 >配置文件的`Music_Api`设置`2`  
 >重载插件
 
+[外置API友链](https://github.com/s-yh-china/AllMusicApi)
+
 ## 播放VIP歌曲
 1. 使用外置API
 2. 在插件配置文件的`LoginUser`和`LoginPass`填写账户密码
