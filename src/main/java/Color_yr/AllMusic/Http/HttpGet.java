@@ -41,11 +41,11 @@ public class HttpGet {
             }
             String data1 = result.toString(StandardCharsets.UTF_8.name());
             if (!ok) {
-                AllMusic.log.warning("§c服务器返回错误：" + data1);
+                AllMusic.log.warning("§d[AllMusic]§c服务器返回错误：" + data1);
             }
             return new Res(data1, ok);
         } catch (Exception e) {
-            AllMusic.log.warning("§c获取网页错误");
+            AllMusic.log.warning("§d[AllMusic]§c获取网页错误");
             e.printStackTrace();
         }
         return null;

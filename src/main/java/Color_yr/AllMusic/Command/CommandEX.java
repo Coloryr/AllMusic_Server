@@ -1,14 +1,20 @@
 package Color_yr.AllMusic.Command;
 
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.Http.HttpRequest;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
 import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
 import Color_yr.AllMusic.Utils.Function;
+import Color_yr.AllMusic.Utils.UnZip;
+
+import java.io.File;
 
 public class CommandEX {
+    private static boolean init = false;
+
     private static void SearchMusic(Object sender, String Name, String[] args, boolean isDefault) {
         AllMusic.Side.RunTask(() -> {
             SearchPage search = AllMusic.Music.Search(args, isDefault);
@@ -91,6 +97,28 @@ public class CommandEX {
                     AllMusic.getMessage().getPage().getNext(), "/music nextpage");
         }
         AllMusic.Side.SendMessage(sender, "");
+    }
+
+    private static void initApi() {
+        try {
+            AllMusic.log.info("§d[AllMusic]§2开始下载");
+            File file = HttpRequest.downloadNet("http://save.s-yh-china.com/", "MusicApi.zip", AllMusic.getDataFolder());
+            if (HttpRequest.isCancel) {
+                init = false;
+                return;
+            }
+            AllMusic.log.info("§d[AllMusic]§2下载完成,开始解压");
+            UnZip.unZip(file, AllMusic.getDataFolder() + "\\");
+            AllMusic.getConfig().setMusic_Api(2);
+            AllMusic.getConfig().setAutoApi(true);
+            AllMusic.save();
+            AllMusic.log.info("§d[AllMusic]§2外置Api下载完成");
+            AllMusic.Side.reload();
+            init = false;
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c安装失败");
+            e.printStackTrace();
+        }
     }
 
     public static void EX(Object sender, String Name, String[] args) {
@@ -324,6 +352,33 @@ public class CommandEX {
                     } catch (Exception e) {
                         AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                     }
+                }
+            }
+        } else if (args[0].equalsIgnoreCase("initApi") && AllMusic.getConfig().getAdmin().contains(Name)) {
+            if (AllMusic.getConfig().isAutoApi() || AllMusic.getConfig().getMusic_Api() == 2) {
+                AllMusic.log.info("§d[AllMusic]§2你已经在使用外置api了,不需要安装哦");
+            } else {
+                if (init) {
+                    AllMusic.log.info("§d[AllMusic]§2Api正在安装");
+                } else {
+                    init = true;
+                    try {
+                        new Thread(CommandEX::initApi).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } else if (args[0].equalsIgnoreCase("cancelApi") && AllMusic.getConfig().getAdmin().contains(Name)) {
+            if (AllMusic.getConfig().isAutoApi() || AllMusic.getConfig().getMusic_Api() == 2) {
+                AllMusic.log.info("§d[AllMusic]§2你已经在使用外置api了,不需要安装哦");
+            } else {
+                if (!init) {
+                    AllMusic.log.info("§d[AllMusic]§2Api没有在下载");
+                } else {
+                    AllMusic.log.info("§d[AllMusic]§2已取消下载");
+                    HttpRequest.isCancel = true;
                 }
             }
         } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.addmusic"))

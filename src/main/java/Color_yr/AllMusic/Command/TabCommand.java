@@ -27,6 +27,8 @@ public class TabCommand {
                 arguments.add("delete");
                 arguments.add("addlist");
                 arguments.add("clearlist");
+                arguments.add("initApi");
+                arguments.add("cancelApi");
             }
         } else if (arg[0].equalsIgnoreCase("hud")) {
             if (arg.length == 2) {

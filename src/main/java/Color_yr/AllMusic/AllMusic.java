@@ -8,6 +8,7 @@ import Color_yr.AllMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.Side.SideBukkit.VaultHook;
+import Color_yr.AllMusic.Utils.RunApi;
 import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.8.0";
+    public static final String Version = "2.9.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -37,6 +38,7 @@ public class AllMusic {
     private static MessageOBJ Message;
     private static File ConfigFile;
     private static File MessageFile;
+    private static File DataFolder;
 
     public static VaultHook Vault;
 
@@ -62,6 +64,10 @@ public class AllMusic {
 
     public static void removeSearch(String player) {
         SearchSave.remove(player);
+    }
+
+    public static String getDataFolder() {
+        return DataFolder.getPath();
     }
 
     public static void addVote(String player) {
@@ -113,6 +119,9 @@ public class AllMusic {
             logs.stop();
             Side.Send("[Stop]", false);
             PlayMusic.stop();
+            if (AllMusic.Config.isAutoApi()) {
+                RunApi.stop();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,6 +129,11 @@ public class AllMusic {
     }
 
     private void initAPI() {
+        if (AllMusic.Config.isAutoApi()) {
+            if (!RunApi.runAPI(DataFolder)) {
+                log.warning("§d[AllMusic]§c外置API启动失败");
+            }
+        }
         switch (AllMusic.Config.getMusic_Api()) {
             case 2: {
                 AllMusic.Music = new API1();
@@ -197,11 +211,12 @@ public class AllMusic {
             if (!logs.file.exists()) {
                 logs.file.createNewFile();
             }
+            DataFolder = file;
             LoadConfig();
             isRun = true;
         } catch (IOException e) {
             isRun = false;
-            log.warning("§d[AllMusic]§2§c启动失败");
+            log.warning("§d[AllMusic]§c启动失败");
             e.printStackTrace();
         }
     }
