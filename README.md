@@ -12,15 +12,29 @@
 >`fabric:1.14 1.15 1.16`  
 >复制`[forge-1.1x]AllMusic-2.3.0(hotfix)`到你的`mods`文件夹  
 >fabric同理  
->3. 启动外置API（可选）  
+>3. 启动外置API-VPS推荐开启（可选）  
 >下载群文件的`NeteaseCloudMusicApi.7z`并解压到一个地方  
+>请不要放在本机启动  
+>请不要放在本机启动  
+>请不要放在本机启动  
+>请不要放在本机启动  
+>请不要放在本机启动  
+>请不要放在本机启动  
+>请不要放在本机启动  
 >windows双击`start.cmd`  
 >Linux`$ sudo ./start.sh`  
 >出现`server running @ http://localhost:4000`为启动成功  
 >配置文件的`Music_Api`设置`2`  
->重载插件
+>配置文件的`Music_Api`设置`2`  
+>配置文件的`Music_Api`设置`2`  
+>配置文件的`Music_Api`设置`2`  
+>配置文件的`Music_Api`设置`2`  
+>配置文件的`Music_Api`设置`2`  
+>配置文件的`Music_Api`设置`2`  
+>重载插件  
+>面板服可以尝试使用[外置API友链](https://github.com/s-yh-china/AllMusicApi)  
+>或者使用/music initapi尝试自建API
 
-[外置API友链](https://github.com/s-yh-china/AllMusicApi)
 
 ## 播放VIP歌曲
 1. 使用外置API
