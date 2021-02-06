@@ -5,22 +5,56 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.ssl.SSLContexts;
 
+import javax.net.ssl.SSLContext;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
+import java.security.cert.X509Certificate;
 
 public class HttpGet {
-    private static final HttpClient client;
-    private static final RequestConfig defaultConfig;
+    private static HttpClient client;
+    private static RequestConfig defaultConfig;
 
     static {
-        client = HttpClientBuilder.create().build();
-        defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD)
-                .setConnectTimeout(2000).setSocketTimeout(2000)
-                .setConnectionRequestTimeout(2000).build();
+        try {
+            defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD)
+                    .setConnectTimeout(2000).setSocketTimeout(2000)
+                    .setConnectionRequestTimeout(2000).build();
+            class AnyTrustStrategy implements TrustStrategy {
+                @Override
+                public boolean isTrusted(X509Certificate[] chain, String authType) {
+                    return true;
+                }
+            }
+            RegistryBuilder registryBuilder = RegistryBuilder.create();
+            ConnectionSocketFactory plainSF = new PlainConnectionSocketFactory();
+            registryBuilder.register("http", plainSF);
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(trustStore, new AnyTrustStrategy()).build();
+            LayeredConnectionSocketFactory sslSF = new SSLConnectionSocketFactory(sslContext);
+            registryBuilder.register("https", sslSF);
+            Registry registry = registryBuilder.build();
+            PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(registry);
+            connManager.setMaxTotal(200);
+            connManager.setDefaultMaxPerRoute(200);
+            client = HttpClientBuilder.create().setConnectionManager(connManager).setDefaultCookieStore(new BasicCookieStore()).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static Res realData(String path, String data) {
