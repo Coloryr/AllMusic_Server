@@ -7,6 +7,8 @@ import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
 import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
+import Color_yr.AllMusic.SearchTask;
+import Color_yr.AllMusic.TaskObj;
 import Color_yr.AllMusic.Utils.Function;
 import Color_yr.AllMusic.Utils.UnZip;
 
@@ -16,17 +18,12 @@ public class CommandEX {
     private static boolean init = false;
 
     private static void SearchMusic(Object sender, String Name, String[] args, boolean isDefault) {
-        AllMusic.Side.RunTask(() -> {
-            SearchPage search = AllMusic.Music.Search(args, isDefault);
-            if (search == null)
-                AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch()
-                        .getCantSearch().replace("%Music%", isDefault ? args[0] : args[1]));
-            else {
-                AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getRes());
-                ShowSearch(sender, search);
-                AllMusic.addSearch(Name, search);
-            }
-        });
+        TaskObj obj = new TaskObj();
+        obj.sender = sender;
+        obj.Name = Name;
+        obj.args = args;
+        obj.isDefault = isDefault;
+        SearchTask.addSearch(obj);
     }
 
     private static void AddMusic(Object sender, String Name, String[] args) {
@@ -73,7 +70,7 @@ public class CommandEX {
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getNoID());
     }
 
-    private static void ShowSearch(Object sender, SearchPage search) {
+    public static void ShowSearch(Object sender, SearchPage search) {
         int index = search.getIndex();
         SearchOBJ item;
         String info;
@@ -263,6 +260,7 @@ public class CommandEX {
                         AllMusic.getMessage().getCost().getAddMusic()
                                 .replace("%Cost%", "" + AllMusic.getConfig().getAddMusicCost()));
             }
+            AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getSearch().getStartSearch());
             SearchMusic(sender, Name, args, false);
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
             if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.search")) {

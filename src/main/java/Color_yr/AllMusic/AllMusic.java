@@ -108,6 +108,7 @@ public class AllMusic {
 
     public static void start() {
         PlayMusic.start();
+        SearchTask.start();
         log.info("§d[AllMusic]§2§e已启动-" + Version);
     }
 
@@ -116,6 +117,7 @@ public class AllMusic {
             clearVote();
             logs.stop();
             Side.Send("[Stop]", false);
+            SearchTask.stop();
             PlayMusic.stop();
             if (AllMusic.Config.isAutoApi()) {
                 RunApi.stop();

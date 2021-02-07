@@ -9,8 +9,10 @@ public class SearchOBJ {
     private String Chose;
     private String CantNext;
     private String CantLast;
+    private String StartSearch;
 
     public SearchOBJ() {
+        StartSearch= "§d[AllMusic]§2正在排队搜歌";
         NoPer = "§d[AllMusic]§c你没有权限搜歌";
         CantSearch = "§d[AllMusic]§c无法搜索歌曲：%Music%";
         Res = "§d[AllMusic]§2搜索结果";
@@ -19,6 +21,10 @@ public class SearchOBJ {
         Chose = "§d[AllMusic]§2你选择了序号%Num%";
         CantNext = "§d[AllMusic]§c无法下一页";
         CantLast = "§d[AllMusic]§c无法上一页";
+    }
+
+    public String getStartSearch() {
+        return StartSearch;
     }
 
     public String getCantLast() {
