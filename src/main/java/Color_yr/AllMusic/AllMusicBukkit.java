@@ -2,10 +2,7 @@ package Color_yr.AllMusic;
 
 import Color_yr.AllMusic.Command.CommandBukkit;
 import Color_yr.AllMusic.Event.EventBukkit;
-import Color_yr.AllMusic.Side.SideBukkit.PAPI;
-import Color_yr.AllMusic.Side.SideBukkit.SideBukkit;
-import Color_yr.AllMusic.Side.SideBukkit.VaultHook;
-import Color_yr.AllMusic.bStats.MetricsBukkit;
+import Color_yr.AllMusic.Side.SideBukkit.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,7 +15,7 @@ public class AllMusicBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        AllMusic.log = getLogger();
+        AllMusic.log = new BukkitLog(getLogger());
         AllMusic.Side = new SideBukkit();
 
         try {

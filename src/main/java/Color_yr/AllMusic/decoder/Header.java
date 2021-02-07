@@ -123,6 +123,8 @@ public final class Header {
                             "96 kbit/s", "112 kbit/s", "128 kbit/s", "144 kbit/s", "160 kbit/s",
                             "forbidden"}},
     };
+    // VBR support added by E.B
+    private final double[] h_vbr_time_per_frame = {-1, 384, 1152, 1152};
     public short checksum;
     public int framesize;
     public int nSlots;
@@ -132,8 +134,6 @@ public final class Header {
     private int h_mode;
     private int h_sample_frequency;
     private int h_number_of_subbands, h_intensity_stereo_bound;
-    // VBR support added by E.B
-    private final double[] h_vbr_time_per_frame = {-1, 384, 1152, 1152};
     private boolean h_vbr;
     private int h_vbr_frames;
     private int h_vbr_bytes;

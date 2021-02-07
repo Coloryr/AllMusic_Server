@@ -23,10 +23,6 @@ public class SongInfo {
         isList = false;
     }
 
-    public String getPlayerUrl() {
-        return PlayerUrl;
-    }
-
     public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al, boolean isList, int Length) {
         this.Author = Author;
         this.Name = Name;
@@ -37,6 +33,10 @@ public class SongInfo {
 
         this.isList = isList;
         this.Length = Length;
+    }
+
+    public String getPlayerUrl() {
+        return PlayerUrl;
     }
 
     public String getAl() {

@@ -8,6 +8,15 @@ public class SaveOBJ {
     private boolean EnableLyric;
     private boolean EnableInfo;
 
+    public SaveOBJ() {
+        EnableList = true;
+        EnableLyric = true;
+        EnableInfo = true;
+        List = new PosOBJ(2, 80);
+        Lyric = new PosOBJ(2, 55);
+        Info = new PosOBJ(2, 2);
+    }
+
     public SaveOBJ copy() {
         SaveOBJ saveOBJ = new SaveOBJ();
         saveOBJ.setEnableInfo(this.EnableInfo);
@@ -17,15 +26,6 @@ public class SaveOBJ {
         saveOBJ.setList(this.List.copy());
         saveOBJ.setLyric(this.Lyric.copy());
         return saveOBJ;
-    }
-
-    public SaveOBJ() {
-        EnableList = true;
-        EnableLyric = true;
-        EnableInfo = true;
-        List = new PosOBJ(2, 80);
-        Lyric = new PosOBJ(2, 55);
-        Info = new PosOBJ(2, 2);
     }
 
     public boolean isEnableInfo() {

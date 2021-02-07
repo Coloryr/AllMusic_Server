@@ -77,20 +77,21 @@ public final class Bitstream implements BitstreamErrors {
     private final Header header = new Header();
     private final byte[] syncbuf = new byte[4];
     /**
-     * Number of valid bytes in the frame buffer.
-     */
-    private int framesize;
-    /**
      * The bytes read from the stream.
      */
     private final byte[] frame_bytes = new byte[BUFFER_INT_SIZE * 4];
+    private final Crc16[] crc = new Crc16[1];
+    /**
+     * Number of valid bytes in the frame buffer.
+     */
+    private int framesize;
+    //private int 			current_frame_number;
+    //private int				last_frame_number;
     /**
      * Index into <code>framebuffer</code> where the next bits are
      * retrieved.
      */
     private int wordpointer;
-    //private int 			current_frame_number;
-    //private int				last_frame_number;
     /**
      * Number (0-31, from MSB to LSB) of next bit for get_bits()
      */
@@ -107,8 +108,6 @@ public final class Bitstream implements BitstreamErrors {
      *
      */
     private boolean single_ch_mode;
-    private final Crc16[] crc = new Crc16[1];
-
     private byte[] rawid3v2 = null;
 
     private boolean firstframe = true;

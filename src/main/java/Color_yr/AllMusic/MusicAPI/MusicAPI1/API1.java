@@ -33,10 +33,10 @@ public class API1 implements IMusicAPI {
         if (!AllMusic.getConfig().getLoginPass().isEmpty() && !AllMusic.getConfig().getLoginUser().isEmpty()) {
             if (!AllMusic.getConfig().getLoginUser().contains("@"))
                 HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
-                    + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
+                        + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
             else
                 HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
-                    + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
+                        + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
         }
         Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url(), "");
         if (res == null || !res.isOk()) {

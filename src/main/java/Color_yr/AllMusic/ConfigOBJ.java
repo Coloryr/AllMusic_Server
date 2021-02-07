@@ -110,6 +110,10 @@ public class ConfigOBJ {
         return Music_Api;
     }
 
+    public void setMusic_Api(int music_Api) {
+        Music_Api = music_Api;
+    }
+
     public boolean isNeedPermission() {
         return NeedPermission;
     }
@@ -193,9 +197,5 @@ public class ConfigOBJ {
 
     public void setAutoApi(boolean autoApi) {
         AutoApi = autoApi;
-    }
-
-    public void setMusic_Api(int music_Api) {
-        Music_Api = music_Api;
     }
 }

@@ -20,27 +20,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.9.1";
+    public static final String Version = "2.10.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
     private static final List<String> NowPlayPlayer = new ArrayList<>();
 
-    public static Logger log;
+    public static IMyLogger log;
     public static ISide Side;
     public static IMusicAPI Music;
     public static boolean isRun;
+    public static VaultHook Vault;
     private static ConfigOBJ Config;
     private static MessageOBJ Message;
     private static File ConfigFile;
     private static File MessageFile;
     private static File DataFolder;
-
-    public static VaultHook Vault;
 
     public static boolean containNowPlay(String player) {
         return NowPlayPlayer.contains(player);
@@ -128,7 +126,7 @@ public class AllMusic {
         log.info("§d[AllMusic]§2§e已停止，感谢使用");
     }
 
-    private void initAPI() {
+    private static void initAPI() {
         if (AllMusic.Config.isAutoApi()) {
             if (!RunApi.runAPI(DataFolder)) {
                 log.warning("§d[AllMusic]§c外置API启动失败");
@@ -147,7 +145,7 @@ public class AllMusic {
         }
     }
 
-    private void LoadConfig() {
+    private static void LoadConfig() {
         try {
             InputStreamReader reader = new InputStreamReader(
                     new FileInputStream(ConfigFile), StandardCharsets.UTF_8);
