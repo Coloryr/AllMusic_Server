@@ -4,6 +4,7 @@ import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
+import Color_yr.AllMusic.TaskObj;
 import Color_yr.AllMusic.Utils.logs;
 import Color_yr.AllMusic.decoder.Bitstream;
 import Color_yr.AllMusic.decoder.Header;
@@ -13,6 +14,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PlayMusic {
 
@@ -25,22 +27,43 @@ public class PlayMusic {
 
     public static LyricSave Lyric;
     public static ShowOBJ nowLyric;
-    private static PlayGo PlayGo;
+
+    private static boolean isRun;
+    private static Thread addT;
+    private static final List<TaskObj> tasks = new CopyOnWriteArrayList<>();
+    private static final Runnable Do = () -> {
+        while (isRun) {
+            try {
+                if (!tasks.isEmpty()) {
+                    TaskObj obj = tasks.remove(0);
+                    addMusic((String) obj.sender, obj.Name, obj.isDefault);
+                }
+                Thread.sleep(10);
+            } catch (Exception e) {
+                AllMusic.log.warning("歌曲处理出现问题");
+                e.printStackTrace();
+            }
+        }
+    };
 
     public static void stop() {
         PlayMusic.clear();
-        if (PlayGo != null && PlayGo.isAlive()) {
-            PlayGo.closeTimer();
-            PlayGo.stop();
-        }
+        isRun = false;
+        PlayGo.stop();
     }
 
     public static void start() {
-        PlayGo = new PlayGo();
+        addT = new Thread(Do);
+        isRun = true;
         PlayGo.start();
+        addT.start();
     }
 
-    public static void addMusic(String ID, String player, boolean isList) {
+    public static void addTask(TaskObj obj) {
+        tasks.add(obj);
+    }
+
+    private static void addMusic(String ID, String player, boolean isList) {
         synchronized (PlayList) {
             if (isHave(ID))
                 return;

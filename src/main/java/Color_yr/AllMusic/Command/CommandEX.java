@@ -56,7 +56,11 @@ public class CommandEX {
                 }
                 AllMusic.getConfig().RemoveNoMusicPlayer(Name);
                 if (AllMusic.Side.NeedPlay()) {
-                    AllMusic.Side.RunTask(() -> PlayMusic.addMusic(MusicID, Name, false));
+                    TaskObj obj = new TaskObj();
+                    obj.sender = MusicID;
+                    obj.Name = Name;
+                    obj.isDefault = false;
+                    PlayMusic.addTask(obj);
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
                     if (AllMusic.getConfig().isUseCost() && AllMusic.Vault != null) {
                         AllMusic.Vault.cost(Name, AllMusic.getConfig().getAddMusicCost(),
