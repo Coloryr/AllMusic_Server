@@ -92,7 +92,7 @@ class PlayGo {
                     Hud.SendHudLyricData(null);
                     Hud.SendHudListData();
                     if (AllMusic.Side.NeedPlay()) {
-                        String ID = AllMusic.Music.GetListMusic();
+                        String ID = AllMusic.getMusic().GetListMusic();
                         if (ID != null) {
                             TaskObj obj = new TaskObj();
                             obj.sender = ID;
@@ -111,7 +111,7 @@ class PlayGo {
                 PlayMusic.remove(0);
 
                 String url = PlayMusic.NowPlayMusic.getPlayerUrl() == null ?
-                        AllMusic.Music.GetPlayUrl(PlayMusic.NowPlayMusic.getID()) :
+                        AllMusic.getMusic().GetPlayUrl(PlayMusic.NowPlayMusic.getID()) :
                         PlayMusic.NowPlayMusic.getPlayerUrl();
                 if (url == null) {
                     String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
@@ -120,7 +120,7 @@ class PlayGo {
                 }
 
                 if (PlayMusic.NowPlayMusic.getPlayerUrl() == null)
-                    PlayMusic.Lyric = AllMusic.Music.getLyric(PlayMusic.NowPlayMusic.getID());
+                    PlayMusic.Lyric = AllMusic.getMusic().getLyric(PlayMusic.NowPlayMusic.getID());
                 else
                     PlayMusic.Lyric = new LyricSave();
 

@@ -240,7 +240,7 @@ public class CommandEX {
         } else if (args[0].equalsIgnoreCase("addlist") && args.length == 2
                 && AllMusic.getConfig().getAdmin().contains(Name)) {
             if (Function.isInteger(args[1])) {
-                AllMusic.Music.SetList(args[1], sender);
+                AllMusic.getMusic().SetList(args[1], sender);
                 AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表" + args[1]);
             } else {
                 AllMusic.Side.SendMessage(sender, "§d[AllMusic]§2请输入有效的音乐列表ID");

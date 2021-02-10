@@ -31,9 +31,9 @@ public class AllMusic {
 
     public static IMyLogger log;
     public static ISide Side;
-    public static IMusicAPI Music;
     public static boolean isRun;
     public static VaultHook Vault;
+    private static IMusicAPI Music;
     private static ConfigOBJ Config;
     private static MessageOBJ Message;
     private static File ConfigFile;
@@ -126,6 +126,13 @@ public class AllMusic {
             e.printStackTrace();
         }
         log.info("§d[AllMusic]§2§e已停止，感谢使用");
+    }
+
+    public static IMusicAPI getMusic() {
+        if (Music == null) {
+            initAPI();
+        }
+        return Music;
     }
 
     private static void initAPI() {

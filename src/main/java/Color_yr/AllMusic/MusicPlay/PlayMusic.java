@@ -73,7 +73,7 @@ public class PlayMusic {
             AllMusic.Side.bq(text);
             logs.logWrite("玩家：" + player + " 点歌：" + ID);
             try {
-                SongInfo info = AllMusic.Music.GetMusic(ID, player, isList);
+                SongInfo info = AllMusic.getMusic().GetMusic(ID, player, isList);
                 if (info != null) {
                     PlayList.add(info);
                     String data = AllMusic.getMessage().getMusicPlay().getAddMusic();

@@ -16,7 +16,7 @@ public class SearchTask {
             try {
                 if (!tasks.isEmpty()) {
                     TaskObj obj = tasks.remove(0);
-                    SearchPage search = AllMusic.Music.Search(obj.args, obj.isDefault);
+                    SearchPage search = AllMusic.getMusic().Search(obj.args, obj.isDefault);
                     if (search == null)
                         AllMusic.Side.SendMessaget(obj.sender, AllMusic.getMessage().getSearch()
                                 .getCantSearch().replace("%Music%", obj.isDefault ? obj.args[0] : obj.args[1]));
