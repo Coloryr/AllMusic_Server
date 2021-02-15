@@ -82,4 +82,61 @@ public class MessageOBJ {
     public AddMusicOBJ getAddMusic() {
         return AddMusic;
     }
+
+    public boolean check() {
+        boolean saveConfig = false;
+        if (MusicPlay == null) {
+            saveConfig = true;
+            MusicPlay = new MusicPlayOBJ();
+        }
+        if (AddMusic == null) {
+            saveConfig = true;
+            AddMusic = new AddMusicOBJ();
+        }
+        if (Page == null) {
+            saveConfig = true;
+            Page = new PageOBJ();
+        }
+        if (Lyric == null) {
+            saveConfig = true;
+            Lyric = new LyricOBJ();
+        }
+        if (Vote == null) {
+            saveConfig = true;
+            Vote = new VoteOBJ();
+        }
+        if (Search == null) {
+            saveConfig = true;
+            Search = new SearchOBJ();
+        }
+        if (Hud == null) {
+            saveConfig = true;
+            Hud = new HudOBJ();
+        }
+        if (HudList == null) {
+            saveConfig = true;
+            HudList = new HudListOBJ();
+        }
+        if (Command == null) {
+            saveConfig = true;
+            Command = new CommandOBJ();
+        }
+        if (Custom == null) {
+            saveConfig = true;
+            Custom = new CustomOBJ();
+        }
+        if (PAPI == null) {
+            saveConfig = true;
+            PAPI = new PAPIOBJ();
+        }
+        if (Cost == null) {
+            saveConfig = true;
+            Cost = new CostObj();
+        }
+        if (Click == null) {
+            saveConfig = true;
+            Click = new ClickObj();
+        }
+        return saveConfig;
+    }
 }
