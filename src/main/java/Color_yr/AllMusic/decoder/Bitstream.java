@@ -203,8 +203,7 @@ public final class Bitstream implements BitstreamErrors {
     public InputStream getRawID3v2() {
         if (rawid3v2 == null) return null;
         else {
-            ByteArrayInputStream bain = new ByteArrayInputStream(rawid3v2);
-            return bain;
+            return new ByteArrayInputStream(rawid3v2);
         }
     }
 
@@ -355,7 +354,7 @@ public final class Bitstream implements BitstreamErrors {
 
         if (bytesRead != 3) throw newBitstreamException(STREAM_EOF, null);
 
-        headerstring = ((syncbuf[0] << 16) & 0x00FF0000) | ((syncbuf[1] << 8) & 0x0000FF00) | ((syncbuf[2] << 0) & 0x000000FF);
+        headerstring = ((syncbuf[0] << 16) & 0x00FF0000) | ((syncbuf[1] << 8) & 0x0000FF00) | ((syncbuf[2]) & 0x000000FF);
 
         do {
             headerstring <<= 8;

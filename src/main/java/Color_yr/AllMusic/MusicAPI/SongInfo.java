@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicAPI.SongInfo;
+package Color_yr.AllMusic.MusicAPI;
 
 import Color_yr.AllMusic.AllMusic;
 

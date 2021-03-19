@@ -2,7 +2,7 @@ package Color_yr.AllMusic.MusicAPI.MusicAPI1;
 
 import Color_yr.AllMusic.API.IMusicAPI;
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.Http.HttpGet;
+import Color_yr.AllMusic.Http.HttpClientUtil;
 import Color_yr.AllMusic.Http.Res;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicInfo.InfoOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicInfo.PlayOBJ;
@@ -11,7 +11,7 @@ import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicLyric.LyricOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicSearch.SearchDataOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicSearch.songs;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetProgramInfo.PrInfoOBJ;
-import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
+import Color_yr.AllMusic.MusicAPI.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricDo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
@@ -32,13 +32,13 @@ public class API1 implements IMusicAPI {
         AllMusic.log.info("§d[AllMusic]§e使用外置本地爬虫");
         if (!AllMusic.getConfig().getLoginPass().isEmpty() && !AllMusic.getConfig().getLoginUser().isEmpty()) {
             if (!AllMusic.getConfig().getLoginUser().contains("@"))
-                HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
+                HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
                         + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
             else
-                HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
+                HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
                         + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
         }
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url(), "");
+        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url(), "");
         if (res == null || !res.isOk()) {
             AllMusic.log.info("§d[AllMusic]§c使用外置本地爬虫连接失败");
             AllMusic.getConfig().setMusic_Api(1);
@@ -48,7 +48,7 @@ public class API1 implements IMusicAPI {
     }
 
     private SongInfo GetMusicDetail(String ID, String player, boolean isList) {
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/detail?ids=", ID);
+        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/song/detail?ids=", ID);
         if (res != null && res.isOk()) {
             InfoOBJ temp = new Gson().fromJson(res.getData(), InfoOBJ.class);
             if (temp.isok()) {
@@ -64,7 +64,7 @@ public class API1 implements IMusicAPI {
         SongInfo info = GetMusicDetail(ID, player, isList);
         if (info != null)
             return info;
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/dj/program/detail?id=", ID);
+        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/dj/program/detail?id=", ID);
         if (res != null && res.isOk()) {
             PrInfoOBJ temp = new Gson().fromJson(res.getData(), PrInfoOBJ.class);
             if (temp.isOK()) {
@@ -79,8 +79,8 @@ public class API1 implements IMusicAPI {
 
     @Override
     public String GetPlayUrl(String ID) {
-        HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/check/music?id=", ID);
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?br=320000&id=", ID);
+        HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/check/music?id=", ID);
+        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?br=320000&id=", ID);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -93,7 +93,7 @@ public class API1 implements IMusicAPI {
                 e.printStackTrace();
             }
         }
-        res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?id=", ID);
+        res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
@@ -115,7 +115,7 @@ public class API1 implements IMusicAPI {
     public void SetList(String ID, Object sender) {
         Thread thread = new Thread(() ->
         {
-            Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/playlist/detail?id=", ID);
+            Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/playlist/detail?id=", ID);
             if (res != null && res.isOk())
                 try {
                     isUpdata = true;
@@ -135,7 +135,7 @@ public class API1 implements IMusicAPI {
     @Override
     public LyricSave getLyric(String ID) {
         LyricSave Lyric = new LyricSave();
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/lyric?id=", ID);
+        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/lyric?id=", ID);
         if (res != null && res.isOk()) {
             try {
                 LyricOBJ obj = new Gson().fromJson(res.getData(), LyricOBJ.class);
@@ -172,7 +172,7 @@ public class API1 implements IMusicAPI {
         }
         String MusicName = name1.toString();
         MusicName = MusicName.substring(0, MusicName.length() - 1);
-        Res res = HttpGet.realData(AllMusic.getConfig().getMusic_Url() + "/search?keywords=", MusicName);
+        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/search?keywords=", MusicName);
         if (res != null && res.isOk()) {
             SearchDataOBJ obj = new Gson().fromJson(res.getData(), SearchDataOBJ.class);
             if (obj != null && obj.isok()) {

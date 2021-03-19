@@ -8,7 +8,6 @@ public class CommandVelocity implements SimpleCommand {
     @Override
     public void execute(final Invocation invocation) {
         CommandSource source = invocation.source();
-        // Get the arguments after the command alias
         String[] args = invocation.arguments();
         String name = "CONSOLE";
         if (invocation.source() instanceof Player) {

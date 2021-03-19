@@ -1,6 +1,6 @@
 package Color_yr.AllMusic.API;
 
-import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
+import Color_yr.AllMusic.MusicAPI.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 

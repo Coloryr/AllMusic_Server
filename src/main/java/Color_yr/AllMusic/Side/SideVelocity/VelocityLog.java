@@ -1,6 +1,6 @@
 package Color_yr.AllMusic.Side.SideVelocity;
 
-import Color_yr.AllMusic.IMyLogger;
+import Color_yr.AllMusic.API.IMyLogger;
 import org.slf4j.Logger;
 
 public class VelocityLog implements IMyLogger {

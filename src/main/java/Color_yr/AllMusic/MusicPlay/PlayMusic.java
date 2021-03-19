@@ -1,10 +1,9 @@
 package Color_yr.AllMusic.MusicPlay;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
+import Color_yr.AllMusic.MusicAPI.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
-import Color_yr.AllMusic.TaskObj;
 import Color_yr.AllMusic.Utils.logs;
 import Color_yr.AllMusic.decoder.Bitstream;
 import Color_yr.AllMusic.decoder.Header;
@@ -30,13 +29,17 @@ public class PlayMusic {
 
     private static boolean isRun;
     private static Thread addT;
-    private static final List<TaskObj> tasks = new CopyOnWriteArrayList<>();
+    private static final List<MusicObj> tasks = new CopyOnWriteArrayList<>();
     private static final Runnable Do = () -> {
         while (isRun) {
             try {
                 if (!tasks.isEmpty()) {
-                    TaskObj obj = tasks.remove(0);
-                    addMusic((String) obj.sender, obj.Name, obj.isDefault);
+                    MusicObj obj = tasks.remove(0);
+                    if (obj.isUrl) {
+                        addUrl(obj.url);
+                    } else {
+                        addMusic((String) obj.sender, obj.Name, obj.isDefault);
+                    }
                 }
                 Thread.sleep(10);
             } catch (Exception e) {
@@ -59,7 +62,7 @@ public class PlayMusic {
         addT.start();
     }
 
-    public static void addTask(TaskObj obj) {
+    public static void addTask(MusicObj obj) {
         tasks.add(obj);
     }
 
@@ -153,7 +156,7 @@ public class PlayMusic {
         return false;
     }
 
-    public static void addUrl(String arg) {
+    private static void addUrl(String arg) {
         synchronized (PlayList) {
             try {
                 URL urlfile = new URL(arg);

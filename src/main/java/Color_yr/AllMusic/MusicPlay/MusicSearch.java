@@ -1,21 +1,22 @@
-package Color_yr.AllMusic;
+package Color_yr.AllMusic.MusicPlay;
 
+import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.Command.CommandEX;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class SearchTask {
+public class MusicSearch {
     private static Thread taskT;
     private static boolean isRun;
-    private static List<TaskObj> tasks = new CopyOnWriteArrayList<>();
+    private static List<MusicObj> tasks = new CopyOnWriteArrayList<>();
 
     private static final Runnable Do = () -> {
         while (isRun) {
             try {
                 if (!tasks.isEmpty()) {
-                    TaskObj obj = tasks.remove(0);
+                    MusicObj obj = tasks.remove(0);
                     SearchPage search = AllMusic.getMusic().Search(obj.args, obj.isDefault);
                     if (search == null)
                         AllMusic.Side.SendMessaget(obj.sender, AllMusic.getMessage().getSearch()
@@ -44,7 +45,7 @@ public class SearchTask {
         isRun = false;
     }
 
-    public static void addSearch(TaskObj obj) {
+    public static void addSearch(MusicObj obj) {
         tasks.add(obj);
     }
 }

@@ -1,15 +1,15 @@
 package Color_yr.AllMusic;
 
 import Color_yr.AllMusic.API.IMusicAPI;
+import Color_yr.AllMusic.API.IMyLogger;
 import Color_yr.AllMusic.API.ISide;
 import Color_yr.AllMusic.Message.*;
 import Color_yr.AllMusic.MusicAPI.MusicAPI1.API1;
 import Color_yr.AllMusic.MusicAPI.MusicAPI2.API2;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
-import Color_yr.AllMusic.MusicPlay.SendHud.SaveOBJ;
+import Color_yr.AllMusic.MusicPlay.MusicSearch;
 import Color_yr.AllMusic.Side.SideBukkit.VaultHook;
-import Color_yr.AllMusic.Utils.RunApi;
 import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,11 +21,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.10.4";
+    public static final String Version = "2.10.5";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -141,7 +140,7 @@ public class AllMusic {
 
     public static void start() {
         PlayMusic.start();
-        SearchTask.start();
+        MusicSearch.start();
         log.info("§d[AllMusic]§2§e已启动-" + Version);
     }
 
@@ -150,11 +149,8 @@ public class AllMusic {
             clearVote();
             logs.stop();
             Side.Send("[Stop]", false);
-            SearchTask.stop();
+            MusicSearch.stop();
             PlayMusic.stop();
-//            if (AllMusic.Config.AutoApi) {
-//                RunApi.stop();
-//            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,11 +165,6 @@ public class AllMusic {
     }
 
     private static void initAPI() {
-//        if (AllMusic.Config.AutoApi) {
-//            if (!RunApi.runAPI(DataFolder)) {
-//                log.warning("§d[AllMusic]§c外置API启动失败");
-//            }
-//        }
         switch (AllMusic.Config.getMusic_Api()) {
             case 2: {
                 AllMusic.Music = new API1();

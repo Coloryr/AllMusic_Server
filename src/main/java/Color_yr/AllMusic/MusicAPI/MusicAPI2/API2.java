@@ -2,11 +2,11 @@ package Color_yr.AllMusic.MusicAPI.MusicAPI2;
 
 import Color_yr.AllMusic.API.IMusicAPI;
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.Http.HttpGet;
+import Color_yr.AllMusic.Http.HttpClientUtil;
 import Color_yr.AllMusic.Http.Res;
 import Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicInfo.InfoOBJ;
 import Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicLyric.LyricOBJ;
-import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
+import Color_yr.AllMusic.MusicAPI.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricDo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
@@ -19,13 +19,9 @@ public class API2 implements IMusicAPI {
     public int PlayNow = 0;
     public boolean isUpdata;
 
-    public API2() {
-        AllMusic.log.info("§d[AllMusic]§e使用内置爬虫,你可以输入/music initApi来尝试自动搭建外置爬虫");
-    }
-
     @Override
     public SongInfo GetMusic(String ID, String player, boolean isList) {
-        Res res = HttpGet.realData("https://music.163.com/api/song/detail/?ids=%5B", ID + "]");
+        Res res = HttpClientUtil.realData("https://music.163.com/api/song/detail/?ids=%5B", ID + "]");
         SongInfo info = null;
         if (res != null && res.isOk()) {
             InfoOBJ temp = new Gson().fromJson(res.getData(), InfoOBJ.class);
@@ -52,7 +48,7 @@ public class API2 implements IMusicAPI {
     @Override
     public LyricSave getLyric(String ID) {
         LyricSave Lyric = new LyricSave();
-        Res res = HttpGet.realData("https://music.163.com/api/song/lyric?os=pc&lv=-1&kv=-1&tv=-1&id=", ID);
+        Res res = HttpClientUtil.realData("https://music.163.com/api/song/lyric?os=pc&lv=-1&kv=-1&tv=-1&id=", ID);
         if (res != null && res.isOk()) {
             try {
                 LyricOBJ obj = new Gson().fromJson(res.getData(), LyricOBJ.class);

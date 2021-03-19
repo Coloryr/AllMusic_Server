@@ -1,13 +1,13 @@
 package Color_yr.AllMusic.MusicPlay.SendHud;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.MusicAPI.SongInfo.SongInfo;
+import Color_yr.AllMusic.MusicAPI.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.Utils.Function;
 import com.google.gson.Gson;
 
-public class Hud {
+public class HudUtils {
     public static PosOBJ SetHudPos(String player, String pos, String x, String y) {
         SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
         if (obj == null)
@@ -46,7 +46,7 @@ public class Hud {
 
         AllMusic.getConfig().setInfoSave(obj, player);
         AllMusic.save();
-        Hud.SendHudSave(player);
+        HudUtils.SendHudSave(player);
         return posOBJ;
     }
 
@@ -149,7 +149,7 @@ public class Hud {
         clearHud(player);
         AllMusic.getConfig().setInfoSave(obj, player);
         AllMusic.save();
-        Hud.SendHudSave(player);
+        HudUtils.SendHudSave(player);
         if (pos == null) {
             return a;
         } else {
@@ -197,6 +197,6 @@ public class Hud {
         clearHud(name);
         AllMusic.getConfig().setInfoSave(obj, name);
         AllMusic.save();
-        Hud.SendHudSave(name);
+        HudUtils.SendHudSave(name);
     }
 }

@@ -3,8 +3,7 @@ package Color_yr.AllMusic.MusicPlay;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongLyric.ShowOBJ;
-import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
-import Color_yr.AllMusic.TaskObj;
+import Color_yr.AllMusic.MusicPlay.SendHud.HudUtils;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -29,12 +28,12 @@ class PlayGo {
         if (show != null) {
             PlayMusic.nowLyric = show;
             times = 0;
-            Hud.SendHudLyricData(show);
+            HudUtils.SendHudLyricData(show);
         } else {
             times++;
             if (times == 500 && PlayMusic.nowLyric != null) {
                 times = 0;
-                Hud.SendHudLyricData(PlayMusic.nowLyric);
+                HudUtils.SendHudLyricData(PlayMusic.nowLyric);
             }
         }
     };
@@ -81,20 +80,20 @@ class PlayGo {
         PlayMusic.nowLyric = null;
         PlayMusic.NowPlayMusic = null;
         closeTimer();
-        Hud.clearHud();
+        HudUtils.clearHud();
     }
 
     private static final Runnable Do = () -> {
         while (isRun) {
             if (PlayMusic.getSize() == 0) {
                 try {
-                    Hud.SendHudNowData();
-                    Hud.SendHudLyricData(null);
-                    Hud.SendHudListData();
+                    HudUtils.SendHudNowData();
+                    HudUtils.SendHudLyricData(null);
+                    HudUtils.SendHudListData();
                     if (AllMusic.Side.NeedPlay()) {
                         String ID = AllMusic.getMusic().GetListMusic();
                         if (ID != null) {
-                            TaskObj obj = new TaskObj();
+                            MusicObj obj = new MusicObj();
                             obj.sender = ID;
                             obj.Name = "空闲列表";
                             obj.isDefault = true;
@@ -137,8 +136,8 @@ class PlayGo {
                     AllMusic.Side.Send("[Play]" + url, true);
                     try {
                         while (PlayMusic.MusicLessTime > 0) {
-                            Hud.SendHudNowData();
-                            Hud.SendHudListData();
+                            HudUtils.SendHudNowData();
+                            HudUtils.SendHudListData();
                             if (!AllMusic.Side.NeedPlay()) {
                                 PlayMusic.MusicLessTime = 1;
                             }

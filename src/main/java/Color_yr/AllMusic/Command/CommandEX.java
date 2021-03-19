@@ -1,29 +1,23 @@
 package Color_yr.AllMusic.Command;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.Http.HttpRequest;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
-import Color_yr.AllMusic.MusicPlay.SendHud.Hud;
+import Color_yr.AllMusic.MusicPlay.SendHud.HudUtils;
 import Color_yr.AllMusic.MusicPlay.SendHud.PosOBJ;
-import Color_yr.AllMusic.SearchTask;
-import Color_yr.AllMusic.TaskObj;
+import Color_yr.AllMusic.MusicPlay.MusicSearch;
+import Color_yr.AllMusic.MusicPlay.MusicObj;
 import Color_yr.AllMusic.Utils.Function;
-import Color_yr.AllMusic.Utils.UnZip;
-
-import java.io.File;
 
 public class CommandEX {
-    private static boolean init = false;
-
     private static void SearchMusic(Object sender, String Name, String[] args, boolean isDefault) {
-        TaskObj obj = new TaskObj();
+        MusicObj obj = new MusicObj();
         obj.sender = sender;
         obj.Name = Name;
         obj.args = args;
         obj.isDefault = isDefault;
-        SearchTask.addSearch(obj);
+        MusicSearch.addSearch(obj);
     }
 
     private static void AddMusic(Object sender, String Name, String[] args) {
@@ -56,7 +50,7 @@ public class CommandEX {
                 }
                 AllMusic.getConfig().RemoveNoMusicPlayer(Name);
                 if (AllMusic.Side.NeedPlay()) {
-                    TaskObj obj = new TaskObj();
+                    MusicObj obj = new MusicObj();
                     obj.sender = MusicID;
                     obj.Name = Name;
                     obj.isDefault = false;
@@ -100,28 +94,6 @@ public class CommandEX {
         AllMusic.Side.SendMessage(sender, "");
     }
 
-    private static void initApi() {
-        try {
-            AllMusic.log.info("§d[AllMusic]§2开始下载");
-            File file = HttpRequest.downloadNet("http://save.s-yh-china.com/", "MusicApi.zip", AllMusic.getDataFolder());
-            if (HttpRequest.isCancel) {
-                init = false;
-                return;
-            }
-            AllMusic.log.info("§d[AllMusic]§2下载完成,开始解压");
-            UnZip.unZip(file, AllMusic.getDataFolder() + "\\");
-            AllMusic.getConfig().setMusic_Api(2);
-            AllMusic.getConfig().setAutoApi(true);
-            AllMusic.save();
-            AllMusic.log.info("§d[AllMusic]§2外置Api下载完成");
-            AllMusic.Side.reload();
-            init = false;
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c安装失败");
-            e.printStackTrace();
-        }
-    }
-
     public static void EX(Object sender, String Name, String[] args) {
         if (args.length == 0) {
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
@@ -148,7 +120,7 @@ public class CommandEX {
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.Side.ClearHud(Name);
             AllMusic.Side.Send("[Stop]", Name, false);
-            Hud.clearHud(Name);
+            HudUtils.clearHud(Name);
             AllMusic.removeNowPlayPlayer(Name);
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getMusicPlay().getStopPlay());
         } else if (args[0].equalsIgnoreCase("list")) {
@@ -218,7 +190,10 @@ public class CommandEX {
             }
         } else if (args[0].equalsIgnoreCase("url") && args.length == 2
                 && AllMusic.getConfig().getAdmin().contains(Name)) {
-            PlayMusic.addUrl(args[1]);
+            MusicObj obj = new MusicObj();
+            obj.isUrl = true;
+            obj.url = args[1];
+            PlayMusic.addTask(obj);
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
         } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
                 && AllMusic.getConfig().getAdmin().contains(Name)) {
@@ -321,7 +296,7 @@ public class CommandEX {
                 if (args[1].equalsIgnoreCase("enable")) {
                     if (args.length == 3) {
                         try {
-                            boolean temp = Hud.SetHudEnable(Name, args[2]);
+                            boolean temp = HudUtils.SetHudEnable(Name, args[2]);
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
                                     .replace("%State%", temp ? "启用" : "关闭")
                                     .replace("%Hud%", AllMusic.getMessage().getHudList().Get(args[2])));
@@ -329,19 +304,19 @@ public class CommandEX {
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                         }
                     } else {
-                        boolean temp = Hud.SetHudEnable(Name, null);
+                        boolean temp = HudUtils.SetHudEnable(Name, null);
                         AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
                                 .replace("%State%", temp ? "启用" : "关闭")
                                 .replace("%Hud%", AllMusic.getMessage().getHudList().getAll()));
                     }
                 } else if (args[1].equalsIgnoreCase("reset")) {
-                    Hud.Reset(Name);
+                    HudUtils.Reset(Name);
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getReset());
                 } else if (args.length != 4) {
                     AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                 } else {
                     try {
-                        PosOBJ obj = Hud.SetHudPos(Name, args[1], args[2], args[3]);
+                        PosOBJ obj = HudUtils.SetHudPos(Name, args[1], args[2], args[3]);
                         if (obj == null) {
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                         } else {
@@ -354,33 +329,6 @@ public class CommandEX {
                     } catch (Exception e) {
                         AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                     }
-                }
-            }
-        } else if (args[0].equalsIgnoreCase("initApi") && AllMusic.getConfig().getAdmin().contains(Name)) {
-            if (AllMusic.getConfig().isAutoApi() || AllMusic.getConfig().getMusic_Api() == 2) {
-                AllMusic.log.info("§d[AllMusic]§2你已经在使用外置api了,不需要安装哦");
-            } else {
-                if (init) {
-                    AllMusic.log.info("§d[AllMusic]§2Api正在安装");
-                } else {
-                    init = true;
-                    try {
-                        new Thread(CommandEX::initApi).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        } else if (args[0].equalsIgnoreCase("cancelApi") && AllMusic.getConfig().getAdmin().contains(Name)) {
-            if (AllMusic.getConfig().isAutoApi() || AllMusic.getConfig().getMusic_Api() == 2) {
-                AllMusic.log.info("§d[AllMusic]§2你已经在使用外置api了,不需要安装哦");
-            } else {
-                if (!init) {
-                    AllMusic.log.info("§d[AllMusic]§2Api没有在下载");
-                } else {
-                    AllMusic.log.info("§d[AllMusic]§2已取消下载");
-                    HttpRequest.isCancel = true;
                 }
             }
         } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.addmusic"))

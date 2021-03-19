@@ -5,6 +5,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -25,15 +26,15 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 
-public class HttpGet {
+public class HttpClientUtil {
     private static HttpClient client;
     private static RequestConfig defaultConfig;
 
     static {
         try {
             defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD)
-                    .setConnectTimeout(2000).setSocketTimeout(2000)
-                    .setConnectionRequestTimeout(2000).build();
+                    .setConnectTimeout(5000).setSocketTimeout(5000)
+                    .setConnectionRequestTimeout(5000).build();
             class AnyTrustStrategy implements TrustStrategy {
                 @Override
                 public boolean isTrusted(X509Certificate[] chain, String authType) {
@@ -60,7 +61,7 @@ public class HttpGet {
     public static Res realData(String path, String data) {
         try {
             data = URLEncoder.encode(data, "UTF-8");
-            org.apache.http.client.methods.HttpGet get = new org.apache.http.client.methods.HttpGet(path + data);
+            HttpGet get = new HttpGet(path + data);
             get.setConfig(defaultConfig);
             get.setHeader("Content-Type", "application/json;charset=UTF-8");
             get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36");
@@ -68,7 +69,7 @@ public class HttpGet {
             InputStream inputStream = response.getEntity().getContent();
             boolean ok = response.getStatusLine().getStatusCode() == 200;
             ByteArrayOutputStream result = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
             int length;
             while ((length = inputStream.read(buffer)) != -1) {
                 result.write(buffer, 0, length);

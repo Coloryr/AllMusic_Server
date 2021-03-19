@@ -1,6 +1,6 @@
 package Color_yr.AllMusic.Side.SideBC;
 
-import Color_yr.AllMusic.IMyLogger;
+import Color_yr.AllMusic.API.IMyLogger;
 
 import java.util.logging.Logger;
 
