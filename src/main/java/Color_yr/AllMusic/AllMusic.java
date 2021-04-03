@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.10.5";
+    public static final String Version = "2.11.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -37,9 +37,10 @@ public class AllMusic {
     private static IMusicAPI Music;
     private static ConfigOBJ Config;
     private static MessageOBJ Message;
+    public static CookieObj Cookie;
     private static File ConfigFile;
+    private static File CookieFile;
     private static File MessageFile;
-    private static File DataFolder;
 
     public static void configCheck() {
         if (Config == null) {
@@ -88,10 +89,6 @@ public class AllMusic {
         SearchSave.remove(player);
     }
 
-    public static String getDataFolder() {
-        return DataFolder.getPath();
-    }
-
     public static void addVote(String player) {
         if (!VotePlayer.contains(player))
             VotePlayer.add(player);
@@ -129,6 +126,20 @@ public class AllMusic {
             data = new GsonBuilder().setPrettyPrinting().create().toJson(Message);
             out = new FileOutputStream(MessageFile);
             write = new OutputStreamWriter(
+                    out, StandardCharsets.UTF_8);
+            write.write(data);
+            write.close();
+        } catch (Exception e) {
+            log.warning("§d[AllMusic]§c配置文件保存错误");
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveCookie() {
+        try {
+            String data = new GsonBuilder().setPrettyPrinting().create().toJson(Cookie);
+            FileOutputStream out = new FileOutputStream(CookieFile);
+            OutputStreamWriter write = new OutputStreamWriter(
                     out, StandardCharsets.UTF_8);
             write.write(data);
             write.close();
@@ -195,6 +206,16 @@ public class AllMusic {
             reader.close();
             messageCheck();
 
+            reader = new InputStreamReader(new FileInputStream(AllMusic.CookieFile), StandardCharsets.UTF_8);
+            bf = new BufferedReader(reader);
+            Cookie = new Gson().fromJson(bf, CookieObj.class);
+            bf.close();
+            reader.close();
+            if (Cookie == null) {
+                Cookie = new CookieObj();
+                saveCookie();
+            }
+
             log.info("§d[AllMusic]§e当前插件版本为：" + AllMusic.Version
                     + "，你的配置文件版本为：" + AllMusic.Config.getVersion());
 
@@ -215,6 +236,8 @@ public class AllMusic {
                 ConfigFile = new File(file, "config.json");
             if (MessageFile == null)
                 MessageFile = new File(file, "Message.json");
+            if(CookieFile == null)
+                CookieFile = new File(file, "cookie.json");
             if (logs.file == null)
                 logs.file = new File(file, "logs.log");
             if (!file.exists())
@@ -225,10 +248,12 @@ public class AllMusic {
             if (!MessageFile.exists()) {
                 Files.copy(this.getClass().getResourceAsStream("/Message.json"), MessageFile.toPath());
             }
+            if (!CookieFile.exists()) {
+                CookieFile.createNewFile();
+            }
             if (!logs.file.exists()) {
                 logs.file.createNewFile();
             }
-            DataFolder = file;
             LoadConfig();
             isRun = true;
         } catch (IOException e) {

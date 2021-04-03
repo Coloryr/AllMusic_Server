@@ -12,7 +12,6 @@ public class ConfigOBJ {
     private String Music_Url;
 
     private int Music_Api;
-    private boolean AutoApi;
 
     private int MaxList;
     private int MinVote;
@@ -46,7 +45,6 @@ public class ConfigOBJ {
     public ConfigOBJ() {
         Music_Url = "http://localhost:4000";
         Music_Api = 1;
-        AutoApi = false;
         MaxList = 10;
         MinVote = 3;
         Delay = 0;
@@ -190,14 +188,6 @@ public class ConfigOBJ {
     public void RemoveNoMusicPlayer(String ID) {
         NoMusicPlayer.remove(ID);
         AllMusic.save();
-    }
-
-    public boolean isAutoApi() {
-        return AutoApi;
-    }
-
-    public void setAutoApi(boolean autoApi) {
-        AutoApi = autoApi;
     }
 
     public boolean check() {

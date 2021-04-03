@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
-version = "2.10.5"
+version = "2.11.0"
 
 repositories {
     jcenter()
@@ -32,8 +32,7 @@ dependencies {
     dependencies { compile fileTree(dir:'lib',include:['*.jar'])}
     compileOnly 'me.clip:placeholderapi:2.10.6'
 
-    compile 'org.apache.ant:ant:1.9.4'
-    compile 'org.apache.httpcomponents:httpclient:4.5.11'
+    compile 'com.squareup.okhttp3:okhttp:4.9.1'
 
     annotationProcessor 'com.velocitypowered:velocity-api:1.1.4'
 }
@@ -41,23 +40,23 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'bungee.yml'
-        include 'plugin.yml'
-        include 'config.json'
-        // replace version and mcversion
-        expand 'version':project.version
-    }
-
-    // copy everything else except the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'bungee.yml'
-        exclude 'plugin.yml'
-        exclude 'config.json'
-    }
-}
+//processResources {
+//    // this will ensure that this task is redone when the versions change.
+//    inputs.property "version", project.version
+//
+//    // replace stuff in mcmod.info, nothing else
+//    from(sourceSets.main.resources.srcDirs) {
+//        include 'bungee.yml'
+//        include 'plugin.yml'
+//        include 'config.json'
+//        // replace version and mcversion
+//        expand 'version':project.version
+//    }
+//
+//    // copy everything else except the mcmod.info
+//    from(sourceSets.main.resources.srcDirs) {
+//        exclude 'bungee.yml'
+//        exclude 'plugin.yml'
+//        exclude 'config.json'
+//    }
+//}

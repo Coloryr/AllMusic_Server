@@ -1,58 +1,44 @@
 package Color_yr.AllMusic.Http;
 
 import Color_yr.AllMusic.AllMusic;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.ssl.SSLContexts;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 
-import javax.net.ssl.SSLContext;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyStore;
-import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HttpClientUtil {
-    private static HttpClient client;
-    private static RequestConfig defaultConfig;
 
+    private static OkHttpClient client;
+    private static final int CONNECT_TIMEOUT = 5;
+    private static final int READ_TIMEOUT = 7;
     static {
         try {
-            defaultConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD)
-                    .setConnectTimeout(5000).setSocketTimeout(5000)
-                    .setConnectionRequestTimeout(5000).build();
-            class AnyTrustStrategy implements TrustStrategy {
-                @Override
-                public boolean isTrusted(X509Certificate[] chain, String authType) {
-                    return true;
-                }
+            synchronized (OkHttpClient.class) {
+                client = new OkHttpClient.Builder()
+                        .cookieJar(new CookieJar() {
+                            @Override
+                            public void saveFromResponse(@NotNull HttpUrl httpUrl, @NotNull List<Cookie> list) {
+                                AllMusic.Cookie.cookieStore.put(httpUrl.host(), list);
+                                AllMusic.saveCookie();
+                            }
+
+                            @NotNull
+                            @Override
+                            public List<Cookie> loadForRequest(@NotNull HttpUrl httpUrl) {
+                                List<Cookie> cookies = AllMusic.Cookie.cookieStore.get(httpUrl.host());
+                                return cookies != null ? cookies : new ArrayList<>();
+                            }
+                        })
+                        .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                        .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                        .build();
             }
-            RegistryBuilder registryBuilder = RegistryBuilder.create();
-            ConnectionSocketFactory plainSF = new PlainConnectionSocketFactory();
-            registryBuilder.register("http", plainSF);
-            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(trustStore, new AnyTrustStrategy()).build();
-            LayeredConnectionSocketFactory sslSF = new SSLConnectionSocketFactory(sslContext);
-            registryBuilder.register("https", sslSF);
-            Registry registry = registryBuilder.build();
-            PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(registry);
-            connManager.setMaxTotal(200);
-            connManager.setDefaultMaxPerRoute(200);
-            client = HttpClientBuilder.create().setConnectionManager(connManager).setDefaultCookieStore(new BasicCookieStore()).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,13 +47,19 @@ public class HttpClientUtil {
     public static Res realData(String path, String data) {
         try {
             data = URLEncoder.encode(data, "UTF-8");
-            HttpGet get = new HttpGet(path + data);
-            get.setConfig(defaultConfig);
-            get.setHeader("Content-Type", "application/json;charset=UTF-8");
-            get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36");
-            HttpResponse response = client.execute(get);
-            InputStream inputStream = response.getEntity().getContent();
-            boolean ok = response.getStatusLine().getStatusCode() == 200;
+            Request request = new Request.Builder().url(path + data)
+                    .addHeader("Content-Type", "application/json;charset=UTF-8")
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36")
+                    .build();
+            Response response = client.newCall(request).execute();
+            int httpCode = response.code();
+            ResponseBody body = response.body();
+            if (body == null) {
+                AllMusic.log.warning("§d[AllMusic]§c获取网页错误");
+                return null;
+            }
+            InputStream inputStream = body.byteStream();
+            boolean ok = httpCode == 200;
             ByteArrayOutputStream result = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
             int length;
