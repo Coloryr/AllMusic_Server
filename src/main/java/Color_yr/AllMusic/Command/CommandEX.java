@@ -331,6 +331,9 @@ public class CommandEX {
                     }
                 }
             }
+        } else if (args[0].equalsIgnoreCase("login")) {
+            AllMusic.Side.SendMessage(sender, "§d[AllMusic]§d重新登录网易云账户");
+            AllMusic.getMusic().login();
         } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(Name, "AllMusic.addmusic"))
             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
         else {

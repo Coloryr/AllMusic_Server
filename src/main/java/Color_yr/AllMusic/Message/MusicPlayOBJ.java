@@ -12,6 +12,7 @@ public class MusicPlayOBJ {
     private String AddMusic;
     private String PlayerAdd;
     private String MusicInfo;
+    private String Trail;
 
     public MusicPlayOBJ() {
         StopPlay = "§d[AllMusic]§2已停止你的音乐播放";
@@ -25,6 +26,11 @@ public class MusicPlayOBJ {
         AddMusic = "§d[AllMusic]§2音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
         PlayerAdd = "§d[AllMusic]§2%PlayerName%点歌%MusicID%";
         MusicInfo = "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
+        Trail = "§d[AllMusic]§2该音乐为试听音乐";
+    }
+
+    public String getTrail() {
+        return Trail;
     }
 
     public String getMusicInfo() {

@@ -6,42 +6,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TabCommand {
+    private static final List<String> normal = new ArrayList<String>(){{
+        this.add("stop");
+        this.add("list");
+        this.add("vote");
+        this.add("nomusic");
+        this.add("search");
+        this.add("hud");
+    }};
+    private static final List<String> search = new ArrayList<String>(){{
+        this.add("select");
+        this.add("nextpage");
+        this.add("lastpage");
+    }};
+    private static final List<String> admin = new ArrayList<String>(){{
+        this.add("reload");
+        this.add("next");
+        this.add("ban");
+        this.add("delete");
+        this.add("addlist");
+        this.add("clearlist");
+        this.add("initApi");
+        this.add("cancelApi");
+        this.add("login");
+    }};
+    private static final List<String> hudlist = new ArrayList<String>(){{
+        this.add("info");
+        this.add("list");
+        this.add("lyric");
+        this.add("pic");
+    }};
+    private static final List<String> hud = new ArrayList<String>(){{
+        this.add("info");
+        this.add("list");
+        this.add("lyric");
+        this.add("enable");
+        this.add("reset");
+    }};
     public static List<String> GetTabList(String name, String[] arg) {
         List<String> arguments = new ArrayList<>();
         if (arg.length == 1) {
-            arguments.add("stop");
-            arguments.add("list");
-            arguments.add("vote");
-            arguments.add("nomusic");
-            arguments.add("search");
-            arguments.add("hud");
+            arguments.addAll(normal);
             if (AllMusic.getSearch(name) != null) {
-                arguments.add("select");
-                arguments.add("nextpage");
-                arguments.add("lastpage");
+                arguments.addAll(search);
             }
             if (AllMusic.getConfig().getAdmin().contains(name)) {
-                arguments.add("reload");
-                arguments.add("next");
-                arguments.add("ban");
-                arguments.add("delete");
-                arguments.add("addlist");
-                arguments.add("clearlist");
-                arguments.add("initApi");
-                arguments.add("cancelApi");
+                arguments.addAll(admin);
             }
         } else if (arg[0].equalsIgnoreCase("hud")) {
             if (arg.length == 2) {
-                arguments.add("info");
-                arguments.add("list");
-                arguments.add("lyric");
-                arguments.add("enable");
-                arguments.add("reset");
+                arguments.addAll(hud);
             } else if (arg.length == 3) {
                 if (arg[1].equalsIgnoreCase("enable")) {
-                    arguments.add("info");
-                    arguments.add("list");
-                    arguments.add("lyric");
+                    arguments.addAll(hudlist);
                 }
             }
         }

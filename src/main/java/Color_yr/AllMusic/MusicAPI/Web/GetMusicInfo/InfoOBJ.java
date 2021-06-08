@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicInfo;
+package Color_yr.AllMusic.MusicAPI.Web.GetMusicInfo;
 
 import java.util.List;
 
@@ -48,6 +48,13 @@ public class InfoOBJ {
             return 0;
         return songs.get(0).getLength();
     }
+
+    public String getPicUrl()
+    {
+        if (songs == null)
+            return null;
+        return songs.get(0).getPicUrl();
+    }
 }
 
 class Songs {
@@ -84,6 +91,10 @@ class Songs {
     public String getAl() {
         return al.getName() == null ? "" : al.getName();
     }
+
+    public String getPicUrl() {
+        return al.getPicUrl();
+    }
 }
 
 class ar {
@@ -96,9 +107,14 @@ class ar {
 
 class al {
     private String name;
+    private String picUrl;
 
     public String getName() {
         return name == null ? "" : name;
+    }
+
+    public String getPicUrl() {
+        return picUrl == null ? "" : picUrl;
     }
 }
 

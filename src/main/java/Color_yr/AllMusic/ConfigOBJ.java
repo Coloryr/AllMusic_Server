@@ -9,10 +9,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConfigOBJ {
-    private String Music_Url;
-
-    private int Music_Api;
-
     private int MaxList;
     private int MinVote;
     private int Delay;
@@ -43,8 +39,6 @@ public class ConfigOBJ {
     private String LoginPass;
 
     public ConfigOBJ() {
-        Music_Url = "http://localhost:4000";
-        Music_Api = 1;
         MaxList = 10;
         MinVote = 3;
         Delay = 0;
@@ -99,18 +93,6 @@ public class ConfigOBJ {
 
     public SaveOBJ getDefaultHud() {
         return DefaultHud;
-    }
-
-    public String getMusic_Url() {
-        return Music_Url;
-    }
-
-    public int getMusic_Api() {
-        return Music_Api;
-    }
-
-    public void setMusic_Api(int music_Api) {
-        Music_Api = music_Api;
     }
 
     public boolean isNeedPermission() {

@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicAPI.MusicAPI1.GetProgramInfo;
+package Color_yr.AllMusic.MusicAPI.Web.GetProgramInfo;
 
 public class PrInfoOBJ {
 

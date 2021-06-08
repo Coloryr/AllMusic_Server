@@ -29,6 +29,8 @@ public class HudUtils {
             case info:
                 posOBJ = obj.getInfo();
                 break;
+            case pic:
+                posOBJ = obj.getPic();
         }
         posOBJ.setX(x1);
         posOBJ.setY(y1);
@@ -41,6 +43,9 @@ public class HudUtils {
                 break;
             case info:
                 obj.setInfo(posOBJ);
+                break;
+            case pic:
+                obj.setPic(posOBJ);
                 break;
         }
 
@@ -124,11 +129,13 @@ public class HudUtils {
                     obj.setEnableInfo(false);
                     obj.setEnableList(false);
                     obj.setEnableLyric(false);
+                    obj.setEnablePic(false);
                     a = false;
                 } else {
                     obj.setEnableInfo(true);
                     obj.setEnableList(true);
                     obj.setEnableLyric(true);
+                    obj.setEnablePic(true);
                     a = true;
                 }
             } else {
@@ -142,6 +149,9 @@ public class HudUtils {
                         break;
                     case lyric:
                         obj.setEnableLyric(!obj.isEnableLyric());
+                        break;
+                    case pic:
+                        obj.setEnablePic(!obj.isEnablePic());
                         break;
                 }
             }
@@ -161,6 +171,8 @@ public class HudUtils {
                     return obj.isEnableList();
                 case lyric:
                     return obj.isEnableLyric();
+                case pic:
+                    return obj.isEnablePic();
             }
         }
         return false;

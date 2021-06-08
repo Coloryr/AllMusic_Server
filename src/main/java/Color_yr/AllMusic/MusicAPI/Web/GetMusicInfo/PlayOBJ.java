@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicInfo;
+package Color_yr.AllMusic.MusicAPI.Web.GetMusicInfo;
 
 import java.util.List;
 
@@ -27,3 +27,4 @@ class obj {
         return url;
     }
 }
+

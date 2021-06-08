@@ -4,17 +4,21 @@ public class SaveOBJ {
     private PosOBJ List;
     private PosOBJ Lyric;
     private PosOBJ Info;
+    private PosOBJ Pic;
     private boolean EnableList;
     private boolean EnableLyric;
     private boolean EnableInfo;
+    private boolean EnablePic;
 
     public SaveOBJ() {
         EnableList = true;
         EnableLyric = true;
         EnableInfo = true;
+        EnablePic = true;
         List = new PosOBJ(2, 80);
         Lyric = new PosOBJ(2, 55);
         Info = new PosOBJ(2, 2);
+        Pic = new PosOBJ(2, 2);
     }
 
     public SaveOBJ copy() {
@@ -22,10 +26,28 @@ public class SaveOBJ {
         saveOBJ.setEnableInfo(this.EnableInfo);
         saveOBJ.setEnableList(this.EnableList);
         saveOBJ.setEnableLyric(this.EnableLyric);
+        saveOBJ.setEnablePic(this.EnablePic);
         saveOBJ.setInfo(this.Info.copy());
         saveOBJ.setList(this.List.copy());
         saveOBJ.setLyric(this.Lyric.copy());
+        saveOBJ.setPic(this.Pic.copy());
         return saveOBJ;
+    }
+
+    public boolean isEnablePic() {
+        return EnablePic;
+    }
+
+    public PosOBJ getPic() {
+        return Pic;
+    }
+
+    public void setEnablePic(boolean enablePic) {
+        EnablePic = enablePic;
+    }
+
+    public void setPic(PosOBJ pic) {
+        Pic = pic;
     }
 
     public boolean isEnableInfo() {

@@ -1,11 +1,9 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.API.IMusicAPI;
 import Color_yr.AllMusic.API.IMyLogger;
 import Color_yr.AllMusic.API.ISide;
 import Color_yr.AllMusic.Message.*;
-import Color_yr.AllMusic.MusicAPI.MusicAPI1.API1;
-import Color_yr.AllMusic.MusicAPI.MusicAPI2.API2;
+import Color_yr.AllMusic.MusicAPI.Web.APIMain;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.MusicPlay.PlayMusic;
 import Color_yr.AllMusic.MusicPlay.MusicSearch;
@@ -24,17 +22,18 @@ import java.util.Map;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.11.0";
+    public static final String Version = "2.12.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
     private static final List<String> NowPlayPlayer = new ArrayList<>();
+    public static final Gson gson = new Gson();
 
     public static IMyLogger log;
     public static ISide Side;
     public static boolean isRun;
     public static VaultHook Vault;
-    private static IMusicAPI Music;
+    private static APIMain Music;
     private static ConfigOBJ Config;
     private static MessageOBJ Message;
     public static CookieObj Cookie;
@@ -168,25 +167,11 @@ public class AllMusic {
         log.info("§d[AllMusic]§2§e已停止，感谢使用");
     }
 
-    public static IMusicAPI getMusic() {
+    public static APIMain getMusic() {
         if (Music == null) {
-            initAPI();
+            AllMusic.Music = new APIMain();
         }
         return Music;
-    }
-
-    private static void initAPI() {
-        switch (AllMusic.Config.getMusic_Api()) {
-            case 2: {
-                AllMusic.Music = new API1();
-                break;
-            }
-            case 1:
-            default: {
-                AllMusic.Music = new API2();
-                break;
-            }
-        }
     }
 
     private static void LoadConfig() {
@@ -222,7 +207,6 @@ public class AllMusic {
             if (!AllMusic.Version.equalsIgnoreCase(AllMusic.Config.getVersion())) {
                 log.warning("§d[AllMusic]§c请及时更新配置文件");
             }
-            initAPI();
         } catch (Exception e) {
             log.warning("§d[AllMusic]§c读取配置文件错误");
             e.printStackTrace();

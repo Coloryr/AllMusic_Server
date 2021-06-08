@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicSearch;
+package Color_yr.AllMusic.MusicAPI.Web.GetMusicSearch;
 
 import java.util.List;
 

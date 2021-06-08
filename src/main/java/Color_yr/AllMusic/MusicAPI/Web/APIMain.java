@@ -1,75 +1,106 @@
-package Color_yr.AllMusic.MusicAPI.MusicAPI1;
+package Color_yr.AllMusic.MusicAPI.Web;
 
-import Color_yr.AllMusic.API.IMusicAPI;
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.Http.CryptoUtil;
+import Color_yr.AllMusic.Http.EncryptType;
 import Color_yr.AllMusic.Http.HttpClientUtil;
 import Color_yr.AllMusic.Http.Res;
-import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicInfo.InfoOBJ;
-import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicInfo.PlayOBJ;
-import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicList.DataOBJ;
-import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicLyric.LyricOBJ;
-import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicSearch.SearchDataOBJ;
-import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetMusicSearch.songs;
-import Color_yr.AllMusic.MusicAPI.MusicAPI1.GetProgramInfo.PrInfoOBJ;
+import Color_yr.AllMusic.MusicAPI.Web.GetMusicInfo.InfoOBJ;
+import Color_yr.AllMusic.MusicAPI.Web.GetMusicInfo.PlayOBJ;
+import Color_yr.AllMusic.MusicAPI.Web.GetMusicList.DataOBJ;
+import Color_yr.AllMusic.MusicAPI.Web.GetMusicLyric.LyricOBJ;
+import Color_yr.AllMusic.MusicAPI.Web.GetMusicSearch.SearchDataOBJ;
+import Color_yr.AllMusic.MusicAPI.Web.GetMusicSearch.songs;
+import Color_yr.AllMusic.MusicAPI.Web.GetMusicTrialInfo.TrialInfoObj;
+import Color_yr.AllMusic.MusicAPI.Web.GetProgramInfo.PrInfoOBJ;
 import Color_yr.AllMusic.MusicAPI.SongInfo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricDo;
 import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.Utils.logs;
-import com.google.gson.Gson;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class API1 implements IMusicAPI {
+public class APIMain {
 
     public int PlayNow = 0;
     public boolean isUpdata;
 
-    public API1() {
-        AllMusic.log.info("§d[AllMusic]§e使用外置本地爬虫");
-        if (!AllMusic.getConfig().getLoginPass().isEmpty() && !AllMusic.getConfig().getLoginUser().isEmpty()) {
-            if (!AllMusic.getConfig().getLoginUser().contains("@"))
-                HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/login/cellphone?phone="
-                        + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
-            else
-                HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/login?email="
-                        + AllMusic.getConfig().getLoginUser() + "&password=", AllMusic.getConfig().getLoginPass());
-        }
-        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url(), "");
+    public APIMain() {
+        AllMusic.log.info("§d[AllMusic]§e使用本地爬虫");
+        Res res = HttpClientUtil.get("https://music.163.com", "");
         if (res == null || !res.isOk()) {
-            AllMusic.log.info("§d[AllMusic]§c使用外置本地爬虫连接失败");
-            AllMusic.getConfig().setMusic_Api(1);
-            AllMusic.save();
-            AllMusic.Side.reload();
+            AllMusic.log.info("§d[AllMusic]§c使用本地爬虫连接失败");
+            return;
+        }
+        if (!AllMusic.getConfig().getLoginPass().isEmpty() && !AllMusic.getConfig().getLoginUser().isEmpty()) {
+            AllMusic.log.info("§d[AllMusic]§e登陆中");
+            login();
+        }
+    }
+
+    public void login() {
+        JSONObject data = new JSONObject();
+        data.put("rememberLogin", "true");
+        data.put("password", CryptoUtil.getMd5(AllMusic.getConfig().getLoginPass()));
+        if (!AllMusic.getConfig().getLoginUser().contains("@")) {
+            data.put("username", AllMusic.getConfig().getLoginUser());
+            Res res = HttpClientUtil.post("https://music.163.com/weapi/login", data, EncryptType.weapi, null);
+            if (res == null || !res.isOk()) {
+                AllMusic.log.info("§d[AllMusic]§c登录失败");
+            }
+        } else {
+            data.put("phone", AllMusic.getConfig().getLoginUser());
+            Res res = HttpClientUtil.post("https://music.163.com/weapi/login/cellphone", data, EncryptType.weapi, null);
+            if (res == null || !res.isOk()) {
+                AllMusic.log.info("§d[AllMusic]§c登录失败");
+            }
         }
     }
 
     private SongInfo GetMusicDetail(String ID, String player, boolean isList) {
-        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/song/detail?ids=", ID);
+        JSONObject params = new JSONObject();
+        params.put("c", "[{\"id\":" + ID + "}]");
+
+        Res res = HttpClientUtil.post("https://music.163.com/api/v3/song/detail", params, EncryptType.weapi, null);
         if (res != null && res.isOk()) {
-            InfoOBJ temp = new Gson().fromJson(res.getData(), InfoOBJ.class);
+            InfoOBJ temp = AllMusic.gson.fromJson(res.getData(), InfoOBJ.class);
             if (temp.isok()) {
+                params.clear();
+                params = new JSONObject();
+                params.put("ids", "[" + ID + "]");
+                params.put("br", "320000");
+                res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.weapi, null);
+                if (res == null || !res.isOk()) {
+                    AllMusic.log.warning("§d[AllMusic]§c版权检索失败");
+                    return null;
+                }
+                TrialInfoObj obj = AllMusic.gson.fromJson(res.getData(), TrialInfoObj.class);
                 return new SongInfo(temp.getAuthor(), temp.getName(),
-                        ID, temp.getAlia(), player, temp.getAl(), isList, temp.getLength());
+                        ID, temp.getAlia(), player, temp.getAl(), isList, temp.getLength(),
+                        temp.getPicUrl(), obj.isTrial(), obj.getFreeTrialInfo());
             }
         }
         return null;
     }
 
-    @Override
     public SongInfo GetMusic(String ID, String player, boolean isList) {
         SongInfo info = GetMusicDetail(ID, player, isList);
         if (info != null)
             return info;
-        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/dj/program/detail?id=", ID);
+        JSONObject params = new JSONObject();
+        params.put("id", ID);
+        Res res = HttpClientUtil.post("https://music.163.com/api/dj/program/detail", params, EncryptType.weapi, null);
         if (res != null && res.isOk()) {
-            PrInfoOBJ temp = new Gson().fromJson(res.getData(), PrInfoOBJ.class);
+            PrInfoOBJ temp = AllMusic.gson.fromJson(res.getData(), PrInfoOBJ.class);
             if (temp.isOK()) {
                 return new SongInfo(temp.getAuthor(), temp.getName(),
-                        temp.getId(), temp.getAlia(), player, "电台", isList, temp.getLength());
+                        temp.getId(), temp.getAlia(), player, "电台", isList, temp.getLength(),
+                        null, false, null);
             } else {
                 AllMusic.log.warning("§d[AllMusic]§c歌曲信息获取为空");
             }
@@ -77,13 +108,15 @@ public class API1 implements IMusicAPI {
         return info;
     }
 
-    @Override
     public String GetPlayUrl(String ID) {
-        HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/check/music?id=", ID);
-        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?br=320000&id=", ID);
+        JSONObject params = new JSONObject();
+        params.put("ids", "[" + ID + "]");
+        params.put("br", "320000");
+
+        Res res = HttpClientUtil.post("https://interface3.music.163.com/eapi/song/enhance/player/url", params, EncryptType.eapi, "/api/song/enhance/player/url");
         if (res != null && res.isOk()) {
             try {
-                PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
+                PlayOBJ obj = AllMusic.gson.fromJson(res.getData(), PlayOBJ.class);
                 if (obj.getCode() == 200 && obj.getData() != null) {
                     return obj.getData();
                 }
@@ -93,33 +126,20 @@ public class API1 implements IMusicAPI {
                 e.printStackTrace();
             }
         }
-        res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/song/url?id=", ID);
-        if (res != null && res.isOk()) {
-            try {
-                PlayOBJ obj = new Gson().fromJson(res.getData(), PlayOBJ.class);
-                if (obj.getCode() == 200) {
-                    return obj.getData();
-                } else
-                    return null;
-            } catch (Exception e) {
-                logs.logWrite(res.getData());
-                AllMusic.log.warning("§d[AllMusic]§c播放连接解析错误");
-                e.printStackTrace();
-                return null;
-            }
-        }
         return null;
     }
 
-    @Override
     public void SetList(String ID, Object sender) {
-        Thread thread = new Thread(() ->
-        {
-            Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/playlist/detail?id=", ID);
+        Thread thread = new Thread(() -> {
+            JSONObject params = new JSONObject();
+            params.put("id", ID);
+            params.put("n", 100000);
+            params.put("s", 8);
+            Res res = HttpClientUtil.post("https://music.163.com/api/v6/playlist/detail", params, EncryptType.api, null);
             if (res != null && res.isOk())
                 try {
                     isUpdata = true;
-                    DataOBJ obj = new Gson().fromJson(res.getData(), DataOBJ.class);
+                    DataOBJ obj = AllMusic.gson.fromJson(res.getData(), DataOBJ.class);
                     AllMusic.getConfig().getPlayList().addAll(obj.getPlaylist());
                     AllMusic.save();
                     AllMusic.Side.SendMessaget(sender, AllMusic.getMessage().getMusicPlay().getListMusic().getGet().replace("%ListName%", obj.getName()));
@@ -132,13 +152,17 @@ public class API1 implements IMusicAPI {
         thread.start();
     }
 
-    @Override
     public LyricSave getLyric(String ID) {
         LyricSave Lyric = new LyricSave();
-        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/lyric?id=", ID);
+        JSONObject params = new JSONObject();
+        params.put("id", ID);
+        params.put("lv", -1);
+        params.put("kv", -1);
+        params.put("tv", -1);
+        Res res = HttpClientUtil.post("https://music.163.com/api/song/lyric", params, EncryptType.api, null);
         if (res != null && res.isOk()) {
             try {
-                LyricOBJ obj = new Gson().fromJson(res.getData(), LyricOBJ.class);
+                LyricOBJ obj = AllMusic.gson.fromJson(res.getData(), LyricOBJ.class);
                 LyricDo temp = new LyricDo();
                 for (int times = 0; times < 3; times++) {
                     if (temp.Check(obj)) {
@@ -161,7 +185,6 @@ public class API1 implements IMusicAPI {
         return Lyric;
     }
 
-    @Override
     public SearchPage Search(String[] name, boolean isDefault) {
         List<SearchOBJ> resData = new ArrayList<>();
         int maxpage;
@@ -172,9 +195,16 @@ public class API1 implements IMusicAPI {
         }
         String MusicName = name1.toString();
         MusicName = MusicName.substring(0, MusicName.length() - 1);
-        Res res = HttpClientUtil.realData(AllMusic.getConfig().getMusic_Url() + "/search?keywords=", MusicName);
+
+        JSONObject params = new JSONObject();
+        params.put("s", MusicName);
+        params.put("type", 1);
+        params.put("limit", 30);
+        params.put("offset", 0);
+
+        Res res = HttpClientUtil.post("https://music.163.com/weapi/search/get", params, EncryptType.weapi, null);
         if (res != null && res.isOk()) {
-            SearchDataOBJ obj = new Gson().fromJson(res.getData(), SearchDataOBJ.class);
+            SearchDataOBJ obj = AllMusic.gson.fromJson(res.getData(), SearchDataOBJ.class);
             if (obj != null && obj.isok()) {
                 List<songs> res1 = obj.getResult();
                 SearchOBJ item;
@@ -192,7 +222,6 @@ public class API1 implements IMusicAPI {
         return null;
     }
 
-    @Override
     public String GetListMusic() {
         if (!isUpdata && AllMusic.getConfig().getPlayList().size() != 0) {
             String ID;

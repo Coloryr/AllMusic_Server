@@ -1,15 +1,19 @@
 package Color_yr.AllMusic.MusicAPI;
 
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.MusicAPI.Web.GetMusicTrialInfo.freeTrialInfo;
 
 public class SongInfo {
-    private String Author;
-    private String Name;
-    private String ID;
-    private String Alia;
-    private String Call;
-    private String Al;
-    private String PlayerUrl;
+    private String author;
+    private String name;
+    private String id;
+    private String alia;
+    private String call;
+    private String al;
+    private String playerUrl;
+    private String picUrl;
+    private boolean isTrial;
+    private freeTrialInfo trialInfo;
 
     private int Length;
 
@@ -17,42 +21,57 @@ public class SongInfo {
 
     public SongInfo(String Name, String Url, int Length) {
         this.Length = Length;
-        PlayerUrl = Url;
-        this.Name = Name;
-        ID = Alia = Call = Al = Author = "";
+        playerUrl = Url;
+        this.name = Name;
+        id = alia = call = al = author = "";
         isList = false;
     }
 
-    public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al, boolean isList, int Length) {
-        this.Author = Author;
-        this.Name = Name;
-        this.ID = ID;
-        this.Alia = Alia;
-        this.Call = Call;
-        this.Al = Al;
-
+    public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al,
+                    boolean isList, int Length, String picUrl, boolean isTrial, freeTrialInfo trialInfo) {
+        this.author = Author;
+        this.name = Name;
+        this.id = ID;
+        this.alia = Alia;
+        this.call = Call;
+        this.al = Al;
+        this.picUrl = picUrl;
         this.isList = isList;
         this.Length = Length;
+        this.isTrial = isTrial;
+        this.trialInfo = trialInfo;
+    }
+
+    public boolean isTrial() {
+        return isTrial;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public freeTrialInfo getTrialInfo() {
+        return trialInfo;
     }
 
     public String getPlayerUrl() {
-        return PlayerUrl;
+        return playerUrl;
     }
 
     public String getAl() {
-        return Al == null ? "" : Al;
+        return al == null ? "" : al;
     }
 
     public String getAlia() {
-        return Alia == null ? "" : Alia;
+        return alia == null ? "" : alia;
     }
 
     public String getCall() {
-        return Call == null ? "" : Call;
+        return call == null ? "" : call;
     }
 
     public String getAuthor() {
-        return Author == null ? "" : Author;
+        return author == null ? "" : author;
     }
 
     public int getLength() {
@@ -64,24 +83,24 @@ public class SongInfo {
     }
 
     public String getName() {
-        return Name == null ? "" : Name;
+        return name == null ? "" : name;
     }
 
     public String getID() {
-        return ID;
+        return id;
     }
 
     public String getInfo() {
         String info = AllMusic.getMessage().getMusicPlay().getMusicInfo();
-        info = info.replace("%MusicName%", Name == null ? "" : Name)
-                .replace("%MusicAuthor%", Author == null ? "" : Author)
-                .replace("%MusicAl%", Al == null ? "" : Al)
-                .replace("%MusicAlia%", Alia == null ? "" : Alia)
-                .replace("%PlayerName%", Call == null ? "" : Call);
+        info = info.replace("%MusicName%", name == null ? "" : name)
+                .replace("%MusicAuthor%", author == null ? "" : author)
+                .replace("%MusicAl%", al == null ? "" : al)
+                .replace("%MusicAlia%", alia == null ? "" : alia)
+                .replace("%PlayerName%", call == null ? "" : call);
         return info;
     }
 
     public boolean isNull() {
-        return Name == null;
+        return name == null;
     }
 }

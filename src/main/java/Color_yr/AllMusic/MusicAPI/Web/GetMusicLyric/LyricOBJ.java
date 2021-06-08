@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.MusicAPI.MusicAPI2.GetMusicLyric;
+package Color_yr.AllMusic.MusicAPI.Web.GetMusicLyric;
 
 import Color_yr.AllMusic.API.ILyric;
 

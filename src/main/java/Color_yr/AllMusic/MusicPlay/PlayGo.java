@@ -50,6 +50,7 @@ class PlayGo {
     public static void stop() {
         closeTimer();
         isRun = false;
+        PlayMusic.MusicLessTime = 0;
     }
 
     public static void closeTimer() {
@@ -134,6 +135,12 @@ class PlayGo {
                     AllMusic.Side.bqt(info);
                     startTimer();
                     AllMusic.Side.Send("[Play]" + url, true);
+                    AllMusic.Side.Send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), false);
+                    if(PlayMusic.NowPlayMusic.isTrial()) {
+                        AllMusic.Side.bqt(AllMusic.getMessage().getMusicPlay().getTrail());
+                        PlayMusic.MusicLessTime = PlayMusic.NowPlayMusic.getTrialInfo().getEnd();
+                        PlayMusic.MusicNowTime = PlayMusic.NowPlayMusic.getTrialInfo().getStart();
+                    }
                     try {
                         while (PlayMusic.MusicLessTime > 0) {
                             HudUtils.SendHudNowData();
