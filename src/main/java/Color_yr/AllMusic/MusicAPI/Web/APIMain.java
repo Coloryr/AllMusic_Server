@@ -19,11 +19,14 @@ import Color_yr.AllMusic.MusicAPI.SongLyric.LyricSave;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchOBJ;
 import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
 import Color_yr.AllMusic.Utils.logs;
-import org.json.simple.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import okhttp3.Cookie;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class APIMain {
 
@@ -44,36 +47,60 @@ public class APIMain {
     }
 
     public void login() {
-        JSONObject data = new JSONObject();
-        data.put("rememberLogin", "true");
-        data.put("password", CryptoUtil.getMd5(AllMusic.getConfig().getLoginPass()));
-        if (!AllMusic.getConfig().getLoginUser().contains("@")) {
-            data.put("username", AllMusic.getConfig().getLoginUser());
-            Res res = HttpClientUtil.post("https://music.163.com/weapi/login", data, EncryptType.weapi, null);
+        JsonObject params = new JsonObject();
+        params.addProperty("rememberLogin", "true");
+        params.addProperty("password", CryptoUtil.getMd5(AllMusic.getConfig().getLoginPass()).toLowerCase());
+        if (AllMusic.Cookie.cookieStore.containsKey("music.163.com")) {
+            List<Cookie> cookies = AllMusic.Cookie.cookieStore.get("music.163.com");
+            for(Cookie item : cookies) {
+                if (item.name().equalsIgnoreCase("os")) {
+                    cookies.remove(item);
+                    break;
+                }
+            }
+            List<Cookie> cookies1 = new CopyOnWriteArrayList<>();
+            cookies1.addAll(cookies);
+            cookies1.add(new Cookie.Builder().name("os").value("pc").domain("music.163.com").build());
+            AllMusic.Cookie.cookieStore.put("music.163.com", cookies1);
+            AllMusic.saveCookie();
+        }
+        if (AllMusic.getConfig().getLoginUser().contains("@")) {
+            params.addProperty("username", AllMusic.getConfig().getLoginUser());
+            Res res = HttpClientUtil.post("https://music.163.com/weapi/login", params, EncryptType.weapi, null);
             if (res == null || !res.isOk()) {
                 AllMusic.log.info("§d[AllMusic]§c登录失败");
             }
+            if (res.getData().contains("502")) {
+                AllMusic.log.info("§d[AllMusic]§c登录失败:账号或密码错误");
+            } else {
+                AllMusic.log.info("§d[AllMusic]§d已登录");
+            }
         } else {
-            data.put("phone", AllMusic.getConfig().getLoginUser());
-            Res res = HttpClientUtil.post("https://music.163.com/weapi/login/cellphone", data, EncryptType.weapi, null);
+            params.addProperty("countrycode", "86");
+            params.addProperty("phone", AllMusic.getConfig().getLoginUser());
+            Res res = HttpClientUtil.post("https://music.163.com/weapi/login/cellphone", params, EncryptType.weapi, null);
             if (res == null || !res.isOk()) {
                 AllMusic.log.info("§d[AllMusic]§c登录失败");
+            }
+            if (res.getData().contains("502")) {
+                AllMusic.log.info("§d[AllMusic]§c登录失败:账号或密码错误");
+            } else {
+                AllMusic.log.info("§d[AllMusic]§d已登录");
             }
         }
     }
 
     private SongInfo GetMusicDetail(String ID, String player, boolean isList) {
-        JSONObject params = new JSONObject();
-        params.put("c", "[{\"id\":" + ID + "}]");
+        JsonObject params = new JsonObject();
+        params.addProperty("c", "[{\"id\":" + ID + "}]");
 
         Res res = HttpClientUtil.post("https://music.163.com/api/v3/song/detail", params, EncryptType.weapi, null);
         if (res != null && res.isOk()) {
             InfoOBJ temp = AllMusic.gson.fromJson(res.getData(), InfoOBJ.class);
             if (temp.isok()) {
-                params.clear();
-                params = new JSONObject();
-                params.put("ids", "[" + ID + "]");
-                params.put("br", "320000");
+                params = new JsonObject();
+                params.addProperty("ids", "[" + ID + "]");
+                params.addProperty("br", "320000");
                 res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.weapi, null);
                 if (res == null || !res.isOk()) {
                     AllMusic.log.warning("§d[AllMusic]§c版权检索失败");
@@ -92,8 +119,8 @@ public class APIMain {
         SongInfo info = GetMusicDetail(ID, player, isList);
         if (info != null)
             return info;
-        JSONObject params = new JSONObject();
-        params.put("id", ID);
+        JsonObject params = new JsonObject();
+        params.addProperty("id", ID);
         Res res = HttpClientUtil.post("https://music.163.com/api/dj/program/detail", params, EncryptType.weapi, null);
         if (res != null && res.isOk()) {
             PrInfoOBJ temp = AllMusic.gson.fromJson(res.getData(), PrInfoOBJ.class);
@@ -109,17 +136,14 @@ public class APIMain {
     }
 
     public String GetPlayUrl(String ID) {
-        JSONObject params = new JSONObject();
-        params.put("ids", "[" + ID + "]");
-        params.put("br", "320000");
-
-        Res res = HttpClientUtil.post("https://interface3.music.163.com/eapi/song/enhance/player/url", params, EncryptType.eapi, "/api/song/enhance/player/url");
+        JsonObject params = new JsonObject();
+        params.addProperty("ids", "[" + ID + "]");
+        params.addProperty("br", "320000");
+        Res res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.weapi, null);
         if (res != null && res.isOk()) {
             try {
-                PlayOBJ obj = AllMusic.gson.fromJson(res.getData(), PlayOBJ.class);
-                if (obj.getCode() == 200 && obj.getData() != null) {
-                    return obj.getData();
-                }
+                TrialInfoObj obj = AllMusic.gson.fromJson(res.getData(), TrialInfoObj.class);
+                return obj.getUrl();
             } catch (Exception e) {
                 logs.logWrite(res.getData());
                 AllMusic.log.warning("§d[AllMusic]§c播放连接解析错误");
@@ -130,11 +154,11 @@ public class APIMain {
     }
 
     public void SetList(String ID, Object sender) {
-        Thread thread = new Thread(() -> {
-            JSONObject params = new JSONObject();
-            params.put("id", ID);
-            params.put("n", 100000);
-            params.put("s", 8);
+        final Thread thread = new Thread(() -> {
+            JsonObject params = new JsonObject();
+            params.addProperty("id", ID);
+            params.addProperty("n", 100000);
+            params.addProperty("s", 8);
             Res res = HttpClientUtil.post("https://music.163.com/api/v6/playlist/detail", params, EncryptType.api, null);
             if (res != null && res.isOk())
                 try {
@@ -154,11 +178,11 @@ public class APIMain {
 
     public LyricSave getLyric(String ID) {
         LyricSave Lyric = new LyricSave();
-        JSONObject params = new JSONObject();
-        params.put("id", ID);
-        params.put("lv", -1);
-        params.put("kv", -1);
-        params.put("tv", -1);
+        JsonObject params = new JsonObject();
+        params.addProperty("id", ID);
+        params.addProperty("lv", -1);
+        params.addProperty("kv", -1);
+        params.addProperty("tv", -1);
         Res res = HttpClientUtil.post("https://music.163.com/api/song/lyric", params, EncryptType.api, null);
         if (res != null && res.isOk()) {
             try {
@@ -196,11 +220,11 @@ public class APIMain {
         String MusicName = name1.toString();
         MusicName = MusicName.substring(0, MusicName.length() - 1);
 
-        JSONObject params = new JSONObject();
-        params.put("s", MusicName);
-        params.put("type", 1);
-        params.put("limit", 30);
-        params.put("offset", 0);
+        JsonObject params = new JsonObject();
+        params.addProperty("s", MusicName);
+        params.addProperty("type", 1);
+        params.addProperty("limit", 30);
+        params.addProperty("offset", 0);
 
         Res res = HttpClientUtil.post("https://music.163.com/weapi/search/get", params, EncryptType.weapi, null);
         if (res != null && res.isOk()) {

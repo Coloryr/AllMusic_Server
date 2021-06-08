@@ -1,5 +1,7 @@
 package Color_yr.AllMusic.Http;
 
+import Color_yr.AllMusic.AllMusic;
+import com.google.gson.JsonObject;
 import org.json.simple.JSONObject;
 
 import javax.crypto.Cipher;
@@ -116,8 +118,8 @@ public class CryptoUtil {
         return new encRes(encText, encSecKey);
     }
 
-    public static encRes eapi(String url, JSONObject object) {
-        String text = object.toJSONString();
+    public static encRes eapi(String url, JsonObject object) {
+        String text = AllMusic.gson.toJson(object);
         String message = "nobody" + url + "use" + text + "md5forencrypt";
         String digest = getMd5(message);
         String data = url + "-36cd479b6b5-" + text + "-36cd479b6b5-" + digest;

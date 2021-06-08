@@ -18,19 +18,19 @@
   "DefaultHud": {
     "List": {
       "x": 2,
-      "y": 80
+      "y": 74
     },
     "Lyric": {
-      "x": 2,
-      "y": 55
+      "x": 74,
+      "y": 53
     },
     "Info": {
-      "x": 2,
+      "x": 74,
       "y": 2
     },
     "Pic": {
       "x": 2,
-      "Y": 2
+      "y": 2
     },
     "EnableList": true,
     "EnableLyric": true,

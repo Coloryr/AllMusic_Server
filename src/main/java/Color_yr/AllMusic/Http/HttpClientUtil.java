@@ -1,15 +1,17 @@
 package Color_yr.AllMusic.Http;
 
 import Color_yr.AllMusic.AllMusic;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class HttpClientUtil {
@@ -25,7 +27,23 @@ public class HttpClientUtil {
                         .cookieJar(new CookieJar() {
                             @Override
                             public void saveFromResponse(@NotNull HttpUrl httpUrl, @NotNull List<Cookie> list) {
-                                AllMusic.Cookie.cookieStore.put(httpUrl.host(), list);
+                                if (AllMusic.Cookie.cookieStore.containsKey(httpUrl.host())) {
+                                    List<Cookie> cookies = AllMusic.Cookie.cookieStore.get(httpUrl.host());
+                                    for (Cookie item : list) {
+                                        for (Cookie item1 : cookies) {
+                                            if (item.name().equalsIgnoreCase(item1.name())) {
+                                                cookies.remove(item);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    List<Cookie> cookies1 = new CopyOnWriteArrayList<>();
+                                    cookies1.addAll(cookies);
+                                    cookies1.addAll(list);
+                                    AllMusic.Cookie.cookieStore.put(httpUrl.host(), cookies1);
+                                } else {
+                                    AllMusic.Cookie.cookieStore.put(httpUrl.host(), list);
+                                }
                                 AllMusic.saveCookie();
                             }
 
@@ -33,7 +51,7 @@ public class HttpClientUtil {
                             @Override
                             public List<Cookie> loadForRequest(@NotNull HttpUrl httpUrl) {
                                 List<Cookie> cookies = AllMusic.Cookie.cookieStore.get(httpUrl.host());
-                                return cookies != null ? cookies : new ArrayList<>();
+                                return cookies != null ? cookies : new CopyOnWriteArrayList<>();
                             }
                         })
                         .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
@@ -81,13 +99,13 @@ public class HttpClientUtil {
         return null;
     }
 
-    public static Res post(String url, JSONObject data, EncryptType type, String ourl) {
+    public static Res post(String url, JsonObject data, EncryptType type, String ourl) {
         try {
             RequestBody formBody;
             Request.Builder request = new Request.Builder();
             request = request.addHeader("Content-Type", "application/x-www-form-urlencoded");
             request = request.addHeader("Referer", "https://music.163.com");
-            encRes res = new encRes("", "");
+            encRes res;
             List<Cookie> cookies = new ArrayList<>();
             if (AllMusic.Cookie.cookieStore.containsKey("music.163.com")) {
                 cookies = AllMusic.Cookie.cookieStore.get("music.163.com");
@@ -100,8 +118,8 @@ public class HttpClientUtil {
                             csrfToken = item.value();
                         }
                     }
-                data.put("csrf_token", csrfToken);
-                res = CryptoUtil.weapiEncrypt(data.toJSONString());
+                data.addProperty("csrf_token", csrfToken);
+                res = CryptoUtil.weapiEncrypt(AllMusic.gson.toJson(data));
                 url = url.replaceFirst("\\w*api", "weapi");
                 request = request.url(url);
                 formBody = new FormBody.Builder()
@@ -111,31 +129,31 @@ public class HttpClientUtil {
             }
             else if(type == EncryptType.eapi) {
                 request = request.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 9; PCT-AL10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.64 HuaweiBrowser/10.0.3.311 Mobile Safari/537.36");
-                JSONObject header = new JSONObject();
-                header.put("appver", "8.0.0");
-                header.put("versioncode", "140");
-                header.put("buildver", new Date().toString().substring(0, 10));
-                header.put("resolution", "1920x1080");
-                header.put("os", "android");
+                JsonObject header = new JsonObject();
+                header.addProperty("appver", "8.0.0");
+                header.addProperty("versioncode", "140");
+                header.addProperty("buildver", new Date().toString().substring(0, 10));
+                header.addProperty("resolution", "1920x1080");
+                header.addProperty("os", "android");
                 String requestId = "0000" + (new Date() + "_" + Math.floor(Math.random() * 1000));
-                header.put("requestId", requestId);
+                header.addProperty("requestId", requestId);
                 for (Cookie item : cookies) {
                     if (item.name().equalsIgnoreCase("MUSIC_U")) {
-                        header.put("MUSIC_U", item.value());
+                        header.addProperty("MUSIC_U", item.value());
                     } else if (item.name().equalsIgnoreCase("MUSIC_A")) {
-                        header.put("MUSIC_A", item.value());
+                        header.addProperty("MUSIC_A", item.value());
                     } else if (item.name().equalsIgnoreCase("channel")) {
-                        header.put("channel", item.value());
+                        header.addProperty("channel", item.value());
                     } else if (item.name().equalsIgnoreCase("mobilename")) {
-                        header.put("mobilename", item.value());
+                        header.addProperty("mobilename", item.value());
                     } else if (item.name().equalsIgnoreCase("osver")) {
-                        header.put("osver", item.value());
+                        header.addProperty("osver", item.value());
                     } else if (item.name().equalsIgnoreCase("__csrf")) {
-                        header.put("__csrf", item.value());
+                        header.addProperty("__csrf", item.value());
                     }
                 }
 
-                data.put("header", header);
+                data.add("header", header);
                 res = CryptoUtil.eapi(ourl, data);
                 url = url.replaceFirst("\\w*api", "eapi");
                 request = request.url(url);
@@ -146,9 +164,8 @@ public class HttpClientUtil {
             else {
                 request = request.url(url);
                 FormBody.Builder builder = new FormBody.Builder();
-                for (Object key : data.keySet()) {
-                    Object value = data.get(key);
-                    builder = builder.add(key.toString(), value.toString());
+                for (Map.Entry<String, JsonElement> item : data.entrySet()) {
+                    builder = builder.add(item.getKey(), item.getValue().getAsString());
                 }
                 formBody = builder.build();
             }
