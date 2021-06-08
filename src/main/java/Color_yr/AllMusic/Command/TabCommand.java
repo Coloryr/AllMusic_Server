@@ -40,6 +40,7 @@ public class TabCommand {
         this.add("info");
         this.add("list");
         this.add("lyric");
+        this.add("pic");
         this.add("enable");
         this.add("reset");
     }};

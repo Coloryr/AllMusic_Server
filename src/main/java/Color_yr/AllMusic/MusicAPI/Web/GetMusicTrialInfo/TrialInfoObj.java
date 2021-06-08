@@ -9,10 +9,7 @@ public class TrialInfoObj {
         if (data.size() == 0)
             return false;
         song song = data.get(0);
-        freeTrialInfo info = song.getFreeTrialInfo();
-        if (info == null && song.getFee() == 0)
-            return false;
-        return true;
+        return song.getCode() != 200;
     }
 
     public freeTrialInfo getFreeTrialInfo() {
@@ -25,10 +22,10 @@ public class TrialInfoObj {
 
 class song {
     private freeTrialInfo freeTrialInfo;
-    private int fee;
+    private int code;
 
-    public int getFee() {
-        return fee;
+    public int getCode() {
+        return code;
     }
 
     public freeTrialInfo getFreeTrialInfo() {
