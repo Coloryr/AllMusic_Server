@@ -65,7 +65,7 @@ public class SideBC implements ISide {
                     continue;
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getName());
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, player.getName());
                     Save = true;
                 }
@@ -114,7 +114,7 @@ public class SideBC implements ISide {
                 String name = player.getName();
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, name);
                     Save = true;
                 }
@@ -136,7 +136,7 @@ public class SideBC implements ISide {
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, Name);
                     AllMusic.save();
                 }

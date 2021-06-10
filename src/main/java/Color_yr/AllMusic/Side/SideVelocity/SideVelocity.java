@@ -102,7 +102,7 @@ public class SideVelocity implements ISide {
                     continue;
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getUsername());
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, player.getUsername());
                     Save = true;
                 }
@@ -151,7 +151,7 @@ public class SideVelocity implements ISide {
                 String name = player.getUsername();
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, name);
                     Save = true;
                 }
@@ -173,7 +173,7 @@ public class SideVelocity implements ISide {
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, Name);
                     AllMusic.save();
                 }

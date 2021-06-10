@@ -50,7 +50,7 @@ public class SideBukkit implements ISide {
                 continue;
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
             if (obj == null) {
-                obj = new SaveOBJ();
+                obj = AllMusic.getConfig().getDefaultHud().copy();
                 AllMusic.getConfig().setInfoSave(obj, name);
                 Save = true;
             }
@@ -111,7 +111,7 @@ public class SideBukkit implements ISide {
                 continue;
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
             if (obj == null) {
-                obj = new SaveOBJ();
+                obj = AllMusic.getConfig().getDefaultHud().copy();
                 AllMusic.getConfig().setInfoSave(obj, Name);
                 Save = true;
             }
@@ -129,7 +129,7 @@ public class SideBukkit implements ISide {
             try {
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, Name);
                     AllMusic.save();
                 }
