@@ -38,4 +38,6 @@ public interface ISide {
     void reload();
 
     boolean checkPermission(String player, String permission);
+
+    void task(Runnable run, int delay);
 }

@@ -16,6 +16,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 public class SideBC implements ISide {
     private boolean isOK(ProxiedPlayer player, boolean in) {
@@ -88,7 +89,7 @@ public class SideBC implements ISide {
                     continue;
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getName());
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, player.getName());
                     Save = true;
                 }
@@ -239,6 +240,11 @@ public class SideBC implements ISide {
         if (player1 == null)
             return true;
         return !player1.hasPermission(permission);
+    }
+
+    @Override
+    public void task(Runnable run, int delay) {
+        ProxyServer.getInstance().getScheduler().schedule(AllMusicBC.plugin, run, delay, TimeUnit.MICROSECONDS);
     }
 
     private void Send(ProxiedPlayer players, String data, Boolean isplay) {

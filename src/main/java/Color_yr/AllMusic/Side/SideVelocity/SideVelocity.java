@@ -17,6 +17,7 @@ import net.kyori.adventure.text.event.ClickEvent;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 public class SideVelocity implements ISide {
     private boolean isOK(Player player, boolean in) {
@@ -125,7 +126,7 @@ public class SideVelocity implements ISide {
                     continue;
                 SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getUsername());
                 if (obj == null) {
-                    obj = new SaveOBJ();
+                    obj = AllMusic.getConfig().getDefaultHud().copy();
                     AllMusic.getConfig().setInfoSave(obj, player.getUsername());
                     Save = true;
                 }
@@ -250,6 +251,12 @@ public class SideVelocity implements ISide {
 
         }
         return false;
+    }
+
+    @Override
+    public void task(Runnable run, int delay) {
+        AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run)
+                .delay(delay, TimeUnit.MICROSECONDS).schedule();
     }
 
     private void Send(Player players, String data, Boolean isplay) {

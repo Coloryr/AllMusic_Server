@@ -15,10 +15,10 @@ public class SaveOBJ {
         EnableLyric = true;
         EnableInfo = true;
         EnablePic = true;
-        List = new PosOBJ(2, 80);
-        Lyric = new PosOBJ(2, 55);
-        Info = new PosOBJ(2, 2);
-        Pic = new PosOBJ(2, 2);
+        List = new PosOBJ();
+        Lyric = new PosOBJ();
+        Info = new PosOBJ();
+        Pic = new PosOBJ();
     }
 
     public SaveOBJ copy() {

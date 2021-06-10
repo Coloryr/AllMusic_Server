@@ -4,6 +4,11 @@ public class PosOBJ {
     private int x;
     private int y;
 
+    public PosOBJ()
+    {
+
+    }
+
     public PosOBJ(int x, int y) {
         this.x = x;
         this.y = y;

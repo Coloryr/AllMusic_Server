@@ -91,7 +91,7 @@ public class SideBukkit implements ISide {
                 continue;
             SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
             if (obj == null) {
-                obj = new SaveOBJ();
+                obj = AllMusic.getConfig().getDefaultHud().copy();
                 AllMusic.getConfig().setInfoSave(obj, Name);
                 Save = true;
             }
@@ -201,6 +201,11 @@ public class SideBukkit implements ISide {
         if (player1 == null)
             return true;
         return !player1.hasPermission(permission);
+    }
+
+    @Override
+    public void task(Runnable run, int delay) {
+        Bukkit.getScheduler().runTaskLater(AllMusicBukkit.plugin, run, delay);
     }
 
     private void Send(Player players, String data, Boolean isplay) {

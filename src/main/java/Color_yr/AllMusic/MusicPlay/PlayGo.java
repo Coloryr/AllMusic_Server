@@ -135,7 +135,10 @@ class PlayGo {
                     AllMusic.Side.bqt(info);
                     startTimer();
                     AllMusic.Side.Send("[Play]" + url, true);
-                    AllMusic.Side.Send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), true);
+                    AllMusic.Side.task(()->
+                    {
+                        AllMusic.Side.Send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), true);
+                    }, 20);
                     if(PlayMusic.NowPlayMusic.isTrial()) {
                         AllMusic.Side.bqt(AllMusic.getMessage().getMusicPlay().getTrail());
                         PlayMusic.MusicLessTime = PlayMusic.NowPlayMusic.getTrialInfo().getEnd();
