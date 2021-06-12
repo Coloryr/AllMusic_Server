@@ -17,9 +17,8 @@
 
 
 ## 播放VIP歌曲
-1. 使用外置API
-2. 在插件配置文件的`LoginUser`和`LoginPass`填写账户密码
-3. 重载插件或者重启服务器
+1. 在插件配置文件的`LoginUser`和`LoginPass`填写账户密码
+2. 重载插件或者重启服务器
 
 如果登录失效，请删除`cookie.json`再打`/music reload`
 

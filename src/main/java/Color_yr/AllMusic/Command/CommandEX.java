@@ -10,6 +10,8 @@ import Color_yr.AllMusic.MusicPlay.MusicSearch;
 import Color_yr.AllMusic.MusicPlay.MusicObj;
 import Color_yr.AllMusic.Utils.Function;
 
+import java.util.Locale;
+
 public class CommandEX {
     private static void SearchMusic(Object sender, String Name, String[] args, boolean isDefault) {
         MusicObj obj = new MusicObj();
@@ -296,10 +298,11 @@ public class CommandEX {
                 if (args[1].equalsIgnoreCase("enable")) {
                     if (args.length == 3) {
                         try {
-                            boolean temp = HudUtils.SetHudEnable(Name, args[2]);
+                            String pos = args[2].toLowerCase(Locale.ROOT);
+                            boolean temp = HudUtils.SetHudEnable(Name, pos);
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getHud().getState()
                                     .replace("%State%", temp ? "启用" : "关闭")
-                                    .replace("%Hud%", AllMusic.getMessage().getHudList().Get(args[2])));
+                                    .replace("%Hud%", AllMusic.getMessage().getHudList().Get(pos)));
                         } catch (Exception e) {
                             AllMusic.Side.SendMessage(sender, AllMusic.getMessage().getCommand().getError());
                         }
