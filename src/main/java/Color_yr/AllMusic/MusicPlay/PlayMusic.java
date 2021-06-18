@@ -73,7 +73,7 @@ public class PlayMusic {
             String text = AllMusic.getMessage().getMusicPlay().getPlayerAdd();
             text = text.replace("%PlayerName%", player)
                     .replace("%MusicID%", ID);
-            AllMusic.Side.bq(text);
+            AllMusic.Side.bqt(text);
             logs.logWrite("玩家：" + player + " 点歌：" + ID);
             try {
                 SongInfo info = AllMusic.getMusic().GetMusic(ID, player, isList);
@@ -84,16 +84,16 @@ public class PlayMusic {
                             .replace("%MusicAuthor%", info.getAuthor())
                             .replace("%MusicAl%", info.getAl())
                             .replace("%MusicAlia%", info.getAlia());
-                    AllMusic.Side.bq(data);
+                    AllMusic.Side.bqt(data);
                 } else {
                     String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
-                    AllMusic.Side.bq(data.replace("%MusicID%", ID));
+                    AllMusic.Side.bqt(data.replace("%MusicID%", ID));
                 }
                 if (AllMusic.getConfig().isPlayListSwitch()
                         && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
                     PlayMusic.MusicLessTime = 1;
                     if (!isList)
-                        AllMusic.Side.bq(AllMusic.getMessage().getMusicPlay().getSwitch());
+                        AllMusic.Side.bqt(AllMusic.getMessage().getMusicPlay().getSwitch());
                 }
             } catch (Exception e) {
                 AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
