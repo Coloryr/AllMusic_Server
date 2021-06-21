@@ -1,10 +1,10 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.Command.CommandBC;
-import Color_yr.AllMusic.Event.EventBC;
-import Color_yr.AllMusic.Side.SideBC.BCLog;
-import Color_yr.AllMusic.Side.SideBC.MetricsBC;
-import Color_yr.AllMusic.Side.SideBC.SideBC;
+import Color_yr.AllMusic.side.sideBC.CommandBC;
+import Color_yr.AllMusic.side.sideBC.EventBC;
+import Color_yr.AllMusic.side.sideBC.BCLog;
+import Color_yr.AllMusic.side.sideBC.MetricsBC;
+import Color_yr.AllMusic.side.sideBC.SideBC;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 

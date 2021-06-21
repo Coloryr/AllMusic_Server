@@ -1,13 +1,13 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.API.IMyLogger;
-import Color_yr.AllMusic.API.ISide;
-import Color_yr.AllMusic.Message.*;
-import Color_yr.AllMusic.MusicAPI.Web.APIMain;
-import Color_yr.AllMusic.MusicAPI.SongSearch.SearchPage;
-import Color_yr.AllMusic.MusicPlay.PlayMusic;
-import Color_yr.AllMusic.MusicPlay.MusicSearch;
-import Color_yr.AllMusic.Side.SideBukkit.VaultHook;
+import Color_yr.AllMusic.api.IMyLogger;
+import Color_yr.AllMusic.api.ISide;
+import Color_yr.AllMusic.message.*;
+import Color_yr.AllMusic.musicAPI.web.APIMain;
+import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
+import Color_yr.AllMusic.musicPlay.PlayMusic;
+import Color_yr.AllMusic.musicPlay.MusicSearch;
+import Color_yr.AllMusic.side.sideBukkit.VaultHook;
 import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.12.3";
+    public static final String Version = "2.12.5";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -158,7 +158,7 @@ public class AllMusic {
         try {
             clearVote();
             logs.stop();
-            Side.Send("[Stop]", false);
+            Side.send("[Stop]", false);
             MusicSearch.stop();
             PlayMusic.stop();
         } catch (IOException e) {
@@ -167,14 +167,14 @@ public class AllMusic {
         log.info("§d[AllMusic]§2§e已停止，感谢使用");
     }
 
-    public static APIMain getMusic() {
+    public static APIMain getMusicApi() {
         if (Music == null) {
             AllMusic.Music = new APIMain();
         }
         return Music;
     }
 
-    private static void LoadConfig() {
+    private static void loadConfig() {
         try {
             InputStreamReader reader = new InputStreamReader(
                     new FileInputStream(ConfigFile), StandardCharsets.UTF_8);
@@ -238,7 +238,7 @@ public class AllMusic {
             if (!logs.file.exists()) {
                 logs.file.createNewFile();
             }
-            LoadConfig();
+            loadConfig();
             isRun = true;
         } catch (IOException e) {
             isRun = false;

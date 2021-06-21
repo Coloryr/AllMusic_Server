@@ -1,10 +1,10 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.Command.CommandVelocity;
-import Color_yr.AllMusic.Event.EventVelocity;
-import Color_yr.AllMusic.Side.SideVelocity.MetricsVelocity;
-import Color_yr.AllMusic.Side.SideVelocity.SideVelocity;
-import Color_yr.AllMusic.Side.SideVelocity.VelocityLog;
+import Color_yr.AllMusic.side.sideVelocity.CommandVelocity;
+import Color_yr.AllMusic.side.sideVelocity.EventVelocity;
+import Color_yr.AllMusic.side.sideVelocity.MetricsVelocity;
+import Color_yr.AllMusic.side.sideVelocity.SideVelocity;
+import Color_yr.AllMusic.side.sideVelocity.VelocityLog;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;

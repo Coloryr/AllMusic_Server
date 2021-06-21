@@ -1,6 +1,6 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.MusicPlay.SendHud.SaveOBJ;
+import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
 
 import java.util.ArrayList;
 import java.util.HashMap;

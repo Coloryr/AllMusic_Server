@@ -1,8 +1,8 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.Command.CommandBukkit;
-import Color_yr.AllMusic.Event.EventBukkit;
-import Color_yr.AllMusic.Side.SideBukkit.*;
+import Color_yr.AllMusic.side.sideBukkit.CommandBukkit;
+import Color_yr.AllMusic.side.sideBukkit.EventBukkit;
+import Color_yr.AllMusic.side.sideBukkit.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
