@@ -40,5 +40,6 @@
   "UseCost": false,
   "SearchCost": 0,
   "AddMusicCost": 0,
-  "Version": "2.12.3"
+  "MusicBR": "320000",
+  "Version": "2.12.5"
 }

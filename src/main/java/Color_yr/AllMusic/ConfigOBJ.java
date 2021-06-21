@@ -37,6 +37,7 @@ public class ConfigOBJ {
 
     private String LoginUser;
     private String LoginPass;
+    private String MusicBR;
 
     public ConfigOBJ() {
         MaxList = 10;
@@ -64,7 +65,13 @@ public class ConfigOBJ {
         LoginUser = "";
         LoginPass = "";
 
+        MusicBR = "320000";
+
         Version = AllMusic.Version;
+    }
+
+    public String getMusicBR() {
+        return MusicBR;
     }
 
     public boolean isUseCost() {
