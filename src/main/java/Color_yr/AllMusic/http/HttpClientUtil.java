@@ -32,7 +32,7 @@ public class HttpClientUtil {
                                     for (Cookie item : list) {
                                         for (Cookie item1 : cookies) {
                                             if (item.name().equalsIgnoreCase(item1.name())) {
-                                                cookies.remove(item);
+                                                cookies.remove(item1);
                                                 break;
                                             }
                                         }
