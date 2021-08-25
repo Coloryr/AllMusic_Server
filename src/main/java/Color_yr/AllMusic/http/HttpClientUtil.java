@@ -23,8 +23,7 @@ public class HttpClientUtil {
     static {
         try {
             synchronized (OkHttpClient.class) {
-                client = new OkHttpClient.Builder()
-                        .cookieJar(new CookieJar() {
+                client = new OkHttpClient.Builder().cookieJar(new CookieJar() {
                             @Override
                             public void saveFromResponse(@NotNull HttpUrl httpUrl, @NotNull List<Cookie> list) {
                                 if (AllMusic.Cookie.cookieStore.containsKey(httpUrl.host())) {

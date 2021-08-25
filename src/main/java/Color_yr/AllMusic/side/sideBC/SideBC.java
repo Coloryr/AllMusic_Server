@@ -179,18 +179,13 @@ public class SideBC implements ISide {
 
     @Override
     public boolean NeedPlay() {
-        int online = getAllPlayer();
-        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
-                online--;
-            } else {
-                if (player.getServer() != null) {
-                    ServerInfo server = player.getServer().getInfo();
-                    if (server != null && AllMusic.getConfig().getNoMusicServer().contains(server.getName())) {
-                        online--;
-                    }
-                }
-            }
+        int online = 0;
+        for (ServerInfo server : ProxyServer.getInstance().getServers().values()) {
+            if (AllMusic.getConfig().getNoMusicServer().contains(server.getName()))
+                continue;
+            for (ProxiedPlayer player : server.getPlayers())
+                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
+                    online++;
         }
         return online > 0;
     }

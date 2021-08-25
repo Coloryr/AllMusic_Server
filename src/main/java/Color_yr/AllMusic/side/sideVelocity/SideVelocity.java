@@ -7,6 +7,7 @@ import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
 import com.google.gson.Gson;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -77,18 +78,13 @@ public class SideVelocity implements ISide {
 
     @Override
     public boolean NeedPlay() {
-        int online = getAllPlayer();
-        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getUsername())) {
-                online--;
-            } else {
-                if (player.getCurrentServer().isPresent()) {
-                    ServerInfo server = player.getCurrentServer().get().getServerInfo();
-                    if (server != null && AllMusic.getConfig().getNoMusicServer().contains(server.getName())) {
-                        online--;
-                    }
-                }
-            }
+        int online = 0;
+        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
+            if (AllMusic.getConfig().getNoMusicServer().contains(server.getServerInfo().getName()))
+                continue;
+            for (Player player : server.getPlayersConnected())
+                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getUsername()))
+                    online++;
         }
         return online > 0;
     }

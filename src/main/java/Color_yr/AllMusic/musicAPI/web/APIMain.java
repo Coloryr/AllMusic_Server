@@ -170,7 +170,7 @@ public class APIMain {
                     e.printStackTrace();
                 }
             isUpdata = false;
-        });
+        }, "AllMusic_setList");
         thread.start();
     }
 

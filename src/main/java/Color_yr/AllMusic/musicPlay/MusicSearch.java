@@ -5,18 +5,19 @@ import Color_yr.AllMusic.command.CommandEX;
 import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MusicSearch {
-    private static Thread taskT;
     private static boolean isRun;
-    private static List<MusicObj> tasks = new CopyOnWriteArrayList<>();
+    private static final Queue<MusicObj> tasks = new ConcurrentLinkedQueue<>();
 
-    private static final Runnable Do = () -> {
+    private static void task() {
         while (isRun) {
             try {
-                if (!tasks.isEmpty()) {
-                    MusicObj obj = tasks.remove(0);
+                MusicObj obj = tasks.poll();
+                if (obj != null) {
                     SearchPage search = AllMusic.getMusicApi().search(obj.args, obj.isDefault);
                     if (search == null)
                         AllMusic.Side.sendMessaget(obj.sender, AllMusic.getMessage().getSearch()
@@ -33,10 +34,12 @@ public class MusicSearch {
                 e.printStackTrace();
             }
         }
-    };
+    }
+
+    ;
 
     public static void start() {
-        taskT = new Thread(Do);
+        Thread taskT = new Thread(MusicSearch::task, "AllMusic_search");
         isRun = true;
         taskT.start();
     }

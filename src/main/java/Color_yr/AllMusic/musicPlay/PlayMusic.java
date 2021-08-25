@@ -13,11 +13,13 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PlayMusic {
 
-    public static final List<SongInfo> PlayList = new ArrayList<>();
+    public static final List<SongInfo> PlayList = new CopyOnWriteArrayList<>();
     public static int VoteTime = 0;
     public static int MusicAllTime = 0;
     public static int MusicLessTime = 0;
@@ -28,12 +30,30 @@ public class PlayMusic {
     public static ShowOBJ nowLyric;
 
     private static boolean isRun;
-    private static final List<MusicObj> tasks = new CopyOnWriteArrayList<>();
-    private static final Runnable Do = () -> {
+    private static final Queue<MusicObj> tasks = new ConcurrentLinkedQueue<>();
+
+    public static void stop() {
+        PlayMusic.clear();
+        isRun = false;
+        PlayGo.stop();
+    }
+
+    public static void start() {
+        Thread addT = new Thread(PlayMusic::task, "AllMusic_list");
+        isRun = true;
+        PlayGo.start();
+        addT.start();
+    }
+
+    public static void addTask(MusicObj obj) {
+        tasks.add(obj);
+    }
+
+    private static void task() {
         while (isRun) {
             try {
-                if (!tasks.isEmpty()) {
-                    MusicObj obj = tasks.remove(0);
+                MusicObj obj = tasks.poll();
+                if (obj != null) {
                     if (obj.isUrl) {
                         addUrl(obj.url);
                     } else {
@@ -46,71 +66,48 @@ public class PlayMusic {
                 e.printStackTrace();
             }
         }
-    };
-
-    public static void stop() {
-        PlayMusic.clear();
-        isRun = false;
-        PlayGo.stop();
-    }
-
-    public static void start() {
-        Thread addT = new Thread(Do);
-        isRun = true;
-        PlayGo.start();
-        addT.start();
-    }
-
-    public static void addTask(MusicObj obj) {
-        tasks.add(obj);
     }
 
     private static void addMusic(String ID, String player, boolean isList) {
-        synchronized (PlayList) {
-            if (isHave(ID))
-                return;
-            String text = AllMusic.getMessage().getMusicPlay().getPlayerAdd();
-            text = text.replace("%PlayerName%", player)
-                    .replace("%MusicID%", ID);
-            AllMusic.Side.bqt(text);
-            logs.logWrite("玩家：" + player + " 点歌：" + ID);
-            try {
-                SongInfo info = AllMusic.getMusicApi().getMusic(ID, player, isList);
-                if (info != null) {
-                    PlayList.add(info);
-                    String data = AllMusic.getMessage().getMusicPlay().getAddMusic();
-                    data = data.replace("%MusicName%", info.getName())
-                            .replace("%MusicAuthor%", info.getAuthor())
-                            .replace("%MusicAl%", info.getAl())
-                            .replace("%MusicAlia%", info.getAlia());
-                    AllMusic.Side.bqt(data);
-                } else {
-                    String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
-                    AllMusic.Side.bqt(data.replace("%MusicID%", ID));
-                }
-                if (AllMusic.getConfig().isPlayListSwitch()
-                        && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
-                    PlayMusic.MusicLessTime = 1;
-                    if (!isList)
-                        AllMusic.Side.bqt(AllMusic.getMessage().getMusicPlay().getSwitch());
-                }
-            } catch (Exception e) {
-                AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
-                e.printStackTrace();
+        if (isHave(ID))
+            return;
+        String text = AllMusic.getMessage().getMusicPlay().getPlayerAdd();
+        text = text.replace("%PlayerName%", player)
+                .replace("%MusicID%", ID);
+        AllMusic.Side.bqt(text);
+        logs.logWrite("玩家：" + player + " 点歌：" + ID);
+        try {
+            SongInfo info = AllMusic.getMusicApi().getMusic(ID, player, isList);
+            if (info != null) {
+                PlayList.add(info);
+                String data = AllMusic.getMessage().getMusicPlay().getAddMusic();
+                data = data.replace("%MusicName%", info.getName())
+                        .replace("%MusicAuthor%", info.getAuthor())
+                        .replace("%MusicAl%", info.getAl())
+                        .replace("%MusicAlia%", info.getAlia());
+                AllMusic.Side.bqt(data);
+            } else {
+                String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
+                AllMusic.Side.bqt(data.replace("%MusicID%", ID));
             }
+            if (AllMusic.getConfig().isPlayListSwitch()
+                    && (PlayMusic.NowPlayMusic != null && PlayMusic.NowPlayMusic.isList())) {
+                PlayMusic.MusicLessTime = 1;
+                if (!isList)
+                    AllMusic.Side.bqt(AllMusic.getMessage().getMusicPlay().getSwitch());
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
+            e.printStackTrace();
         }
     }
 
     public static SongInfo getMusic(int index) {
-        synchronized (PlayList) {
-            return PlayList.get(index);
-        }
+        return PlayList.get(index);
     }
 
     public static int getSize() {
-        synchronized (PlayList) {
-            return PlayList.size();
-        }
+        return PlayList.size();
     }
 
     public static List<SongInfo> getList() {
@@ -122,9 +119,7 @@ public class PlayMusic {
     }
 
     public static void remove(int index) {
-        synchronized (PlayList) {
-            PlayList.remove(index);
-        }
+        PlayList.remove(index);
     }
 
     public static String getAllList() {
@@ -156,21 +151,19 @@ public class PlayMusic {
     }
 
     private static void addUrl(String arg) {
-        synchronized (PlayList) {
-            try {
-                URL urlfile = new URL(arg);
-                URLConnection con = urlfile.openConnection();
-                int b = con.getContentLength();// 得到音乐文件的总长度
-                BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
-                Bitstream bt = new Bitstream(bis);
-                Header h = bt.readFrame();
-                int le = (int) h.total_ms(b);
-                SongInfo info = new SongInfo(AllMusic.getMessage().getCustom().getInfo(), arg, le);
-                PlayList.add(info);
-            } catch (Exception e) {
-                AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
-                e.printStackTrace();
-            }
+        try {
+            URL urlfile = new URL(arg);
+            URLConnection con = urlfile.openConnection();
+            int b = con.getContentLength();// 得到音乐文件的总长度
+            BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
+            Bitstream bt = new Bitstream(bis);
+            Header h = bt.readFrame();
+            int le = (int) h.total_ms(b);
+            SongInfo info = new SongInfo(AllMusic.getMessage().getCustom().getInfo(), arg, le);
+            PlayList.add(info);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
+            e.printStackTrace();
         }
     }
 }

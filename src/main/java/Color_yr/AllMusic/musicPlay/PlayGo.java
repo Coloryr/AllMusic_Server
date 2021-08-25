@@ -9,40 +9,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-class PlayGo {
-
+public class PlayGo {
     private static int count = 0;
     private static boolean isRun;
-    private static Thread taskT;
-    private static final Runnable runnable = () -> {
-        PlayMusic.MusicNowTime += 10;
-        count++;
-        if (count == 100) {
-            PlayMusic.MusicLessTime--;
-            count = 0;
-        }
-    };
     private static int times = 0;
-    private static final Runnable runnable1 = () -> {
-        ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
-        if (show != null) {
-            PlayMusic.nowLyric = show;
-            times = 0;
-            HudUtils.sendHudLyricData(show);
-        } else {
-            times++;
-            if (times == 500 && PlayMusic.nowLyric != null) {
-                times = 0;
-                HudUtils.sendHudLyricData(PlayMusic.nowLyric);
-            }
-        }
-    };
 
     private static ScheduledExecutorService service;
     private static ScheduledExecutorService service1;
 
     public static void start() {
-        taskT = new Thread(Do);
+        Thread taskT = new Thread(PlayGo::task, "AllMusic_Play");
         isRun = true;
         taskT.start();
     }
@@ -66,10 +42,10 @@ class PlayGo {
 
     private static void startTimer() {
         service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, 0, 10, TimeUnit.MILLISECONDS);
+        service.scheduleAtFixedRate(PlayGo::time1, 0, 10, TimeUnit.MILLISECONDS);
         if (PlayMusic.Lyric.isHaveLyric()) {
             service1 = Executors.newSingleThreadScheduledExecutor();
-            service1.scheduleAtFixedRate(runnable1, 0, 2, TimeUnit.MILLISECONDS);
+            service1.scheduleAtFixedRate(PlayGo::time2, 0, 2, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -84,7 +60,31 @@ class PlayGo {
         HudUtils.clearHud();
     }
 
-    private static final Runnable Do = () -> {
+    private static void time1() {
+        PlayMusic.MusicNowTime += 10;
+        count++;
+        if (count == 100) {
+            PlayMusic.MusicLessTime--;
+            count = 0;
+        }
+    }
+
+    private static void time2() {
+        ShowOBJ show = PlayMusic.Lyric.checkTime(PlayMusic.MusicNowTime);
+        if (show != null) {
+            PlayMusic.nowLyric = show;
+            times = 0;
+            HudUtils.sendHudLyricData(show);
+        } else {
+            times++;
+            if (times == 500 && PlayMusic.nowLyric != null) {
+                times = 0;
+                HudUtils.sendHudLyricData(PlayMusic.nowLyric);
+            }
+        }
+    }
+
+    private static void task() {
         while (isRun) {
             if (PlayMusic.getSize() == 0) {
                 try {
@@ -101,7 +101,7 @@ class PlayGo {
                             PlayMusic.addTask(obj);
                         }
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -135,11 +135,9 @@ class PlayGo {
                     AllMusic.Side.bqt(info);
                     startTimer();
                     AllMusic.Side.send("[Play]" + url, true);
-                    AllMusic.Side.task(()->
-                    {
-                        AllMusic.Side.send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), true);
-                    }, 20);
-                    if(PlayMusic.NowPlayMusic.isTrial()) {
+                    AllMusic.Side.task(() ->
+                            AllMusic.Side.send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), true), 20);
+                    if (PlayMusic.NowPlayMusic.isTrial()) {
                         AllMusic.Side.bqt(AllMusic.getMessage().getMusicPlay().getTrail());
                         PlayMusic.MusicLessTime = PlayMusic.NowPlayMusic.getTrialInfo().getEnd();
                         PlayMusic.MusicNowTime = PlayMusic.NowPlayMusic.getTrialInfo().getStart();
@@ -182,5 +180,5 @@ class PlayGo {
                 clear();
             }
         }
-    };
+    }
 }
