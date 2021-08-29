@@ -68,7 +68,7 @@ public class PlayMusic {
         }
     }
 
-    private static void addMusic(String ID, String player, boolean isList) {
+    public static void addMusic(String ID, String player, boolean isList) {
         if (isHave(ID))
             return;
         String text = AllMusic.getMessage().getMusicPlay().getPlayerAdd();

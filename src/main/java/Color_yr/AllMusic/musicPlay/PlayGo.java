@@ -98,10 +98,10 @@ public class PlayGo {
                             obj.sender = ID;
                             obj.Name = "空闲列表";
                             obj.isDefault = true;
-                            PlayMusic.addTask(obj);
+                            PlayMusic.addMusic(ID, "空闲列表", true);
                         }
                     }
-                    Thread.sleep(200);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
