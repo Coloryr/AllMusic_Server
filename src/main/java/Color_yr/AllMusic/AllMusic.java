@@ -2,6 +2,7 @@ package Color_yr.AllMusic;
 
 import Color_yr.AllMusic.api.IMyLogger;
 import Color_yr.AllMusic.api.ISide;
+import Color_yr.AllMusic.hudsave.DataSql;
 import Color_yr.AllMusic.message.*;
 import Color_yr.AllMusic.musicAPI.web.APIMain;
 import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
@@ -22,7 +23,7 @@ import java.util.Map;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.12.5";
+    public static final String Version = "2.13.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -151,6 +152,7 @@ public class AllMusic {
     public static void start() {
         PlayMusic.start();
         MusicSearch.start();
+        DataSql.start();
         log.info("§d[AllMusic]§2§e已启动-" + Version);
     }
 
@@ -161,6 +163,7 @@ public class AllMusic {
             Side.send("[Stop]", false);
             MusicSearch.stop();
             PlayMusic.stop();
+            DataSql.stop();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -216,6 +219,8 @@ public class AllMusic {
     public void init(File file) {
         log.info("§d[AllMusic]§2§e正在启动，感谢使用，本插件交流群：571239090");
         try {
+            if (!file.exists())
+                file.mkdir();
             if (ConfigFile == null)
                 ConfigFile = new File(file, "config.json");
             if (MessageFile == null)
@@ -224,8 +229,8 @@ public class AllMusic {
                 CookieFile = new File(file, "cookie.json");
             if (logs.file == null)
                 logs.file = new File(file, "logs.log");
-            if (!file.exists())
-                file.mkdir();
+            if (DataSql.SqlFile == null)
+                DataSql.SqlFile = new File(file, "data.db");
             if (!ConfigFile.exists()) {
                 Files.copy(this.getClass().getResourceAsStream("/config.json"), ConfigFile.toPath());
             }

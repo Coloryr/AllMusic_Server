@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
-version = "2.12.8"
+version = "2.13.0"
 
 repositories {
     mavenCentral()
@@ -32,6 +32,7 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.10.6'
     compileOnly fileTree(dir:'lib',include:['*.jar'])
 
+    implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
     compile 'com.squareup.okhttp3:okhttp:4.9.1'
 
     annotationProcessor 'com.velocitypowered:velocity-api:1.1.4'

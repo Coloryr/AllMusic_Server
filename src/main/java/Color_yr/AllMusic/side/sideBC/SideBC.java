@@ -3,6 +3,7 @@ package Color_yr.AllMusic.side.sideBC;
 import Color_yr.AllMusic.api.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicBC;
+import Color_yr.AllMusic.hudsave.HudSave;
 import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
@@ -57,18 +58,12 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public boolean sendHudLyric(String data) {
-        boolean Save = false;
+    public void sendHudLyric(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (!isOK(player, true))
                     continue;
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getName());
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, player.getName());
-                    Save = true;
-                }
+                SaveOBJ obj = HudSave.get(player.getName());
                 if (!obj.isEnableLyric())
                     continue;
                 send(player, "[Lyric]" + data, null);
@@ -77,22 +72,15 @@ public class SideBC implements ISide {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
             e.printStackTrace();
         }
-        return Save;
     }
 
     @Override
-    public boolean sendHudInfo(String data) {
-        boolean Save = false;
+    public void sendHudInfo(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (!isOK(player, true))
                     continue;
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getName());
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, player.getName());
-                    Save = true;
-                }
+                SaveOBJ obj = HudSave.get(player.getName());
                 if (!obj.isEnableInfo())
                     continue;
                 send(player, "[Info]" + data, null);
@@ -101,23 +89,16 @@ public class SideBC implements ISide {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
             e.printStackTrace();
         }
-        return Save;
     }
 
     @Override
-    public boolean sendHudList(String data) {
-        boolean Save = false;
+    public void sendHudList(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (!isOK(player, true))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, name);
-                    Save = true;
-                }
+                SaveOBJ obj = HudSave.get(name);
                 if (!obj.isEnableList())
                     continue;
                 send(player, "[List]" + data, null);
@@ -126,7 +107,6 @@ public class SideBC implements ISide {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
             e.printStackTrace();
         }
-        return Save;
     }
 
     @Override
@@ -134,12 +114,7 @@ public class SideBC implements ISide {
         for (ProxiedPlayer players : ProxyServer.getInstance().getPlayers()) {
             String Name = players.getName();
             try {
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, Name);
-                    AllMusic.save();
-                }
+                SaveOBJ obj = HudSave.get(Name);
                 String data = new Gson().toJson(obj);
                 send(data, Name, null);
             } catch (Exception e1) {

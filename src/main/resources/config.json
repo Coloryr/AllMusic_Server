@@ -13,7 +13,6 @@
   "PlayListRandom": true,
   "SendLyric": true,
   "NeedPermission": false,
-  "HudSave": {},
   "DefaultAddMusic": 0,
   "DefaultHud": {
     "List": {
@@ -41,5 +40,5 @@
   "SearchCost": 0,
   "AddMusicCost": 0,
   "MusicBR": "320000",
-  "Version": "2.12.5"
+  "Version": "2.13.0"
 }

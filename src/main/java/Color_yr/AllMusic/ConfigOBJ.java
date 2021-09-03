@@ -24,7 +24,6 @@ public class ConfigOBJ {
     private boolean SendLyric;
     private boolean NeedPermission;
 
-    private Map<String, SaveOBJ> HudSave;
     private SaveOBJ DefaultHud;
 
     private String Version;
@@ -54,7 +53,6 @@ public class ConfigOBJ {
         PlayListRandom = true;
         SendLyric = true;
         NeedPermission = false;
-        HudSave = new HashMap<>();
         DefaultHud = new SaveOBJ();
 
         UseCost = false;
@@ -108,14 +106,6 @@ public class ConfigOBJ {
 
     public boolean isSendLyric() {
         return SendLyric;
-    }
-
-    public SaveOBJ getInfoSave(String player) {
-        return HudSave.get(player);
-    }
-
-    public void setInfoSave(SaveOBJ obj, String player) {
-        HudSave.put(player, obj);
     }
 
     public boolean isPlayListRandom() {
@@ -196,10 +186,6 @@ public class ConfigOBJ {
         if (DefaultHud == null) {
             saveConfig = true;
             DefaultHud = new SaveOBJ();
-        }
-        if (HudSave == null) {
-            saveConfig = true;
-            HudSave = new ConcurrentHashMap<>();
         }
         if (NoMusicPlayer == null) {
             saveConfig = true;

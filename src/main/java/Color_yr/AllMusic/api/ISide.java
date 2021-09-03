@@ -13,11 +13,11 @@ public interface ISide {
 
     boolean NeedPlay();
 
-    boolean sendHudLyric(String data);
+    void sendHudLyric(String data);
 
-    boolean sendHudInfo(String data);
+    void sendHudInfo(String data);
 
-    boolean sendHudList(String data);
+    void sendHudList(String data);
 
     void sendHudSaveAll();
 

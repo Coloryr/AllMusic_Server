@@ -3,6 +3,7 @@ package Color_yr.AllMusic.side.sideVelocity;
 import Color_yr.AllMusic.api.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicVelocity;
+import Color_yr.AllMusic.hudsave.HudSave;
 import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
 import com.google.gson.Gson;
 import com.velocitypowered.api.command.CommandSource;
@@ -90,18 +91,12 @@ public class SideVelocity implements ISide {
     }
 
     @Override
-    public boolean sendHudLyric(String data) {
-        boolean Save = false;
+    public void sendHudLyric(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 if (!isOK(player, true))
                     continue;
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getUsername());
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, player.getUsername());
-                    Save = true;
-                }
+                SaveOBJ obj = HudSave.get(player.getUsername());
                 if (!obj.isEnableLyric())
                     continue;
                 send(player, "[Lyric]" + data, null);
@@ -110,22 +105,15 @@ public class SideVelocity implements ISide {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
             e.printStackTrace();
         }
-        return Save;
     }
 
     @Override
-    public boolean sendHudInfo(String data) {
-        boolean Save = false;
+    public void sendHudInfo(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 if (!isOK(player, true))
                     continue;
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(player.getUsername());
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, player.getUsername());
-                    Save = true;
-                }
+                SaveOBJ obj = HudSave.get(player.getUsername());
                 if (!obj.isEnableInfo())
                     continue;
                 send(player, "[Info]" + data, null);
@@ -134,23 +122,16 @@ public class SideVelocity implements ISide {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
             e.printStackTrace();
         }
-        return Save;
     }
 
     @Override
-    public boolean sendHudList(String data) {
-        boolean Save = false;
+    public void sendHudList(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 if (!isOK(player, true))
                     continue;
                 String name = player.getUsername();
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, name);
-                    Save = true;
-                }
+                SaveOBJ obj = HudSave.get(name);
                 if (!obj.isEnableList())
                     continue;
                 send(player, "[List]" + data, null);
@@ -159,7 +140,6 @@ public class SideVelocity implements ISide {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
             e.printStackTrace();
         }
-        return Save;
     }
 
     @Override
@@ -167,12 +147,7 @@ public class SideVelocity implements ISide {
         for (Player players : AllMusicVelocity.plugin.server.getAllPlayers()) {
             String Name = players.getUsername();
             try {
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, Name);
-                    AllMusic.save();
-                }
+                SaveOBJ obj = HudSave.get(Name);
                 String data = new Gson().toJson(obj);
                 send(data, Name, null);
             } catch (Exception e1) {

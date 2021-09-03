@@ -3,6 +3,7 @@ package Color_yr.AllMusic.side.sideBukkit;
 import Color_yr.AllMusic.api.ISide;
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.AllMusicBukkit;
+import Color_yr.AllMusic.hudsave.HudSave;
 import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
@@ -42,23 +43,16 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public boolean sendHudLyric(String data) {
-        boolean Save = false;
+    public void sendHudLyric(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             String name = player.getName();
             if (!isOK(player.getName(), true))
                 continue;
-            SaveOBJ obj = AllMusic.getConfig().getInfoSave(name);
-            if (obj == null) {
-                obj = AllMusic.getConfig().getDefaultHud().copy();
-                AllMusic.getConfig().setInfoSave(obj, name);
-                Save = true;
-            }
+            SaveOBJ obj = HudSave.get(name);
             if (!obj.isEnableLyric())
                 continue;
             send(player, "[Lyric]" + data, null);
         }
-        return Save;
     }
 
     @Override
@@ -83,43 +77,29 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public boolean sendHudInfo(String data) {
-        boolean Save = false;
+    public void sendHudInfo(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
             if (!isOK(player.getName(), true))
                 continue;
-            SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
-            if (obj == null) {
-                obj = AllMusic.getConfig().getDefaultHud().copy();
-                AllMusic.getConfig().setInfoSave(obj, Name);
-                Save = true;
-            }
+            SaveOBJ obj = HudSave.get(Name);
             if (!obj.isEnableInfo())
                 continue;
             send(player, "[Info]" + data, null);
         }
-        return Save;
     }
 
     @Override
-    public boolean sendHudList(String data) {
-        boolean Save = false;
+    public void sendHudList(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
             if (!isOK(player.getName(), true))
                 continue;
-            SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
-            if (obj == null) {
-                obj = AllMusic.getConfig().getDefaultHud().copy();
-                AllMusic.getConfig().setInfoSave(obj, Name);
-                Save = true;
-            }
+            SaveOBJ obj = HudSave.get(Name);
             if (!obj.isEnableList())
                 continue;
             send(player, "[List]" + data, null);
         }
-        return Save;
     }
 
     @Override
@@ -127,12 +107,7 @@ public class SideBukkit implements ISide {
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
             try {
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
-                if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, Name);
-                    AllMusic.save();
-                }
+                SaveOBJ obj = HudSave.get(Name);
                 String data = new Gson().toJson(obj);
                 send(data, Name, null);
             } catch (Exception e1) {

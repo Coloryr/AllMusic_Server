@@ -1,6 +1,7 @@
 package Color_yr.AllMusic.musicPlay.sendHud;
 
 import Color_yr.AllMusic.AllMusic;
+import Color_yr.AllMusic.hudsave.HudSave;
 import Color_yr.AllMusic.musicAPI.SongInfo;
 import Color_yr.AllMusic.musicAPI.songLyric.ShowOBJ;
 import Color_yr.AllMusic.musicPlay.PlayMusic;
@@ -9,7 +10,7 @@ import com.google.gson.Gson;
 
 public class HudUtils {
     public static PosOBJ setHudPos(String player, String pos, String x, String y) {
-        SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
+        SaveOBJ obj = HudSave.get(player);
         if (obj == null)
             obj = AllMusic.getConfig().getDefaultHud().copy();
         Pos pos1 = Pos.valueOf(pos);
@@ -49,7 +50,7 @@ public class HudUtils {
                 break;
         }
 
-        AllMusic.getConfig().setInfoSave(obj, player);
+        HudSave.add(player, obj);
         AllMusic.save();
         HudUtils.sendHudSave(player);
         return posOBJ;
@@ -71,9 +72,7 @@ public class HudUtils {
             }
         }
 
-        if (AllMusic.Side.sendHudList(list.toString())) {
-            AllMusic.save();
-        }
+        AllMusic.Side.sendHudList(list.toString());
     }
 
     private static String tranTime(int time) {
@@ -96,9 +95,7 @@ public class HudUtils {
             list.append("by:").append(PlayMusic.NowPlayMusic.getCall());
         }
 
-        if (AllMusic.Side.sendHudInfo(list.toString())) {
-            AllMusic.save();
-        }
+        AllMusic.Side.sendHudInfo(list.toString());
     }
 
     public static void sendHudLyricData(ShowOBJ showobj) {
@@ -112,13 +109,11 @@ public class HudUtils {
                 list.append(showobj.getTlyric());
         }
 
-        if (AllMusic.Side.sendHudLyric(list.toString())) {
-            AllMusic.save();
-        }
+        AllMusic.Side.sendHudLyric(list.toString());
     }
 
     public static boolean setHudEnable(String player, String pos) {
-        SaveOBJ obj = AllMusic.getConfig().getInfoSave(player);
+        SaveOBJ obj = HudSave.get(player);
         boolean a = false;
         if (obj == null) {
             obj = AllMusic.getConfig().getDefaultHud().copy();
@@ -157,7 +152,7 @@ public class HudUtils {
             }
         }
         clearHud(player);
-        AllMusic.getConfig().setInfoSave(obj, player);
+        HudSave.add(player, obj);
         AllMusic.save();
         HudUtils.sendHudSave(player);
         if (pos == null) {
@@ -189,10 +184,10 @@ public class HudUtils {
     public static void sendHudSave(String Name) {
         AllMusic.Side.runTask(() -> {
             try {
-                SaveOBJ obj = AllMusic.getConfig().getInfoSave(Name);
+                SaveOBJ obj = HudSave.get(Name);
                 if (obj == null) {
                     obj = AllMusic.getConfig().getDefaultHud().copy();
-                    AllMusic.getConfig().setInfoSave(obj, Name);
+                    HudSave.add(Name, obj);
                     AllMusic.save();
                 }
                 String data = new Gson().toJson(obj);
@@ -207,7 +202,7 @@ public class HudUtils {
     public static void reset(String name) {
         SaveOBJ obj = AllMusic.getConfig().getDefaultHud().copy();
         clearHud(name);
-        AllMusic.getConfig().setInfoSave(obj, name);
+        HudSave.add(name, obj);
         AllMusic.save();
         HudUtils.sendHudSave(name);
     }
