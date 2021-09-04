@@ -368,7 +368,7 @@ public class CommandEX {
                 return;
             } else if (args[0].equalsIgnoreCase("login")) {
                 AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d重新登录网易云账户");
-                AllMusic.getMusicApi().login();
+                AllMusic.getMusicApi().login(sender);
                 return;
             }
         }

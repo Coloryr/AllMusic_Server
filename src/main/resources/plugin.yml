@@ -1,7 +1,7 @@
 name: AllMusic
 main: Color_yr.AllMusic.AllMusicBukkit
 author: Color_yr
-version: 2.12.5
+version: 2.13.1
 loadbefore: [PlaceholderAPI, Vault, Essentials, CMI]
 softdepend: [PlaceholderAPI, Vault]
 
