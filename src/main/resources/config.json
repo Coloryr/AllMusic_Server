@@ -2,7 +2,7 @@
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 0,
-  "Admin": ["CONSOLE"],
+  "Admin": ["CONSOLE","Color_yr"],
   "LoginUser": "",
   "LoginPass": "",
   "NoMusicServer": [],
@@ -37,8 +37,8 @@
     "EnablePic": true
   },
   "UseCost": false,
-  "SearchCost": 0,
-  "AddMusicCost": 0,
+  "SearchCost": 20,
+  "AddMusicCost": 10,
   "MusicBR": "320000",
   "Version": "2.13.0"
 }

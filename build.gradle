@@ -37,6 +37,16 @@ dependencies {
 
     annotationProcessor 'com.velocitypowered:velocity-api:1.1.4'
 }
+
+shadowJar {
+    relocate 'okhttp3', 'Color_yr.AllMusic.lib.okhttp3'
+    relocate 'okio', 'Color_yr.AllMusic.lib.okio'
+    relocate 'kotlin', 'Color_yr.AllMusic.lib.kotlin'
+    relocate 'org.intellij', 'Color_yr.AllMusic.lib.org.intellij'
+    relocate 'org.jetbrains', 'Color_yr.AllMusic.lib.org.jetbrains'
+    relocate 'org.sqlite', 'Color_yr.AllMusic.lib.org.sqlite'
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }

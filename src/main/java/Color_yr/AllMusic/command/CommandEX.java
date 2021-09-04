@@ -100,25 +100,41 @@ public class CommandEX {
         if (args.length == 0) {
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getCommand().getError());
         } else if (args[0].equalsIgnoreCase("help")) {
-            AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2帮助手册");
-            AllMusic.Side.sendMessageSuggest(sender, "§d[AllMusic]§2使用/music [音乐ID] 来点歌",
+            AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getHelp().getNormal().getHead());
+            AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getNormal().getBase(),
                     AllMusic.getMessage().getClick().Check, "/music ");
-            AllMusic.Side.sendMessageRun(sender, "§d[AllMusic]§2使用/music stop 停止播放歌曲",
+            AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getNormal().getStop(),
                     AllMusic.getMessage().getClick().This, "/music stop");
-            AllMusic.Side.sendMessageRun(sender, "§d[AllMusic]§2使用/music list 查看歌曲队列",
+            AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getNormal().getList(),
                     AllMusic.getMessage().getClick().This, "/music list");
-            AllMusic.Side.sendMessageRun(sender, "§d[AllMusic]§2使用/music vote 投票切歌",
+            AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getNormal().getVote(),
                     AllMusic.getMessage().getClick().This, "/music vote");
-            AllMusic.Side.sendMessageRun(sender, "§d[AllMusic]§2使用/music nomusic 不再参与点歌",
+            AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getNormal().getNoMusic(),
                     AllMusic.getMessage().getClick().This, "/music nomusic");
-            AllMusic.Side.sendMessageSuggest(sender, "§d[AllMusic]§2使用/music search [歌名] 搜索歌曲",
+            AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getNormal().getSearch(),
                     AllMusic.getMessage().getClick().Check, "/music search ");
-            AllMusic.Side.sendMessageSuggest(sender, "§d[AllMusic]§2使用/music select [序列] 选择歌曲",
+            AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getNormal().getSelect(),
                     AllMusic.getMessage().getClick().Check, "/music select ");
-            AllMusic.Side.sendMessageSuggest(sender, "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud",
+            AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getNormal().getHud1(),
                     AllMusic.getMessage().getClick().Check, "/music hud enable ");
-            AllMusic.Side.sendMessageSuggest(sender, "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置",
+            AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getNormal().getHud2(),
                     AllMusic.getMessage().getClick().Check, "/music hud ");
+            if (AllMusic.getConfig().getAdmin().contains(name)) {
+                AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getAdmin().getReload(),
+                        AllMusic.getMessage().getClick().This, "/music reload");
+                AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getAdmin().getNext(),
+                        AllMusic.getMessage().getClick().This, "/music next");
+                AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getAdmin().getBan(),
+                        AllMusic.getMessage().getClick().Check, "/music ban ");
+                AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getAdmin().getUrl(),
+                        AllMusic.getMessage().getClick().Check, "/music url ");
+                AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getAdmin().getDelete(),
+                        AllMusic.getMessage().getClick().Check, "/music delete ");
+                AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getAdmin().getAddList(),
+                        AllMusic.getMessage().getClick().Check, "/music addlist ");
+                AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getAdmin().getClearList(),
+                        AllMusic.getMessage().getClick().This, "/music clearlist");
+            }
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.Side.clearHud(name);
             AllMusic.Side.send("[Stop]", name, false);
@@ -170,63 +186,11 @@ public class CommandEX {
                 }
             }
             AllMusic.getConfig().RemoveNoMusicPlayer(name);
-        } else if (args[0].equalsIgnoreCase("reload")) {
-            AllMusic.Side.reload();
-            AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已重读配置文件");
-        } else if (args[0].equalsIgnoreCase("next") && AllMusic.getConfig().getAdmin().contains(name)) {
-            PlayMusic.MusicLessTime = 1;
-            AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已强制切歌");
-            AllMusic.getConfig().RemoveNoMusicPlayer(name);
         } else if (args[0].equalsIgnoreCase("nomusic")) {
             AllMusic.Side.send("[Stop]", name, false);
             AllMusic.Side.clearHud(name);
             AllMusic.getConfig().AddNoMusicPlayer(name);
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getMusicPlay().getNoPlayMusic());
-        } else if (args[0].equalsIgnoreCase("ban") && args.length == 2
-                && AllMusic.getConfig().getAdmin().contains(name)) {
-            if (Function.isInteger(args[1])) {
-                AllMusic.getConfig().addBanID(args[1]);
-                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已禁止" + args[1]);
-            } else {
-                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的ID");
-            }
-        } else if (args[0].equalsIgnoreCase("url") && args.length == 2
-                && AllMusic.getConfig().getAdmin().contains(name)) {
-            MusicObj obj = new MusicObj();
-            obj.isUrl = true;
-            obj.url = args[1];
-            PlayMusic.addTask(obj);
-            AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
-        } else if (args[0].equalsIgnoreCase("delete") && args.length == 2
-                && AllMusic.getConfig().getAdmin().contains(name)) {
-            if (!args[1].isEmpty() && Function.isInteger(args[1])) {
-                int music = Integer.parseInt(args[1]);
-                if (music == 0) {
-                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的序列ID");
-                    return;
-                }
-                if (music > PlayMusic.getSize()) {
-                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2序列号过大");
-                    return;
-                }
-                PlayMusic.remove(music - 1);
-                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已删除序列" + music);
-            } else {
-                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的序列ID");
-            }
-        } else if (args[0].equalsIgnoreCase("addlist") && args.length == 2
-                && AllMusic.getConfig().getAdmin().contains(name)) {
-            if (Function.isInteger(args[1])) {
-                AllMusic.getMusicApi().setList(args[1], sender);
-                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表" + args[1]);
-            } else {
-                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的音乐列表ID");
-            }
-        } else if (args[0].equalsIgnoreCase("clearlist")
-                && AllMusic.getConfig().getAdmin().contains(name)) {
-            AllMusic.getConfig().getPlayList().clear();
-            AllMusic.save();
-            AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表已清空");
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
             if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.search")) {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
@@ -334,9 +298,58 @@ public class CommandEX {
                     }
                 }
             }
-        } else if (args[0].equalsIgnoreCase("login")) {
-            AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d重新登录网易云账户");
-            AllMusic.getMusicApi().login();
+        } else if (args[0].equalsIgnoreCase("reload")) {
+            AllMusic.Side.reload();
+            AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已重读配置文件");
+        } else if (AllMusic.getConfig().getAdmin().contains(name)) {
+            if (args[0].equalsIgnoreCase("next")) {
+                PlayMusic.MusicLessTime = 1;
+                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已强制切歌");
+                AllMusic.getConfig().RemoveNoMusicPlayer(name);
+            } else if (args[0].equalsIgnoreCase("ban") && args.length == 2) {
+                if (Function.isInteger(args[1])) {
+                    AllMusic.getConfig().addBanID(args[1]);
+                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已禁止" + args[1]);
+                } else {
+                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的ID");
+                }
+            } else if (args[0].equalsIgnoreCase("url") && args.length == 2) {
+                MusicObj obj = new MusicObj();
+                obj.isUrl = true;
+                obj.url = args[1];
+                PlayMusic.addTask(obj);
+                AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
+            } else if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
+                if (!args[1].isEmpty() && Function.isInteger(args[1])) {
+                    int music = Integer.parseInt(args[1]);
+                    if (music == 0) {
+                        AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的序列ID");
+                        return;
+                    }
+                    if (music > PlayMusic.getSize()) {
+                        AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2序列号过大");
+                        return;
+                    }
+                    PlayMusic.remove(music - 1);
+                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已删除序列" + music);
+                } else {
+                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的序列ID");
+                }
+            } else if (args[0].equalsIgnoreCase("addlist") && args.length == 2) {
+                if (Function.isInteger(args[1])) {
+                    AllMusic.getMusicApi().setList(args[1], sender);
+                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表" + args[1]);
+                } else {
+                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的音乐列表ID");
+                }
+            } else if (args[0].equalsIgnoreCase("clearlist")) {
+                AllMusic.getConfig().getPlayList().clear();
+                AllMusic.save();
+                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表已清空");
+            } else if (args[0].equalsIgnoreCase("login")) {
+                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d重新登录网易云账户");
+                AllMusic.getMusicApi().login();
+            }
         } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.addmusic"))
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
         else {

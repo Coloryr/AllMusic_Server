@@ -14,6 +14,7 @@ public class MessageOBJ {
     private PAPIOBJ PAPI;
     private CostObj Cost;
     private ClickObj Click;
+    private HelpObj Help;
 
     public MessageOBJ() {
         MusicPlay = new MusicPlayOBJ();
@@ -29,6 +30,7 @@ public class MessageOBJ {
         PAPI = new PAPIOBJ();
         Cost = new CostObj();
         Click = new ClickObj();
+        Help = new HelpObj();
     }
 
     public ClickObj getClick() {
@@ -83,6 +85,8 @@ public class MessageOBJ {
         return AddMusic;
     }
 
+    public HelpObj getHelp(){return Help;}
+
     public boolean check() {
         boolean saveConfig = false;
         if (MusicPlay == null) {
@@ -136,6 +140,15 @@ public class MessageOBJ {
         if (Click == null) {
             saveConfig = true;
             Click = new ClickObj();
+        }
+        if(Help == null)
+        {
+            saveConfig = true;
+            Help = new HelpObj();
+        }
+        if(Help.check())
+        {
+            saveConfig = true;
         }
         return saveConfig;
     }
