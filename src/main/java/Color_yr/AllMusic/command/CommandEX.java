@@ -352,7 +352,8 @@ public class CommandEX {
                 AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d重新登录网易云账户");
                 AllMusic.getMusicApi().login();
             }
-        } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.addmusic"))
+        }
+        if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.addmusic"))
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
         else {
             switch (AllMusic.getConfig().getDefaultAddMusic()) {
