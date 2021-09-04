@@ -99,6 +99,7 @@ public class CommandEX {
     public static void ex(Object sender, String name, String[] args) {
         if (args.length == 0) {
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getCommand().getError());
+            return;
         } else if (args[0].equalsIgnoreCase("help")) {
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getHelp().getNormal().getHead());
             AllMusic.Side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getNormal().getBase(),
@@ -137,12 +138,14 @@ public class CommandEX {
                 AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getAdmin().getLogin(),
                         AllMusic.getMessage().getClick().This, "/music login");
             }
+            return;
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.Side.clearHud(name);
             AllMusic.Side.send("[Stop]", name, false);
             HudUtils.clearHud(name);
             AllMusic.removeNowPlayPlayer(name);
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getMusicPlay().getStopPlay());
+            return;
         } else if (args[0].equalsIgnoreCase("list")) {
             if (PlayMusic.NowPlayMusic == null || PlayMusic.NowPlayMusic.isNull()) {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getMusicPlay().getNoMusic());
@@ -162,6 +165,7 @@ public class CommandEX {
                         .replace("&Count&", "" + PlayMusic.getSize()));
                 AllMusic.Side.sendMessage(sender, PlayMusic.getAllList());
             }
+            return;
         } else if (args[0].equalsIgnoreCase("vote")) {
             if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.vote")) {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getVote().getNoPermission());
@@ -188,11 +192,13 @@ public class CommandEX {
                 }
             }
             AllMusic.getConfig().RemoveNoMusicPlayer(name);
+            return;
         } else if (args[0].equalsIgnoreCase("nomusic")) {
             AllMusic.Side.send("[Stop]", name, false);
             AllMusic.Side.clearHud(name);
             AllMusic.getConfig().AddNoMusicPlayer(name);
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getMusicPlay().getNoPlayMusic());
+            return;
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
             if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.search")) {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
@@ -209,6 +215,7 @@ public class CommandEX {
             }
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getStartSearch());
             searchMusic(sender, name, args, false);
+            return;
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
             if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.search")) {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
@@ -231,6 +238,7 @@ public class CommandEX {
             } else {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getErrorNum());
             }
+            return;
         } else if (args[0].equalsIgnoreCase("nextpage")) {
             if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.search")) {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
@@ -244,6 +252,7 @@ public class CommandEX {
             } else {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getCantNext());
             }
+            return;
         } else if (args[0].equalsIgnoreCase("lastpage")) {
             if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.search")) {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
@@ -257,6 +266,7 @@ public class CommandEX {
             } else {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getSearch().getCantLast());
             }
+            return;
         } else if (args[0].equalsIgnoreCase("hud")) {
             if (args.length == 1) {
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getCommand().getError());
@@ -300,14 +310,17 @@ public class CommandEX {
                     }
                 }
             }
+            return;
         } else if (args[0].equalsIgnoreCase("reload")) {
             AllMusic.Side.reload();
             AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已重读配置文件");
+            return;
         } else if (AllMusic.getConfig().getAdmin().contains(name)) {
             if (args[0].equalsIgnoreCase("next")) {
                 PlayMusic.MusicLessTime = 1;
                 AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2已强制切歌");
                 AllMusic.getConfig().RemoveNoMusicPlayer(name);
+                return;
             } else if (args[0].equalsIgnoreCase("ban") && args.length == 2) {
                 if (Function.isInteger(args[1])) {
                     AllMusic.getConfig().addBanID(args[1]);
@@ -315,12 +328,14 @@ public class CommandEX {
                 } else {
                     AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的ID");
                 }
+                return;
             } else if (args[0].equalsIgnoreCase("url") && args.length == 2) {
                 MusicObj obj = new MusicObj();
                 obj.isUrl = true;
                 obj.url = args[1];
                 PlayMusic.addTask(obj);
                 AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
+                return;
             } else if (args[0].equalsIgnoreCase("delete") && args.length == 2) {
                 if (!args[1].isEmpty() && Function.isInteger(args[1])) {
                     int music = Integer.parseInt(args[1]);
@@ -337,6 +352,7 @@ public class CommandEX {
                 } else {
                     AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的序列ID");
                 }
+                return;
             } else if (args[0].equalsIgnoreCase("addlist") && args.length == 2) {
                 if (Function.isInteger(args[1])) {
                     AllMusic.getMusicApi().setList(args[1], sender);
@@ -344,15 +360,19 @@ public class CommandEX {
                 } else {
                     AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2请输入有效的音乐列表ID");
                 }
+                return;
             } else if (args[0].equalsIgnoreCase("clearlist")) {
                 AllMusic.getConfig().getPlayList().clear();
                 AllMusic.save();
                 AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表已清空");
+                return;
             } else if (args[0].equalsIgnoreCase("login")) {
                 AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d重新登录网易云账户");
                 AllMusic.getMusicApi().login();
+                return;
             }
-        } else if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.addmusic"))
+        }
+        if (AllMusic.getConfig().isNeedPermission() && AllMusic.Side.checkPermission(name, "AllMusic.addmusic"))
             AllMusic.Side.sendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
         else {
             switch (AllMusic.getConfig().getDefaultAddMusic()) {
