@@ -8,6 +8,7 @@ public class HelpAdminObj {
     private String Delete;
     private String AddList;
     private String ClearList;
+    private String Login;
 
     public HelpAdminObj() {
         Reload = "§d[AllMusic]§2使用/music reload 重读配置文件";
@@ -17,6 +18,11 @@ public class HelpAdminObj {
         Delete = "§d[AllMusic]§2使用/music delete [序号] 删除队列中的歌曲";
         AddList = "§d[AllMusic]§2使用/music addlist [歌单ID] 添加歌单到空闲列表";
         ClearList = "§d[AllMusic]§2使用/music clearlist 清空空闲歌单";
+        Login = "§d[AllMusic]§2使用/music login 重新登录账户";
+    }
+
+    public String getLogin() {
+        return Login;
     }
 
     public String getAddList() {

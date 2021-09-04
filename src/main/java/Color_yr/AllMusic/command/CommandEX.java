@@ -134,6 +134,8 @@ public class CommandEX {
                         AllMusic.getMessage().getClick().Check, "/music addlist ");
                 AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getAdmin().getClearList(),
                         AllMusic.getMessage().getClick().This, "/music clearlist");
+                AllMusic.Side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getAdmin().getLogin(),
+                        AllMusic.getMessage().getClick().This, "/music login");
             }
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.Side.clearHud(name);

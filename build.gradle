@@ -44,7 +44,6 @@ shadowJar {
     relocate 'kotlin', 'Color_yr.AllMusic.lib.kotlin'
     relocate 'org.intellij', 'Color_yr.AllMusic.lib.org.intellij'
     relocate 'org.jetbrains', 'Color_yr.AllMusic.lib.org.jetbrains'
-    relocate 'org.sqlite', 'Color_yr.AllMusic.lib.org.sqlite'
 }
 
 tasks.withType(JavaCompile) {
