@@ -13,6 +13,7 @@ public class PlayGo {
     private static int count = 0;
     private static boolean isRun;
     private static int times = 0;
+    public static String url;
 
     private static ScheduledExecutorService service;
     private static ScheduledExecutorService service1;
@@ -110,7 +111,7 @@ public class PlayGo {
                 PlayMusic.NowPlayMusic = PlayMusic.getMusic(0);
                 PlayMusic.remove(0);
 
-                String url = PlayMusic.NowPlayMusic.getPlayerUrl() == null ?
+                url = PlayMusic.NowPlayMusic.getPlayerUrl() == null ?
                         AllMusic.getMusicApi().getPlayUrl(PlayMusic.NowPlayMusic.getID()) :
                         PlayMusic.NowPlayMusic.getPlayerUrl();
                 if (url == null) {
@@ -136,7 +137,7 @@ public class PlayGo {
                     startTimer();
                     AllMusic.Side.send("[Play]" + url, true);
                     AllMusic.Side.task(() ->
-                            AllMusic.Side.send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), true), 20);
+                            AllMusic.Side.send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), true), 10);
                     if (PlayMusic.NowPlayMusic.isTrial()) {
                         AllMusic.Side.bqt(AllMusic.getMessage().getMusicPlay().getTrail());
                         PlayMusic.MusicLessTime = PlayMusic.NowPlayMusic.getTrialInfo().getEnd();

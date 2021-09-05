@@ -3,15 +3,20 @@ package Color_yr.AllMusic;
 import Color_yr.AllMusic.api.IMyLogger;
 import Color_yr.AllMusic.api.ISide;
 import Color_yr.AllMusic.hudsave.DataSql;
+import Color_yr.AllMusic.hudsave.HudSave;
 import Color_yr.AllMusic.message.*;
 import Color_yr.AllMusic.musicAPI.web.APIMain;
 import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
+import Color_yr.AllMusic.musicPlay.PlayGo;
 import Color_yr.AllMusic.musicPlay.PlayMusic;
 import Color_yr.AllMusic.musicPlay.MusicSearch;
+import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
 import Color_yr.AllMusic.side.sideBukkit.VaultHook;
 import Color_yr.AllMusic.Utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +28,7 @@ import java.util.Map;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.13.1";
+    public static final String Version = "2.14.0";
 
     private static final Map<String, SearchPage> SearchSave = new HashMap<>();
     private static final List<String> VotePlayer = new ArrayList<>();
@@ -213,6 +218,23 @@ public class AllMusic {
         } catch (Exception e) {
             log.warning("§d[AllMusic]§c读取配置文件错误");
             e.printStackTrace();
+        }
+    }
+
+    public static void joinPlay(String name) {
+        if (getConfig().getNoMusicPlayer().contains(name))
+            return;
+        if (PlayMusic.NowPlayMusic != null) {
+            AllMusic.Side.task(() -> {
+                SaveOBJ obj = HudSave.get(name);
+                String data = new Gson().toJson(obj);
+                AllMusic.Side.send(data, name, null);
+                AllMusic.Side.send("[Play]" + PlayGo.url, name, true);
+                AllMusic.Side.task(() ->
+                        AllMusic.Side.send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), name, true), 15);
+                AllMusic.Side.task(() ->
+                        AllMusic.Side.send("[Pos]" + (PlayMusic.MusicNowTime + 250), name, true), 8);
+            }, 10);
         }
     }
 

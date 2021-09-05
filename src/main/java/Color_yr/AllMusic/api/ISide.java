@@ -1,7 +1,7 @@
 package Color_yr.AllMusic.api;
 
 public interface ISide {
-    void send(String player, String data, Boolean isplay);
+    void send(String data, String player, Boolean isplay);
 
     void send(String data, Boolean isplay);
 
