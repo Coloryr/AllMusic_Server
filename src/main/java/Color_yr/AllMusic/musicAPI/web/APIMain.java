@@ -39,16 +39,19 @@ public class APIMain {
             AllMusic.log.info("§d[AllMusic]§c使用本地爬虫连接失败");
             return;
         }
-        if (!AllMusic.getConfig().getLoginPass().isEmpty() && !AllMusic.getConfig().getLoginUser().isEmpty()) {
-            AllMusic.log.info("§d[AllMusic]§e登陆中");
-            login(null);
-        }
     }
 
-    public void login(Object sender) {
+    public void sendCode(Object sender) {
+        JsonObject params = new JsonObject();
+        params.addProperty("ctcode", "86");
+        params.addProperty("cellphone", AllMusic.getConfig().getLoginUser());
+        Res res = HttpClientUtil.post("https://music.163.com/api/sms/captcha/sent", params, EncryptType.weapi, null);
+        AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d已发送验证码\n" + res.getData());
+    }
+
+    public void login(Object sender, String code) {
         JsonObject params = new JsonObject();
         params.addProperty("rememberLogin", "true");
-        params.addProperty("password", CryptoUtil.getMd5(AllMusic.getConfig().getLoginPass()).toLowerCase());
         if (AllMusic.Cookie.cookieStore.containsKey("music.163.com")) {
             List<Cookie> cookies = AllMusic.Cookie.cookieStore.get("music.163.com");
             for (Cookie item : cookies) {
@@ -63,49 +66,27 @@ public class APIMain {
             AllMusic.Cookie.cookieStore.put("music.163.com", cookies1);
             AllMusic.saveCookie();
         }
-        if (AllMusic.getConfig().getLoginUser().contains("@")) {
-            params.addProperty("username", AllMusic.getConfig().getLoginUser());
-            Res res = HttpClientUtil.post("https://music.163.com/weapi/login", params, EncryptType.weapi, null);
-            if (res == null || !res.isOk()) {
-                if (sender == null)
-                    AllMusic.log.info("§d[AllMusic]§c登录失败");
-                else
-                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§c登录失败");
-                return;
-            }
-            if (res.getData().contains("502")) {
-                if (sender == null)
-                    AllMusic.log.info("§d[AllMusic]§c登录失败:账号或密码错误");
-                else
-                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§c登录失败:账号或密码错误");
-            } else {
-                if (sender == null)
-                    AllMusic.log.info("§d[AllMusic]§d已登录");
-                else
-                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d已登录");
-            }
+        params.addProperty("countrycode", "86");
+        params.addProperty("phone", AllMusic.getConfig().getLoginUser());
+        params.addProperty("captcha", code);
+        Res res = HttpClientUtil.post("https://music.163.com/weapi/login/cellphone", params, EncryptType.weapi, null);
+        if (res == null || !res.isOk()) {
+            if (sender == null)
+                AllMusic.log.info("§d[AllMusic]§c登录失败");
+            else
+                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§c登录失败");
+            return;
+        }
+        if (res.getData().contains("200")) {
+            if (sender == null)
+                AllMusic.log.info("§d[AllMusic]§d已登录");
+            else
+                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d已登录");
         } else {
-            params.addProperty("countrycode", "86");
-            params.addProperty("phone", AllMusic.getConfig().getLoginUser());
-            Res res = HttpClientUtil.post("https://music.163.com/weapi/login/cellphone", params, EncryptType.weapi, null);
-            if (res == null || !res.isOk()) {
-                if (sender == null)
-                    AllMusic.log.info("§d[AllMusic]§c登录失败");
-                else
-                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§c登录失败");
-                return;
-            }
-            if (res.getData().contains("502")) {
-                if (sender == null)
-                    AllMusic.log.info("§d[AllMusic]§c登录失败:账号或密码错误");
-                else
-                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§c登录失败:账号或密码错误");
-            } else {
-                if (sender == null)
-                    AllMusic.log.info("§d[AllMusic]§d已登录");
-                else
-                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d已登录");
-            }
+            if (sender == null)
+                AllMusic.log.info("§d[AllMusic]§c登录失败:账号或密码错误\n" + res.getData());
+            else
+                AllMusic.Side.sendMessage(sender, "§d[AllMusic]§c登录失败:账号或密码错误\n" + res.getData());
         }
     }
 

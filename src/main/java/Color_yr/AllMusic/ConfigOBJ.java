@@ -35,7 +35,6 @@ public class ConfigOBJ {
     private int DefaultAddMusic;
 
     private String LoginUser;
-    private String LoginPass;
     private String MusicBR;
 
     public ConfigOBJ() {
@@ -61,7 +60,6 @@ public class ConfigOBJ {
 
         DefaultAddMusic = 0;
         LoginUser = "";
-        LoginPass = "";
 
         MusicBR = "320000";
 
@@ -78,10 +76,6 @@ public class ConfigOBJ {
 
     public String getLoginUser() {
         return LoginUser;
-    }
-
-    public String getLoginPass() {
-        return LoginPass;
     }
 
     public int getDefaultAddMusic() {

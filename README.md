@@ -17,8 +17,10 @@
 
 
 ## 播放VIP歌曲
-1. 在插件配置文件的`LoginUser`和`LoginPass`填写账户密码
+1. 在插件配置文件的`LoginUser`填写手机号
 2. 重载插件或者重启服务器
+3. 输入/music code 获取手机验证码
+4. 输入/music login 验证码 登录账户
 
 如果登录失效，请删除`cookie.json`再打`/music reload`
 

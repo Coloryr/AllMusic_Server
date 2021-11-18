@@ -29,17 +29,16 @@ public class HttpClientUtil {
                                 if (AllMusic.Cookie.cookieStore.containsKey(httpUrl.host())) {
                                     List<Cookie> cookies = AllMusic.Cookie.cookieStore.get(httpUrl.host());
                                     for (Cookie item : list) {
-                                        for (Cookie item1 : cookies) {
-                                            if (item.name().equalsIgnoreCase(item1.name())) {
-                                                cookies.remove(item1);
-                                                break;
-                                            }
-                                        }
+                                       for(Cookie item1 : cookies)
+                                       {
+                                           if (item.name().equalsIgnoreCase(item1.name())) {
+                                               cookies.remove(item1);
+                                               break;
+                                           }
+                                       }
+                                        cookies.add(item);
                                     }
-                                    List<Cookie> cookies1 = new CopyOnWriteArrayList<>();
-                                    cookies1.addAll(cookies);
-                                    cookies1.addAll(list);
-                                    AllMusic.Cookie.cookieStore.put(httpUrl.host(), cookies1);
+                                    AllMusic.Cookie.cookieStore.put(httpUrl.host(), cookies);
                                 } else {
                                     AllMusic.Cookie.cookieStore.put(httpUrl.host(), list);
                                 }

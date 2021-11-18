@@ -366,9 +366,15 @@ public class CommandEX {
                 AllMusic.save();
                 AllMusic.Side.sendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表已清空");
                 return;
+            } else if (args[0].equalsIgnoreCase("code")) {
+                AllMusic.getMusicApi().sendCode(sender);
+                return;
             } else if (args[0].equalsIgnoreCase("login")) {
+                if (args.length != 2) {
+                    AllMusic.Side.sendMessage(sender, "§d[AllMusic]§没有手机验证码");
+                }
                 AllMusic.Side.sendMessage(sender, "§d[AllMusic]§d重新登录网易云账户");
-                AllMusic.getMusicApi().login(sender);
+                AllMusic.getMusicApi().login(sender, args[1]);
                 return;
             }
         }
