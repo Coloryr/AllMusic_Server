@@ -3,7 +3,7 @@ package Color_yr.AllMusic.side.sideVelocity;
 import Color_yr.AllMusic.AllMusic;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
 
 public class EventVelocity {
     @Subscribe
@@ -13,6 +13,6 @@ public class EventVelocity {
 
     @Subscribe
     public void onPostLoginEvent(final PostLoginEvent event) {
-        AllMusic.removeNowPlayPlayer(event.getPlayer().getName());
+        AllMusic.removeNowPlayPlayer(event.getPlayer().getUsername());
     }
 }
