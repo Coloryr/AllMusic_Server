@@ -233,7 +233,7 @@ public class AllMusic {
                 AllMusic.Side.task(() ->
                         AllMusic.Side.send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), name, true), 15);
                 AllMusic.Side.task(() ->
-                        AllMusic.Side.send("[Pos]" + (PlayMusic.MusicNowTime + 250), name, true), 8);
+                        AllMusic.Side.send("[Pos]" + (PlayMusic.MusicNowTime + 2000), name, true), 40);
             }, 10);
         }
     }
