@@ -1,9 +1,9 @@
 package Color_yr.AllMusic.music.play;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.music.api.song.lyric.LyricSave;
-import Color_yr.AllMusic.music.api.song.lyric.ShowOBJ;
-import Color_yr.AllMusic.music.play.sendHud.HudUtils;
+import Color_yr.AllMusic.music.lyric.LyricSave;
+import Color_yr.AllMusic.music.lyric.ShowOBJ;
+import Color_yr.AllMusic.hud.HudUtils;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

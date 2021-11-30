@@ -1,9 +1,11 @@
-package Color_yr.AllMusic.music.play.sendHud;
+package Color_yr.AllMusic.hud;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.hudsave.HudSave;
+import Color_yr.AllMusic.hud.obj.Pos;
+import Color_yr.AllMusic.hud.obj.PosOBJ;
+import Color_yr.AllMusic.hud.obj.SaveOBJ;
 import Color_yr.AllMusic.music.api.SongInfo;
-import Color_yr.AllMusic.music.api.song.lyric.ShowOBJ;
+import Color_yr.AllMusic.music.lyric.ShowOBJ;
 import Color_yr.AllMusic.music.play.PlayMusic;
 import Color_yr.AllMusic.utils.Function;
 import com.google.gson.Gson;

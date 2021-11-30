@@ -1,11 +1,11 @@
 package Color_yr.AllMusic.command;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.music.api.song.search.SearchOBJ;
-import Color_yr.AllMusic.music.api.song.search.SearchPage;
+import Color_yr.AllMusic.music.search.SearchOBJ;
+import Color_yr.AllMusic.music.search.SearchPage;
 import Color_yr.AllMusic.music.play.PlayMusic;
-import Color_yr.AllMusic.music.play.sendHud.HudUtils;
-import Color_yr.AllMusic.music.play.sendHud.PosOBJ;
+import Color_yr.AllMusic.hud.HudUtils;
+import Color_yr.AllMusic.hud.obj.PosOBJ;
 import Color_yr.AllMusic.music.play.MusicSearch;
 import Color_yr.AllMusic.music.play.MusicObj;
 import Color_yr.AllMusic.utils.Function;

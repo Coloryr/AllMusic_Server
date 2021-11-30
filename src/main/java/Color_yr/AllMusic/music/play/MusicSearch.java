@@ -2,7 +2,7 @@ package Color_yr.AllMusic.music.play;
 
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.command.CommandEX;
-import Color_yr.AllMusic.music.api.song.search.SearchPage;
+import Color_yr.AllMusic.music.search.SearchPage;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

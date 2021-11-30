@@ -2,8 +2,8 @@ package Color_yr.AllMusic.music.play;
 
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.music.api.SongInfo;
-import Color_yr.AllMusic.music.api.song.lyric.LyricSave;
-import Color_yr.AllMusic.music.api.song.lyric.ShowOBJ;
+import Color_yr.AllMusic.music.lyric.LyricSave;
+import Color_yr.AllMusic.music.lyric.ShowOBJ;
 import Color_yr.AllMusic.utils.logs;
 import Color_yr.AllMusic.decoder.Bitstream;
 import Color_yr.AllMusic.decoder.Header;

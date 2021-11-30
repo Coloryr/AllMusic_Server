@@ -1,7 +1,7 @@
 package Color_yr.AllMusic.music.api;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.music.api.web.music.trialinfo.freeTrialInfo;
+import Color_yr.AllMusic.music.api.obj.music.trialinfo.freeTrialInfo;
 
 public class SongInfo {
     private String author;

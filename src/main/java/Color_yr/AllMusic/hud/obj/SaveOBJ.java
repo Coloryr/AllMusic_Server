@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.music.play.sendHud;
+package Color_yr.AllMusic.hud.obj;
 
 public class SaveOBJ {
     private PosOBJ List;
