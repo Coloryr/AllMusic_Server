@@ -5,18 +5,16 @@ import Color_yr.AllMusic.api.ISide;
 import Color_yr.AllMusic.hudsave.DataSql;
 import Color_yr.AllMusic.hudsave.HudSave;
 import Color_yr.AllMusic.message.*;
-import Color_yr.AllMusic.musicAPI.web.APIMain;
-import Color_yr.AllMusic.musicAPI.songSearch.SearchPage;
-import Color_yr.AllMusic.musicPlay.PlayGo;
-import Color_yr.AllMusic.musicPlay.PlayMusic;
-import Color_yr.AllMusic.musicPlay.MusicSearch;
-import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
-import Color_yr.AllMusic.side.sideBukkit.VaultHook;
-import Color_yr.AllMusic.Utils.logs;
+import Color_yr.AllMusic.music.api.web.APIMain;
+import Color_yr.AllMusic.music.api.song.search.SearchPage;
+import Color_yr.AllMusic.music.play.PlayGo;
+import Color_yr.AllMusic.music.play.PlayMusic;
+import Color_yr.AllMusic.music.play.MusicSearch;
+import Color_yr.AllMusic.music.play.sendHud.SaveOBJ;
+import Color_yr.AllMusic.side.bukkit.VaultHook;
+import Color_yr.AllMusic.utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -28,108 +26,108 @@ import java.util.Map;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String Version = "2.14.0";
+    public static final String version = "2.14.0";
 
-    private static final Map<String, SearchPage> SearchSave = new HashMap<>();
-    private static final List<String> VotePlayer = new ArrayList<>();
-    private static final List<String> NowPlayPlayer = new ArrayList<>();
+    private static final Map<String, SearchPage> searchSave = new HashMap<>();
+    private static final List<String> votePlayer = new ArrayList<>();
+    private static final List<String> nowPlayPlayer = new ArrayList<>();
     public static final Gson gson = new Gson();
 
     public static IMyLogger log;
-    public static ISide Side;
+    public static ISide side;
     public static boolean isRun;
-    public static VaultHook Vault;
-    private static APIMain Music;
-    private static ConfigOBJ Config;
-    private static MessageOBJ Message;
-    public static CookieObj Cookie;
-    private static File ConfigFile;
-    private static File CookieFile;
-    private static File MessageFile;
+    public static VaultHook vault;
+    private static APIMain apiMusic;
+    private static ConfigOBJ config;
+    private static MessageOBJ message;
+    public static CookieObj cookie;
+    private static File configFile;
+    private static File cookieFile;
+    private static File messageFile;
 
     public static void configCheck() {
-        if (Config == null) {
-            Config = new ConfigOBJ();
+        if (config == null) {
+            config = new ConfigOBJ();
             log.warning("§d[AllMusic]§c配置文件Config.json错误，已覆盖");
             save();
         }
-        else if (Config.check()) {
+        else if (config.check()) {
             log.warning("§d[AllMusic]§c配置文件Config.json错误，已覆盖");
             save();
         }
     }
     private static void messageCheck() {
-        if (Message == null) {
-            Message = new MessageOBJ();
+        if (message == null) {
+            message = new MessageOBJ();
             log.warning("§d[AllMusic]§c配置文件Message.json错误，已覆盖");
             save();
         }
-        else if (Message.check()) {
+        else if (message.check()) {
             log.warning("§d[AllMusic]§c配置文件Message.json错误，已覆盖");
             save();
         }
     }
 
     public static boolean containNowPlay(String player) {
-        return NowPlayPlayer.contains(player);
+        return nowPlayPlayer.contains(player);
     }
 
     public static ConfigOBJ getConfig() {
-        return Config;
+        return config;
     }
 
     public static MessageOBJ getMessage() {
-        return Message;
+        return message;
     }
 
     public static void addSearch(String player, SearchPage page) {
-        SearchSave.put(player, page);
+        searchSave.put(player, page);
     }
 
     public static SearchPage getSearch(String player) {
-        return SearchSave.get(player);
+        return searchSave.get(player);
     }
 
     public static void removeSearch(String player) {
-        SearchSave.remove(player);
+        searchSave.remove(player);
     }
 
     public static void addVote(String player) {
-        if (!VotePlayer.contains(player))
-            VotePlayer.add(player);
+        if (!votePlayer.contains(player))
+            votePlayer.add(player);
     }
 
     public static int getVoteCount() {
-        return VotePlayer.size();
+        return votePlayer.size();
     }
 
     public static void clearVote() {
-        VotePlayer.clear();
+        votePlayer.clear();
     }
 
     public static boolean containVote(String player) {
-        return VotePlayer.contains(player);
+        return votePlayer.contains(player);
     }
 
     public static void addNowPlayPlayer(String player) {
-        if (!NowPlayPlayer.contains(player))
-            NowPlayPlayer.add(player);
+        if (!nowPlayPlayer.contains(player))
+            nowPlayPlayer.add(player);
     }
 
     public static void removeNowPlayPlayer(String player) {
-        NowPlayPlayer.remove(player);
+        nowPlayPlayer.remove(player);
     }
 
     public static void save() {
         try {
-            String data = new GsonBuilder().setPrettyPrinting().create().toJson(Config);
-            FileOutputStream out = new FileOutputStream(ConfigFile);
+            String data = new GsonBuilder().setPrettyPrinting().create().toJson(config);
+            FileOutputStream out = new FileOutputStream(configFile);
             OutputStreamWriter write = new OutputStreamWriter(
                     out, StandardCharsets.UTF_8);
             write.write(data);
             write.close();
-            data = new GsonBuilder().setPrettyPrinting().create().toJson(Message);
-            out = new FileOutputStream(MessageFile);
+            data = new GsonBuilder().setPrettyPrinting().create().toJson(message);
+            out = new FileOutputStream(messageFile);
             write = new OutputStreamWriter(
                     out, StandardCharsets.UTF_8);
             write.write(data);
@@ -142,8 +140,8 @@ public class AllMusic {
 
     public static void saveCookie() {
         try {
-            String data = new GsonBuilder().setPrettyPrinting().create().toJson(Cookie);
-            FileOutputStream out = new FileOutputStream(CookieFile);
+            String data = new GsonBuilder().setPrettyPrinting().create().toJson(cookie);
+            FileOutputStream out = new FileOutputStream(cookieFile);
             OutputStreamWriter write = new OutputStreamWriter(
                     out, StandardCharsets.UTF_8);
             write.write(data);
@@ -158,14 +156,14 @@ public class AllMusic {
         PlayMusic.start();
         MusicSearch.start();
         DataSql.start();
-        log.info("§d[AllMusic]§2§e已启动-" + Version);
+        log.info("§d[AllMusic]§2§e已启动-" + version);
     }
 
     public static void stop() {
         try {
             clearVote();
             logs.stop();
-            Side.send("[Stop]", false);
+            side.send("[Stop]", false);
             MusicSearch.stop();
             PlayMusic.stop();
             DataSql.stop();
@@ -176,43 +174,43 @@ public class AllMusic {
     }
 
     public static APIMain getMusicApi() {
-        if (Music == null) {
-            AllMusic.Music = new APIMain();
+        if (apiMusic == null) {
+            AllMusic.apiMusic = new APIMain();
         }
-        return Music;
+        return apiMusic;
     }
 
     private static void loadConfig() {
         try {
             InputStreamReader reader = new InputStreamReader(
-                    new FileInputStream(ConfigFile), StandardCharsets.UTF_8);
+                    new FileInputStream(configFile), StandardCharsets.UTF_8);
             BufferedReader bf = new BufferedReader(reader);
-            Config = new Gson().fromJson(bf, ConfigOBJ.class);
+            config = new Gson().fromJson(bf, ConfigOBJ.class);
             bf.close();
             reader.close();
             configCheck();
 
-            reader = new InputStreamReader(new FileInputStream(AllMusic.MessageFile), StandardCharsets.UTF_8);
+            reader = new InputStreamReader(new FileInputStream(AllMusic.messageFile), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
-            Message = new Gson().fromJson(bf, MessageOBJ.class);
+            message = new Gson().fromJson(bf, MessageOBJ.class);
             bf.close();
             reader.close();
             messageCheck();
 
-            reader = new InputStreamReader(new FileInputStream(AllMusic.CookieFile), StandardCharsets.UTF_8);
+            reader = new InputStreamReader(new FileInputStream(AllMusic.cookieFile), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
-            Cookie = new Gson().fromJson(bf, CookieObj.class);
+            cookie = new Gson().fromJson(bf, CookieObj.class);
             bf.close();
             reader.close();
-            if (Cookie == null) {
-                Cookie = new CookieObj();
+            if (cookie == null) {
+                cookie = new CookieObj();
                 saveCookie();
             }
 
-            log.info("§d[AllMusic]§e当前插件版本为：" + AllMusic.Version
-                    + "，你的配置文件版本为：" + AllMusic.Config.getVersion());
+            log.info("§d[AllMusic]§e当前插件版本为：" + AllMusic.version
+                    + "，你的配置文件版本为：" + AllMusic.config.getVersion());
 
-            if (!AllMusic.Version.equalsIgnoreCase(AllMusic.Config.getVersion())) {
+            if (!AllMusic.version.equalsIgnoreCase(AllMusic.config.getVersion())) {
                 log.warning("§d[AllMusic]§c请及时更新配置文件");
             }
         } catch (Exception e) {
@@ -224,16 +222,16 @@ public class AllMusic {
     public static void joinPlay(String name) {
         if (getConfig().getNoMusicPlayer().contains(name))
             return;
-        if (PlayMusic.NowPlayMusic != null) {
-            AllMusic.Side.task(() -> {
+        if (PlayMusic.nowPlayMusic != null) {
+            AllMusic.side.task(() -> {
                 SaveOBJ obj = HudSave.get(name);
                 String data = new Gson().toJson(obj);
-                AllMusic.Side.send(data, name, null);
-                AllMusic.Side.send("[Play]" + PlayGo.url, name, true);
-                AllMusic.Side.task(() ->
-                        AllMusic.Side.send("[Img]" + PlayMusic.NowPlayMusic.getPicUrl(), name, true), 15);
-                AllMusic.Side.task(() ->
-                        AllMusic.Side.send("[Pos]" + (PlayMusic.MusicNowTime + 2000), name, true), 40);
+                AllMusic.side.send(data, name, null);
+                AllMusic.side.send("[Play]" + PlayGo.url, name, true);
+                AllMusic.side.task(() ->
+                        AllMusic.side.send("[Img]" + PlayMusic.nowPlayMusic.getPicUrl(), name, true), 15);
+                AllMusic.side.task(() ->
+                        AllMusic.side.send("[Pos]" + (PlayMusic.musicNowTime + 2000), name, true), 40);
             }, 10);
         }
     }
@@ -243,24 +241,24 @@ public class AllMusic {
         try {
             if (!file.exists())
                 file.mkdir();
-            if (ConfigFile == null)
-                ConfigFile = new File(file, "config.json");
-            if (MessageFile == null)
-                MessageFile = new File(file, "Message.json");
-            if(CookieFile == null)
-                CookieFile = new File(file, "cookie.json");
+            if (configFile == null)
+                configFile = new File(file, "config.json");
+            if (messageFile == null)
+                messageFile = new File(file, "Message.json");
+            if(cookieFile == null)
+                cookieFile = new File(file, "cookie.json");
             if (logs.file == null)
                 logs.file = new File(file, "logs.log");
-            if (DataSql.SqlFile == null)
-                DataSql.SqlFile = new File(file, "data.db");
-            if (!ConfigFile.exists()) {
-                Files.copy(this.getClass().getResourceAsStream("/config.json"), ConfigFile.toPath());
+            if (DataSql.sqlFile == null)
+                DataSql.sqlFile = new File(file, "data.db");
+            if (!configFile.exists()) {
+                Files.copy(this.getClass().getResourceAsStream("/config.json"), configFile.toPath());
             }
-            if (!MessageFile.exists()) {
-                Files.copy(this.getClass().getResourceAsStream("/Message.json"), MessageFile.toPath());
+            if (!messageFile.exists()) {
+                Files.copy(this.getClass().getResourceAsStream("/Message.json"), messageFile.toPath());
             }
-            if (!CookieFile.exists()) {
-                CookieFile.createNewFile();
+            if (!cookieFile.exists()) {
+                cookieFile.createNewFile();
             }
             if (!logs.file.exists()) {
                 logs.file.createNewFile();

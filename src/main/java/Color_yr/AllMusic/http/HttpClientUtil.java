@@ -26,8 +26,8 @@ public class HttpClientUtil {
                 client = new OkHttpClient.Builder().cookieJar(new CookieJar() {
                             @Override
                             public void saveFromResponse(@NotNull HttpUrl httpUrl, @NotNull List<Cookie> list) {
-                                if (AllMusic.Cookie.cookieStore.containsKey(httpUrl.host())) {
-                                    List<Cookie> cookies = AllMusic.Cookie.cookieStore.get(httpUrl.host());
+                                if (AllMusic.cookie.cookieStore.containsKey(httpUrl.host())) {
+                                    List<Cookie> cookies = AllMusic.cookie.cookieStore.get(httpUrl.host());
                                     for (Cookie item : list) {
                                        for(Cookie item1 : cookies)
                                        {
@@ -38,9 +38,9 @@ public class HttpClientUtil {
                                        }
                                         cookies.add(item);
                                     }
-                                    AllMusic.Cookie.cookieStore.put(httpUrl.host(), cookies);
+                                    AllMusic.cookie.cookieStore.put(httpUrl.host(), cookies);
                                 } else {
-                                    AllMusic.Cookie.cookieStore.put(httpUrl.host(), list);
+                                    AllMusic.cookie.cookieStore.put(httpUrl.host(), list);
                                 }
                                 AllMusic.saveCookie();
                             }
@@ -48,7 +48,7 @@ public class HttpClientUtil {
                             @NotNull
                             @Override
                             public List<Cookie> loadForRequest(@NotNull HttpUrl httpUrl) {
-                                List<Cookie> cookies = AllMusic.Cookie.cookieStore.get(httpUrl.host());
+                                List<Cookie> cookies = AllMusic.cookie.cookieStore.get(httpUrl.host());
                                 return cookies != null ? cookies : new CopyOnWriteArrayList<>();
                             }
                         })
@@ -103,12 +103,12 @@ public class HttpClientUtil {
             Request.Builder request = new Request.Builder();
             request = request.addHeader("Content-Type", "application/x-www-form-urlencoded");
             request = request.addHeader("Referer", "https://music.163.com");
-            encRes res;
+            EncRes res;
             List<Cookie> cookies = new ArrayList<>();
-            if (AllMusic.Cookie.cookieStore.containsKey("music.163.com")) {
-                cookies = AllMusic.Cookie.cookieStore.get("music.163.com");
+            if (AllMusic.cookie.cookieStore.containsKey("music.163.com")) {
+                cookies = AllMusic.cookie.cookieStore.get("music.163.com");
             }
-            if(type == EncryptType.weapi) {
+            if(type == EncryptType.WEAPI) {
                 request = request.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/13.10586");
                 String csrfToken = "";
                     for (Cookie item : cookies) {
@@ -125,7 +125,7 @@ public class HttpClientUtil {
                         .add("encSecKey", res.encSecKey)
                         .build();
             }
-            else if(type == EncryptType.eapi) {
+            else if(type == EncryptType.EAPI) {
                 request = request.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 9; PCT-AL10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.64 HuaweiBrowser/10.0.3.311 Mobile Safari/537.36");
                 JsonObject header = new JsonObject();
                 header.addProperty("appver", "8.0.0");

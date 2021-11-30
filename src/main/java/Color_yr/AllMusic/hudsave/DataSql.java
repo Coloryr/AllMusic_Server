@@ -1,9 +1,8 @@
 package Color_yr.AllMusic.hudsave;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.musicPlay.sendHud.PosOBJ;
-import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
-import org.checkerframework.checker.units.qual.A;
+import Color_yr.AllMusic.music.play.sendHud.PosOBJ;
+import Color_yr.AllMusic.music.play.sendHud.SaveOBJ;
 
 import java.io.File;
 import java.sql.Connection;
@@ -38,14 +37,14 @@ public class DataSql {
             "  \"pic_enable\" integer(1)\n" +
             ");";
 
-    public static File SqlFile;
+    public static File sqlFile;
 
     public static void init() {
         try {
             if (connection != null)
                 connection.close();
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + SqlFile.getPath());
+            connection = DriverManager.getConnection("jdbc:sqlite:" + sqlFile.getPath());
             Statement stat = connection.createStatement();
             ResultSet set = stat.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='allmusic';");
             if (!set.next()) {

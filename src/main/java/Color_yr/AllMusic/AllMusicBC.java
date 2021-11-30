@@ -1,10 +1,10 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.side.sideBC.CommandBC;
-import Color_yr.AllMusic.side.sideBC.EventBC;
-import Color_yr.AllMusic.side.sideBC.BCLog;
-import Color_yr.AllMusic.side.sideBC.MetricsBC;
-import Color_yr.AllMusic.side.sideBC.SideBC;
+import Color_yr.AllMusic.side.bc.CommandBC;
+import Color_yr.AllMusic.side.bc.EventBC;
+import Color_yr.AllMusic.side.bc.BCLog;
+import Color_yr.AllMusic.side.bc.MetricsBC;
+import Color_yr.AllMusic.side.bc.SideBC;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -16,7 +16,7 @@ public class AllMusicBC extends Plugin {
     public void onEnable() {
         plugin = this;
         AllMusic.log = new BCLog(ProxyServer.getInstance().getLogger());
-        AllMusic.Side = new SideBC();
+        AllMusic.side = new SideBC();
 
         new AllMusic().init(plugin.getDataFolder());
 

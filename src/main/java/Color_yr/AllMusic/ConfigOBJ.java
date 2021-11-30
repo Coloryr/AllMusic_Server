@@ -1,12 +1,9 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.musicPlay.sendHud.SaveOBJ;
+import Color_yr.AllMusic.music.play.sendHud.SaveOBJ;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class ConfigOBJ {
     private int MaxList;
@@ -63,7 +60,7 @@ public class ConfigOBJ {
 
         MusicBR = "320000";
 
-        Version = AllMusic.Version;
+        Version = AllMusic.version;
     }
 
     public String getMusicBR() {

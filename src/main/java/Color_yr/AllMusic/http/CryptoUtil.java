@@ -107,19 +107,19 @@ public class CryptoUtil {
         return str.toString();
     }
 
-    public static encRes weapiEncrypt(String content) {
+    public static EncRes weapiEncrypt(String content) {
         String key = createSecretKey(16);
         String encText = aesEncrypt(aesEncrypt(content, presetKey, iv), key, iv);
         String encSecKey = rsaEncrypt(key);
-        return new encRes(encText, encSecKey);
+        return new EncRes(encText, encSecKey);
     }
 
-    public static encRes eapi(String url, JsonObject object) {
+    public static EncRes eapi(String url, JsonObject object) {
         String text = AllMusic.gson.toJson(object);
         String message = "nobody" + url + "use" + text + "md5forencrypt";
         String digest = getMd5(message);
         String data = url + "-36cd479b6b5-" + text + "-36cd479b6b5-" + digest;
-        return new encRes(aesEncrypt(data, eapiKey), "");
+        return new EncRes(aesEncrypt(data, eapiKey), "");
     }
 
     public static String getMd5(String plainText) {

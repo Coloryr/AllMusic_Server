@@ -1,10 +1,10 @@
 package Color_yr.AllMusic;
 
-import Color_yr.AllMusic.side.sideVelocity.CommandVelocity;
-import Color_yr.AllMusic.side.sideVelocity.EventVelocity;
-import Color_yr.AllMusic.side.sideVelocity.MetricsVelocity;
-import Color_yr.AllMusic.side.sideVelocity.SideVelocity;
-import Color_yr.AllMusic.side.sideVelocity.VelocityLog;
+import Color_yr.AllMusic.side.velocity.CommandVelocity;
+import Color_yr.AllMusic.side.velocity.EventVelocity;
+import Color_yr.AllMusic.side.velocity.MetricsVelocity;
+import Color_yr.AllMusic.side.velocity.SideVelocity;
+import Color_yr.AllMusic.side.velocity.VelocityLog;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
-@Plugin(id = "allmusic", name = "AllMusic", version = AllMusic.Version,
+@Plugin(id = "allmusic", name = "AllMusic", version = AllMusic.version,
         url = "https://github.com/HeartAge/AllMusic_P", description = "全服点歌插件", authors = {"Color_yr"})
 public class AllMusicVelocity {
     public static AllMusicVelocity plugin;
@@ -47,7 +47,7 @@ public class AllMusicVelocity {
                 .aliases("allmusic")
                 .build();
         channel = () -> AllMusic.channel;
-        AllMusic.Side = new SideVelocity();
+        AllMusic.side = new SideVelocity();
 //        server.getChannelRegistrar().register(channel);
         server.getCommandManager().register(meta, new CommandVelocity());
         server.getEventManager().register(this, new EventVelocity());
