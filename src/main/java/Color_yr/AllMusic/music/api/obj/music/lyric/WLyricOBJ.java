@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.music.api.web.music.lyric;
+package Color_yr.AllMusic.music.api.obj.music.lyric;
 
 public class WLyricOBJ {
     private lrc lrc;

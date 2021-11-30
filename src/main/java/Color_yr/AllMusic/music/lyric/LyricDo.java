@@ -1,8 +1,8 @@
-package Color_yr.AllMusic.music.api.song.lyric;
+package Color_yr.AllMusic.music.lyric;
 
 import Color_yr.AllMusic.AllMusic;
 import Color_yr.AllMusic.utils.Function;
-import Color_yr.AllMusic.music.api.web.music.lyric.WLyricOBJ;
+import Color_yr.AllMusic.music.api.obj.music.lyric.WLyricOBJ;
 
 import java.util.*;
 

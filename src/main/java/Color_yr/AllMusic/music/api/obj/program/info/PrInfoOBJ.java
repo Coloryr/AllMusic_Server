@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.music.api.web.program.info;
+package Color_yr.AllMusic.music.api.obj.program.info;
 
 public class PrInfoOBJ {
 

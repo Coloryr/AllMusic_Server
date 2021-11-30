@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.music.api.web.music.trialinfo;
+package Color_yr.AllMusic.music.api.obj.music.trialinfo;
 
 public class freeTrialInfo {
     private int start;

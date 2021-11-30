@@ -1,8 +1,8 @@
-package Color_yr.AllMusic.hudsave;
+package Color_yr.AllMusic.hud;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.music.play.sendHud.PosOBJ;
-import Color_yr.AllMusic.music.play.sendHud.SaveOBJ;
+import Color_yr.AllMusic.hud.obj.PosOBJ;
+import Color_yr.AllMusic.hud.obj.SaveOBJ;
 
 import java.io.File;
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.music.api.web.music.info;
+package Color_yr.AllMusic.music.api.obj.music.info;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.music.api.song.lyric;
+package Color_yr.AllMusic.music.lyric;
 
 import Color_yr.AllMusic.AllMusic;
 

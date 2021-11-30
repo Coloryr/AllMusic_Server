@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.music.api.web.music.list;
+package Color_yr.AllMusic.music.api.obj.music.list;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
-package Color_yr.AllMusic.hudsave;
+package Color_yr.AllMusic.hud;
 
 import Color_yr.AllMusic.AllMusic;
-import Color_yr.AllMusic.music.play.sendHud.SaveOBJ;
+import Color_yr.AllMusic.hud.obj.SaveOBJ;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

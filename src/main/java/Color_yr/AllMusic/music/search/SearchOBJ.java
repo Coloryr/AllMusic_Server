@@ -1,4 +1,4 @@
-package Color_yr.AllMusic.music.api.song.search;
+package Color_yr.AllMusic.music.search;
 
 public class SearchOBJ {
     private final String id;
