@@ -371,7 +371,8 @@ public class CommandEX {
                 return;
             } else if (args[0].equalsIgnoreCase("login")) {
                 if (args.length != 2) {
-                    AllMusic.side.sendMessage(sender, "§d[AllMusic]§没有手机验证码");
+                    AllMusic.side.sendMessage(sender, "§d[AllMusic]§c没有手机验证码");
+                    return;
                 }
                 AllMusic.side.sendMessage(sender, "§d[AllMusic]§d重新登录网易云账户");
                 AllMusic.getMusicApi().login(sender, args[1]);
