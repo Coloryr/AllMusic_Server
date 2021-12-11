@@ -4,7 +4,6 @@
   "Delay": 0,
   "Admin": ["CONSOLE","Color_yr"],
   "LoginUser": "",
-  "LoginPass": "",
   "NoMusicServer": [],
   "NoMusicPlayer": [],
   "BanMusic": [],
@@ -40,5 +39,5 @@
   "SearchCost": 20,
   "AddMusicCost": 10,
   "MusicBR": "320000",
-  "Version": "2.14.0"
+  "Version": "2.14.5"
 }

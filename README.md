@@ -15,7 +15,6 @@
 
 >重载插件
 
-
 ## 播放VIP歌曲
 1. 在插件配置文件的`LoginUser`填写手机号
 2. 重载插件或者重启服务器
@@ -25,13 +24,13 @@
 如果登录失效，请删除`cookie.json`再打`/music reload`
 
 ## PAPI变量  
-> %AllMusic_NowMusicName%歌曲名字  
-> %AllMusic_NowMusicAl%歌曲专辑  
-> %AllMusic_NowMusicAlia%歌曲原曲  
-> %AllMusic_NowMusicAuthor%歌曲作者  
-> %AllMusic_NowMusicCall%点歌人  
-> %AllMusic_NowMusicInfo%歌曲所有信息  
-> %AllMusic_ListSize%队列大小  
-> %AllMusic_MusicList%队列歌曲  
-> %AllMusic_Lyric%歌词  
-> %AllMusic_TLyric%翻译的歌词
+> %allmusic_now_music_name% 歌曲名字  
+> %allmusic_now_music_al% 歌曲专辑  
+> %allmusic_now_music_alia% 歌曲原曲  
+> %allmusic_now_music_author% 歌曲作者  
+> %allmusic_now_music_call% 点歌人  
+> %allmusic_now_music_info% 歌曲所有信息  
+> %allmusic_list_size% 队列大小  
+> %allmusic_music_list% 队列歌曲  
+> %allmusic_lyric% 歌词  
+> %allmusic_tlyric% 翻译的歌词
