@@ -2,7 +2,6 @@ package coloryr.allmusic;
 
 import coloryr.allmusic.side.bukkit.CommandBukkit;
 import coloryr.allmusic.side.bukkit.EventBukkit;
-import Color_yr.allmusic.side.bukkit.*;
 import coloryr.allmusic.side.bukkit.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;

@@ -4,7 +4,6 @@ import coloryr.allmusic.api.IMyLogger;
 import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.hud.DataSql;
 import coloryr.allmusic.hud.HudSave;
-import Color_yr.allmusic.message.*;
 import coloryr.allmusic.music.api.APIMain;
 import coloryr.allmusic.music.search.SearchPage;
 import coloryr.allmusic.music.play.PlayGo;
