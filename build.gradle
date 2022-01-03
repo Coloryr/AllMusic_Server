@@ -49,24 +49,3 @@ shadowJar {
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
-
-//processResources {
-//    // this will ensure that this task is redone when the versions change.
-//    inputs.property "version", project.version
-//
-//    // replace stuff in mcmod.info, nothing else
-//    from(sourceSets.main.resources.srcDirs) {
-//        include 'bungee.yml'
-//        include 'plugin.yml'
-//        include 'config.json'
-//        // replace version and mcversion
-//        expand 'version':project.version
-//    }
-//
-//    // copy everything else except the mcmod.info
-//    from(sourceSets.main.resources.srcDirs) {
-//        exclude 'bungee.yml'
-//        exclude 'plugin.yml'
-//        exclude 'config.json'
-//    }
-//}
