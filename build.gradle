@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
-version = "2.14.5"
+version = "2.14.6"
 
 repositories {
     mavenCentral()
@@ -28,22 +28,22 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'net.md-5:bungeecord-api:1.16-R0.4-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
-    compileOnly 'com.velocitypowered:velocity-api:1.1.4'
+    compileOnly 'com.velocitypowered:velocity-api:3.0.0'
     compileOnly 'me.clip:placeholderapi:2.10.10'
 //    compileOnly fileTree(dir:'lib',include:['*.jar'])
 
     implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
     compile 'com.squareup.okhttp3:okhttp:4.9.3'
 
-    annotationProcessor 'com.velocitypowered:velocity-api:1.1.4'
+    annotationProcessor 'com.velocitypowered:velocity-api:3.0.0'
 }
 
 shadowJar {
-    relocate 'okhttp3', 'Color_yr.AllMusic.lib.okhttp3'
-    relocate 'okio', 'Color_yr.AllMusic.lib.okio'
-    relocate 'kotlin', 'Color_yr.AllMusic.lib.kotlin'
-    relocate 'org.intellij', 'Color_yr.AllMusic.lib.org.intellij'
-    relocate 'org.jetbrains', 'Color_yr.AllMusic.lib.org.jetbrains'
+    relocate 'okhttp3', 'coloryr.allmusic.lib.okhttp3'
+    relocate 'okio', 'coloryr.allmusic.lib.okio'
+    relocate 'kotlin', 'coloryr.allmusic.lib.kotlin'
+    relocate 'org.intellij', 'coloryr.allmusic.lib.org.intellij'
+    relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
 }
 
 tasks.withType(JavaCompile) {

@@ -142,17 +142,17 @@ public class DataSql {
                 pos2.setX(set.getInt(5));
                 pos2.setY(set.getInt(6));
                 obj.setLyric(pos2);
-                obj.setEnableLyric(set.getInt(7)== 1);
+                obj.setEnableLyric(set.getInt(7) == 1);
                 PosOBJ pos3 = new PosOBJ();
                 pos3.setX(set.getInt(8));
                 pos3.setY(set.getInt(9));
                 obj.setList(pos3);
-                obj.setEnableList(set.getInt(10)== 1);
+                obj.setEnableList(set.getInt(10) == 1);
                 PosOBJ pos4 = new PosOBJ();
                 pos4.setX(set.getInt(11));
                 pos4.setY(set.getInt(12));
                 obj.setPic(pos4);
-                obj.setEnablePic(set.getInt(10)== 1);
+                obj.setEnablePic(set.getInt(10) == 1);
                 HudSave.add1(name, obj);
             }
             stat.close();

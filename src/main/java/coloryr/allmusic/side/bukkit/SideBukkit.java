@@ -1,20 +1,64 @@
 package coloryr.allmusic.side.bukkit;
 
-import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBukkit;
+import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
 import com.google.gson.Gson;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 
 public class SideBukkit implements ISide {
+    private static Class ByteBufC;
+    private static Class UnpooledC;
+    private static Method bufferM;
+    private static Method writeByteM;
+    private static Method writeBytesM;
+    private static Method arrayM;
+
+    static {
+        try {
+            ByteBufC = Class.forName("net.minecraft.util.io.netty.buffer.ByteBuf");
+        } catch (Exception e) {
+            try {
+                ByteBufC = Class.forName("io.netty.buffer.ByteBuf");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            if (ByteBufC != null) {
+                try {
+                    arrayM = ByteBufC.getMethod("array");
+                    writeByteM = ByteBufC.getMethod("writeByte", int.class);
+                    writeBytesM = ByteBufC.getMethod("writeBytes", byte[].class);
+                } catch (NoSuchMethodException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        try {
+            UnpooledC = Class.forName("net.minecraft.util.io.netty.buffer.Unpooled");
+        } catch (Exception e) {
+            try {
+                UnpooledC = Class.forName("io.netty.buffer.Unpooled");
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            if (UnpooledC != null) {
+                try {
+                    bufferM = UnpooledC.getMethod("buffer", int.class);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+
     private boolean isOK(String player, boolean in) {
         if (AllMusic.getConfig().getNoMusicPlayer().contains(player))
             return false;
@@ -172,7 +216,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        if(AllMusic.getConfig().getAdmin().contains(player))
+        if (AllMusic.getConfig().getAdmin().contains(player))
             return false;
         Player player1 = Bukkit.getPlayer(player);
         if (player1 == null)
@@ -190,11 +234,22 @@ public class SideBukkit implements ISide {
             return;
         try {
             byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
-            buf.writeByte(666);
-            buf.writeBytes(bytes);
-            runTask(() ->
-                    players.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channel, buf.array()));
+            Object buf = bufferM.invoke(null, bytes.length + 1);
+            writeByteM.invoke(buf, 666);
+            writeBytesM.invoke(buf, bytes);
+
+            if (AllMusic.isRun)
+                runTask(() ->
+                {
+                    try {
+                        players.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channel, (byte[]) arrayM.invoke(buf));
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                });
+            else {
+                return;
+            }
             if (isplay != null) {
                 if (isplay) {
                     AllMusic.addNowPlayPlayer(players.getName());

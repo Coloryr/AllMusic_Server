@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TabCommand {
-    private static final List<String> normal = new ArrayList<String>(){{
+    private static final List<String> normal = new ArrayList<String>() {{
         this.add("stop");
         this.add("list");
         this.add("vote");
@@ -14,12 +14,12 @@ public class TabCommand {
         this.add("search");
         this.add("hud");
     }};
-    private static final List<String> search = new ArrayList<String>(){{
+    private static final List<String> search = new ArrayList<String>() {{
         this.add("select");
         this.add("nextpage");
         this.add("lastpage");
     }};
-    private static final List<String> admin = new ArrayList<String>(){{
+    private static final List<String> admin = new ArrayList<String>() {{
         this.add("reload");
         this.add("next");
         this.add("ban");
@@ -30,13 +30,13 @@ public class TabCommand {
         this.add("cancelApi");
         this.add("login");
     }};
-    private static final List<String> hudlist = new ArrayList<String>(){{
+    private static final List<String> hudlist = new ArrayList<String>() {{
         this.add("info");
         this.add("list");
         this.add("lyric");
         this.add("pic");
     }};
-    private static final List<String> hud = new ArrayList<String>(){{
+    private static final List<String> hud = new ArrayList<String>() {{
         this.add("info");
         this.add("list");
         this.add("lyric");
@@ -44,6 +44,7 @@ public class TabCommand {
         this.add("enable");
         this.add("reset");
     }};
+
     public static List<String> getTabList(String name, String[] arg) {
         List<String> arguments = new ArrayList<>();
         if (arg.length == 1) {

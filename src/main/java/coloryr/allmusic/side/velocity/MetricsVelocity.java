@@ -19,6 +19,7 @@ public class MetricsVelocity {
     private final PluginContainer pluginContainer;
     private final ProxyServer server;
     private MetricsBase metricsBase;
+
     private MetricsVelocity(Object plugin, ProxyServer server, Logger logger, Path dataDirectory, int serviceId) {
         pluginContainer = server.getPluginManager().fromInstance(plugin)
                 .orElseThrow(() -> new IllegalArgumentException("The provided instance is not a plugin"));

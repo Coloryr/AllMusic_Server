@@ -1,7 +1,5 @@
 package coloryr.allmusic;
 
-import coloryr.allmusic.side.bukkit.CommandBukkit;
-import coloryr.allmusic.side.bukkit.EventBukkit;
 import coloryr.allmusic.side.bukkit.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -19,8 +17,11 @@ public class AllMusicBukkit extends JavaPlugin {
         AllMusic.side = new SideBukkit();
 
         try {
-            spigotSet = null != Class.forName("net.md_5.bungee.api.chat.BaseComponent");
+            Class.forName("net.md_5.bungee.api.chat.BaseComponent");
+            Class test = Class.forName("org.bukkit.command.CommandSender");
+            test.getMethod("spigot");
             AllMusic.log.info("§2Spigot已支持");
+            spigotSet = true;
         } catch (Exception e) {
             AllMusic.log.info("§2Spigot不支持");
         }

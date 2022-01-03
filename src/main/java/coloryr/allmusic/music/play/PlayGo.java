@@ -1,9 +1,9 @@
 package coloryr.allmusic.music.play;
 
 import coloryr.allmusic.AllMusic;
+import coloryr.allmusic.hud.HudUtils;
 import coloryr.allmusic.music.lyric.LyricSave;
 import coloryr.allmusic.music.lyric.ShowOBJ;
-import coloryr.allmusic.hud.HudUtils;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -161,7 +161,6 @@ public class PlayGo {
                                             || (players <= AllMusic.getConfig().getMinVote()
                                             && players <= AllMusic.getVoteCount())) {
                                         AllMusic.side.bqt(AllMusic.getMessage().getVote().getDo());
-                                        AllMusic.side.send("[Stop]", false);
                                         AllMusic.clearVote();
                                         PlayMusic.voteTime = 0;
                                         break;
@@ -170,6 +169,7 @@ public class PlayGo {
                             }
                             Thread.sleep(1000);
                         }
+                        AllMusic.side.send("[Stop]", false);
                     } catch (InterruptedException e) {
                         AllMusic.log.warning("§c歌曲播放出现错误");
                         e.printStackTrace();

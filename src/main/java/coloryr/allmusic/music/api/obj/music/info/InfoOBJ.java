@@ -49,8 +49,7 @@ public class InfoOBJ {
         return songs.get(0).getLength();
     }
 
-    public String getPicUrl()
-    {
+    public String getPicUrl() {
         if (songs == null)
             return null;
         return songs.get(0).getPicUrl();

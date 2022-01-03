@@ -4,15 +4,15 @@ import coloryr.allmusic.api.IMyLogger;
 import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.hud.DataSql;
 import coloryr.allmusic.hud.HudSave;
+import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.message.MessageOBJ;
 import coloryr.allmusic.music.api.APIMain;
-import coloryr.allmusic.music.search.SearchPage;
+import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
-import coloryr.allmusic.music.play.MusicSearch;
-import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.music.search.SearchPage;
 import coloryr.allmusic.side.bukkit.VaultHook;
 import coloryr.allmusic.utils.logs;
-import coloryr.allmusic.message.MessageOBJ;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -50,19 +50,18 @@ public class AllMusic {
             config = new ConfigOBJ();
             log.warning("§d[AllMusic]§c配置文件Config.json错误，已覆盖");
             save();
-        }
-        else if (config.check()) {
+        } else if (config.check()) {
             log.warning("§d[AllMusic]§c配置文件Config.json错误，已覆盖");
             save();
         }
     }
+
     private static void messageCheck() {
         if (message == null) {
             message = new MessageOBJ();
             log.warning("§d[AllMusic]§c配置文件Message.json错误，已覆盖");
             save();
-        }
-        else if (message.check()) {
+        } else if (message.check()) {
             log.warning("§d[AllMusic]§c配置文件Message.json错误，已覆盖");
             save();
         }
@@ -73,6 +72,10 @@ public class AllMusic {
     }
 
     public static ConfigOBJ getConfig() {
+        if (config == null) {
+            log.warning("§d[AllMusic]§c配置文件Config.json错误，已使用默认配置文件");
+            config = new ConfigOBJ();
+        }
         return config;
     }
 
@@ -245,7 +248,7 @@ public class AllMusic {
                 configFile = new File(file, "config.json");
             if (messageFile == null)
                 messageFile = new File(file, "Message.json");
-            if(cookieFile == null)
+            if (cookieFile == null)
                 cookieFile = new File(file, "cookie.json");
             if (logs.file == null)
                 logs.file = new File(file, "logs.log");

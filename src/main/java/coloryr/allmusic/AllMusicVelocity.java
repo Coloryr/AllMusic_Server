@@ -1,10 +1,6 @@
 package coloryr.allmusic;
 
-import coloryr.allmusic.side.velocity.CommandVelocity;
-import coloryr.allmusic.side.velocity.EventVelocity;
-import coloryr.allmusic.side.velocity.MetricsVelocity;
-import coloryr.allmusic.side.velocity.SideVelocity;
-import coloryr.allmusic.side.velocity.VelocityLog;
+import coloryr.allmusic.side.velocity.*;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;

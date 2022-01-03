@@ -12,7 +12,7 @@ public class SearchOBJ {
     private String StartSearch;
 
     public SearchOBJ() {
-        StartSearch= "§d[AllMusic]§2正在排队搜歌";
+        StartSearch = "§d[AllMusic]§2正在排队搜歌";
         NoPer = "§d[AllMusic]§c你没有权限搜歌";
         CantSearch = "§d[AllMusic]§c无法搜索歌曲：%Music%";
         Res = "§d[AllMusic]§2搜索结果";

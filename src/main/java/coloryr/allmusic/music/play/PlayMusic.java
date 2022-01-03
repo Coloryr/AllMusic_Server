@@ -1,12 +1,12 @@
 package coloryr.allmusic.music.play;
 
 import coloryr.allmusic.AllMusic;
+import coloryr.allmusic.decoder.Bitstream;
+import coloryr.allmusic.decoder.Header;
 import coloryr.allmusic.music.api.SongInfo;
 import coloryr.allmusic.music.lyric.LyricSave;
 import coloryr.allmusic.music.lyric.ShowOBJ;
 import coloryr.allmusic.utils.logs;
-import coloryr.allmusic.decoder.Bitstream;
-import coloryr.allmusic.decoder.Header;
 
 import java.io.BufferedInputStream;
 import java.net.URL;

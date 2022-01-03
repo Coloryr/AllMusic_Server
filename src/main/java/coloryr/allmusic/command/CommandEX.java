@@ -1,13 +1,13 @@
 package coloryr.allmusic.command;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.music.search.SearchOBJ;
-import coloryr.allmusic.music.search.SearchPage;
-import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.hud.HudUtils;
 import coloryr.allmusic.hud.obj.PosOBJ;
-import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.music.play.MusicSearch;
+import coloryr.allmusic.music.play.PlayMusic;
+import coloryr.allmusic.music.search.SearchOBJ;
+import coloryr.allmusic.music.search.SearchPage;
 import coloryr.allmusic.utils.Function;
 
 import java.util.Locale;

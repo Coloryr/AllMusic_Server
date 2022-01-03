@@ -85,7 +85,9 @@ public class MessageOBJ {
         return AddMusic;
     }
 
-    public HelpObj getHelp(){return Help;}
+    public HelpObj getHelp() {
+        return Help;
+    }
 
     public boolean check() {
         boolean saveConfig = false;
@@ -141,13 +143,11 @@ public class MessageOBJ {
             saveConfig = true;
             Click = new ClickObj();
         }
-        if(Help == null)
-        {
+        if (Help == null) {
             saveConfig = true;
             Help = new HelpObj();
         }
-        if(Help.check())
-        {
+        if (Help.check()) {
             saveConfig = true;
         }
         return saveConfig;

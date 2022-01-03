@@ -4,17 +4,17 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.http.EncryptType;
 import coloryr.allmusic.http.HttpClientUtil;
 import coloryr.allmusic.http.Res;
-import coloryr.allmusic.music.lyric.LyricDo;
-import coloryr.allmusic.music.search.SearchOBJ;
-import coloryr.allmusic.music.search.SearchPage;
-import coloryr.allmusic.music.api.obj.music.trialinfo.TrialInfoObj;
-import coloryr.allmusic.music.api.obj.program.info.PrInfoOBJ;
 import coloryr.allmusic.music.api.obj.music.info.InfoOBJ;
 import coloryr.allmusic.music.api.obj.music.list.DataOBJ;
 import coloryr.allmusic.music.api.obj.music.lyric.WLyricOBJ;
 import coloryr.allmusic.music.api.obj.music.search.SearchDataOBJ;
 import coloryr.allmusic.music.api.obj.music.search.songs;
+import coloryr.allmusic.music.api.obj.music.trialinfo.TrialInfoObj;
+import coloryr.allmusic.music.api.obj.program.info.PrInfoOBJ;
+import coloryr.allmusic.music.lyric.LyricDo;
 import coloryr.allmusic.music.lyric.LyricSave;
+import coloryr.allmusic.music.search.SearchOBJ;
+import coloryr.allmusic.music.search.SearchPage;
 import coloryr.allmusic.utils.logs;
 import com.google.gson.JsonObject;
 import okhttp3.Cookie;
@@ -31,6 +31,7 @@ public class APIMain {
 
     public APIMain() {
         AllMusic.log.info("§d[AllMusic]§e使用本地爬虫");
+        HttpClientUtil.init();
         Res res = HttpClientUtil.get("https://music.163.com", "");
         if (res == null || !res.isOk()) {
             AllMusic.log.info("§d[AllMusic]§c使用本地爬虫连接失败");

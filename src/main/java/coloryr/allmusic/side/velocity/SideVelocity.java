@@ -1,8 +1,8 @@
 package coloryr.allmusic.side.velocity;
 
-import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicVelocity;
+import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
 import com.google.gson.Gson;
@@ -215,7 +215,7 @@ public class SideVelocity implements ISide {
     @Override
     public boolean checkPermission(String player, String permission) {
         try {
-            if(AllMusic.getConfig().getAdmin().contains(player))
+            if (AllMusic.getConfig().getAdmin().contains(player))
                 return false;
             Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
             player1.hasPermission(permission);

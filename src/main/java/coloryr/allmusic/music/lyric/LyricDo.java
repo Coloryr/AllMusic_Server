@@ -1,8 +1,8 @@
 package coloryr.allmusic.music.lyric;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.utils.Function;
 import coloryr.allmusic.music.api.obj.music.lyric.WLyricOBJ;
+import coloryr.allmusic.utils.Function;
 
 import java.util.*;
 

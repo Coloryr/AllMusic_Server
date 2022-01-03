@@ -4,8 +4,7 @@ public class PosOBJ {
     private int x;
     private int y;
 
-    public PosOBJ()
-    {
+    public PosOBJ() {
 
     }
 

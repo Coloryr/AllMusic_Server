@@ -15,7 +15,7 @@ public class WLyricOBJ {
     }
 
     public String getTlyric() {
-        if(tlyric == null)
+        if (tlyric == null)
             return null;
         return tlyric.getLyric();
     }

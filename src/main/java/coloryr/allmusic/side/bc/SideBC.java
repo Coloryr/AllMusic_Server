@@ -1,8 +1,8 @@
 package coloryr.allmusic.side.bc;
 
-import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBC;
+import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
 import com.google.gson.Gson;
@@ -206,7 +206,7 @@ public class SideBC implements ISide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        if(AllMusic.getConfig().getAdmin().contains(player))
+        if (AllMusic.getConfig().getAdmin().contains(player))
             return false;
         ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
         if (player1 == null)
