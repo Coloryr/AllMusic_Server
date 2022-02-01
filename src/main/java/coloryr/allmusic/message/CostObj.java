@@ -11,6 +11,17 @@ public class CostObj {
         NoMoney = "§d[ALLMusic]§c你没有足够的钱";
     }
 
+    public boolean check(){
+        if(Search == null)
+            return true;
+        if(AddMusic == null)
+            return true;
+        if(NoMoney == null)
+            return true;
+
+        return false;
+    }
+
     public String getNoMoney() {
         return NoMoney;
     }

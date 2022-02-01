@@ -15,6 +15,21 @@ public class HudListOBJ {
         All = "所有位置";
     }
 
+    public boolean check(){
+        if(List == null)
+            return true;
+        if(Lyric == null)
+            return true;
+        if(Info == null)
+            return true;
+        if(All == null)
+            return true;
+        if(Pic == null)
+            return true;
+
+        return false;
+    }
+
     public String getAll() {
         return All;
     }

@@ -9,6 +9,15 @@ public class LyricOBJ {
         TData = "%Lyric%(%TLyric%)";
     }
 
+    public boolean check(){
+        if(Data == null)
+            return true;
+        if(TData == null)
+            return true;
+
+        return false;
+    }
+
     public String getData() {
         return Data;
     }

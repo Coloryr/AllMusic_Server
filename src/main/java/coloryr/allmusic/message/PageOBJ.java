@@ -11,6 +11,18 @@ public class PageOBJ {
         Last = "§d[AllMusic]§e[§n点我上一页§r§e]";
     }
 
+    public boolean check() {
+        boolean res = false;
+        if (Choice == null)
+            res = true;
+        if (Next == null)
+            res = true;
+        if (Last == null)
+            res = true;
+
+        return res;
+    }
+
     public String getLast() {
         return Last;
     }

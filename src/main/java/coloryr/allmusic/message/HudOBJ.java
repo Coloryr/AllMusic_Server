@@ -17,6 +17,23 @@ public class HudOBJ {
         NoLyric = "无歌词";
     }
 
+    public boolean check(){
+        if(State == null)
+            return true;
+        if(Set == null)
+            return true;
+        if(Reset == null)
+            return true;
+        if(NoMusic == null)
+            return true;
+        if(NoList == null)
+            return true;
+        if(NoLyric == null)
+            return true;
+
+        return false;
+    }
+
     public String getReset() {
         return Reset;
     }

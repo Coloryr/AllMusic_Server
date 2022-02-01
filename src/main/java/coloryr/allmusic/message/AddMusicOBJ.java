@@ -17,6 +17,23 @@ public class AddMusicOBJ {
         NoID = "§d[AllMusic]§c错误，请输入歌曲数字ID";
     }
 
+    public boolean check() {
+        if (ListFull == null)
+            return true;
+        if (BanMusic == null)
+            return true;
+        if (ExistMusic == null)
+            return true;
+        if (Success == null)
+            return true;
+        if (NoPlayer == null)
+            return true;
+        if (NoID == null)
+            return true;
+
+        return false;
+    }
+
     public String getNoID() {
         return NoID;
     }

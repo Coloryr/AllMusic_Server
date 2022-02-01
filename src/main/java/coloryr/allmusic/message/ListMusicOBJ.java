@@ -11,6 +11,18 @@ public class ListMusicOBJ {
         Get = "§d[AllMusic]§2歌曲列表%ListName%获取成功";
     }
 
+    public boolean check() {
+        boolean res = false;
+        if (Head == null)
+            res = true;
+        if (Item == null)
+            res = true;
+        if (Get == null)
+            res = true;
+
+        return res;
+    }
+
     public String getGet() {
         return Get;
     }

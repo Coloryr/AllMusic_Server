@@ -23,6 +23,29 @@ public class SearchOBJ {
         CantLast = "§d[AllMusic]§c无法上一页";
     }
 
+    public boolean check(){
+        if(NoPer == null)
+            return true;
+        if(CantSearch == null)
+            return true;
+        if(Res == null)
+            return true;
+        if(NoSearch == null)
+            return true;
+        if(ErrorNum == null)
+            return true;
+        if(Chose == null)
+            return true;
+        if(CantNext == null)
+            return true;
+        if(CantLast == null)
+            return true;
+        if(StartSearch == null)
+            return true;
+
+        return false;
+    }
+
     public String getStartSearch() {
         return StartSearch;
     }

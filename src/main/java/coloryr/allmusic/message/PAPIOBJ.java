@@ -7,6 +7,13 @@ public class PAPIOBJ {
         NoMusic = "没有播放的音乐";
     }
 
+    public boolean check(){
+        if(NoMusic == null)
+            return true;
+
+        return false;
+    }
+
     public String getNoMusic() {
         return NoMusic;
     }

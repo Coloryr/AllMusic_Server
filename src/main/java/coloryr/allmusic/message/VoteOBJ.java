@@ -21,6 +21,27 @@ public class VoteOBJ {
         Do = "§d[AllMusic]§2已切歌";
     }
 
+    public boolean check(){
+        if(NoPermission == null)
+            return true;
+        if(DoVote == null)
+            return true;
+        if(BQ == null)
+            return true;
+        if(Agree == null)
+            return true;
+        if(BQAgree == null)
+            return true;
+        if(ARAgree == null)
+            return true;
+        if(TimeOut == null)
+            return true;
+        if(Do == null)
+            return true;
+
+        return false;
+    }
+
     public String getDo() {
         return Do;
     }

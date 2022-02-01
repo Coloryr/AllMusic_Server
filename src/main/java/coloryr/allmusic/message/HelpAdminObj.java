@@ -21,6 +21,27 @@ public class HelpAdminObj {
         Login = "§d[AllMusic]§2使用/music login 重新登录账户";
     }
 
+    public boolean check() {
+        if (Reload == null)
+            return true;
+        if (Next == null)
+            return true;
+        if (Ban == null)
+            return true;
+        if (Url == null)
+            return true;
+        if (Delete == null)
+            return true;
+        if (AddList == null)
+            return true;
+        if (ClearList == null)
+            return true;
+        if (Login == null)
+            return true;
+
+        return false;
+    }
+
     public String getLogin() {
         return Login;
     }

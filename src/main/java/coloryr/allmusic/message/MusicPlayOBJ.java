@@ -29,6 +29,36 @@ public class MusicPlayOBJ {
         Trail = "§d[AllMusic]§2该音乐为试听音乐";
     }
 
+    public boolean check() {
+        boolean res = false;
+        if (StopPlay == null)
+            res = true;
+        if (NoMusic == null)
+            res = true;
+        if (Play == null)
+            res = true;
+        if (NoPlay == null)
+            res = true;
+        if (ListMusic == null || ListMusic.check())
+            res = true;
+        if (NoCanPlay == null)
+            res = true;
+        if (NoPlayMusic == null)
+            res = true;
+        if (Switch == null)
+            res = true;
+        if (AddMusic == null)
+            res = true;
+        if (PlayerAdd == null)
+            res = true;
+        if (MusicInfo == null)
+            res = true;
+        if (Trail == null)
+            res = true;
+
+        return res;
+    }
+
     public String getTrail() {
         return Trail;
     }

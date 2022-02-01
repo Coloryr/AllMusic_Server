@@ -25,6 +25,31 @@ public class HelpNormalObj {
         Hud2 = "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置";
     }
 
+    public boolean check(){
+        if(Head == null)
+            return true;
+        if(Base == null)
+            return true;
+        if(Stop == null)
+            return true;
+        if(List == null)
+            return true;
+        if(Vote == null)
+            return true;
+        if(NoMusic == null)
+            return true;
+        if(Search == null)
+            return true;
+        if(Select == null)
+            return true;
+        if(Hud1 == null)
+            return true;
+        if(Hud2 == null)
+            return true;
+
+        return false;
+    }
+
     public String getBase() {
         return Base;
     }
