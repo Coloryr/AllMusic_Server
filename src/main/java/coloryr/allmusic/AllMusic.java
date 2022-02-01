@@ -157,6 +157,7 @@ public class AllMusic {
 
     public static void start() {
         PlayMusic.start();
+        PlayGo.start();
         MusicSearch.start();
         DataSql.start();
         log.info("§d[AllMusic]§2§e已启动-" + version);
@@ -169,6 +170,7 @@ public class AllMusic {
             side.send("[Stop]", false);
             MusicSearch.stop();
             PlayMusic.stop();
+            PlayGo.stop();
             DataSql.stop();
         } catch (IOException e) {
             e.printStackTrace();

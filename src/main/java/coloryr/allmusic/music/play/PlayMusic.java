@@ -35,13 +35,11 @@ public class PlayMusic {
     public static void stop() {
         PlayMusic.clear();
         isRun = false;
-        PlayGo.stop();
     }
 
     public static void start() {
         Thread addT = new Thread(PlayMusic::task, "AllMusic_list");
         isRun = true;
-        PlayGo.start();
         addT.start();
     }
 

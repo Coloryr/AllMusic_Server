@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class DataSql {
     private static final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
-    private static Thread thread;
     private static boolean isRun;
 
     private static Connection connection;
@@ -168,7 +167,7 @@ public class DataSql {
     public static void start() {
         init();
         readAll();
-        thread = new Thread(DataSql::run);
+        Thread thread = new Thread(DataSql::run);
         isRun = true;
         thread.start();
     }
