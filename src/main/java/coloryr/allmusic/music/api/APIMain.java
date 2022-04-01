@@ -30,12 +30,11 @@ public class APIMain {
     public boolean isUpdata;
 
     public APIMain() {
-        AllMusic.log.info("§d[AllMusic]§e使用本地爬虫");
+        AllMusic.log.info("§d[AllMusic]§e正在初始化网络爬虫");
         HttpClientUtil.init();
         Res res = HttpClientUtil.get("https://music.163.com", "");
         if (res == null || !res.isOk()) {
-            AllMusic.log.info("§d[AllMusic]§c使用本地爬虫连接失败");
-            return;
+            AllMusic.log.info("§d[AllMusic]§c初始化网络爬虫连接失败");
         }
     }
 

@@ -5,12 +5,12 @@
 ## 使用方法
 >1. 安装AllMusic插件  
 >支持CraftBukkit/Spigot/Bungeecord服务器  
->复制`AllMusic-2.8.0-all.jar`到你的`plugins`文件夹  
+>复制`AllMusic-2.14.7-all.jar`到你的`plugins`文件夹  
 >2. 安装客户端mod  
 >目前只支持  
->`forge:1.12.2 1.14 1.15 1.16`  
->`fabric:1.14 1.15 1.16`  
->复制`[forge-1.1x]AllMusic-2.3.0(hotfix)`到你的`mods`文件夹  
+>`forge:1.7.10 1.8 1.12.2 1.14 1.15 1.16 1.17 1.18`  
+>`fabric:1.14 1.15 1.16 1.17 1.18`  
+>复制`[forge-xxx]AllMusic-2.11.0`到客户端的`mods`文件夹  
 >fabric同理  
 
 >重载插件
