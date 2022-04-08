@@ -13,6 +13,7 @@ import coloryr.allmusic.music.api.obj.music.trialinfo.TrialInfoObj;
 import coloryr.allmusic.music.api.obj.program.info.PrInfoOBJ;
 import coloryr.allmusic.music.lyric.LyricDo;
 import coloryr.allmusic.music.lyric.LyricSave;
+import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.music.search.SearchOBJ;
 import coloryr.allmusic.music.search.SearchPage;
 import coloryr.allmusic.utils.logs;
@@ -244,6 +245,8 @@ public class APIMain {
     }
 
     public String getListMusic() {
+        if (PlayMusic.error >= 10)
+            return null;
         if (!isUpdata && AllMusic.getConfig().getPlayList().size() != 0) {
             String ID;
             if (AllMusic.getConfig().isPlayListRandom()) {

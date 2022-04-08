@@ -28,6 +28,7 @@ public class PlayMusic {
 
     public static LyricSave lyric;
     public static ShowOBJ nowLyric;
+    public static int error;
 
     private static boolean isRun;
     private static final Queue<MusicObj> tasks = new ConcurrentLinkedQueue<>();
@@ -94,7 +95,11 @@ public class PlayMusic {
                 if (!isList)
                     AllMusic.side.bqt(AllMusic.getMessage().getMusicPlay().getSwitch());
             }
+            error = 0;
         } catch (Exception e) {
+            if (isList) {
+                error++;
+            }
             AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
             e.printStackTrace();
         }
