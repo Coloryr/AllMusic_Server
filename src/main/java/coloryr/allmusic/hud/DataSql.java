@@ -151,7 +151,7 @@ public class DataSql {
                 pos4.setX(set.getInt(11));
                 pos4.setY(set.getInt(12));
                 obj.setPic(pos4);
-                obj.setEnablePic(set.getInt(10) == 1);
+                obj.setEnablePic(set.getInt(13) == 1);
                 HudSave.add1(name, obj);
             }
             stat.close();
