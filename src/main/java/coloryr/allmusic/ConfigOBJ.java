@@ -91,6 +91,10 @@ public class ConfigOBJ {
         return DefaultHud;
     }
 
+    public void setDefaultHud(SaveOBJ defaultHud) {
+        DefaultHud = defaultHud;
+    }
+
     public boolean isNeedPermission() {
         return NeedPermission;
     }
