@@ -31,14 +31,14 @@ public class SideBukkit implements ISide {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-            if (ByteBufC != null) {
-                try {
-                    arrayM = ByteBufC.getMethod("array");
-                    writeByteM = ByteBufC.getMethod("writeByte", int.class);
-                    writeBytesM = ByteBufC.getMethod("writeBytes", byte[].class);
-                } catch (NoSuchMethodException e1) {
-                    e1.printStackTrace();
-                }
+        }
+        if (ByteBufC != null) {
+            try {
+                arrayM = ByteBufC.getMethod("array");
+                writeByteM = ByteBufC.getMethod("writeByte", int.class);
+                writeBytesM = ByteBufC.getMethod("writeBytes", byte[].class);
+            } catch (NoSuchMethodException e1) {
+                e1.printStackTrace();
             }
         }
         try {
@@ -49,12 +49,12 @@ public class SideBukkit implements ISide {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-            if (UnpooledC != null) {
-                try {
-                    bufferM = UnpooledC.getMethod("buffer", int.class);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+        }
+        if (UnpooledC != null) {
+            try {
+                bufferM = UnpooledC.getMethod("buffer", int.class);
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         }
     }
