@@ -23,7 +23,7 @@ public class SongInfo {
         this.length = Length;
         playerUrl = Url;
         this.name = Name;
-        id = alia = call = al = author = "";
+        id = alia = call = al = author = picUrl = "";
         isList = false;
     }
 

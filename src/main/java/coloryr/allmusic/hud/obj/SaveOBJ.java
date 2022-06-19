@@ -5,6 +5,7 @@ public class SaveOBJ {
     private PosOBJ Lyric;
     private PosOBJ Info;
     private PosOBJ Pic;
+    private int PicSize;
     private boolean EnableList;
     private boolean EnableLyric;
     private boolean EnableInfo;
@@ -19,6 +20,7 @@ public class SaveOBJ {
         Lyric = new PosOBJ();
         Info = new PosOBJ();
         Pic = new PosOBJ();
+        PicSize = 70;
     }
 
     public SaveOBJ copy() {
@@ -31,7 +33,16 @@ public class SaveOBJ {
         saveOBJ.setList(this.List.copy());
         saveOBJ.setLyric(this.Lyric.copy());
         saveOBJ.setPic(this.Pic.copy());
+        saveOBJ.setPicSize(this.PicSize);
         return saveOBJ;
+    }
+
+    public void setPicSize(int picSize) {
+        PicSize = picSize;
+    }
+
+    public int getPicSize() {
+        return PicSize;
     }
 
     public boolean isEnablePic() {

@@ -1,7 +1,7 @@
 name: AllMusic
 main: coloryr.allmusic.AllMusicBukkit
 author: Color_yr
-version: 2.14.9
+version: 2.15.0
 loadbefore: [PlaceholderAPI, Vault, Essentials, CMI]
 
 commands:

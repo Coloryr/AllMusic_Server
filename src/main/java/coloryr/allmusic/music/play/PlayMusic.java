@@ -161,7 +161,13 @@ public class PlayMusic {
             BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
             Bitstream bt = new Bitstream(bis);
             Header h = bt.readFrame();
-            int le = (int) h.total_ms(b);
+            int le = 6000000;
+            if (h == null) {
+                AllMusic.side.bqt("§d[AllMusic]§c未知音乐类型");
+            }
+            else {
+                le = (int) h.total_ms(b);
+            }
             SongInfo info = new SongInfo(AllMusic.getMessage().getCustom().getInfo(), arg, le);
             playList.add(info);
         } catch (Exception e) {

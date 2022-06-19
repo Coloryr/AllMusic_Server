@@ -291,6 +291,12 @@ public class CommandEX {
                 } else if (args[1].equalsIgnoreCase("reset")) {
                     HudUtils.reset(name);
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().getHud().getReset());
+                } else if (args[1].equalsIgnoreCase("picsize")) {
+                    if (args.length != 3 || !HudUtils.setPicSize(name, args[2])) {
+                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCommand().getError());
+                        return;
+                    }
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().getHud().getPicSize().replace("%Size%", args[2]));
                 } else if (args.length != 4) {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCommand().getError());
                 } else {

@@ -61,7 +61,8 @@
     "Reset": "§d[AllMusic]§2Hud恢复至默认位置",
     "NoMusic": "没有播放的音乐",
     "NoList": "队列中无歌曲",
-    "NoLyric": "无歌词"
+    "NoLyric": "无歌词",
+    "PicSize": "§d[ALLMusic]§2设置图片尺寸为%Size%"
   },
   "Command": {
     "Error": "§d[AllMusic]§c参数错误，请输入/music help获取帮助",
@@ -100,7 +101,8 @@
       "Search": "§d[AllMusic]§2使用/music search [歌名] 搜索歌曲",
       "Select": "§d[AllMusic]§2使用/music select [序列] 选择歌曲",
       "Hud1": "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud",
-      "Hud2": "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置"
+      "Hud2": "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置",
+      "Hud3": "§d[AllMusic]§2使用/music hud picsize [尺寸] 设置图片尺寸"
     },
     "Admin": {
       "Reload": "§d[AllMusic]§2使用/music reload 重读配置文件",

@@ -208,4 +208,20 @@ public class HudUtils {
         AllMusic.save();
         HudUtils.sendHudSave(name);
     }
+
+    public static boolean setPicSize(String name, String size){
+        SaveOBJ obj = HudSave.get(name);
+        if (obj == null)
+            obj = AllMusic.getConfig().getDefaultHud().copy();
+        if (!Function.isInteger(size))
+            return false;
+        int size1 = Integer.parseInt(size);
+
+        obj.setPicSize(size1);
+
+        HudSave.add(name, obj);
+        AllMusic.save();
+        HudUtils.sendHudSave(name);
+        return true;
+    }
 }

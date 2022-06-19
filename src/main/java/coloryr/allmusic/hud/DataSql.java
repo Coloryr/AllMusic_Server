@@ -33,6 +33,7 @@ public class DataSql {
             "  \"list_enable\" integer(1),\n" +
             "  \"pic_x\" integer(6),\n" +
             "  \"pic_y\" integer(6),\n" +
+            "  \"pic_size\" integer(6),\n" +
             "  \"pic_enable\" integer(1)\n" +
             ");";
 
@@ -83,11 +84,12 @@ public class DataSql {
                 init();
             }
             Statement stat = connection.createStatement();
-            sql = MessageFormat.format("UPDATE allmusic SET info_x={0},info_y={1},info_enable={2},lyric_x={3},lyric_y={4},lyric_enable={5},list_x={6},list_y={7}, list_enable={8},pic_x={9},pic_y={10},pic_enable={11} WHERE name=@name",
+            sql = MessageFormat.format("UPDATE allmusic SET info_x={0},info_y={1},info_enable={2},lyric_x={3},lyric_y={4},lyric_enable={5},list_x={6},list_y={7}, list_enable={8},pic_x={9},pic_y={10},pic_enable={11},pic_size={12} WHERE name=@name",
                     hud.getInfo().getX(), hud.getInfo().getY(), hud.isEnableInfo() ? 1 : 0,
                     hud.getLyric().getX(), hud.getLyric().getY(), hud.isEnableLyric() ? 1 : 0,
                     hud.getList().getX(), hud.getList().getY(), hud.isEnableList() ? 1 : 0,
-                    hud.getPic().getX(), hud.getPic().getY(), hud.isEnablePic() ? 1 : 0);
+                    hud.getPic().getX(), hud.getPic().getY(), hud.isEnablePic() ? 1 : 0,
+                    hud.getPicSize());
             sql = sql.replace("@name", "'" + name + "'");
             stat.execute(sql);
             stat.close();
@@ -107,11 +109,12 @@ public class DataSql {
                 update(name, hud);
             } else {
                 Statement stat = connection.createStatement();
-                sql = MessageFormat.format("INSERT INTO allmusic (name,info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable)VALUES (@name,{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11})",
+                sql = MessageFormat.format("INSERT INTO allmusic (name,info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size)VALUES (@name,{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12})",
                         hud.getInfo().getX(), hud.getInfo().getY(), hud.isEnableInfo() ? 1 : 0,
                         hud.getLyric().getX(), hud.getLyric().getY(), hud.isEnableLyric() ? 1 : 0,
                         hud.getList().getX(), hud.getList().getY(), hud.isEnableList() ? 1 : 0,
-                        hud.getPic().getX(), hud.getPic().getY(), hud.isEnablePic() ? 1 : 0);
+                        hud.getPic().getX(), hud.getPic().getY(), hud.isEnablePic() ? 1 : 0,
+                        hud.getPicSize());
                 sql = sql.replace("@name", "'" + name + "'");
                 stat.execute(sql);
                 stat.close();
@@ -128,7 +131,7 @@ public class DataSql {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT name,info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable FROM allmusic");
+            ResultSet set = stat.executeQuery("SELECT name,info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size FROM allmusic");
             while (set.next()) {
                 String name = set.getString(1);
                 SaveOBJ obj = new SaveOBJ();
@@ -152,6 +155,7 @@ public class DataSql {
                 pos4.setY(set.getInt(12));
                 obj.setPic(pos4);
                 obj.setEnablePic(set.getInt(13) == 1);
+                obj.setPicSize(set.getInt(14));
                 HudSave.add1(name, obj);
             }
             stat.close();
