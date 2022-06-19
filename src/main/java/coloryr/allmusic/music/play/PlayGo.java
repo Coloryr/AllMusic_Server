@@ -133,8 +133,10 @@ public class PlayGo {
                         AllMusic.side.bqt(info);
                         startTimer();
                         AllMusic.side.send("[Play]" + url, true);
-                        AllMusic.side.task(() ->
-                                AllMusic.side.send("[Img]" + PlayMusic.nowPlayMusic.getPicUrl(), true), 10);
+                        if(!PlayMusic.nowPlayMusic.isUrl()){
+                            AllMusic.side.task(() ->
+                                    AllMusic.side.send("[Img]" + PlayMusic.nowPlayMusic.getPicUrl(), true), 10);
+                        }
                         if (PlayMusic.nowPlayMusic.isTrial()) {
                             AllMusic.side.bqt(AllMusic.getMessage().getMusicPlay().getTrail());
                             PlayMusic.musicLessTime = PlayMusic.nowPlayMusic.getTrialInfo().getEnd();

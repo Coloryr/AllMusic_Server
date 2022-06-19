@@ -18,6 +18,7 @@ public class SongInfo {
     private int length;
 
     private boolean isList;
+    private boolean isUrl;
 
     public SongInfo(String Name, String Url, int Length) {
         this.length = Length;
@@ -25,6 +26,7 @@ public class SongInfo {
         this.name = Name;
         id = alia = call = al = author = picUrl = "";
         isList = false;
+        isUrl = true;
     }
 
     public SongInfo(String Author, String Name, String ID, String Alia, String Call, String Al,
@@ -40,6 +42,10 @@ public class SongInfo {
         this.length = Length;
         this.isTrial = isTrial;
         this.trialInfo = trialInfo;
+    }
+
+    public boolean isUrl() {
+        return isUrl;
     }
 
     public boolean isTrial() {

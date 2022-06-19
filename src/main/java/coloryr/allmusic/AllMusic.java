@@ -233,7 +233,7 @@ public class AllMusic {
                 String data = new Gson().toJson(obj);
                 AllMusic.side.send(data, name, null);
                 AllMusic.side.send("[Play]" + PlayGo.url, name, true);
-                if (!PlayMusic.nowPlayMusic.getPicUrl().isEmpty()) {
+                if (!PlayMusic.nowPlayMusic.isUrl()) {
                     AllMusic.side.task(() ->
                             AllMusic.side.send("[Img]" + PlayMusic.nowPlayMusic.getPicUrl(), name, true), 15);
                 }
