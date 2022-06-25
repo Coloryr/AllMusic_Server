@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String version = "2.15.0";
+    public static final String version = "2.15.2";
 
     private static final Map<String, SearchPage> searchSave = new HashMap<>();
     private static final List<String> votePlayer = new ArrayList<>();
@@ -251,7 +251,7 @@ public class AllMusic {
             if (configFile == null)
                 configFile = new File(file, "config.json");
             if (messageFile == null)
-                messageFile = new File(file, "Message.json");
+                messageFile = new File(file, "message.json");
             if (cookieFile == null)
                 cookieFile = new File(file, "cookie.json");
             if (logs.file == null)
@@ -262,7 +262,7 @@ public class AllMusic {
                 Files.copy(this.getClass().getResourceAsStream("/config.json"), configFile.toPath());
             }
             if (!messageFile.exists()) {
-                Files.copy(this.getClass().getResourceAsStream("/Message.json"), messageFile.toPath());
+                Files.copy(this.getClass().getResourceAsStream("/message.json"), messageFile.toPath());
             }
             if (!cookieFile.exists()) {
                 cookieFile.createNewFile();

@@ -58,16 +58,23 @@ public class APIMain {
                     break;
                 }
             }
+            for (Cookie item : cookies) {
+                if (item.name().equalsIgnoreCase("appver")) {
+                    cookies.remove(item);
+                    break;
+                }
+            }
             List<Cookie> cookies1 = new CopyOnWriteArrayList<>();
             cookies1.addAll(cookies);
             cookies1.add(new Cookie.Builder().name("os").value("pc").domain("music.163.com").build());
+            cookies1.add(new Cookie.Builder().name("appver").value("2.9.7").domain("music.163.com").build());
             AllMusic.cookie.cookieStore.put("music.163.com", cookies1);
             AllMusic.saveCookie();
         }
         params.addProperty("countrycode", "86");
         params.addProperty("phone", AllMusic.getConfig().getLoginUser());
         params.addProperty("captcha", code);
-        Res res = HttpClientUtil.post("https://music.163.com/weapi/login/cellphone", params, EncryptType.WEAPI, null);
+        Res res = HttpClientUtil.post("https://music.163.com/api/login/cellphone", params, EncryptType.WEAPI, null);
         if (res == null || !res.isOk()) {
             if (sender == null)
                 AllMusic.log.info("§d[AllMusic]§c登录失败");
