@@ -5,7 +5,7 @@ import coloryr.allmusic.decoder.Bitstream;
 import coloryr.allmusic.decoder.Header;
 import coloryr.allmusic.music.api.SongInfo;
 import coloryr.allmusic.music.lyric.LyricSave;
-import coloryr.allmusic.music.lyric.ShowOBJ;
+import coloryr.allmusic.music.lyric.LyricItem;
 import coloryr.allmusic.utils.logs;
 
 import java.io.BufferedInputStream;
@@ -27,7 +27,7 @@ public class PlayMusic {
     public static SongInfo nowPlayMusic;
 
     public static LyricSave lyric;
-    public static ShowOBJ nowLyric;
+    public static LyricItem lyricItem;
     public static int error;
 
     private static boolean isRun;
@@ -140,6 +140,8 @@ public class PlayMusic {
             list.append(a).append("\n");
         }
         String temp = list.toString();
+        if (temp.isEmpty())
+            return "";
         return temp.substring(0, temp.length() - 1);
     }
 

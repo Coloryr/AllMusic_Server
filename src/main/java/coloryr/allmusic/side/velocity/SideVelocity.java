@@ -5,9 +5,13 @@ import coloryr.allmusic.AllMusicVelocity;
 import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.music.play.PlayMusic;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -17,10 +21,14 @@ import net.kyori.adventure.text.event.ClickEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
 public class SideVelocity implements ISide {
+    public static final Set<ServerConnection> TopServers = new CopyOnWriteArraySet<>();
     private boolean isOK(Player player, boolean in) {
         try {
             if (player == null)
@@ -68,11 +76,19 @@ public class SideVelocity implements ISide {
 
     @Override
     public void bq(String data) {
+        if (AllMusic.getConfig().isMessageLimit()
+                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
+            data = data.substring(0, 30) + "...";
+        }
         AllMusicVelocity.plugin.server.sendMessage(Component.text(data));
     }
 
     @Override
     public void bqt(String data) {
+        if (AllMusic.getConfig().isMessageLimit()
+                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
+            data = data.substring(0, 30) + "...";
+        }
         AllMusicVelocity.plugin.server.sendMessage(Component.text(data));
     }
 
@@ -175,29 +191,29 @@ public class SideVelocity implements ISide {
     }
 
     @Override
-    public void sendMessaget(Object obj, String Message) {
+    public void sendMessaget(Object obj, String message) {
         CommandSource sender = (CommandSource) obj;
-        sender.sendMessage(Component.text(Message));
+        sender.sendMessage(Component.text(message));
     }
 
     @Override
-    public void sendMessage(Object obj, String Message) {
+    public void sendMessage(Object obj, String message) {
         CommandSource sender = (CommandSource) obj;
-        sender.sendMessage(Component.text(Message));
+        sender.sendMessage(Component.text(message));
     }
 
     @Override
-    public void sendMessageRun(Object obj, String Message, String end, String command) {
+    public void sendMessageRun(Object obj, String message, String end, String command) {
         CommandSource sender = (CommandSource) obj;
-        TextComponent send = Component.text(Message + end)
+        TextComponent send = Component.text(message + end)
                 .clickEvent(ClickEvent.runCommand(command));
         sender.sendMessage(send);
     }
 
     @Override
-    public void sendMessageSuggest(Object obj, String Message, String end, String command) {
+    public void sendMessageSuggest(Object obj, String message, String end, String command) {
         CommandSource sender = (CommandSource) obj;
-        TextComponent send = Component.text(Message + end)
+        TextComponent send = Component.text(message + end)
                 .clickEvent(ClickEvent.suggestCommand(command));
         sender.sendMessage(send);
     }
@@ -229,6 +245,121 @@ public class SideVelocity implements ISide {
     public void task(Runnable run, int delay) {
         AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run)
                 .delay(delay, TimeUnit.MICROSECONDS).schedule();
+    }
+
+    public static void sendAllToServer(ServerConnection server){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeInt(0);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF(AllMusic.getMessage().getPAPI().getNoMusic());
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getName());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(1);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getAl());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(2);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getAlia());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(3);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getAuthor());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(4);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getCall());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(5);
+        out.writeInt(PlayMusic.getSize());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(6);
+        out.writeUTF(PlayMusic.getAllList());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+    }
+
+    public static void sendLyricToServer(ServerConnection server){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeInt(7);
+        if (PlayMusic.lyricItem == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.lyricItem.getLyric());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(8);
+        if (PlayMusic.lyricItem == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.lyricItem.getTlyric());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+    }
+
+    public static void sendPingToServer(ServerConnection server) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeInt(200);
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+    }
+
+    @Override
+    public void ping(){
+        Iterator<ServerConnection> iterator = TopServers.iterator();
+        while (iterator.hasNext()) {
+            ServerConnection server = iterator.next();
+            try{
+                sendPingToServer(server);
+            }catch (Exception e){
+                iterator.remove();
+            }
+        }
+    }
+
+    @Override
+    public void updateInfo() {
+        Iterator<ServerConnection> iterator = TopServers.iterator();
+        while (iterator.hasNext()) {
+            ServerConnection server = iterator.next();
+            try{
+                sendAllToServer(server);
+            }catch (Exception e){
+                iterator.remove();
+            }
+        }
+    }
+
+    @Override
+    public void updateLyric() {
+        Iterator<ServerConnection> iterator = TopServers.iterator();
+        while (iterator.hasNext()) {
+            ServerConnection server = iterator.next();
+            try {
+                sendLyricToServer(server);
+            } catch (Exception e) {
+                iterator.remove();
+            }
+        }
     }
 
     private void send(Player players, String data, Boolean isplay) {

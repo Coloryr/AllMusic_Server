@@ -48,7 +48,7 @@ public class TabCommand {
 
     public static List<String> getTabList(String name, String[] arg) {
         List<String> arguments = new ArrayList<>();
-        if (arg.length == 1) {
+        if (arg.length == 1 || arg.length == 0) {
             arguments.addAll(normal);
             if (AllMusic.getSearch(name) != null) {
                 arguments.addAll(search);

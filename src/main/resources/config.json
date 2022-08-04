@@ -13,6 +13,9 @@
   "SendLyric": true,
   "NeedPermission": false,
   "DefaultAddMusic": 0,
+  "TopPAPI": false,
+  "MessageLimit": false,
+  "MessageLimitSize": 40,
   "DefaultHud": {
     "List": {
       "x": 2,
@@ -39,5 +42,5 @@
   "SearchCost": 20,
   "AddMusicCost": 10,
   "MusicBR": "320000",
-  "Version": "2.15.2"
+  "Version": "2.16.1"
 }

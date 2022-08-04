@@ -5,7 +5,7 @@ import coloryr.allmusic.hud.obj.Pos;
 import coloryr.allmusic.hud.obj.PosOBJ;
 import coloryr.allmusic.hud.obj.SaveOBJ;
 import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.lyric.ShowOBJ;
+import coloryr.allmusic.music.lyric.LyricItem;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.utils.Function;
 import com.google.gson.Gson;
@@ -100,7 +100,7 @@ public class HudUtils {
         AllMusic.side.sendHudInfo(list.toString());
     }
 
-    public static void sendHudLyricData(ShowOBJ showobj) {
+    public static void sendHudLyricData(LyricItem showobj) {
         StringBuilder list = new StringBuilder();
         if (showobj == null) {
             list.append(AllMusic.getMessage().getHud().getNoLyric());

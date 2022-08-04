@@ -18,6 +18,7 @@ public class AllMusicBC extends Plugin {
 
         if (!AllMusic.isRun)
             return;
+        ProxyServer.getInstance().registerChannel(AllMusic.channelBC);
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new CommandBC());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new EventBC());
         new MetricsBC(this, 6720);

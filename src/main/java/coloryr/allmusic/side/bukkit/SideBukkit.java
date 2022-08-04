@@ -101,12 +101,21 @@ public class SideBukkit implements ISide {
 
     @Override
     public void bq(String data) {
+        if (AllMusic.getConfig().isMessageLimit()
+                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
+            data = data.substring(0, 30) + "...";
+        }
         Bukkit.broadcastMessage(data);
     }
 
     @Override
     public void bqt(String data) {
-        Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, () -> Bukkit.broadcastMessage(data));
+        if (AllMusic.getConfig().isMessageLimit()
+                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
+            data = data.substring(0, 30) + "...";
+        }
+        String finalData = data;
+        Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, () -> Bukkit.broadcastMessage(finalData));
     }
 
     @Override
@@ -174,33 +183,33 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public void sendMessaget(Object obj, String Message) {
-        Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, () -> ((CommandSender) obj).sendMessage(Message));
+    public void sendMessaget(Object obj, String message) {
+        Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, () -> ((CommandSender) obj).sendMessage(message));
     }
 
     @Override
-    public void sendMessage(Object obj, String Message) {
+    public void sendMessage(Object obj, String message) {
         CommandSender sender = (CommandSender) obj;
-        sender.sendMessage(Message);
+        sender.sendMessage(message);
     }
 
     @Override
-    public void sendMessageRun(Object obj, String Message, String end, String command) {
+    public void sendMessageRun(Object obj, String message, String end, String command) {
         if (AllMusicBukkit.spigotSet) {
-            SpigotApi.sendMessageRun(obj, Message + end, command);
+            SpigotApi.sendMessageRun(obj, message + end, command);
         } else {
-            if (!Message.isEmpty())
-                sendMessage(obj, Message);
+            if (!message.isEmpty())
+                sendMessage(obj, message);
         }
     }
 
     @Override
-    public void sendMessageSuggest(Object obj, String Message, String end, String command) {
+    public void sendMessageSuggest(Object obj, String message, String end, String command) {
         if (AllMusicBukkit.spigotSet) {
-            SpigotApi.sendMessageSuggest(obj, Message + end, command);
+            SpigotApi.sendMessageSuggest(obj, message + end, command);
         } else {
-            if (!Message.isEmpty())
-                sendMessage(obj, Message);
+            if (!message.isEmpty())
+                sendMessage(obj, message);
         }
     }
 
@@ -227,6 +236,21 @@ public class SideBukkit implements ISide {
     @Override
     public void task(Runnable run, int delay) {
         Bukkit.getScheduler().runTaskLater(AllMusicBukkit.plugin, run, delay);
+    }
+
+    @Override
+    public void updateInfo() {
+
+    }
+
+    @Override
+    public void updateLyric() {
+
+    }
+
+    @Override
+    public void ping() {
+
     }
 
     private void send(Player players, String data, Boolean isplay) {

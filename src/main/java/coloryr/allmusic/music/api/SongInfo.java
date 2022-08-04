@@ -4,21 +4,21 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.music.api.obj.music.trialinfo.freeTrialInfo;
 
 public class SongInfo {
-    private String author;
-    private String name;
-    private String id;
-    private String alia;
-    private String call;
-    private String al;
-    private String playerUrl;
-    private String picUrl;
-    private boolean isTrial;
-    private freeTrialInfo trialInfo;
+    protected String author;
+    protected String name;
+    protected String id;
+    protected String alia;
+    protected String call;
+    protected String al;
+    protected String playerUrl;
+    protected String picUrl;
+    protected boolean isTrial;
+    protected freeTrialInfo trialInfo;
 
-    private int length;
+    protected int length;
 
-    private boolean isList;
-    private boolean isUrl;
+    protected boolean isList;
+    protected boolean isUrl;
 
     public SongInfo(String Name, String Url, int Length) {
         this.length = Length;

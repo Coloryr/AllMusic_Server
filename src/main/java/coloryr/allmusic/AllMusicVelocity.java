@@ -10,6 +10,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
+import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -22,7 +23,8 @@ public class AllMusicVelocity {
     public final Path dataDirectory;
     private final Logger logger;
     private final MetricsVelocity.Factory metricsFactory;
-    public ChannelIdentifier channel;
+    public static ChannelIdentifier channel;
+    public static ChannelIdentifier channelBC;
 
     @Inject
     public AllMusicVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory, MetricsVelocity.Factory metricsFactory) {
@@ -43,8 +45,9 @@ public class AllMusicVelocity {
                 .aliases("allmusic")
                 .build();
         channel = () -> AllMusic.channel;
+        channelBC = MinecraftChannelIdentifier.from(AllMusic.channelBC);
         AllMusic.side = new SideVelocity();
-//        server.getChannelRegistrar().register(channel);
+        server.getChannelRegistrar().register(channelBC);
         server.getCommandManager().register(meta, new CommandVelocity());
         server.getEventManager().register(this, new EventVelocity());
         metricsFactory.make(this, 6720);

@@ -2,12 +2,12 @@ package coloryr.allmusic.music.lyric;
 
 import coloryr.allmusic.AllMusic;
 
-public class ShowOBJ {
-    private final boolean haveT;
-    private final String lyric;
-    private final String tlyric;
+public class LyricItem {
+    protected boolean haveT;
+    protected String lyric;
+    protected String tlyric;
 
-    public ShowOBJ(boolean haveT, String lyric, String tlyric) {
+    public LyricItem(boolean haveT, String lyric, String tlyric) {
         this.haveT = haveT;
         this.lyric = lyric;
         this.tlyric = tlyric;

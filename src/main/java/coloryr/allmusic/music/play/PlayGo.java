@@ -3,7 +3,7 @@ package coloryr.allmusic.music.play;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.HudUtils;
 import coloryr.allmusic.music.lyric.LyricSave;
-import coloryr.allmusic.music.lyric.ShowOBJ;
+import coloryr.allmusic.music.lyric.LyricItem;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,11 +17,15 @@ public class PlayGo {
 
     private static ScheduledExecutorService service;
     private static ScheduledExecutorService service1;
+    private static ScheduledExecutorService service2;
 
     public static void start() {
         Thread taskT = new Thread(PlayGo::task, "AllMusic_Play");
         isRun = true;
         taskT.start();
+
+        service2 = Executors.newSingleThreadScheduledExecutor();
+        service2.scheduleAtFixedRate(PlayGo::time3, 0, 10, TimeUnit.SECONDS);
     }
 
     public static void stop() {
@@ -39,6 +43,10 @@ public class PlayGo {
             service1.shutdown();
             service1 = null;
         }
+        if (service2 != null) {
+            service2.shutdown();
+            service2 = null;
+        }
     }
 
     private static void startTimer() {
@@ -55,8 +63,9 @@ public class PlayGo {
         PlayMusic.musicAllTime = 0;
         PlayMusic.musicLessTime = 0;
         PlayMusic.lyric = null;
-        PlayMusic.nowLyric = null;
+        PlayMusic.lyricItem = null;
         PlayMusic.nowPlayMusic = null;
+        AllMusic.side.updateInfo();
         closeTimer();
         HudUtils.clearHud();
     }
@@ -71,18 +80,24 @@ public class PlayGo {
     }
 
     private static void time2() {
-        ShowOBJ show = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime);
+        LyricItem show = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime);
         if (show != null) {
-            PlayMusic.nowLyric = show;
+            PlayMusic.lyricItem = show;
             times = 0;
             HudUtils.sendHudLyricData(show);
+            AllMusic.side.updateLyric();
         } else {
             times++;
-            if (times == 500 && PlayMusic.nowLyric != null) {
+            if (times == 500 && PlayMusic.lyricItem != null) {
                 times = 0;
-                HudUtils.sendHudLyricData(PlayMusic.nowLyric);
+                HudUtils.sendHudLyricData(PlayMusic.lyricItem);
+                AllMusic.side.updateLyric();
             }
         }
+    }
+
+    private static void time3() {
+        AllMusic.side.ping();
     }
 
     private static void task() {
@@ -142,6 +157,9 @@ public class PlayGo {
                             PlayMusic.musicLessTime = PlayMusic.nowPlayMusic.getTrialInfo().getEnd();
                             PlayMusic.musicNowTime = PlayMusic.nowPlayMusic.getTrialInfo().getStart();
                         }
+
+                        AllMusic.side.updateInfo();
+
                         while (PlayMusic.musicLessTime > 0) {
                             HudUtils.sendHudNowData();
                             HudUtils.sendHudListData();

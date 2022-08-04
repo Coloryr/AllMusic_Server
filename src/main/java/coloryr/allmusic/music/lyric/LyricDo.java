@@ -8,10 +8,10 @@ import java.util.*;
 
 public class LyricDo {
 
-    private final Map<Integer, ShowOBJ> temp = new HashMap<>();
+    private final Map<Integer, LyricItem> temp = new HashMap<>();
     public boolean isHave = false;
 
-    public Map<Integer, ShowOBJ> getTemp() {
+    public Map<Integer, LyricItem> getTemp() {
         return temp;
     }
 
@@ -33,12 +33,12 @@ public class LyricDo {
         if (haveT) {
             Map<Integer, String> temp1 = getTime(Tlyric);
             for (Map.Entry<Integer, String> item : temp.entrySet()) {
-                this.temp.put(item.getKey(), new ShowOBJ(haveT,
+                this.temp.put(item.getKey(), new LyricItem(haveT,
                         item.getValue(), temp1.get(item.getKey())));
             }
         } else {
             for (Map.Entry<Integer, String> item : temp.entrySet()) {
-                this.temp.put(item.getKey(), new ShowOBJ(haveT,
+                this.temp.put(item.getKey(), new LyricItem(haveT,
                         item.getValue(), null));
             }
         }

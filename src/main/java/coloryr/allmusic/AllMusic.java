@@ -26,7 +26,8 @@ import java.util.Map;
 
 public class AllMusic {
     public static final String channel = "allmusic:channel";
-    public static final String version = "2.15.2";
+    public static final String channelBC = "allmusic:channelbc";
+    public static final String version = "2.16.1";
 
     private static final Map<String, SearchPage> searchSave = new HashMap<>();
     private static final List<String> votePlayer = new ArrayList<>();
@@ -188,21 +189,21 @@ public class AllMusic {
     private static void loadConfig() {
         try {
             InputStreamReader reader = new InputStreamReader(
-                    new FileInputStream(configFile), StandardCharsets.UTF_8);
+                    Files.newInputStream(configFile.toPath()), StandardCharsets.UTF_8);
             BufferedReader bf = new BufferedReader(reader);
             config = new Gson().fromJson(bf, ConfigOBJ.class);
             bf.close();
             reader.close();
             configCheck();
 
-            reader = new InputStreamReader(new FileInputStream(AllMusic.messageFile), StandardCharsets.UTF_8);
+            reader = new InputStreamReader(Files.newInputStream(AllMusic.messageFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
             message = new Gson().fromJson(bf, MessageOBJ.class);
             bf.close();
             reader.close();
             messageCheck();
 
-            reader = new InputStreamReader(new FileInputStream(AllMusic.cookieFile), StandardCharsets.UTF_8);
+            reader = new InputStreamReader(Files.newInputStream(AllMusic.cookieFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
             cookie = new Gson().fromJson(bf, CookieObj.class);
             bf.close();

@@ -5,6 +5,9 @@ import coloryr.allmusic.AllMusicBC;
 import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.music.play.PlayMusic;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -14,12 +17,17 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.connection.Server;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
 public class SideBC implements ISide {
+    public static final Set<Server> TopServers = new CopyOnWriteArraySet<>();
     private boolean isOK(ProxiedPlayer player, boolean in) {
         if (player == null || player.getServer() == null)
             return false;
@@ -144,11 +152,19 @@ public class SideBC implements ISide {
 
     @Override
     public void bq(String data) {
+        if (AllMusic.getConfig().isMessageLimit()
+                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
+            data = data.substring(0, 30) + "...";
+        }
         ProxyServer.getInstance().broadcast(new TextComponent(data));
     }
 
     @Override
     public void bqt(String data) {
+        if (AllMusic.getConfig().isMessageLimit()
+                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
+            data = data.substring(0, 30) + "...";
+        }
         ProxyServer.getInstance().broadcast(new TextComponent(data));
     }
 
@@ -167,29 +183,29 @@ public class SideBC implements ISide {
 
 
     @Override
-    public void sendMessaget(Object obj, String Message) {
+    public void sendMessaget(Object obj, String message) {
         CommandSender sender = (CommandSender) obj;
-        sender.sendMessage(new TextComponent(Message));
+        sender.sendMessage(new TextComponent(message));
     }
 
     @Override
-    public void sendMessage(Object obj, String Message) {
+    public void sendMessage(Object obj, String message) {
         CommandSender sender = (CommandSender) obj;
-        sender.sendMessage(new TextComponent(Message));
+        sender.sendMessage(new TextComponent(message));
     }
 
     @Override
-    public void sendMessageRun(Object obj, String Message, String end, String command) {
+    public void sendMessageRun(Object obj, String message, String end, String command) {
         CommandSender sender = (CommandSender) obj;
-        TextComponent send = new TextComponent(Message + end);
+        TextComponent send = new TextComponent(message + end);
         send.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         sender.sendMessage(send);
     }
 
     @Override
-    public void sendMessageSuggest(Object obj, String Message, String end, String command) {
+    public void sendMessageSuggest(Object obj, String message, String end, String command) {
         CommandSender sender = (CommandSender) obj;
-        TextComponent send = new TextComponent(Message + end);
+        TextComponent send = new TextComponent(message + end);
         send.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
         sender.sendMessage(send);
     }
@@ -217,6 +233,121 @@ public class SideBC implements ISide {
     @Override
     public void task(Runnable run, int delay) {
         ProxyServer.getInstance().getScheduler().schedule(AllMusicBC.plugin, run, delay, TimeUnit.MICROSECONDS);
+    }
+
+    public static void sendAllToServer(Server server){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeInt(0);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF(AllMusic.getMessage().getPAPI().getNoMusic());
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getName());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(1);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getAl());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(2);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getAlia());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(3);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getAuthor());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(4);
+        if (PlayMusic.nowPlayMusic == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.nowPlayMusic.getCall());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(5);
+        out.writeInt(PlayMusic.getSize());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(6);
+        out.writeUTF(PlayMusic.getAllList());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+    }
+
+    public static void sendLyricToServer(Server server){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeInt(7);
+        if (PlayMusic.lyricItem == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.lyricItem.getLyric());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(8);
+        if (PlayMusic.lyricItem == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.lyricItem.getTlyric());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+    }
+
+    @Override
+    public void updateInfo() {
+        Iterator<Server> iterator = TopServers.iterator();
+        while (iterator.hasNext()) {
+            Server server = iterator.next();
+            if (server.isConnected()) {
+                sendAllToServer(server);
+            } else {
+                iterator.remove();
+            }
+        }
+    }
+
+    @Override
+    public void updateLyric() {
+        Iterator<Server> iterator = TopServers.iterator();
+        while (iterator.hasNext()) {
+            Server server = iterator.next();
+            if (server.isConnected()) {
+                sendLyricToServer(server);
+            } else {
+                iterator.remove();
+            }
+        }
+    }
+
+    public static void sendPingToServer(Server server){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeInt(200);
+        server.sendData(AllMusic.channelBC, out.toByteArray());
+    }
+
+    @Override
+    public void ping() {
+        Iterator<Server> iterator = TopServers.iterator();
+        while (iterator.hasNext()) {
+            Server server = iterator.next();
+            if (server.isConnected()) {
+                sendPingToServer(server);
+            } else {
+                iterator.remove();
+            }
+        }
     }
 
     private void send(ProxiedPlayer players, String data, Boolean isplay) {

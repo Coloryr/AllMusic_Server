@@ -120,6 +120,8 @@ public class CommandEX {
                     AllMusic.getMessage().getClick().Check, "/music hud enable ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getNormal().getHud2(),
                     AllMusic.getMessage().getClick().Check, "/music hud ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().getHelp().getNormal().getHud3(),
+                    AllMusic.getMessage().getClick().Check, "/music hud picsize ");
             if (AllMusic.getConfig().getAdmin().contains(name)) {
                 AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().getHelp().getAdmin().getReload(),
                         AllMusic.getMessage().getClick().This, "/music reload");
@@ -167,7 +169,7 @@ public class CommandEX {
             }
             return;
         } else if (args[0].equalsIgnoreCase("vote")) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "AllMusic.vote")) {
+            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.vote")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getVote().getNoPermission());
                 return;
             }
@@ -200,7 +202,7 @@ public class CommandEX {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().getMusicPlay().getNoPlayMusic());
             return;
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "AllMusic.search")) {
+            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.search")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
@@ -217,7 +219,7 @@ public class CommandEX {
             searchMusic(sender, name, args, false);
             return;
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "AllMusic.search")) {
+            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.search")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
@@ -240,7 +242,7 @@ public class CommandEX {
             }
             return;
         } else if (args[0].equalsIgnoreCase("nextpage")) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "AllMusic.search")) {
+            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.search")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
@@ -254,7 +256,7 @@ public class CommandEX {
             }
             return;
         } else if (args[0].equalsIgnoreCase("lastpage")) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "AllMusic.search")) {
+            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.search")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
@@ -385,7 +387,7 @@ public class CommandEX {
                 return;
             }
         }
-        if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "AllMusic.addmusic"))
+        if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.addmusic"))
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
         else {
             switch (AllMusic.getConfig().getDefaultAddMusic()) {

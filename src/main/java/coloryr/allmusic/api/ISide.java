@@ -25,13 +25,13 @@ public interface ISide {
 
     void clearHudAll();
 
-    void sendMessaget(Object obj, String Message);
+    void sendMessaget(Object obj, String message);
 
-    void sendMessage(Object obj, String Message);
+    void sendMessage(Object obj, String message);
 
-    void sendMessageRun(Object obj, String Message, String end, String command);
+    void sendMessageRun(Object obj, String message, String end, String command);
 
-    void sendMessageSuggest(Object obj, String Message, String end, String command);
+    void sendMessageSuggest(Object obj, String message, String end, String command);
 
     void runTask(Runnable run);
 
@@ -40,4 +40,10 @@ public interface ISide {
     boolean checkPermission(String player, String permission);
 
     void task(Runnable run, int delay);
+
+    void updateInfo();
+
+    void updateLyric();
+
+    void ping();
 }

@@ -53,54 +53,93 @@ public class AllMusicPAPI extends PlaceholderExpansion {
     }
 
     @Override
-    public String onRequest(OfflinePlayer player, String identifier) {
-
-        switch (identifier) {
-            case "now_music_name": {
-                if (PlayMusic.nowPlayMusic == null)
-                    return AllMusic.getMessage().getPAPI().getNoMusic();
-                return PlayMusic.nowPlayMusic.getName();
+    public String onRequest(OfflinePlayer player, @NotNull String identifier) {
+        if(AllMusic.getConfig().isTopPAPI()){
+            if(!PluginMessage.update){
+                PluginMessage.startUpdate();
+                return "";
             }
-            case "now_music_al": {
-                if (PlayMusic.nowPlayMusic == null)
-                    return "";
-                return PlayMusic.nowPlayMusic.getAl();
+            switch (identifier) {
+                case "now_music_name": {
+                    return PlayMusic.nowPlayMusic.getName();
+                }
+                case "now_music_al": {
+                    return PlayMusic.nowPlayMusic.getAl();
+                }
+                case "now_music_alia": {
+                    return PlayMusic.nowPlayMusic.getAlia();
+                }
+                case "now_music_author": {
+                    return PlayMusic.nowPlayMusic.getAuthor();
+                }
+                case "now_music_call": {
+                    return PlayMusic.nowPlayMusic.getCall();
+                }
+                case "now_music_info": {
+                    return PlayMusic.nowPlayMusic.getInfo();
+                }
+                case "list_size": {
+                    return "" + PluginMessage.size;
+                }
+                case "music_list": {
+                    return PluginMessage.allList;
+                }
+                case "lyric": {
+                    return PlayMusic.lyricItem.getLyric();
+                }
+                case "tlyric": {
+                    return PlayMusic.lyricItem.getTlyric();
+                }
             }
-            case "now_music_alia": {
-                if (PlayMusic.nowPlayMusic == null)
-                    return "";
-                return PlayMusic.nowPlayMusic.getAlia();
-            }
-            case "now_music_author": {
-                if (PlayMusic.nowPlayMusic == null)
-                    return "";
-                return PlayMusic.nowPlayMusic.getAuthor();
-            }
-            case "now_music_call": {
-                if (PlayMusic.nowPlayMusic == null)
-                    return "";
-                return PlayMusic.nowPlayMusic.getCall();
-            }
-            case "now_music_info": {
-                if (PlayMusic.nowPlayMusic == null)
-                    return "";
-                return PlayMusic.nowPlayMusic.getInfo();
-            }
-            case "list_size": {
-                return "" + PlayMusic.getSize();
-            }
-            case "music_list": {
-                return PlayMusic.getAllList();
-            }
-            case "lyric": {
-                if (PlayMusic.nowLyric == null)
-                    return "";
-                return PlayMusic.nowLyric.getLyric();
-            }
-            case "tlyric": {
-                if (PlayMusic.nowLyric == null)
-                    return "";
-                return PlayMusic.nowLyric.getTlyric();
+        }
+        else {
+            switch (identifier) {
+                case "now_music_name": {
+                    if (PlayMusic.nowPlayMusic == null)
+                        return AllMusic.getMessage().getPAPI().getNoMusic();
+                    return PlayMusic.nowPlayMusic.getName();
+                }
+                case "now_music_al": {
+                    if (PlayMusic.nowPlayMusic == null)
+                        return "";
+                    return PlayMusic.nowPlayMusic.getAl();
+                }
+                case "now_music_alia": {
+                    if (PlayMusic.nowPlayMusic == null)
+                        return "";
+                    return PlayMusic.nowPlayMusic.getAlia();
+                }
+                case "now_music_author": {
+                    if (PlayMusic.nowPlayMusic == null)
+                        return "";
+                    return PlayMusic.nowPlayMusic.getAuthor();
+                }
+                case "now_music_call": {
+                    if (PlayMusic.nowPlayMusic == null)
+                        return "";
+                    return PlayMusic.nowPlayMusic.getCall();
+                }
+                case "now_music_info": {
+                    if (PlayMusic.nowPlayMusic == null)
+                        return "";
+                    return PlayMusic.nowPlayMusic.getInfo();
+                }
+                case "list_size": {
+                    return "" + PlayMusic.getSize();
+                }
+                case "music_list": {
+                    return PlayMusic.getAllList();
+                }
+                case "lyric": {
+                    if (PlayMusic.lyricItem == null)
+                        return "";
+                    return PlayMusic.lyricItem.getLyric();
+                }
+                case "tlyric": {
+                    if (PlayMusic.lyricItem == null)
+                        return "";
+                    return PlayMusic.lyricItem.getTlyric();
+                }
             }
         }
         return null;

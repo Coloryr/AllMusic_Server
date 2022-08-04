@@ -34,6 +34,11 @@ public class ConfigOBJ {
     private String LoginUser;
     private String MusicBR;
 
+    private boolean TopPAPI;
+
+    private boolean MessageLimit;
+    private int MessageLimitSize;
+
     public ConfigOBJ() {
         MaxList = 10;
         MinVote = 3;
@@ -60,7 +65,23 @@ public class ConfigOBJ {
 
         MusicBR = "320000";
 
+        TopPAPI = false;
+        MessageLimit = false;
+        MessageLimitSize = 40;
+
         Version = AllMusic.version;
+    }
+
+    public int getMessageLimitSize() {
+        return MessageLimitSize;
+    }
+
+    public boolean isMessageLimit() {
+        return MessageLimit;
+    }
+
+    public boolean isTopPAPI() {
+        return TopPAPI;
     }
 
     public String getMusicBR() {

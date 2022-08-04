@@ -1,7 +1,12 @@
 package coloryr.allmusic;
 
+import coloryr.allmusic.music.api.SongInfo;
+import coloryr.allmusic.music.api.TopSongInfo;
+import coloryr.allmusic.music.lyric.TopLyricItem;
+import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.side.bukkit.*;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,6 +14,7 @@ public class AllMusicBukkit extends JavaPlugin {
     public static Plugin plugin;
     public static AllMusicPAPI PAPI;
     public static boolean spigotSet;
+    private static PluginMessage pluginMessage;
 
     @Override
     public void onEnable() {
@@ -58,18 +64,33 @@ public class AllMusicBukkit extends JavaPlugin {
             AllMusic.log.info("§2Vault未挂钩");
             AllMusic.vault = null;
         }
-        getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);
-        Bukkit.getPluginCommand("music").setExecutor(new CommandBukkit());
-        Bukkit.getPluginCommand("music").setTabCompleter(new CommandBukkit());
-        Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);
-        new MetricsBukkit(this, 6720);
 
-        AllMusic.start();
+        if (AllMusic.getConfig().isTopPAPI()) {
+            PlayMusic.nowPlayMusic = new TopSongInfo();
+            PlayMusic.lyricItem = new TopLyricItem();
+            pluginMessage = new PluginMessage();
+            getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channelBC);
+            getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);
+            AllMusic.log.info("§2设置为顶层模式");
+        } else {
+            CommandBukkit command = new CommandBukkit();
+            getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);
+            PluginCommand command1 = Bukkit.getPluginCommand("music");
+            command1.setExecutor(command);
+            command1.setTabCompleter(command);
+            Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);
+            AllMusic.start();
+        }
+
+        new MetricsBukkit(this, 6720);
     }
 
     @Override
     public void onDisable() {
         AllMusic.isRun = false;
-        AllMusic.stop();
+        if (AllMusic.getConfig().isTopPAPI())
+            pluginMessage.stop();
+        else
+            AllMusic.stop();
     }
 }

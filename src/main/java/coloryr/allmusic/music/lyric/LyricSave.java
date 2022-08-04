@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LyricSave {
-    private Map<Integer, ShowOBJ> lyric;
+    private Map<Integer, LyricItem> lyric;
     private boolean haveLyric;
 
     public LyricSave() {
@@ -12,7 +12,7 @@ public class LyricSave {
         lyric = new HashMap<>();
     }
 
-    public void setLyric(Map<Integer, ShowOBJ> lyric) {
+    public void setLyric(Map<Integer, LyricItem> lyric) {
         this.lyric = lyric;
     }
 
@@ -24,7 +24,7 @@ public class LyricSave {
         this.haveLyric = haveLyric;
     }
 
-    public ShowOBJ checkTime(int playNow) {
+    public LyricItem checkTime(int playNow) {
         if (lyric == null)
             return null;
         if (lyric.containsKey(playNow))

@@ -48,8 +48,14 @@ public class HelpNormalObj {
             return true;
         if(Hud2 == null)
             return true;
+        if(Hud3 == null)
+            return true;
 
         return false;
+    }
+
+    public String getHud3() {
+        return Hud3;
     }
 
     public String getBase() {
