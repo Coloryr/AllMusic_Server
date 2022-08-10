@@ -27,7 +27,7 @@ import java.util.Map;
 public class AllMusic {
     public static final String channel = "allmusic:channel";
     public static final String channelBC = "allmusic:channelbc";
-    public static final String version = "2.16.1";
+    public static final String version = "2.16.2";
 
     private static final Map<String, SearchPage> searchSave = new HashMap<>();
     private static final List<String> votePlayer = new ArrayList<>();
