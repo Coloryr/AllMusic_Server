@@ -298,7 +298,7 @@ public class SideBC implements ISide {
 
         out = ByteStreams.newDataOutput();
         out.writeInt(8);
-        if (PlayMusic.lyricItem == null)
+        if (PlayMusic.lyricItem == null || PlayMusic.lyricItem.getTlyric() == null)
             out.writeUTF("");
         else
             out.writeUTF(PlayMusic.lyricItem.getTlyric());

@@ -49,10 +49,10 @@ public class AllMusic {
     public static void configCheck() {
         if (config == null) {
             config = new ConfigOBJ();
-            log.warning("§d[AllMusic]§c配置文件Config.json错误，已覆盖");
+            log.warning("§d[AllMusic]§c配置文件config.json错误，已覆盖");
             save();
         } else if (config.check()) {
-            log.warning("§d[AllMusic]§c配置文件Config.json错误，已覆盖");
+            log.warning("§d[AllMusic]§c配置文件config.json错误，已覆盖");
             save();
         }
     }
@@ -60,10 +60,10 @@ public class AllMusic {
     private static void messageCheck() {
         if (message == null) {
             message = new MessageOBJ();
-            log.warning("§d[AllMusic]§c配置文件Message.json错误，已覆盖");
+            log.warning("§d[AllMusic]§c配置文件message.json错误，已覆盖");
             save();
         } else if (message.check()) {
-            log.warning("§d[AllMusic]§c配置文件Message.json错误，已覆盖");
+            log.warning("§d[AllMusic]§c配置文件message.json错误，已覆盖");
             save();
         }
     }
@@ -74,7 +74,7 @@ public class AllMusic {
 
     public static ConfigOBJ getConfig() {
         if (config == null) {
-            log.warning("§d[AllMusic]§c配置文件Config.json错误，已使用默认配置文件");
+            log.warning("§d[AllMusic]§c配置文件config.json错误，已使用默认配置文件");
             config = new ConfigOBJ();
         }
         return config;
