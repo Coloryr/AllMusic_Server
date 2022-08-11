@@ -307,26 +307,22 @@ public class SideBC implements ISide {
 
     @Override
     public void updateInfo() {
-        Iterator<Server> iterator = TopServers.iterator();
-        while (iterator.hasNext()) {
-            Server server = iterator.next();
+        for(Server server : TopServers) {
             if (server.isConnected()) {
                 sendAllToServer(server);
             } else {
-                iterator.remove();
+                TopServers.remove(server);
             }
         }
     }
 
     @Override
     public void updateLyric() {
-        Iterator<Server> iterator = TopServers.iterator();
-        while (iterator.hasNext()) {
-            Server server = iterator.next();
+        for(Server server : TopServers) {
             if (server.isConnected()) {
                 sendLyricToServer(server);
             } else {
-                iterator.remove();
+                TopServers.remove(server);
             }
         }
     }

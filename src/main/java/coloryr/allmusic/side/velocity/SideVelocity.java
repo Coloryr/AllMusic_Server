@@ -338,26 +338,22 @@ public class SideVelocity implements ISide {
 
     @Override
     public void updateInfo() {
-        Iterator<ServerConnection> iterator = TopServers.iterator();
-        while (iterator.hasNext()) {
-            ServerConnection server = iterator.next();
-            try{
+        for(ServerConnection server : TopServers) {
+            try  {
                 sendAllToServer(server);
-            }catch (Exception e){
-                iterator.remove();
+            } catch(Exception e) {
+                TopServers.remove(server);
             }
         }
     }
 
     @Override
     public void updateLyric() {
-        Iterator<ServerConnection> iterator = TopServers.iterator();
-        while (iterator.hasNext()) {
-            ServerConnection server = iterator.next();
+        for(ServerConnection server : TopServers) {
             try {
                 sendLyricToServer(server);
-            } catch (Exception e) {
-                iterator.remove();
+            } catch(Exception e) {
+                TopServers.remove(server);
             }
         }
     }
