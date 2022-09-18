@@ -1,10 +1,11 @@
 package coloryr.allmusic;
 
-import coloryr.allmusic.music.api.SongInfo;
 import coloryr.allmusic.music.api.TopSongInfo;
 import coloryr.allmusic.music.lyric.TopLyricItem;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.side.bukkit.*;
+import coloryr.allmusic.side.bukkit.hooks.AllMusicPAPI;
+import coloryr.allmusic.side.bukkit.hooks.VaultHook;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;

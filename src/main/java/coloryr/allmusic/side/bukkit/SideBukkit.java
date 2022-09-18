@@ -5,6 +5,8 @@ import coloryr.allmusic.AllMusicBukkit;
 import coloryr.allmusic.api.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.side.bukkit.hooks.CitizensNPC;
+import coloryr.allmusic.side.bukkit.hooks.SpigotApi;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -122,7 +124,9 @@ public class SideBukkit implements ISide {
     public boolean NeedPlay() {
         int online = getAllPlayer();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
+            if (CitizensNPC.isNPC(player))
+                online--;
+            else if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
                 online--;
             }
         }

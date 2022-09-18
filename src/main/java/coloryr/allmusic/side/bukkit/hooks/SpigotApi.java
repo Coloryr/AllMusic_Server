@@ -1,4 +1,4 @@
-package coloryr.allmusic.side.bukkit;
+package coloryr.allmusic.side.bukkit.hooks;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;

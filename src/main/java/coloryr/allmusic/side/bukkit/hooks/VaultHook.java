@@ -1,4 +1,4 @@
-package coloryr.allmusic.side.bukkit;
+package coloryr.allmusic.side.bukkit.hooks;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;

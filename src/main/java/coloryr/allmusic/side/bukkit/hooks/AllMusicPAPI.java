@@ -1,7 +1,8 @@
-package coloryr.allmusic.side.bukkit;
+package coloryr.allmusic.side.bukkit.hooks;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.music.play.PlayMusic;
+import coloryr.allmusic.side.bukkit.PluginMessage;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

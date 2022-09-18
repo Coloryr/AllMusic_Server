@@ -11,7 +11,7 @@ import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.music.search.SearchPage;
-import coloryr.allmusic.side.bukkit.VaultHook;
+import coloryr.allmusic.side.bukkit.hooks.VaultHook;
 import coloryr.allmusic.utils.logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -240,7 +240,7 @@ public class AllMusic {
                 }
                 AllMusic.side.task(() ->
                         AllMusic.side.send("[Pos]" + (PlayMusic.musicNowTime + 2000), name, true), 40);
-            }, 10);
+            }, 20);
         }
     }
 
