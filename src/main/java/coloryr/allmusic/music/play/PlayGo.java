@@ -120,8 +120,7 @@ public class PlayGo {
                     Thread.sleep(50);
                 } else {
                     AllMusic.side.sendHudSaveAll();
-                    PlayMusic.nowPlayMusic = PlayMusic.getMusic(0);
-                    PlayMusic.remove(0);
+                    PlayMusic.nowPlayMusic = PlayMusic.remove(0);
 
                     url = PlayMusic.nowPlayMusic.getPlayerUrl() == null ?
                             AllMusic.getMusicApi().getPlayUrl(PlayMusic.nowPlayMusic.getID()) :
@@ -148,7 +147,7 @@ public class PlayGo {
                         AllMusic.side.bqt(info);
                         startTimer();
                         AllMusic.side.send("[Play]" + url, true);
-                        if(!PlayMusic.nowPlayMusic.isUrl()){
+                        if(!PlayMusic.nowPlayMusic.isUrl() && PlayMusic.nowPlayMusic.getPicUrl() != null){
                             AllMusic.side.task(() ->
                                     AllMusic.side.send("[Img]" + PlayMusic.nowPlayMusic.getPicUrl(), true), 10);
                         }

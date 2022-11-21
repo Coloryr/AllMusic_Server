@@ -105,10 +105,6 @@ public class PlayMusic {
         }
     }
 
-    public static SongInfo getMusic(int index) {
-        return playList.get(index);
-    }
-
     public static int getSize() {
         return playList.size();
     }
@@ -121,8 +117,8 @@ public class PlayMusic {
         playList.clear();
     }
 
-    public static void remove(int index) {
-        playList.remove(index);
+    public static SongInfo remove(int index) {
+       return playList.remove(index);
     }
 
     public static String getAllList() {

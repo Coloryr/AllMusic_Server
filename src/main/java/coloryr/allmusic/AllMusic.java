@@ -228,10 +228,11 @@ public class AllMusic {
     public static void joinPlay(String name) {
         if (getConfig().getNoMusicPlayer().contains(name))
             return;
-        if (PlayMusic.nowPlayMusic != null) {
-            AllMusic.side.task(() -> {
+
+        AllMusic.side.task(() -> {
+            if (PlayMusic.nowPlayMusic != null) {
                 SaveOBJ obj = HudSave.get(name);
-                String data = new Gson().toJson(obj);
+                String data = gson.toJson(obj);
                 AllMusic.side.send(data, name, null);
                 AllMusic.side.send("[Play]" + PlayGo.url, name, true);
                 if (!PlayMusic.nowPlayMusic.isUrl()) {
@@ -240,8 +241,8 @@ public class AllMusic {
                 }
                 AllMusic.side.task(() ->
                         AllMusic.side.send("[Pos]" + (PlayMusic.musicNowTime + 2000), name, true), 40);
-            }, 20);
-        }
+            }
+        }, 20);
     }
 
     public void init(File file) {
