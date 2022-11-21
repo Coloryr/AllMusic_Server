@@ -28,9 +28,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
-    compileOnly 'net.md-5:bungeecord-api:1.16-R0.4-SNAPSHOT'
-    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
+    compileOnly 'net.md-5:bungeecord-api:1.19.2-R0.1-SNAPSHOT'
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
     compileOnly 'com.velocitypowered:velocity-api:3.0.0'
     compileOnly 'me.clip:placeholderapi:2.10.10'
     compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
