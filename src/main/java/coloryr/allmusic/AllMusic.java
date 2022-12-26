@@ -27,7 +27,8 @@ import java.util.Map;
 public class AllMusic {
     public static final String channel = "allmusic:channel";
     public static final String channelBC = "allmusic:channelbc";
-    public static final String version = "2.16.2";
+    public static final String version = "2.17.0";
+    public static final String configVersion = "100";
 
     private static final Map<String, SearchPage> searchSave = new HashMap<>();
     private static final List<String> votePlayer = new ArrayList<>();
@@ -196,14 +197,18 @@ public class AllMusic {
             reader.close();
             configCheck();
 
-            reader = new InputStreamReader(Files.newInputStream(AllMusic.messageFile.toPath()), StandardCharsets.UTF_8);
+            reader = new InputStreamReader(Files.newInputStream(messageFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
             message = new Gson().fromJson(bf, MessageOBJ.class);
             bf.close();
             reader.close();
             messageCheck();
 
-            reader = new InputStreamReader(Files.newInputStream(AllMusic.cookieFile.toPath()), StandardCharsets.UTF_8);
+            if (!message.getVersion().equalsIgnoreCase(configVersion)) {
+                log.warning("§d[AllMusic]§c语言文件版本号错误，运行可能会发生问题，请删除后重载");
+            }
+
+            reader = new InputStreamReader(Files.newInputStream(cookieFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
             cookie = new Gson().fromJson(bf, CookieObj.class);
             bf.close();
@@ -213,10 +218,10 @@ public class AllMusic {
                 saveCookie();
             }
 
-            log.info("§d[AllMusic]§e当前插件版本为：" + AllMusic.version
-                    + "，你的配置文件版本为：" + AllMusic.config.getVersion());
+            log.info("§d[AllMusic]§e当前插件配置文件版本为：" + configVersion
+                    + "，你的配置文件版本为：" + config.getVersion());
 
-            if (!AllMusic.version.equalsIgnoreCase(AllMusic.config.getVersion())) {
+            if (!AllMusic.version.equalsIgnoreCase(config.getVersion())) {
                 log.warning("§d[AllMusic]§c请及时更新配置文件");
             }
         } catch (Exception e) {

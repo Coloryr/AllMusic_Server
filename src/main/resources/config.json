@@ -16,6 +16,8 @@
   "TopPAPI": false,
   "MessageLimit": false,
   "MessageLimitSize": 40,
+  "MutePlayMessage": false,
+  "MuteAddMessage": false,
   "DefaultHud": {
     "List": {
       "x": 2,
@@ -42,5 +44,5 @@
   "SearchCost": 20,
   "AddMusicCost": 10,
   "MusicBR": "320000",
-  "Version": "2.16.5"
+  "Version": "100"
 }

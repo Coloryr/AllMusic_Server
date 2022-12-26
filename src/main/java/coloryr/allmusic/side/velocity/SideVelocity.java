@@ -80,16 +80,19 @@ public class SideVelocity implements ISide {
                 && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
             data = data.substring(0, 30) + "...";
         }
-        AllMusicVelocity.plugin.server.sendMessage(Component.text(data));
+        Component message = Component.text(data);
+        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
+            if (AllMusic.getConfig().getNoMusicServer().contains(server.getServerInfo().getName()))
+                continue;
+            for (Player player : server.getPlayersConnected())
+                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getUsername()))
+                    player.sendMessage(message);
+        }
     }
 
     @Override
     public void bqt(String data) {
-        if (AllMusic.getConfig().isMessageLimit()
-                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
-            data = data.substring(0, 30) + "...";
-        }
-        AllMusicVelocity.plugin.server.sendMessage(Component.text(data));
+        this.bq(data);
     }
 
     @Override

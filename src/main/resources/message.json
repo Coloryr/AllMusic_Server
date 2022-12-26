@@ -13,7 +13,7 @@
     "NoPlayMusic": "§d[AllMusic]§e你不会再收到点歌了！想要再次参与点歌就点一首歌或者参与切歌投票吧！",
     "Switch": "§d[AllMusic]§e切换到玩家歌曲",
     "AddMusic": "§d[AllMusic]§e音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%",
-    "PlayerAdd": "§d[AllMusic]§e%PlayerName%点歌%MusicID%",
+    "CheckMusic": "§d[AllMusic]§2正在解析歌曲%MusicID%",
     "MusicInfo": "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%",
     "Trail": "§d[AllMusic]§e该音乐为试听音乐"
   },
@@ -114,5 +114,6 @@
       "ClearList": "§d[AllMusic]§e使用/music clearlist 清空空闲歌单",
       "Login": "§d[AllMusic]§e使用/music login 重新登录账户"
     }
-  }
+  },
+  "Version": "100"
 }

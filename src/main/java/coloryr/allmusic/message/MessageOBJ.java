@@ -1,5 +1,7 @@
 package coloryr.allmusic.message;
 
+import coloryr.allmusic.AllMusic;
+
 public class MessageOBJ {
     private MusicPlayOBJ MusicPlay;
     private AddMusicOBJ AddMusic;
@@ -16,6 +18,8 @@ public class MessageOBJ {
     private ClickObj Click;
     private HelpObj Help;
 
+    private String Version;
+
     public MessageOBJ() {
         MusicPlay = new MusicPlayOBJ();
         AddMusic = new AddMusicOBJ();
@@ -31,6 +35,11 @@ public class MessageOBJ {
         Cost = new CostObj();
         Click = new ClickObj();
         Help = new HelpObj();
+        Version = AllMusic.configVersion;
+    }
+
+    public String getVersion() {
+        return Version;
     }
 
     public ClickObj getClick() {

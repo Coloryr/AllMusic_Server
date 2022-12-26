@@ -114,7 +114,7 @@ public class PlayGo {
                             obj.sender = ID;
                             obj.name = "空闲列表";
                             obj.isDefault = true;
-                            PlayMusic.addMusic(ID, "空闲列表", true);
+                            PlayMusic.addMusic(null, ID, "空闲列表", true);
                         }
                     }
                     Thread.sleep(50);
@@ -138,16 +138,18 @@ public class PlayGo {
 
                     if (PlayMusic.nowPlayMusic.getLength() != 0) {
                         PlayMusic.musicAllTime = PlayMusic.musicLessTime = (PlayMusic.nowPlayMusic.getLength() / 1000) + 3;
-                        String info = AllMusic.getMessage().getMusicPlay().getPlay();
-                        info = info.replace("%MusicName%", PlayMusic.nowPlayMusic.getName())
-                                .replace("%MusicAuthor%", PlayMusic.nowPlayMusic.getAuthor())
-                                .replace("%MusicAl%", PlayMusic.nowPlayMusic.getAl())
-                                .replace("%MusicAlia%", PlayMusic.nowPlayMusic.getAlia())
-                                .replace("%PlayerName%", PlayMusic.nowPlayMusic.getCall());
-                        AllMusic.side.bqt(info);
+                        if (!AllMusic.getConfig().isMutePlayMessage()) {
+                            String info = AllMusic.getMessage().getMusicPlay().getPlay();
+                            info = info.replace("%MusicName%", PlayMusic.nowPlayMusic.getName())
+                                    .replace("%MusicAuthor%", PlayMusic.nowPlayMusic.getAuthor())
+                                    .replace("%MusicAl%", PlayMusic.nowPlayMusic.getAl())
+                                    .replace("%MusicAlia%", PlayMusic.nowPlayMusic.getAlia())
+                                    .replace("%PlayerName%", PlayMusic.nowPlayMusic.getCall());
+                            AllMusic.side.bqt(info);
+                        }
                         startTimer();
                         AllMusic.side.send("[Play]" + url, true);
-                        if(!PlayMusic.nowPlayMusic.isUrl() && PlayMusic.nowPlayMusic.getPicUrl() != null){
+                        if (!PlayMusic.nowPlayMusic.isUrl() && PlayMusic.nowPlayMusic.getPicUrl() != null) {
                             AllMusic.side.task(() ->
                                     AllMusic.side.send("[Img]" + PlayMusic.nowPlayMusic.getPicUrl(), true), 10);
                         }

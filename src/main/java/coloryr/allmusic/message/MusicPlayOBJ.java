@@ -10,7 +10,7 @@ public class MusicPlayOBJ {
     private String NoPlayMusic;
     private String Switch;
     private String AddMusic;
-    private String PlayerAdd;
+    private String CheckMusic;
     private String MusicInfo;
     private String Trail;
 
@@ -24,7 +24,7 @@ public class MusicPlayOBJ {
         NoPlayMusic = "§d[AllMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！";
         Switch = "§d[AllMusic]§2切换到玩家歌曲";
         AddMusic = "§d[AllMusic]§2音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
-        PlayerAdd = "§d[AllMusic]§2%PlayerName%点歌%MusicID%";
+        CheckMusic = "§d[AllMusic]§2正在解析歌曲%MusicID%";
         MusicInfo = "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
         Trail = "§d[AllMusic]§2该音乐为试听音乐";
     }
@@ -49,7 +49,7 @@ public class MusicPlayOBJ {
             res = true;
         if (AddMusic == null)
             res = true;
-        if (PlayerAdd == null)
+        if (CheckMusic == null)
             res = true;
         if (MusicInfo == null)
             res = true;
@@ -67,8 +67,8 @@ public class MusicPlayOBJ {
         return MusicInfo;
     }
 
-    public String getPlayerAdd() {
-        return PlayerAdd;
+    public String getCheckMusic() {
+        return CheckMusic;
     }
 
     public String getAddMusic() {

@@ -156,16 +156,19 @@ public class SideBC implements ISide {
                 && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
             data = data.substring(0, 30) + "...";
         }
-        ProxyServer.getInstance().broadcast(new TextComponent(data));
+        TextComponent message = new TextComponent(data);
+        for (ServerInfo server : ProxyServer.getInstance().getServers().values()) {
+            if (AllMusic.getConfig().getNoMusicServer().contains(server.getName()))
+                continue;
+            for (ProxiedPlayer player : server.getPlayers())
+                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
+                    player.sendMessage(message);
+        }
     }
 
     @Override
     public void bqt(String data) {
-        if (AllMusic.getConfig().isMessageLimit()
-                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
-            data = data.substring(0, 30) + "...";
-        }
-        ProxyServer.getInstance().broadcast(new TextComponent(data));
+        this.bq(data);
     }
 
     @Override

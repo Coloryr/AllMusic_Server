@@ -2,6 +2,7 @@ package coloryr.allmusic.music.play;
 
 public class MusicObj {
     public Object sender;
+    public String id;
     public String name;
     public String[] args;
     public boolean isDefault;

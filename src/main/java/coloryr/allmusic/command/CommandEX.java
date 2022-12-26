@@ -53,7 +53,8 @@ public class CommandEX {
                 AllMusic.getConfig().RemoveNoMusicPlayer(name);
                 if (AllMusic.side.NeedPlay()) {
                     MusicObj obj = new MusicObj();
-                    obj.sender = musicID;
+                    obj.sender = sender;
+                    obj.id = musicID;
                     obj.name = name;
                     obj.isDefault = false;
                     PlayMusic.addTask(obj);
@@ -339,6 +340,7 @@ public class CommandEX {
                 return;
             } else if (args[0].equalsIgnoreCase("url") && args.length == 2) {
                 MusicObj obj = new MusicObj();
+                obj.sender = sender;
                 obj.isUrl = true;
                 obj.url = args[1];
                 PlayMusic.addTask(obj);

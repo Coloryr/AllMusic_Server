@@ -107,7 +107,11 @@ public class SideBukkit implements ISide {
                 && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
             data = data.substring(0, 30) + "...";
         }
-        Bukkit.broadcastMessage(data);
+        for(Player player : Bukkit.getOnlinePlayers()){
+            if(!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())){
+                player.sendMessage(data);
+            }
+        }
     }
 
     @Override
@@ -117,7 +121,13 @@ public class SideBukkit implements ISide {
             data = data.substring(0, 30) + "...";
         }
         String finalData = data;
-        Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, () -> Bukkit.broadcastMessage(finalData));
+        Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
+                    player.sendMessage(finalData);
+                }
+            }
+        });
     }
 
     @Override

@@ -39,6 +39,9 @@ public class ConfigOBJ {
     private boolean MessageLimit;
     private int MessageLimitSize;
 
+    private boolean MutePlayMessage;
+    private boolean MuteAddMessage;
+
     public ConfigOBJ() {
         MaxList = 10;
         MinVote = 3;
@@ -58,6 +61,8 @@ public class ConfigOBJ {
 
         UseCost = false;
         SearchCost = 20;
+        MutePlayMessage = false;
+        MuteAddMessage = false;
         AddMusicCost = 10;
 
         DefaultAddMusic = 0;
@@ -70,6 +75,14 @@ public class ConfigOBJ {
         MessageLimitSize = 40;
 
         Version = AllMusic.version;
+    }
+
+    public boolean isMuteAddMessage() {
+        return MuteAddMessage;
+    }
+
+    public boolean isMutePlayMessage() {
+        return MutePlayMessage;
     }
 
     public int getMessageLimitSize() {

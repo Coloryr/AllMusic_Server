@@ -56,7 +56,7 @@ public class PlayMusic {
                     if (obj.isUrl) {
                         addUrl(obj.url);
                     } else {
-                        addMusic((String) obj.sender, obj.name, obj.isDefault);
+                        addMusic(obj.sender, obj.id, obj.name, obj.isDefault);
                     }
                 }
                 Thread.sleep(10);
@@ -67,27 +67,32 @@ public class PlayMusic {
         }
     }
 
-    public static void addMusic(String ID, String player, boolean isList) {
-        if (isHave(ID))
+    public static void addMusic(Object sender, String id, String player, boolean isList) {
+        if (isHave(id))
             return;
-        String text = AllMusic.getMessage().getMusicPlay().getPlayerAdd();
-        text = text.replace("%PlayerName%", player)
-                .replace("%MusicID%", ID);
-        AllMusic.side.bqt(text);
-        logs.logWrite("玩家：" + player + " 点歌：" + ID);
+        if(sender != null) {
+            String text = AllMusic.getMessage().getMusicPlay().getCheckMusic();
+            text = text.replace("%MusicID%", id);
+            AllMusic.side.sendMessaget(sender, text);
+        }
+        logs.logWrite("玩家：" + player + " 点歌：" + id);
         try {
-            SongInfo info = AllMusic.getMusicApi().getMusic(ID, player, isList);
+            SongInfo info = AllMusic.getMusicApi().getMusic(id, player, isList);
             if (info != null) {
                 playList.add(info);
-                String data = AllMusic.getMessage().getMusicPlay().getAddMusic();
-                data = data.replace("%MusicName%", info.getName())
-                        .replace("%MusicAuthor%", info.getAuthor())
-                        .replace("%MusicAl%", info.getAl())
-                        .replace("%MusicAlia%", info.getAlia());
-                AllMusic.side.bqt(data);
+                if(!AllMusic.getConfig().isMuteAddMessage()) {
+                    String data = AllMusic.getMessage().getMusicPlay().getAddMusic();
+                    data = data.replace("%MusicName%", info.getName())
+                            .replace("%MusicAuthor%", info.getAuthor())
+                            .replace("%MusicAl%", info.getAl())
+                            .replace("%MusicAlia%", info.getAlia());
+                    AllMusic.side.bqt(data);
+                }
             } else {
-                String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
-                AllMusic.side.bqt(data.replace("%MusicID%", ID));
+                if (sender != null) {
+                    String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
+                    AllMusic.side.sendMessaget(sender, data.replace("%MusicID%", id));
+                }
             }
             if (AllMusic.getConfig().isPlayListSwitch()
                     && (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList())) {
