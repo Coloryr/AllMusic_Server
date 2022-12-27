@@ -66,7 +66,8 @@
     "NoLyric": "无歌词",
     "PicSize": "§d[ALLMusic]§e设置图片尺寸为%Size%",
     "Music": "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%",
-    "Lyric": "%Lyric%\n%Tlyric%"
+    "Lyric": "%Lyric%\n%Tlyric%",
+    "List": "播放列表里面有%Size%首歌\n%List%"
   },
   "Command": {
     "Error": "§d[AllMusic]§c参数错误，请输入/music help获取帮助",

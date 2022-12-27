@@ -17,7 +17,6 @@ public class MessageOBJ {
     private CostObj Cost;
     private ClickObj Click;
     private HelpObj Help;
-
     private String Version;
 
     public MessageOBJ() {

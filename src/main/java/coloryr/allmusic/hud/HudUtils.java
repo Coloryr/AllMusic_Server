@@ -59,22 +59,26 @@ public class HudUtils {
     }
 
     public static void sendHudListData() {
-        StringBuilder list = new StringBuilder();
+        String info;
         if (PlayMusic.getSize() == 0) {
-            list.append(AllMusic.getMessage().getHud().getNoList());
+            info = AllMusic.getMessage().getHud().getNoList();
         } else {
             String now;
-            for (SongInfo info : PlayMusic.getList()) {
-                if (info == null)
+            StringBuilder list = new StringBuilder();
+            for (SongInfo info1 : PlayMusic.getList()) {
+                if (info1 == null)
                     continue;
-                now = info.getInfo();
+                now = info1.getInfo();
                 if (now.length() > AllMusic.getConfig().getMessageLimitSize())
                     now = now.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
                 list.append(now).append("\n");
             }
+            info = AllMusic.getMessage().getHud().getList()
+                    .replace("%Size%", String.valueOf(PlayMusic.getList().size()))
+                    .replace("%List%", list.toString());
         }
 
-        AllMusic.side.sendHudList(list.toString());
+        AllMusic.side.sendHudList(info);
     }
 
     private static String tranTime(int time) {

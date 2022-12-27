@@ -10,6 +10,7 @@ public class HudOBJ {
     private String PicSize;
     private String Music;
     private String Lyric;
+    private String List;
 
     public HudOBJ() {
         State = "§d[ALLMusic]§2设置信息位置：%Hud%，状态：%State%";
@@ -21,6 +22,7 @@ public class HudOBJ {
         PicSize = "§d[ALLMusic]§2设置图片尺寸为%Size%";
         Music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
         Lyric = "%Lyric%\n%Tlyric%";
+        List = "播放列表里面有%Size%首歌\n%List%";
     }
 
     public boolean check() {
@@ -42,8 +44,14 @@ public class HudOBJ {
             return true;
         if (Lyric == null)
             return true;
+        if(List == null)
+            return true;
 
         return false;
+    }
+
+    public String getList() {
+        return List;
     }
 
     public String getLyric() {
