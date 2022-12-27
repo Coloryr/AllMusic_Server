@@ -28,7 +28,7 @@ public class MetricsBC {
     /**
      * Creates a new Metrics instance.
      *
-     * @param plugin Your plugin instance.
+     * @param plugin    Your plugin instance.
      * @param serviceId The id of the service.
      *                  It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
      */
@@ -111,7 +111,7 @@ public class MetricsBC {
     }
 
     private void appendPlatformData(JsonObjectBuilder builder) {
-        builder.appendField("playerAmount",  plugin.getProxy().getOnlineCount());
+        builder.appendField("playerAmount", plugin.getProxy().getOnlineCount());
         builder.appendField("managedServers", plugin.getProxy().getServers().size());
         builder.appendField("onlineMode", plugin.getProxy().getConfig().isOnlineMode() ? 1 : 0);
         builder.appendField("bungeecordVersion", plugin.getProxy().getVersion());

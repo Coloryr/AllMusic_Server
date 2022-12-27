@@ -9,10 +9,10 @@ public class LyricOBJ {
         TData = "%Lyric%(%TLyric%)";
     }
 
-    public boolean check(){
-        if(Data == null)
+    public boolean check() {
+        if (Data == null)
             return true;
-        if(TData == null)
+        if (TData == null)
             return true;
 
         return false;

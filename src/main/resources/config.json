@@ -18,6 +18,7 @@
   "MessageLimitSize": 40,
   "MutePlayMessage": false,
   "MuteAddMessage": false,
+  "ShowInBar": false,
   "DefaultHud": {
     "List": {
       "x": 2,

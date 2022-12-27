@@ -2,8 +2,8 @@ package coloryr.allmusic.music.play;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.HudUtils;
-import coloryr.allmusic.music.lyric.LyricSave;
 import coloryr.allmusic.music.lyric.LyricItem;
+import coloryr.allmusic.music.lyric.LyricSave;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -121,6 +121,10 @@ public class PlayGo {
                 } else {
                     AllMusic.side.sendHudSaveAll();
                     PlayMusic.nowPlayMusic = PlayMusic.remove(0);
+                    if (AllMusic.side.onMusicPlay(PlayMusic.nowPlayMusic)) {
+                        AllMusic.side.bqt(AllMusic.getMessage().getMusicPlay().getCancel());
+                        continue;
+                    }
 
                     url = PlayMusic.nowPlayMusic.getPlayerUrl() == null ?
                             AllMusic.getMusicApi().getPlayUrl(PlayMusic.nowPlayMusic.getID()) :
@@ -145,7 +149,10 @@ public class PlayGo {
                                     .replace("%MusicAl%", PlayMusic.nowPlayMusic.getAl())
                                     .replace("%MusicAlia%", PlayMusic.nowPlayMusic.getAlia())
                                     .replace("%PlayerName%", PlayMusic.nowPlayMusic.getCall());
-                            AllMusic.side.bqt(info);
+                            if (AllMusic.getConfig().isShowInBar())
+                                AllMusic.side.sendBar(info);
+                            else
+                                AllMusic.side.bqt(info);
                         }
                         startTimer();
                         AllMusic.side.sendMusic(url);

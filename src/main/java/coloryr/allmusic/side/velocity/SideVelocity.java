@@ -2,11 +2,15 @@ package coloryr.allmusic.side.velocity;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicVelocity;
-import coloryr.allmusic.side.ComType;
-import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.music.api.SongInfo;
+import coloryr.allmusic.music.play.MusicObj;
 import coloryr.allmusic.music.play.PlayMusic;
+import coloryr.allmusic.side.ComType;
+import coloryr.allmusic.side.ISide;
+import coloryr.allmusic.side.velocity.event.MusicAddEvent;
+import coloryr.allmusic.side.velocity.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
@@ -199,6 +203,19 @@ public class SideVelocity implements ISide {
     }
 
     @Override
+    public void sendBar(String data) {
+        Component message = Component.text(data);
+        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+            try {
+                player.sendActionBar(message);
+            } catch (Exception e1) {
+                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public void clearHud(String player) {
         send(ComType.clear, player, null);
     }
@@ -273,7 +290,7 @@ public class SideVelocity implements ISide {
                 .delay(delay, TimeUnit.MICROSECONDS).schedule();
     }
 
-    public static void sendAllToServer(ServerConnection server){
+    public static void sendAllToServer(ServerConnection server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
@@ -325,7 +342,7 @@ public class SideVelocity implements ISide {
         server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
     }
 
-    public static void sendLyricToServer(ServerConnection server){
+    public static void sendLyricToServer(ServerConnection server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(7);
         if (PlayMusic.lyricItem == null)
@@ -349,26 +366,40 @@ public class SideVelocity implements ISide {
     }
 
     @Override
-    public void ping(){
+    public void ping() {
         Iterator<ServerConnection> iterator = TopServers.iterator();
         while (iterator.hasNext()) {
             ServerConnection server = iterator.next();
-            try{
+            try {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeInt(200);
                 server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
-            }catch (Exception e){
+            } catch (Exception e) {
                 iterator.remove();
             }
         }
     }
 
     @Override
+    public boolean onMusicPlay(SongInfo obj) {
+        MusicPlayEvent event = new MusicPlayEvent(obj);
+        AllMusicVelocity.plugin.server.getEventManager().fire(event).join();
+        return event.isCancel();
+    }
+
+    @Override
+    public boolean onMusicAdd(Object obj, MusicObj music) {
+        MusicAddEvent event = new MusicAddEvent(music, (CommandSource) obj);
+        AllMusicVelocity.plugin.server.getEventManager().fire(event).join();
+        return event.isCancel();
+    }
+
+    @Override
     public void updateInfo() {
-        for(ServerConnection server : TopServers) {
-            try  {
+        for (ServerConnection server : TopServers) {
+            try {
                 sendAllToServer(server);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 TopServers.remove(server);
             }
         }
@@ -376,10 +407,10 @@ public class SideVelocity implements ISide {
 
     @Override
     public void updateLyric() {
-        for(ServerConnection server : TopServers) {
+        for (ServerConnection server : TopServers) {
             try {
                 sendLyricToServer(server);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 TopServers.remove(server);
             }
         }

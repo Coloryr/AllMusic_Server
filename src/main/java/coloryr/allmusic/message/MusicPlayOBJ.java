@@ -13,6 +13,7 @@ public class MusicPlayOBJ {
     private String CheckMusic;
     private String MusicInfo;
     private String Trail;
+    private String Cancel;
 
     public MusicPlayOBJ() {
         StopPlay = "§d[AllMusic]§2已停止你的音乐播放";
@@ -27,6 +28,7 @@ public class MusicPlayOBJ {
         CheckMusic = "§d[AllMusic]§2正在解析歌曲%MusicID%";
         MusicInfo = "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
         Trail = "§d[AllMusic]§2该音乐为试听音乐";
+        Cancel = "§d[AllMusic]§e播放被取消";
     }
 
     public boolean check() {
@@ -55,8 +57,14 @@ public class MusicPlayOBJ {
             res = true;
         if (Trail == null)
             res = true;
+        if(Cancel == null)
+            res = true;
 
         return res;
+    }
+
+    public String getCancel() {
+        return Cancel;
     }
 
     public String getTrail() {

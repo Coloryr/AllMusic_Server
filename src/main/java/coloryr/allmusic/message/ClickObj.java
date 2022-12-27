@@ -9,10 +9,10 @@ public class ClickObj {
         Check = "§b[§n点我查看§r§b]";
     }
 
-    public boolean check(){
-        if(This == null)
+    public boolean check() {
+        if (This == null)
             return true;
-        if(Check == null)
+        if (Check == null)
             return true;
 
         return false;

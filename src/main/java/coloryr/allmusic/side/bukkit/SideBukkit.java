@@ -2,10 +2,14 @@ package coloryr.allmusic.side.bukkit;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBukkit;
-import coloryr.allmusic.side.ComType;
-import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.music.api.SongInfo;
+import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.side.ComType;
+import coloryr.allmusic.side.ISide;
+import coloryr.allmusic.side.bukkit.event.MusicAddEvent;
+import coloryr.allmusic.side.bukkit.event.MusicPlayEvent;
 import coloryr.allmusic.side.bukkit.hooks.CitizensNPC;
 import coloryr.allmusic.side.bukkit.hooks.SpigotApi;
 import com.google.gson.Gson;
@@ -141,6 +145,21 @@ public class SideBukkit implements ISide {
         }
     }
 
+    @Override
+    public void sendBar(String data) {
+        if(AllMusicBukkit.spigotSet) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                try {
+                    SpigotApi.sendBar(player, data);
+                } catch (Exception e1) {
+                    AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
     public void sendMusic(String url) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -324,6 +343,20 @@ public class SideBukkit implements ISide {
     @Override
     public void ping() {
 
+    }
+
+    @Override
+    public boolean onMusicPlay(SongInfo obj) {
+        MusicPlayEvent event = new MusicPlayEvent(obj);
+        Bukkit.getPluginManager().callEvent(event);
+        return event.isCancel();
+    }
+
+    @Override
+    public boolean onMusicAdd(Object obj, MusicObj music) {
+        MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
+        Bukkit.getPluginManager().callEvent(event);
+        return event.isCancel();
     }
 
     private void send(Player players, String data, Boolean isplay) {

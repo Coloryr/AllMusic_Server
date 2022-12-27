@@ -102,14 +102,14 @@ public class MetricsConfig {
         enabled = getConfigValue("enabled", lines).map("true"::equals).orElse(true);
         serverUUID = getConfigValue("server-uuid", lines).orElse(null);
         logErrors = getConfigValue("log-errors", lines).map("true"::equals).orElse(false);
-        logSentData =  getConfigValue("log-sent-data", lines).map("true"::equals).orElse(false);
-        logResponseStatusText =  getConfigValue("log-response-status-text", lines).map("true"::equals).orElse(false);
+        logSentData = getConfigValue("log-sent-data", lines).map("true"::equals).orElse(false);
+        logResponseStatusText = getConfigValue("log-response-status-text", lines).map("true"::equals).orElse(false);
     }
 
     /**
      * Gets a config setting from the given list of lines of the file.
      *
-     * @param key The key for the setting.
+     * @param key   The key for the setting.
      * @param lines The lines of the file.
      * @return The value of the setting.
      */
@@ -141,7 +141,7 @@ public class MetricsConfig {
     /**
      * Writes the given lines to the given file.
      *
-     * @param file The file to write to.
+     * @param file  The file to write to.
      * @param lines The lines to write.
      */
     private void writeFile(File file, List<String> lines) throws IOException {

@@ -1,9 +1,8 @@
-package coloryr.allmusic.api;
+package coloryr.allmusic;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.obj.HudPos;
 import coloryr.allmusic.side.ComType;
-import org.checkerframework.checker.units.qual.A;
 
 public class AllMusicAPI {
     public static void playMusic(String name, String url) {

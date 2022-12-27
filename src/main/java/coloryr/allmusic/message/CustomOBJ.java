@@ -7,8 +7,8 @@ public class CustomOBJ {
         Info = "自定义音乐";
     }
 
-    public boolean check(){
-        if(Info == null)
+    public boolean check() {
+        if (Info == null)
             return true;
 
         return false;

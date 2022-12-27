@@ -2,17 +2,23 @@ package coloryr.allmusic.side.bc;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBC;
-import coloryr.allmusic.side.ComType;
-import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.music.api.SongInfo;
+import coloryr.allmusic.music.play.MusicObj;
 import coloryr.allmusic.music.play.PlayMusic;
+import coloryr.allmusic.side.ComType;
+import coloryr.allmusic.side.ISide;
+import coloryr.allmusic.side.bc.event.MusicAddEvent;
+import coloryr.allmusic.side.bc.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -33,6 +39,7 @@ public class SideBC implements ISide {
     public void send(String data, String player, Boolean isplay) {
         send(ProxyServer.getInstance().getPlayer(player), data, isplay);
     }
+
     @Override
     public int getAllPlayer() {
         return ProxyServer.getInstance().getOnlineCount();
@@ -105,7 +112,20 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public void sendMusic(String url){
+    public void sendBar(String data) {
+        BaseComponent[] message = TextComponent.fromLegacyText(data);
+        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+            try {
+                player.sendMessage(ChatMessageType.ACTION_BAR, message);
+            } catch (Exception e1) {
+                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void sendMusic(String url) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (isOK(player))
@@ -117,8 +137,9 @@ public class SideBC implements ISide {
             e.printStackTrace();
         }
     }
+
     @Override
-    public void sendPic(String url){
+    public void sendPic(String url) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (isOK(player))
@@ -265,7 +286,7 @@ public class SideBC implements ISide {
                 .schedule(AllMusicBC.plugin, run, delay, TimeUnit.MICROSECONDS);
     }
 
-    public static void sendAllToServer(Server server){
+    public static void sendAllToServer(Server server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
@@ -317,7 +338,7 @@ public class SideBC implements ISide {
         server.sendData(AllMusic.channelBC, out.toByteArray());
     }
 
-    public static void sendLyricToServer(Server server){
+    public static void sendLyricToServer(Server server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(7);
         if (PlayMusic.lyricItem == null)
@@ -342,7 +363,7 @@ public class SideBC implements ISide {
 
     @Override
     public void updateInfo() {
-        for(Server server : TopServers) {
+        for (Server server : TopServers) {
             if (server.isConnected()) {
                 sendAllToServer(server);
             } else {
@@ -353,7 +374,7 @@ public class SideBC implements ISide {
 
     @Override
     public void updateLyric() {
-        for(Server server : TopServers) {
+        for (Server server : TopServers) {
             if (server.isConnected()) {
                 sendLyricToServer(server);
             } else {
@@ -375,6 +396,20 @@ public class SideBC implements ISide {
                 iterator.remove();
             }
         }
+    }
+
+    @Override
+    public boolean onMusicPlay(SongInfo obj) {
+        MusicPlayEvent event = new MusicPlayEvent(obj);
+        ProxyServer.getInstance().getPluginManager().callEvent(event);
+        return event.isCancel();
+    }
+
+    @Override
+    public boolean onMusicAdd(Object obj, MusicObj music) {
+        MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
+        ProxyServer.getInstance().getPluginManager().callEvent(event);
+        return event.isCancel();
     }
 
     private void send(ProxiedPlayer players, String data, Boolean isplay) {

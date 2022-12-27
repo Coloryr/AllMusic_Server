@@ -4,8 +4,8 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.decoder.Bitstream;
 import coloryr.allmusic.decoder.Header;
 import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.lyric.LyricSave;
 import coloryr.allmusic.music.lyric.LyricItem;
+import coloryr.allmusic.music.lyric.LyricSave;
 import coloryr.allmusic.utils.Logs;
 
 import java.io.BufferedInputStream;
@@ -70,7 +70,7 @@ public class PlayMusic {
     public static void addMusic(Object sender, String id, String player, boolean isList) {
         if (isHave(id))
             return;
-        if(sender != null) {
+        if (sender != null) {
             String text = AllMusic.getMessage().getMusicPlay().getCheckMusic();
             text = text.replace("%MusicID%", id);
             AllMusic.side.sendMessaget(sender, text);
@@ -80,7 +80,7 @@ public class PlayMusic {
             SongInfo info = AllMusic.getMusicApi().getMusic(id, player, isList);
             if (info != null) {
                 playList.add(info);
-                if(!AllMusic.getConfig().isMuteAddMessage()) {
+                if (!AllMusic.getConfig().isMuteAddMessage()) {
                     String data = AllMusic.getMessage().getMusicPlay().getAddMusic();
                     data = data.replace("%MusicName%", info.getName())
                             .replace("%MusicAuthor%", info.getAuthor())
@@ -123,7 +123,7 @@ public class PlayMusic {
     }
 
     public static SongInfo remove(int index) {
-       return playList.remove(index);
+        return playList.remove(index);
     }
 
     public static String getAllList() {
@@ -167,8 +167,7 @@ public class PlayMusic {
             int le = 6000000;
             if (h == null) {
                 AllMusic.side.bqt("§d[AllMusic]§c未知音乐类型");
-            }
-            else {
+            } else {
                 le = (int) h.total_ms(b);
             }
             SongInfo info = new SongInfo(AllMusic.getMessage().getCustom().getInfo(), arg, le);

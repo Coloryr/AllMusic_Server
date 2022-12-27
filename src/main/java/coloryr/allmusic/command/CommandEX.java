@@ -19,6 +19,12 @@ public class CommandEX {
         obj.name = name;
         obj.args = args;
         obj.isDefault = isDefault;
+
+        if (AllMusic.side.onMusicAdd(sender, obj)) {
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getCancel());
+            return;
+        }
+
         MusicSearch.addSearch(obj);
     }
 
@@ -57,6 +63,12 @@ public class CommandEX {
                     obj.id = musicID;
                     obj.name = name;
                     obj.isDefault = false;
+
+                    if (AllMusic.side.onMusicAdd(sender, obj)) {
+                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getCancel());
+                        return;
+                    }
+
                     PlayMusic.addTask(obj);
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
                     if (AllMusic.getConfig().isUseCost() && AllMusic.vault != null) {

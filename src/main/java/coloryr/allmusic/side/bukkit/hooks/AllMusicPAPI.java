@@ -55,8 +55,8 @@ public class AllMusicPAPI extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String identifier) {
-        if(AllMusic.getConfig().isTopPAPI()){
-            if(!PluginMessage.update){
+        if (AllMusic.getConfig().isTopPAPI()) {
+            if (!PluginMessage.update) {
                 PluginMessage.startUpdate();
                 return "";
             }
@@ -92,8 +92,7 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     return PlayMusic.lyricItem.getTlyric();
                 }
             }
-        }
-        else {
+        } else {
             switch (identifier) {
                 case "now_music_name": {
                     if (PlayMusic.nowPlayMusic == null)

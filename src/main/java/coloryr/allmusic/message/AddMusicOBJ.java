@@ -7,6 +7,7 @@ public class AddMusicOBJ {
     private String Success;
     private String NoPlayer;
     private String NoID;
+    private String Cancel;
 
     public AddMusicOBJ() {
         ListFull = "§d[AllMusic]§c错误，队列已满";
@@ -15,6 +16,7 @@ public class AddMusicOBJ {
         Success = "§d[AllMusic]§2点歌成功";
         NoPlayer = "§d[AllMusic]§c没有播放的玩家";
         NoID = "§d[AllMusic]§c错误，请输入歌曲数字ID";
+        Cancel = "§d[AllMusic]§e点歌被取消";
     }
 
     public boolean check() {
@@ -30,8 +32,14 @@ public class AddMusicOBJ {
             return true;
         if (NoID == null)
             return true;
+        if(Cancel == null)
+            return true;
 
         return false;
+    }
+
+    public String getCancel() {
+        return Cancel;
     }
 
     public String getNoID() {

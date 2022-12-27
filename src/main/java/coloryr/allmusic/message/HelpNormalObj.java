@@ -27,28 +27,28 @@ public class HelpNormalObj {
         Hud3 = "§d[AllMusic]§2使用/music hud picsize [尺寸] 设置图片尺寸";
     }
 
-    public boolean check(){
-        if(Head == null)
+    public boolean check() {
+        if (Head == null)
             return true;
-        if(Base == null)
+        if (Base == null)
             return true;
-        if(Stop == null)
+        if (Stop == null)
             return true;
-        if(List == null)
+        if (List == null)
             return true;
-        if(Vote == null)
+        if (Vote == null)
             return true;
-        if(NoMusic == null)
+        if (NoMusic == null)
             return true;
-        if(Search == null)
+        if (Search == null)
             return true;
-        if(Select == null)
+        if (Select == null)
             return true;
-        if(Hud1 == null)
+        if (Hud1 == null)
             return true;
-        if(Hud2 == null)
+        if (Hud2 == null)
             return true;
-        if(Hud3 == null)
+        if (Hud3 == null)
             return true;
 
         return false;

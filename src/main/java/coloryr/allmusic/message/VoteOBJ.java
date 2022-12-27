@@ -21,22 +21,22 @@ public class VoteOBJ {
         Do = "§d[AllMusic]§2已切歌";
     }
 
-    public boolean check(){
-        if(NoPermission == null)
+    public boolean check() {
+        if (NoPermission == null)
             return true;
-        if(DoVote == null)
+        if (DoVote == null)
             return true;
-        if(BQ == null)
+        if (BQ == null)
             return true;
-        if(Agree == null)
+        if (Agree == null)
             return true;
-        if(BQAgree == null)
+        if (BQAgree == null)
             return true;
-        if(ARAgree == null)
+        if (ARAgree == null)
             return true;
-        if(TimeOut == null)
+        if (TimeOut == null)
             return true;
-        if(Do == null)
+        if (Do == null)
             return true;
 
         return false;

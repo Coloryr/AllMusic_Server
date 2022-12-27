@@ -23,7 +23,7 @@ public class MetricsBukkit {
     /**
      * Creates a new Metrics instance.
      *
-     * @param plugin Your plugin instance.
+     * @param plugin    Your plugin instance.
      * @param serviceId The id of the service.
      *                  It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
      */
@@ -52,7 +52,8 @@ public class MetricsBukkit {
             ).copyDefaults(true);
             try {
                 config.save(configFile);
-            } catch (IOException ignored) { }
+            } catch (IOException ignored) {
+            }
         }
 
         // Load the data

@@ -9,10 +9,10 @@ public class CommandOBJ {
         NoPer = "§d[AllMusic]§c你没有权限点歌";
     }
 
-    public boolean check(){
-        if(Error == null)
+    public boolean check() {
+        if (Error == null)
             return true;
-        if(NoPer == null)
+        if (NoPer == null)
             return true;
 
         return false;

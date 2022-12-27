@@ -5,15 +5,15 @@ public class TopLyricItem extends LyricItem {
         super(false, null, null);
     }
 
-    public void setTlyric(String data){
+    public void setTlyric(String data) {
         tlyric = data;
     }
 
-    public void setLyric(String data){
+    public void setLyric(String data) {
         lyric = data;
     }
 
-    public void setHaveT(boolean data){
+    public void setHaveT(boolean data) {
         haveT = data;
     }
 }

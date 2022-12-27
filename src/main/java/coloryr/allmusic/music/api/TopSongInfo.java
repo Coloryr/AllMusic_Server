@@ -1,6 +1,5 @@
 package coloryr.allmusic.music.api;
 
-import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.music.api.obj.music.trialinfo.freeTrialInfo;
 
 public class TopSongInfo extends SongInfo {

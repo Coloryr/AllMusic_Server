@@ -41,6 +41,7 @@ public class ConfigOBJ {
 
     private boolean MutePlayMessage;
     private boolean MuteAddMessage;
+    private boolean ShowInBar;
 
     public ConfigOBJ() {
         MaxList = 10;
@@ -63,6 +64,7 @@ public class ConfigOBJ {
         SearchCost = 20;
         MutePlayMessage = false;
         MuteAddMessage = false;
+        ShowInBar = false;
         AddMusicCost = 10;
 
         DefaultAddMusic = 0;
@@ -75,6 +77,10 @@ public class ConfigOBJ {
         MessageLimitSize = 40;
 
         Version = AllMusic.version;
+    }
+
+    public boolean isShowInBar() {
+        return ShowInBar;
     }
 
     public boolean isMuteAddMessage() {

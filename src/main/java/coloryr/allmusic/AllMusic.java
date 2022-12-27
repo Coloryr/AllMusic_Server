@@ -1,17 +1,17 @@
 package coloryr.allmusic;
 
-import coloryr.allmusic.music.api.http.CookieObj;
-import coloryr.allmusic.side.IMyLogger;
-import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.hud.DataSql;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
 import coloryr.allmusic.message.MessageOBJ;
 import coloryr.allmusic.music.api.APIMain;
+import coloryr.allmusic.music.api.http.CookieObj;
 import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.music.search.SearchPage;
+import coloryr.allmusic.side.IMyLogger;
+import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.side.bukkit.hooks.VaultHook;
 import coloryr.allmusic.utils.Logs;
 import com.google.gson.Gson;

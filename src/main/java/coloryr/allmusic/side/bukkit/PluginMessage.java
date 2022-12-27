@@ -4,7 +4,6 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBukkit;
 import coloryr.allmusic.music.api.TopSongInfo;
 import coloryr.allmusic.music.lyric.TopLyricItem;
-import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataInput;
@@ -36,11 +35,11 @@ public class PluginMessage implements PluginMessageListener {
         service.scheduleAtFixedRate(PluginMessage::clear, 0, 30, TimeUnit.SECONDS);
     }
 
-    private static void clear(){
+    private static void clear() {
         update = false;
     }
 
-    public void stop(){
+    public void stop() {
         service.shutdownNow();
     }
 

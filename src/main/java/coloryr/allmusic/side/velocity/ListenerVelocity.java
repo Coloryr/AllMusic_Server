@@ -19,7 +19,7 @@ public class ListenerVelocity {
     }
 
     @Subscribe
-    public void onPluginMessageEvent(final PluginMessageEvent event){
+    public void onPluginMessageEvent(final PluginMessageEvent event) {
         if (event.getIdentifier().getId().equals(AllMusic.channelBC)) {
             event.setResult(PluginMessageEvent.ForwardResult.handled());
             if (event.getSource() instanceof ServerConnection) {

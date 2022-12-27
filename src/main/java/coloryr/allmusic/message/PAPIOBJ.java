@@ -7,8 +7,8 @@ public class PAPIOBJ {
         NoMusic = "没有播放的音乐";
     }
 
-    public boolean check(){
-        if(NoMusic == null)
+    public boolean check() {
+        if (NoMusic == null)
             return true;
 
         return false;

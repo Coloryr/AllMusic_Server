@@ -15,16 +15,16 @@ public class HudListOBJ {
         All = "所有位置";
     }
 
-    public boolean check(){
-        if(List == null)
+    public boolean check() {
+        if (List == null)
             return true;
-        if(Lyric == null)
+        if (Lyric == null)
             return true;
-        if(Info == null)
+        if (Info == null)
             return true;
-        if(All == null)
+        if (All == null)
             return true;
-        if(Pic == null)
+        if (Pic == null)
             return true;
 
         return false;
