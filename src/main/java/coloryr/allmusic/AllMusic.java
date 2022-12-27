@@ -34,19 +34,21 @@ public class AllMusic {
     private static final Map<String, SearchPage> searchSave = new HashMap<>();
     private static final List<String> votePlayer = new ArrayList<>();
     private static final List<String> nowPlayPlayer = new ArrayList<>();
+
+    private static APIMain apiMusic;
+    private static ConfigOBJ config;
+    private static MessageOBJ message;
+    private static File configFile;
+    private static File cookieFile;
+    private static File messageFile;
+
     public static final Gson gson = new Gson();
 
     public static IMyLogger log;
     public static ISide side;
     public static boolean isRun;
     public static VaultHook vault;
-    private static APIMain apiMusic;
-    private static ConfigOBJ config;
-    private static MessageOBJ message;
     public static CookieObj cookie;
-    private static File configFile;
-    private static File cookieFile;
-    private static File messageFile;
 
     public static void configCheck() {
         if (config == null) {
@@ -71,7 +73,7 @@ public class AllMusic {
     }
 
     public static boolean containNowPlay(String player) {
-        return nowPlayPlayer.contains(player);
+        return !nowPlayPlayer.contains(player);
     }
 
     public static ConfigOBJ getConfig() {

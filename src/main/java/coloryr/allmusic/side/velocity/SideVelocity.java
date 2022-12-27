@@ -417,7 +417,7 @@ public class SideVelocity implements ISide {
             String name = player.getUsername();
             if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getUsername()))
                 return true;
-            return !AllMusic.containNowPlay(name);
+            return AllMusic.containNowPlay(name);
         } catch (NoSuchElementException e) {
             return true;
         }

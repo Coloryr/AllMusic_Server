@@ -408,6 +408,6 @@ public class SideBC implements ISide {
         String name = player.getName();
         if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
             return true;
-        return !AllMusic.containNowPlay(name);
+        return AllMusic.containNowPlay(name);
     }
 }

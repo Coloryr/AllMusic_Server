@@ -366,6 +366,6 @@ public class SideBukkit implements ISide {
         String name = player.getName();
         if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
             return true;
-        return !AllMusic.containNowPlay(name);
+        return AllMusic.containNowPlay(name);
     }
 }
