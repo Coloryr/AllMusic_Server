@@ -163,8 +163,6 @@ public class SideBukkit implements ISide {
     public void sendMusic(String url) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (isOK(player))
-                    continue;
                 send(player, ComType.play + url, true);
             }
         } catch (Exception e) {
@@ -348,14 +346,20 @@ public class SideBukkit implements ISide {
     @Override
     public boolean onMusicPlay(SongInfo obj) {
         MusicPlayEvent event = new MusicPlayEvent(obj);
-        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getScheduler().callSyncMethod(AllMusicBukkit.plugin, () -> {
+            Bukkit.getPluginManager().callEvent(event);
+            return event;
+        });
         return event.isCancel();
     }
 
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
-        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getScheduler().callSyncMethod(AllMusicBukkit.plugin, () -> {
+            Bukkit.getPluginManager().callEvent(event);
+            return event;
+        });
         return event.isCancel();
     }
 

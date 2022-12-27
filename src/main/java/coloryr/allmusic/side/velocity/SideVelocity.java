@@ -107,8 +107,6 @@ public class SideVelocity implements ISide {
     public void sendMusic(String url) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (isOK(player))
-                    continue;
                 send(player, ComType.play + url, false);
             }
         } catch (Exception e) {

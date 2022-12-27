@@ -207,6 +207,9 @@ public class AllMusic {
             reader.close();
             messageCheck();
 
+            log.info("§d[AllMusic]§e当前语言配置文件版本为：" + configVersion
+                    + "，你的语言文件版本为：" + config.getVersion());
+
             if (!message.getVersion().equalsIgnoreCase(configVersion)) {
                 log.warning("§d[AllMusic]§c语言文件版本号错误，运行可能会发生问题，请删除后重载");
             }
@@ -224,7 +227,7 @@ public class AllMusic {
             log.info("§d[AllMusic]§e当前插件配置文件版本为：" + configVersion
                     + "，你的配置文件版本为：" + config.getVersion());
 
-            if (!AllMusic.version.equalsIgnoreCase(config.getVersion())) {
+            if (!AllMusic.configVersion.equalsIgnoreCase(config.getVersion())) {
                 log.warning("§d[AllMusic]§c请及时更新配置文件");
             }
         } catch (Exception e) {
