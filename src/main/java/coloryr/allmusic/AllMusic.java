@@ -1,7 +1,8 @@
 package coloryr.allmusic;
 
-import coloryr.allmusic.api.IMyLogger;
-import coloryr.allmusic.api.ISide;
+import coloryr.allmusic.music.api.http.CookieObj;
+import coloryr.allmusic.side.IMyLogger;
+import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.hud.DataSql;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
@@ -12,7 +13,7 @@ import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.music.search.SearchPage;
 import coloryr.allmusic.side.bukkit.hooks.VaultHook;
-import coloryr.allmusic.utils.logs;
+import coloryr.allmusic.utils.Logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -168,8 +169,8 @@ public class AllMusic {
     public static void stop() {
         try {
             clearVote();
-            logs.stop();
-            side.send("[Stop]", false);
+            Logs.stop();
+            side.sendStop();
             MusicSearch.stop();
             PlayMusic.stop();
             PlayGo.stop();
@@ -261,8 +262,8 @@ public class AllMusic {
                 messageFile = new File(file, "message.json");
             if (cookieFile == null)
                 cookieFile = new File(file, "cookie.json");
-            if (logs.file == null)
-                logs.file = new File(file, "logs.log");
+            if (Logs.file == null)
+                Logs.file = new File(file, "logs.log");
             if (DataSql.sqlFile == null)
                 DataSql.sqlFile = new File(file, "data.db");
             if (!configFile.exists()) {
@@ -274,8 +275,8 @@ public class AllMusic {
             if (!cookieFile.exists()) {
                 cookieFile.createNewFile();
             }
-            if (!logs.file.exists()) {
-                logs.file.createNewFile();
+            if (!Logs.file.exists()) {
+                Logs.file.createNewFile();
             }
             loadConfig();
             isRun = true;

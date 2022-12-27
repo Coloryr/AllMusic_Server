@@ -41,9 +41,9 @@ public class TabCommand {
         this.add("list");
         this.add("lyric");
         this.add("pic");
+        this.add("picsize");
         this.add("enable");
         this.add("reset");
-        this.add("picsize");
     }};
 
     public static List<String> getTabList(String name, String[] arg) {

@@ -1,7 +1,7 @@
 package coloryr.allmusic.hud;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.hud.obj.Pos;
+import coloryr.allmusic.hud.obj.HudPos;
 import coloryr.allmusic.hud.obj.PosOBJ;
 import coloryr.allmusic.hud.obj.SaveOBJ;
 import coloryr.allmusic.music.api.SongInfo;
@@ -15,7 +15,7 @@ public class HudUtils {
         SaveOBJ obj = HudSave.get(player);
         if (obj == null)
             obj = AllMusic.getConfig().getDefaultHud().copy();
-        Pos pos1 = Pos.valueOf(pos);
+        HudPos pos1 = HudPos.valueOf(pos);
         PosOBJ posOBJ = new PosOBJ(0, 0);
         if (!Function.isInteger(x) && !Function.isInteger(y))
             return null;
@@ -68,8 +68,8 @@ public class HudUtils {
                 if (info == null)
                     continue;
                 now = info.getInfo();
-                if (now.length() > 30)
-                    now = now.substring(0, 29) + "...";
+                if (now.length() > AllMusic.getConfig().getMessageLimitSize())
+                    now = now.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
                 list.append(now).append("\n");
             }
         }
@@ -84,34 +84,35 @@ public class HudUtils {
     }
 
     public static void sendHudNowData() {
-        StringBuilder list = new StringBuilder();
+        String info;
         if (PlayMusic.nowPlayMusic == null) {
-            list.append(AllMusic.getMessage().getHud().getNoMusic());
+            info = AllMusic.getMessage().getHud().getNoMusic();
         } else {
-            list.append(PlayMusic.nowPlayMusic.getName()).append("   ")
-                    .append(tranTime(PlayMusic.musicAllTime)).append("/")
-                    .append(tranTime(PlayMusic.musicNowTime / 1000)).append("\n");
-            list.append(PlayMusic.nowPlayMusic.getAuthor()).append("\n");
-            list.append(PlayMusic.nowPlayMusic.getAlia()).append("\n");
-            list.append(PlayMusic.nowPlayMusic.getAl()).append("\n");
-            list.append("by:").append(PlayMusic.nowPlayMusic.getCall());
+            info = AllMusic.getMessage().getHud().getMusic()
+                    .replace("%Name%", PlayMusic.nowPlayMusic.getName())
+                    .replace("%AllTime%", tranTime(PlayMusic.musicAllTime))
+                    .replace("%NowTime%", tranTime(PlayMusic.musicNowTime / 1000))
+                    .replace("%Author%", PlayMusic.nowPlayMusic.getAuthor())
+                    .replace("%Alia%", PlayMusic.nowPlayMusic.getAlia())
+                    .replace("%Al%", PlayMusic.nowPlayMusic.getAl())
+                    .replace("%Player%", PlayMusic.nowPlayMusic.getCall());
         }
 
-        AllMusic.side.sendHudInfo(list.toString());
+        AllMusic.side.sendHudInfo(info);
     }
 
     public static void sendHudLyricData(LyricItem showobj) {
-        StringBuilder list = new StringBuilder();
+        String info;
         if (showobj == null) {
-            list.append(AllMusic.getMessage().getHud().getNoLyric());
+            info = AllMusic.getMessage().getHud().getNoLyric();
         } else {
-            if (showobj.getLyric() != null)
-                list.append(showobj.getLyric()).append("\n");
-            if (showobj.isHaveT() && showobj.getTlyric() != null)
-                list.append(showobj.getTlyric());
+            info = AllMusic.getMessage().getHud().getLyric()
+                    .replace("%Lyric%", showobj.getLyric() == null ? "" : showobj.getLyric())
+                    .replace("%Tlyric%", (showobj.isHaveT() && showobj.getTlyric() != null) ?
+                            showobj.getTlyric() : "");
         }
 
-        AllMusic.side.sendHudLyric(list.toString());
+        AllMusic.side.sendHudLyric(info);
     }
 
     public static boolean setHudEnable(String player, String pos) {
@@ -136,7 +137,7 @@ public class HudUtils {
                     a = true;
                 }
             } else {
-                Pos pos1 = Pos.valueOf(pos);
+                HudPos pos1 = HudPos.valueOf(pos);
                 switch (pos1) {
                     case info:
                         obj.setEnableInfo(!obj.isEnableInfo());
@@ -160,7 +161,7 @@ public class HudUtils {
         if (pos == null) {
             return a;
         } else {
-            Pos pos1 = Pos.valueOf(pos);
+            HudPos pos1 = HudPos.valueOf(pos);
             switch (pos1) {
                 case info:
                     return obj.isEnableInfo();
@@ -176,7 +177,7 @@ public class HudUtils {
     }
 
     public static void clearHud() {
-        AllMusic.side.clearHudAll();
+        AllMusic.side.clearHud();
     }
 
     public static void clearHud(String Name) {

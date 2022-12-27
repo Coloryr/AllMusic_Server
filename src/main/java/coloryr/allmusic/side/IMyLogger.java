@@ -1,4 +1,4 @@
-package coloryr.allmusic.api;
+package coloryr.allmusic.side;
 
 public interface IMyLogger {
     void warning(String data);

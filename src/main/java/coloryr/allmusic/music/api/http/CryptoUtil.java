@@ -1,4 +1,4 @@
-package coloryr.allmusic.http;
+package coloryr.allmusic.music.api.http;
 
 import coloryr.allmusic.AllMusic;
 import com.google.gson.JsonObject;

@@ -1,4 +1,4 @@
-package coloryr.allmusic;
+package coloryr.allmusic.music.api.http;
 
 import okhttp3.Cookie;
 

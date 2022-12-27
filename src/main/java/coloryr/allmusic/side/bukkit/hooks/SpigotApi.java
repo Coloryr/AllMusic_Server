@@ -5,10 +5,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 
 public class SpigotApi {
-    public SpigotApi() {
-        new TextComponent();
-    }
-
     public static void sendMessageRun(Object obj, String Message, String Command) {
         CommandSender sender = (CommandSender) obj;
         TextComponent send = new TextComponent(Message);

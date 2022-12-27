@@ -20,7 +20,7 @@ public class AllMusicBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        AllMusic.log = new BukkitLog(getLogger());
+        AllMusic.log = new LogBukkit(getLogger());
         AllMusic.side = new SideBukkit();
 
         try {
@@ -79,7 +79,7 @@ public class AllMusicBukkit extends JavaPlugin {
             PluginCommand command1 = Bukkit.getPluginCommand("music");
             command1.setExecutor(command);
             command1.setTabCompleter(command);
-            Bukkit.getPluginManager().registerEvents(new EventBukkit(), this);
+            Bukkit.getPluginManager().registerEvents(new ListenerBukkit(), this);
             AllMusic.start();
         }
 

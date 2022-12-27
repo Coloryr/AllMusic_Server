@@ -1,13 +1,13 @@
-package coloryr.allmusic.side.bukkit;
+package coloryr.allmusic.side.bc;
 
-import coloryr.allmusic.api.IMyLogger;
+import coloryr.allmusic.side.IMyLogger;
 
 import java.util.logging.Logger;
 
-public class BukkitLog implements IMyLogger {
+public class LogBC implements IMyLogger {
     private final Logger Logger;
 
-    public BukkitLog(Logger Logger) {
+    public LogBC(Logger Logger) {
         this.Logger = Logger;
     }
 

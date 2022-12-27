@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
-public class logs {
+public class Logs {
     private static final Date date = new Date();
     public static File file;
     private static FileWriter fw;

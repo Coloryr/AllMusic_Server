@@ -1,10 +1,10 @@
-package coloryr.allmusic.http;
+package coloryr.allmusic.music.api.http;
 
-public class Res {
+public class HttpRes {
     private final String data;
     private final boolean ok;
 
-    public Res(String data, boolean ok) {
+    public HttpRes(String data, boolean ok) {
         this.data = data;
         this.ok = ok;
     }

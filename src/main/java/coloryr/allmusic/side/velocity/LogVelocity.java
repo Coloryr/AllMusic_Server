@@ -1,12 +1,12 @@
 package coloryr.allmusic.side.velocity;
 
-import coloryr.allmusic.api.IMyLogger;
+import coloryr.allmusic.side.IMyLogger;
 import org.slf4j.Logger;
 
-public class VelocityLog implements IMyLogger {
+public class LogVelocity implements IMyLogger {
     private final Logger logger;
 
-    public VelocityLog(Logger logger) {
+    public LogVelocity(Logger logger) {
         this.logger = logger;
     }
 

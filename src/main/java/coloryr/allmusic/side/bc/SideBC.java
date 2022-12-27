@@ -2,13 +2,13 @@ package coloryr.allmusic.side.bc;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBC;
-import coloryr.allmusic.api.ISide;
+import coloryr.allmusic.side.ComType;
+import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.hud.HudSave;
 import coloryr.allmusic.hud.obj.SaveOBJ;
 import coloryr.allmusic.music.play.PlayMusic;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.CommandSender;
@@ -28,38 +28,11 @@ import java.util.concurrent.TimeUnit;
 
 public class SideBC implements ISide {
     public static final Set<Server> TopServers = new CopyOnWriteArraySet<>();
-    private boolean isOK(ProxiedPlayer player, boolean in) {
-        if (player == null || player.getServer() == null)
-            return false;
-        if (AllMusic.getConfig().getNoMusicServer()
-                .contains(player.getServer().getInfo().getName()))
-            return false;
-        String name = player.getName();
-        if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
-            return false;
-        return !in || AllMusic.containNowPlay(name);
-    }
 
     @Override
     public void send(String data, String player, Boolean isplay) {
         send(ProxyServer.getInstance().getPlayer(player), data, isplay);
     }
-
-    @Override
-    public void send(String data, Boolean isplay) {
-        try {
-            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-            for (ProxiedPlayer player : values) {
-                if (isplay && !isOK(player, false))
-                    continue;
-                send(player, data, isplay);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲发送发生错误");
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public int getAllPlayer() {
         return ProxyServer.getInstance().getOnlineCount();
@@ -69,12 +42,12 @@ public class SideBC implements ISide {
     public void sendHudLyric(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (!isOK(player, true))
+                if (isOK(player))
                     continue;
                 SaveOBJ obj = HudSave.get(player.getName());
                 if (!obj.isEnableLyric())
                     continue;
-                send(player, "[Lyric]" + data, null);
+                send(player, ComType.lyric + data, null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -86,12 +59,12 @@ public class SideBC implements ISide {
     public void sendHudInfo(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (!isOK(player, true))
+                if (isOK(player))
                     continue;
                 SaveOBJ obj = HudSave.get(player.getName());
                 if (!obj.isEnableInfo())
                     continue;
-                send(player, "[Info]" + data, null);
+                send(player, ComType.info + data, null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -103,13 +76,13 @@ public class SideBC implements ISide {
     public void sendHudList(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (!isOK(player, true))
+                if (isOK(player))
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = HudSave.get(name);
                 if (!obj.isEnableList())
                     continue;
-                send(player, "[List]" + data, null);
+                send(player, ComType.list + data, null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -119,12 +92,11 @@ public class SideBC implements ISide {
 
     @Override
     public void sendHudSaveAll() {
-        for (ProxiedPlayer players : ProxyServer.getInstance().getPlayers()) {
-            String Name = players.getName();
+        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             try {
-                SaveOBJ obj = HudSave.get(Name);
-                String data = new Gson().toJson(obj);
-                send(data, Name, null);
+                SaveOBJ obj = HudSave.get(player.getName());
+                String data = AllMusic.gson.toJson(obj);
+                send(player, data, null);
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -133,16 +105,72 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public void clearHud(String player) {
-        send("[clear]", player, null);
+    public void sendMusic(String url){
+        try {
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                if (isOK(player))
+                    continue;
+                send(player, ComType.play + url, true);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c图片数据发送出错");
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void sendPic(String url){
+        try {
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                if (isOK(player))
+                    continue;
+                String name = player.getName();
+                SaveOBJ obj = HudSave.get(name);
+                if (!obj.isEnablePic())
+                    continue;
+                send(player, ComType.img + url, null);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c图片数据发送出错");
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void clearHudAll() {
+    public void sendStop() {
+        try {
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                send(player, ComType.stop, false);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendStop(String name) {
+        try {
+            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(name);
+            if (player == null)
+                return;
+            send(player, ComType.stop, false);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void clearHud(String player) {
+        send(ComType.clear, player, null);
+    }
+
+    @Override
+    public void clearHud() {
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer players : values) {
-                send(players, "[clear]", null);
+                send(players, ComType.clear, null);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
@@ -154,15 +182,13 @@ public class SideBC implements ISide {
     public void bq(String data) {
         if (AllMusic.getConfig().isMessageLimit()
                 && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
-            data = data.substring(0, 30) + "...";
+            data = data.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
         }
         TextComponent message = new TextComponent(data);
-        for (ServerInfo server : ProxyServer.getInstance().getServers().values()) {
-            if (AllMusic.getConfig().getNoMusicServer().contains(server.getName()))
+        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+            if (isOK(player))
                 continue;
-            for (ProxiedPlayer player : server.getPlayers())
-                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
-                    player.sendMessage(message);
+            player.sendMessage(message);
         }
     }
 
@@ -172,7 +198,7 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public boolean NeedPlay() {
+    public boolean needPlay() {
         int online = 0;
         for (ServerInfo server : ProxyServer.getInstance().getServers().values()) {
             if (AllMusic.getConfig().getNoMusicServer().contains(server.getName()))
@@ -235,7 +261,8 @@ public class SideBC implements ISide {
 
     @Override
     public void task(Runnable run, int delay) {
-        ProxyServer.getInstance().getScheduler().schedule(AllMusicBC.plugin, run, delay, TimeUnit.MICROSECONDS);
+        ProxyServer.getInstance().getScheduler()
+                .schedule(AllMusicBC.plugin, run, delay, TimeUnit.MICROSECONDS);
     }
 
     public static void sendAllToServer(Server server){
@@ -306,6 +333,11 @@ public class SideBC implements ISide {
         else
             out.writeUTF(PlayMusic.lyricItem.getTlyric());
         server.sendData(AllMusic.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(9);
+        out.writeBoolean(PlayMusic.lyricItem.isHaveT());
+        server.sendData(AllMusic.channelBC, out.toByteArray());
     }
 
     @Override
@@ -330,19 +362,15 @@ public class SideBC implements ISide {
         }
     }
 
-    public static void sendPingToServer(Server server){
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeInt(200);
-        server.sendData(AllMusic.channelBC, out.toByteArray());
-    }
-
     @Override
     public void ping() {
         Iterator<Server> iterator = TopServers.iterator();
         while (iterator.hasNext()) {
             Server server = iterator.next();
             if (server.isConnected()) {
-                sendPingToServer(server);
+                ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                out.writeInt(200);
+                server.sendData(AllMusic.channelBC, out.toByteArray());
             } else {
                 iterator.remove();
             }
@@ -369,5 +397,17 @@ public class SideBC implements ISide {
             AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
             e.printStackTrace();
         }
+    }
+
+    private boolean isOK(ProxiedPlayer player) {
+        if (player == null || player.getServer() == null)
+            return true;
+        if (AllMusic.getConfig().getNoMusicServer()
+                .contains(player.getServer().getInfo().getName()))
+            return true;
+        String name = player.getName();
+        if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
+            return true;
+        return !AllMusic.containNowPlay(name);
     }
 }

@@ -12,9 +12,11 @@ import java.sql.Statement;
 import java.text.MessageFormat;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Semaphore;
 
 public class DataSql {
     private static final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
+    private static final Semaphore semaphore = new Semaphore(0);
     private static boolean isRun;
 
     private static Connection connection;
@@ -41,6 +43,7 @@ public class DataSql {
 
     public static void init() {
         try {
+            AllMusic.log.info("正在初始化数据库");
             if (connection != null)
                 connection.close();
             Class.forName("org.sqlite.JDBC");
@@ -127,6 +130,7 @@ public class DataSql {
 
     private static void readAll() {
         try {
+            AllMusic.log.info("正在读取数据库所有内容");
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
@@ -166,6 +170,7 @@ public class DataSql {
 
     public static void task(Runnable runnable) {
         tasks.add(runnable);
+        semaphore.release();
     }
 
     public static void start() {
@@ -178,6 +183,7 @@ public class DataSql {
 
     public static void stop() {
         isRun = false;
+        semaphore.release();
         HudSave.save();
     }
 
@@ -185,11 +191,16 @@ public class DataSql {
         Runnable runnable;
         while (isRun) {
             try {
-                runnable = tasks.poll();
-                if (runnable != null) {
-                    runnable.run();
+                semaphore.acquire();
+                if (!isRun)
+                    return;
+                do {
+                    runnable = tasks.poll();
+                    if (runnable != null) {
+                        runnable.run();
+                    }
                 }
-                Thread.sleep(50);
+                while (runnable != null);
             } catch (Exception e) {
                 e.printStackTrace();
             }

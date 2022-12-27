@@ -11,7 +11,7 @@ public class AllMusicBC extends Plugin {
     @Override
     public void onEnable() {
         plugin = this;
-        AllMusic.log = new BCLog(ProxyServer.getInstance().getLogger());
+        AllMusic.log = new LogBC(ProxyServer.getInstance().getLogger());
         AllMusic.side = new SideBC();
 
         new AllMusic().init(plugin.getDataFolder());
@@ -20,7 +20,7 @@ public class AllMusicBC extends Plugin {
             return;
         ProxyServer.getInstance().registerChannel(AllMusic.channelBC);
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new CommandBC());
-        ProxyServer.getInstance().getPluginManager().registerListener(this, new EventBC());
+        ProxyServer.getInstance().getPluginManager().registerListener(this, new ListenerBC());
         new MetricsBC(this, 6720);
 
         AllMusic.start();

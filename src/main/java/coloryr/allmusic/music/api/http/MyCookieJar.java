@@ -1,16 +1,17 @@
-package coloryr.allmusic.http;
+package coloryr.allmusic.music.api.http;
 
 import coloryr.allmusic.AllMusic;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MyCookieJar implements CookieJar {
     @Override
-    public void saveFromResponse(HttpUrl httpUrl, List<Cookie> list) {
+    public void saveFromResponse(HttpUrl httpUrl, @NotNull List<Cookie> list) {
         if (AllMusic.cookie.cookieStore.containsKey(httpUrl.host())) {
             List<Cookie> cookies = AllMusic.cookie.cookieStore.get(httpUrl.host());
             for (Cookie item : list) {
@@ -30,7 +31,7 @@ public class MyCookieJar implements CookieJar {
     }
 
     @Override
-    public List<Cookie> loadForRequest(HttpUrl httpUrl) {
+    public @NotNull List<Cookie> loadForRequest(HttpUrl httpUrl) {
         List<Cookie> cookies = AllMusic.cookie.cookieStore.get(httpUrl.host());
         return cookies != null ? cookies : new CopyOnWriteArrayList<>();
     }

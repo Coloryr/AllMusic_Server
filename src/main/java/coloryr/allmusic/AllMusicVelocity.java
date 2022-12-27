@@ -38,7 +38,7 @@ public class AllMusicVelocity {
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         plugin = this;
-        AllMusic.log = new VelocityLog(logger);
+        AllMusic.log = new LogVelocity(logger);
         new AllMusic().init(dataDirectory.toFile());
         CommandMeta meta = server.getCommandManager().metaBuilder("music")
                 // Specify other aliases (optional)
@@ -49,7 +49,7 @@ public class AllMusicVelocity {
         AllMusic.side = new SideVelocity();
         server.getChannelRegistrar().register(channelBC);
         server.getCommandManager().register(meta, new CommandVelocity());
-        server.getEventManager().register(this, new EventVelocity());
+        server.getEventManager().register(this, new ListenerVelocity());
         metricsFactory.make(this, 6720);
 
         AllMusic.start();

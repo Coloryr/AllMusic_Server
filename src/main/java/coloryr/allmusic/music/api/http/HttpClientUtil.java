@@ -1,4 +1,4 @@
-package coloryr.allmusic.http;
+package coloryr.allmusic.music.api.http;
 
 import coloryr.allmusic.AllMusic;
 import com.google.gson.JsonElement;
@@ -34,7 +34,7 @@ public class HttpClientUtil {
         }
     }
 
-    public static Res get(String path, String data) {
+    public static HttpRes get(String path, String data) {
         try {
             data = URLEncoder.encode(data, "UTF-8");
             Request request = new Request.Builder().url(path + data)
@@ -62,7 +62,7 @@ public class HttpClientUtil {
             if (!ok) {
                 AllMusic.log.warning("§d[AllMusic]§c服务器返回错误：" + data1);
             }
-            return new Res(data1, ok);
+            return new HttpRes(data1, ok);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c获取网页错误");
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class HttpClientUtil {
         return null;
     }
 
-    public static Res post(String url, JsonObject data, EncryptType type, String ourl) {
+    public static HttpRes post(String url, JsonObject data, EncryptType type, String ourl) {
         try {
             RequestBody formBody;
             Request.Builder request = new Request.Builder();
@@ -158,7 +158,7 @@ public class HttpClientUtil {
             if (!ok) {
                 AllMusic.log.warning("§d[AllMusic]§c服务器返回错误：" + data1);
             }
-            return new Res(data1, ok);
+            return new HttpRes(data1, ok);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c获取网页错误");
             e.printStackTrace();

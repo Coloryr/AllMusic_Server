@@ -1,4 +1,4 @@
-package coloryr.allmusic.http;
+package coloryr.allmusic.music.api.http;
 
 public class EncRes {
     public String params;

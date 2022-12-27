@@ -6,7 +6,7 @@ import coloryr.allmusic.decoder.Header;
 import coloryr.allmusic.music.api.SongInfo;
 import coloryr.allmusic.music.lyric.LyricSave;
 import coloryr.allmusic.music.lyric.LyricItem;
-import coloryr.allmusic.utils.logs;
+import coloryr.allmusic.utils.Logs;
 
 import java.io.BufferedInputStream;
 import java.net.URL;
@@ -75,7 +75,7 @@ public class PlayMusic {
             text = text.replace("%MusicID%", id);
             AllMusic.side.sendMessaget(sender, text);
         }
-        logs.logWrite("玩家：" + player + " 点歌：" + id);
+        Logs.logWrite("玩家：" + player + " 点歌：" + id);
         try {
             SongInfo info = AllMusic.getMusicApi().getMusic(id, player, isList);
             if (info != null) {

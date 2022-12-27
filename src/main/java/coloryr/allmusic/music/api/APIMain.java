@@ -1,9 +1,9 @@
 package coloryr.allmusic.music.api;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.http.EncryptType;
-import coloryr.allmusic.http.HttpClientUtil;
-import coloryr.allmusic.http.Res;
+import coloryr.allmusic.music.api.http.EncryptType;
+import coloryr.allmusic.music.api.http.HttpClientUtil;
+import coloryr.allmusic.music.api.http.HttpRes;
 import coloryr.allmusic.music.api.obj.music.info.InfoOBJ;
 import coloryr.allmusic.music.api.obj.music.list.DataOBJ;
 import coloryr.allmusic.music.api.obj.music.lyric.WLyricOBJ;
@@ -16,7 +16,7 @@ import coloryr.allmusic.music.lyric.LyricSave;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.music.search.SearchOBJ;
 import coloryr.allmusic.music.search.SearchPage;
-import coloryr.allmusic.utils.logs;
+import coloryr.allmusic.utils.Logs;
 import com.google.gson.JsonObject;
 import okhttp3.Cookie;
 
@@ -33,7 +33,7 @@ public class APIMain {
     public APIMain() {
         AllMusic.log.info("§d[AllMusic]§e正在初始化网络爬虫");
         HttpClientUtil.init();
-        Res res = HttpClientUtil.get("https://music.163.com", "");
+        HttpRes res = HttpClientUtil.get("https://music.163.com", "");
         if (res == null || !res.isOk()) {
             AllMusic.log.info("§d[AllMusic]§c初始化网络爬虫连接失败");
         }
@@ -43,7 +43,7 @@ public class APIMain {
         JsonObject params = new JsonObject();
         params.addProperty("ctcode", "86");
         params.addProperty("cellphone", AllMusic.getConfig().getLoginUser());
-        Res res = HttpClientUtil.post("https://music.163.com/api/sms/captcha/sent", params, EncryptType.WEAPI, null);
+        HttpRes res = HttpClientUtil.post("https://music.163.com/api/sms/captcha/sent", params, EncryptType.WEAPI, null);
         AllMusic.side.sendMessage(sender, "§d[AllMusic]§d已发送验证码\n" + res.getData());
     }
 
@@ -74,7 +74,7 @@ public class APIMain {
         params.addProperty("countrycode", "86");
         params.addProperty("phone", AllMusic.getConfig().getLoginUser());
         params.addProperty("captcha", code);
-        Res res = HttpClientUtil.post("https://music.163.com/eapi/w/login/cellphone", params, EncryptType.WEAPI, null);
+        HttpRes res = HttpClientUtil.post("https://music.163.com/eapi/w/login/cellphone", params, EncryptType.WEAPI, null);
         if (res == null || !res.isOk()) {
             if (sender == null)
                 AllMusic.log.info("§d[AllMusic]§c登录失败");
@@ -99,7 +99,7 @@ public class APIMain {
         JsonObject params = new JsonObject();
         params.addProperty("c", "[{\"id\":" + ID + "}]");
 
-        Res res = HttpClientUtil.post("https://music.163.com/api/v3/song/detail", params, EncryptType.WEAPI, null);
+        HttpRes res = HttpClientUtil.post("https://music.163.com/api/v3/song/detail", params, EncryptType.WEAPI, null);
         if (res != null && res.isOk()) {
             InfoOBJ temp = AllMusic.gson.fromJson(res.getData(), InfoOBJ.class);
             if (temp.isok()) {
@@ -126,7 +126,7 @@ public class APIMain {
             return info;
         JsonObject params = new JsonObject();
         params.addProperty("id", ID);
-        Res res = HttpClientUtil.post("https://music.163.com/api/dj/program/detail", params, EncryptType.WEAPI, null);
+        HttpRes res = HttpClientUtil.post("https://music.163.com/api/dj/program/detail", params, EncryptType.WEAPI, null);
         if (res != null && res.isOk()) {
             PrInfoOBJ temp = AllMusic.gson.fromJson(res.getData(), PrInfoOBJ.class);
             if (temp.isOK()) {
@@ -144,13 +144,13 @@ public class APIMain {
         JsonObject params = new JsonObject();
         params.addProperty("ids", "[" + ID + "]");
         params.addProperty("br", AllMusic.getConfig().getMusicBR());
-        Res res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
+        HttpRes res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
         if (res != null && res.isOk()) {
             try {
                 TrialInfoObj obj = AllMusic.gson.fromJson(res.getData(), TrialInfoObj.class);
                 return obj.getUrl();
             } catch (Exception e) {
-                logs.logWrite(res.getData());
+                Logs.logWrite(res.getData());
                 AllMusic.log.warning("§d[AllMusic]§c播放连接解析错误");
                 e.printStackTrace();
             }
@@ -164,7 +164,7 @@ public class APIMain {
             params.addProperty("id", ID);
             params.addProperty("n", 100000);
             params.addProperty("s", 8);
-            Res res = HttpClientUtil.post("https://music.163.com/api/v6/playlist/detail", params, EncryptType.API, null);
+            HttpRes res = HttpClientUtil.post("https://music.163.com/api/v6/playlist/detail", params, EncryptType.API, null);
             if (res != null && res.isOk())
                 try {
                     isUpdata = true;
@@ -188,7 +188,7 @@ public class APIMain {
         params.addProperty("lv", -1);
         params.addProperty("kv", -1);
         params.addProperty("tv", -1);
-        Res res = HttpClientUtil.post("https://music.163.com/api/song/lyric", params, EncryptType.API, null);
+        HttpRes res = HttpClientUtil.post("https://music.163.com/api/song/lyric", params, EncryptType.API, null);
         if (res != null && res.isOk()) {
             try {
                 WLyricOBJ obj = AllMusic.gson.fromJson(res.getData(), WLyricOBJ.class);
@@ -231,7 +231,7 @@ public class APIMain {
         params.addProperty("limit", 30);
         params.addProperty("offset", 0);
 
-        Res res = HttpClientUtil.post("https://music.163.com/weapi/search/get", params, EncryptType.WEAPI, null);
+        HttpRes res = HttpClientUtil.post("https://music.163.com/weapi/search/get", params, EncryptType.WEAPI, null);
         if (res != null && res.isOk()) {
             SearchDataOBJ obj = AllMusic.gson.fromJson(res.getData(), SearchDataOBJ.class);
             if (obj != null && obj.isok()) {

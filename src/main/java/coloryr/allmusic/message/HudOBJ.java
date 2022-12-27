@@ -8,6 +8,8 @@ public class HudOBJ {
     private String NoList;
     private String NoLyric;
     private String PicSize;
+    private String Music;
+    private String Lyric;
 
     public HudOBJ() {
         State = "§d[ALLMusic]§2设置信息位置：%Hud%，状态：%State%";
@@ -17,25 +19,39 @@ public class HudOBJ {
         NoList = "队列中无歌曲";
         NoLyric = "无歌词";
         PicSize = "§d[ALLMusic]§2设置图片尺寸为%Size%";
+        Music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
+        Lyric = "%Lyric%\n%Tlyric%";
     }
 
-    public boolean check(){
-        if(State == null)
+    public boolean check() {
+        if (State == null)
             return true;
-        if(Set == null)
+        if (Set == null)
             return true;
-        if(Reset == null)
+        if (Reset == null)
             return true;
-        if(NoMusic == null)
+        if (NoMusic == null)
             return true;
-        if(NoList == null)
+        if (NoList == null)
             return true;
-        if(NoLyric == null)
+        if (NoLyric == null)
             return true;
-        if(PicSize == null)
+        if (PicSize == null)
+            return true;
+        if (Music == null)
+            return true;
+        if (Lyric == null)
             return true;
 
         return false;
+    }
+
+    public String getLyric() {
+        return Lyric;
+    }
+
+    public String getMusic() {
+        return Music;
     }
 
     public String getPicSize() {

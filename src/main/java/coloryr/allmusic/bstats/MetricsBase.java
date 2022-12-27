@@ -23,7 +23,7 @@ public class MetricsBase {
     /**
      * The version of the Metrics class.
      */
-    public static final String METRICS_VERSION = "2.1.0";
+    public static final String METRICS_VERSION = "3.0.1-SNAPSHOT";
 
     private static final ScheduledExecutorService scheduler =
             Executors.newScheduledThreadPool(1, task -> new Thread(task, "bStats-Metrics"));
@@ -50,23 +50,23 @@ public class MetricsBase {
     /**
      * Creates a new MetricsBase class instance.
      *
-     * @param platform                    The platform of the service.
-     * @param serviceId                   The id of the service.
-     * @param serverUuid                  The server uuid.
-     * @param enabled                     Whether or not data sending is enabled.
-     * @param appendPlatformDataConsumer  A consumer that receives a {@code JsonObjectBuilder} and appends all
-     *                                    platform-specific data.
-     * @param appendServiceDataConsumer   A consumer that receives a {@code JsonObjectBuilder} and appends all
-     *                                    service-specific data.
-     * @param submitTaskConsumer          A consumer that takes a runnable with the submit task.
-     *                                    This can be used to delegate the data collection to a another thread to prevent
-     *                                    errors caused by concurrency. Can be {@code null}.
+     * @param platform The platform of the service.
+     * @param serviceId The id of the service.
+     * @param serverUuid The server uuid.
+     * @param enabled Whether or not data sending is enabled.
+     * @param appendPlatformDataConsumer A consumer that receives a {@code JsonObjectBuilder} and appends all
+     *                                   platform-specific data.
+     * @param appendServiceDataConsumer A consumer that receives a {@code JsonObjectBuilder} and appends all
+     *                                  service-specific data.
+     * @param submitTaskConsumer A consumer that takes a runnable with the submit task.
+     *                           This can be used to delegate the data collection to a another thread to prevent
+     *                           errors caused by concurrency. Can be {@code null}.
      * @param checkServiceEnabledSupplier A supplier to check if the service is still enabled.
-     * @param errorLogger                 A consumer that accepts log message and an error.
-     * @param infoLogger                  A consumer that accepts info log messages.
-     * @param logErrors                   Whether or not errors should be logged.
-     * @param logSentData                 Whether or not the sent data should be logged.
-     * @param logResponseStatusText       Whether or not the response status text should be logged.
+     * @param errorLogger A consumer that accepts log message and an error.
+     * @param infoLogger A consumer that accepts info log messages.
+     * @param logErrors Whether or not errors should be logged.
+     * @param logSentData Whether or not the sent data should be logged.
+     * @param logResponseStatusText Whether or not the response status text should be logged.
      */
     public MetricsBase(
             String platform,
@@ -99,26 +99,9 @@ public class MetricsBase {
 
         checkRelocation();
 
-        if (enabled) {
+        if (enabled) { // WARNING: Removing the option to opt-out will get your plugin banned from bStats
             startSubmitting();
         }
-    }
-
-    /**
-     * Gzips the given string.
-     *
-     * @param str The string to gzip.
-     * @return The gzipped string.
-     */
-    private static byte[] compress(final String str) throws IOException {
-        if (str == null) {
-            return null;
-        }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
-            gzip.write(str.getBytes(StandardCharsets.UTF_8));
-        }
-        return outputStream.toByteArray();
     }
 
     public void addCustomChart(CustomChart chart) {
@@ -233,6 +216,23 @@ public class MetricsBase {
                 throw new IllegalStateException("bStats Metrics class has not been relocated correctly!");
             }
         }
+    }
+
+    /**
+     * Gzips the given string.
+     *
+     * @param str The string to gzip.
+     * @return The gzipped string.
+     */
+    private static byte[] compress(final String str) throws IOException {
+        if (str == null) {
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
+            gzip.write(str.getBytes(StandardCharsets.UTF_8));
+        }
+        return outputStream.toByteArray();
     }
 
 }

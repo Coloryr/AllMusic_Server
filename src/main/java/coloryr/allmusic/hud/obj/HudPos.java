@@ -1,5 +1,5 @@
 package coloryr.allmusic.hud.obj;
 
-public enum Pos {
+public enum HudPos {
     info, list, lyric, pic
 }

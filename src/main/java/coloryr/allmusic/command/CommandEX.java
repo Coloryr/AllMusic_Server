@@ -51,7 +51,7 @@ public class CommandEX {
                     }
                 }
                 AllMusic.getConfig().RemoveNoMusicPlayer(name);
-                if (AllMusic.side.NeedPlay()) {
+                if (AllMusic.side.needPlay()) {
                     MusicObj obj = new MusicObj();
                     obj.sender = sender;
                     obj.id = musicID;
