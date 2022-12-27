@@ -1,7 +1,6 @@
 package coloryr.allmusic.side.velocity.event;
 
 import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.play.MusicObj;
 
 public class MusicPlayEvent {
     private final SongInfo music;

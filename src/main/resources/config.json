@@ -44,6 +44,7 @@
   "UseCost": false,
   "SearchCost": 20,
   "AddMusicCost": 10,
+  "MaxMusicTime": 600,
   "MusicBR": "320000",
   "Version": "100"
 }

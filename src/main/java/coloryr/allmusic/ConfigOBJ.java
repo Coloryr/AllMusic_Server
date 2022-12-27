@@ -42,6 +42,7 @@ public class ConfigOBJ {
     private boolean MutePlayMessage;
     private boolean MuteAddMessage;
     private boolean ShowInBar;
+    private int MaxMusicTime;
 
     public ConfigOBJ() {
         MaxList = 10;
@@ -72,11 +73,17 @@ public class ConfigOBJ {
 
         MusicBR = "320000";
 
+        MaxMusicTime = 600;
+
         TopPAPI = false;
         MessageLimit = false;
         MessageLimitSize = 40;
 
         Version = AllMusic.version;
+    }
+
+    public int getMaxMusicTime() {
+        return MaxMusicTime;
     }
 
     public boolean isShowInBar() {

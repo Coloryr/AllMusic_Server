@@ -113,7 +113,7 @@ public class SideBC implements ISide {
 
     @Override
     public void sendBar(String data) {
-        BaseComponent[] message = TextComponent.fromLegacyText(data);
+        TextComponent message = new TextComponent(data);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             try {
                 player.sendMessage(ChatMessageType.ACTION_BAR, message);
@@ -357,7 +357,7 @@ public class SideBC implements ISide {
 
         out = ByteStreams.newDataOutput();
         out.writeInt(9);
-        out.writeBoolean(PlayMusic.lyricItem.isHaveT());
+        out.writeBoolean(PlayMusic.lyricItem != null && PlayMusic.lyricItem.isHaveT());
         server.sendData(AllMusic.channelBC, out.toByteArray());
     }
 

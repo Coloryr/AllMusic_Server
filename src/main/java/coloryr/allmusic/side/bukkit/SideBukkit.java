@@ -147,7 +147,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public void sendBar(String data) {
-        if(AllMusicBukkit.spigotSet) {
+        if (AllMusicBukkit.spigotSet) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 try {
                     SpigotApi.sendBar(player, data);

@@ -57,7 +57,7 @@ public class MusicPlayOBJ {
             res = true;
         if (Trail == null)
             res = true;
-        if(Cancel == null)
+        if (Cancel == null)
             res = true;
 
         return res;

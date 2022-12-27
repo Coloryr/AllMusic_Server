@@ -8,7 +8,7 @@ public class MusicAddEvent {
     private final CommandSource player;
     private boolean cancel = false;
 
-    public MusicAddEvent(MusicObj id, CommandSource player){
+    public MusicAddEvent(MusicObj id, CommandSource player) {
         this.music = id;
         this.player = player;
     }

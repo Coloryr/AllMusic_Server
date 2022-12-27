@@ -1,7 +1,6 @@
 package coloryr.allmusic.side.bukkit.event;
 
 import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.play.MusicObj;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;

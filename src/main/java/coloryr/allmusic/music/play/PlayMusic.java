@@ -78,21 +78,25 @@ public class PlayMusic {
         Logs.logWrite("玩家：" + player + " 点歌：" + id);
         try {
             SongInfo info = AllMusic.getMusicApi().getMusic(id, player, isList);
-            if (info != null) {
-                playList.add(info);
-                if (!AllMusic.getConfig().isMuteAddMessage()) {
-                    String data = AllMusic.getMessage().getMusicPlay().getAddMusic();
-                    data = data.replace("%MusicName%", info.getName())
-                            .replace("%MusicAuthor%", info.getAuthor())
-                            .replace("%MusicAl%", info.getAl())
-                            .replace("%MusicAlia%", info.getAlia());
-                    AllMusic.side.bqt(data);
-                }
-            } else {
+            if (info == null) {
                 if (sender != null) {
                     String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
                     AllMusic.side.sendMessaget(sender, data.replace("%MusicID%", id));
                 }
+                return;
+            }
+            if (info.getLength() / 1000 > AllMusic.getConfig().getMaxMusicTime()) {
+                AllMusic.side.sendMessaget(sender, AllMusic.getMessage().getAddMusic().getTimeOut());
+                return;
+            }
+            playList.add(info);
+            if (!AllMusic.getConfig().isMuteAddMessage()) {
+                String data = AllMusic.getMessage().getMusicPlay().getAddMusic();
+                data = data.replace("%MusicName%", info.getName())
+                        .replace("%MusicAuthor%", info.getAuthor())
+                        .replace("%MusicAl%", info.getAl())
+                        .replace("%MusicAlia%", info.getAlia());
+                AllMusic.side.bqt(data);
             }
             if (AllMusic.getConfig().isPlayListSwitch()
                     && (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList())) {

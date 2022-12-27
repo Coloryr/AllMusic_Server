@@ -9,7 +9,7 @@ public class MusicAddEvent extends Event {
     private final CommandSender player;
     private boolean cancel = false;
 
-    public MusicAddEvent(MusicObj id, CommandSender player){
+    public MusicAddEvent(MusicObj id, CommandSender player) {
         this.music = id;
         this.player = player;
     }

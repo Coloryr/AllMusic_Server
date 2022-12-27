@@ -1,6 +1,5 @@
 package coloryr.allmusic;
 
-import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.obj.HudPos;
 import coloryr.allmusic.side.ComType;
 

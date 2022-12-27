@@ -44,7 +44,7 @@ public class HudOBJ {
             return true;
         if (Lyric == null)
             return true;
-        if(List == null)
+        if (List == null)
             return true;
 
         return false;

@@ -8,6 +8,7 @@ public class AddMusicOBJ {
     private String NoPlayer;
     private String NoID;
     private String Cancel;
+    private String TimeOut;
 
     public AddMusicOBJ() {
         ListFull = "§d[AllMusic]§c错误，队列已满";
@@ -17,6 +18,7 @@ public class AddMusicOBJ {
         NoPlayer = "§d[AllMusic]§c没有播放的玩家";
         NoID = "§d[AllMusic]§c错误，请输入歌曲数字ID";
         Cancel = "§d[AllMusic]§e点歌被取消";
+        TimeOut = "§d[AllMusic]§e点歌被取消，音乐长度过长";
     }
 
     public boolean check() {
@@ -32,10 +34,16 @@ public class AddMusicOBJ {
             return true;
         if (NoID == null)
             return true;
-        if(Cancel == null)
+        if (Cancel == null)
+            return true;
+        if(TimeOut == null)
             return true;
 
         return false;
+    }
+
+    public String getTimeOut() {
+        return TimeOut;
     }
 
     public String getCancel() {
