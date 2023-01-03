@@ -168,18 +168,6 @@ public class AllMusic {
         MusicSearch.start();
         DataSql.start();
 
-        if(config.getEconomys().isNyEconomy()){
-            NyEconomyHandle handle = new NyEconomyHandle();
-            if(handle.start()){
-                log.info("§d[AllMusic]§eNyEconomy已对接");
-                economy = handle;
-            }
-            else
-            {
-                log.warning("§d[AllMusic]§cNyEconomy对接失败");
-            }
-        }
-
         log.info("§d[AllMusic]§e已启动-" + version);
     }
 
