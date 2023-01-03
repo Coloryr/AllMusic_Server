@@ -48,24 +48,6 @@ public class AllMusicBukkit extends JavaPlugin {
             AllMusic.log.info("§2PAPI未挂钩");
         }
 
-        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
-            try {
-                AllMusic.vault = new VaultHook();
-                if (AllMusic.vault.setupEconomy()) {
-                    AllMusic.log.info("§2Vault支持已启动");
-                } else {
-                    AllMusic.log.info("§2Vault未挂钩");
-                    AllMusic.vault = null;
-                }
-            } catch (Exception e) {
-                AllMusic.log.info("§2Vault未挂钩");
-                AllMusic.vault = null;
-            }
-        } else {
-            AllMusic.log.info("§2Vault未挂钩");
-            AllMusic.vault = null;
-        }
-
         if (AllMusic.getConfig().isTopPAPI()) {
             PlayMusic.nowPlayMusic = new TopSongInfo();
             PlayMusic.lyricItem = new TopLyricItem();
@@ -74,6 +56,25 @@ public class AllMusicBukkit extends JavaPlugin {
             getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);
             AllMusic.log.info("§2设置为顶层模式");
         } else {
+            if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+                try {
+                    VaultHook vault = new VaultHook();
+                    AllMusic.economy = vault;
+                    if (vault.setupEconomy()) {
+                        AllMusic.log.info("§2Vault支持已启动");
+                    } else {
+                        AllMusic.log.info("§2Vault未挂钩");
+                        AllMusic.economy = null;
+                    }
+                } catch (Exception e) {
+                    AllMusic.log.info("§2Vault未挂钩");
+                    AllMusic.economy = null;
+                }
+            } else {
+                AllMusic.log.info("§2Vault未挂钩");
+                AllMusic.economy = null;
+            }
+
             CommandBukkit command = new CommandBukkit();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);
             PluginCommand command1 = Bukkit.getPluginCommand("music");

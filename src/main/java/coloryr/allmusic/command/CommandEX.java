@@ -28,6 +28,27 @@ public class CommandEX {
         MusicSearch.addSearch(obj);
     }
 
+    private static boolean checkMoney(Object sender, String name, int cost) {
+        if (AllMusic.getConfig().isUseCost() && AllMusic.economy != null) {
+            if (!AllMusic.economy.check(name, AllMusic.getConfig().getAddMusicCost())) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCost().getNoMoney());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean cost(Object sender, String name, int cost, String message) {
+        if (AllMusic.economy.cost(name, AllMusic.getConfig().getAddMusicCost())) {
+            AllMusic.side.sendMessage(sender, message
+                    .replace("%Cost%", "" + AllMusic.getConfig().getAddMusicCost()));
+            return false;
+        } else {
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCost().getCostFail());
+            return true;
+        }
+    }
+
     private static void addMusic(Object sender, String name, String[] args) {
         String musicID;
         if (args[0].contains("id=") && !args[0].contains("/?userid")) {
@@ -50,11 +71,12 @@ public class CommandEX {
             } else if (PlayMusic.isHave(musicID)) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getExistMusic());
             } else {
-                if (AllMusic.getConfig().isUseCost() && AllMusic.vault != null) {
-                    if (!AllMusic.vault.check(name, AllMusic.getConfig().getAddMusicCost())) {
-                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCost().getNoMoney());
-                        return;
-                    }
+                if (checkMoney(sender, name, AllMusic.getConfig().getAddMusicCost())) {
+                    return;
+                }
+                if (cost(sender, name, AllMusic.getConfig().getAddMusicCost(),
+                        AllMusic.getMessage().getCost().getAddMusic())) {
+                    return;
                 }
                 AllMusic.getConfig().RemoveNoMusicPlayer(name);
                 if (AllMusic.side.needPlay()) {
@@ -71,11 +93,6 @@ public class CommandEX {
 
                     PlayMusic.addTask(obj);
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getSuccess());
-                    if (AllMusic.getConfig().isUseCost() && AllMusic.vault != null) {
-                        AllMusic.vault.cost(name, AllMusic.getConfig().getAddMusicCost(),
-                                AllMusic.getMessage().getCost().getAddMusic()
-                                        .replace("%Cost%", "" + AllMusic.getConfig().getAddMusicCost()));
-                    }
                 } else
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().getAddMusic().getNoPlayer());
             }
@@ -182,7 +199,8 @@ public class CommandEX {
             }
             return;
         } else if (args[0].equalsIgnoreCase("vote")) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.vote")) {
+            if (AllMusic.getConfig().isNeedPermission() &&
+                    AllMusic.side.checkPermission(name, "allmusic.vote")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getVote().getNoPermission());
                 return;
             }
@@ -215,24 +233,25 @@ public class CommandEX {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().getMusicPlay().getNoPlayMusic());
             return;
         } else if (args[0].equalsIgnoreCase("search") && args.length >= 2) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.search")) {
+            if (AllMusic.getConfig().isNeedPermission() &&
+                    AllMusic.side.checkPermission(name, "allmusic.search")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
-            if (AllMusic.getConfig().isUseCost() && AllMusic.vault != null) {
-                if (!AllMusic.vault.check(name, AllMusic.getConfig().getSearchCost())) {
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCost().getNoMoney());
-                    return;
-                }
-                AllMusic.vault.cost(name, AllMusic.getConfig().getAddMusicCost(),
-                        AllMusic.getMessage().getCost().getAddMusic()
-                                .replace("%Cost%", "" + AllMusic.getConfig().getAddMusicCost()));
+            if (checkMoney(sender, name, AllMusic.getConfig().getSearchCost())) {
+                return;
             }
+            if (cost(sender, name, AllMusic.getConfig().getSearchCost(),
+                    AllMusic.getMessage().getCost().getSearch())) {
+                return;
+            }
+
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getStartSearch());
             searchMusic(sender, name, args, false);
             return;
         } else if (args[0].equalsIgnoreCase("select") && args.length == 2) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.search")) {
+            if (AllMusic.getConfig().isNeedPermission() &&
+                    AllMusic.side.checkPermission(name, "allmusic.search")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
@@ -247,7 +266,8 @@ public class CommandEX {
                 }
                 String[] ID = new String[1];
                 ID[0] = obj.getSong((obj.getPage() * 10) + (a - 1));
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getChose().replace("%Num%", "" + a));
+                AllMusic.side.sendMessage(sender,
+                        AllMusic.getMessage().getSearch().getChose().replace("%Num%", "" + a));
                 addMusic(sender, name, ID);
                 AllMusic.removeSearch(name);
             } else {
@@ -255,7 +275,8 @@ public class CommandEX {
             }
             return;
         } else if (args[0].equalsIgnoreCase("nextpage")) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.search")) {
+            if (AllMusic.getConfig().isNeedPermission() &&
+                    AllMusic.side.checkPermission(name, "allmusic.search")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
@@ -269,7 +290,8 @@ public class CommandEX {
             }
             return;
         } else if (args[0].equalsIgnoreCase("lastpage")) {
-            if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.search")) {
+            if (AllMusic.getConfig().isNeedPermission() &&
+                    AllMusic.side.checkPermission(name, "allmusic.search")) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().getSearch().getNoPer());
                 return;
             }
@@ -311,7 +333,8 @@ public class CommandEX {
                         AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCommand().getError());
                         return;
                     }
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().getHud().getPicSize().replace("%Size%", args[2]));
+                    AllMusic.side.sendMessage(sender,
+                            AllMusic.getMessage().getHud().getPicSize().replace("%Size%", args[2]));
                 } else if (args.length != 4) {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCommand().getError());
                 } else {
@@ -401,7 +424,8 @@ public class CommandEX {
                 return;
             }
         }
-        if (AllMusic.getConfig().isNeedPermission() && AllMusic.side.checkPermission(name, "allmusic.addmusic"))
+        if (AllMusic.getConfig().isNeedPermission() &&
+                AllMusic.side.checkPermission(name, "allmusic.addmusic"))
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().getCommand().getNoPer());
         else {
             switch (AllMusic.getConfig().getDefaultAddMusic()) {

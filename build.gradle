@@ -19,6 +19,9 @@ repositories {
         url 'https://jitpack.io'
     }
     maven {
+        url ' https://mvnrepository.com/artifact/mysql/mysql-connector-java'
+    }
+    maven {
         url 'https://maven.citizensnpcs.co/repo'
     }
     maven {
@@ -28,6 +31,9 @@ repositories {
 }
 
 dependencies {
+    implementation "org.apache.commons:commons-dbcp2:2.9.0"
+    implementation 'mysql:mysql-connector-java:8.0.31'
+
     compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
     compileOnly 'net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"

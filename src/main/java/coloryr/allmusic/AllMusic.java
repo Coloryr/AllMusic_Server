@@ -12,7 +12,7 @@ import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.music.search.SearchPage;
 import coloryr.allmusic.side.IMyLogger;
 import coloryr.allmusic.side.ISide;
-import coloryr.allmusic.side.bukkit.hooks.VaultHook;
+import coloryr.allmusic.sql.IEconomy;
 import coloryr.allmusic.utils.Logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,8 +28,9 @@ import java.util.Map;
 public class AllMusic {
     public static final String channel = "allmusic:channel";
     public static final String channelBC = "allmusic:channelbc";
-    public static final String version = "2.17.0";
-    public static final String configVersion = "100";
+    public static final String version = "2.17.1";
+    public static final String configVersion = "101";
+    public static final String messageVersion = "101";
 
     private static final Map<String, SearchPage> searchSave = new HashMap<>();
     private static final List<String> votePlayer = new ArrayList<>();
@@ -47,8 +48,9 @@ public class AllMusic {
     public static IMyLogger log;
     public static ISide side;
     public static boolean isRun;
-    public static VaultHook vault;
     public static CookieObj cookie;
+
+    public static IEconomy economy;
 
     public static void configCheck() {
         if (config == null) {
@@ -165,7 +167,20 @@ public class AllMusic {
         PlayGo.start();
         MusicSearch.start();
         DataSql.start();
-        log.info("§d[AllMusic]§2§e已启动-" + version);
+
+        if(config.getEconomys().isNyEconomy()){
+            NyEconomyHandle handle = new NyEconomyHandle();
+            if(handle.start()){
+                log.info("§d[AllMusic]§eNyEconomy已对接");
+                economy = handle;
+            }
+            else
+            {
+                log.warning("§d[AllMusic]§cNyEconomy对接失败");
+            }
+        }
+
+        log.info("§d[AllMusic]§e已启动-" + version);
     }
 
     public static void stop() {
@@ -207,10 +222,10 @@ public class AllMusic {
             reader.close();
             messageCheck();
 
-            log.info("§d[AllMusic]§e当前语言配置文件版本为：" + configVersion
+            log.info("§d[AllMusic]§e当前语言配置文件版本为：" + messageVersion
                     + "，你的语言文件版本为：" + config.getVersion());
 
-            if (!message.getVersion().equalsIgnoreCase(configVersion)) {
+            if (!message.getVersion().equalsIgnoreCase(messageVersion)) {
                 log.warning("§d[AllMusic]§c语言文件版本号错误，运行可能会发生问题，请删除后重载");
             }
 

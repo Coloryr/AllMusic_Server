@@ -1,12 +1,13 @@
 package coloryr.allmusic.side.bukkit.hooks;
 
+import coloryr.allmusic.sql.IEconomy;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class VaultHook {
+public class VaultHook implements IEconomy {
     private Economy econ = null;
 
     public VaultHook() {
@@ -29,13 +30,11 @@ public class VaultHook {
         return econ.has(player, cost);
     }
 
-    public void cost(String name, int cost, String message) {
+    public boolean cost(String name, int cost) {
         Player player = Bukkit.getPlayer(name);
         if (player == null)
-            return;
+            return false;
         EconomyResponse r = econ.withdrawPlayer(player, cost);
-        if (r.transactionSuccess()) {
-            player.sendMessage(message);
-        }
+        return r.transactionSuccess();
     }
 }

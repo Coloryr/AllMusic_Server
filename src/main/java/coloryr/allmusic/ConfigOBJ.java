@@ -43,6 +43,39 @@ public class ConfigOBJ {
     private boolean MuteAddMessage;
     private boolean ShowInBar;
     private int MaxMusicTime;
+    private Economys Economys;
+
+    public static class Economys {
+        private String MysqlUrl;
+        private boolean NyEconomy;
+        private boolean Vault;
+
+        public Economys() {
+            MysqlUrl = "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true";
+            Vault = true;
+            NyEconomy = false;
+        }
+
+        public boolean check() {
+            boolean res = false;
+            if (MysqlUrl == null)
+                res = true;
+
+            return res;
+        }
+
+        public boolean isVault() {
+            return Vault;
+        }
+
+        public boolean isNyEconomy() {
+            return NyEconomy;
+        }
+
+        public String getMysqlUrl() {
+            return MysqlUrl;
+        }
+    }
 
     public ConfigOBJ() {
         MaxList = 10;
@@ -79,7 +112,13 @@ public class ConfigOBJ {
         MessageLimit = false;
         MessageLimitSize = 40;
 
+        Economys = new Economys();
+
         Version = AllMusic.version;
+    }
+
+    public ConfigOBJ.Economys getEconomys() {
+        return Economys;
     }
 
     public int getMaxMusicTime() {
@@ -237,6 +276,14 @@ public class ConfigOBJ {
             saveConfig = true;
             NoMusicServer = new ArrayList<>();
         }
+        if (Economys == null) {
+            saveConfig = true;
+            Economys = new Economys();
+        } else if (Economys.check()) {
+            saveConfig = true;
+            Economys = new Economys();
+        }
+
         return saveConfig;
     }
 }

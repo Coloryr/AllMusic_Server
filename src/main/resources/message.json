@@ -90,7 +90,8 @@
   "Cost": {
     "Search": "§d[AllMusic]§e你搜歌花费了%Cost%",
     "AddMusic": "§d[AllMusic]§e你点歌花费了%Cost%",
-    "NoMoney": "§d[AllMusic]§c你没有足够的钱"
+    "NoMoney": "§d[AllMusic]§c你没有足够的钱",
+    "CostFail": "§d[ALLMusic]§c扣钱过程中错误"
   },
   "Click": {
     "This": "§b[§n点我选择§r§b]",
@@ -121,5 +122,5 @@
       "Login": "§d[AllMusic]§e使用/music login 重新登录账户"
     }
   },
-  "Version": "100"
+  "Version": "101"
 }

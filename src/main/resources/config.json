@@ -41,10 +41,13 @@
     "EnableInfo": true,
     "EnablePic": true
   },
+  "Economys": {
+    "MysqlUrl": "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true"
+  },
   "UseCost": false,
   "SearchCost": 20,
   "AddMusicCost": 10,
   "MaxMusicTime": 600,
   "MusicBR": "320000",
-  "Version": "100"
+  "Version": "101"
 }
