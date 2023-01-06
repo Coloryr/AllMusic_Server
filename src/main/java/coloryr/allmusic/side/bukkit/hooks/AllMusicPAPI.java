@@ -77,7 +77,7 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     return PlayMusic.nowPlayMusic.getCall();
                 }
                 case "now_music_info": {
-                    return PlayMusic.nowPlayMusic.getInfo();
+                    return PlayMusic.nowPlayMusic.Info;
                 }
                 case "list_size": {
                     return "" + PluginMessage.size;
@@ -122,7 +122,7 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                 case "now_music_info": {
                     if (PlayMusic.nowPlayMusic == null)
                         return "";
-                    return PlayMusic.nowPlayMusic.getInfo();
+                    return PlayMusic.nowPlayMusic.Info;
                 }
                 case "list_size": {
                     return "" + PlayMusic.getSize();

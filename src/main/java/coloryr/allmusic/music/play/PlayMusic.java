@@ -174,7 +174,7 @@ public class PlayMusic {
             } else {
                 le = (int) h.total_ms(b);
             }
-            SongInfo info = new SongInfo(AllMusic.getMessage().getCustom().getInfo(), arg, le);
+            SongInfo info = new SongInfo(AllMusic.getMessage().getCustom().Info, arg, le);
             playList.add(info);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");

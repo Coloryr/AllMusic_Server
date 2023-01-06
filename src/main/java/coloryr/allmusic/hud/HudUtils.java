@@ -14,7 +14,7 @@ public class HudUtils {
     public static PosOBJ setHudPos(String player, String pos, String x, String y) {
         SaveOBJ obj = HudSave.get(player);
         if (obj == null)
-            obj = AllMusic.getConfig().getDefaultHud().copy();
+            obj = AllMusic.getConfig().DefaultHud.copy();
         HudPos pos1 = HudPos.valueOf(pos);
         PosOBJ posOBJ = new PosOBJ(0, 0);
         if (!Function.isInteger(x) && !Function.isInteger(y))
@@ -24,16 +24,16 @@ public class HudUtils {
 
         switch (pos1) {
             case lyric:
-                posOBJ = obj.getLyric();
+                posOBJ = obj.Lyric;
                 break;
             case list:
-                posOBJ = obj.getList();
+                posOBJ = obj.List;
                 break;
             case info:
-                posOBJ = obj.getInfo();
+                posOBJ = obj.Info;
                 break;
             case pic:
-                posOBJ = obj.getPic();
+                posOBJ = obj.Pic;
         }
         posOBJ.setX(x1);
         posOBJ.setY(y1);
@@ -68,12 +68,12 @@ public class HudUtils {
             for (SongInfo info1 : PlayMusic.getList()) {
                 if (info1 == null)
                     continue;
-                now = info1.getInfo();
+                now = info1.Info;
                 if (now.length() > AllMusic.getConfig().getMessageLimitSize())
                     now = now.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
                 list.append(now).append("\n");
             }
-            info = AllMusic.getMessage().Hud.getList()
+            info = AllMusic.getMessage().hud.List
                     .replace("%Size%", String.valueOf(PlayMusic.getList().size()))
                     .replace("%List%", list.toString());
         }
@@ -110,7 +110,7 @@ public class HudUtils {
         if (showobj == null) {
             info = AllMusic.getMessage().Hud.getNoLyric();
         } else {
-            info = AllMusic.getMessage().Hud.getLyric()
+            info = AllMusic.getMessage().hud.Lyric
                     .replace("%Lyric%", showobj.getLyric() == null ? "" : showobj.getLyric())
                     .replace("%Tlyric%", (showobj.isHaveT() && showobj.getTlyric() != null) ?
                             showobj.getTlyric() : "");
@@ -123,11 +123,11 @@ public class HudUtils {
         SaveOBJ obj = HudSave.get(player);
         boolean a = false;
         if (obj == null) {
-            obj = AllMusic.getConfig().getDefaultHud().copy();
-            a = obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric();
+            obj = AllMusic.getConfig().DefaultHud.copy();
+            a = obj.EnableInfo && obj.EnableList && obj.EnableLyric;
         } else {
             if (pos == null) {
-                if (obj.isEnableInfo() && obj.isEnableList() && obj.isEnableLyric()) {
+                if (obj.EnableInfo && obj.EnableList && obj.EnableLyric) {
                     obj.setEnableInfo(false);
                     obj.setEnableList(false);
                     obj.setEnableLyric(false);
@@ -144,16 +144,16 @@ public class HudUtils {
                 HudPos pos1 = HudPos.valueOf(pos);
                 switch (pos1) {
                     case info:
-                        obj.setEnableInfo(!obj.isEnableInfo());
+                        obj.setEnableInfo(!obj.EnableInfo);
                         break;
                     case list:
-                        obj.setEnableList(!obj.isEnableList());
+                        obj.setEnableList(!obj.EnableList);
                         break;
                     case lyric:
-                        obj.setEnableLyric(!obj.isEnableLyric());
+                        obj.setEnableLyric(!obj.EnableLyric);
                         break;
                     case pic:
-                        obj.setEnablePic(!obj.isEnablePic());
+                        obj.setEnablePic(!obj.EnablePic);
                         break;
                 }
             }
@@ -168,13 +168,13 @@ public class HudUtils {
             HudPos pos1 = HudPos.valueOf(pos);
             switch (pos1) {
                 case info:
-                    return obj.isEnableInfo();
+                    return obj.EnableInfo;
                 case list:
-                    return obj.isEnableList();
+                    return obj.EnableList;
                 case lyric:
-                    return obj.isEnableLyric();
+                    return obj.EnableLyric;
                 case pic:
-                    return obj.isEnablePic();
+                    return obj.EnablePic;
             }
         }
         return false;
@@ -193,7 +193,7 @@ public class HudUtils {
             try {
                 SaveOBJ obj = HudSave.get(Name);
                 if (obj == null) {
-                    obj = AllMusic.getConfig().getDefaultHud().copy();
+                    obj = AllMusic.getConfig().DefaultHud.copy();
                     HudSave.add(Name, obj);
                     AllMusic.save();
                 }
@@ -207,7 +207,7 @@ public class HudUtils {
     }
 
     public static void reset(String name) {
-        SaveOBJ obj = AllMusic.getConfig().getDefaultHud().copy();
+        SaveOBJ obj = AllMusic.getConfig().DefaultHud.copy();
         clearHud(name);
         HudSave.add(name, obj);
         AllMusic.save();
@@ -217,7 +217,7 @@ public class HudUtils {
     public static boolean setPicSize(String name, String size) {
         SaveOBJ obj = HudSave.get(name);
         if (obj == null)
-            obj = AllMusic.getConfig().getDefaultHud().copy();
+            obj = AllMusic.getConfig().DefaultHud.copy();
         if (!Function.isInteger(size))
             return false;
         int size1 = Integer.parseInt(size);

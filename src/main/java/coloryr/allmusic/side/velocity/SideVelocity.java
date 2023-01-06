@@ -123,7 +123,7 @@ public class SideVelocity implements ISide {
                     continue;
                 String name = player.getUsername();
                 SaveOBJ obj = HudSave.get(name);
-                if (!obj.isEnablePic())
+                if (!obj.EnablePic)
                     continue;
                 send(player, ComType.img + url, false);
             }
@@ -140,7 +140,7 @@ public class SideVelocity implements ISide {
                 if (isOK(player))
                     continue;
                 SaveOBJ obj = HudSave.get(player.getUsername());
-                if (!obj.isEnableLyric())
+                if (!obj.EnableLyric)
                     continue;
                 send(player, ComType.lyric + data, null);
             }
@@ -157,7 +157,7 @@ public class SideVelocity implements ISide {
                 if (isOK(player))
                     continue;
                 SaveOBJ obj = HudSave.get(player.getUsername());
-                if (!obj.isEnableInfo())
+                if (!obj.EnableInfo)
                     continue;
                 send(player, ComType.info + data, null);
             }
@@ -175,7 +175,7 @@ public class SideVelocity implements ISide {
                     continue;
                 String name = player.getUsername();
                 SaveOBJ obj = HudSave.get(name);
-                if (!obj.isEnableList())
+                if (!obj.EnableList)
                     continue;
                 send(player, ComType.list + data, null);
             }

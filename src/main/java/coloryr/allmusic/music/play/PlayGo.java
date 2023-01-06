@@ -160,7 +160,7 @@ public class PlayGo {
                             AllMusic.side.sendPic(PlayMusic.nowPlayMusic.getPicUrl());
                         }
                         if (PlayMusic.nowPlayMusic.isTrial()) {
-                            AllMusic.side.bqt(AllMusic.getMessage().MusicPlay.getTrail());
+                            AllMusic.side.bqt(AllMusic.getMessage().MusicPlay.Trail);
                             PlayMusic.musicLessTime = PlayMusic.nowPlayMusic.getTrialInfo().getEnd();
                             PlayMusic.musicNowTime = PlayMusic.nowPlayMusic.getTrialInfo().getStart();
                         }

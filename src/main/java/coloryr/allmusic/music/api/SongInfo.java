@@ -4,20 +4,59 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.music.api.obj.music.trialinfo.freeTrialInfo;
 
 public class SongInfo {
+    /**
+     * 作者
+     */
     protected String author;
+    /**
+     * 名字
+     */
     protected String name;
+    /**
+     * 音乐ID
+     */
     protected String id;
+    /**
+     * 原曲
+     */
     protected String alia;
+    /**
+     * 点歌者
+     */
     protected String call;
+    /**
+     * 专辑
+     */
     protected String al;
+    /**
+     * 播放链接
+     */
     protected String playerUrl;
+    /**
+     * 图片链接
+     */
     protected String picUrl;
+    /**
+     * 是否是试听
+     */
     protected boolean isTrial;
+    /**
+     * 试听数据
+     */
     protected freeTrialInfo trialInfo;
+    /**
+     * 长度
+     */
 
     protected int length;
 
+    /**
+     * 是否是空闲歌单的歌
+     */
     protected boolean isList;
+    /**
+     * 是否是Url歌曲
+     */
     protected boolean isUrl;
 
     public SongInfo(String Name, String Url, int Length) {
@@ -97,7 +136,7 @@ public class SongInfo {
     }
 
     public String getInfo() {
-        String info = AllMusic.getMessage().MusicPlay.getMusicInfo();
+        String info = AllMusic.getMessage().MusicPlay.MusicInfo;
         info = info.replace("%MusicName%", name == null ? "" : name)
                 .replace("%MusicAuthor%", author == null ? "" : author)
                 .replace("%MusicAl%", al == null ? "" : al)

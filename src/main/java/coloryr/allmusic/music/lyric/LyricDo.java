@@ -15,6 +15,11 @@ public class LyricDo {
         return temp;
     }
 
+    /**
+     * 检查歌词
+     * @param obj 歌词
+     * @return 结果
+     */
     public boolean check(WLyricOBJ obj) {
         String[] lyric;
 
@@ -46,8 +51,13 @@ public class LyricDo {
         return false;
     }
 
+    /**
+     * 将歌词转换成时间 字
+     * @param lyric 歌词
+     * @return 结果
+     */
     private Map<Integer, String> getTime(List<String> lyric) {
-        Map<Integer, String> Lyric = new HashMap<>();
+        Map<Integer, String> res = new HashMap<>();
         String min;
         String sec;
         String mil;
@@ -77,10 +87,10 @@ public class LyricDo {
                 milt /= 10;
             }
             time = Integer.parseInt(min) * 60 * 1000 + Integer.parseInt(sec) * 1000 + milt * 10;
-            if (time > 0 && time + AllMusic.getConfig().getDelay() > 0)
-                time += AllMusic.getConfig().getDelay() * 10;
-            Lyric.put(time, Function.getString(s, "]", null));
+            if (time > 0 && time + AllMusic.getConfig().Delay > 0)
+                time += AllMusic.getConfig().Delay * 10;
+            res.put(time, Function.getString(s, "]", null));
         }
-        return Lyric;
+        return res;
     }
 }

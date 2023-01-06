@@ -39,14 +39,25 @@ public class APIMain {
         }
     }
 
+    /**
+     * 获取手机验证码
+     *
+     * @param sender 发送者
+     */
     public void sendCode(Object sender) {
         JsonObject params = new JsonObject();
         params.addProperty("ctcode", "86");
-        params.addProperty("cellphone", AllMusic.getConfig().getLoginUser());
+        params.addProperty("cellphone", AllMusic.getConfig().LoginUser);
         HttpRes res = HttpClientUtil.post("https://music.163.com/api/sms/captcha/sent", params, EncryptType.WEAPI, null);
         AllMusic.side.sendMessage(sender, "§d[AllMusic]§d已发送验证码\n" + res.getData());
     }
 
+    /**
+     * 登录
+     *
+     * @param sender 发送者
+     * @param code   手机验证码
+     */
     public void login(Object sender, String code) {
         JsonObject params = new JsonObject();
         params.addProperty("rememberLogin", "true");
@@ -72,7 +83,7 @@ public class APIMain {
             AllMusic.saveCookie();
         }
         params.addProperty("countrycode", "86");
-        params.addProperty("phone", AllMusic.getConfig().getLoginUser());
+        params.addProperty("phone", AllMusic.getConfig().LoginUser);
         params.addProperty("captcha", code);
         HttpRes res = HttpClientUtil.post("https://music.163.com/eapi/w/login/cellphone", params, EncryptType.WEAPI, null);
         if (res == null || !res.isOk()) {
@@ -95,16 +106,24 @@ public class APIMain {
         }
     }
 
-    private SongInfo getMusicDetail(String ID, String player, boolean isList) {
+    /**
+     * 获取音乐详情
+     *
+     * @param id     音乐ID
+     * @param player 用户名
+     * @param isList 是否是空闲列表
+     * @return 结果
+     */
+    private SongInfo getMusicDetail(String id, String player, boolean isList) {
         JsonObject params = new JsonObject();
-        params.addProperty("c", "[{\"id\":" + ID + "}]");
+        params.addProperty("c", "[{\"id\":" + id + "}]");
 
         HttpRes res = HttpClientUtil.post("https://music.163.com/api/v3/song/detail", params, EncryptType.WEAPI, null);
         if (res != null && res.isOk()) {
             InfoOBJ temp = AllMusic.gson.fromJson(res.getData(), InfoOBJ.class);
             if (temp.isok()) {
                 params = new JsonObject();
-                params.addProperty("ids", "[" + ID + "]");
+                params.addProperty("ids", "[" + id + "]");
                 params.addProperty("br", "320000");
                 res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
                 if (res == null || !res.isOk()) {
@@ -113,19 +132,27 @@ public class APIMain {
                 }
                 TrialInfoObj obj = AllMusic.gson.fromJson(res.getData(), TrialInfoObj.class);
                 return new SongInfo(temp.getAuthor(), temp.getName(),
-                        ID, temp.getAlia(), player, temp.getAl(), isList, temp.getLength(),
+                        id, temp.getAlia(), player, temp.getAl(), isList, temp.getLength(),
                         temp.getPicUrl(), obj.isTrial(), obj.getFreeTrialInfo());
             }
         }
         return null;
     }
 
-    public SongInfo getMusic(String ID, String player, boolean isList) {
-        SongInfo info = getMusicDetail(ID, player, isList);
+    /**
+     * 获取音乐数据
+     *
+     * @param id     音乐ID
+     * @param player 用户名
+     * @param isList 是否是空闲列表
+     * @return 结果
+     */
+    public SongInfo getMusic(String id, String player, boolean isList) {
+        SongInfo info = getMusicDetail(id, player, isList);
         if (info != null)
             return info;
         JsonObject params = new JsonObject();
-        params.addProperty("id", ID);
+        params.addProperty("id", id);
         HttpRes res = HttpClientUtil.post("https://music.163.com/api/dj/program/detail", params, EncryptType.WEAPI, null);
         if (res != null && res.isOk()) {
             PrInfoOBJ temp = AllMusic.gson.fromJson(res.getData(), PrInfoOBJ.class);
@@ -140,10 +167,16 @@ public class APIMain {
         return info;
     }
 
-    public String getPlayUrl(String ID) {
+    /**
+     * 获取播放链接
+     *
+     * @param id 音乐ID
+     * @return 结果
+     */
+    public String getPlayUrl(String id) {
         JsonObject params = new JsonObject();
-        params.addProperty("ids", "[" + ID + "]");
-        params.addProperty("br", AllMusic.getConfig().getMusicBR());
+        params.addProperty("ids", "[" + id + "]");
+        params.addProperty("br", AllMusic.getConfig().MusicBR);
         HttpRes res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
         if (res != null && res.isOk()) {
             try {
@@ -158,10 +191,16 @@ public class APIMain {
         return null;
     }
 
-    public void setList(String ID, Object sender) {
+    /**
+     * 添加空闲歌单
+     *
+     * @param id     歌单id
+     * @param sender 发送者
+     */
+    public void setList(String id, Object sender) {
         final Thread thread = new Thread(() -> {
             JsonObject params = new JsonObject();
-            params.addProperty("id", ID);
+            params.addProperty("id", id);
             params.addProperty("n", 100000);
             params.addProperty("s", 8);
             HttpRes res = HttpClientUtil.post("https://music.163.com/api/v6/playlist/detail", params, EncryptType.API, null);
@@ -169,9 +208,9 @@ public class APIMain {
                 try {
                     isUpdata = true;
                     DataOBJ obj = AllMusic.gson.fromJson(res.getData(), DataOBJ.class);
-                    AllMusic.getConfig().PlayList.addAll(obj.PlayList);
+                    AllMusic.getConfig().PlayList.addAll(obj.getPlaylist());
                     AllMusic.save();
-                    AllMusic.side.sendMessaget(sender, AllMusic.getMessage().MusicPlay.ListMusic.getGet().replace("%ListName%", obj.getName()));
+                    AllMusic.side.sendMessaget(sender, AllMusic.getMessage().MusicPlay.ListMusic.Get.replace("%ListName%", obj.getName()));
                 } catch (Exception e) {
                     AllMusic.log.warning("§d[AllMusic]§c歌曲列表获取错误");
                     e.printStackTrace();
@@ -181,10 +220,16 @@ public class APIMain {
         thread.start();
     }
 
-    public LyricSave getLyric(String ID) {
+    /**
+     * 获取歌词
+     *
+     * @param id 歌曲id
+     * @return 结果
+     */
+    public LyricSave getLyric(String id) {
         LyricSave Lyric = new LyricSave();
         JsonObject params = new JsonObject();
-        params.addProperty("id", ID);
+        params.addProperty("id", id);
         params.addProperty("lv", -1);
         params.addProperty("kv", -1);
         params.addProperty("tv", -1);
@@ -199,7 +244,7 @@ public class APIMain {
                         AllMusic.log.warning("§d[AllMusic]§c歌词解析错误，正在进行第" + times + "重试");
                     } else {
                         if (temp.isHave) {
-                            Lyric.setHaveLyric(AllMusic.getConfig().isSendLyric());
+                            Lyric.setHaveLyric(AllMusic.getConfig().SendLyric);
                             Lyric.setLyric(temp.getTemp());
                         }
                         return Lyric;
@@ -215,6 +260,13 @@ public class APIMain {
         return Lyric;
     }
 
+    /**
+     * 搜歌
+     *
+     * @param name      关键字
+     * @param isDefault 是否是默认方式
+     * @return 结果
+     */
     public SearchPage search(String[] name, boolean isDefault) {
         List<SearchOBJ> resData = new ArrayList<>();
         int maxpage;
@@ -252,12 +304,17 @@ public class APIMain {
         return null;
     }
 
-    public String ListMusic {
+    /**
+     * 获取空闲歌单的一首歌
+     *
+     * @return 结果
+     */
+    public String getListMusic() {
         if (PlayMusic.error >= 10)
             return null;
         if (!isUpdata && AllMusic.getConfig().PlayList.size() != 0) {
             String ID;
-            if (AllMusic.getConfig().isPlayListRandom()) {
+            if (AllMusic.getConfig().PlayListRandom) {
                 if (AllMusic.getConfig().PlayList.size() == 0)
                     return null;
                 else if (AllMusic.getConfig().PlayList.size() == 1)

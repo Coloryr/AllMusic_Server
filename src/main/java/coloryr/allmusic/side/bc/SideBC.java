@@ -52,7 +52,7 @@ public class SideBC implements ISide {
                 if (isOK(player))
                     continue;
                 SaveOBJ obj = HudSave.get(player.getName());
-                if (!obj.isEnableLyric())
+                if (!obj.EnableLyric)
                     continue;
                 send(player, ComType.lyric + data, null);
             }
@@ -69,7 +69,7 @@ public class SideBC implements ISide {
                 if (isOK(player))
                     continue;
                 SaveOBJ obj = HudSave.get(player.getName());
-                if (!obj.isEnableInfo())
+                if (!obj.EnableInfo)
                     continue;
                 send(player, ComType.info + data, null);
             }
@@ -87,7 +87,7 @@ public class SideBC implements ISide {
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = HudSave.get(name);
-                if (!obj.isEnableList())
+                if (!obj.EnableList)
                     continue;
                 send(player, ComType.list + data, null);
             }
@@ -146,7 +146,7 @@ public class SideBC implements ISide {
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = HudSave.get(name);
-                if (!obj.isEnablePic())
+                if (!obj.EnablePic)
                     continue;
                 send(player, ComType.img + url, null);
             }
@@ -438,7 +438,7 @@ public class SideBC implements ISide {
         if (player == null || player.getServer() == null)
             return true;
         if (AllMusic.getConfig().getNoMusicServer()
-                .contains(player.getServer().getInfo().getName()))
+                .contains(player.getServer().Info.getName()))
             return true;
         String name = player.getName();
         if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))

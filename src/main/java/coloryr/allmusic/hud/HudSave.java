@@ -11,7 +11,7 @@ public class HudSave {
 
     public static SaveOBJ get(String name) {
         if (!huds.containsKey(name)) {
-            SaveOBJ obj = AllMusic.getConfig().getDefaultHud().copy();
+            SaveOBJ obj = AllMusic.getConfig().DefaultHud.copy();
             huds.put(name, obj);
             DataSql.task(() -> DataSql.addUser(name, obj));
             return obj;
