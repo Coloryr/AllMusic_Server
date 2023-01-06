@@ -143,12 +143,12 @@ public class CommandEX {
                     AllMusic.getMessage().Page.Last, "/music lastpage");
         }
         for (int a = 0; a < index; a++) {
-            item = search.getRes(a + search.Page * 10);
+            item = search.getRes(a + search.getPage() * 10);
             info = AllMusic.getMessage().Page.Choice;
             info = info.replace("%index%", "" + (a + 1))
-                    .replace("%MusicName%", item.getName())
-                    .replace("%MusicAuthor%", item.getAuthor())
-                    .replace("%MusicAl%", item.getAl());
+                    .replace("%MusicName%", item.name)
+                    .replace("%MusicAuthor%", item.author)
+                    .replace("%MusicAl%", item.al);
             AllMusic.side.sendMessageRun(sender, info,
                     AllMusic.getMessage().Click.This, "/music select " + (a + 1));
         }
@@ -304,7 +304,7 @@ public class CommandEX {
                     return;
                 }
                 String[] ID = new String[1];
-                ID[0] = obj.getSong((obj.Page * 10) + (a - 1));
+                ID[0] = obj.getSong((obj.getPage() * 10) + (a - 1));
                 AllMusic.side.sendMessage(sender,
                         AllMusic.getMessage().Search.Chose.replace("%Num%", "" + a));
                 addMusic(sender, name, ID);

@@ -46,4 +46,8 @@ public class SearchPage {
     public boolean haveLastPage() {
         return page != 0;
     }
+
+    public int getPage() {
+        return page;
+    }
 }
