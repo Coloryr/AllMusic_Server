@@ -1,16 +1,8 @@
 package coloryr.allmusic.message;
 
 public class HelpObj {
-    private HelpNormalObj Normal;
-    private HelpAdminObj Admin;
-
-    public HelpAdminObj getAdmin() {
-        return Admin;
-    }
-
-    public HelpNormalObj getNormal() {
-        return Normal;
-    }
+    public HelpNormalObj Normal;
+    public HelpAdminObj Admin;
 
     public HelpObj() {
         Normal = new HelpNormalObj();

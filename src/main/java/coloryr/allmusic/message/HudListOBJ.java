@@ -1,11 +1,11 @@
 package coloryr.allmusic.message;
 
 public class HudListOBJ {
-    private String List;
-    private String Lyric;
-    private String Info;
-    private String All;
-    private String Pic;
+    public String List;
+    public String Lyric;
+    public String Info;
+    public String All;
+    public String Pic;
 
     public HudListOBJ() {
         List = "待播放列表";
@@ -28,26 +28,6 @@ public class HudListOBJ {
             return true;
 
         return false;
-    }
-
-    public String getAll() {
-        return All;
-    }
-
-    public String getInfo() {
-        return Info;
-    }
-
-    public String getList() {
-        return List;
-    }
-
-    public String getLyric() {
-        return Lyric;
-    }
-
-    public String getPic() {
-        return Pic;
     }
 
     public String Get(String data) {

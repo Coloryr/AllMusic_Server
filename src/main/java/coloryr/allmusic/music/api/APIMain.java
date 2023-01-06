@@ -169,9 +169,9 @@ public class APIMain {
                 try {
                     isUpdata = true;
                     DataOBJ obj = AllMusic.gson.fromJson(res.getData(), DataOBJ.class);
-                    AllMusic.getConfig().getPlayList().addAll(obj.getPlaylist());
+                    AllMusic.getConfig().PlayList.addAll(obj.PlayList);
                     AllMusic.save();
-                    AllMusic.side.sendMessaget(sender, AllMusic.getMessage().getMusicPlay().getListMusic().getGet().replace("%ListName%", obj.getName()));
+                    AllMusic.side.sendMessaget(sender, AllMusic.getMessage().MusicPlay.ListMusic.getGet().replace("%ListName%", obj.getName()));
                 } catch (Exception e) {
                     AllMusic.log.warning("§d[AllMusic]§c歌曲列表获取错误");
                     e.printStackTrace();
@@ -188,7 +188,8 @@ public class APIMain {
         params.addProperty("lv", -1);
         params.addProperty("kv", -1);
         params.addProperty("tv", -1);
-        HttpRes res = HttpClientUtil.post("https://music.163.com/api/song/lyric", params, EncryptType.API, null);
+        params.addProperty("rv", -1);
+        HttpRes res = HttpClientUtil.post("https://music.163.com/api/song/lyric?_nmclfl=1", params, EncryptType.API, null);
         if (res != null && res.isOk()) {
             try {
                 WLyricOBJ obj = AllMusic.gson.fromJson(res.getData(), WLyricOBJ.class);
@@ -251,20 +252,20 @@ public class APIMain {
         return null;
     }
 
-    public String getListMusic() {
+    public String ListMusic {
         if (PlayMusic.error >= 10)
             return null;
-        if (!isUpdata && AllMusic.getConfig().getPlayList().size() != 0) {
+        if (!isUpdata && AllMusic.getConfig().PlayList.size() != 0) {
             String ID;
             if (AllMusic.getConfig().isPlayListRandom()) {
-                if (AllMusic.getConfig().getPlayList().size() == 0)
+                if (AllMusic.getConfig().PlayList.size() == 0)
                     return null;
-                else if (AllMusic.getConfig().getPlayList().size() == 1)
-                    return AllMusic.getConfig().getPlayList().get(0);
-                ID = AllMusic.getConfig().getPlayList().get(new Random().nextInt(AllMusic.getConfig().getPlayList().size()));
+                else if (AllMusic.getConfig().PlayList.size() == 1)
+                    return AllMusic.getConfig().PlayList.get(0);
+                ID = AllMusic.getConfig().PlayList.get(new Random().nextInt(AllMusic.getConfig().PlayList.size()));
             } else {
-                ID = AllMusic.getConfig().getPlayList().get(PlayNow);
-                if (PlayNow == AllMusic.getConfig().getPlayList().size() - 1)
+                ID = AllMusic.getConfig().PlayList.get(PlayNow);
+                if (PlayNow == AllMusic.getConfig().PlayList.size() - 1)
                     PlayNow = 0;
                 else
                     PlayNow++;

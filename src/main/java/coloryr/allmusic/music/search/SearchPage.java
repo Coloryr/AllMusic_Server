@@ -47,7 +47,7 @@ public class SearchPage {
         return page != 0;
     }
 
-    public int getPage() {
+    public int Page {
         return page;
     }
 }

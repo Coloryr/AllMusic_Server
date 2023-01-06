@@ -1,10 +1,10 @@
 package coloryr.allmusic.message;
 
 public class CostObj {
-    private String Search;
-    private String AddMusic;
-    private String NoMoney;
-    private String CostFail;
+    public String Search;
+    public String AddMusic;
+    public String NoMoney;
+    public String CostFail;
 
     public CostObj() {
         Search = "§d[ALLMusic]§2你搜歌花费了%Cost%";
@@ -24,21 +24,5 @@ public class CostObj {
             return true;
 
         return false;
-    }
-
-    public String getCostFail() {
-        return CostFail;
-    }
-
-    public String getNoMoney() {
-        return NoMoney;
-    }
-
-    public String getAddMusic() {
-        return AddMusic;
-    }
-
-    public String getSearch() {
-        return Search;
     }
 }

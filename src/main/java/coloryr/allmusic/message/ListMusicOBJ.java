@@ -1,9 +1,9 @@
 package coloryr.allmusic.message;
 
 public class ListMusicOBJ {
-    private String Head;
-    private String Item;
-    private String Get;
+    public String Head;
+    public String Item;
+    public String Get;
 
     public ListMusicOBJ() {
         Head = "§d[AllMusic]§2队列中有歌曲数：&Count&";
@@ -21,17 +21,5 @@ public class ListMusicOBJ {
             res = true;
 
         return res;
-    }
-
-    public String getGet() {
-        return Get;
-    }
-
-    public String getItem() {
-        return Item;
-    }
-
-    public String getHead() {
-        return Head;
     }
 }

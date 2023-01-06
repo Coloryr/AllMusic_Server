@@ -8,4 +8,5 @@ public class ComType {
     public static final String img = "[Img]";
     public static final String stop = "[Stop]";
     public static final String clear = "[clear]";
+    public static final String pos = "[Pos]";
 }

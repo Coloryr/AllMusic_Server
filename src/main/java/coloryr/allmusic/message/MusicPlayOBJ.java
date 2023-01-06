@@ -1,19 +1,19 @@
 package coloryr.allmusic.message;
 
 public class MusicPlayOBJ {
-    private String StopPlay;
-    private String NoMusic;
-    private String Play;
-    private String NoPlay;
-    private ListMusicOBJ ListMusic;
-    private String NoCanPlay;
-    private String NoPlayMusic;
-    private String Switch;
-    private String AddMusic;
-    private String CheckMusic;
-    private String MusicInfo;
-    private String Trail;
-    private String Cancel;
+    public String StopPlay;
+    public String NoMusic;
+    public String Play;
+    public String NoPlay;
+    public ListMusicOBJ ListMusic;
+    public String NoCanPlay;
+    public String NoPlayMusic;
+    public String Switch;
+    public String AddMusic;
+    public String CheckMusic;
+    public String MusicInfo;
+    public String Trail;
+    public String Cancel;
 
     public MusicPlayOBJ() {
         StopPlay = "§d[AllMusic]§2已停止你的音乐播放";
@@ -61,57 +61,5 @@ public class MusicPlayOBJ {
             res = true;
 
         return res;
-    }
-
-    public String getCancel() {
-        return Cancel;
-    }
-
-    public String getTrail() {
-        return Trail;
-    }
-
-    public String getMusicInfo() {
-        return MusicInfo;
-    }
-
-    public String getCheckMusic() {
-        return CheckMusic;
-    }
-
-    public String getAddMusic() {
-        return AddMusic;
-    }
-
-    public String getSwitch() {
-        return Switch;
-    }
-
-    public String getNoPlayMusic() {
-        return NoPlayMusic;
-    }
-
-    public String getNoCanPlay() {
-        return NoCanPlay;
-    }
-
-    public ListMusicOBJ getListMusic() {
-        return ListMusic;
-    }
-
-    public String getNoPlay() {
-        return NoPlay;
-    }
-
-    public String getPlay() {
-        return Play;
-    }
-
-    public String getNoMusic() {
-        return NoMusic;
-    }
-
-    public String getStopPlay() {
-        return StopPlay;
     }
 }

@@ -1,15 +1,15 @@
 package coloryr.allmusic.message;
 
 public class SearchOBJ {
-    private String NoPer;
-    private String CantSearch;
-    private String Res;
-    private String NoSearch;
-    private String ErrorNum;
-    private String Chose;
-    private String CantNext;
-    private String CantLast;
-    private String StartSearch;
+    public String NoPer;
+    public String CantSearch;
+    public String Res;
+    public String NoSearch;
+    public String ErrorNum;
+    public String Chose;
+    public String CantNext;
+    public String CantLast;
+    public String StartSearch;
 
     public SearchOBJ() {
         StartSearch = "§d[AllMusic]§2正在排队搜歌";
@@ -44,41 +44,5 @@ public class SearchOBJ {
             return true;
 
         return false;
-    }
-
-    public String getStartSearch() {
-        return StartSearch;
-    }
-
-    public String getCantLast() {
-        return CantLast;
-    }
-
-    public String getCantNext() {
-        return CantNext;
-    }
-
-    public String getChose() {
-        return Chose;
-    }
-
-    public String getErrorNum() {
-        return ErrorNum;
-    }
-
-    public String getNoSearch() {
-        return NoSearch;
-    }
-
-    public String getRes() {
-        return Res;
-    }
-
-    public String getNoPer() {
-        return NoPer;
-    }
-
-    public String getCantSearch() {
-        return CantSearch;
     }
 }

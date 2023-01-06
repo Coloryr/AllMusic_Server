@@ -53,7 +53,7 @@ public class TabCommand {
             if (AllMusic.getSearch(name) != null) {
                 arguments.addAll(search);
             }
-            if (AllMusic.getConfig().getAdmin().contains(name)) {
+            if (AllMusic.getConfig().Admin.contains(name)) {
                 arguments.addAll(admin);
             }
         } else if (arg[0].equalsIgnoreCase("hud")) {

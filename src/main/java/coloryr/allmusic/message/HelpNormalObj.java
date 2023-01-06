@@ -1,17 +1,17 @@
 package coloryr.allmusic.message;
 
 public class HelpNormalObj {
-    private String Head;
-    private String Base;
-    private String Stop;
-    private String List;
-    private String Vote;
-    private String NoMusic;
-    private String Search;
-    private String Select;
-    private String Hud1;
-    private String Hud2;
-    private String Hud3;
+    public String Head;
+    public String Base;
+    public String Stop;
+    public String List;
+    public String Vote;
+    public String NoMusic;
+    public String Search;
+    public String Select;
+    public String Hud1;
+    public String Hud2;
+    public String Hud3;
 
     public HelpNormalObj() {
         Head = "§d[AllMusic]§2帮助手册";
@@ -52,49 +52,5 @@ public class HelpNormalObj {
             return true;
 
         return false;
-    }
-
-    public String getHud3() {
-        return Hud3;
-    }
-
-    public String getBase() {
-        return Base;
-    }
-
-    public String getHud1() {
-        return Hud1;
-    }
-
-    public String getHud2() {
-        return Hud2;
-    }
-
-    public String getList() {
-        return List;
-    }
-
-    public String getNoMusic() {
-        return NoMusic;
-    }
-
-    public String getSearch() {
-        return Search;
-    }
-
-    public String getSelect() {
-        return Select;
-    }
-
-    public String getStop() {
-        return Stop;
-    }
-
-    public String getVote() {
-        return Vote;
-    }
-
-    public String getHead() {
-        return Head;
     }
 }

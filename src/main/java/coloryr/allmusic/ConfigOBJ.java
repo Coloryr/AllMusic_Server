@@ -5,55 +5,134 @@ import coloryr.allmusic.hud.obj.SaveOBJ;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 配置文件对象
+ */
 public class ConfigOBJ {
-    private int MaxList;
-    private int MinVote;
-    private int Delay;
+    /**
+     * 最大歌曲数
+     */
+    public int MaxList;
+    /**
+     * 最小通过投票数
+     */
+    public int MinVote;
+    /**
+     * 歌曲延迟
+     */
+    public int Delay;
+    /**
+     * 搜歌花费
+     */
+    public int SearchCost;
+    /**
+     * 点歌花费
+     */
+    public int AddMusicCost;
+    /**
+     * 默认添加歌曲方式
+     */
+    public int DefaultAddMusic;
+    /**
+     * 消息限制长度
+     */
+    public int MessageLimitSize;
+    /**
+     * 最长音乐长度
+     */
+    public int MaxMusicTime;
 
-    private List<String> Admin;
-    private List<String> NoMusicServer;
-    private List<String> NoMusicPlayer;
-    private List<String> BanMusic;
-    private List<String> PlayList;
+    /**
+     * 管理员ID列表
+     */
+    public List<String> Admin;
+    /**
+     * 不参与点歌的服务器列表
+     */
+    public List<String> NoMusicServer;
+    /**
+     * 不参与点歌的玩家列表
+     */
+    public List<String> NoMusicPlayer;
+    /**
+     * 禁止点歌ID列表
+     */
+    public List<String> BanMusic;
+    /**
+     * 空闲歌单列表
+     */
+    public List<String> PlayList;
 
-    private boolean PlayListSwitch;
-    private boolean PlayListRandom;
-    private boolean SendLyric;
-    private boolean NeedPermission;
+    /**
+     * 玩家点歌后是否直接从空闲歌单切换至玩家歌曲
+     */
+    public boolean PlayListSwitch;
+    /**
+     * 空闲歌单随机播放
+     */
+    public boolean PlayListRandom;
+    /**
+     * 显示歌词
+     */
+    public boolean SendLyric;
+    /**
+     * 指令需要权限
+     */
+    public boolean NeedPermission;
+    /**
+     * 开启花钱点歌
+     */
+    public boolean UseCost;
+    /**
+     * 顶层模式，用于和BC交换数据
+     */
+    public boolean TopPAPI;
+    /**
+     * 开启信息长度限制
+     */
+    public boolean MessageLimit;
+    /**
+     * 不发送播放信息
+     */
+    public boolean MutePlayMessage;
+    /**
+     * 不发送点歌信息
+     */
+    public boolean MuteAddMessage;
+    /**
+     * 将信息限制在bar处
+     */
+    public boolean ShowInBar;
 
-    private SaveOBJ DefaultHud;
+    /**
+     * 登录的用户
+     */
+    public String LoginUser;
+    /**
+     * 歌曲音质
+     */
+    public String MusicBR;
+    /**
+     * 配置文件版本号
+     */
+    public String Version;
 
-    private String Version;
-
-    private boolean UseCost;
-    private int SearchCost;
-    private int AddMusicCost;
-
-    private int DefaultAddMusic;
-
-    private String LoginUser;
-    private String MusicBR;
-
-    private boolean TopPAPI;
-
-    private boolean MessageLimit;
-    private int MessageLimitSize;
-
-    private boolean MutePlayMessage;
-    private boolean MuteAddMessage;
-    private boolean ShowInBar;
-    private int MaxMusicTime;
-    private Economys Economys;
+    /**
+     * 默认的Hud配置
+     */
+    public SaveOBJ DefaultHud;
+    /**
+     * 经济插件挂钩
+     */
+    public Economys Economys;
 
     public static class Economys {
-        private String MysqlUrl;
-        private boolean NyEconomy;
-        private boolean Vault;
+        public String MysqlUrl;
+        public boolean Vault;
 
         public Economys() {
             MysqlUrl = "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true";
             Vault = true;
-            NyEconomy = false;
         }
 
         public boolean check() {
@@ -64,17 +143,6 @@ public class ConfigOBJ {
             return res;
         }
 
-        public boolean isVault() {
-            return Vault;
-        }
-
-        public boolean isNyEconomy() {
-            return NyEconomy;
-        }
-
-        public String getMysqlUrl() {
-            return MysqlUrl;
-        }
     }
 
     public ConfigOBJ() {
@@ -115,122 +183,6 @@ public class ConfigOBJ {
         Economys = new Economys();
 
         Version = AllMusic.version;
-    }
-
-    public ConfigOBJ.Economys getEconomys() {
-        return Economys;
-    }
-
-    public int getMaxMusicTime() {
-        return MaxMusicTime;
-    }
-
-    public boolean isShowInBar() {
-        return ShowInBar;
-    }
-
-    public boolean isMuteAddMessage() {
-        return MuteAddMessage;
-    }
-
-    public boolean isMutePlayMessage() {
-        return MutePlayMessage;
-    }
-
-    public int getMessageLimitSize() {
-        return MessageLimitSize;
-    }
-
-    public boolean isMessageLimit() {
-        return MessageLimit;
-    }
-
-    public boolean isTopPAPI() {
-        return TopPAPI;
-    }
-
-    public String getMusicBR() {
-        return MusicBR;
-    }
-
-    public boolean isUseCost() {
-        return UseCost;
-    }
-
-    public String getLoginUser() {
-        return LoginUser;
-    }
-
-    public int getDefaultAddMusic() {
-        return DefaultAddMusic;
-    }
-
-    public int getAddMusicCost() {
-        return AddMusicCost;
-    }
-
-    public int getSearchCost() {
-        return SearchCost;
-    }
-
-    public SaveOBJ getDefaultHud() {
-        return DefaultHud;
-    }
-
-    public void setDefaultHud(SaveOBJ defaultHud) {
-        DefaultHud = defaultHud;
-    }
-
-    public boolean isNeedPermission() {
-        return NeedPermission;
-    }
-
-    public boolean isSendLyric() {
-        return SendLyric;
-    }
-
-    public boolean isPlayListRandom() {
-        return PlayListRandom;
-    }
-
-    public List<String> getPlayList() {
-        return PlayList;
-    }
-
-    public boolean isPlayListSwitch() {
-        return PlayListSwitch;
-    }
-
-    public int getDelay() {
-        return Delay;
-    }
-
-    public String getVersion() {
-        return Version;
-    }
-
-    public int getMaxList() {
-        return MaxList;
-    }
-
-    public int getMinVote() {
-        return MinVote;
-    }
-
-    public List<String> getAdmin() {
-        return Admin;
-    }
-
-    public List<String> getNoMusicPlayer() {
-        return NoMusicPlayer;
-    }
-
-    public List<String> getNoMusicServer() {
-        return NoMusicServer;
-    }
-
-    public List<String> getBanMusic() {
-        return BanMusic;
     }
 
     public void addBanID(String ID) {

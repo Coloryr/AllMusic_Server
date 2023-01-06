@@ -42,7 +42,8 @@
     "EnablePic": true
   },
   "Economys": {
-    "MysqlUrl": "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true"
+    "MysqlUrl": "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true",
+    "Vault": true
   },
   "UseCost": false,
   "SearchCost": 20,

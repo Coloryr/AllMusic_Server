@@ -1,14 +1,14 @@
 package coloryr.allmusic.message;
 
 public class VoteOBJ {
-    private String NoPermission;
-    private String DoVote;
-    private String BQ;
-    private String Agree;
-    private String BQAgree;
-    private String ARAgree;
-    private String TimeOut;
-    private String Do;
+    public String NoPermission;
+    public String DoVote;
+    public String BQ;
+    public String Agree;
+    public String BQAgree;
+    public String ARAgree;
+    public String TimeOut;
+    public String Do;
 
     public VoteOBJ() {
         NoPermission = "§d[AllMusic]§c你没有权限切歌";
@@ -40,37 +40,5 @@ public class VoteOBJ {
             return true;
 
         return false;
-    }
-
-    public String getDo() {
-        return Do;
-    }
-
-    public String getTimeOut() {
-        return TimeOut;
-    }
-
-    public String getARAgree() {
-        return ARAgree;
-    }
-
-    public String getBQAgree() {
-        return BQAgree;
-    }
-
-    public String getAgree() {
-        return Agree;
-    }
-
-    public String getBQ() {
-        return BQ;
-    }
-
-    public String getDoVote() {
-        return DoVote;
-    }
-
-    public String getNoPermission() {
-        return NoPermission;
     }
 }

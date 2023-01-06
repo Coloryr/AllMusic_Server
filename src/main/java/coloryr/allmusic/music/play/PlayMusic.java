@@ -71,7 +71,7 @@ public class PlayMusic {
         if (isHave(id))
             return;
         if (sender != null) {
-            String text = AllMusic.getMessage().getMusicPlay().getCheckMusic();
+            String text = AllMusic.getMessage().MusicPlay.getCheckMusic();
             text = text.replace("%MusicID%", id);
             AllMusic.side.sendMessaget(sender, text);
         }
@@ -80,7 +80,7 @@ public class PlayMusic {
             SongInfo info = AllMusic.getMusicApi().getMusic(id, player, isList);
             if (info == null) {
                 if (sender != null) {
-                    String data = AllMusic.getMessage().getMusicPlay().getNoCanPlay();
+                    String data = AllMusic.getMessage().MusicPlay.getNoCanPlay();
                     AllMusic.side.sendMessaget(sender, data.replace("%MusicID%", id));
                 }
                 return;
@@ -91,7 +91,7 @@ public class PlayMusic {
             }
             playList.add(info);
             if (!AllMusic.getConfig().isMuteAddMessage()) {
-                String data = AllMusic.getMessage().getMusicPlay().getAddMusic();
+                String data = AllMusic.getMessage().MusicPlay.getAddMusic();
                 data = data.replace("%MusicName%", info.getName())
                         .replace("%MusicAuthor%", info.getAuthor())
                         .replace("%MusicAl%", info.getAl())
@@ -102,7 +102,7 @@ public class PlayMusic {
                     && (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList())) {
                 PlayMusic.musicLessTime = 1;
                 if (!isList)
-                    AllMusic.side.bqt(AllMusic.getMessage().getMusicPlay().getSwitch());
+                    AllMusic.side.bqt(AllMusic.getMessage().MusicPlay.getSwitch());
             }
             error = 0;
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class PlayMusic {
         SongInfo info;
         for (int i = 0; i < playList.size(); i++) {
             info = playList.get(i);
-            a = AllMusic.getMessage().getMusicPlay().getListMusic().getItem();
+            a = AllMusic.getMessage().MusicPlay.ListMusic.getItem();
             a = a.replace("%index%", "" + (i + 1))
                     .replace("%MusicName%", info.getName())
                     .replace("%MusicAuthor%", info.getAuthor())

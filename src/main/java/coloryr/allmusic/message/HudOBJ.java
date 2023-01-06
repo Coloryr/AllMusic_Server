@@ -1,16 +1,16 @@
 package coloryr.allmusic.message;
 
 public class HudOBJ {
-    private String State;
-    private String Set;
-    private String Reset;
-    private String NoMusic;
-    private String NoList;
-    private String NoLyric;
-    private String PicSize;
-    private String Music;
-    private String Lyric;
-    private String List;
+    public String State;
+    public String Set;
+    public String Reset;
+    public String NoMusic;
+    public String NoList;
+    public String NoLyric;
+    public String PicSize;
+    public String Music;
+    public String Lyric;
+    public String List;
 
     public HudOBJ() {
         State = "§d[ALLMusic]§2设置信息位置：%Hud%，状态：%State%";
@@ -48,45 +48,5 @@ public class HudOBJ {
             return true;
 
         return false;
-    }
-
-    public String getList() {
-        return List;
-    }
-
-    public String getLyric() {
-        return Lyric;
-    }
-
-    public String getMusic() {
-        return Music;
-    }
-
-    public String getPicSize() {
-        return PicSize;
-    }
-
-    public String getReset() {
-        return Reset;
-    }
-
-    public String getNoLyric() {
-        return NoLyric;
-    }
-
-    public String getNoList() {
-        return NoList;
-    }
-
-    public String getNoMusic() {
-        return NoMusic;
-    }
-
-    public String getSet() {
-        return Set;
-    }
-
-    public String getState() {
-        return State;
     }
 }

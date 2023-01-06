@@ -41,7 +41,7 @@ public class SaveOBJ {
         PicSize = picSize;
     }
 
-    public int getPicSize() {
+    public int PicSize {
         return PicSize;
     }
 

@@ -3,21 +3,21 @@ package coloryr.allmusic.message;
 import coloryr.allmusic.AllMusic;
 
 public class MessageOBJ {
-    private MusicPlayOBJ MusicPlay;
-    private AddMusicOBJ AddMusic;
-    private PageOBJ Page;
-    private LyricOBJ Lyric;
-    private VoteOBJ Vote;
-    private SearchOBJ Search;
-    private HudOBJ Hud;
-    private HudListOBJ HudList;
-    private CommandOBJ Command;
-    private CustomOBJ Custom;
-    private PAPIOBJ PAPI;
-    private CostObj Cost;
-    private ClickObj Click;
-    private HelpObj Help;
-    private String Version;
+    public MusicPlayOBJ MusicPlay;
+    public AddMusicOBJ AddMusic;
+    public PageOBJ Page;
+    public LyricOBJ Lyric;
+    public VoteOBJ Vote;
+    public SearchOBJ Search;
+    public HudOBJ Hud;
+    public HudListOBJ HudList;
+    public CommandOBJ Command;
+    public CustomOBJ Custom;
+    public PAPIOBJ PAPI;
+    public CostObj Cost;
+    public ClickObj Click;
+    public HelpObj Help;
+    public String Version;
 
     public MessageOBJ() {
         MusicPlay = new MusicPlayOBJ();
@@ -35,66 +35,6 @@ public class MessageOBJ {
         Click = new ClickObj();
         Help = new HelpObj();
         Version = AllMusic.configVersion;
-    }
-
-    public String getVersion() {
-        return Version;
-    }
-
-    public ClickObj getClick() {
-        return Click;
-    }
-
-    public CostObj getCost() {
-        return Cost;
-    }
-
-    public PAPIOBJ getPAPI() {
-        return PAPI;
-    }
-
-    public CustomOBJ getCustom() {
-        return Custom;
-    }
-
-    public HudListOBJ getHudList() {
-        return HudList;
-    }
-
-    public CommandOBJ getCommand() {
-        return Command;
-    }
-
-    public HudOBJ getHud() {
-        return Hud;
-    }
-
-    public SearchOBJ getSearch() {
-        return Search;
-    }
-
-    public VoteOBJ getVote() {
-        return Vote;
-    }
-
-    public LyricOBJ getLyric() {
-        return Lyric;
-    }
-
-    public MusicPlayOBJ getMusicPlay() {
-        return MusicPlay;
-    }
-
-    public PageOBJ getPage() {
-        return Page;
-    }
-
-    public AddMusicOBJ getAddMusic() {
-        return AddMusic;
-    }
-
-    public HelpObj getHelp() {
-        return Help;
     }
 
     public boolean check() {

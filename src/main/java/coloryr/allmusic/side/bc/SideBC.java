@@ -272,7 +272,7 @@ public class SideBC implements ISide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        if (AllMusic.getConfig().getAdmin().contains(player))
+        if (AllMusic.getConfig().Admin.contains(player))
             return false;
         ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
         if (player1 == null)
@@ -290,7 +290,7 @@ public class SideBC implements ISide {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
-            out.writeUTF(AllMusic.getMessage().getPAPI().getNoMusic());
+            out.writeUTF(AllMusic.getMessage().getPAPI().NoMusic);
         else
             out.writeUTF(PlayMusic.nowPlayMusic.getName());
         server.sendData(AllMusic.channelBC, out.toByteArray());

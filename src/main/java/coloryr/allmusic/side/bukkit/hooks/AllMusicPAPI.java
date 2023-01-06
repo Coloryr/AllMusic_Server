@@ -96,7 +96,7 @@ public class AllMusicPAPI extends PlaceholderExpansion {
             switch (identifier) {
                 case "now_music_name": {
                     if (PlayMusic.nowPlayMusic == null)
-                        return AllMusic.getMessage().getPAPI().getNoMusic();
+                        return AllMusic.getMessage().getPAPI().NoMusic;
                     return PlayMusic.nowPlayMusic.getName();
                 }
                 case "now_music_al": {

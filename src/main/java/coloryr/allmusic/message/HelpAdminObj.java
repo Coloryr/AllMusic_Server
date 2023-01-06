@@ -1,14 +1,14 @@
 package coloryr.allmusic.message;
 
 public class HelpAdminObj {
-    private String Reload;
-    private String Next;
-    private String Ban;
-    private String Url;
-    private String Delete;
-    private String AddList;
-    private String ClearList;
-    private String Login;
+    public String Reload;
+    public String Next;
+    public String Ban;
+    public String Url;
+    public String Delete;
+    public String AddList;
+    public String ClearList;
+    public String Login;
 
     public HelpAdminObj() {
         Reload = "§d[AllMusic]§2使用/music reload 重读配置文件";
@@ -40,37 +40,5 @@ public class HelpAdminObj {
             return true;
 
         return false;
-    }
-
-    public String getLogin() {
-        return Login;
-    }
-
-    public String getAddList() {
-        return AddList;
-    }
-
-    public String getBan() {
-        return Ban;
-    }
-
-    public String getClearList() {
-        return ClearList;
-    }
-
-    public String getDelete() {
-        return Delete;
-    }
-
-    public String getNext() {
-        return Next;
-    }
-
-    public String getReload() {
-        return Reload;
-    }
-
-    public String getUrl() {
-        return Url;
     }
 }

@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import java.nio.file.Path;
 
 @Plugin(id = "allmusic", name = "AllMusic", version = AllMusic.version,
-        url = "https://github.com/HeartAge/AllMusic_P", description = "全服点歌插件", authors = {"Color_yr"})
+        url = "https://github.com/Coloryr/AllMusic_P", description = "全服点歌插件", authors = {"Color_yr"})
 public class AllMusicVelocity {
     public static AllMusicVelocity plugin;
     public final ProxyServer server;
@@ -32,7 +32,6 @@ public class AllMusicVelocity {
         this.logger = logger;
         this.dataDirectory = dataDirectory;
         this.metricsFactory = metricsFactory;
-
     }
 
     @Subscribe
@@ -41,8 +40,6 @@ public class AllMusicVelocity {
         AllMusic.log = new LogVelocity(logger);
         new AllMusic().init(dataDirectory.toFile());
         CommandMeta meta = server.getCommandManager().metaBuilder("music")
-                // Specify other aliases (optional)
-                .aliases("allmusic")
                 .build();
         channel = () -> AllMusic.channel;
         channelBC = MinecraftChannelIdentifier.from(AllMusic.channelBC);

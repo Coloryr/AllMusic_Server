@@ -315,7 +315,7 @@ public class SideBukkit implements ISide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        if (AllMusic.getConfig().getAdmin().contains(player))
+        if (AllMusic.getConfig().Admin.contains(player))
             return false;
         Player player1 = Bukkit.getPlayer(player);
         if (player1 == null)

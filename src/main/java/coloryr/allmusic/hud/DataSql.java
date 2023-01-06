@@ -92,7 +92,7 @@ public class DataSql {
                     hud.getLyric().getX(), hud.getLyric().getY(), hud.isEnableLyric() ? 1 : 0,
                     hud.getList().getX(), hud.getList().getY(), hud.isEnableList() ? 1 : 0,
                     hud.getPic().getX(), hud.getPic().getY(), hud.isEnablePic() ? 1 : 0,
-                    hud.getPicSize());
+                    hud.PicSize);
             sql = sql.replace("@name", "'" + name + "'");
             stat.execute(sql);
             stat.close();
@@ -117,7 +117,7 @@ public class DataSql {
                         hud.getLyric().getX(), hud.getLyric().getY(), hud.isEnableLyric() ? 1 : 0,
                         hud.getList().getX(), hud.getList().getY(), hud.isEnableList() ? 1 : 0,
                         hud.getPic().getX(), hud.getPic().getY(), hud.isEnablePic() ? 1 : 0,
-                        hud.getPicSize());
+                        hud.PicSize);
                 sql = sql.replace("@name", "'" + name + "'");
                 stat.execute(sql);
                 stat.close();

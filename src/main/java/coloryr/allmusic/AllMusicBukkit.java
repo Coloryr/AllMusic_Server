@@ -48,7 +48,7 @@ public class AllMusicBukkit extends JavaPlugin {
             AllMusic.log.info("§2PAPI未挂钩");
         }
 
-        if (AllMusic.getConfig().isTopPAPI()) {
+        if (AllMusic.getConfig().TopPAPI) {
             PlayMusic.nowPlayMusic = new TopSongInfo();
             PlayMusic.lyricItem = new TopLyricItem();
             pluginMessage = new PluginMessage();
@@ -56,7 +56,8 @@ public class AllMusicBukkit extends JavaPlugin {
             getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);
             AllMusic.log.info("§2设置为顶层模式");
         } else {
-            if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            if (Bukkit.getPluginManager().getPlugin("Vault") != null
+            && AllMusic.getConfig().Economys.Vault) {
                 try {
                     VaultHook vault = new VaultHook();
                     AllMusic.economy = vault;
@@ -90,7 +91,7 @@ public class AllMusicBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
         AllMusic.isRun = false;
-        if (AllMusic.getConfig().isTopPAPI())
+        if (AllMusic.getConfig().TopPAPI)
             pluginMessage.stop();
         else
             AllMusic.stop();

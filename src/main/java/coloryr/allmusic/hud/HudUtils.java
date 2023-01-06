@@ -61,7 +61,7 @@ public class HudUtils {
     public static void sendHudListData() {
         String info;
         if (PlayMusic.getSize() == 0) {
-            info = AllMusic.getMessage().getHud().getNoList();
+            info = AllMusic.getMessage().Hud.getNoList();
         } else {
             String now;
             StringBuilder list = new StringBuilder();
@@ -73,7 +73,7 @@ public class HudUtils {
                     now = now.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
                 list.append(now).append("\n");
             }
-            info = AllMusic.getMessage().getHud().getList()
+            info = AllMusic.getMessage().Hud.getList()
                     .replace("%Size%", String.valueOf(PlayMusic.getList().size()))
                     .replace("%List%", list.toString());
         }
@@ -90,9 +90,9 @@ public class HudUtils {
     public static void sendHudNowData() {
         String info;
         if (PlayMusic.nowPlayMusic == null) {
-            info = AllMusic.getMessage().getHud().getNoMusic();
+            info = AllMusic.getMessage().Hud.NoMusic;
         } else {
-            info = AllMusic.getMessage().getHud().getMusic()
+            info = AllMusic.getMessage().Hud.getMusic()
                     .replace("%Name%", PlayMusic.nowPlayMusic.getName())
                     .replace("%AllTime%", tranTime(PlayMusic.musicAllTime))
                     .replace("%NowTime%", tranTime(PlayMusic.musicNowTime / 1000))
@@ -108,9 +108,9 @@ public class HudUtils {
     public static void sendHudLyricData(LyricItem showobj) {
         String info;
         if (showobj == null) {
-            info = AllMusic.getMessage().getHud().getNoLyric();
+            info = AllMusic.getMessage().Hud.getNoLyric();
         } else {
-            info = AllMusic.getMessage().getHud().getLyric()
+            info = AllMusic.getMessage().Hud.getLyric()
                     .replace("%Lyric%", showobj.getLyric() == null ? "" : showobj.getLyric())
                     .replace("%Tlyric%", (showobj.isHaveT() && showobj.getTlyric() != null) ?
                             showobj.getTlyric() : "");

@@ -1,9 +1,9 @@
 package coloryr.allmusic.message;
 
 public class PageOBJ {
-    private String Choice;
-    private String Next;
-    private String Last;
+    public String Choice;
+    public String Next;
+    public String Last;
 
     public PageOBJ() {
         Choice = "§e[§n点我选择§r§e]§2%index%->%MusicName% | %MusicAuthor% | %MusicAl%";
@@ -21,17 +21,5 @@ public class PageOBJ {
             res = true;
 
         return res;
-    }
-
-    public String getLast() {
-        return Last;
-    }
-
-    public String getNext() {
-        return Next;
-    }
-
-    public String getChoice() {
-        return Choice;
     }
 }

@@ -1,8 +1,8 @@
 package coloryr.allmusic.message;
 
 public class LyricOBJ {
-    private String Data;
-    private String TData;
+    public String Data;
+    public String TData;
 
     public LyricOBJ() {
         Data = "%Lyric%";
@@ -16,13 +16,5 @@ public class LyricOBJ {
             return true;
 
         return false;
-    }
-
-    public String getData() {
-        return Data;
-    }
-
-    public String getTData() {
-        return TData;
     }
 }

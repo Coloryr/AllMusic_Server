@@ -10,6 +10,7 @@ import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.music.search.SearchPage;
+import coloryr.allmusic.side.ComType;
 import coloryr.allmusic.side.IMyLogger;
 import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.sql.IEconomy;
@@ -26,32 +27,93 @@ import java.util.List;
 import java.util.Map;
 
 public class AllMusic {
+    /**
+     * 客户端插件信道名
+     */
     public static final String channel = "allmusic:channel";
+    /**
+     * BC插件信道名
+     */
     public static final String channelBC = "allmusic:channelbc";
-    public static final String version = "2.17.1";
+    /**
+     * 插件版本号
+     */
+    public static final String version = "2.17.4";
+    /**
+     * 配置文件版本号
+     */
     public static final String configVersion = "101";
+    /**
+     * 语言文件配置版本号
+     */
     public static final String messageVersion = "101";
 
+    /**
+     * 搜歌结果
+     * 玩家名 结果
+     */
     private static final Map<String, SearchPage> searchSave = new HashMap<>();
+    /**
+     * 投票的玩家
+     */
     private static final List<String> votePlayer = new ArrayList<>();
+    /**
+     * 正在播放的玩家
+     */
     private static final List<String> nowPlayPlayer = new ArrayList<>();
 
+    /**
+     * 网易API
+     */
     private static APIMain apiMusic;
+    /**
+     * 配置对象
+     */
     private static ConfigOBJ config;
+    /**
+     * 语言对象
+     */
     private static MessageOBJ message;
+
+    /**
+     * 配置文件
+     */
     private static File configFile;
+    /**
+     * Cookie文件
+     */
     private static File cookieFile;
+    /**
+     * 语言文件
+     */
     private static File messageFile;
 
     public static final Gson gson = new Gson();
 
+    /**
+     * 日志
+     */
     public static IMyLogger log;
+    /**
+     * 服务器端操作
+     */
     public static ISide side;
+    /**
+     * 是否在运行
+     */
     public static boolean isRun;
+    /**
+     * Cookie对象
+     */
     public static CookieObj cookie;
-
+    /**
+     * 经济插件对象
+     */
     public static IEconomy economy;
 
+    /**
+     * 检查配置文件完整性
+     */
     public static void configCheck() {
         if (config == null) {
             config = new ConfigOBJ();
@@ -63,6 +125,9 @@ public class AllMusic {
         }
     }
 
+    /**
+     * 检查语言文件完整性
+     */
     private static void messageCheck() {
         if (message == null) {
             message = new MessageOBJ();
@@ -74,10 +139,19 @@ public class AllMusic {
         }
     }
 
+    /**
+     * 是否存在正在播放的玩家
+     * @param player 用户名
+     * @return 是否存在
+     */
     public static boolean containNowPlay(String player) {
         return !nowPlayPlayer.contains(player);
     }
 
+    /**
+     * 获取配置文件
+     * @return 配置对象
+     */
     public static ConfigOBJ getConfig() {
         if (config == null) {
             log.warning("§d[AllMusic]§c配置文件config.json错误，已使用默认配置文件");
@@ -86,48 +160,97 @@ public class AllMusic {
         return config;
     }
 
+    /**
+     * 获取语言文件
+     * @return 语言对象
+     */
     public static MessageOBJ getMessage() {
+        if (message == null) {
+            log.warning("§d[AllMusic]§c配置文件message.json错误，已使用默认配置文件");
+            message = new MessageOBJ();
+        }
         return message;
     }
 
+    /**
+     * 添加搜歌结果
+     * @param player 用户名
+     * @param page 结果
+     */
     public static void addSearch(String player, SearchPage page) {
         searchSave.put(player, page);
     }
 
+    /**
+     * 获取搜歌结果
+     * @param player 用户名
+     * @return 结果
+     */
     public static SearchPage getSearch(String player) {
         return searchSave.get(player);
     }
 
+    /**
+     * 删除搜歌结果
+     * @param player 用户名
+     */
     public static void removeSearch(String player) {
         searchSave.remove(player);
     }
 
+    /**
+     * 添加投票的玩家
+     * @param player 用户名
+     */
     public static void addVote(String player) {
         if (!votePlayer.contains(player))
             votePlayer.add(player);
     }
 
+    /**
+     * 获取投票数量
+     * @return 数量
+     */
     public static int getVoteCount() {
         return votePlayer.size();
     }
 
+    /**
+     * 清空投票
+     */
     public static void clearVote() {
         votePlayer.clear();
     }
 
+    /**
+     * 是否已经投票了
+     * @param player 用户名
+     * @return 结果
+     */
     public static boolean containVote(String player) {
         return votePlayer.contains(player);
     }
 
+    /**
+     * 添加正在播放的玩家
+     * @param player 用户名
+     */
     public static void addNowPlayPlayer(String player) {
         if (!nowPlayPlayer.contains(player))
             nowPlayPlayer.add(player);
     }
 
+    /**
+     * 删除正在播放的玩家
+     * @param player 用户名
+     */
     public static void removeNowPlayPlayer(String player) {
         nowPlayPlayer.remove(player);
     }
 
+    /**
+     * 保存配置文件
+     */
     public static void save() {
         try {
             String data = new GsonBuilder().setPrettyPrinting().create().toJson(config);
@@ -148,6 +271,9 @@ public class AllMusic {
         }
     }
 
+    /**
+     * 保存Cookie
+     */
     public static void saveCookie() {
         try {
             String data = new GsonBuilder().setPrettyPrinting().create().toJson(cookie);
@@ -162,6 +288,9 @@ public class AllMusic {
         }
     }
 
+    /**
+     * 启动插件
+     */
     public static void start() {
         PlayMusic.start();
         PlayGo.start();
@@ -171,6 +300,9 @@ public class AllMusic {
         log.info("§d[AllMusic]§e已启动-" + version);
     }
 
+    /**
+     * 停止插件
+     */
     public static void stop() {
         try {
             clearVote();
@@ -186,6 +318,10 @@ public class AllMusic {
         log.info("§d[AllMusic]§2§e已停止，感谢使用");
     }
 
+    /**
+     * 获取音乐API
+     * @return 音乐API
+     */
     public static APIMain getMusicApi() {
         if (apiMusic == null) {
             AllMusic.apiMusic = new APIMain();
@@ -193,6 +329,9 @@ public class AllMusic {
         return apiMusic;
     }
 
+    /**
+     * 加载配置文件
+     */
     private static void loadConfig() {
         try {
             InputStreamReader reader = new InputStreamReader(
@@ -211,7 +350,7 @@ public class AllMusic {
             messageCheck();
 
             log.info("§d[AllMusic]§e当前语言配置文件版本为：" + messageVersion
-                    + "，你的语言文件版本为：" + config.getVersion());
+                    + "，你的语言文件版本为：" + config.Version);
 
             if (!message.getVersion().equalsIgnoreCase(messageVersion)) {
                 log.warning("§d[AllMusic]§c语言文件版本号错误，运行可能会发生问题，请删除后重载");
@@ -228,9 +367,9 @@ public class AllMusic {
             }
 
             log.info("§d[AllMusic]§e当前插件配置文件版本为：" + configVersion
-                    + "，你的配置文件版本为：" + config.getVersion());
+                    + "，你的配置文件版本为：" + config.Version);
 
-            if (!AllMusic.configVersion.equalsIgnoreCase(config.getVersion())) {
+            if (!AllMusic.configVersion.equalsIgnoreCase(config.Version)) {
                 log.warning("§d[AllMusic]§c请及时更新配置文件");
             }
         } catch (Exception e) {
@@ -239,26 +378,34 @@ public class AllMusic {
         }
     }
 
-    public static void joinPlay(String name) {
-        if (getConfig().getNoMusicPlayer().contains(name))
+    /**
+     * 加入时播放
+     * @param player 用户名
+     */
+    public static void joinPlay(String player) {
+        if (getConfig().NoMusicPlayer.contains(player))
             return;
 
         AllMusic.side.task(() -> {
             if (PlayMusic.nowPlayMusic != null) {
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudSave.get(player);
                 String data = gson.toJson(obj);
-                AllMusic.side.send(data, name, null);
-                AllMusic.side.send("[Play]" + PlayGo.url, name, true);
+                AllMusic.side.send(data, player, null);
+                AllMusic.side.send(ComType.play + PlayGo.url, player, true);
                 if (!PlayMusic.nowPlayMusic.isUrl()) {
                     AllMusic.side.task(() ->
-                            AllMusic.side.send("[Img]" + PlayMusic.nowPlayMusic.getPicUrl(), name, true), 15);
+                            AllMusic.side.send(ComType.img + PlayMusic.nowPlayMusic.getPicUrl(), player, true), 15);
                 }
                 AllMusic.side.task(() ->
-                        AllMusic.side.send("[Pos]" + (PlayMusic.musicNowTime + 2000), name, true), 40);
+                        AllMusic.side.send(ComType.pos + (PlayMusic.musicNowTime + 2000), player, true), 40);
             }
         }, 20);
     }
 
+    /**
+     * 读取配置文件
+     * @param file 配置文件文件夹
+     */
     public void init(File file) {
         log.info("§d[AllMusic]§2§e正在启动，感谢使用，本插件交流群：571239090");
         try {

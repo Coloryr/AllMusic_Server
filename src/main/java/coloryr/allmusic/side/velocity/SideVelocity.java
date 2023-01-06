@@ -272,7 +272,7 @@ public class SideVelocity implements ISide {
     @Override
     public boolean checkPermission(String player, String permission) {
         try {
-            if (AllMusic.getConfig().getAdmin().contains(player))
+            if (AllMusic.getConfig().Admin.contains(player))
                 return false;
             Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
             player1.hasPermission(permission);
@@ -292,7 +292,7 @@ public class SideVelocity implements ISide {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
-            out.writeUTF(AllMusic.getMessage().getPAPI().getNoMusic());
+            out.writeUTF(AllMusic.getMessage().getPAPI().NoMusic);
         else
             out.writeUTF(PlayMusic.nowPlayMusic.getName());
         server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());

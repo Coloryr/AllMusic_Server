@@ -1,14 +1,14 @@
 package coloryr.allmusic.message;
 
 public class AddMusicOBJ {
-    private String ListFull;
-    private String BanMusic;
-    private String ExistMusic;
-    private String Success;
-    private String NoPlayer;
-    private String NoID;
-    private String Cancel;
-    private String TimeOut;
+    public String ListFull;
+    public String BanMusic;
+    public String ExistMusic;
+    public String Success;
+    public String NoPlayer;
+    public String NoID;
+    public String Cancel;
+    public String TimeOut;
 
     public AddMusicOBJ() {
         ListFull = "§d[AllMusic]§c错误，队列已满";
@@ -40,37 +40,5 @@ public class AddMusicOBJ {
             return true;
 
         return false;
-    }
-
-    public String getTimeOut() {
-        return TimeOut;
-    }
-
-    public String getCancel() {
-        return Cancel;
-    }
-
-    public String getNoID() {
-        return NoID;
-    }
-
-    public String getNoPlayer() {
-        return NoPlayer;
-    }
-
-    public String getSuccess() {
-        return Success;
-    }
-
-    public String getExistMusic() {
-        return ExistMusic;
-    }
-
-    public String getBanMusic() {
-        return BanMusic;
-    }
-
-    public String getListFull() {
-        return ListFull;
     }
 }
