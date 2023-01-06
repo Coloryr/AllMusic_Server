@@ -1,7 +1,7 @@
 package coloryr.allmusic;
 
-import coloryr.allmusic.music.api.TopSongInfo;
-import coloryr.allmusic.music.lyric.TopLyricItem;
+import coloryr.allmusic.objs.music.TopSongInfoObj;
+import coloryr.allmusic.objs.music.TopLyricItemObj;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.side.bukkit.*;
 import coloryr.allmusic.side.bukkit.hooks.AllMusicPAPI;
@@ -49,15 +49,15 @@ public class AllMusicBukkit extends JavaPlugin {
         }
 
         if (AllMusic.getConfig().TopPAPI) {
-            PlayMusic.nowPlayMusic = new TopSongInfo();
-            PlayMusic.lyricItem = new TopLyricItem();
+            PlayMusic.nowPlayMusic = new TopSongInfoObj();
+            PlayMusic.lyricItem = new TopLyricItemObj();
             pluginMessage = new PluginMessage();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channelBC);
             getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);
             AllMusic.log.info("§2设置为顶层模式");
         } else {
             if (Bukkit.getPluginManager().getPlugin("Vault") != null
-            && AllMusic.getConfig().Economys.Vault) {
+            && AllMusic.getConfig().Economy.Vault) {
                 try {
                     VaultHook vault = new VaultHook();
                     AllMusic.economy = vault;

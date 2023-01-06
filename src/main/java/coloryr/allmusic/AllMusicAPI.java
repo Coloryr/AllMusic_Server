@@ -1,6 +1,6 @@
 package coloryr.allmusic;
 
-import coloryr.allmusic.hud.obj.HudPos;
+import coloryr.allmusic.enums.HudPos;
 import coloryr.allmusic.side.ComType;
 
 public class AllMusicAPI {

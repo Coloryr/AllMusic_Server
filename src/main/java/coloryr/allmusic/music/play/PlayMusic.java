@@ -3,9 +3,10 @@ package coloryr.allmusic.music.play;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.decoder.Bitstream;
 import coloryr.allmusic.decoder.Header;
-import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.lyric.LyricItem;
-import coloryr.allmusic.music.lyric.LyricSave;
+import coloryr.allmusic.objs.music.SongInfoObj;
+import coloryr.allmusic.objs.music.LyricItemObj;
+import coloryr.allmusic.objs.music.LyricSaveObj;
+import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.utils.Logs;
 
 import java.io.BufferedInputStream;
@@ -22,7 +23,7 @@ public class PlayMusic {
     /**
      * 播放列表
      */
-    private static final List<SongInfo> playList = new CopyOnWriteArrayList<>();
+    private static final List<SongInfoObj> playList = new CopyOnWriteArrayList<>();
     /**
      * 投票时间
      */
@@ -42,16 +43,16 @@ public class PlayMusic {
     /**
      * 当前歌曲信息
      */
-    public static SongInfo nowPlayMusic;
+    public static SongInfoObj nowPlayMusic;
 
     /**
      * 当前歌词信息
      */
-    public static LyricSave lyric;
+    public static LyricSaveObj lyric;
     /**
      * 当前歌词
      */
-    public static LyricItem lyricItem;
+    public static LyricItemObj lyricItem;
     /**
      * 错误次数
      */
@@ -121,7 +122,7 @@ public class PlayMusic {
         }
         Logs.logWrite("玩家：" + player + " 点歌：" + id);
         try {
-            SongInfo info = AllMusic.getMusicApi().getMusic(id, player, isList);
+            SongInfoObj info = AllMusic.getMusicApi().getMusic(id, player, isList);
             if (info == null) {
                 if (sender != null) {
                     String data = AllMusic.getMessage().MusicPlay.NoCanPlay;
@@ -174,7 +175,7 @@ public class PlayMusic {
      * 获取当前播放列表
      * @return 播放列表
      */
-    public static List<SongInfo> getList() {
+    public static List<SongInfoObj> getList() {
         return new ArrayList<>(playList);
     }
 
@@ -190,7 +191,7 @@ public class PlayMusic {
      * @param index 标号
      * @return 结果
      */
-    public static SongInfo remove(int index) {
+    public static SongInfoObj remove(int index) {
         return playList.remove(index);
     }
 
@@ -201,7 +202,7 @@ public class PlayMusic {
     public static String getAllList() {
         StringBuilder list = new StringBuilder();
         String a;
-        SongInfo info;
+        SongInfoObj info;
         for (int i = 0; i < playList.size(); i++) {
             info = playList.get(i);
             a = AllMusic.getMessage().MusicPlay.ListMusic.Item;
@@ -226,7 +227,7 @@ public class PlayMusic {
     public static boolean isHave(String id) {
         if (nowPlayMusic != null && nowPlayMusic.getID().equalsIgnoreCase(id))
             return true;
-        for (SongInfo item : playList) {
+        for (SongInfoObj item : playList) {
             if (item.getID().equalsIgnoreCase(id))
                 return true;
         }
@@ -251,7 +252,7 @@ public class PlayMusic {
             } else {
                 le = (int) h.total_ms(b);
             }
-            SongInfo info = new SongInfo(AllMusic.getMessage().Custom.Info, url, le);
+            SongInfoObj info = new SongInfoObj(AllMusic.getMessage().Custom.Info, url, le);
             playList.add(info);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");

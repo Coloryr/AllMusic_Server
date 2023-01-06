@@ -2,10 +2,10 @@ package coloryr.allmusic.side.velocity;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicVelocity;
-import coloryr.allmusic.hud.HudSave;
-import coloryr.allmusic.hud.obj.SaveOBJ;
-import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.hud.HudUtils;
+import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.music.SongInfoObj;
+import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.side.ComType;
 import coloryr.allmusic.side.ISide;
@@ -122,7 +122,7 @@ public class SideVelocity implements ISide {
                 if (isOK(player))
                     continue;
                 String name = player.getUsername();
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnablePic)
                     continue;
                 send(player, ComType.img + url, false);
@@ -139,7 +139,7 @@ public class SideVelocity implements ISide {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 if (isOK(player))
                     continue;
-                SaveOBJ obj = HudSave.get(player.getUsername());
+                SaveOBJ obj = HudUtils.get(player.getUsername());
                 if (!obj.EnableLyric)
                     continue;
                 send(player, ComType.lyric + data, null);
@@ -156,7 +156,7 @@ public class SideVelocity implements ISide {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 if (isOK(player))
                     continue;
-                SaveOBJ obj = HudSave.get(player.getUsername());
+                SaveOBJ obj = HudUtils.get(player.getUsername());
                 if (!obj.EnableInfo)
                     continue;
                 send(player, ComType.info + data, null);
@@ -174,7 +174,7 @@ public class SideVelocity implements ISide {
                 if (isOK(player))
                     continue;
                 String name = player.getUsername();
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnableList)
                     continue;
                 send(player, ComType.list + data, null);
@@ -186,11 +186,11 @@ public class SideVelocity implements ISide {
     }
 
     @Override
-    public void sendHudSaveAll() {
+    public void sendHudUtilsAll() {
         for (Player players : AllMusicVelocity.plugin.server.getAllPlayers()) {
             String Name = players.getUsername();
             try {
-                SaveOBJ obj = HudSave.get(Name);
+                SaveOBJ obj = HudUtils.get(Name);
                 String data = new Gson().toJson(obj);
                 send(data, Name, null);
             } catch (Exception e1) {
@@ -379,7 +379,7 @@ public class SideVelocity implements ISide {
     }
 
     @Override
-    public boolean onMusicPlay(SongInfo obj) {
+    public boolean onMusicPlay(SongInfoObj obj) {
         MusicPlayEvent event = new MusicPlayEvent(obj);
         AllMusicVelocity.plugin.server.getEventManager().fire(event).join();
         return event.isCancel();

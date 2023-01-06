@@ -2,10 +2,10 @@ package coloryr.allmusic.side.bc;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBC;
-import coloryr.allmusic.hud.HudSave;
-import coloryr.allmusic.hud.obj.SaveOBJ;
-import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.hud.HudUtils;
+import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.music.SongInfoObj;
+import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.side.ComType;
 import coloryr.allmusic.side.ISide;
@@ -18,7 +18,6 @@ import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -51,7 +50,7 @@ public class SideBC implements ISide {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (isOK(player))
                     continue;
-                SaveOBJ obj = HudSave.get(player.getName());
+                SaveOBJ obj = HudUtils.get(player.getName());
                 if (!obj.EnableLyric)
                     continue;
                 send(player, ComType.lyric + data, null);
@@ -68,7 +67,7 @@ public class SideBC implements ISide {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (isOK(player))
                     continue;
-                SaveOBJ obj = HudSave.get(player.getName());
+                SaveOBJ obj = HudUtils.get(player.getName());
                 if (!obj.EnableInfo)
                     continue;
                 send(player, ComType.info + data, null);
@@ -86,7 +85,7 @@ public class SideBC implements ISide {
                 if (isOK(player))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnableList)
                     continue;
                 send(player, ComType.list + data, null);
@@ -98,10 +97,10 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public void sendHudSaveAll() {
+    public void sendHudUtilsAll() {
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             try {
-                SaveOBJ obj = HudSave.get(player.getName());
+                SaveOBJ obj = HudUtils.get(player.getName());
                 String data = AllMusic.gson.toJson(obj);
                 send(player, data, null);
             } catch (Exception e1) {
@@ -145,7 +144,7 @@ public class SideBC implements ISide {
                 if (isOK(player))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnablePic)
                     continue;
                 send(player, ComType.img + url, null);
@@ -399,7 +398,7 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public boolean onMusicPlay(SongInfo obj) {
+    public boolean onMusicPlay(SongInfoObj obj) {
         MusicPlayEvent event = new MusicPlayEvent(obj);
         ProxyServer.getInstance().getPluginManager().callEvent(event);
         return event.isCancel();

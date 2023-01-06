@@ -1,6 +1,6 @@
 package coloryr.allmusic.side.velocity.event;
 
-import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.objs.music.MusicObj;
 import com.velocitypowered.api.command.CommandSource;
 
 /**

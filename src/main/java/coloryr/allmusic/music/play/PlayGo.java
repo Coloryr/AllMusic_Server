@@ -2,8 +2,9 @@ package coloryr.allmusic.music.play;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.HudUtils;
-import coloryr.allmusic.music.lyric.LyricItem;
-import coloryr.allmusic.music.lyric.LyricSave;
+import coloryr.allmusic.objs.music.LyricItemObj;
+import coloryr.allmusic.objs.music.LyricSaveObj;
+import coloryr.allmusic.objs.music.MusicObj;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -98,7 +99,7 @@ public class PlayGo {
     }
 
     private static void time2() {
-        LyricItem show = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime);
+        LyricItemObj show = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime);
         if (show != null) {
             PlayMusic.lyricItem = show;
             times = 0;
@@ -137,7 +138,7 @@ public class PlayGo {
                     }
                     Thread.sleep(50);
                 } else {
-                    AllMusic.side.sendHudSaveAll();
+                    AllMusic.side.sendHudUtilsAll();
                     PlayMusic.nowPlayMusic = PlayMusic.remove(0);
                     if (AllMusic.side.onMusicPlay(PlayMusic.nowPlayMusic)) {
                         AllMusic.side.bqt(AllMusic.getMessage().MusicPlay.Cancel);
@@ -156,7 +157,7 @@ public class PlayGo {
                     if (PlayMusic.nowPlayMusic.getPlayerUrl() == null)
                         PlayMusic.lyric = AllMusic.getMusicApi().getLyric(PlayMusic.nowPlayMusic.getID());
                     else
-                        PlayMusic.lyric = new LyricSave();
+                        PlayMusic.lyric = new LyricSaveObj();
 
                     if (PlayMusic.nowPlayMusic.getLength() != 0) {
                         PlayMusic.musicAllTime = PlayMusic.musicLessTime = (PlayMusic.nowPlayMusic.getLength() / 1000) + 3;

@@ -1,6 +1,6 @@
 package coloryr.allmusic.side.velocity.event;
 
-import coloryr.allmusic.music.api.SongInfo;
+import coloryr.allmusic.objs.music.SongInfoObj;
 
 /**
  * 音乐播发事件
@@ -9,17 +9,17 @@ public class MusicPlayEvent {
     /**
      * 音乐内容
      */
-    private final SongInfo music;
+    private final SongInfoObj music;
     /**
      * 是否取消
      */
     private boolean cancel = false;
 
-    public MusicPlayEvent(SongInfo music) {
+    public MusicPlayEvent(SongInfoObj music) {
         this.music = music;
     }
 
-    public SongInfo getMusic() {
+    public SongInfoObj getMusic() {
         return music;
     }
 

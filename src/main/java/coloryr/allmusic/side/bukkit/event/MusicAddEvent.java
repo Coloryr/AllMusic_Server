@@ -1,6 +1,6 @@
 package coloryr.allmusic.side.bukkit.event;
 
-import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.objs.music.MusicObj;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -1,6 +1,6 @@
 package coloryr.allmusic.side.bc.event;
 
-import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.objs.music.MusicObj;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Event;
 

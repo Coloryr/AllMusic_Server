@@ -1,15 +1,16 @@
 package coloryr.allmusic;
 
 import coloryr.allmusic.hud.DataSql;
-import coloryr.allmusic.hud.HudSave;
-import coloryr.allmusic.hud.obj.SaveOBJ;
-import coloryr.allmusic.message.MessageOBJ;
+import coloryr.allmusic.hud.HudUtils;
+import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.MessageOBJ;
 import coloryr.allmusic.music.api.APIMain;
-import coloryr.allmusic.music.api.http.CookieObj;
+import coloryr.allmusic.objs.CookieObj;
 import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
-import coloryr.allmusic.music.search.SearchPage;
+import coloryr.allmusic.objs.music.SearchPageObj;
+import coloryr.allmusic.objs.ConfigOBJ;
 import coloryr.allmusic.side.ComType;
 import coloryr.allmusic.side.IMyLogger;
 import coloryr.allmusic.side.ISide;
@@ -52,7 +53,7 @@ public class AllMusic {
      * 搜歌结果
      * 玩家名 结果
      */
-    private static final Map<String, SearchPage> searchSave = new HashMap<>();
+    private static final Map<String, SearchPageObj> searchSave = new HashMap<>();
     /**
      * 投票的玩家
      */
@@ -177,7 +178,7 @@ public class AllMusic {
      * @param player 用户名
      * @param page 结果
      */
-    public static void addSearch(String player, SearchPage page) {
+    public static void addSearch(String player, SearchPageObj page) {
         searchSave.put(player, page);
     }
 
@@ -186,7 +187,7 @@ public class AllMusic {
      * @param player 用户名
      * @return 结果
      */
-    public static SearchPage getSearch(String player) {
+    public static SearchPageObj getSearch(String player) {
         return searchSave.get(player);
     }
 
@@ -388,7 +389,7 @@ public class AllMusic {
 
         AllMusic.side.runTask(() -> {
             if (PlayMusic.nowPlayMusic != null) {
-                SaveOBJ obj = HudSave.get(player);
+                SaveOBJ obj = HudUtils.get(player);
                 String data = gson.toJson(obj);
                 AllMusic.side.send(data, player, null);
                 AllMusic.side.send(ComType.play + PlayGo.url, player, true);

@@ -2,12 +2,12 @@ package coloryr.allmusic.command;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.HudUtils;
-import coloryr.allmusic.hud.obj.PosOBJ;
-import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.objs.hud.PosOBJ;
+import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayMusic;
-import coloryr.allmusic.music.search.SearchOBJ;
-import coloryr.allmusic.music.search.SearchPage;
+import coloryr.allmusic.objs.SearchOBJ;
+import coloryr.allmusic.objs.music.SearchPageObj;
 import coloryr.allmusic.utils.Function;
 
 import java.util.Locale;
@@ -133,7 +133,7 @@ public class CommandEX {
      * @param sender 发送者
      * @param search 搜歌结果
      */
-    public static void showSearch(Object sender, SearchPage search) {
+    public static void showSearch(Object sender, SearchPageObj search) {
         int index = search.getIndex();
         SearchOBJ item;
         String info;
@@ -294,7 +294,7 @@ public class CommandEX {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().Search.NoPer);
                 return;
             }
-            SearchPage obj = AllMusic.getSearch(name);
+            SearchPageObj obj = AllMusic.getSearch(name);
             if (obj == null) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().Search.NoSearch);
             } else if (!args[1].isEmpty() && Function.isInteger(args[1])) {
@@ -319,7 +319,7 @@ public class CommandEX {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().Search.NoPer);
                 return;
             }
-            SearchPage obj = AllMusic.getSearch(name);
+            SearchPageObj obj = AllMusic.getSearch(name);
             if (obj == null) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().Search.NoSearch);
             } else if (obj.nextPage()) {
@@ -334,7 +334,7 @@ public class CommandEX {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().Search.NoPer);
                 return;
             }
-            SearchPage obj = AllMusic.getSearch(name);
+            SearchPageObj obj = AllMusic.getSearch(name);
             if (obj == null) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().Search.NoSearch);
             } else if (obj.lastPage()) {

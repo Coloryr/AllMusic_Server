@@ -2,7 +2,8 @@ package coloryr.allmusic.music.play;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.command.CommandEX;
-import coloryr.allmusic.music.search.SearchPage;
+import coloryr.allmusic.objs.music.MusicObj;
+import coloryr.allmusic.objs.music.SearchPageObj;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -16,7 +17,7 @@ public class MusicSearch {
             try {
                 MusicObj obj = tasks.poll();
                 if (obj != null) {
-                    SearchPage search = AllMusic.getMusicApi().search(obj.args, obj.isDefault);
+                    SearchPageObj search = AllMusic.getMusicApi().search(obj.args, obj.isDefault);
                     if (search == null)
                         AllMusic.side.sendMessaget(obj.sender, AllMusic.getMessage().Search
                                 .CantSearch.replace("%Music%", obj.isDefault ? obj.args[0] : obj.args[1]));

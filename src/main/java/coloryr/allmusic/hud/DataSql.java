@@ -1,8 +1,8 @@
 package coloryr.allmusic.hud;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.hud.obj.PosOBJ;
-import coloryr.allmusic.hud.obj.SaveOBJ;
+import coloryr.allmusic.objs.hud.PosOBJ;
+import coloryr.allmusic.objs.hud.SaveOBJ;
 
 import java.io.File;
 import java.sql.Connection;
@@ -190,7 +190,7 @@ public class DataSql {
                 obj.Pic = pos4;
                 obj.EnablePic = set.getInt(13) == 1;
                 obj.PicSize = set.getInt(14);
-                HudSave.add(name, obj);
+                HudUtils.add(name, obj);
             }
             stat.close();
         } catch (Exception e) {
@@ -220,7 +220,7 @@ public class DataSql {
     public static void stop() {
         isRun = false;
         semaphore.release();
-        HudSave.save();
+        HudUtils.save();
     }
 
     private static void run() {

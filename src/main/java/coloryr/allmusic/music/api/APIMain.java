@@ -1,21 +1,21 @@
 package coloryr.allmusic.music.api;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.music.api.http.EncryptType;
-import coloryr.allmusic.music.api.http.HttpClientUtil;
-import coloryr.allmusic.music.api.http.HttpRes;
-import coloryr.allmusic.music.api.obj.music.info.InfoOBJ;
-import coloryr.allmusic.music.api.obj.music.list.DataOBJ;
-import coloryr.allmusic.music.api.obj.music.lyric.WLyricOBJ;
-import coloryr.allmusic.music.api.obj.music.search.SearchDataOBJ;
-import coloryr.allmusic.music.api.obj.music.search.songs;
-import coloryr.allmusic.music.api.obj.music.trialinfo.TrialInfoObj;
-import coloryr.allmusic.music.api.obj.program.info.PrInfoOBJ;
-import coloryr.allmusic.music.lyric.LyricDo;
-import coloryr.allmusic.music.lyric.LyricSave;
+import coloryr.allmusic.enums.EncryptType;
+import coloryr.allmusic.objs.HttpResObj;
+import coloryr.allmusic.objs.api.music.info.InfoOBJ;
+import coloryr.allmusic.objs.api.music.list.DataOBJ;
+import coloryr.allmusic.objs.api.music.lyric.WLyricOBJ;
+import coloryr.allmusic.objs.api.music.search.SearchDataOBJ;
+import coloryr.allmusic.objs.api.music.search.songs;
+import coloryr.allmusic.objs.api.music.trialinfo.TrialInfoObj;
+import coloryr.allmusic.objs.api.program.info.PrInfoOBJ;
+import coloryr.allmusic.music.play.LyricDo;
+import coloryr.allmusic.objs.music.LyricSaveObj;
 import coloryr.allmusic.music.play.PlayMusic;
-import coloryr.allmusic.music.search.SearchOBJ;
-import coloryr.allmusic.music.search.SearchPage;
+import coloryr.allmusic.objs.SearchOBJ;
+import coloryr.allmusic.objs.music.SearchPageObj;
+import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.utils.Logs;
 import com.google.gson.JsonObject;
 import okhttp3.Cookie;
@@ -33,8 +33,8 @@ public class APIMain {
     public APIMain() {
         AllMusic.log.info("§d[AllMusic]§e正在初始化网络爬虫");
         HttpClientUtil.init();
-        HttpRes res = HttpClientUtil.get("https://music.163.com", "");
-        if (res == null || !res.isOk()) {
+        HttpResObj res = HttpClientUtil.get("https://music.163.com", "");
+        if (res == null || !res.ok) {
             AllMusic.log.info("§d[AllMusic]§c初始化网络爬虫连接失败");
         }
     }
@@ -48,8 +48,8 @@ public class APIMain {
         JsonObject params = new JsonObject();
         params.addProperty("ctcode", "86");
         params.addProperty("cellphone", AllMusic.getConfig().LoginUser);
-        HttpRes res = HttpClientUtil.post("https://music.163.com/api/sms/captcha/sent", params, EncryptType.WEAPI, null);
-        AllMusic.side.sendMessage(sender, "§d[AllMusic]§d已发送验证码\n" + res.getData());
+        HttpResObj res = HttpClientUtil.post("https://music.163.com/api/sms/captcha/sent", params, EncryptType.WEAPI, null);
+        AllMusic.side.sendMessage(sender, "§d[AllMusic]§d已发送验证码\n" + res.data);
     }
 
     /**
@@ -85,24 +85,24 @@ public class APIMain {
         params.addProperty("countrycode", "86");
         params.addProperty("phone", AllMusic.getConfig().LoginUser);
         params.addProperty("captcha", code);
-        HttpRes res = HttpClientUtil.post("https://music.163.com/eapi/w/login/cellphone", params, EncryptType.WEAPI, null);
-        if (res == null || !res.isOk()) {
+        HttpResObj res = HttpClientUtil.post("https://music.163.com/eapi/w/login/cellphone", params, EncryptType.WEAPI, null);
+        if (res == null || !res.ok) {
             if (sender == null)
                 AllMusic.log.info("§d[AllMusic]§c登录失败");
             else
                 AllMusic.side.sendMessage(sender, "§d[AllMusic]§c登录失败");
             return;
         }
-        if (res.getData().contains("200")) {
+        if (res.data.contains("200")) {
             if (sender == null)
                 AllMusic.log.info("§d[AllMusic]§d已登录");
             else
                 AllMusic.side.sendMessage(sender, "§d[AllMusic]§d已登录");
         } else {
             if (sender == null)
-                AllMusic.log.info("§d[AllMusic]§c登录失败:账号或密码错误\n" + res.getData());
+                AllMusic.log.info("§d[AllMusic]§c登录失败:账号或密码错误\n" + res.data);
             else
-                AllMusic.side.sendMessage(sender, "§d[AllMusic]§c登录失败:账号或密码错误\n" + res.getData());
+                AllMusic.side.sendMessage(sender, "§d[AllMusic]§c登录失败:账号或密码错误\n" + res.data);
         }
     }
 
@@ -114,24 +114,24 @@ public class APIMain {
      * @param isList 是否是空闲列表
      * @return 结果
      */
-    private SongInfo getMusicDetail(String id, String player, boolean isList) {
+    private SongInfoObj getMusicDetail(String id, String player, boolean isList) {
         JsonObject params = new JsonObject();
         params.addProperty("c", "[{\"id\":" + id + "}]");
 
-        HttpRes res = HttpClientUtil.post("https://music.163.com/api/v3/song/detail", params, EncryptType.WEAPI, null);
-        if (res != null && res.isOk()) {
-            InfoOBJ temp = AllMusic.gson.fromJson(res.getData(), InfoOBJ.class);
-            if (temp.isok()) {
+        HttpResObj res = HttpClientUtil.post("https://music.163.com/api/v3/song/detail", params, EncryptType.WEAPI, null);
+        if (res != null && res.ok) {
+            InfoOBJ temp = AllMusic.gson.fromJson(res.data, InfoOBJ.class);
+            if (temp.isOk()) {
                 params = new JsonObject();
                 params.addProperty("ids", "[" + id + "]");
                 params.addProperty("br", "320000");
                 res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
-                if (res == null || !res.isOk()) {
+                if (res == null || !res.ok) {
                     AllMusic.log.warning("§d[AllMusic]§c版权检索失败");
                     return null;
                 }
-                TrialInfoObj obj = AllMusic.gson.fromJson(res.getData(), TrialInfoObj.class);
-                return new SongInfo(temp.getAuthor(), temp.getName(),
+                TrialInfoObj obj = AllMusic.gson.fromJson(res.data, TrialInfoObj.class);
+                return new SongInfoObj(temp.getAuthor(), temp.getName(),
                         id, temp.getAlia(), player, temp.getAl(), isList, temp.getLength(),
                         temp.getPicUrl(), obj.isTrial(), obj.getFreeTrialInfo());
             }
@@ -147,17 +147,17 @@ public class APIMain {
      * @param isList 是否是空闲列表
      * @return 结果
      */
-    public SongInfo getMusic(String id, String player, boolean isList) {
-        SongInfo info = getMusicDetail(id, player, isList);
+    public SongInfoObj getMusic(String id, String player, boolean isList) {
+        SongInfoObj info = getMusicDetail(id, player, isList);
         if (info != null)
             return info;
         JsonObject params = new JsonObject();
         params.addProperty("id", id);
-        HttpRes res = HttpClientUtil.post("https://music.163.com/api/dj/program/detail", params, EncryptType.WEAPI, null);
-        if (res != null && res.isOk()) {
-            PrInfoOBJ temp = AllMusic.gson.fromJson(res.getData(), PrInfoOBJ.class);
-            if (temp.isOK()) {
-                return new SongInfo(temp.getAuthor(), temp.getName(),
+        HttpResObj res = HttpClientUtil.post("https://music.163.com/api/dj/program/detail", params, EncryptType.WEAPI, null);
+        if (res != null && res.ok) {
+            PrInfoOBJ temp = AllMusic.gson.fromJson(res.data, PrInfoOBJ.class);
+            if (temp.isOk()) {
+                return new SongInfoObj(temp.getAuthor(), temp.getName(),
                         temp.getId(), temp.getAlia(), player, "电台", isList, temp.getLength(),
                         null, false, null);
             } else {
@@ -177,13 +177,13 @@ public class APIMain {
         JsonObject params = new JsonObject();
         params.addProperty("ids", "[" + id + "]");
         params.addProperty("br", AllMusic.getConfig().MusicBR);
-        HttpRes res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
-        if (res != null && res.isOk()) {
+        HttpResObj res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
+        if (res != null && res.ok) {
             try {
-                TrialInfoObj obj = AllMusic.gson.fromJson(res.getData(), TrialInfoObj.class);
+                TrialInfoObj obj = AllMusic.gson.fromJson(res.data, TrialInfoObj.class);
                 return obj.getUrl();
             } catch (Exception e) {
-                Logs.logWrite(res.getData());
+                Logs.logWrite(res.data);
                 AllMusic.log.warning("§d[AllMusic]§c播放连接解析错误");
                 e.printStackTrace();
             }
@@ -203,11 +203,11 @@ public class APIMain {
             params.addProperty("id", id);
             params.addProperty("n", 100000);
             params.addProperty("s", 8);
-            HttpRes res = HttpClientUtil.post("https://music.163.com/api/v6/playlist/detail", params, EncryptType.API, null);
-            if (res != null && res.isOk())
+            HttpResObj res = HttpClientUtil.post("https://music.163.com/api/v6/playlist/detail", params, EncryptType.API, null);
+            if (res != null && res.ok)
                 try {
                     isUpdata = true;
-                    DataOBJ obj = AllMusic.gson.fromJson(res.getData(), DataOBJ.class);
+                    DataOBJ obj = AllMusic.gson.fromJson(res.data, DataOBJ.class);
                     AllMusic.getConfig().PlayList.addAll(obj.getPlaylist());
                     AllMusic.save();
                     AllMusic.side.sendMessaget(sender, AllMusic.getMessage().MusicPlay.ListMusic.Get.replace("%ListName%", obj.getName()));
@@ -226,18 +226,18 @@ public class APIMain {
      * @param id 歌曲id
      * @return 结果
      */
-    public LyricSave getLyric(String id) {
-        LyricSave Lyric = new LyricSave();
+    public LyricSaveObj getLyric(String id) {
+        LyricSaveObj Lyric = new LyricSaveObj();
         JsonObject params = new JsonObject();
         params.addProperty("id", id);
         params.addProperty("lv", -1);
         params.addProperty("kv", -1);
         params.addProperty("tv", -1);
         params.addProperty("rv", -1);
-        HttpRes res = HttpClientUtil.post("https://music.163.com/api/song/lyric?_nmclfl=1", params, EncryptType.API, null);
-        if (res != null && res.isOk()) {
+        HttpResObj res = HttpClientUtil.post("https://music.163.com/api/song/lyric?_nmclfl=1", params, EncryptType.API, null);
+        if (res != null && res.ok) {
             try {
-                WLyricOBJ obj = AllMusic.gson.fromJson(res.getData(), WLyricOBJ.class);
+                WLyricOBJ obj = AllMusic.gson.fromJson(res.data, WLyricOBJ.class);
                 LyricDo temp = new LyricDo();
                 for (int times = 0; times < 3; times++) {
                     if (temp.check(obj)) {
@@ -267,7 +267,7 @@ public class APIMain {
      * @param isDefault 是否是默认方式
      * @return 结果
      */
-    public SearchPage search(String[] name, boolean isDefault) {
+    public SearchPageObj search(String[] name, boolean isDefault) {
         List<SearchOBJ> resData = new ArrayList<>();
         int maxpage;
 
@@ -284,10 +284,10 @@ public class APIMain {
         params.addProperty("limit", 30);
         params.addProperty("offset", 0);
 
-        HttpRes res = HttpClientUtil.post("https://music.163.com/weapi/search/get", params, EncryptType.WEAPI, null);
-        if (res != null && res.isOk()) {
-            SearchDataOBJ obj = AllMusic.gson.fromJson(res.getData(), SearchDataOBJ.class);
-            if (obj != null && obj.isok()) {
+        HttpResObj res = HttpClientUtil.post("https://music.163.com/weapi/search/get", params, EncryptType.WEAPI, null);
+        if (res != null && res.ok) {
+            SearchDataOBJ obj = AllMusic.gson.fromJson(res.data, SearchDataOBJ.class);
+            if (obj != null && obj.isOk()) {
                 List<songs> res1 = obj.getResult();
                 SearchOBJ item;
                 for (songs temp : res1) {
@@ -295,7 +295,7 @@ public class APIMain {
                     resData.add(item);
                 }
                 maxpage = res1.size() / 10;
-                return new SearchPage(resData, maxpage);
+                return new SearchPageObj(resData, maxpage);
             } else {
                 AllMusic.log.warning("§d[AllMusic]§c歌曲搜索出现错误");
 

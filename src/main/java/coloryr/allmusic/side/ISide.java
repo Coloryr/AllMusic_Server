@@ -1,7 +1,7 @@
 package coloryr.allmusic.side;
 
-import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.objs.music.SongInfoObj;
+import coloryr.allmusic.objs.music.MusicObj;
 
 public interface ISide {
     /**
@@ -80,7 +80,7 @@ public interface ISide {
     /**
      * 发送Hud位置数据
      */
-    void sendHudSaveAll();
+    void sendHudUtilsAll();
 
     /**
      * 发送Bar数据
@@ -177,7 +177,7 @@ public interface ISide {
      * @param obj 歌曲信息
      * @return 是否阻止播放
      */
-    boolean onMusicPlay(SongInfo obj);
+    boolean onMusicPlay(SongInfoObj obj);
 
     /**
      * 当歌曲播放时触发的事件

@@ -2,10 +2,10 @@ package coloryr.allmusic.side.bukkit;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBukkit;
-import coloryr.allmusic.hud.HudSave;
-import coloryr.allmusic.hud.obj.SaveOBJ;
-import coloryr.allmusic.music.api.SongInfo;
-import coloryr.allmusic.music.play.MusicObj;
+import coloryr.allmusic.hud.HudUtils;
+import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.music.SongInfoObj;
+import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.side.ComType;
 import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.side.bukkit.event.MusicAddEvent;
@@ -83,7 +83,7 @@ public class SideBukkit implements ISide {
                 if (isOK(player))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnableLyric)
                     continue;
                 send(player, ComType.lyric + data, null);
@@ -101,7 +101,7 @@ public class SideBukkit implements ISide {
                 if (isOK(player))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnableInfo)
                     continue;
                 send(player, ComType.info + data, null);
@@ -119,7 +119,7 @@ public class SideBukkit implements ISide {
                 if (isOK(player))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnableList)
                     continue;
                 send(player, ComType.list + data, null);
@@ -131,11 +131,11 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public void sendHudSaveAll() {
+    public void sendHudUtilsAll() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             String Name = player.getName();
             try {
-                SaveOBJ obj = HudSave.get(Name);
+                SaveOBJ obj = HudUtils.get(Name);
                 String data = new Gson().toJson(obj);
                 send(player, data, null);
             } catch (Exception e1) {
@@ -177,7 +177,7 @@ public class SideBukkit implements ISide {
                 if (isOK(player))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = HudSave.get(name);
+                SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnablePic)
                     continue;
                 send(player, ComType.img + url, null);
@@ -344,7 +344,7 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public boolean onMusicPlay(SongInfo obj) {
+    public boolean onMusicPlay(SongInfoObj obj) {
         MusicPlayEvent event = new MusicPlayEvent(obj);
         Bukkit.getScheduler().callSyncMethod(AllMusicBukkit.plugin, () -> {
             Bukkit.getPluginManager().callEvent(event);
