@@ -4,9 +4,21 @@ import coloryr.allmusic.music.play.MusicObj;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Event;
 
+/**
+ * 音乐添加事件
+ */
 public class MusicAddEvent extends Event {
+    /**
+     * 添加的音乐
+     */
     private final MusicObj music;
+    /**
+     * 添加者
+     */
     private final CommandSender player;
+    /**
+     * 是否取消添加
+     */
     private boolean cancel = false;
 
     public MusicAddEvent(MusicObj id, CommandSender player) {

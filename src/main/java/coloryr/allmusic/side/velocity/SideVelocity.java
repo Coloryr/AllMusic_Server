@@ -46,16 +46,16 @@ public class SideVelocity implements ISide {
 
     @Override
     public void bq(String data) {
-        if (AllMusic.getConfig().isMessageLimit()
+        if (AllMusic.getConfig().MessageLimit
                 && data.length() > AllMusic.getConfig().MessageLimitSize) {
             data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
         Component message = Component.text(data);
         for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().getNoMusicServer().contains(server.getServerInfo().getName()))
+            if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
                 continue;
             for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getUsername()))
+                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
                     player.sendMessage(message);
         }
     }
@@ -69,10 +69,10 @@ public class SideVelocity implements ISide {
     public boolean needPlay() {
         int online = 0;
         for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().getNoMusicServer().contains(server.getServerInfo().getName()))
+            if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
                 continue;
             for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getUsername()))
+                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
                     online++;
         }
         return online > 0;
@@ -283,7 +283,7 @@ public class SideVelocity implements ISide {
     }
 
     @Override
-    public void task(Runnable run, int delay) {
+    public void runTask(Runnable run, int delay) {
         AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run)
                 .delay(delay, TimeUnit.MICROSECONDS).schedule();
     }
@@ -292,7 +292,7 @@ public class SideVelocity implements ISide {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
-            out.writeUTF(AllMusic.getMessage().getPAPI().NoMusic);
+            out.writeUTF(AllMusic.getMessage().PAPI.NoMusic);
         else
             out.writeUTF(PlayMusic.nowPlayMusic.getName());
         server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
@@ -440,11 +440,11 @@ public class SideVelocity implements ISide {
         try {
             if (player == null)
                 return true;
-            if (AllMusic.getConfig().getNoMusicServer()
+            if (AllMusic.getConfig().NoMusicServer
                     .contains(player.getCurrentServer().get().getServerInfo().getName()))
                 return true;
             String name = player.getUsername();
-            if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getUsername()))
+            if (AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
                 return true;
             return AllMusic.containNowPlay(name);
         } catch (NoSuchElementException e) {

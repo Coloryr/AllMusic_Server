@@ -232,12 +232,12 @@ public class SideBukkit implements ISide {
 
     @Override
     public void bq(String data) {
-        if (AllMusic.getConfig().isMessageLimit()
+        if (AllMusic.getConfig().MessageLimit
                 && data.length() > AllMusic.getConfig().MessageLimitSize) {
             data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
+            if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getName())) {
                 player.sendMessage(data);
             }
         }
@@ -245,14 +245,14 @@ public class SideBukkit implements ISide {
 
     @Override
     public void bqt(String data) {
-        if (AllMusic.getConfig().isMessageLimit()
+        if (AllMusic.getConfig().MessageLimit
                 && data.length() > AllMusic.getConfig().MessageLimitSize) {
             data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
         String finalData = data;
         Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
+                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getName())) {
                     player.sendMessage(finalData);
                 }
             }
@@ -265,7 +265,7 @@ public class SideBukkit implements ISide {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (CitizensNPC.isNPC(player))
                 online--;
-            else if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
+            else if (AllMusic.getConfig().NoMusicPlayer.contains(player.getName())) {
                 online--;
             }
         }
@@ -324,7 +324,7 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public void task(Runnable run, int delay) {
+    public void runTask(Runnable run, int delay) {
         Bukkit.getScheduler().runTaskLater(AllMusicBukkit.plugin, run, delay);
     }
 
@@ -401,7 +401,7 @@ public class SideBukkit implements ISide {
         if (player == null)
             return true;
         String name = player.getName();
-        if (AllMusic.getConfig().getNoMusicPlayer().contains(name))
+        if (AllMusic.getConfig().NoMusicPlayer.contains(name))
             return true;
         return AllMusic.containNowPlay(name);
     }

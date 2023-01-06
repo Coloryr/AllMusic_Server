@@ -9,7 +9,7 @@ import com.velocitypowered.api.proxy.ServerConnection;
 
 public class ListenerVelocity {
     @Subscribe
-    public void onPlayerQuit(final DisconnectEvent event) {
+    public void onDisconnectEvent(final DisconnectEvent event) {
         AllMusic.removeNowPlayPlayer(event.getPlayer().getUsername());
     }
 

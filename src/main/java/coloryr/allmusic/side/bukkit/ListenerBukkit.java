@@ -8,12 +8,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ListenerBukkit implements Listener {
     @EventHandler
-    public void onPlayerQuit(final PlayerQuitEvent e) {
+    public void onPlayerQuitEvent(final PlayerQuitEvent e) {
         AllMusic.removeNowPlayPlayer(e.getPlayer().getName());
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoinEvent(PlayerJoinEvent event) {
         AllMusic.joinPlay(event.getPlayer().getName());
     }
 }

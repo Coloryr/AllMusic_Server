@@ -6,10 +6,22 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 音乐添加事件
+ */
 public class MusicAddEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
+    /**
+     * 添加的音乐
+     */
     private final MusicObj music;
+    /**
+     * 添加者
+     */
     private final CommandSender player;
+    /**
+     * 是否取消添加
+     */
     private boolean cancel = false;
 
     public MusicAddEvent(MusicObj id, CommandSender player) {

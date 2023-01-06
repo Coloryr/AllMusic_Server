@@ -10,7 +10,7 @@ import net.md_5.bungee.event.EventHandler;
 
 public class ListenerBC implements Listener {
     @EventHandler
-    public void onPlayerquit(final PlayerDisconnectEvent event) {
+    public void onPlayerDisconnectEvent(final PlayerDisconnectEvent event) {
         AllMusic.removeNowPlayPlayer(event.getPlayer().getName());
     }
 

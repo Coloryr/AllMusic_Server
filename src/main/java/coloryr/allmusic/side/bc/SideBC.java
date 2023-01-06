@@ -201,7 +201,7 @@ public class SideBC implements ISide {
 
     @Override
     public void bq(String data) {
-        if (AllMusic.getConfig().isMessageLimit()
+        if (AllMusic.getConfig().MessageLimit
                 && data.length() > AllMusic.getConfig().MessageLimitSize) {
             data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
@@ -222,10 +222,10 @@ public class SideBC implements ISide {
     public boolean needPlay() {
         int online = 0;
         for (ServerInfo server : ProxyServer.getInstance().getServers().values()) {
-            if (AllMusic.getConfig().getNoMusicServer().contains(server.getName()))
+            if (AllMusic.getConfig().NoMusicServer.contains(server.getName()))
                 continue;
             for (ProxiedPlayer player : server.getPlayers())
-                if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
+                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getName()))
                     online++;
         }
         return online > 0;
@@ -281,7 +281,7 @@ public class SideBC implements ISide {
     }
 
     @Override
-    public void task(Runnable run, int delay) {
+    public void runTask(Runnable run, int delay) {
         ProxyServer.getInstance().getScheduler()
                 .schedule(AllMusicBC.plugin, run, delay, TimeUnit.MICROSECONDS);
     }
@@ -290,7 +290,7 @@ public class SideBC implements ISide {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
-            out.writeUTF(AllMusic.getMessage().getPAPI().NoMusic);
+            out.writeUTF(AllMusic.getMessage().PAPI.NoMusic);
         else
             out.writeUTF(PlayMusic.nowPlayMusic.getName());
         server.sendData(AllMusic.channelBC, out.toByteArray());
@@ -437,11 +437,11 @@ public class SideBC implements ISide {
     private boolean isOK(ProxiedPlayer player) {
         if (player == null || player.getServer() == null)
             return true;
-        if (AllMusic.getConfig().getNoMusicServer()
-                .contains(player.getServer().Info.getName()))
+        if (AllMusic.getConfig().NoMusicServer
+                .contains(player.getServer().getInfo().getName()))
             return true;
         String name = player.getName();
-        if (AllMusic.getConfig().getNoMusicPlayer().contains(player.getName()))
+        if (AllMusic.getConfig().NoMusicPlayer.contains(player.getName()))
             return true;
         return AllMusic.containNowPlay(name);
     }

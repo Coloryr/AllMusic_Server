@@ -386,17 +386,17 @@ public class AllMusic {
         if (getConfig().NoMusicPlayer.contains(player))
             return;
 
-        AllMusic.side.task(() -> {
+        AllMusic.side.runTask(() -> {
             if (PlayMusic.nowPlayMusic != null) {
                 SaveOBJ obj = HudSave.get(player);
                 String data = gson.toJson(obj);
                 AllMusic.side.send(data, player, null);
                 AllMusic.side.send(ComType.play + PlayGo.url, player, true);
                 if (!PlayMusic.nowPlayMusic.isUrl()) {
-                    AllMusic.side.task(() ->
+                    AllMusic.side.runTask(() ->
                             AllMusic.side.send(ComType.img + PlayMusic.nowPlayMusic.getPicUrl(), player, true), 15);
                 }
-                AllMusic.side.task(() ->
+                AllMusic.side.runTask(() ->
                         AllMusic.side.send(ComType.pos + (PlayMusic.musicNowTime + 2000), player, true), 40);
             }
         }, 20);
