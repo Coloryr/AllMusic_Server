@@ -13,7 +13,7 @@ public class SearchPage {
     }
 
     public String getSong(int index) {
-        return resData.get(index).getId();
+        return resData.get(index).id;
     }
 
     public SearchOBJ getRes(int a) {
@@ -45,9 +45,5 @@ public class SearchPage {
 
     public boolean haveLastPage() {
         return page != 0;
-    }
-
-    public int Page {
-        return page;
     }
 }

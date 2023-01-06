@@ -31,12 +31,12 @@ public class LyricItem {
         String data;
         if (haveT) {
             if (tlyric != null && !tlyric.isEmpty()) {
-                data = AllMusic.getMessage().getLyric().getTData();
+                data = AllMusic.getMessage().Lyric.TData;
                 return data.replace("%Lyric%", lyric)
                         .replace("%TLyric%", tlyric);
             }
         }
-        data = AllMusic.getMessage().getLyric().getData();
+        data = AllMusic.getMessage().Lyric.Data;
         return data.replace("%Lyric%", lyric);
     }
 }

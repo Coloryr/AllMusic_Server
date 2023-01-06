@@ -47,8 +47,8 @@ public class SideVelocity implements ISide {
     @Override
     public void bq(String data) {
         if (AllMusic.getConfig().isMessageLimit()
-                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
-            data = data.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
+                && data.length() > AllMusic.getConfig().MessageLimitSize) {
+            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
         Component message = Component.text(data);
         for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {

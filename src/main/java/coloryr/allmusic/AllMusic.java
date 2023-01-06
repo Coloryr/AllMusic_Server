@@ -352,7 +352,7 @@ public class AllMusic {
             log.info("§d[AllMusic]§e当前语言配置文件版本为：" + messageVersion
                     + "，你的语言文件版本为：" + config.Version);
 
-            if (!message.getVersion().equalsIgnoreCase(messageVersion)) {
+            if (!message.Version.equalsIgnoreCase(messageVersion)) {
                 log.warning("§d[AllMusic]§c语言文件版本号错误，运行可能会发生问题，请删除后重载");
             }
 

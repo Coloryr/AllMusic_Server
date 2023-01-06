@@ -14,7 +14,7 @@ public class AllMusicAPI {
     }
 
     /**
-     * 更新玩家Hud
+     * 更新玩家Hud数据
      * @param name 用户名
      * @param pos 位置
      * @param data 数据

@@ -202,8 +202,8 @@ public class SideBC implements ISide {
     @Override
     public void bq(String data) {
         if (AllMusic.getConfig().isMessageLimit()
-                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
-            data = data.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
+                && data.length() > AllMusic.getConfig().MessageLimitSize) {
+            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
         TextComponent message = new TextComponent(data);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {

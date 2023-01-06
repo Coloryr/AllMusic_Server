@@ -190,7 +190,7 @@ public class DataSql {
                 obj.Pic = pos4;
                 obj.EnablePic = set.getInt(13) == 1;
                 obj.PicSize = set.getInt(14);
-                HudSave.add1(name, obj);
+                HudSave.add(name, obj);
             }
             stat.close();
         } catch (Exception e) {

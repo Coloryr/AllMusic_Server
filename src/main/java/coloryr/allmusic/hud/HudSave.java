@@ -19,11 +19,11 @@ public class HudSave {
         return huds.get(name);
     }
 
-    public static void add1(String name, SaveOBJ hud) {
+    public static void add(String name, SaveOBJ hud) {
         huds.put(name, hud);
     }
 
-    public static void add(String name, SaveOBJ hud) {
+    public static void addAndSave(String name, SaveOBJ hud) {
         huds.put(name, hud);
         DataSql.task(() -> DataSql.addUser(name, hud));
     }

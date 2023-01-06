@@ -233,8 +233,8 @@ public class SideBukkit implements ISide {
     @Override
     public void bq(String data) {
         if (AllMusic.getConfig().isMessageLimit()
-                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
-            data = data.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
+                && data.length() > AllMusic.getConfig().MessageLimitSize) {
+            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.getConfig().getNoMusicPlayer().contains(player.getName())) {
@@ -246,8 +246,8 @@ public class SideBukkit implements ISide {
     @Override
     public void bqt(String data) {
         if (AllMusic.getConfig().isMessageLimit()
-                && data.length() > AllMusic.getConfig().getMessageLimitSize()) {
-            data = data.substring(0, AllMusic.getConfig().getMessageLimitSize() - 1) + "...";
+                && data.length() > AllMusic.getConfig().MessageLimitSize) {
+            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
         String finalData = data;
         Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, () -> {
