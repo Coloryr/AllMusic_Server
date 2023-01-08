@@ -34,6 +34,10 @@ public class WLyricOBJ {
         return yrc.getLyric();
     }
 
+    public boolean getVersion(){
+        return yrc != null;
+    }
+
     public boolean isNone() {
         return nolyric || uncollected;
     }
@@ -58,7 +62,11 @@ class tlyric {
 class klyric
 {
     private String lyric;
+    private int version;
 
+    public int getVersion() {
+        return version;
+    }
     public String getLyric() {
         return lyric == null ? "" : lyric;
     }
@@ -66,7 +74,12 @@ class klyric
 
 class yrc
 {
+    private int version;
     private String lyric;
+
+    public int getVersion() {
+        return version;
+    }
 
     public String getLyric() {
         return lyric == null ? "" : lyric;

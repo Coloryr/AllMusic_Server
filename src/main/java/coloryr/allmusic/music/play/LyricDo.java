@@ -52,7 +52,7 @@ public class LyricDo {
         if (temp2 != null && !temp2.isEmpty()) {
             String[] klyric = temp2.split("\n");
             for (String item : klyric) {
-                Map<Integer, String> temp4 = getKTime(item);
+                Map<Integer, String> temp4 = getKTime(item, obj.getVersion());
                 if (temp4 != null) {
                     kly.putAll(temp4);
                 }
@@ -119,7 +119,7 @@ public class LyricDo {
         return res;
     }
 
-    private Map<Integer, String> getKTime(String lyric) {
+    private Map<Integer, String> getKTime(String lyric, boolean yrc) {
         Map<Integer, String> res = new LinkedHashMap<>();
         if (!lyric.startsWith("[") || !lyric.contains("]("))
             return null;
@@ -134,19 +134,28 @@ public class LyricDo {
         for (int a = 1; a < temp1.length; a++) {
             String time = temp1[a];
             int temp2 = time.indexOf(')');
-            String temp3 = time.substring(2, temp2);
-            int temp7 = Function.countChar(temp3, ',');
+            String temp3 = time.substring(0, temp2);
+            String[] temp8 = temp3.split(",");
             int temp5;
-            if (temp7 == 2) {
-                String[] temp8 = temp3.split(",");
-                temp5 = (Integer.parseInt(temp8[1]) / 10 * 10);
-            } else {
-                temp5 = (Integer.parseInt(temp3) / 10 * 10);
+            if (yrc) {
+                temp5 = (Integer.parseInt(temp8[0]) / 10 * 10);
+                if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
+                    temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
+                res.put(temp5, time.substring(temp2 + 1));
+            }  else {
+                try {
+                    temp5 = (Integer.parseInt(temp8[1]) / 10 * 10);
+                } catch (Exception e) {
+                    AllMusic.log.warning("不支持的Ktv歌词");
+                    AllMusic.log.warning("请带上音乐ID联系开发者");
+                    return null;
+                }
+
+                if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
+                    temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
+                res.put(now, time.substring(temp2 + 1));
+                now += temp5;
             }
-            if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
-                temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
-            res.put(now, time.substring(temp2 + 1));
-            now += temp5;
         }
 
         return res;
