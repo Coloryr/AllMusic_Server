@@ -171,6 +171,7 @@ public class SideBukkit extends ISide {
                 if (AllMusic.isOK(player.getName(), null, false))
                     continue;
                 send(player, ComType.play + url);
+                AllMusic.addNowPlayPlayer(player.getName());
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
