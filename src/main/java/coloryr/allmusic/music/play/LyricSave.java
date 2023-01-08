@@ -7,24 +7,20 @@ import java.util.Locale;
 import java.util.Map;
 
 public class LyricSave {
-    private Map<Integer, LyricItemObj> lyric;
-    private Map<Integer, String> klyric;
+    public int lastIndex = 0;
     protected boolean haveLyric;
     protected String lly;
     protected String kly;
     protected String tly;
+    private Map<Integer, LyricItemObj> lyric;
+    private Map<Integer, String> klyric;
     private LyricItemObj now;
     private int last;
-    public int lastIndex = 0;
     private String kNow;
 
     public LyricSave() {
         haveLyric = false;
         lyric = new HashMap<>();
-    }
-
-    public void setLyric(Map<Integer, LyricItemObj> lyric) {
-        this.lyric = lyric;
     }
 
     public void setKlyric(Map<Integer, String> klyric) {
@@ -41,6 +37,10 @@ public class LyricSave {
 
     public String getLyric() {
         return lly;
+    }
+
+    public void setLyric(Map<Integer, LyricItemObj> lyric) {
+        this.lyric = lyric;
     }
 
     public String getTlyric() {

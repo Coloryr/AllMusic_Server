@@ -12,9 +12,6 @@ public class LyricOBJ {
     public boolean check() {
         if (Data == null)
             return true;
-        if (TData == null)
-            return true;
-
-        return false;
+        return TData == null;
     }
 }

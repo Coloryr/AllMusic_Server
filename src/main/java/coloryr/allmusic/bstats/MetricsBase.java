@@ -104,6 +104,23 @@ public class MetricsBase {
         }
     }
 
+    /**
+     * Gzips the given string.
+     *
+     * @param str The string to gzip.
+     * @return The gzipped string.
+     */
+    private static byte[] compress(final String str) throws IOException {
+        if (str == null) {
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
+            gzip.write(str.getBytes(StandardCharsets.UTF_8));
+        }
+        return outputStream.toByteArray();
+    }
+
     public void addCustomChart(CustomChart chart) {
         this.customCharts.add(chart);
     }
@@ -216,23 +233,6 @@ public class MetricsBase {
                 throw new IllegalStateException("bStats Metrics class has not been relocated correctly!");
             }
         }
-    }
-
-    /**
-     * Gzips the given string.
-     *
-     * @param str The string to gzip.
-     * @return The gzipped string.
-     */
-    private static byte[] compress(final String str) throws IOException {
-        if (str == null) {
-            return null;
-        }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
-            gzip.write(str.getBytes(StandardCharsets.UTF_8));
-        }
-        return outputStream.toByteArray();
     }
 
 }

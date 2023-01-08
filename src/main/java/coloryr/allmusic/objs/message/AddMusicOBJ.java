@@ -36,9 +36,6 @@ public class AddMusicOBJ {
             return true;
         if (Cancel == null)
             return true;
-        if(TimeOut == null)
-            return true;
-
-        return false;
+        return TimeOut == null;
     }
 }

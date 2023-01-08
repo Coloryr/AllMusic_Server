@@ -20,9 +20,6 @@ public class CostObj {
             return true;
         if (NoMoney == null)
             return true;
-        if(CostFail == null)
-            return true;
-
-        return false;
+        return CostFail == null;
     }
 }

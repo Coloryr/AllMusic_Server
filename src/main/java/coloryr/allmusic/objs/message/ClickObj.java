@@ -12,9 +12,6 @@ public class ClickObj {
     public boolean check() {
         if (This == null)
             return true;
-        if (Check == null)
-            return true;
-
-        return false;
+        return Check == null;
     }
 }

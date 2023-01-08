@@ -3,8 +3,8 @@ package coloryr.allmusic.music.play;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.decoder.Bitstream;
 import coloryr.allmusic.decoder.Header;
-import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.objs.music.MusicObj;
+import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.utils.Logs;
 
 import java.io.BufferedInputStream;
@@ -22,6 +22,7 @@ public class PlayMusic {
      * 播放列表
      */
     private static final List<SongInfoObj> playList = new CopyOnWriteArrayList<>();
+    private static final Queue<MusicObj> tasks = new ConcurrentLinkedQueue<>();
     /**
      * 投票时间
      */
@@ -42,7 +43,6 @@ public class PlayMusic {
      * 当前歌曲信息
      */
     public static SongInfoObj nowPlayMusic;
-
     /**
      * 当前歌词信息
      */
@@ -51,9 +51,7 @@ public class PlayMusic {
      * 错误次数
      */
     public static int error;
-
     private static boolean isRun;
-    private static final Queue<MusicObj> tasks = new ConcurrentLinkedQueue<>();
 
     /**
      * 停止歌曲逻辑
@@ -74,6 +72,7 @@ public class PlayMusic {
 
     /**
      * 添加点歌任务
+     *
      * @param obj 歌曲
      */
     public static void addTask(MusicObj obj) {
@@ -101,8 +100,9 @@ public class PlayMusic {
 
     /**
      * 添加歌曲
+     *
      * @param sender 发送者
-     * @param id 歌曲ID
+     * @param id     歌曲ID
      * @param player 用户名
      * @param isList 是否是空闲歌单
      */
@@ -159,6 +159,7 @@ public class PlayMusic {
 
     /**
      * 获取播放列表长度
+     *
      * @return 长度
      */
     public static int getSize() {
@@ -167,6 +168,7 @@ public class PlayMusic {
 
     /**
      * 获取当前播放列表
+     *
      * @return 播放列表
      */
     public static List<SongInfoObj> getList() {
@@ -182,6 +184,7 @@ public class PlayMusic {
 
     /**
      * 从播放列表删除
+     *
      * @param index 标号
      * @return 结果
      */
@@ -191,6 +194,7 @@ public class PlayMusic {
 
     /**
      * 获取播放列表所有信息
+     *
      * @return 信息
      */
     public static String getAllList() {
@@ -215,6 +219,7 @@ public class PlayMusic {
 
     /**
      * 是否在播放列表中
+     *
      * @param id 音乐ID
      * @return 结果
      */
@@ -230,6 +235,7 @@ public class PlayMusic {
 
     /**
      * 添加Url歌曲
+     *
      * @param url 链接
      */
     private static void addUrl(String url) {

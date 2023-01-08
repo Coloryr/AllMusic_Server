@@ -48,10 +48,6 @@ public class HudOBJ {
             return true;
         if (List == null)
             return true;
-        if (Ktv == null)
-            return true;
-
-
-        return false;
+        return Ktv == null;
     }
 }

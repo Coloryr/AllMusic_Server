@@ -1,8 +1,8 @@
 package coloryr.allmusic.objs;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.objs.hud.SaveOBJ;
 import coloryr.allmusic.objs.config.EconomyObj;
+import coloryr.allmusic.objs.hud.SaveOBJ;
 
 import java.util.ArrayList;
 import java.util.List;

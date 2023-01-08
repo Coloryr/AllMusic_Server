@@ -19,12 +19,12 @@ import java.nio.file.Path;
         url = "https://github.com/Coloryr/AllMusic_P", description = "全服点歌插件", authors = {"Color_yr"})
 public class AllMusicVelocity {
     public static AllMusicVelocity plugin;
+    public static ChannelIdentifier channel;
+    public static ChannelIdentifier channelBC;
     public final ProxyServer server;
     public final Path dataDirectory;
     private final Logger logger;
     private final MetricsVelocity.Factory metricsFactory;
-    public static ChannelIdentifier channel;
-    public static ChannelIdentifier channelBC;
 
     @Inject
     public AllMusicVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory, MetricsVelocity.Factory metricsFactory) {

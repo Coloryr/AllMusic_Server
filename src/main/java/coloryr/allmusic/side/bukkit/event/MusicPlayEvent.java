@@ -27,12 +27,12 @@ public class MusicPlayEvent extends Event {
         return music;
     }
 
-    public void setCancel(boolean cancel) {
-        this.cancel = cancel;
-    }
-
     public boolean isCancel() {
         return cancel;
+    }
+
+    public void setCancel(boolean cancel) {
+        this.cancel = cancel;
     }
 
     @NotNull

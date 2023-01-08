@@ -29,12 +29,12 @@ public class WLyricOBJ {
     }
 
     public String getYrc() {
-        if(yrc == null)
+        if (yrc == null)
             return null;
         return yrc.getLyric();
     }
 
-    public boolean getVersion(){
+    public boolean getVersion() {
         return yrc != null;
     }
 
@@ -59,21 +59,20 @@ class tlyric {
     }
 }
 
-class klyric
-{
+class klyric {
     private String lyric;
     private int version;
 
     public int getVersion() {
         return version;
     }
+
     public String getLyric() {
         return lyric == null ? "" : lyric;
     }
 }
 
-class yrc
-{
+class yrc {
     private int version;
     private String lyric;
 

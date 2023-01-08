@@ -331,11 +331,11 @@ public final class Bitstream implements BitstreamErrors {
         return sync;
     }
 
-    protected BitstreamException newBitstreamException(int errorcode) {
+    BitstreamException newBitstreamException(int errorcode) {
         return new BitstreamException(errorcode, null);
     }
 
-    protected BitstreamException newBitstreamException(int errorcode, Throwable throwable) {
+    private BitstreamException newBitstreamException(int errorcode, Throwable throwable) {
         return new BitstreamException(errorcode, throwable);
     }
 

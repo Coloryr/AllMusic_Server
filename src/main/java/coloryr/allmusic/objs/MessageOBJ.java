@@ -1,8 +1,8 @@
 package coloryr.allmusic.objs;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.objs.message.*;
 import coloryr.allmusic.objs.message.SearchOBJ;
+import coloryr.allmusic.objs.message.*;
 
 public class MessageOBJ {
     public MusicPlayOBJ MusicPlay;

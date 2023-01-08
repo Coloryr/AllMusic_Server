@@ -2,11 +2,11 @@ package coloryr.allmusic.command;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.HudUtils;
-import coloryr.allmusic.objs.hud.PosOBJ;
-import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.objs.SearchOBJ;
+import coloryr.allmusic.objs.hud.PosOBJ;
+import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.objs.music.SearchPageObj;
 import coloryr.allmusic.utils.Function;
 
@@ -15,9 +15,10 @@ import java.util.Locale;
 public class CommandEX {
     /**
      * 搜索音乐
-     * @param sender 发送者
-     * @param name 用户名
-     * @param args 参数
+     *
+     * @param sender    发送者
+     * @param name      用户名
+     * @param args      参数
      * @param isDefault 是否是默认点歌方式
      */
     private static void searchMusic(Object sender, String name, String[] args, boolean isDefault) {
@@ -37,9 +38,10 @@ public class CommandEX {
 
     /**
      * 检查金额是否够
+     *
      * @param sender 发送者
-     * @param name 用户名
-     * @param cost 金额
+     * @param name   用户名
+     * @param cost   金额
      * @return 结果
      */
     private static boolean checkMoney(Object sender, String name, int cost) {
@@ -56,14 +58,15 @@ public class CommandEX {
 
     /**
      * 扣钱
-     * @param sender 发送者
-     * @param name 用户名
-     * @param cost 金额
+     *
+     * @param sender  发送者
+     * @param name    用户名
+     * @param cost    金额
      * @param message 结果消息
      * @return 结果
      */
     private static boolean cost(Object sender, String name, int cost, String message) {
-        if (!AllMusic.getConfig().UseCost || AllMusic.economy == null){
+        if (!AllMusic.getConfig().UseCost || AllMusic.economy == null) {
             return false;
         }
 
@@ -79,9 +82,10 @@ public class CommandEX {
 
     /**
      * 添加音乐
+     *
      * @param sender 发送者
-     * @param name 用户名
-     * @param args 参数
+     * @param name   用户名
+     * @param args   参数
      */
     private static void addMusic(Object sender, String name, String[] args) {
         String musicID;
@@ -136,6 +140,7 @@ public class CommandEX {
 
     /**
      * 展示搜歌结果
+     *
      * @param sender 发送者
      * @param search 搜歌结果
      */
@@ -167,9 +172,10 @@ public class CommandEX {
 
     /**
      * 执行命令
+     *
      * @param sender 发送者
-     * @param name 用户名
-     * @param args 参数
+     * @param name   用户名
+     * @param args   参数
      */
     public static void ex(Object sender, String name, String[] args) {
         if (args.length == 0) {
@@ -218,7 +224,7 @@ public class CommandEX {
             return;
         } else if (args[0].equalsIgnoreCase("stop")) {
             AllMusic.side.clearHud(name);
-            AllMusic.side.send("[Stop]", name, false);
+            AllMusic.side.sendStop(name);
             HudUtils.clearHud(name);
             AllMusic.removeNowPlayPlayer(name);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().MusicPlay.StopPlay);
@@ -272,7 +278,7 @@ public class CommandEX {
             AllMusic.getConfig().RemoveNoMusicPlayer(name);
             return;
         } else if (args[0].equalsIgnoreCase("nomusic")) {
-            AllMusic.side.send("[Stop]", name, false);
+            AllMusic.side.sendStop(name);
             AllMusic.side.clearHud(name);
             AllMusic.getConfig().AddNoMusicPlayer(name);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().MusicPlay.NoPlayMusic);

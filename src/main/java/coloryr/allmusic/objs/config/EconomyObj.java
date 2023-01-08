@@ -10,9 +10,7 @@ public class EconomyObj {
     }
 
     public boolean check() {
-        boolean res = false;
-        if (MysqlUrl == null)
-            res = true;
+        boolean res = MysqlUrl == null;
 
         return res;
     }

@@ -32,9 +32,7 @@ public class MusicPlayOBJ {
     }
 
     public boolean check() {
-        boolean res = false;
-        if (StopPlay == null)
-            res = true;
+        boolean res = StopPlay == null;
         if (NoMusic == null)
             res = true;
         if (Play == null)

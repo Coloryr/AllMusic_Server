@@ -12,9 +12,7 @@ public class ListMusicOBJ {
     }
 
     public boolean check() {
-        boolean res = false;
-        if (Head == null)
-            res = true;
+        boolean res = Head == null;
         if (Item == null)
             res = true;
         if (Get == null)

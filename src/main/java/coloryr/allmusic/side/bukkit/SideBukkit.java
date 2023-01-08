@@ -4,8 +4,8 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBukkit;
 import coloryr.allmusic.hud.HudUtils;
 import coloryr.allmusic.objs.hud.SaveOBJ;
-import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.objs.music.MusicObj;
+import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.side.ComType;
 import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.side.bukkit.event.MusicAddEvent;
@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 
-public class SideBukkit implements ISide {
+public class SideBukkit extends ISide {
     private static Class ByteBufC;
     private static Class UnpooledC;
     private static Method bufferM;
@@ -66,9 +66,10 @@ public class SideBukkit implements ISide {
         }
     }
 
+
     @Override
-    public void send(String data, String player, Boolean isplay) {
-        send(Bukkit.getPlayer(player), data, isplay);
+    public void send(String data, String player) {
+        send(Bukkit.getPlayer(player), data);
     }
 
     @Override
@@ -80,13 +81,13 @@ public class SideBukkit implements ISide {
     public void sendHudLyric(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (isOK(player))
+                if (AllMusic.isOK(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnableLyric)
                     continue;
-                send(player, ComType.lyric + data, null);
+                send(player, ComType.lyric + data);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -98,13 +99,13 @@ public class SideBukkit implements ISide {
     public void sendHudInfo(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (isOK(player))
+                if (AllMusic.isOK(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnableInfo)
                     continue;
-                send(player, ComType.info + data, null);
+                send(player, ComType.info + data);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -116,13 +117,13 @@ public class SideBukkit implements ISide {
     public void sendHudList(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (isOK(player))
+                if (AllMusic.isOK(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = HudUtils.get(name);
                 if (!obj.EnableList)
                     continue;
-                send(player, ComType.list + data, null);
+                send(player, ComType.list + data);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -137,7 +138,7 @@ public class SideBukkit implements ISide {
             try {
                 SaveOBJ obj = HudUtils.get(Name);
                 String data = new Gson().toJson(obj);
-                send(player, data, null);
+                send(player, data);
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -150,12 +151,16 @@ public class SideBukkit implements ISide {
         if (AllMusicBukkit.spigotSet) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 try {
+                    if (AllMusic.isOK(player.getName(), null, true))
+                        continue;
                     SpigotApi.sendBar(player, data);
                 } catch (Exception e1) {
                     AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                     e1.printStackTrace();
                 }
             }
+        } else {
+            bq(data);
         }
     }
 
@@ -163,36 +168,84 @@ public class SideBukkit implements ISide {
     public void sendMusic(String url) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                send(player, ComType.play + url, true);
+                if (AllMusic.isOK(player.getName(), null, true))
+                    continue;
+                send(player, ComType.play + url);
             }
         } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c图片数据发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    public void sendPic(String url) {
-        try {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (isOK(player))
-                    continue;
-                String name = player.getName();
-                SaveOBJ obj = HudUtils.get(name);
-                if (!obj.EnablePic)
-                    continue;
-                send(player, ComType.img + url, null);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c图片数据发送出错");
+            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
         }
     }
 
     @Override
-    public void sendStop() {
+    protected void topSendMusic(String player, String url) {
+        try {
+            Player player1 = Bukkit.getPlayer(player);
+            if (player1 == null)
+                return;
+            if (AllMusic.isOK(player, null, false))
+                return;
+            send(player, ComType.play + url);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendPic(String url) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                send(player, ComType.stop, false);
+                if (AllMusic.isOK(player.getName(), null, true))
+                    continue;
+                String name = player.getName();
+                SaveOBJ obj = HudUtils.get(name);
+                if (!obj.EnablePic)
+                    continue;
+                send(player, ComType.img + url);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendPic(String player, String url) {
+        try {
+            Player player1 = Bukkit.getPlayer(player);
+            if (player1 == null)
+                return;
+            if (AllMusic.isOK(player1.getName(), null, true))
+                return;
+            send(ComType.img + url, player);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendPos(String player, int pos) {
+        try {
+            Player player1 = Bukkit.getPlayer(player);
+            if (player1 == null)
+                return;
+            if (AllMusic.isOK(player1.getName(), null, true))
+                return;
+            send(ComType.pos + pos, player);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void topSendStop() {
+        try {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                send(player, ComType.stop);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -201,12 +254,12 @@ public class SideBukkit implements ISide {
     }
 
     @Override
-    public void sendStop(String name) {
+    protected void topSendStop(String name) {
         try {
             Player player = Bukkit.getPlayer(name);
             if (player == null)
                 return;
-            send(player, ComType.stop, false);
+            send(player, ComType.stop);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -215,17 +268,22 @@ public class SideBukkit implements ISide {
 
     @Override
     public void clearHud(String player) {
-        send(ComType.clear, player, null);
+        try {
+            send(ComType.clear, player);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void clearHud() {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                send(player, ComType.clear, null);
+                send(player, ComType.clear);
             }
         } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
+            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
         }
     }
@@ -363,7 +421,7 @@ public class SideBukkit implements ISide {
         return event.isCancel();
     }
 
-    private void send(Player players, String data, Boolean isplay) {
+    private void send(Player players, String data) {
         if (players == null)
             return;
         try {
@@ -382,27 +440,10 @@ public class SideBukkit implements ISide {
                     }
                 });
             else {
-                return;
-            }
-            if (isplay != null) {
-                if (isplay) {
-                    AllMusic.addNowPlayPlayer(players.getName());
-                } else {
-                    AllMusic.removeNowPlayPlayer(players.getName());
-                }
             }
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
         }
-    }
-
-    private boolean isOK(Player player) {
-        if (player == null)
-            return true;
-        String name = player.getName();
-        if (AllMusic.getConfig().NoMusicPlayer.contains(name))
-            return true;
-        return AllMusic.containNowPlay(name);
     }
 }

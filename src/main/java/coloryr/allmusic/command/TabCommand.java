@@ -65,8 +65,9 @@ public class TabCommand {
 
     /**
      * 获取Tab指令列表
+     *
      * @param name 用户名
-     * @param arg 参数
+     * @param arg  参数
      * @return 指令列表
      */
     public static List<String> getTabList(String name, String[] arg) {

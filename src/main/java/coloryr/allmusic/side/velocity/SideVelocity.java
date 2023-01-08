@@ -3,10 +3,10 @@ package coloryr.allmusic.side.velocity;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicVelocity;
 import coloryr.allmusic.hud.HudUtils;
-import coloryr.allmusic.objs.hud.SaveOBJ;
-import coloryr.allmusic.objs.music.SongInfoObj;
-import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.music.play.PlayMusic;
+import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.music.MusicObj;
+import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.side.ComType;
 import coloryr.allmusic.side.ISide;
 import coloryr.allmusic.side.velocity.event.MusicAddEvent;
@@ -29,264 +29,8 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
-public class SideVelocity implements ISide {
+public class SideVelocity extends ISide {
     public static final Set<ServerConnection> TopServers = new CopyOnWriteArraySet<>();
-
-    @Override
-    public void send(String data, String player, Boolean isplay) {
-        if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
-            send(AllMusicVelocity.plugin.server.getPlayer(player).get(), data, isplay);
-        }
-    }
-
-    @Override
-    public int getAllPlayer() {
-        return AllMusicVelocity.plugin.server.getPlayerCount();
-    }
-
-    @Override
-    public void bq(String data) {
-        if (AllMusic.getConfig().MessageLimit
-                && data.length() > AllMusic.getConfig().MessageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
-        }
-        Component message = Component.text(data);
-        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
-                continue;
-            for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
-                    player.sendMessage(message);
-        }
-    }
-
-    @Override
-    public void bqt(String data) {
-        this.bq(data);
-    }
-
-    @Override
-    public boolean needPlay() {
-        int online = 0;
-        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
-                continue;
-            for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
-                    online++;
-        }
-        return online > 0;
-    }
-
-    @Override
-    public void sendStop() {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                send(player, ComType.stop, false);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendStop(String name) {
-        try {
-            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
-            if (!player.isPresent())
-                return;
-            send(player.get(), ComType.stop, false);
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendMusic(String url) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                send(player, ComType.play + url, false);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPic(String url) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (isOK(player))
-                    continue;
-                String name = player.getUsername();
-                SaveOBJ obj = HudUtils.get(name);
-                if (!obj.EnablePic)
-                    continue;
-                send(player, ComType.img + url, false);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudLyric(String data) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (isOK(player))
-                    continue;
-                SaveOBJ obj = HudUtils.get(player.getUsername());
-                if (!obj.EnableLyric)
-                    continue;
-                send(player, ComType.lyric + data, null);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudInfo(String data) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (isOK(player))
-                    continue;
-                SaveOBJ obj = HudUtils.get(player.getUsername());
-                if (!obj.EnableInfo)
-                    continue;
-                send(player, ComType.info + data, null);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudList(String data) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (isOK(player))
-                    continue;
-                String name = player.getUsername();
-                SaveOBJ obj = HudUtils.get(name);
-                if (!obj.EnableList)
-                    continue;
-                send(player, ComType.list + data, null);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudUtilsAll() {
-        for (Player players : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            String Name = players.getUsername();
-            try {
-                SaveOBJ obj = HudUtils.get(Name);
-                String data = new Gson().toJson(obj);
-                send(data, Name, null);
-            } catch (Exception e1) {
-                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-                e1.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void sendBar(String data) {
-        Component message = Component.text(data);
-        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            try {
-                player.sendActionBar(message);
-            } catch (Exception e1) {
-                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-                e1.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void clearHud(String player) {
-        send(ComType.clear, player, null);
-    }
-
-    @Override
-    public void clearHud() {
-        try {
-            Collection<Player> values = AllMusicVelocity.plugin.server.getAllPlayers();
-            for (Player players : values) {
-                send(players, ComType.clear, null);
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendMessaget(Object obj, String message) {
-        CommandSource sender = (CommandSource) obj;
-        sender.sendMessage(Component.text(message));
-    }
-
-    @Override
-    public void sendMessage(Object obj, String message) {
-        CommandSource sender = (CommandSource) obj;
-        sender.sendMessage(Component.text(message));
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        CommandSource sender = (CommandSource) obj;
-        TextComponent send = Component.text(message + end)
-                .clickEvent(ClickEvent.runCommand(command));
-        sender.sendMessage(send);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        CommandSource sender = (CommandSource) obj;
-        TextComponent send = Component.text(message + end)
-                .clickEvent(ClickEvent.suggestCommand(command));
-        sender.sendMessage(send);
-    }
-
-    @Override
-    public void runTask(Runnable run) {
-        AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run).schedule();
-    }
-
-    @Override
-    public void reload() {
-        new AllMusic().init(AllMusicVelocity.plugin.dataDirectory.toFile());
-    }
-
-    @Override
-    public boolean checkPermission(String player, String permission) {
-        try {
-            if (AllMusic.getConfig().Admin.contains(player))
-                return false;
-            Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-            player1.hasPermission(permission);
-        } catch (NoSuchElementException ignored) {
-
-        }
-        return true;
-    }
-
-    @Override
-    public void runTask(Runnable run, int delay) {
-        AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run)
-                .delay(delay, TimeUnit.MICROSECONDS).schedule();
-    }
 
     public static void sendAllToServer(ServerConnection server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -384,6 +128,327 @@ public class SideVelocity implements ISide {
     }
 
     @Override
+    public void send(String data, String player) {
+        if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
+            send(AllMusicVelocity.plugin.server.getPlayer(player).get(), data);
+        }
+    }
+
+    @Override
+    public int getAllPlayer() {
+        return AllMusicVelocity.plugin.server.getPlayerCount();
+    }
+
+    @Override
+    public void bq(String data) {
+        if (AllMusic.getConfig().MessageLimit
+                && data.length() > AllMusic.getConfig().MessageLimitSize) {
+            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
+        }
+        Component message = Component.text(data);
+        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
+            if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
+                continue;
+            for (Player player : server.getPlayersConnected())
+                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
+                    player.sendMessage(message);
+        }
+    }
+
+    @Override
+    public void bqt(String data) {
+        this.bq(data);
+    }
+
+    @Override
+    public boolean needPlay() {
+        int online = 0;
+        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
+            if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
+                continue;
+            for (Player player : server.getPlayersConnected())
+                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
+                    online++;
+        }
+        return online > 0;
+    }
+
+    @Override
+    protected void topSendStop() {
+        try {
+            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+                send(player, ComType.stop);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void topSendStop(String name) {
+        try {
+            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
+            if (!player.isPresent())
+                return;
+            send(player.get(), ComType.stop);
+            AllMusic.removeNowPlayPlayer(player.get().getUsername());
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendMusic(String url) {
+        try {
+            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+                if (AllMusic.isOK(player.getUsername(),
+                        player.getCurrentServer().get().getServerInfo().getName(), false))
+                    continue;
+                send(player, ComType.play + url);
+                AllMusic.addNowPlayPlayer(player.getUsername());
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void topSendMusic(String player, String url) {
+        try {
+            if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
+                Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
+                if (AllMusic.isOK(player1.getUsername(),
+                        player1.getCurrentServer().get().getServerInfo().getName(), false))
+                    return;
+                send(player, ComType.play + url);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendPic(String url) {
+        try {
+            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+                if (AllMusic.isOK(player.getUsername(),
+                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                    continue;
+                String name = player.getUsername();
+                SaveOBJ obj = HudUtils.get(name);
+                if (!obj.EnablePic)
+                    continue;
+                send(player, ComType.img + url);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendPic(String player, String url) {
+        try {
+            if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
+                Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
+                if (AllMusic.isOK(player1.getUsername(),
+                        player1.getCurrentServer().get().getServerInfo().getName(), true))
+                    return;
+                send(player, ComType.img + url);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendPos(String player, int pos) {
+        try {
+            if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
+                Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
+                if (AllMusic.isOK(player1.getUsername(),
+                        player1.getCurrentServer().get().getServerInfo().getName(), true))
+                    return;
+                send(player, ComType.pos + pos);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHudLyric(String data) {
+        try {
+            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+                if (AllMusic.isOK(player.getUsername(),
+                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                    continue;
+                SaveOBJ obj = HudUtils.get(player.getUsername());
+                if (!obj.EnableLyric)
+                    continue;
+                send(player, ComType.lyric + data);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHudInfo(String data) {
+        try {
+            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+                if (AllMusic.isOK(player.getUsername(),
+                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                    continue;
+                SaveOBJ obj = HudUtils.get(player.getUsername());
+                if (!obj.EnableInfo)
+                    continue;
+                send(player, ComType.info + data);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHudList(String data) {
+        try {
+            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+                if (AllMusic.isOK(player.getUsername(),
+                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                    continue;
+                String name = player.getUsername();
+                SaveOBJ obj = HudUtils.get(name);
+                if (!obj.EnableList)
+                    continue;
+                send(player, ComType.list + data);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHudUtilsAll() {
+        for (Player players : AllMusicVelocity.plugin.server.getAllPlayers()) {
+            String Name = players.getUsername();
+            try {
+                SaveOBJ obj = HudUtils.get(Name);
+                String data = new Gson().toJson(obj);
+                send(data, Name);
+            } catch (Exception e1) {
+                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void sendBar(String data) {
+        Component message = Component.text(data);
+        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+            try {
+                if (AllMusic.isOK(player.getUsername(),
+                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                    continue;
+                player.sendActionBar(message);
+            } catch (Exception e1) {
+                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void clearHud(String player) {
+        try {
+            send(ComType.clear, player);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void clearHud() {
+        try {
+            Collection<Player> values = AllMusicVelocity.plugin.server.getAllPlayers();
+            for (Player players : values) {
+                send(players, ComType.clear);
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendMessaget(Object obj, String message) {
+        CommandSource sender = (CommandSource) obj;
+        sender.sendMessage(Component.text(message));
+    }
+
+    @Override
+    public void sendMessage(Object obj, String message) {
+        CommandSource sender = (CommandSource) obj;
+        sender.sendMessage(Component.text(message));
+    }
+
+    @Override
+    public void sendMessageRun(Object obj, String message, String end, String command) {
+        CommandSource sender = (CommandSource) obj;
+        TextComponent send = Component.text(message + end)
+                .clickEvent(ClickEvent.runCommand(command));
+        sender.sendMessage(send);
+    }
+
+    @Override
+    public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        CommandSource sender = (CommandSource) obj;
+        TextComponent send = Component.text(message + end)
+                .clickEvent(ClickEvent.suggestCommand(command));
+        sender.sendMessage(send);
+    }
+
+    @Override
+    public void runTask(Runnable run) {
+        AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run).schedule();
+    }
+
+    @Override
+    public void reload() {
+        new AllMusic().init(AllMusicVelocity.plugin.dataDirectory.toFile());
+    }
+
+    @Override
+    public boolean checkPermission(String player, String permission) {
+        try {
+            if (AllMusic.getConfig().Admin.contains(player))
+                return false;
+            Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
+            player1.hasPermission(permission);
+        } catch (NoSuchElementException ignored) {
+
+        }
+        return true;
+    }
+
+    @Override
+    public void runTask(Runnable run, int delay) {
+        AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run)
+                .delay(delay, TimeUnit.MICROSECONDS).schedule();
+    }
+
+    @Override
     public void ping() {
         Iterator<ServerConnection> iterator = TopServers.iterator();
         while (iterator.hasNext()) {
@@ -434,7 +499,7 @@ public class SideVelocity implements ISide {
         }
     }
 
-    private void send(Player players, String data, Boolean isplay) {
+    private void send(Player players, String data) {
         if (players == null)
             return;
         try {
@@ -443,32 +508,9 @@ public class SideVelocity implements ISide {
             buf.writeByte(666);
             buf.writeBytes(bytes);
             runTask(() -> players.sendPluginMessage(AllMusicVelocity.channel, buf.array()));
-            if (isplay != null) {
-                if (isplay) {
-                    AllMusic.addNowPlayPlayer(players.getUsername());
-                } else {
-                    AllMusic.removeNowPlayPlayer(players.getUsername());
-                }
-            }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
             e.printStackTrace();
-        }
-    }
-
-    private boolean isOK(Player player) {
-        try {
-            if (player == null)
-                return true;
-            if (AllMusic.getConfig().NoMusicServer
-                    .contains(player.getCurrentServer().get().getServerInfo().getName()))
-                return true;
-            String name = player.getUsername();
-            if (AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
-                return true;
-            return AllMusic.containNowPlay(name);
-        } catch (NoSuchElementException e) {
-            return true;
         }
     }
 }

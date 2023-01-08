@@ -40,9 +40,6 @@ public class SearchOBJ {
             return true;
         if (CantLast == null)
             return true;
-        if (StartSearch == null)
-            return true;
-
-        return false;
+        return StartSearch == null;
     }
 }

@@ -2,8 +2,6 @@ package coloryr.allmusic.objs.music;
 
 import coloryr.allmusic.AllMusic;
 
-import java.util.Map;
-
 public class LyricItemObj {
     public String lyric;
     public String tlyric;

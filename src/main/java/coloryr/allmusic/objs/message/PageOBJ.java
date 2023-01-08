@@ -12,9 +12,7 @@ public class PageOBJ {
     }
 
     public boolean check() {
-        boolean res = false;
-        if (Choice == null)
-            res = true;
+        boolean res = Choice == null;
         if (Next == null)
             res = true;
         if (Last == null)

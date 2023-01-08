@@ -83,7 +83,7 @@ public class MetricsConfig {
         configContent.add("# There is no performance penalty associated with having metrics enabled, and data sent to");
         configContent.add("# bStats is fully anonymous.");
         configContent.add("enabled=" + defaultEnabled);
-        configContent.add("server-uuid=" + UUID.randomUUID().toString());
+        configContent.add("server-uuid=" + UUID.randomUUID());
         configContent.add("log-errors=false");
         configContent.add("log-sent-data=false");
         configContent.add("log-response-status-text=false");

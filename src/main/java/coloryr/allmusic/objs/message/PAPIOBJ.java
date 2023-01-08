@@ -8,9 +8,6 @@ public class PAPIOBJ {
     }
 
     public boolean check() {
-        if (NoMusic == null)
-            return true;
-
-        return false;
+        return NoMusic == null;
     }
 }

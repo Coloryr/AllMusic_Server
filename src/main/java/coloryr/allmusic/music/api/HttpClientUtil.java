@@ -20,9 +20,9 @@ import java.util.concurrent.TimeUnit;
 
 public class HttpClientUtil {
 
-    private static OkHttpClient client;
     private static final int CONNECT_TIMEOUT = 5;
     private static final int READ_TIMEOUT = 7;
+    private static OkHttpClient client;
 
     public static void init() {
         try {

@@ -12,9 +12,6 @@ public class CommandOBJ {
     public boolean check() {
         if (Error == null)
             return true;
-        if (NoPer == null)
-            return true;
-
-        return false;
+        return NoPer == null;
     }
 }

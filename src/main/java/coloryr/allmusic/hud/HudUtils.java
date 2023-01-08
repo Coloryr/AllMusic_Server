@@ -2,11 +2,11 @@ package coloryr.allmusic.hud;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.enums.HudPos;
+import coloryr.allmusic.music.play.LyricSave;
+import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.objs.hud.PosOBJ;
 import coloryr.allmusic.objs.hud.SaveOBJ;
-import coloryr.allmusic.music.play.LyricSave;
 import coloryr.allmusic.objs.music.SongInfoObj;
-import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.utils.Function;
 import com.google.gson.Gson;
 
@@ -43,6 +43,7 @@ public class HudUtils {
 
     /**
      * 设置玩家Hud位置
+     *
      * @param player 用户名
      * @param pos    位置
      * @param x      x
@@ -266,7 +267,7 @@ public class HudUtils {
                     AllMusic.save();
                 }
                 String data = new Gson().toJson(obj);
-                AllMusic.side.send(data, player, null);
+                AllMusic.side.send(data, player);
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();

@@ -48,9 +48,6 @@ public class HelpNormalObj {
             return true;
         if (Hud2 == null)
             return true;
-        if (Hud3 == null)
-            return true;
-
-        return false;
+        return Hud3 == null;
     }
 }

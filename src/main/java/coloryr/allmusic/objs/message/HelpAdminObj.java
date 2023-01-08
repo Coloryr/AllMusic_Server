@@ -36,9 +36,6 @@ public class HelpAdminObj {
             return true;
         if (ClearList == null)
             return true;
-        if (Login == null)
-            return true;
-
-        return false;
+        return Login == null;
     }
 }

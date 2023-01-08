@@ -24,10 +24,7 @@ public class HudListOBJ {
             return true;
         if (All == null)
             return true;
-        if (Pic == null)
-            return true;
-
-        return false;
+        return Pic == null;
     }
 
     public String Get(String data) {

@@ -17,13 +17,6 @@ import java.util.concurrent.Semaphore;
 public class DataSql {
     private static final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
     private static final Semaphore semaphore = new Semaphore(0);
-    private static boolean isRun;
-
-    /**
-     * 数据库链接对象
-     */
-    private static Connection connection;
-
     /**
      * 创建表用
      */
@@ -44,11 +37,15 @@ public class DataSql {
             "  \"pic_size\" integer(6),\n" +
             "  \"pic_enable\" integer(1)\n" +
             ");";
-
     /**
      * 数据库文件
      */
     public static File sqlFile;
+    private static boolean isRun;
+    /**
+     * 数据库链接对象
+     */
+    private static Connection connection;
 
     /**
      * 初始化数据库
@@ -74,6 +71,7 @@ public class DataSql {
 
     /**
      * 检查玩家是否在数据库
+     *
      * @param name 用户名
      * @return 结果
      */
@@ -99,8 +97,9 @@ public class DataSql {
 
     /**
      * 更新玩家Hud数据
+     *
      * @param name 用户名
-     * @param hud Hud数据
+     * @param hud  Hud数据
      */
     private static void update(String name, SaveOBJ hud) {
         String sql = "";
@@ -126,8 +125,9 @@ public class DataSql {
 
     /**
      * 添加用户Hud数据
+     *
      * @param name 用户名
-     * @param hud 数据
+     * @param hud  数据
      */
     public static void addUser(String name, SaveOBJ hud) {
         String sql = "";

@@ -36,9 +36,6 @@ public class VoteOBJ {
             return true;
         if (TimeOut == null)
             return true;
-        if (Do == null)
-            return true;
-
-        return false;
+        return Do == null;
     }
 }

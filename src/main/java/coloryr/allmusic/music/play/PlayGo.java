@@ -10,6 +10,10 @@ import java.util.concurrent.TimeUnit;
 
 public class PlayGo {
     /**
+     * 播放链接
+     */
+    public static String url;
+    /**
      * 倒数计数器
      */
     private static int count = 0;
@@ -18,11 +22,6 @@ public class PlayGo {
      * 歌曲更新计数器
      */
     private static int times = 0;
-    /**
-     * 播放链接
-     */
-    public static String url;
-
     private static ScheduledExecutorService service;
     private static ScheduledExecutorService service1;
     private static ScheduledExecutorService service2;
@@ -66,7 +65,7 @@ public class PlayGo {
     private static void startTimer() {
         service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(PlayGo::time1, 0, 10, TimeUnit.MILLISECONDS);
-        if (PlayMusic.lyric.isHaveLyric()) {
+        if (PlayMusic.lyric != null && PlayMusic.lyric.isHaveLyric()) {
             service1 = Executors.newSingleThreadScheduledExecutor();
             service1.scheduleAtFixedRate(PlayGo::time2, 0, 2, TimeUnit.MILLISECONDS);
         }

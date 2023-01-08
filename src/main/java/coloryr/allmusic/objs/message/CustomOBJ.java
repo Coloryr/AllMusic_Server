@@ -8,9 +8,6 @@ public class CustomOBJ {
     }
 
     public boolean check() {
-        if (Info == null)
-            return true;
-
-        return false;
+        return Info == null;
     }
 }

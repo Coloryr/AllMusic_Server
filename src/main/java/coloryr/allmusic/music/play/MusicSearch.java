@@ -9,8 +9,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MusicSearch {
-    private static boolean isRun;
     private static final Queue<MusicObj> tasks = new ConcurrentLinkedQueue<>();
+    private static boolean isRun;
 
     private static void task() {
         while (isRun) {
@@ -34,8 +34,6 @@ public class MusicSearch {
             }
         }
     }
-
-    ;
 
     public static void start() {
         Thread taskT = new Thread(MusicSearch::task, "AllMusic_search");
