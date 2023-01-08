@@ -46,7 +46,7 @@ public class LyricDo {
             temp1 = getTime(tlyric);
         }
 
-        String temp2 = obj.getYrc() == null ? obj.getLyric() : obj.getYrc();
+        String temp2 = obj.getYrc() == null ? obj.getKlyric() : obj.getYrc();
 
         if (temp2 != null && !temp2.isEmpty()) {
             String[] klyric = temp2.split("\n");

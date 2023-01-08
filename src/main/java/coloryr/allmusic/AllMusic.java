@@ -161,7 +161,7 @@ public class AllMusic {
      * @return 是否存在
      */
     public static boolean containNowPlay(String player) {
-        return nowPlayPlayer.contains(player);
+        return !nowPlayPlayer.contains(player);
     }
 
     /**
