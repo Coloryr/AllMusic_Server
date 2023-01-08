@@ -203,8 +203,9 @@ public class SideVelocity extends ISide {
     public void sendMusic(String url) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (AllMusic.isOK(player.getUsername(),
-                        player.getCurrentServer().get().getServerInfo().getName(), false))
+                String server = player.getCurrentServer().isPresent() ?
+                        player.getCurrentServer().get().getServerInfo().getName() : null;
+                if (AllMusic.isOK(player.getUsername(), server, false))
                     continue;
                 send(player, ComType.play + url);
                 AllMusic.addNowPlayPlayer(player.getUsername());
@@ -220,8 +221,9 @@ public class SideVelocity extends ISide {
         try {
             if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-                if (AllMusic.isOK(player1.getUsername(),
-                        player1.getCurrentServer().get().getServerInfo().getName(), false))
+                String server = player1.getCurrentServer().isPresent() ?
+                        player1.getCurrentServer().get().getServerInfo().getName() : null;
+                if (AllMusic.isOK(player1.getUsername(), server, false))
                     return;
                 send(player, ComType.play + url);
             }
@@ -235,8 +237,7 @@ public class SideVelocity extends ISide {
     public void sendPic(String url) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (AllMusic.isOK(player.getUsername(),
-                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                if (ok(player))
                     continue;
                 String name = player.getUsername();
                 SaveOBJ obj = HudUtils.get(name);
@@ -255,8 +256,7 @@ public class SideVelocity extends ISide {
         try {
             if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-                if (AllMusic.isOK(player1.getUsername(),
-                        player1.getCurrentServer().get().getServerInfo().getName(), true))
+                if (ok(player1))
                     return;
                 send(player, ComType.img + url);
             }
@@ -271,8 +271,7 @@ public class SideVelocity extends ISide {
         try {
             if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-                if (AllMusic.isOK(player1.getUsername(),
-                        player1.getCurrentServer().get().getServerInfo().getName(), true))
+                if (ok(player1))
                     return;
                 send(player, ComType.pos + pos);
             }
@@ -286,8 +285,7 @@ public class SideVelocity extends ISide {
     public void sendHudLyric(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (AllMusic.isOK(player.getUsername(),
-                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                if (ok(player))
                     continue;
                 SaveOBJ obj = HudUtils.get(player.getUsername());
                 if (!obj.EnableLyric)
@@ -304,8 +302,7 @@ public class SideVelocity extends ISide {
     public void sendHudInfo(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (AllMusic.isOK(player.getUsername(),
-                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                if (ok(player))
                     continue;
                 SaveOBJ obj = HudUtils.get(player.getUsername());
                 if (!obj.EnableInfo)
@@ -322,8 +319,7 @@ public class SideVelocity extends ISide {
     public void sendHudList(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (AllMusic.isOK(player.getUsername(),
-                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                if (ok(player))
                     continue;
                 String name = player.getUsername();
                 SaveOBJ obj = HudUtils.get(name);
@@ -357,8 +353,7 @@ public class SideVelocity extends ISide {
         Component message = Component.text(data);
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             try {
-                if (AllMusic.isOK(player.getUsername(),
-                        player.getCurrentServer().get().getServerInfo().getName(), true))
+                if (ok(player))
                     continue;
                 player.sendActionBar(message);
             } catch (Exception e1) {
@@ -512,5 +507,11 @@ public class SideVelocity extends ISide {
             AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
             e.printStackTrace();
         }
+    }
+
+    private boolean ok(Player player) {
+        String server = player.getCurrentServer().isPresent() ?
+                player.getCurrentServer().get().getServerInfo().getName() : null;
+        return AllMusic.isOK(player.getUsername(), server, true);
     }
 }

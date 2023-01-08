@@ -144,7 +144,7 @@ public class SideBC extends ISide {
     public void sendHudLyric(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (AllMusic.isOK(player.getName(), player.getServer().getInfo().getName(), true))
+                if (ok(player))
                     continue;
                 SaveOBJ obj = HudUtils.get(player.getName());
                 if (!obj.EnableLyric)
@@ -161,7 +161,7 @@ public class SideBC extends ISide {
     public void sendHudInfo(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (AllMusic.isOK(player.getName(), player.getServer().getInfo().getName(), true))
+                if (ok(player))
                     continue;
                 SaveOBJ obj = HudUtils.get(player.getName());
                 if (!obj.EnableInfo)
@@ -178,7 +178,7 @@ public class SideBC extends ISide {
     public void sendHudList(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (AllMusic.isOK(player.getName(), player.getServer().getInfo().getName(), true))
+                if (ok(player))
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = HudUtils.get(name);
@@ -223,7 +223,8 @@ public class SideBC extends ISide {
     public void sendMusic(String url) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (AllMusic.isOK(player.getName(), player.getServer().getInfo().getName(), false))
+                String server = player.getServer() == null ? null : player.getServer().getInfo().getName();
+                if (AllMusic.isOK(player.getName(), server, false))
                     continue;
                 send(player, ComType.play + url);
                 AllMusic.addNowPlayPlayer(player.getName());
@@ -240,7 +241,8 @@ public class SideBC extends ISide {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName(), player1.getServer().getInfo().getName(), false))
+            String server = player1.getServer() == null ? null : player1.getServer().getInfo().getName();
+            if (AllMusic.isOK(player1.getName(), server, false))
                 return;
             send(player, ComType.play + url);
         } catch (Exception e) {
@@ -253,7 +255,7 @@ public class SideBC extends ISide {
     public void sendPic(String url) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (AllMusic.isOK(player.getName(), player.getServer().getInfo().getName(), true))
+                if (ok(player))
                     continue;
                 String name = player.getName();
                 SaveOBJ obj = HudUtils.get(name);
@@ -273,7 +275,7 @@ public class SideBC extends ISide {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName(), player1.getServer().getInfo().getName(), true))
+            if (ok(player1))
                 return;
             send(player, ComType.img + url);
         } catch (Exception e) {
@@ -288,7 +290,7 @@ public class SideBC extends ISide {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName(), player1.getServer().getInfo().getName(), true))
+            if (ok(player1))
                 return;
             send(player, ComType.pos + pos);
         } catch (Exception e) {
@@ -495,5 +497,10 @@ public class SideBC extends ISide {
             AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
             e.printStackTrace();
         }
+    }
+
+    private boolean ok(ProxiedPlayer player) {
+        String server = player.getServer() == null ? null : player.getServer().getInfo().getName();
+        return AllMusic.isOK(player.getName(), server, true);
     }
 }
