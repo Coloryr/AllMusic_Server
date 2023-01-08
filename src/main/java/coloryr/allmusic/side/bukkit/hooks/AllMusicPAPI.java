@@ -86,13 +86,13 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     return PluginMessage.allList;
                 }
                 case "lyric": {
-                    return PlayMusic.lyricItem.getLyric();
+                    return PlayMusic.lyric.getLyric();
                 }
                 case "tlyric": {
-                    return PlayMusic.lyricItem.getTlyric();
+                    return PlayMusic.lyric.getTlyric();
                 }
                 case "klyric": {
-                    return PlayMusic.lyricItem.getKly();
+                    return PlayMusic.lyric.getKly();
                 }
             }
         } else {
@@ -134,19 +134,19 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     return PlayMusic.getAllList();
                 }
                 case "lyric": {
-                    if (PlayMusic.lyricItem == null)
+                    if (PlayMusic.lyric == null)
                         return "";
-                    return PlayMusic.lyricItem.getLyric();
+                    return PlayMusic.lyric.getLyric();
                 }
                 case "tlyric": {
-                    if (PlayMusic.lyricItem == null)
+                    if (PlayMusic.lyric == null)
                         return "";
-                    return PlayMusic.lyricItem.getTlyric();
+                    return PlayMusic.lyric.getTlyric();
                 }
                 case "klyric": {
-                    if (PlayMusic.lyricItem == null)
+                    if (PlayMusic.lyric == null)
                         return "";
-                    return PlayMusic.lyricItem.getKly();
+                    return PlayMusic.lyric.getKly();
                 }
             }
         }

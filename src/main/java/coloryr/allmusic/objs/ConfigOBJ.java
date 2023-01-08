@@ -43,6 +43,10 @@ public class ConfigOBJ {
      * 最长音乐长度
      */
     public int MaxMusicTime;
+    /**
+     * KTV模式歌词加时
+     */
+    public int KDelay;
 
     /**
      * 管理员ID列表
@@ -170,6 +174,7 @@ public class ConfigOBJ {
         Economy = new EconomyObj();
 
         KtvMode = true;
+        KDelay = 0;
 
         Version = AllMusic.version;
     }

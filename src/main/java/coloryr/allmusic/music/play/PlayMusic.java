@@ -4,8 +4,6 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.decoder.Bitstream;
 import coloryr.allmusic.decoder.Header;
 import coloryr.allmusic.objs.music.SongInfoObj;
-import coloryr.allmusic.objs.music.LyricItemObj;
-import coloryr.allmusic.objs.music.LyricSaveObj;
 import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.utils.Logs;
 
@@ -48,11 +46,7 @@ public class PlayMusic {
     /**
      * 当前歌词信息
      */
-    public static LyricSaveObj lyric;
-    /**
-     * 当前歌词
-     */
-    public static LyricItemObj lyricItem;
+    public static LyricSave lyric;
     /**
      * 错误次数
      */

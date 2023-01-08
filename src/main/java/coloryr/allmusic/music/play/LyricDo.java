@@ -8,26 +8,17 @@ import coloryr.allmusic.utils.Function;
 import java.util.*;
 
 public class LyricDo {
-    private static class KL {
-        public char k;
-        public Map<Integer, Character> v;
-
-        public KL(char k, Map<Integer, Character> v) {
-            this.k = k;
-            this.v = v;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(k);
-        }
-    }
-
-    private final Map<Integer, LyricItemObj> temp = new HashMap<>();
+    private final Map<Integer, LyricItemObj> temp = new LinkedHashMap<>();
     public boolean isHave = false;
+    public boolean isHaveK = false;
 
     public Map<Integer, LyricItemObj> getTemp() {
         return temp;
+    }
+    public Map<Integer, String> kly = new LinkedHashMap<>();
+
+    public Map<Integer, String> getKLyric() {
+        return kly;
     }
 
     /**
@@ -40,14 +31,12 @@ public class LyricDo {
         String[] lyric;
 
         boolean haveT = false;
-        boolean haveK = false;
         if (!obj.isOk())
             return true;
         else if (obj.isNone())
             return false;
         lyric = obj.getLyric().split("\n");
 
-        List<KL> temp2 = new ArrayList<>();
         Map<Integer, String> temp = getTime(Arrays.asList(lyric));
         Map<Integer, String> temp1 = new HashMap<>();
 
@@ -59,38 +48,20 @@ public class LyricDo {
 
         if (obj.getKlyric() != null && !obj.getKlyric().isEmpty()) {
             String[] klyric = obj.getKlyric().split("\n");
-            char[] temp3 = new char[1];
             for (String item : klyric) {
-                Map<Integer, Character> temp4 = getKTime(item, temp3);
+                Map<Integer, String> temp4 = getKTime(item);
                 if (temp4 != null) {
-                    temp2.add(new KL(temp3[0], temp4));
+                    kly.putAll(temp4);
                 }
             }
-            haveK = true;
+            isHaveK = true;
         }
 
-        int index = 0;
         for (Map.Entry<Integer, String> item : temp.entrySet()) {
-            Map<Integer, Character> temp6 = null;
-            if (haveK) {
-                char temp7 = item.getValue().charAt(0);
-                if (index == temp2.size()) {
-                    index = 0;
-                }
-                while (index < temp2.size()) {
-                    KL temp5 = temp2.get(index);
-                    if (temp5.k == temp7) {
-                        temp6 = temp5.v;
-                        index++;
-                        break;
-                    }
-                    index++;
-                }
-            }
-
-            this.temp.put(item.getKey(), new LyricItemObj(item.getKey(), haveT,
-                    item.getValue(), temp1.get(item.getKey()), temp6, temp6 != null));
+            this.temp.put(item.getKey(), new LyricItemObj(item.getValue(),
+                    haveT ? temp1.get(item.getKey()): null));
         }
+
 
         isHave = true;
         return false;
@@ -139,14 +110,14 @@ public class LyricDo {
             }
             time = Integer.parseInt(min) * 60 * 1000 + Integer.parseInt(sec) * 1000 + milt * 10;
             if (time > 0 && time + AllMusic.getConfig().Delay > 0)
-                time += AllMusic.getConfig().Delay * 10;
+                time += AllMusic.getConfig().Delay / 10 * 10;
             res.put(time, Function.getString(s, "]", null));
         }
         return res;
     }
 
-    private Map<Integer, Character> getKTime(String lyric, char[] time1) {
-        Map<Integer, Character> res = new HashMap<>();
+    private Map<Integer, String> getKTime(String lyric) {
+        Map<Integer, String> res = new LinkedHashMap<>();
         if (!lyric.startsWith("[") || !lyric.contains("]("))
             return null;
 
@@ -154,17 +125,17 @@ public class LyricDo {
         if (temp1.length == 1)
             return null;
 
-        int now = 0;
+        String temp = Function.getString(lyric, "[", "]");
+        String[] temp11 = temp.split(",");
+        int now = Integer.parseInt(temp11[0]) / 10 * 10;
         for (int a = 1; a < temp1.length; a++) {
             String time = temp1[a];
             int temp2 = time.indexOf(')');
             String temp3 = time.substring(2, temp2);
-            int temp5 = Integer.parseInt(temp3) / 10 * 10;
-            char temp6 = time.charAt(temp2 + 1);
-            if (a == 1) {
-                time1[0] = temp6;
-            }
-            res.put(now, temp6);
+            int temp5 = (Integer.parseInt(temp3) / 10 * 10);
+            if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
+                temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
+            res.put(now, time.substring(temp2 + 1));
             now += temp5;
         }
 

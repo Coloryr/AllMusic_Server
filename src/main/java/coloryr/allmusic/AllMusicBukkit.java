@@ -1,7 +1,7 @@
 package coloryr.allmusic;
 
 import coloryr.allmusic.objs.music.TopSongInfoObj;
-import coloryr.allmusic.objs.music.TopLyricItemObj;
+import coloryr.allmusic.music.play.TopLyricSave;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.side.bukkit.*;
 import coloryr.allmusic.side.bukkit.hooks.AllMusicPAPI;
@@ -50,7 +50,7 @@ public class AllMusicBukkit extends JavaPlugin {
 
         if (AllMusic.getConfig().TopPAPI) {
             PlayMusic.nowPlayMusic = new TopSongInfoObj();
-            PlayMusic.lyricItem = new TopLyricItemObj();
+            PlayMusic.lyric = new TopLyricSave();
             pluginMessage = new PluginMessage();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channelBC);
             getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);

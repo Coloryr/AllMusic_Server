@@ -1,10 +1,8 @@
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.objs.CookieObj;
 import coloryr.allmusic.objs.music.LyricItemObj;
-import coloryr.allmusic.objs.music.LyricSaveObj;
+import coloryr.allmusic.music.play.LyricSave;
 import coloryr.allmusic.side.IMyLogger;
-
-import java.util.Map;
 
 public class RunTest implements IMyLogger {
     public static void main(String[] arg) {
@@ -15,15 +13,15 @@ public class RunTest implements IMyLogger {
 //        {
 //
 //        }
-        LyricSaveObj obj = AllMusic.getMusicApi().getLyric("28151022");
+        LyricSave obj = AllMusic.getMusicApi().getLyric("28151022");
         if (obj.isHaveLyric()) {
-            LyricItemObj item = obj.checkTime(15970);
             int time = 0;
             while (true) {
-                boolean res = item.ktv(time);
+                boolean res = obj.checkTime(time, true);
                 if (res) {
-                    String temp = item.getKly();
-                    System.out.println(temp);
+                    String temp = obj.getKly();
+                    if (temp != null)
+                        System.out.println(temp);
                 }
                 time += 10;
             }

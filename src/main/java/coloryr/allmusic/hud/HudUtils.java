@@ -4,8 +4,8 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.enums.HudPos;
 import coloryr.allmusic.objs.hud.PosOBJ;
 import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.music.play.LyricSave;
 import coloryr.allmusic.objs.music.SongInfoObj;
-import coloryr.allmusic.objs.music.LyricItemObj;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.utils.Function;
 import com.google.gson.Gson;
@@ -143,18 +143,17 @@ public class HudUtils {
 
     /**
      * 更新Hud的歌词数据
-     *
-     * @param showobj 显示的歌词
      */
-    public static void sendHudLyricData(LyricItemObj showobj) {
+    public static void sendHudLyricData() {
         String info;
-        if (showobj == null) {
+        LyricSave obj = PlayMusic.lyric;
+        if (obj == null) {
             info = AllMusic.getMessage().Hud.NoLyric;
         } else {
-            String lyric = showobj.getLyric();
-            String tLyric = showobj.getTlyric();
-            String kLyric = showobj.getKly();
-            if (!AllMusic.getConfig().KtvMode || !showobj.isHaveK()) {
+            String lyric = obj.getLyric();
+            String tLyric = obj.getTlyric();
+            String kLyric = obj.getKly();
+            if (!AllMusic.getConfig().KtvMode) {
                 info = AllMusic.getMessage().Hud.Lyric
                         .replace("%Lyric%", lyric == null ? "" : lyric)
                         .replace("%Tlyric%", tLyric != null ? tLyric : "");

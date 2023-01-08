@@ -3,7 +3,7 @@ package coloryr.allmusic.side.bukkit;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBukkit;
 import coloryr.allmusic.objs.music.TopSongInfoObj;
-import coloryr.allmusic.objs.music.TopLyricItemObj;
+import coloryr.allmusic.music.play.TopLyricSave;
 import coloryr.allmusic.music.play.PlayMusic;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataInput;
@@ -25,11 +25,11 @@ public class PluginMessage implements PluginMessageListener {
     public static String allList;
     public static boolean update = false;
     private final TopSongInfoObj info;
-    private final TopLyricItemObj lyric;
+    private final TopLyricSave lyric;
 
     public PluginMessage() {
         info = (TopSongInfoObj) PlayMusic.nowPlayMusic;
-        lyric = (TopLyricItemObj) PlayMusic.lyricItem;
+        lyric = (TopLyricSave) PlayMusic.lyric;
 
         service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(PluginMessage::clear, 0, 30, TimeUnit.SECONDS);

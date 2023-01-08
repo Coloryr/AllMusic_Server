@@ -2,11 +2,8 @@ package coloryr.allmusic.music.play;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.HudUtils;
-import coloryr.allmusic.objs.music.LyricItemObj;
-import coloryr.allmusic.objs.music.LyricSaveObj;
 import coloryr.allmusic.objs.music.MusicObj;
 
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -83,7 +80,6 @@ public class PlayGo {
         PlayMusic.musicAllTime = 0;
         PlayMusic.musicLessTime = 0;
         PlayMusic.lyric = null;
-        PlayMusic.lyricItem = null;
         PlayMusic.nowPlayMusic = null;
         AllMusic.side.updateInfo();
         closeTimer();
@@ -101,26 +97,17 @@ public class PlayGo {
 
     private static void time2() {
         try {
-            LyricItemObj show = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime);
-            if (show != null) {
-                PlayMusic.lyricItem = show;
+            boolean res = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime, AllMusic.getConfig().KtvMode);
+            if (res) {
                 times = 0;
-                HudUtils.sendHudLyricData(show);
+                HudUtils.sendHudLyricData();
                 AllMusic.side.updateLyric();
             } else {
-                if (PlayMusic.lyricItem != null &&
-                        AllMusic.getConfig().KtvMode && PlayMusic.lyricItem.isHaveK()) {
-                    if (PlayMusic.lyricItem.ktv(PlayMusic.musicNowTime)) {
-                        HudUtils.sendHudLyricData(PlayMusic.lyricItem);
-                        AllMusic.side.updateLyric();
-                    }
-                } else {
-                    times++;
-                    if (times == 500 && PlayMusic.lyricItem != null) {
-                        times = 0;
-                        HudUtils.sendHudLyricData(PlayMusic.lyricItem);
-                        AllMusic.side.updateLyric();
-                    }
+                times++;
+                if (times == 500 && PlayMusic.lyric != null) {
+                    times = 0;
+                    HudUtils.sendHudLyricData();
+                    AllMusic.side.updateLyric();
                 }
             }
         } catch (Exception e) {
@@ -137,7 +124,7 @@ public class PlayGo {
             try {
                 if (PlayMusic.getSize() == 0) {
                     HudUtils.sendHudNowData();
-                    HudUtils.sendHudLyricData(null);
+                    HudUtils.sendHudLyricData();
                     HudUtils.sendHudListData();
                     if (AllMusic.side.needPlay()) {
                         String ID = AllMusic.getMusicApi().getListMusic();
@@ -170,7 +157,7 @@ public class PlayGo {
                     if (PlayMusic.nowPlayMusic.getPlayerUrl() == null)
                         PlayMusic.lyric = AllMusic.getMusicApi().getLyric(PlayMusic.nowPlayMusic.getID());
                     else
-                        PlayMusic.lyric = new LyricSaveObj();
+                        PlayMusic.lyric = new LyricSave();
 
                     if (PlayMusic.nowPlayMusic.getLength() != 0) {
                         PlayMusic.musicAllTime = PlayMusic.musicLessTime = (PlayMusic.nowPlayMusic.getLength() / 1000) + 3;

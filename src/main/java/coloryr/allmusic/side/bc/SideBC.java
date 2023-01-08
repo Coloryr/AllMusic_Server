@@ -340,36 +340,36 @@ public class SideBC implements ISide {
     public static void sendLyricToServer(Server server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(7);
-        if (PlayMusic.lyricItem == null)
+        if (PlayMusic.lyric == null)
             out.writeUTF("");
         else
-            out.writeUTF(PlayMusic.lyricItem.getLyric());
+            out.writeUTF(PlayMusic.lyric.getLyric());
         server.sendData(AllMusic.channelBC, out.toByteArray());
 
         out = ByteStreams.newDataOutput();
         out.writeInt(8);
-        if (PlayMusic.lyricItem == null || PlayMusic.lyricItem.getTlyric() == null)
+        if (PlayMusic.lyric == null || PlayMusic.lyric.getTlyric() == null)
             out.writeUTF("");
         else
-            out.writeUTF(PlayMusic.lyricItem.getTlyric());
+            out.writeUTF(PlayMusic.lyric.getTlyric());
         server.sendData(AllMusic.channelBC, out.toByteArray());
 
         out = ByteStreams.newDataOutput();
         out.writeInt(9);
-        out.writeBoolean(PlayMusic.lyricItem != null && PlayMusic.lyricItem.getTlyric() != null);
+        out.writeBoolean(PlayMusic.lyric != null && PlayMusic.lyric.getTlyric() != null);
         server.sendData(AllMusic.channelBC, out.toByteArray());
 
         out = ByteStreams.newDataOutput();
         out.writeInt(10);
-        if (PlayMusic.lyricItem == null || PlayMusic.lyricItem.getKly() == null)
+        if (PlayMusic.lyric == null || PlayMusic.lyric.getKly() == null)
             out.writeUTF("");
         else
-            out.writeUTF(PlayMusic.lyricItem.getTlyric());
+            out.writeUTF(PlayMusic.lyric.getTlyric());
         server.sendData(AllMusic.channelBC, out.toByteArray());
 
         out = ByteStreams.newDataOutput();
         out.writeInt(11);
-        out.writeBoolean(PlayMusic.lyricItem != null && PlayMusic.lyricItem.getKly() != null);
+        out.writeBoolean(PlayMusic.lyric != null && PlayMusic.lyric.getKly() != null);
         server.sendData(AllMusic.channelBC, out.toByteArray());
     }
 

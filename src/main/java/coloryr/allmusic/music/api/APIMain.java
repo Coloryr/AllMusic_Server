@@ -11,7 +11,7 @@ import coloryr.allmusic.objs.api.music.search.songs;
 import coloryr.allmusic.objs.api.music.trialinfo.TrialInfoObj;
 import coloryr.allmusic.objs.api.program.info.PrInfoOBJ;
 import coloryr.allmusic.music.play.LyricDo;
-import coloryr.allmusic.objs.music.LyricSaveObj;
+import coloryr.allmusic.music.play.LyricSave;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.objs.SearchOBJ;
 import coloryr.allmusic.objs.music.SearchPageObj;
@@ -226,8 +226,8 @@ public class APIMain {
      * @param id 歌曲id
      * @return 结果
      */
-    public LyricSaveObj getLyric(String id) {
-        LyricSaveObj Lyric = new LyricSaveObj();
+    public LyricSave getLyric(String id) {
+        LyricSave lyric = new LyricSave();
         JsonObject params = new JsonObject();
         params.addProperty("id", id);
         params.addProperty("cp", false);
@@ -249,10 +249,13 @@ public class APIMain {
                         AllMusic.log.warning("§d[AllMusic]§c歌词解析错误，正在进行第" + times + "重试");
                     } else {
                         if (temp.isHave) {
-                            Lyric.setHaveLyric(AllMusic.getConfig().SendLyric);
-                            Lyric.setLyric(temp.getTemp());
+                            lyric.setHaveLyric(AllMusic.getConfig().SendLyric);
+                            lyric.setLyric(temp.getTemp());
+                            if (temp.isHaveK) {
+                                lyric.setKlyric(temp.getKLyric());
+                            }
                         }
-                        return Lyric;
+                        return lyric;
                     }
                     Thread.sleep(1000);
                 }
@@ -262,7 +265,7 @@ public class APIMain {
                 e.printStackTrace();
             }
         }
-        return Lyric;
+        return lyric;
     }
 
     /**

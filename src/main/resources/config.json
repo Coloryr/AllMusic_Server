@@ -2,6 +2,7 @@
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 0,
+  "KDelay": 600,
   "Admin": ["CONSOLE","Color_yr"],
   "LoginUser": "",
   "NoMusicServer": [],
