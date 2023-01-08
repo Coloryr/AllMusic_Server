@@ -91,6 +91,9 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                 case "tlyric": {
                     return PlayMusic.lyricItem.getTlyric();
                 }
+                case "klyric": {
+                    return PlayMusic.lyricItem.getKly();
+                }
             }
         } else {
             switch (identifier) {
@@ -139,6 +142,11 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     if (PlayMusic.lyricItem == null)
                         return "";
                     return PlayMusic.lyricItem.getTlyric();
+                }
+                case "klyric": {
+                    if (PlayMusic.lyricItem == null)
+                        return "";
+                    return PlayMusic.lyricItem.getKly();
                 }
             }
         }

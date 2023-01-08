@@ -43,11 +43,13 @@ public class CommandEX {
      * @return 结果
      */
     private static boolean checkMoney(Object sender, String name, int cost) {
-        if (AllMusic.getConfig().UseCost && AllMusic.economy != null) {
-            if (!AllMusic.economy.check(name, cost)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().Cost.NoMoney);
-                return true;
-            }
+        if (!AllMusic.getConfig().UseCost || AllMusic.economy == null) {
+            return false;
+        }
+
+        if (!AllMusic.economy.check(name, cost)) {
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().Cost.NoMoney);
+            return true;
         }
         return false;
     }
@@ -61,6 +63,10 @@ public class CommandEX {
      * @return 结果
      */
     private static boolean cost(Object sender, String name, int cost, String message) {
+        if (!AllMusic.getConfig().UseCost || AllMusic.economy == null){
+            return false;
+        }
+
         if (AllMusic.economy.cost(name, cost)) {
             AllMusic.side.sendMessage(sender, message
                     .replace("%Cost%", "" + cost));

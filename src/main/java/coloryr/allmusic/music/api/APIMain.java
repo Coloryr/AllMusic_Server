@@ -230,11 +230,16 @@ public class APIMain {
         LyricSaveObj Lyric = new LyricSaveObj();
         JsonObject params = new JsonObject();
         params.addProperty("id", id);
-        params.addProperty("lv", -1);
-        params.addProperty("kv", -1);
-        params.addProperty("tv", -1);
-        params.addProperty("rv", -1);
-        HttpResObj res = HttpClientUtil.post("https://music.163.com/api/song/lyric?_nmclfl=1", params, EncryptType.API, null);
+        params.addProperty("cp", false);
+        params.addProperty("tv", 0);
+        params.addProperty("lv", 0);
+        params.addProperty("rv", 0);
+        params.addProperty("kv", 0);
+        params.addProperty("yv", 0);
+        params.addProperty("ytv", 0);
+        params.addProperty("rtv", 0);
+        HttpResObj res = HttpClientUtil.post("https://interface3.music.163.com/eapi/song/lyric/v1",
+                params, EncryptType.EAPI, "/api/song/lyric/v1");
         if (res != null && res.ok) {
             try {
                 WLyricOBJ obj = AllMusic.gson.fromJson(res.data, WLyricOBJ.class);

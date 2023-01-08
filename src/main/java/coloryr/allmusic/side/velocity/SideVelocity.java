@@ -359,7 +359,20 @@ public class SideVelocity implements ISide {
 
         out = ByteStreams.newDataOutput();
         out.writeInt(9);
-        out.writeBoolean(PlayMusic.lyricItem != null && PlayMusic.lyricItem.isHaveT());
+        out.writeBoolean(PlayMusic.lyricItem != null && PlayMusic.lyricItem.getTlyric() != null);
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(10);
+        if (PlayMusic.lyricItem == null || PlayMusic.lyricItem.getKly() == null)
+            out.writeUTF("");
+        else
+            out.writeUTF(PlayMusic.lyricItem.getTlyric());
+        server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        out = ByteStreams.newDataOutput();
+        out.writeInt(11);
+        out.writeBoolean(PlayMusic.lyricItem != null && PlayMusic.lyricItem.getKly() != null);
         server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
     }
 

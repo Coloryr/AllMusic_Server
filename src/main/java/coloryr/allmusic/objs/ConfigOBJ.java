@@ -105,6 +105,10 @@ public class ConfigOBJ {
      * 将信息限制在bar处
      */
     public boolean ShowInBar;
+    /**
+     * K歌歌词
+     */
+    public boolean KtvMode;
 
     /**
      * 登录的用户
@@ -164,6 +168,8 @@ public class ConfigOBJ {
         MessageLimitSize = 40;
 
         Economy = new EconomyObj();
+
+        KtvMode = true;
 
         Version = AllMusic.version;
     }

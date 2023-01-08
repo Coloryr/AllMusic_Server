@@ -68,6 +68,7 @@
     "PicSize": "§d[ALLMusic]§e设置图片尺寸为%Size%",
     "Music": "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%",
     "Lyric": "%Lyric%\n%Tlyric%",
+    "Ktv": "§e%KLyric%§f%Lyric%§r\n%Tlyric%",
     "List": "播放列表里面有%Size%首歌\n%List%"
   },
   "Command": {
@@ -122,5 +123,5 @@
       "Login": "§d[AllMusic]§e使用/music login 重新登录账户"
     }
   },
-  "Version": "101"
+  "Version": "102"
 }

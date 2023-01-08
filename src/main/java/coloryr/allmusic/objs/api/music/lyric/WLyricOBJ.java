@@ -3,6 +3,7 @@ package coloryr.allmusic.objs.api.music.lyric;
 public class WLyricOBJ {
     private lrc lrc;
     private tlyric tlyric;
+    private klyric klyric;
     private boolean nolyric;
     private boolean uncollected;
 
@@ -18,6 +19,12 @@ public class WLyricOBJ {
         if (tlyric == null)
             return null;
         return tlyric.getLyric();
+    }
+
+    public String getKlyric() {
+        if (klyric == null)
+            return null;
+        return klyric.getLyric();
     }
 
     public boolean isNone() {
@@ -38,5 +45,14 @@ class tlyric {
 
     public String getLyric() {
         return lyric;
+    }
+}
+
+class klyric
+{
+    private String lyric;
+
+    public String getLyric() {
+        return lyric == null ? "" : lyric;
     }
 }

@@ -39,15 +39,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "2.17.4";
+    public static final String version = "2.17.5";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "101";
+    public static final String configVersion = "102";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "101";
+    public static final String messageVersion = "102";
 
     /**
      * 搜歌结果

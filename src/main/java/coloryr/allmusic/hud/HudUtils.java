@@ -151,10 +151,19 @@ public class HudUtils {
         if (showobj == null) {
             info = AllMusic.getMessage().Hud.NoLyric;
         } else {
-            info = AllMusic.getMessage().Hud.Lyric
-                    .replace("%Lyric%", showobj.getLyric() == null ? "" : showobj.getLyric())
-                    .replace("%Tlyric%", (showobj.isHaveT() && showobj.getTlyric() != null) ?
-                            showobj.getTlyric() : "");
+            String lyric = showobj.getLyric();
+            String tLyric = showobj.getTlyric();
+            String kLyric = showobj.getKly();
+            if (!AllMusic.getConfig().KtvMode || !showobj.isHaveK()) {
+                info = AllMusic.getMessage().Hud.Lyric
+                        .replace("%Lyric%", lyric == null ? "" : lyric)
+                        .replace("%Tlyric%", tLyric != null ? tLyric : "");
+            } else {
+                info = AllMusic.getMessage().Hud.Ktv
+                        .replace("%Lyric%", lyric != null ? lyric : "")
+                        .replace("%KLyric%", kLyric != null ? kLyric : "")
+                        .replace("%Tlyric%", tLyric != null ? tLyric : "");
+            }
         }
 
         AllMusic.side.sendHudLyric(info);

@@ -49,6 +49,7 @@
   "SearchCost": 20,
   "AddMusicCost": 10,
   "MaxMusicTime": 600,
+  "KtvMode": true,
   "MusicBR": "320000",
-  "Version": "101"
+  "Version": "102"
 }

@@ -91,6 +91,12 @@ public class PluginMessage implements PluginMessageListener {
             case 9:
                 lyric.setHaveT(in.readBoolean());
                 break;
+            case 10:
+                lyric.setKly(in.readUTF());
+                break;
+            case 11:
+                lyric.setHaveK(in.readBoolean());
+                break;
         }
     }
 }
