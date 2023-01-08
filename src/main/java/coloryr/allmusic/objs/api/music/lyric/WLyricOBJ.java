@@ -4,6 +4,7 @@ public class WLyricOBJ {
     private lrc lrc;
     private tlyric tlyric;
     private klyric klyric;
+    private yrc yrc;
     private boolean nolyric;
     private boolean uncollected;
 
@@ -25,6 +26,12 @@ public class WLyricOBJ {
         if (klyric == null)
             return null;
         return klyric.getLyric();
+    }
+
+    public String getYrc() {
+        if(yrc == null)
+            return null;
+        return yrc.getLyric();
     }
 
     public boolean isNone() {
@@ -49,6 +56,15 @@ class tlyric {
 }
 
 class klyric
+{
+    private String lyric;
+
+    public String getLyric() {
+        return lyric == null ? "" : lyric;
+    }
+}
+
+class yrc
 {
     private String lyric;
 

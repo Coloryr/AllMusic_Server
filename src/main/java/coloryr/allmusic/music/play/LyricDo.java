@@ -46,8 +46,10 @@ public class LyricDo {
             temp1 = getTime(tlyric);
         }
 
-        if (obj.getKlyric() != null && !obj.getKlyric().isEmpty()) {
-            String[] klyric = obj.getKlyric().split("\n");
+        String temp2 = obj.getYrc() == null ? obj.getLyric() : obj.getYrc();
+
+        if (temp2 != null && !temp2.isEmpty()) {
+            String[] klyric = temp2.split("\n");
             for (String item : klyric) {
                 Map<Integer, String> temp4 = getKTime(item);
                 if (temp4 != null) {
