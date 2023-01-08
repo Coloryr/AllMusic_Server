@@ -34,3 +34,4 @@
 > %allmusic_music_list% 队列歌曲  
 > %allmusic_lyric% 歌词  
 > %allmusic_tlyric% 翻译的歌词
+> %allmusic_klyric% KTV歌词  
