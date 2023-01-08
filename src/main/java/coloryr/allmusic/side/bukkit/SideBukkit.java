@@ -168,7 +168,7 @@ public class SideBukkit extends ISide {
     public void sendMusic(String url) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isOK(player.getName(), null, false))
                     continue;
                 send(player, ComType.play + url);
             }
