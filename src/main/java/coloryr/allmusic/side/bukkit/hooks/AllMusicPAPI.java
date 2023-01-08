@@ -100,6 +100,11 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                 case "now_music_name": {
                     if (PlayMusic.nowPlayMusic == null)
                         return AllMusic.getMessage().PAPI.NoMusic;
+                    if(AllMusic.getConfig().MessageLimit
+                    && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().MessageLimitSize)
+                    {
+                        return PlayMusic.nowPlayMusic.getName().substring(0, AllMusic.getConfig().MessageLimitSize);
+                    }
                     return PlayMusic.nowPlayMusic.getName();
                 }
                 case "now_music_al": {

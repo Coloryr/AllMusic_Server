@@ -293,8 +293,15 @@ public class SideVelocity implements ISide {
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
             out.writeUTF(AllMusic.getMessage().PAPI.NoMusic);
-        else
-            out.writeUTF(PlayMusic.nowPlayMusic.getName());
+        else {
+            if (AllMusic.getConfig().MessageLimit
+                    && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().MessageLimitSize) {
+                out.writeUTF(PlayMusic.nowPlayMusic.getName()
+                        .substring(0, AllMusic.getConfig().MessageLimitSize));
+            } else {
+                out.writeUTF(PlayMusic.nowPlayMusic.getName());
+            }
+        }
         server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
 
         out = ByteStreams.newDataOutput();
