@@ -15,6 +15,7 @@ public class LyricDo {
     public Map<Integer, LyricItemObj> getTemp() {
         return temp;
     }
+
     public Map<Integer, String> kly = new LinkedHashMap<>();
 
     public Map<Integer, String> getKLyric() {
@@ -61,7 +62,7 @@ public class LyricDo {
 
         for (Map.Entry<Integer, String> item : temp.entrySet()) {
             this.temp.put(item.getKey(), new LyricItemObj(item.getValue(),
-                    haveT ? temp1.get(item.getKey()): null));
+                    haveT ? temp1.get(item.getKey()) : null));
         }
 
 
@@ -134,7 +135,14 @@ public class LyricDo {
             String time = temp1[a];
             int temp2 = time.indexOf(')');
             String temp3 = time.substring(2, temp2);
-            int temp5 = (Integer.parseInt(temp3) / 10 * 10);
+            int temp7 = Function.countChar(temp3, ',');
+            int temp5;
+            if (temp7 == 2) {
+                String[] temp8 = temp3.split(",");
+                temp5 = (Integer.parseInt(temp8[1]) / 10 * 10);
+            } else {
+                temp5 = (Integer.parseInt(temp3) / 10 * 10);
+            }
             if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
                 temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
             res.put(now, time.substring(temp2 + 1));
