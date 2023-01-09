@@ -6,6 +6,8 @@ public class HudListOBJ {
     public String Info;
     public String All;
     public String Pic;
+    public String PicRoute;
+    public String PicRouteSpeed;
 
     public HudListOBJ() {
         List = "待播放列表";
@@ -13,6 +15,8 @@ public class HudListOBJ {
         Info = "歌曲信息";
         Pic = "图片";
         All = "所有位置";
+        PicRoute = "图片旋转";
+        PicRouteSpeed = "图片旋转速度";
     }
 
     public boolean check() {
@@ -23,6 +27,10 @@ public class HudListOBJ {
         if (Info == null)
             return true;
         if (All == null)
+            return true;
+        if (PicRoute == null)
+            return true;
+        if (PicRouteSpeed == null)
             return true;
         return Pic == null;
     }

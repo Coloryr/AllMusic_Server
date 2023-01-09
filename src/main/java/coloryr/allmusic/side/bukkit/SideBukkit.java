@@ -407,6 +407,9 @@ public class SideBukkit extends ISide {
         MusicPlayEvent event = new MusicPlayEvent(obj);
         Bukkit.getScheduler().callSyncMethod(AllMusicBukkit.plugin, () -> {
             Bukkit.getPluginManager().callEvent(event);
+            if (!event.isCancel()) {
+                FunCore.addMusic();
+            }
             return event;
         });
         return event.isCancel();

@@ -4,7 +4,7 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.hud.HudUtils;
 import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayMusic;
-import coloryr.allmusic.objs.SearchOBJ;
+import coloryr.allmusic.objs.SearchMusicObj;
 import coloryr.allmusic.objs.hud.PosOBJ;
 import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.objs.music.SearchPageObj;
@@ -146,7 +146,7 @@ public class CommandEX {
      */
     public static void showSearch(Object sender, SearchPageObj search) {
         int index = search.getIndex();
-        SearchOBJ item;
+        SearchMusicObj item;
         String info;
         AllMusic.side.sendMessage(sender, "");
         if (search.haveLastPage()) {
@@ -203,6 +203,10 @@ public class CommandEX {
                     AllMusic.getMessage().Click.Check, "/music hud ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Hud3,
                     AllMusic.getMessage().Click.Check, "/music hud picsize ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Hud4,
+                    AllMusic.getMessage().Click.Check, "/music hud picrotate ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Hud5,
+                    AllMusic.getMessage().Click.Check, "/music hud picrotatespeed ");
             if (AllMusic.getConfig().Admin.contains(name)) {
                 AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.Reload,
                         AllMusic.getMessage().Click.This, "/music reload");
@@ -386,6 +390,20 @@ public class CommandEX {
                     }
                     AllMusic.side.sendMessage(sender,
                             AllMusic.getMessage().Hud.PicSize.replace("%Size%", args[2]));
+                } else if (args[1].equalsIgnoreCase("picrotate")) {
+                    if (args.length != 3) {
+                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().Command.Error);
+                        return;
+                    }
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().Hud.PicRotate
+                            .replace("%State%", String.valueOf(HudUtils.setPicRotate(name, args[2]))));
+                } else if (args[1].equalsIgnoreCase("picrotatespeed")) {
+                    if (args.length != 3 || !HudUtils.setPicRotateSpeed(name, args[2])) {
+                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().Command.Error);
+                        return;
+                    }
+                    AllMusic.side.sendMessage(sender,
+                            AllMusic.getMessage().Hud.PicRotate.replace("%Size%", args[2]));
                 } else if (args.length != 4) {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().Command.Error);
                 } else {

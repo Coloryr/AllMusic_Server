@@ -6,7 +6,7 @@ import coloryr.allmusic.music.api.APIMain;
 import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
-import coloryr.allmusic.objs.ConfigOBJ;
+import coloryr.allmusic.objs.ConfigObj;
 import coloryr.allmusic.objs.CookieObj;
 import coloryr.allmusic.objs.MessageOBJ;
 import coloryr.allmusic.objs.hud.SaveOBJ;
@@ -24,6 +24,8 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class AllMusic {
+    public static final Gson gson = new Gson();
+
     /**
      * 客户端插件信道名
      */
@@ -35,16 +37,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "2.17.10";
+    public static final String version = "2.18.0";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "102";
+    public static final String configVersion = "103";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "102";
-    public static final Gson gson = new Gson();
+    public static final String messageVersion = "103";
     /**
      * 搜歌结果
      * 玩家名 结果
@@ -85,7 +86,7 @@ public class AllMusic {
     /**
      * 配置对象
      */
-    private static ConfigOBJ config;
+    private static ConfigObj config;
     /**
      * 语言对象
      */
@@ -108,7 +109,7 @@ public class AllMusic {
      */
     public static void configCheck() {
         if (config == null) {
-            config = new ConfigOBJ();
+            config = new ConfigObj();
             log.warning("§d[AllMusic]§c配置文件config.json错误，已覆盖");
             save();
         } else if (config.check()) {
@@ -169,10 +170,10 @@ public class AllMusic {
      *
      * @return 配置对象
      */
-    public static ConfigOBJ getConfig() {
+    public static ConfigObj getConfig() {
         if (config == null) {
             log.warning("§d[AllMusic]§c配置文件config.json错误，已使用默认配置文件");
-            config = new ConfigOBJ();
+            config = new ConfigObj();
         }
         return config;
     }
@@ -371,7 +372,7 @@ public class AllMusic {
             InputStreamReader reader = new InputStreamReader(
                     Files.newInputStream(configFile.toPath()), StandardCharsets.UTF_8);
             BufferedReader bf = new BufferedReader(reader);
-            config = new Gson().fromJson(bf, ConfigOBJ.class);
+            config = new Gson().fromJson(bf, ConfigObj.class);
             bf.close();
             reader.close();
             configCheck();

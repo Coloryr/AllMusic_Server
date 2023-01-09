@@ -6,8 +6,11 @@ import coloryr.allmusic.objs.music.LyricItemObj;
 import coloryr.allmusic.utils.Function;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LyricDo {
+    private static final Pattern p = Pattern.compile("\\(([0-9]+),[0-9]+.[0-9]\\)");
     private final Map<Integer, LyricItemObj> temp = new LinkedHashMap<>();
     public boolean isHave = false;
     public boolean isHaveK = false;
@@ -123,24 +126,30 @@ public class LyricDo {
         if (!lyric.startsWith("[") || !lyric.contains("]("))
             return null;
 
-        String[] temp1 = lyric.split("\\(");
-        if (temp1.length == 1)
+        String[] datas = lyric.split("\\(([0-9]+),[0-9]+.[0-9]\\)");
+        Matcher m = p.matcher(lyric);
+        List<String> temp1111 = new ArrayList<>();
+        while (m.find()) {
+            temp1111.add(m.group()
+                    .replace("(", "")
+                    .replace(")", ""));
+        }
+        if (datas.length == 1)
             return null;
 
         String temp = Function.getString(lyric, "[", "]");
         String[] temp11 = temp.split(",");
         int now = Integer.parseInt(temp11[0]) / 10 * 10;
-        for (int a = 1; a < temp1.length; a++) {
-            String time = temp1[a];
-            int temp2 = time.indexOf(')');
-            String temp3 = time.substring(0, temp2);
+        for (int a = 1; a < datas.length; a++) {
+            String data = datas[a];
+            String temp3 = temp1111.get(a - 1);
             String[] temp8 = temp3.split(",");
             int temp5;
             if (yrc) {
                 temp5 = (Integer.parseInt(temp8[0]) / 10 * 10);
                 if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
                     temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
-                res.put(temp5, time.substring(temp2 + 1));
+                res.put(temp5, data);
             } else {
                 try {
                     temp5 = (Integer.parseInt(temp8[1]) / 10 * 10);
@@ -152,7 +161,7 @@ public class LyricDo {
 
                 if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
                     temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
-                res.put(now, time.substring(temp2 + 1));
+                res.put(now, data);
                 now += temp5;
             }
         }

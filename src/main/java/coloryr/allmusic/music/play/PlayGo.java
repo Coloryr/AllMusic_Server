@@ -150,6 +150,7 @@ public class PlayGo {
                     if (url == null) {
                         String data = AllMusic.getMessage().MusicPlay.NoCanPlay;
                         AllMusic.side.bqt(data.replace("%MusicID%", PlayMusic.nowPlayMusic.getID()));
+                        PlayMusic.nowPlayMusic = null;
                         continue;
                     }
 

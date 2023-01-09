@@ -12,6 +12,8 @@ public class HelpNormalObj {
     public String Hud1;
     public String Hud2;
     public String Hud3;
+    public String Hud4;
+    public String Hud5;
 
     public HelpNormalObj() {
         Head = "§d[AllMusic]§2帮助手册";
@@ -25,6 +27,8 @@ public class HelpNormalObj {
         Hud1 = "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud";
         Hud2 = "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置";
         Hud3 = "§d[AllMusic]§2使用/music hud picsize [尺寸] 设置图片尺寸";
+        Hud4 = "§d[AllMusic]§e使用/music hud picrotate [开关] 设置图片旋转模式";
+        Hud5 = "§d[AllMusic]§e使用/music hud picrotatespeed [数值] 设置图片旋转速度";
     }
 
     public boolean check() {
@@ -48,6 +52,10 @@ public class HelpNormalObj {
             return true;
         if (Hud2 == null)
             return true;
-        return Hud3 == null;
+        if (Hud3 == null)
+            return true;
+        if (Hud4 == null)
+            return true;
+        return Hud5 == null;
     }
 }

@@ -35,7 +35,9 @@ public class DataSql {
             "  \"pic_x\" integer(6),\n" +
             "  \"pic_y\" integer(6),\n" +
             "  \"pic_size\" integer(6),\n" +
-            "  \"pic_enable\" integer(1)\n" +
+            "  \"pic_enable\" integer(1),\n" +
+            "  \"pic_rotate\" integer(1),\n" +
+            "  \"pic_rotate_speed\" integer(6)\n" +
             ");";
     /**
      * 数据库文件
@@ -108,12 +110,13 @@ public class DataSql {
                 init();
             }
             Statement stat = connection.createStatement();
-            sql = MessageFormat.format("UPDATE allmusic SET info_x={0},info_y={1},info_enable={2},lyric_x={3},lyric_y={4},lyric_enable={5},list_x={6},list_y={7}, list_enable={8},pic_x={9},pic_y={10},pic_enable={11},pic_size={12} WHERE name=@name",
+            sql = MessageFormat.format("UPDATE allmusic SET info_x={0},info_y={1},info_enable={2},lyric_x={3},lyric_y={4},lyric_enable={5},list_x={6},list_y={7}, list_enable={8},pic_x={9},pic_y={10},pic_enable={11},pic_size={12},pic_rotate={13},pic_rotate_speed={14} WHERE name=@name",
                     hud.Info.x, hud.Info.y, hud.EnableInfo ? 1 : 0,
                     hud.Lyric.x, hud.Lyric.y, hud.EnableLyric ? 1 : 0,
                     hud.List.x, hud.List.y, hud.EnableList ? 1 : 0,
                     hud.Pic.x, hud.Pic.y, hud.EnablePic ? 1 : 0,
-                    hud.PicSize);
+                    hud.PicSize, hud.EnablePicRotate ? 1: 0,
+                    hud.PicRotateSpeed);
             sql = sql.replace("@name", "'" + name + "'");
             stat.execute(sql);
             stat.close();
@@ -139,12 +142,16 @@ public class DataSql {
                 update(name, hud);
             } else {
                 Statement stat = connection.createStatement();
-                sql = MessageFormat.format("INSERT INTO allmusic (name,info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size)VALUES (@name,{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12})",
+                sql = MessageFormat.format("INSERT INTO allmusic (name,info_x,info_y," +
+                                "info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable," +
+                                "pic_x,pic_y,pic_enable,pic_size,pic_rotate,pic_rotate_speed)" +
+                                "VALUES (@name,{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14})",
                         hud.Info.x, hud.Info.y, hud.EnableInfo ? 1 : 0,
                         hud.Lyric.x, hud.Lyric.y, hud.EnableLyric ? 1 : 0,
                         hud.List.x, hud.List.y, hud.EnableList ? 1 : 0,
                         hud.Pic.x, hud.Pic.y, hud.EnablePic ? 1 : 0,
-                        hud.PicSize);
+                        hud.PicSize, hud.EnablePicRotate ? 1: 0,
+                        hud.PicRotateSpeed);
                 sql = sql.replace("@name", "'" + name + "'");
                 stat.execute(sql);
                 stat.close();
@@ -165,7 +172,7 @@ public class DataSql {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT name,info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size FROM allmusic");
+            ResultSet set = stat.executeQuery("SELECT name,info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size,pic_rotate,pic_rotate_speed FROM allmusic");
             while (set.next()) {
                 String name = set.getString(1);
                 SaveOBJ obj = new SaveOBJ();
@@ -190,10 +197,13 @@ public class DataSql {
                 obj.Pic = pos4;
                 obj.EnablePic = set.getInt(13) == 1;
                 obj.PicSize = set.getInt(14);
+                obj.EnablePicRotate = set.getInt(15) == 1;
+                obj.PicRotateSpeed = set.getInt(16);
                 HudUtils.add(name, obj);
             }
             stat.close();
         } catch (Exception e) {
+            AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
         }
     }

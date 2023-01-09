@@ -1,15 +1,15 @@
 package coloryr.allmusic.objs.music;
 
-import coloryr.allmusic.objs.SearchOBJ;
+import coloryr.allmusic.objs.SearchMusicObj;
 
 import java.util.List;
 
 public class SearchPageObj {
-    private final List<SearchOBJ> resData;
+    private final List<SearchMusicObj> resData;
     private final int maxpage;
     private int page = 0;
 
-    public SearchPageObj(List<SearchOBJ> resData, int maxpage) {
+    public SearchPageObj(List<SearchMusicObj> resData, int maxpage) {
         this.resData = resData;
         this.maxpage = maxpage;
     }
@@ -18,7 +18,7 @@ public class SearchPageObj {
         return resData.get(index).id;
     }
 
-    public SearchOBJ getRes(int a) {
+    public SearchMusicObj getRes(int a) {
         return resData.get(a);
     }
 

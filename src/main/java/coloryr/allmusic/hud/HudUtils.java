@@ -309,4 +309,44 @@ public class HudUtils {
         HudUtils.sendHudPos(player);
         return true;
     }
+
+    /**
+     * 图片旋转开关
+     * @param player 用户名
+     * @param open 开关
+     * @return 结果
+     */
+    public static boolean setPicRotate(String player, String open) {
+        SaveOBJ obj = get(player);
+        if (obj == null)
+            obj = AllMusic.getConfig().DefaultHud.copy();
+
+        obj.EnablePicRotate = Boolean.parseBoolean(open);
+
+        addAndSave(player, obj);
+        AllMusic.save();
+        HudUtils.sendHudPos(player);
+        return obj.EnablePicRotate;
+    }
+
+    /**
+     * 图片旋转速度设置
+     * @param player 用户名
+     * @param size 大小
+     * @return 结果
+     */
+    public static boolean setPicRotateSpeed(String player, String size){
+        SaveOBJ obj = get(player);
+        if (obj == null)
+            obj = AllMusic.getConfig().DefaultHud.copy();
+        if (!Function.isInteger(size))
+            return false;
+
+        obj.PicRotateSpeed = Integer.parseInt(size);
+
+        addAndSave(player, obj);
+        AllMusic.save();
+        HudUtils.sendHudPos(player);
+        return true;
+    }
 }

@@ -6,6 +6,8 @@ public class SaveOBJ {
     public PosOBJ Info;
     public PosOBJ Pic;
     public int PicSize;
+    public int PicRotateSpeed;
+    public boolean EnablePicRotate;
     public boolean EnableList;
     public boolean EnableLyric;
     public boolean EnableInfo;
@@ -16,6 +18,8 @@ public class SaveOBJ {
         EnableLyric = true;
         EnableInfo = true;
         EnablePic = true;
+        EnablePicRotate = true;
+        PicRotateSpeed = 10;
         List = new PosOBJ();
         Lyric = new PosOBJ();
         Info = new PosOBJ();
@@ -34,6 +38,8 @@ public class SaveOBJ {
         obj1.Lyric = this.Lyric.copy();
         obj1.Pic = this.Pic.copy();
         obj1.PicSize = this.PicSize;
+        obj1.EnablePicRotate = this.EnablePicRotate;
+        obj1.PicRotateSpeed = this.PicRotateSpeed;
         return obj1;
     }
 }

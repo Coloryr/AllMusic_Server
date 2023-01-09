@@ -2,7 +2,7 @@
   "MaxList": 10,
   "MinVote": 3,
   "Delay": 0,
-  "KDelay": 600,
+  "KDelay": 0,
   "Admin": ["CONSOLE","Color_yr"],
   "LoginUser": "",
   "NoMusicServer": [],
@@ -37,6 +37,8 @@
       "x": 2,
       "y": 2
     },
+    "PicRotateSpeed": 10,
+    "EnablePicRotate": true,
     "EnableList": true,
     "EnableLyric": true,
     "EnableInfo": true,
@@ -52,5 +54,9 @@
   "MaxMusicTime": 600,
   "KtvMode": true,
   "MusicBR": "320000",
-  "Version": "102"
+  "FunConfig": {
+    "Rain": true,
+    "RainRate": 10
+  },
+  "Version": "103"
 }

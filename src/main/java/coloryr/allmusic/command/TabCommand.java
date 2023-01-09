@@ -59,6 +59,8 @@ public class TabCommand {
         this.add("lyric");
         this.add("pic");
         this.add("picsize");
+        this.add("picrotate");
+        this.add("picrotatespeed");
         this.add("enable");
         this.add("reset");
     }};

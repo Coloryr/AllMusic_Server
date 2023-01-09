@@ -6,7 +6,7 @@ import coloryr.allmusic.music.play.LyricDo;
 import coloryr.allmusic.music.play.LyricSave;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.objs.HttpResObj;
-import coloryr.allmusic.objs.SearchOBJ;
+import coloryr.allmusic.objs.SearchMusicObj;
 import coloryr.allmusic.objs.api.music.info.InfoOBJ;
 import coloryr.allmusic.objs.api.music.list.DataOBJ;
 import coloryr.allmusic.objs.api.music.lyric.WLyricOBJ;
@@ -276,7 +276,7 @@ public class APIMain {
      * @return 结果
      */
     public SearchPageObj search(String[] name, boolean isDefault) {
-        List<SearchOBJ> resData = new ArrayList<>();
+        List<SearchMusicObj> resData = new ArrayList<>();
         int maxpage;
 
         StringBuilder name1 = new StringBuilder();
@@ -297,9 +297,9 @@ public class APIMain {
             SearchDataOBJ obj = AllMusic.gson.fromJson(res.data, SearchDataOBJ.class);
             if (obj != null && obj.isOk()) {
                 List<songs> res1 = obj.getResult();
-                SearchOBJ item;
+                SearchMusicObj item;
                 for (songs temp : res1) {
-                    item = new SearchOBJ(String.valueOf(temp.getId()), temp.getName(), temp.getArtists(), temp.getAlbum());
+                    item = new SearchMusicObj(String.valueOf(temp.getId()), temp.getName(), temp.getArtists(), temp.getAlbum());
                     resData.add(item);
                 }
                 maxpage = res1.size() / 10;

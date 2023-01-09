@@ -2,6 +2,7 @@ package coloryr.allmusic.objs;
 
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.objs.config.EconomyObj;
+import coloryr.allmusic.objs.config.FunConfigObj;
 import coloryr.allmusic.objs.hud.SaveOBJ;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * 配置文件对象
  */
-public class ConfigOBJ {
+public class ConfigObj {
     /**
      * 最大歌曲数
      */
@@ -135,8 +136,12 @@ public class ConfigOBJ {
      * 经济插件挂钩
      */
     public EconomyObj Economy;
+    /**
+     * 娱乐选项
+     */
+    public FunConfigObj FunConfig;
 
-    public ConfigOBJ() {
+    public ConfigObj() {
         MaxList = 10;
         MinVote = 3;
         Delay = 0;
@@ -172,6 +177,7 @@ public class ConfigOBJ {
         MessageLimitSize = 40;
 
         Economy = new EconomyObj();
+        FunConfig = new FunConfigObj();
 
         KtvMode = true;
         KDelay = 0;
@@ -228,6 +234,11 @@ public class ConfigOBJ {
         } else if (Economy.check()) {
             saveConfig = true;
             Economy = new EconomyObj();
+        }
+
+        if (FunConfig == null) {
+            saveConfig = true;
+            FunConfig = new FunConfigObj();
         }
 
         return saveConfig;

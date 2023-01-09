@@ -10,7 +10,7 @@ public class MessageOBJ {
     public PageOBJ Page;
     public LyricOBJ Lyric;
     public VoteOBJ Vote;
-    public coloryr.allmusic.objs.message.SearchOBJ Search;
+    public SearchOBJ Search;
     public HudOBJ Hud;
     public HudListOBJ HudList;
     public CommandOBJ Command;
@@ -19,6 +19,7 @@ public class MessageOBJ {
     public CostObj Cost;
     public ClickObj Click;
     public HelpObj Help;
+    public FunObj Fun;
     public String Version;
 
     public MessageOBJ() {
@@ -36,6 +37,7 @@ public class MessageOBJ {
         Cost = new CostObj();
         Click = new ClickObj();
         Help = new HelpObj();
+        Fun = new FunObj();
         Version = AllMusic.configVersion;
     }
 
@@ -96,6 +98,10 @@ public class MessageOBJ {
         if (Help == null || Help.check()) {
             saveConfig = true;
             Help = new HelpObj();
+        }
+        if (Fun == null || Fun.check()) {
+            saveConfig = true;
+            Fun = new FunObj();
         }
         return saveConfig;
     }

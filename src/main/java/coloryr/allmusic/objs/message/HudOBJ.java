@@ -8,19 +8,23 @@ public class HudOBJ {
     public String NoList;
     public String NoLyric;
     public String PicSize;
+    public String PicRotate;
+    public String PicRotateSpeed;
     public String Music;
     public String Lyric;
     public String List;
     public String Ktv;
 
     public HudOBJ() {
-        State = "§d[ALLMusic]§2设置信息位置：%Hud%，状态：%State%";
-        Set = "§d[ALLMusic]§2已设置%Hud%的坐标为%x%, %y%";
-        Reset = "§d[ALLMusic]§2Hud恢复至默认位置";
+        State = "§d[AllMusic]§2设置信息位置：%Hud%，状态：%State%";
+        Set = "§d[AllMusic]§2已设置%Hud%的坐标为%x%, %y%";
+        Reset = "§d[AllMusic]§2Hud恢复至默认位置";
         NoMusic = "没有播放的音乐";
         NoList = "队列中无歌曲";
         NoLyric = "无歌词";
-        PicSize = "§d[ALLMusic]§2设置图片尺寸为%Size%";
+        PicSize = "§d[AllMusic]§2设置图片尺寸为%Size%";
+        PicRotate = "§d[AllMusic]§2设置图片旋转为%State%";
+        PicRotateSpeed = "§d[AllMusic]§2设置图片旋转速度为%Size%";
         Music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
         Lyric = "%Lyric%\n%Tlyric%";
         Ktv = "§e%KLyric%§f%Lyric%§r\n%Tlyric%";
@@ -47,6 +51,10 @@ public class HudOBJ {
         if (Lyric == null)
             return true;
         if (List == null)
+            return true;
+        if (PicRotate == null)
+            return true;
+        if (PicRotateSpeed == null)
             return true;
         return Ktv == null;
     }
