@@ -8,8 +8,8 @@ import coloryr.allmusic.music.play.PlayGo;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.objs.ConfigObj;
 import coloryr.allmusic.objs.CookieObj;
-import coloryr.allmusic.objs.MessageOBJ;
-import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.MessageObj;
+import coloryr.allmusic.objs.hud.SaveObj;
 import coloryr.allmusic.objs.music.SearchPageObj;
 import coloryr.allmusic.side.IMyLogger;
 import coloryr.allmusic.side.ISide;
@@ -90,7 +90,7 @@ public class AllMusic {
     /**
      * 语言对象
      */
-    private static MessageOBJ message;
+    private static MessageObj message;
     /**
      * 配置文件
      */
@@ -123,7 +123,7 @@ public class AllMusic {
      */
     private static void messageCheck() {
         if (message == null) {
-            message = new MessageOBJ();
+            message = new MessageObj();
             log.warning("§d[AllMusic]§c配置文件message.json错误，已覆盖");
             save();
         } else if (message.check()) {
@@ -183,10 +183,10 @@ public class AllMusic {
      *
      * @return 语言对象
      */
-    public static MessageOBJ getMessage() {
+    public static MessageObj getMessage() {
         if (message == null) {
             log.warning("§d[AllMusic]§c配置文件message.json错误，已使用默认配置文件");
-            message = new MessageOBJ();
+            message = new MessageObj();
         }
         return message;
     }
@@ -379,7 +379,7 @@ public class AllMusic {
 
             reader = new InputStreamReader(Files.newInputStream(messageFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
-            message = new Gson().fromJson(bf, MessageOBJ.class);
+            message = new Gson().fromJson(bf, MessageObj.class);
             bf.close();
             reader.close();
             messageCheck();
@@ -424,7 +424,7 @@ public class AllMusic {
 
         AllMusic.side.runTask(() -> {
             if (PlayMusic.nowPlayMusic != null) {
-                SaveOBJ obj = HudUtils.get(player);
+                SaveObj obj = HudUtils.get(player);
                 String data = gson.toJson(obj);
                 AllMusic.side.send(data, player);
                 AllMusic.side.sendMusic(player, PlayGo.url);

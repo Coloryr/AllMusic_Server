@@ -1,10 +1,10 @@
 package coloryr.allmusic.objs.message;
 
-public class LyricOBJ {
+public class LyricObj {
     public String Data;
     public String TData;
 
-    public LyricOBJ() {
+    public LyricObj() {
         Data = "%Lyric%";
         TData = "%Lyric%(%TLyric%)";
     }

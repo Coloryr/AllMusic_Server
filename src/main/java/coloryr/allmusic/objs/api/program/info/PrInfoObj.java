@@ -1,6 +1,6 @@
 package coloryr.allmusic.objs.api.program.info;
 
-public class PrInfoOBJ {
+public class PrInfoObj {
 
     private program program;
 

@@ -1,6 +1,6 @@
 package coloryr.allmusic.objs.message;
 
-public class HudListOBJ {
+public class HudListObj {
     public String List;
     public String Lyric;
     public String Info;
@@ -9,7 +9,7 @@ public class HudListOBJ {
     public String PicRoute;
     public String PicRouteSpeed;
 
-    public HudListOBJ() {
+    public HudListObj() {
         List = "待播放列表";
         Lyric = "歌词";
         Info = "歌曲信息";

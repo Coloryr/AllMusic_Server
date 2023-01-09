@@ -1,6 +1,6 @@
 package coloryr.allmusic.objs.api.music.lyric;
 
-public class WLyricOBJ {
+public class WLyricObj {
     private lrc lrc;
     private tlyric tlyric;
     private klyric klyric;

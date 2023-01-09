@@ -3,7 +3,7 @@ package coloryr.allmusic.objs;
 import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.objs.config.EconomyObj;
 import coloryr.allmusic.objs.config.FunConfigObj;
-import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.hud.SaveObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,7 +131,7 @@ public class ConfigObj {
     /**
      * 默认的Hud配置
      */
-    public SaveOBJ DefaultHud;
+    public SaveObj DefaultHud;
     /**
      * 经济插件挂钩
      */
@@ -156,7 +156,7 @@ public class ConfigObj {
         PlayListRandom = true;
         SendLyric = true;
         NeedPermission = false;
-        DefaultHud = new SaveOBJ();
+        DefaultHud = new SaveObj();
 
         UseCost = false;
         SearchCost = 20;
@@ -218,7 +218,7 @@ public class ConfigObj {
         }
         if (DefaultHud == null) {
             saveConfig = true;
-            DefaultHud = new SaveOBJ();
+            DefaultHud = new SaveObj();
         }
         if (NoMusicPlayer == null) {
             saveConfig = true;

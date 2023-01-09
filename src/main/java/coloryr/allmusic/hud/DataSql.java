@@ -1,8 +1,8 @@
 package coloryr.allmusic.hud;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.objs.hud.PosOBJ;
-import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.hud.PosObj;
+import coloryr.allmusic.objs.hud.SaveObj;
 
 import java.io.File;
 import java.sql.Connection;
@@ -103,7 +103,7 @@ public class DataSql {
      * @param name 用户名
      * @param hud  Hud数据
      */
-    private static void update(String name, SaveOBJ hud) {
+    private static void update(String name, SaveObj hud) {
         String sql = "";
         try {
             if (connection.isReadOnly() || connection.isClosed()) {
@@ -132,7 +132,7 @@ public class DataSql {
      * @param name 用户名
      * @param hud  数据
      */
-    public static void addUser(String name, SaveOBJ hud) {
+    public static void addUser(String name, SaveObj hud) {
         String sql = "";
         try {
             if (connection.isReadOnly() || connection.isClosed()) {
@@ -175,23 +175,23 @@ public class DataSql {
             ResultSet set = stat.executeQuery("SELECT name,info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size,pic_rotate,pic_rotate_speed FROM allmusic");
             while (set.next()) {
                 String name = set.getString(1);
-                SaveOBJ obj = new SaveOBJ();
-                PosOBJ pos1 = new PosOBJ();
+                SaveObj obj = new SaveObj();
+                PosObj pos1 = new PosObj();
                 pos1.x = set.getInt(2);
                 pos1.y = set.getInt(3);
                 obj.Info = pos1;
                 obj.EnableInfo = set.getInt(4) == 1;
-                PosOBJ pos2 = new PosOBJ();
+                PosObj pos2 = new PosObj();
                 pos2.x = set.getInt(5);
                 pos2.y = set.getInt(6);
                 obj.Lyric = pos2;
                 obj.EnableLyric = set.getInt(7) == 1;
-                PosOBJ pos3 = new PosOBJ();
+                PosObj pos3 = new PosObj();
                 pos3.x = set.getInt(8);
                 pos3.y = set.getInt(9);
                 obj.List = pos3;
                 obj.EnableList = set.getInt(10) == 1;
-                PosOBJ pos4 = new PosOBJ();
+                PosObj pos4 = new PosObj();
                 pos4.x = set.getInt(11);
                 pos4.y = set.getInt(12);
                 obj.Pic = pos4;

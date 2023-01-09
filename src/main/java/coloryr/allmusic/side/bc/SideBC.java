@@ -4,7 +4,7 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.AllMusicBC;
 import coloryr.allmusic.hud.HudUtils;
 import coloryr.allmusic.music.play.PlayMusic;
-import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.hud.SaveObj;
 import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.side.ComType;
@@ -146,7 +146,7 @@ public class SideBC extends ISide {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (ok(player))
                     continue;
-                SaveOBJ obj = HudUtils.get(player.getName());
+                SaveObj obj = HudUtils.get(player.getName());
                 if (!obj.EnableLyric)
                     continue;
                 send(player, ComType.lyric + data);
@@ -163,7 +163,7 @@ public class SideBC extends ISide {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (ok(player))
                     continue;
-                SaveOBJ obj = HudUtils.get(player.getName());
+                SaveObj obj = HudUtils.get(player.getName());
                 if (!obj.EnableInfo)
                     continue;
                 send(player, ComType.info + data);
@@ -181,7 +181,7 @@ public class SideBC extends ISide {
                 if (ok(player))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = HudUtils.get(name);
+                SaveObj obj = HudUtils.get(name);
                 if (!obj.EnableList)
                     continue;
                 send(player, ComType.list + data);
@@ -196,7 +196,7 @@ public class SideBC extends ISide {
     public void sendHudUtilsAll() {
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             try {
-                SaveOBJ obj = HudUtils.get(player.getName());
+                SaveObj obj = HudUtils.get(player.getName());
                 String data = AllMusic.gson.toJson(obj);
                 send(player, data);
             } catch (Exception e1) {
@@ -258,7 +258,7 @@ public class SideBC extends ISide {
                 if (ok(player))
                     continue;
                 String name = player.getName();
-                SaveOBJ obj = HudUtils.get(name);
+                SaveObj obj = HudUtils.get(name);
                 if (!obj.EnablePic)
                     continue;
                 send(player, ComType.img + url);

@@ -2,7 +2,7 @@ package coloryr.allmusic.objs.api.music.search;
 
 import java.util.List;
 
-public class SearchDataOBJ {
+public class SearchDataObj {
     private result result;
 
     public boolean isOk() {

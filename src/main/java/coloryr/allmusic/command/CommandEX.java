@@ -5,7 +5,7 @@ import coloryr.allmusic.hud.HudUtils;
 import coloryr.allmusic.music.play.MusicSearch;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.objs.SearchMusicObj;
-import coloryr.allmusic.objs.hud.PosOBJ;
+import coloryr.allmusic.objs.hud.PosObj;
 import coloryr.allmusic.objs.music.MusicObj;
 import coloryr.allmusic.objs.music.SearchPageObj;
 import coloryr.allmusic.utils.Function;
@@ -403,12 +403,12 @@ public class CommandEX {
                         return;
                     }
                     AllMusic.side.sendMessage(sender,
-                            AllMusic.getMessage().Hud.PicRotate.replace("%Size%", args[2]));
+                            AllMusic.getMessage().Hud.PicRotateSpeed.replace("%Size%", args[2]));
                 } else if (args.length != 4) {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().Command.Error);
                 } else {
                     try {
-                        PosOBJ obj = HudUtils.setHudPos(name, args[1], args[2], args[3]);
+                        PosObj obj = HudUtils.setHudPos(name, args[1], args[2], args[3]);
                         if (obj == null) {
                             AllMusic.side.sendMessage(sender, AllMusic.getMessage().Command.Error);
                         } else {

@@ -7,13 +7,13 @@ import coloryr.allmusic.music.play.LyricSave;
 import coloryr.allmusic.music.play.PlayMusic;
 import coloryr.allmusic.objs.HttpResObj;
 import coloryr.allmusic.objs.SearchMusicObj;
-import coloryr.allmusic.objs.api.music.info.InfoOBJ;
-import coloryr.allmusic.objs.api.music.list.DataOBJ;
-import coloryr.allmusic.objs.api.music.lyric.WLyricOBJ;
-import coloryr.allmusic.objs.api.music.search.SearchDataOBJ;
+import coloryr.allmusic.objs.api.music.info.InfoObj;
+import coloryr.allmusic.objs.api.music.list.DataObj;
+import coloryr.allmusic.objs.api.music.lyric.WLyricObj;
+import coloryr.allmusic.objs.api.music.search.SearchDataObj;
 import coloryr.allmusic.objs.api.music.search.songs;
 import coloryr.allmusic.objs.api.music.trialinfo.TrialInfoObj;
-import coloryr.allmusic.objs.api.program.info.PrInfoOBJ;
+import coloryr.allmusic.objs.api.program.info.PrInfoObj;
 import coloryr.allmusic.objs.music.SearchPageObj;
 import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.utils.Logs;
@@ -120,7 +120,7 @@ public class APIMain {
 
         HttpResObj res = HttpClientUtil.post("https://music.163.com/api/v3/song/detail", params, EncryptType.WEAPI, null);
         if (res != null && res.ok) {
-            InfoOBJ temp = AllMusic.gson.fromJson(res.data, InfoOBJ.class);
+            InfoObj temp = AllMusic.gson.fromJson(res.data, InfoObj.class);
             if (temp.isOk()) {
                 params = new JsonObject();
                 params.addProperty("ids", "[" + id + "]");
@@ -155,7 +155,7 @@ public class APIMain {
         params.addProperty("id", id);
         HttpResObj res = HttpClientUtil.post("https://music.163.com/api/dj/program/detail", params, EncryptType.WEAPI, null);
         if (res != null && res.ok) {
-            PrInfoOBJ temp = AllMusic.gson.fromJson(res.data, PrInfoOBJ.class);
+            PrInfoObj temp = AllMusic.gson.fromJson(res.data, PrInfoObj.class);
             if (temp.isOk()) {
                 return new SongInfoObj(temp.getAuthor(), temp.getName(),
                         temp.getId(), temp.getAlia(), player, "电台", isList, temp.getLength(),
@@ -207,7 +207,7 @@ public class APIMain {
             if (res != null && res.ok)
                 try {
                     isUpdata = true;
-                    DataOBJ obj = AllMusic.gson.fromJson(res.data, DataOBJ.class);
+                    DataObj obj = AllMusic.gson.fromJson(res.data, DataObj.class);
                     AllMusic.getConfig().PlayList.addAll(obj.getPlaylist());
                     AllMusic.save();
                     AllMusic.side.sendMessaget(sender, AllMusic.getMessage().MusicPlay.ListMusic.Get.replace("%ListName%", obj.getName()));
@@ -242,7 +242,7 @@ public class APIMain {
                 params, EncryptType.EAPI, "/api/song/lyric/v1");
         if (res != null && res.ok) {
             try {
-                WLyricOBJ obj = AllMusic.gson.fromJson(res.data, WLyricOBJ.class);
+                WLyricObj obj = AllMusic.gson.fromJson(res.data, WLyricObj.class);
                 LyricDo temp = new LyricDo();
                 for (int times = 0; times < 3; times++) {
                     if (temp.check(obj)) {
@@ -294,7 +294,7 @@ public class APIMain {
 
         HttpResObj res = HttpClientUtil.post("https://music.163.com/weapi/search/get", params, EncryptType.WEAPI, null);
         if (res != null && res.ok) {
-            SearchDataOBJ obj = AllMusic.gson.fromJson(res.data, SearchDataOBJ.class);
+            SearchDataObj obj = AllMusic.gson.fromJson(res.data, SearchDataObj.class);
             if (obj != null && obj.isOk()) {
                 List<songs> res1 = obj.getResult();
                 SearchMusicObj item;

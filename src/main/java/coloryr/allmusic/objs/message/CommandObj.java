@@ -1,10 +1,10 @@
 package coloryr.allmusic.objs.message;
 
-public class CommandOBJ {
+public class CommandObj {
     public String Error;
     public String NoPer;
 
-    public CommandOBJ() {
+    public CommandObj() {
         Error = "§d[AllMusic]§c参数错误，请输入/music help获取帮助";
         NoPer = "§d[AllMusic]§c你没有权限点歌";
     }

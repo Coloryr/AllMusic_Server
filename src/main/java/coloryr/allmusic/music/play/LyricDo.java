@@ -1,7 +1,7 @@
 package coloryr.allmusic.music.play;
 
 import coloryr.allmusic.AllMusic;
-import coloryr.allmusic.objs.api.music.lyric.WLyricOBJ;
+import coloryr.allmusic.objs.api.music.lyric.WLyricObj;
 import coloryr.allmusic.objs.music.LyricItemObj;
 import coloryr.allmusic.utils.Function;
 
@@ -30,7 +30,7 @@ public class LyricDo {
      * @param obj 歌词
      * @return 结果
      */
-    public boolean check(WLyricOBJ obj) {
+    public boolean check(WLyricObj obj) {
         String[] lyric;
 
         boolean haveT = false;

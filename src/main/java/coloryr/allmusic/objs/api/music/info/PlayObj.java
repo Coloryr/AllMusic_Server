@@ -2,7 +2,7 @@ package coloryr.allmusic.objs.api.music.info;
 
 import java.util.List;
 
-public class PlayOBJ {
+public class PlayObj {
     private List<obj> data;
     private int code;
 

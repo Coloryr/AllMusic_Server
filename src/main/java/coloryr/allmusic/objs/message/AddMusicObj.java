@@ -1,6 +1,6 @@
 package coloryr.allmusic.objs.message;
 
-public class AddMusicOBJ {
+public class AddMusicObj {
     public String ListFull;
     public String BanMusic;
     public String ExistMusic;
@@ -10,7 +10,7 @@ public class AddMusicOBJ {
     public String Cancel;
     public String TimeOut;
 
-    public AddMusicOBJ() {
+    public AddMusicObj() {
         ListFull = "§d[AllMusic]§c错误，队列已满";
         BanMusic = "§d[AllMusic]§c错误，这首歌被禁点了";
         ExistMusic = "§d[AllMusic]§c错误，这首歌已经存在了";

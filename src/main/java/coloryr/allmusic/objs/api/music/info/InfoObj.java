@@ -2,7 +2,7 @@ package coloryr.allmusic.objs.api.music.info;
 
 import java.util.List;
 
-public class InfoOBJ {
+public class InfoObj {
     private List<Songs> songs;
 
     public boolean isOk() {

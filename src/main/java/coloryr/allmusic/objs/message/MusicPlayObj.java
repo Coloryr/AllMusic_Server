@@ -1,11 +1,11 @@
 package coloryr.allmusic.objs.message;
 
-public class MusicPlayOBJ {
+public class MusicPlayObj {
     public String StopPlay;
     public String NoMusic;
     public String Play;
     public String NoPlay;
-    public ListMusicOBJ ListMusic;
+    public ListMusicObj ListMusic;
     public String NoCanPlay;
     public String NoPlayMusic;
     public String Switch;
@@ -15,12 +15,12 @@ public class MusicPlayOBJ {
     public String Trail;
     public String Cancel;
 
-    public MusicPlayOBJ() {
+    public MusicPlayObj() {
         StopPlay = "§d[AllMusic]§2已停止你的音乐播放";
         NoMusic = "§d[AllMusic]§2无正在播放的歌曲";
         Play = "§d[AllMusic]§2正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
         NoPlay = "§d[AllMusic]§2队列中无歌曲";
-        ListMusic = new ListMusicOBJ();
+        ListMusic = new ListMusicObj();
         NoCanPlay = "§d[AllMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲";
         NoPlayMusic = "§d[AllMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！";
         Switch = "§d[AllMusic]§2切换到玩家歌曲";

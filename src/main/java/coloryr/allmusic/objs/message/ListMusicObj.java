@@ -1,11 +1,11 @@
 package coloryr.allmusic.objs.message;
 
-public class ListMusicOBJ {
+public class ListMusicObj {
     public String Head;
     public String Item;
     public String Get;
 
-    public ListMusicOBJ() {
+    public ListMusicObj() {
         Head = "§d[AllMusic]§2队列中有歌曲数：&Count&";
         Item = "§2%index%->%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
         Get = "§d[AllMusic]§2歌曲列表%ListName%获取成功";

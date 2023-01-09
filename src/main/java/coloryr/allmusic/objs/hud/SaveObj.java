@@ -1,10 +1,10 @@
 package coloryr.allmusic.objs.hud;
 
-public class SaveOBJ {
-    public PosOBJ List;
-    public PosOBJ Lyric;
-    public PosOBJ Info;
-    public PosOBJ Pic;
+public class SaveObj {
+    public PosObj List;
+    public PosObj Lyric;
+    public PosObj Info;
+    public PosObj Pic;
     public int PicSize;
     public int PicRotateSpeed;
     public boolean EnablePicRotate;
@@ -13,22 +13,22 @@ public class SaveOBJ {
     public boolean EnableInfo;
     public boolean EnablePic;
 
-    public SaveOBJ() {
+    public SaveObj() {
         EnableList = true;
         EnableLyric = true;
         EnableInfo = true;
         EnablePic = true;
         EnablePicRotate = true;
         PicRotateSpeed = 10;
-        List = new PosOBJ();
-        Lyric = new PosOBJ();
-        Info = new PosOBJ();
-        Pic = new PosOBJ();
+        List = new PosObj();
+        Lyric = new PosObj();
+        Info = new PosObj();
+        Pic = new PosObj();
         PicSize = 70;
     }
 
-    public SaveOBJ copy() {
-        SaveOBJ obj1 = new SaveOBJ();
+    public SaveObj copy() {
+        SaveObj obj1 = new SaveObj();
         obj1.EnableInfo = this.EnableInfo;
         obj1.EnableList = this.EnableList;
         obj1.EnableLyric = this.EnableLyric;

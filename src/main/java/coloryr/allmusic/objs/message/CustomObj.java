@@ -1,9 +1,9 @@
 package coloryr.allmusic.objs.message;
 
-public class CustomOBJ {
+public class CustomObj {
     public String Info;
 
-    public CustomOBJ() {
+    public CustomObj() {
         Info = "自定义音乐";
     }
 

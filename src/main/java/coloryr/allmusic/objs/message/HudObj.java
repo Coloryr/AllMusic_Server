@@ -1,6 +1,6 @@
 package coloryr.allmusic.objs.message;
 
-public class HudOBJ {
+public class HudObj {
     public String State;
     public String Set;
     public String Reset;
@@ -15,7 +15,7 @@ public class HudOBJ {
     public String List;
     public String Ktv;
 
-    public HudOBJ() {
+    public HudObj() {
         State = "§d[AllMusic]§2设置信息位置：%Hud%，状态：%State%";
         Set = "§d[AllMusic]§2已设置%Hud%的坐标为%x%, %y%";
         Reset = "§d[AllMusic]§2Hud恢复至默认位置";

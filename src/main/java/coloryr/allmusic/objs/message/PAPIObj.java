@@ -1,9 +1,9 @@
 package coloryr.allmusic.objs.message;
 
-public class PAPIOBJ {
+public class PAPIObj {
     public String NoMusic;
 
-    public PAPIOBJ() {
+    public PAPIObj() {
         NoMusic = "没有播放的音乐";
     }
 

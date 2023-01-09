@@ -4,8 +4,8 @@ import coloryr.allmusic.AllMusic;
 import coloryr.allmusic.enums.HudPos;
 import coloryr.allmusic.music.play.LyricSave;
 import coloryr.allmusic.music.play.PlayMusic;
-import coloryr.allmusic.objs.hud.PosOBJ;
-import coloryr.allmusic.objs.hud.SaveOBJ;
+import coloryr.allmusic.objs.hud.PosObj;
+import coloryr.allmusic.objs.hud.SaveObj;
 import coloryr.allmusic.objs.music.SongInfoObj;
 import coloryr.allmusic.utils.Function;
 import com.google.gson.Gson;
@@ -14,11 +14,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HudUtils {
-    private static final Map<String, SaveOBJ> huds = new ConcurrentHashMap<>();
+    private static final Map<String, SaveObj> huds = new ConcurrentHashMap<>();
 
-    public static SaveOBJ get(String name) {
+    public static SaveObj get(String name) {
         if (!huds.containsKey(name)) {
-            SaveOBJ obj = AllMusic.getConfig().DefaultHud.copy();
+            SaveObj obj = AllMusic.getConfig().DefaultHud.copy();
             huds.put(name, obj);
             DataSql.task(() -> DataSql.addUser(name, obj));
             return obj;
@@ -26,17 +26,17 @@ public class HudUtils {
         return huds.get(name);
     }
 
-    public static void add(String name, SaveOBJ hud) {
+    public static void add(String name, SaveObj hud) {
         huds.put(name, hud);
     }
 
-    public static void addAndSave(String name, SaveOBJ hud) {
+    public static void addAndSave(String name, SaveObj hud) {
         huds.put(name, hud);
         DataSql.task(() -> DataSql.addUser(name, hud));
     }
 
     public static void save() {
-        for (Map.Entry<String, SaveOBJ> item : huds.entrySet()) {
+        for (Map.Entry<String, SaveObj> item : huds.entrySet()) {
             DataSql.addUser(item.getKey(), item.getValue());
         }
     }
@@ -50,12 +50,12 @@ public class HudUtils {
      * @param y      y
      * @return 位置数据
      */
-    public static PosOBJ setHudPos(String player, String pos, String x, String y) {
-        SaveOBJ obj = get(player);
+    public static PosObj setHudPos(String player, String pos, String x, String y) {
+        SaveObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().DefaultHud.copy();
         HudPos pos1 = HudPos.valueOf(pos);
-        PosOBJ posOBJ = new PosOBJ(0, 0);
+        PosObj posOBJ = new PosObj(0, 0);
         if (!Function.isInteger(x) && !Function.isInteger(y))
             return null;
         int x1 = Integer.parseInt(x);
@@ -177,7 +177,7 @@ public class HudUtils {
      * @return 设置结果
      */
     public static boolean setHudEnable(String player, String pos) {
-        SaveOBJ obj = get(player);
+        SaveObj obj = get(player);
         boolean res = false;
         if (obj == null) {
             obj = AllMusic.getConfig().DefaultHud.copy();
@@ -260,7 +260,7 @@ public class HudUtils {
     public static void sendHudPos(String player) {
         AllMusic.side.runTask(() -> {
             try {
-                SaveOBJ obj = get(player);
+                SaveObj obj = get(player);
                 if (obj == null) {
                     obj = AllMusic.getConfig().DefaultHud.copy();
                     addAndSave(player, obj);
@@ -281,10 +281,9 @@ public class HudUtils {
      * @param player 用户名
      */
     public static void reset(String player) {
-        SaveOBJ obj = AllMusic.getConfig().DefaultHud.copy();
+        SaveObj obj = AllMusic.getConfig().DefaultHud.copy();
         clearHud(player);
         addAndSave(player, obj);
-        AllMusic.save();
         HudUtils.sendHudPos(player);
     }
 
@@ -296,7 +295,7 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicSize(String player, String size) {
-        SaveOBJ obj = get(player);
+        SaveObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().DefaultHud.copy();
         if (!Function.isInteger(size))
@@ -305,7 +304,6 @@ public class HudUtils {
         obj.PicSize = Integer.parseInt(size);
 
         addAndSave(player, obj);
-        AllMusic.save();
         HudUtils.sendHudPos(player);
         return true;
     }
@@ -317,14 +315,13 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicRotate(String player, String open) {
-        SaveOBJ obj = get(player);
+        SaveObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().DefaultHud.copy();
 
         obj.EnablePicRotate = Boolean.parseBoolean(open);
 
         addAndSave(player, obj);
-        AllMusic.save();
         HudUtils.sendHudPos(player);
         return obj.EnablePicRotate;
     }
@@ -336,7 +333,7 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicRotateSpeed(String player, String size){
-        SaveOBJ obj = get(player);
+        SaveObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().DefaultHud.copy();
         if (!Function.isInteger(size))
@@ -345,7 +342,6 @@ public class HudUtils {
         obj.PicRotateSpeed = Integer.parseInt(size);
 
         addAndSave(player, obj);
-        AllMusic.save();
         HudUtils.sendHudPos(player);
         return true;
     }

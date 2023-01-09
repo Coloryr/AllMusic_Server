@@ -3,7 +3,7 @@ package coloryr.allmusic.objs.api.music.list;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataOBJ {
+public class DataObj {
     private playlist playlist;
 
     public List<String> getPlaylist() {

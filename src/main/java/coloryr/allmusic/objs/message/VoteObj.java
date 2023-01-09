@@ -1,6 +1,6 @@
 package coloryr.allmusic.objs.message;
 
-public class VoteOBJ {
+public class VoteObj {
     public String NoPermission;
     public String DoVote;
     public String BQ;
@@ -10,7 +10,7 @@ public class VoteOBJ {
     public String TimeOut;
     public String Do;
 
-    public VoteOBJ() {
+    public VoteObj() {
         NoPermission = "§d[AllMusic]§c你没有权限切歌";
         DoVote = "§d[AllMusic]§2已发起切歌投票";
         BQ = "§d[AllMusic]§2%PlayerName%发起了切歌投票，30秒后结束，输入/music vote 同意切歌。";

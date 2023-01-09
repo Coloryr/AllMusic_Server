@@ -1,6 +1,6 @@
 package coloryr.allmusic.objs.message;
 
-public class SearchOBJ {
+public class SearchObj {
     public String NoPer;
     public String CantSearch;
     public String Res;
@@ -11,7 +11,7 @@ public class SearchOBJ {
     public String CantLast;
     public String StartSearch;
 
-    public SearchOBJ() {
+    public SearchObj() {
         StartSearch = "§d[AllMusic]§2正在排队搜歌";
         NoPer = "§d[AllMusic]§c你没有权限搜歌";
         CantSearch = "§d[AllMusic]§c无法搜索歌曲：%Music%";
