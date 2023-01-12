@@ -433,9 +433,9 @@ public class AllMusic {
                             AllMusic.side.sendPic(player, PlayMusic.nowPlayMusic.getPicUrl()), 15);
                 }
                 AllMusic.side.runTask(() ->
-                        AllMusic.side.sendPos(player, PlayMusic.musicNowTime + 2000), 40);
+                        AllMusic.side.sendPos(player, PlayMusic.musicNowTime + 1000), 40);
             }
-        }, 20);
+        }, 40);
     }
 
     /**

@@ -244,7 +244,7 @@ public class SideBC extends ISide {
             String server = player1.getServer() == null ? null : player1.getServer().getInfo().getName();
             if (AllMusic.isOK(player1.getName(), server, false))
                 return;
-            send(player, ComType.play + url);
+            send(ComType.play + url, player);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -277,7 +277,7 @@ public class SideBC extends ISide {
                 return;
             if (ok(player1))
                 return;
-            send(player, ComType.img + url);
+            send(ComType.img + url, player);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
             e.printStackTrace();
@@ -292,7 +292,7 @@ public class SideBC extends ISide {
                 return;
             if (ok(player1))
                 return;
-            send(player, ComType.pos + pos);
+            send(ComType.pos + pos ,player);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");
             e.printStackTrace();

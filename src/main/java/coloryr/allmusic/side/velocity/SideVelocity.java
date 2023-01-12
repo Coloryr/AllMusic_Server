@@ -225,7 +225,7 @@ public class SideVelocity extends ISide {
                         player1.getCurrentServer().get().getServerInfo().getName() : null;
                 if (AllMusic.isOK(player1.getUsername(), server, false))
                     return;
-                send(player, ComType.play + url);
+                send(ComType.play + url, player);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
@@ -258,7 +258,7 @@ public class SideVelocity extends ISide {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
                 if (ok(player1))
                     return;
-                send(player, ComType.img + url);
+                send(ComType.img + url, player);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -273,7 +273,7 @@ public class SideVelocity extends ISide {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
                 if (ok(player1))
                     return;
-                send(player, ComType.pos + pos);
+                send(ComType.pos + pos, player);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");

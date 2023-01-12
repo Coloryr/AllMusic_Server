@@ -187,7 +187,7 @@ public class SideBukkit extends ISide {
                 return;
             if (AllMusic.isOK(player, null, false))
                 return;
-            send(player, ComType.play + url);
+            send(ComType.play + url, player);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
