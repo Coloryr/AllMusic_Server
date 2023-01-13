@@ -13,8 +13,8 @@ public class RunTest implements IMyLogger {
 //        {
 //
 //        }
-        //https://music.163.com/song?id=1971144922&userid=124183854
-        LyricSave obj = AllMusic.getMusicApi().getLyric("1971144922");
+        //https://music.163.com/song?id=1422767271&userid=124183854
+        LyricSave obj = AllMusic.getMusicApi().getLyric("1449794087");
         if (obj.isHaveLyric()) {
             int time = 0;
             while (true) {

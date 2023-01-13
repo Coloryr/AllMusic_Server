@@ -75,13 +75,13 @@ public class PlayGo {
      * 清空歌曲数据
      */
     private static void clear() {
+        closeTimer();
         PlayMusic.musicNowTime = 0;
         PlayMusic.musicAllTime = 0;
         PlayMusic.musicLessTime = 0;
         PlayMusic.lyric = null;
         PlayMusic.nowPlayMusic = null;
         AllMusic.side.updateInfo();
-        closeTimer();
         HudUtils.clearHud();
     }
 
@@ -96,7 +96,10 @@ public class PlayGo {
 
     private static void time2() {
         try {
-            boolean res = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime, AllMusic.getConfig().KtvMode);
+            if (PlayMusic.lyric == null)
+                return;
+            boolean res = PlayMusic.lyric
+                    .checkTime(PlayMusic.musicNowTime, AllMusic.getConfig().KtvMode);
             if (res) {
                 times = 0;
                 HudUtils.sendHudLyricData();
