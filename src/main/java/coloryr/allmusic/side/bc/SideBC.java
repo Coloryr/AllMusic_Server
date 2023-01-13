@@ -355,7 +355,7 @@ public class SideBC extends ISide {
         }
         TextComponent message = new TextComponent(data);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            if (AllMusic.isOK(player.getName(), player.getServer().getInfo().getName(), true))
+            if (ok(player))
                 continue;
             player.sendMessage(message);
         }
