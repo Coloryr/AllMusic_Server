@@ -26,6 +26,11 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation("net.fabricmc:fabric-language-kotlin:1.9.1+kotlin.1.8.10")
+
+	include modImplementation('com.squareup.okio:okio-jvm:3.0.0')
+	include modImplementation('com.squareup.okhttp3:okhttp:4.10.0')
+	include modImplementation('org.xerial:sqlite-jdbc:3.39.3.0')
 
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

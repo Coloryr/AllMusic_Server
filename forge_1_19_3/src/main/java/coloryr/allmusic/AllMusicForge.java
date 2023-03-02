@@ -132,7 +132,7 @@ public class AllMusicForge {
     }
 
     @SubscribeEvent
-    public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedInEvent event) {
+    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         AllMusic.joinPlay(event.getEntity().getName().getString());
     }
 }

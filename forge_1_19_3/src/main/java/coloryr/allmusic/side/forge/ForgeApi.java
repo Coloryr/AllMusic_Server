@@ -26,8 +26,7 @@ public class ForgeApi {
     }
 
     public static void sendBar(ServerPlayer player, String message) {
-        var pack = new ClientboundSetActionBarTextPacket(Component.literal(message)
-        );
+        var pack = new ClientboundSetActionBarTextPacket(Component.literal(message));
         player.connection.send(pack);
     }
 }

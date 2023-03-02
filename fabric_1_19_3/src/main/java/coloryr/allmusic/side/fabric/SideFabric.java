@@ -1,6 +1,6 @@
-package coloryr.allmusic.side.forge;
+package coloryr.allmusic.side.fabric;
 
-import coloryr.allmusic.AllMusicForge;
+import coloryr.allmusic.AllMusicFabric;
 import coloryr.allmusic.TaskItem;
 import coloryr.allmusic.Tasks;
 import coloryr.allmusic.core.AllMusic;
@@ -10,39 +10,39 @@ import coloryr.allmusic.core.objs.music.MusicObj;
 import coloryr.allmusic.core.objs.music.SongInfoObj;
 import coloryr.allmusic.core.side.ComType;
 import coloryr.allmusic.core.side.ISide;
-import coloryr.allmusic.side.forge.event.MusicAddEvent;
-import coloryr.allmusic.side.forge.event.MusicPlayEvent;
+import coloryr.allmusic.side.fabric.event.MusicAddEvent;
+import coloryr.allmusic.side.fabric.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.minecraft.commands.CommandSource;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.network.PacketDistributor;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.command.CommandOutput;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
-public class SideForge extends ISide {
+public class SideFabric  extends ISide {
 
     @Override
     public void reload() {
-        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic");
+        String path = "allmusic/";
         new AllMusic().init(new File(path));
     }
 
     @Override
     public int getAllPlayer() {
-        return AllMusicForge.server.getPlayerCount();
+        return AllMusicFabric.server.getCurrentPlayerCount();
     }
 
     @Override
     public void runTask(Runnable run) {
-        AllMusicForge.server.execute(run);
+        AllMusicFabric.server.execute(run);
     }
 
     @Override
@@ -55,17 +55,17 @@ public class SideForge extends ISide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        var player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+        var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
         if (player1 == null)
             return false;
 
-        return player1.hasPermissions(2);
+        return player1.hasPermissionLevel(2);
     }
 
     @Override
     public boolean needPlay() {
         int online = getAllPlayer();
-        for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (AllMusic.getConfig().NoMusicPlayer.contains(player.getName().getString())) {
                 online--;
             }
@@ -75,13 +75,13 @@ public class SideForge extends ISide {
 
     @Override
     public void send(String data, String player) {
-        send(AllMusicForge.server.getPlayerList().getPlayerByName(player), data);
+        send(AllMusicFabric.server.getPlayerManager().getPlayer(player), data);
     }
 
     @Override
     protected void topSendStop() {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 send(player, ComType.stop);
             }
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class SideForge extends ISide {
     @Override
     protected void topSendStop(String name) {
         try {
-            var player =  AllMusicForge.server.getPlayerList().getPlayerByName(name);
+            var player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
             if (player == null)
                 return;
             send(player, ComType.stop);
@@ -106,7 +106,7 @@ public class SideForge extends ISide {
     @Override
     public void sendMusic(String url) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 if (AllMusic.isOK(player.getName().getString(), null, false))
                     continue;
                 send(player, ComType.play + url);
@@ -121,7 +121,7 @@ public class SideForge extends ISide {
     @Override
     protected void topSendMusic(String player, String url) {
         try {
-            var player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+            var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player, null, false))
@@ -136,7 +136,7 @@ public class SideForge extends ISide {
     @Override
     public void sendPic(String url) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
@@ -154,7 +154,7 @@ public class SideForge extends ISide {
     @Override
     public void sendPic(String player, String url) {
         try {
-            var player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+            var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
@@ -169,7 +169,7 @@ public class SideForge extends ISide {
     @Override
     public void sendPos(String player, int pos) {
         try {
-            var player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+            var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
@@ -184,7 +184,7 @@ public class SideForge extends ISide {
     @Override
     public void sendHudLyric(String data) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
@@ -202,7 +202,7 @@ public class SideForge extends ISide {
     @Override
     public void sendHudInfo(String data) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
@@ -220,7 +220,7 @@ public class SideForge extends ISide {
     @Override
     public void sendHudList(String data) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
@@ -237,7 +237,7 @@ public class SideForge extends ISide {
 
     @Override
     public void sendHudUtilsAll() {
-        for (var player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             String Name = player.getName().getString();
             try {
                 SaveObj obj = HudUtils.get(Name);
@@ -252,11 +252,11 @@ public class SideForge extends ISide {
 
     @Override
     public void sendBar(String data) {
-        for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             try {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
-                ForgeApi.sendBar(player, data);
+                FabricApi.sendBar(player, data);
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -277,7 +277,7 @@ public class SideForge extends ISide {
     @Override
     public void clearHud() {
         try {
-            for (var player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 send(player, ComType.clear);
             }
         } catch (Exception e) {
@@ -292,9 +292,9 @@ public class SideForge extends ISide {
                 && data.length() > AllMusic.getConfig().MessageLimitSize) {
             data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
-        for (var player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getName().getString())) {
-                player.sendSystemMessage(Component.literal(data));
+                player.sendMessage(Text.literal(data));
             }
         }
     }
@@ -305,11 +305,11 @@ public class SideForge extends ISide {
                 && data.length() > AllMusic.getConfig().MessageLimitSize) {
             data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
         }
-        var finalData = Component.literal(data);
+        var finalData = Text.literal(data);
         runTask(() -> {
-            for (Player player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getName().getString())) {
-                    player.sendSystemMessage(finalData);
+                    player.sendMessage(finalData);
                 }
             }
         });
@@ -317,35 +317,33 @@ public class SideForge extends ISide {
 
     @Override
     public void sendMessaget(Object obj, String message) {
-        runTask(() -> ((CommandSource) obj).sendSystemMessage(Component.literal(message)));
+        runTask(() -> ((CommandOutput) obj).sendMessage(Text.literal(message)));
     }
 
     @Override
     public void sendMessage(Object obj, String message) {
-        CommandSource sender = (CommandSource) obj;
-        sender.sendSystemMessage(Component.literal(message));
+        CommandOutput sender = (CommandOutput) obj;
+        sender.sendMessage(Text.literal(message));
     }
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
-        ForgeApi.sendMessageRun(obj, message + end, command);
+        FabricApi.sendMessageRun(obj, message + end, command);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        ForgeApi.sendMessageSuggest(obj, message + end, command);
+        FabricApi.sendMessageSuggest(obj, message + end, command);
     }
 
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
-        MusicPlayEvent event = new MusicPlayEvent(obj);
-        return MinecraftForge.EVENT_BUS.post(event);
+        return MusicPlayEvent.EVENT.invoker().interact(obj) != ActionResult.PASS;
     }
 
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
-        MusicAddEvent event = new MusicAddEvent(music, (ServerPlayer) obj);
-        return MinecraftForge.EVENT_BUS.post(event);
+        return MusicAddEvent.EVENT.invoker().interact((ServerPlayerEntity) obj, music) != ActionResult.PASS;
     }
 
     @Override
@@ -363,18 +361,16 @@ public class SideForge extends ISide {
 
     }
 
-    private void send(ServerPlayer players, String data) {
+    private void send(ServerPlayerEntity players, String data) {
         if (players == null)
             return;
         try {
-//            byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-//            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
-//            buf.writeByte(666);
-//            buf.writeBytes(bytes);
+            byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
+            buf.writeByte(666);
+            buf.writeBytes(bytes);
 
-            runTask(() -> AllMusicForge.channel.send(PacketDistributor.PLAYER.with(
-                    () -> players
-            ), data));
+            runTask(() -> ServerPlayNetworking.send(players, AllMusicFabric.ID, new PacketByteBuf(buf)));
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
