@@ -74,7 +74,7 @@ public class TabCommand {
      */
     public static List<String> getTabList(String name, String[] arg) {
         List<String> arguments = new ArrayList<>();
-        if (arg.length == 1 || arg.length == 0) {
+        if (arg.length == 0 || arg.length == 1) {
             arguments.addAll(normal);
             if (AllMusic.getSearch(name) != null) {
                 arguments.addAll(search);
@@ -82,13 +82,18 @@ public class TabCommand {
             if (AllMusic.getConfig().Admin.contains(name)) {
                 arguments.addAll(admin);
             }
-        } else if (arg[0].equalsIgnoreCase("hud")) {
-            if (arg.length == 2) {
+        } else if (arg.length == 2) {
+            if ("hud".equalsIgnoreCase(arg[0]) &&
+                    "enable".equalsIgnoreCase(arg[1])) {
+                arguments.addAll(hudlist);
+            }
+            else if ("hud".equalsIgnoreCase(arg[0])) {
                 arguments.addAll(hud);
-            } else if (arg.length == 3) {
-                if (arg[1].equalsIgnoreCase("enable")) {
-                    arguments.addAll(hudlist);
-                }
+            }
+        } else if (arg.length == 3) {
+            if ("hud".equalsIgnoreCase(arg[0]) &&
+                    "enable".equalsIgnoreCase(arg[1])) {
+                arguments.addAll(hudlist);
             }
         }
         return arguments;

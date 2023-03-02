@@ -2,11 +2,12 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-version = '1.0'
-group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'modid'
+version = '2.18.5'
+group = 'coloryr.allmusic' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = '[Forge1.19.3]AllMusic_Server'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -49,10 +50,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'allmusic'
 
             mods {
-                examplemod {
+                allmusic {
                     source sourceSets.main
                 }
             }
@@ -65,10 +66,10 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
 
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'allmusic'
 
             mods {
-                examplemod {
+                allmusic {
                     source sourceSets.main
                 }
             }
@@ -84,10 +85,10 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
 
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'allmusic'
 
             mods {
-                examplemod {
+                allmusic {
                     source sourceSets.main
                 }
             }
@@ -101,10 +102,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'allmusic', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                allmusic {
                     source sourceSets.main
                 }
             }
@@ -123,6 +124,10 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+
+    maven {
+        url 'https://jitpack.io'
+    }
 }
 
 dependencies {
@@ -130,6 +135,12 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.19.3-44.1.20'
+
+    shadow 'com.squareup.okhttp3:okhttp:4.10.0'
+    shadow 'org.xerial:sqlite-jdbc:3.39.3.0'
+
+//    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+//    implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
@@ -142,24 +153,34 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
+shadowJar {
+//    relocate 'okhttp3', 'coloryr.allmusic.lib.okhttp3'
+//    relocate 'okio', 'coloryr.allmusic.lib.okio'
+//    relocate 'kotlin', 'coloryr.allmusic.lib.kotlin'
+//    relocate 'org.intellij', 'coloryr.allmusic.lib.org.intellij'
+//    relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
+    configurations = [project.configurations.shadow]
+    archiveClassifier.set('')
+//    dependencies {
+//        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
+//        include(dependency('org.xerial:sqlite-jdbc:3.39.3.0'))
+//    }
+}
+
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "examplemod",
-                "Specification-Vendor"    : "examplemodsareus",
+                "Specification-Title"     : "allmusic",
+                "Specification-Vendor"    : "allmusic",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : "examplemodsareus",
+                "Implementation-Vendor"   : "allmusic",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
-
-// Example configuration to allow publishing using the maven-publish plugin
-// This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 // publish.dependsOn('reobfJar')
 
@@ -179,3 +200,11 @@ publishing {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
+
+reobf {
+    shadowJar {}
+}
+
+//tasks.build.dependsOn shadowJar
+//tasks.build.dependsOn reobfShadowJar
+jar.finalizedBy('reobfJar')
