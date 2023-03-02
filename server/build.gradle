@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+version = "2.18.5"
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name 'Spigot'
+        url 'https://hub.spigotmc.org/nexus/content/groups/public'
+    }
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+    maven {
+        url ' https://mvnrepository.com/artifact/mysql/mysql-connector-java'
+    }
+    maven {
+        url 'https://maven.citizensnpcs.co/repo'
+    }
+    maven {
+        name 'velocity'
+        url 'https://nexus.velocitypowered.com/repository/maven-public/'
+    }
+}
+
+dependencies {
+    //implementation "org.apache.commons:commons-dbcp2:2.9.0"
+    //implementation 'mysql:mysql-connector-java:8.0.31'
+
+    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
+    compileOnly 'net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT'
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
+    compileOnly 'com.velocitypowered:velocity-api:3.0.0'
+    compileOnly 'me.clip:placeholderapi:2.10.10'
+    //compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
+//    compileOnly fileTree(dir:'lib',include:['*.jar'])
+
+    implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
+    compile 'com.squareup.okhttp3:okhttp:4.10.0'
+    compile 'com.google.code.gson:gson:2.10'
+
+    annotationProcessor 'com.velocitypowered:velocity-api:3.0.0'
+}
+
+shadowJar {
+    relocate 'okhttp3', 'coloryr.allmusic.lib.okhttp3'
+    relocate 'okio', 'coloryr.allmusic.lib.okio'
+    relocate 'kotlin', 'coloryr.allmusic.lib.kotlin'
+    relocate 'org.intellij', 'coloryr.allmusic.lib.org.intellij'
+    relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
+    relocate 'com.google.gson', 'coloryr.allmusic.lib.com.google.gson'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
