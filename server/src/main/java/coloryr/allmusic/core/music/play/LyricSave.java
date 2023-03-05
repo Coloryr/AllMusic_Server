@@ -9,9 +9,9 @@ import java.util.Map;
 public class LyricSave {
     public int lastIndex = 0;
     protected boolean haveLyric;
-    protected String lly;
-    protected String kly;
-    protected String tly;
+    protected String lly = "";
+    protected String kly = "";
+    protected String tly = "";
     private Map<Integer, LyricItemObj> lyric;
     private Map<Integer, String> klyric;
     private LyricItemObj now;
@@ -95,6 +95,8 @@ public class LyricSave {
             now = temp;
             lly = now.lyric;
             tly = now.tlyric;
+            if (tly == null)
+                tly = "";
             kly = null;
             lastIndex = 0;
             kUpdate();

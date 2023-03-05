@@ -318,8 +318,6 @@ public class APIMain {
      * @return 结果
      */
     public String getListMusic() {
-        if (PlayMusic.error >= 10)
-            return null;
         if (!isUpdata && AllMusic.getConfig().PlayList.size() != 0) {
             String ID;
             if (AllMusic.getConfig().PlayListRandom) {
