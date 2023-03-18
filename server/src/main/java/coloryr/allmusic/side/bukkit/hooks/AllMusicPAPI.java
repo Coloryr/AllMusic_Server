@@ -86,12 +86,21 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     return PluginMessage.allList;
                 }
                 case "lyric": {
+                    if (PlayMusic.lyric == null || PlayMusic.lyric.getLyric() == null) {
+                        return AllMusic.getMessage().Lyric.Empty1;
+                    }
                     return PlayMusic.lyric.getLyric();
                 }
                 case "tlyric": {
+                    if (PlayMusic.lyric == null || PlayMusic.lyric.getTlyric() == null) {
+                        return AllMusic.getMessage().Lyric.Empty2;
+                    }
                     return PlayMusic.lyric.getTlyric();
                 }
                 case "klyric": {
+                    if (PlayMusic.lyric == null || PlayMusic.lyric.getKly() == null) {
+                        return AllMusic.getMessage().Lyric.Empty3;
+                    }
                     return PlayMusic.lyric.getKly();
                 }
             }

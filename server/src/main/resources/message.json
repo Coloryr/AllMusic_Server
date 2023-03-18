@@ -35,7 +35,10 @@
   },
   "Lyric": {
     "Data": "%Lyric%",
-    "TData": "%Lyric%(%TLyric%)"
+    "TData": "%Lyric%(%TLyric%)",
+    "Empty1": "没有歌词",
+    "Empty2": "没有翻译歌词",
+    "Empty3": "没有KTV歌词"
   },
   "Vote": {
     "NoPermission": "§d[AllMusic]§c你没有权限切歌",
@@ -132,5 +135,5 @@
   "Fun": {
     "Rain": "§d[AllMusic]§e天空开始变得湿润"
   },
-  "Version": "103"
+  "Version": "104"
 }
