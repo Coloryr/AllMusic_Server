@@ -13,12 +13,10 @@ public class Tasks {
 
     public static void tick() {
         synchronized (taskItems) {
-            var li = taskItems.iterator();
-            while (li.hasNext()) {
-                var item = li.next();
+            for(var item : taskItems){
                 item.tick--;
                 if (item.tick == 0) {
-                    li.remove();
+                    taskItems.remove(item);
                     item.run.run();
                 }
             }

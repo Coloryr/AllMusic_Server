@@ -46,7 +46,7 @@ public class SideFabric  extends ISide {
 
     @Override
     public void runTask(Runnable run1, int delay) {
-        Tasks.taskItems.add(new TaskItem() {{
+        Tasks.add(new TaskItem() {{
             tick = delay;
             run = run1;
         }});
