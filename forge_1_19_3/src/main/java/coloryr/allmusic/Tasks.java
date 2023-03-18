@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Tasks {
-    private static final List<TaskItem> taskItems = new CopyOnWriteArrayList<>();
+    private static final List<TaskItem> taskItems = new ArrayList<>();
 
     public static void init() {
         AllMusicForge.server.addTickable(Tasks::tick);
