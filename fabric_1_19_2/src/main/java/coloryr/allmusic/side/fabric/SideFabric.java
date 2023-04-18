@@ -18,16 +18,14 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.command.CommandOutput;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 
-public class SideFabric  extends ISide {
+public class SideFabric extends ISide {
 
     @Override
     public void reload() {
@@ -328,12 +326,12 @@ public class SideFabric  extends ISide {
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
-        FabricApi.sendMessageRun(obj, message + end, command);
+        FabricApi.sendMessageRun(obj, message, end, command);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        FabricApi.sendMessageSuggest(obj, message + end, command);
+        FabricApi.sendMessageSuggest(obj, message, end, command);
     }
 
     @Override
