@@ -328,12 +328,12 @@ public class SideForge extends ISide {
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
-        ForgeApi.sendMessageRun(obj, message + end, command);
+        ForgeApi.sendMessageRun(obj, message, end, command);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        ForgeApi.sendMessageSuggest(obj, message + end, command);
+        ForgeApi.sendMessageSuggest(obj, message, end, command);
     }
 
     @Override

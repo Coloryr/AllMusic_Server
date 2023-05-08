@@ -11,17 +11,21 @@ import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 
 public class ForgeApi {
-    public static void sendMessageRun(Object obj, String message, String command) {
+    public static void sendMessageRun(Object obj, String message, String end, String command) {
         CommandSource sender = (CommandSource) obj;
-        MutableComponent send =Component.literal(message);
-        send.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        MutableComponent send = Component.literal(message);
+        MutableComponent endtext = Component.literal(end);
+        endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command)));
+        send.append(endtext);
         sender.sendSystemMessage(send);
     }
 
-    public static void sendMessageSuggest(Object obj, String message, String command) {
+    public static void sendMessageSuggest(Object obj, String message, String end, String command) {
         CommandSource sender = (CommandSource) obj;
-        MutableComponent send = Component.empty();
-        send.append(message).getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
+        MutableComponent send = Component.literal(message);
+        MutableComponent endtext = Component.literal(end);
+        endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
+        send.append(endtext);
         sender.sendSystemMessage(send);
     }
 
