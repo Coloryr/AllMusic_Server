@@ -7,17 +7,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SpigotApi {
-    public static void sendMessageRun(Object obj, String message, String command) {
+    public static void sendMessageRun(Object obj, String message, String end, String command) {
         CommandSender sender = (CommandSender) obj;
         TextComponent send = new TextComponent(message);
-        send.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        TextComponent endtext = new TextComponent(end);
+        endtext.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        send.addExtra(endtext);
         sender.spigot().sendMessage(send);
     }
 
-    public static void sendMessageSuggest(Object obj, String message, String command) {
+    public static void sendMessageSuggest(Object obj, String message, String end, String command) {
         CommandSender sender = (CommandSender) obj;
         TextComponent send = new TextComponent(message);
-        send.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
+        TextComponent endtext = new TextComponent(end);
+        endtext.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
+        send.addExtra(endtext);
         sender.spigot().sendMessage(send);
     }
 

@@ -330,12 +330,12 @@ public class SideFabric  extends ISide {
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
-        FabricApi.sendMessageRun(obj, message + end, command);
+        FabricApi.sendMessageRun(obj, message, end, command);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        FabricApi.sendMessageSuggest(obj, message + end, command);
+        FabricApi.sendMessageSuggest(obj, message, end, command);
     }
 
     @Override

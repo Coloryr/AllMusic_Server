@@ -10,17 +10,21 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.UUID;
 
 public class ForgeApi {
-    public static void sendMessageRun(Object obj, String message, String command) {
+    public static void sendMessageRun(Object obj, String message, String end, String command) {
         CommandSource sender = (CommandSource) obj;
         MutableComponent send = new TextComponent(message);
-        send.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        MutableComponent endtext = new TextComponent(end);
+        endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command)));
+        send.append(endtext);
         sender.sendMessage(send, UUID.randomUUID());
     }
 
-    public static void sendMessageSuggest(Object obj, String message, String command) {
+    public static void sendMessageSuggest(Object obj, String message, String end, String command) {
         CommandSource sender = (CommandSource) obj;
         MutableComponent send = new TextComponent(message);
-        send.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
+        MutableComponent endtext = new TextComponent(end);
+        endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
+        send.append(endtext);
         sender.sendMessage(send, UUID.randomUUID());
     }
 

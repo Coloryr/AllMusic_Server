@@ -345,7 +345,7 @@ public class SideBukkit extends ISide {
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
         if (AllMusicBukkit.spigotSet) {
-            SpigotApi.sendMessageRun(obj, message + end, command);
+            SpigotApi.sendMessageRun(obj, message, end, command);
         } else {
             if (!message.isEmpty())
                 sendMessage(obj, message);
@@ -355,7 +355,7 @@ public class SideBukkit extends ISide {
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
         if (AllMusicBukkit.spigotSet) {
-            SpigotApi.sendMessageSuggest(obj, message + end, command);
+            SpigotApi.sendMessageSuggest(obj, message, end, command);
         } else {
             if (!message.isEmpty())
                 sendMessage(obj, message);

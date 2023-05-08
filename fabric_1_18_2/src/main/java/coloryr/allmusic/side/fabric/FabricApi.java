@@ -12,17 +12,21 @@ import java.util.UUID;
 
 public class FabricApi {
 
-    public static void sendMessageRun(Object obj, String message, String command) {
+    public static void sendMessageRun(Object obj, String message, String end, String command) {
         CommandOutput sender = (CommandOutput) obj;
-        MutableText send = new LiteralText(message);
-        send.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        LiteralText send = new LiteralText(message);
+        LiteralText endText = new LiteralText(end);
+        endText.setStyle(endText.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command)));
+        send.append(endText);
         sender.sendSystemMessage(send, UUID.randomUUID());
     }
 
-    public static void sendMessageSuggest(Object obj, String message, String command) {
+    public static void sendMessageSuggest(Object obj, String message, String end, String command) {
         CommandOutput sender = (CommandOutput) obj;
-        MutableText send = new LiteralText(message);
-        send.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
+        LiteralText send = new LiteralText(message);
+        LiteralText endText = new LiteralText(end);
+        endText.setStyle(endText.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
+        send.append(endText);
         sender.sendSystemMessage(send, UUID.randomUUID());
     }
 

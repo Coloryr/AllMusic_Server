@@ -401,16 +401,19 @@ public class SideVelocity extends ISide {
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
         CommandSource sender = (CommandSource) obj;
-        TextComponent send = Component.text(message + end)
+        TextComponent endtext = Component.text(end)
                 .clickEvent(ClickEvent.runCommand(command));
+        TextComponent send = Component.text(message).append(endtext);
         sender.sendMessage(send);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
         CommandSource sender = (CommandSource) obj;
-        TextComponent send = Component.text(message + end)
+        TextComponent endtext = Component.text(end)
                 .clickEvent(ClickEvent.suggestCommand(command));
+        TextComponent send = Component.text(message).append(endtext);
+
         sender.sendMessage(send);
     }
 

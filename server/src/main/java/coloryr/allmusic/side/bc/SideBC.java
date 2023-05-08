@@ -394,16 +394,20 @@ public class SideBC extends ISide {
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
         CommandSender sender = (CommandSender) obj;
-        TextComponent send = new TextComponent(message + end);
-        send.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        TextComponent send = new TextComponent(message);
+        TextComponent endtext = new TextComponent(end);
+        endtext.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+        send.addExtra(endtext);
         sender.sendMessage(send);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
         CommandSender sender = (CommandSender) obj;
-        TextComponent send = new TextComponent(message + end);
-        send.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
+        TextComponent send = new TextComponent(message);
+        TextComponent endtext = new TextComponent(end);
+        endtext.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
+        send.addExtra(endtext);
         sender.sendMessage(send);
     }
 
