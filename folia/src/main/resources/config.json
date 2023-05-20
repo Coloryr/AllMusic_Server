@@ -1,0 +1,62 @@
+{
+  "MaxList": 10,
+  "MinVote": 3,
+  "Delay": 0,
+  "KDelay": 0,
+  "Admin": ["CONSOLE","Color_yr"],
+  "LoginUser": "",
+  "NoMusicServer": [],
+  "NoMusicPlayer": [],
+  "BanMusic": [],
+  "PlayList": [],
+  "PlayListSwitch": true,
+  "PlayListRandom": true,
+  "SendLyric": true,
+  "NeedPermission": false,
+  "DefaultAddMusic": 0,
+  "TopPAPI": false,
+  "MessageLimit": false,
+  "MessageLimitSize": 40,
+  "MutePlayMessage": false,
+  "MuteAddMessage": false,
+  "ShowInBar": false,
+  "DefaultHud": {
+    "List": {
+      "x": 2,
+      "y": 74
+    },
+    "Lyric": {
+      "x": 74,
+      "y": 53
+    },
+    "Info": {
+      "x": 74,
+      "y": 2
+    },
+    "Pic": {
+      "x": 2,
+      "y": 2
+    },
+    "PicRotateSpeed": 10,
+    "EnablePicRotate": true,
+    "EnableList": true,
+    "EnableLyric": true,
+    "EnableInfo": true,
+    "EnablePic": true
+  },
+  "Economys": {
+    "MysqlUrl": "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true",
+    "Vault": true
+  },
+  "UseCost": false,
+  "SearchCost": 20,
+  "AddMusicCost": 10,
+  "MaxMusicTime": 600,
+  "KtvMode": true,
+  "MusicBR": "320000",
+  "FunConfig": {
+    "Rain": true,
+    "RainRate": 10
+  },
+  "Version": "103"
+}
