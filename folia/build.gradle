@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
-version = "2.18.9"
+version = "2.18.10"
 
 repositories {
     mavenCentral()
@@ -44,7 +44,7 @@ dependencies {
     //compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
 //    compileOnly fileTree(dir:'lib',include:['*.jar'])
 
-    implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
+    //implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     implementation 'com.google.code.gson:gson:2.10'
 }
