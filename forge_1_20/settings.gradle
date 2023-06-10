@@ -5,11 +5,16 @@ pluginManagement {
             name = 'MinecraftForge'
             url = 'https://maven.minecraftforge.net/'
         }
+        maven {
+            name = "Sponge Maven Repository"
+            url = "https://repo.spongepowered.org/repository/maven-public/"
+        }
     }
 }
 
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
 }
+
 
 rootProject.name = 'AllMusic_Server'
