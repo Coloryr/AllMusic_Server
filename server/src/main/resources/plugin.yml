@@ -2,8 +2,7 @@ name: AllMusic
 main: coloryr.allmusic.AllMusicBukkit
 author: Color_yr
 version: 2.18.0
-softdepend: [PlaceholderAPI, Vault]
-loadbefore: [PlaceholderAPI, Vault, Essentials, CMI]
+softdepend: [PlaceholderAPI, Vault, Essentials, CMI]
 api-version: 1.13
 
 commands:

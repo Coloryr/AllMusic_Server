@@ -15,4 +15,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'AllMusic_Folia'
+rootProject.name = 'AllMusic_Server_Folia'

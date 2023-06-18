@@ -15,4 +15,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'AllMusic_Server'
+rootProject.name = 'AllMusic_Server_Bukkit'
