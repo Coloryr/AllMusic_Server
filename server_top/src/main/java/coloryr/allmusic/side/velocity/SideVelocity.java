@@ -9,6 +9,7 @@ import coloryr.allmusic.core.objs.music.MusicObj;
 import coloryr.allmusic.core.objs.music.SongInfoObj;
 import coloryr.allmusic.core.side.ComType;
 import coloryr.allmusic.core.side.ISide;
+import coloryr.allmusic.core.sql.IEconomy;
 import coloryr.allmusic.side.velocity.event.MusicAddEvent;
 import coloryr.allmusic.side.velocity.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
@@ -26,11 +27,14 @@ import net.kyori.adventure.text.event.ClickEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
-public class SideVelocity extends ISide {
+public class SideVelocity extends ISide implements IEconomy {
     public static final Set<ServerConnection> TopServers = new CopyOnWriteArraySet<>();
+
+    public static final Map<String, Integer> SendToBackend = new ConcurrentHashMap<>();
 
     public static void sendAllToServer(ServerConnection server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -516,5 +520,76 @@ public class SideVelocity extends ISide {
         String server = player.getCurrentServer().isPresent() ?
                 player.getCurrentServer().get().getServerInfo().getName() : null;
         return AllMusic.isOK(player.getUsername(), server, true);
+    }
+
+    @Override
+    public boolean check(String name, int cost) {
+        return topEconomy(name, cost, 12);
+    }
+
+    @Override
+    public boolean cost(String name, int cost) {
+        return topEconomy(name, cost, 13);
+    }
+
+    private boolean topEconomy(String name, int cost, int type) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeInt(type);
+        String uuid;
+        do {
+            uuid = UUID.randomUUID().toString();
+        } while (SendToBackend.containsKey(uuid));
+
+        SendToBackend.put(uuid, -1);
+        String server = AllMusic.getConfig().Economy.Backend;
+        ServerConnection toServer = null;
+        for (ServerConnection connection : TopServers) {
+            if (connection.getServerInfo().getName().equalsIgnoreCase(server)) {
+                toServer = connection;
+            }
+        }
+        if (toServer == null) {
+            AllMusic.log.warning("§d[AllMusic]§c没有找到目标服务器");
+            return false;
+        }
+
+        out.writeUTF(uuid);
+        out.write(cost);
+        out.writeUTF(name);
+
+        toServer.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
+
+        Integer res;
+
+        int count = 0;
+
+        do {
+            try {
+                res = SendToBackend.get(uuid);
+                if (res == null)
+                    return false;
+                else if (res == -1) {
+                    Thread.sleep(1);
+                    count++;
+                } else if (res == 0) {
+                    AllMusic.log.warning("§d[AllMusic]§c后端经济插件错误");
+                    SendToBackend.remove(uuid);
+                    return false;
+                } else if (res == 1) {
+                    SendToBackend.remove(uuid);
+                    return false;
+                } else if (res == 2) {
+                    SendToBackend.remove(uuid);
+                    return true;
+                }
+            } catch (Exception e) {
+                AllMusic.log.warning("§d[AllMusic]§c经济数据发送错误");
+                e.printStackTrace();
+            }
+        } while (count < 100);
+
+        AllMusic.log.warning("§d[AllMusic]§c经济数据请求超时");
+
+        return false;
     }
 }

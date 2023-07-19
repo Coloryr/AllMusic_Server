@@ -38,13 +38,18 @@ public class PluginMessage implements PluginMessageListener {
         update = false;
     }
 
-    public static void startUpdate() {
+    private static void sendPack(ByteArrayDataOutput out) {
         Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
         if (player == null)
             return;
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("allmusic");
         player.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channelBC, out.toByteArray());
+    }
+
+    public static void startUpdate() {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.write(255);
+        out.writeUTF("allmusic");
+        sendPack(out);
     }
 
     public void stop() {
@@ -96,6 +101,46 @@ public class PluginMessage implements PluginMessageListener {
             case 11:
                 lyric.setHaveK(in.readBoolean());
                 break;
+            case 12: {
+                String uuid = in.readUTF();
+                int cost = in.readInt();
+                String name = in.readUTF();
+
+                ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                out.write(12);
+                out.writeUTF(uuid);
+                if (AllMusic.economy == null) {
+                    out.write(0);
+                    sendPack(out);
+                } else if (!AllMusic.economy.check(name, cost)) {
+                    out.write(1);
+                    sendPack(out);
+                } else {
+                    out.write(2);
+                    sendPack(out);
+                }
+                break;
+            }
+            case 13: {
+                String uuid = in.readUTF();
+                int cost = in.readInt();
+                String name = in.readUTF();
+
+                ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                out.write(13);
+                out.writeUTF(uuid);
+                if (AllMusic.economy == null) {
+                    out.write(0);
+                    sendPack(out);
+                } else if (!AllMusic.economy.cost(name, cost)) {
+                    out.write(1);
+                    sendPack(out);
+                } else {
+                    out.write(2);
+                    sendPack(out);
+                }
+                break;
+            }
         }
     }
 }

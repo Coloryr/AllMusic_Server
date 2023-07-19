@@ -46,7 +46,9 @@
   },
   "Economys": {
     "MysqlUrl": "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true",
-    "Vault": true
+    "Vault": true,
+    "TopVault": true,
+    "Backend": "Server1"
   },
   "UseCost": false,
   "SearchCost": 20,
