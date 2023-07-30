@@ -4,7 +4,7 @@
 
 ![GIF.gif](img%2FGIF.gif)
 
-注：需要配合[客户端Mod](https://github.com/HeartAge/AllMusic_M/)使用
+注：需要配合[客户端Mod](https://github.com/Coloryr/AllMusic_Client)使用
 
 [下载地址](https://www.aliyundrive.com/s/fKHnLh1N5nC)
 
