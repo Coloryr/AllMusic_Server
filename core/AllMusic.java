@@ -37,7 +37,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "2.18.8";
+    public static final String version = "2.18.12";
     /**
      * 配置文件版本号
      */
@@ -449,9 +449,9 @@ public class AllMusic {
             if (!file.exists())
                 file.mkdir();
             if (configFile == null)
-                configFile = new File(file, "config.json");
+                configFile = new File(file, "core/config.json");
             if (messageFile == null)
-                messageFile = new File(file, "message.json");
+                messageFile = new File(file, "core/message.json");
             if (cookieFile == null)
                 cookieFile = new File(file, "cookie.json");
             if (Logs.file == null)
@@ -459,10 +459,10 @@ public class AllMusic {
             if (DataSql.sqlFile == null)
                 DataSql.sqlFile = new File(file, "data.db");
             if (!configFile.exists()) {
-                Files.copy(this.getClass().getResourceAsStream("/config.json"), configFile.toPath());
+                Files.copy(this.getClass().getResourceAsStream("/core/config.json"), configFile.toPath());
             }
             if (!messageFile.exists()) {
-                Files.copy(this.getClass().getResourceAsStream("/message.json"), messageFile.toPath());
+                Files.copy(this.getClass().getResourceAsStream("/core/message.json"), messageFile.toPath());
             }
             if (!cookieFile.exists()) {
                 cookieFile.createNewFile();
