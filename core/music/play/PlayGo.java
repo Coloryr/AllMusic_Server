@@ -125,21 +125,29 @@ public class PlayGo {
         while (isRun) {
             try {
                 if (PlayMusic.getSize() == 0) {
-                    HudUtils.sendHudNowData();
-                    HudUtils.sendHudLyricData();
-                    HudUtils.sendHudListData();
-                    if (AllMusic.side.needPlay()) {
-                        String ID = AllMusic.getMusicApi().getListMusic();
-                        if (ID != null) {
-                            MusicObj obj = new MusicObj();
-                            obj.sender = ID;
-                            obj.name = "空闲列表";
-                            obj.isDefault = true;
-                            PlayMusic.addMusic(null, ID, "空闲列表", true);
+                    if (PlayMusic.error >= 10) {
+                        Thread.sleep(1000);
+                    } else {
+                        HudUtils.sendHudNowData();
+                        HudUtils.sendHudLyricData();
+                        HudUtils.sendHudListData();
+                        if (AllMusic.side.needPlay()) {
+                            String ID = AllMusic.getMusicApi().getListMusic();
+                            if (ID != null) {
+                                MusicObj obj = new MusicObj();
+                                obj.sender = ID;
+                                obj.name = "空闲列表";
+                                obj.isDefault = true;
+                                PlayMusic.addMusic(null, ID, "空闲列表", true);
+                            }
                         }
                     }
                     Thread.sleep(50);
                 } else {
+                    HudUtils.sendHudNowData();
+                    HudUtils.sendHudLyricData();
+                    HudUtils.sendHudListData();
+
                     AllMusic.side.sendHudUtilsAll();
                     PlayMusic.nowPlayMusic = PlayMusic.remove(0);
                     if (AllMusic.side.onMusicPlay(PlayMusic.nowPlayMusic)) {
