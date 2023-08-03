@@ -15,22 +15,6 @@ public class HudObj {
     public String List;
     public String Ktv;
 
-    public HudObj() {
-        State = "§d[AllMusic]§2设置信息位置：%Hud%，状态：%State%";
-        Set = "§d[AllMusic]§2已设置%Hud%的坐标为%x%, %y%";
-        Reset = "§d[AllMusic]§2Hud恢复至默认位置";
-        NoMusic = "没有播放的音乐";
-        NoList = "队列中无歌曲";
-        NoLyric = "无歌词";
-        PicSize = "§d[AllMusic]§2设置图片尺寸为%Size%";
-        PicRotate = "§d[AllMusic]§2设置图片旋转为%State%";
-        PicRotateSpeed = "§d[AllMusic]§2设置图片旋转速度为%Size%";
-        Music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
-        Lyric = "%Lyric%\n%Tlyric%";
-        Ktv = "§e%KLyric%§f%Lyric%§r\n%Tlyric%";
-        List = "播放列表里面有%Size%首歌\n%List%";
-    }
-
     public boolean check() {
         if (State == null)
             return true;
@@ -57,5 +41,28 @@ public class HudObj {
         if (PicRotateSpeed == null)
             return true;
         return Ktv == null;
+    }
+
+    public void init(){
+        State = "§d[AllMusic]§e设置信息位置：%Hud%，状态：%State%";
+        Set = "§d[AllMusic]§e已设置%Hud%的坐标为%x%, %y%";
+        Reset = "§d[AllMusic]§eHud恢复至默认位置";
+        NoMusic = "没有播放的音乐";
+        NoList = "队列中无歌曲";
+        NoLyric = "无歌词";
+        PicSize = "§d[AllMusic]§e设置图片尺寸为%Size%";
+        PicRotate = "§d[AllMusic]§e设置图片旋转为%State%";
+        PicRotateSpeed = "§d[AllMusic]§e设置图片旋转速度为%Size%";
+        Music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
+        Lyric = "%Lyric%\n%Tlyric%";
+        Ktv = "§e%KLyric%§f%Lyric%§r\n%Tlyric%";
+        List = "播放列表里面有%Size%首歌\n%List%";
+    }
+
+    public static HudObj make() {
+        HudObj obj = new HudObj();
+        obj.init();
+
+        return obj;
     }
 }

@@ -3,9 +3,11 @@ plugins {
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.0'
 }
 
-version = '2.18.8'
+version = '2.18.12'
 group = 'coloryr.allmusic' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = '[Forge1.19.3]AllMusic_Server'
 
@@ -126,7 +128,8 @@ repositories {
     // }
 
     maven {
-        url 'https://jitpack.io'
+        name = 'Kotlin for Forge'
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
     }
 }
 
@@ -136,8 +139,10 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.19.3-44.1.20'
 
+    implementation 'thedarkcolour:kotlinforforge:4.4.0'
+
     shadow 'com.squareup.okhttp3:okhttp:4.10.0'
-    shadow 'org.xerial:sqlite-jdbc:3.39.3.0'
+    shadow 'org.xerial:sqlite-jdbc:3.42.0.0'
 
 //    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 //    implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
@@ -161,10 +166,11 @@ shadowJar {
 //    relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
     configurations = [project.configurations.shadow]
     archiveClassifier.set('')
-//    dependencies {
-//        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
-//        include(dependency('org.xerial:sqlite-jdbc:3.39.3.0'))
-//    }
+    dependencies {
+        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
+        include(dependency('com.squareup.okio:okio-jvm:3.0.0'))
+        include(dependency('org.xerial:sqlite-jdbc:3.42.0.0'))
+    }
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

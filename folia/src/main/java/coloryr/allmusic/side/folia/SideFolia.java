@@ -3,7 +3,7 @@ package coloryr.allmusic.side.folia;
 import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.AllMusicFolia;
 import coloryr.allmusic.core.hud.HudUtils;
-import coloryr.allmusic.core.objs.hud.SaveObj;
+import coloryr.allmusic.core.objs.config.SaveObj;
 import coloryr.allmusic.core.objs.music.MusicObj;
 import coloryr.allmusic.core.objs.music.SongInfoObj;
 import coloryr.allmusic.core.side.ComType;
@@ -21,7 +21,6 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
-import java.util.function.Consumer;
 
 public class SideFolia extends ISide {
     private static Class ByteBufC;

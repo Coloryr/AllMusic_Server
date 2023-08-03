@@ -156,7 +156,7 @@ public class CommandEX {
         for (int a = 0; a < index; a++) {
             item = search.getRes(a + search.getPage() * 10);
             info = AllMusic.getMessage().Page.Choice;
-            info = info.replace("%index%", "" + (a + 1))
+            info = info.replace("%Index%", "" + (a + 1))
                     .replace("%MusicName%", item.name)
                     .replace("%MusicAuthor%", item.author)
                     .replace("%MusicAl%", item.al);
@@ -223,7 +223,9 @@ public class CommandEX {
                 AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.ClearList,
                         AllMusic.getMessage().Click.This, "/music clearlist");
                 AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.Login,
-                        AllMusic.getMessage().Click.This, "/music login");
+                        AllMusic.getMessage().Click.Check, "/music login ");
+                AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.Code,
+                        AllMusic.getMessage().Click.This, "/music code");
             }
             return;
         } else if (args[0].equalsIgnoreCase("stop")) {
@@ -249,7 +251,7 @@ public class CommandEX {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().MusicPlay.NoPlay);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().MusicPlay.ListMusic.Head
-                        .replace("&Count&", "" + PlayMusic.getSize()));
+                        .replace("%Count%", "" + PlayMusic.getSize()));
                 AllMusic.side.sendMessage(sender, PlayMusic.getAllList());
             }
             return;
@@ -262,11 +264,12 @@ public class CommandEX {
             if (PlayMusic.getSize() == 0 && AllMusic.getConfig().PlayList.size() == 0) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().MusicPlay.NoPlay);
             } else if (PlayMusic.voteTime == 0) {
-                PlayMusic.voteTime = 30;
+                PlayMusic.voteTime = AllMusic.getConfig().VoteTime;
                 AllMusic.addVote(name);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().Vote.DoVote);
                 String data = AllMusic.getMessage().Vote.BQ;
-                AllMusic.side.bq(data.replace("%PlayerName%", name));
+                AllMusic.side.bq(data.replace("%PlayerName%", name)
+                        .replace("%Time%", String.valueOf(AllMusic.getConfig().VoteTime)));
             } else if (PlayMusic.voteTime > 0) {
                 if (!AllMusic.containVote(name)) {
                     AllMusic.addVote(name);
@@ -477,7 +480,7 @@ public class CommandEX {
                 return;
             } else if (args[0].equalsIgnoreCase("clearlist")) {
                 AllMusic.getConfig().PlayList.clear();
-                AllMusic.save();
+                AllMusic.saveConfig();
                 AllMusic.side.sendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表已清空");
                 return;
             } else if (args[0].equalsIgnoreCase("code")) {

@@ -5,7 +5,7 @@ import coloryr.allmusic.core.enums.HudPos;
 import coloryr.allmusic.core.music.play.LyricSave;
 import coloryr.allmusic.core.music.play.PlayMusic;
 import coloryr.allmusic.core.objs.hud.PosObj;
-import coloryr.allmusic.core.objs.hud.SaveObj;
+import coloryr.allmusic.core.objs.config.SaveObj;
 import coloryr.allmusic.core.objs.music.SongInfoObj;
 import coloryr.allmusic.core.utils.Function;
 import com.google.gson.Gson;
@@ -78,7 +78,7 @@ public class HudUtils {
         posOBJ.y = y1;
 
         addAndSave(player, obj);
-        AllMusic.save();
+        AllMusic.saveConfig();
         HudUtils.sendHudPos(player);
         return posOBJ;
     }
@@ -216,7 +216,7 @@ public class HudUtils {
         }
         clearHud(player);
         addAndSave(player, obj);
-        AllMusic.save();
+        AllMusic.saveConfig();
         HudUtils.sendHudPos(player);
         if (pos == null) {
             return res;
@@ -264,7 +264,7 @@ public class HudUtils {
                 if (obj == null) {
                     obj = AllMusic.getConfig().DefaultHud.copy();
                     addAndSave(player, obj);
-                    AllMusic.save();
+                    AllMusic.saveConfig();
                 }
                 String data = new Gson().toJson(obj);
                 AllMusic.side.send(data, player);

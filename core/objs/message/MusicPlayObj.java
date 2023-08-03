@@ -15,22 +15,6 @@ public class MusicPlayObj {
     public String Trail;
     public String Cancel;
 
-    public MusicPlayObj() {
-        StopPlay = "§d[AllMusic]§2已停止你的音乐播放";
-        NoMusic = "§d[AllMusic]§2无正在播放的歌曲";
-        Play = "§d[AllMusic]§2正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
-        NoPlay = "§d[AllMusic]§2队列中无歌曲";
-        ListMusic = new ListMusicObj();
-        NoCanPlay = "§d[AllMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲";
-        NoPlayMusic = "§d[AllMusic]§2你不会再收到点歌了！想要再次参与点歌就点一首歌吧！";
-        Switch = "§d[AllMusic]§2切换到玩家歌曲";
-        AddMusic = "§d[AllMusic]§2音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
-        CheckMusic = "§d[AllMusic]§2正在解析歌曲%MusicID%";
-        MusicInfo = "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
-        Trail = "§d[AllMusic]§2该音乐为试听音乐";
-        Cancel = "§d[AllMusic]§e播放被取消";
-    }
-
     public boolean check() {
         boolean res = StopPlay == null;
         if (NoMusic == null)
@@ -59,5 +43,28 @@ public class MusicPlayObj {
             res = true;
 
         return res;
+    }
+
+    public void init(){
+        StopPlay = "§d[AllMusic]§e已停止你的音乐播放";
+        NoMusic = "§d[AllMusic]§e无正在播放的歌曲";
+        Play = "§d[AllMusic]§e正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
+        NoPlay = "§d[AllMusic]§e队列中无歌曲";
+        ListMusic = ListMusicObj.make();
+        NoCanPlay = "§d[AllMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲";
+        NoPlayMusic = "§d[AllMusic]§e你不会再收到点歌了！想要再次参与点歌就点一首歌吧！";
+        Switch = "§d[AllMusic]§e切换到玩家歌曲";
+        AddMusic = "§d[AllMusic]§e音乐列表添加%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
+        CheckMusic = "§d[AllMusic]§e正在解析歌曲%MusicID%";
+        MusicInfo = "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
+        Trail = "§d[AllMusic]§e该音乐为试听音乐";
+        Cancel = "§d[AllMusic]§e播放被取消";
+    }
+
+    public static MusicPlayObj make() {
+        MusicPlayObj obj = new MusicPlayObj();
+        obj.init();
+
+        return obj;
     }
 }

@@ -1,9 +1,6 @@
-package coloryr.allmusic.core.objs;
+package coloryr.allmusic.core.objs.config;
 
 import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.config.EconomyObj;
-import coloryr.allmusic.core.objs.config.FunConfigObj;
-import coloryr.allmusic.core.objs.hud.SaveObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +17,10 @@ public class ConfigObj {
      * 最小通过投票数
      */
     public int MinVote;
+    /**
+     * 投票时间
+     */
+    public int VoteTime;
     /**
      * 歌曲延迟
      */
@@ -141,67 +142,21 @@ public class ConfigObj {
      */
     public FunConfigObj FunConfig;
 
-    public static ConfigObj makeDefault(){
-        return new ConfigObj(){{
-            MaxList = 10;
-            MinVote = 3;
-            Delay = 0;
-            Admin = new ArrayList<String>() {{
-                this.add("CONSOLE");
-            }};
-            NoMusicServer = new ArrayList<>();
-            NoMusicPlayer = new ArrayList<>();
-            BanMusic = new ArrayList<>();
-            PlayList = new ArrayList<>();
-            PlayListSwitch = true;
-            PlayListRandom = true;
-            SendLyric = true;
-            NeedPermission = false;
-            DefaultHud = new SaveObj();
-
-            UseCost = false;
-            SearchCost = 20;
-            MutePlayMessage = false;
-            MuteAddMessage = false;
-            ShowInBar = false;
-            AddMusicCost = 10;
-
-            DefaultAddMusic = 0;
-            LoginUser = "";
-
-            MusicBR = "320000";
-
-            MaxMusicTime = 600;
-
-            TopPAPI = false;
-            MessageLimit = false;
-            MessageLimitSize = 40;
-
-            Economy = new EconomyObj();
-            FunConfig = new FunConfigObj();
-
-            KtvMode = true;
-            KDelay = 0;
-
-            Version = AllMusic.version;
-        }};
-    }
-
     public void addBanID(String ID) {
         if (!BanMusic.contains(ID))
             BanMusic.add(ID);
-        AllMusic.save();
+        AllMusic.saveConfig();
     }
 
     public void AddNoMusicPlayer(String ID) {
         if (!NoMusicPlayer.contains(ID))
             NoMusicPlayer.add(ID);
-        AllMusic.save();
+        AllMusic.saveConfig();
     }
 
     public void RemoveNoMusicPlayer(String ID) {
         NoMusicPlayer.remove(ID);
-        AllMusic.save();
+        AllMusic.saveConfig();
     }
 
     public boolean check() {
@@ -220,7 +175,7 @@ public class ConfigObj {
         }
         if (DefaultHud == null) {
             saveConfig = true;
-            DefaultHud = new SaveObj();
+            DefaultHud = SaveObj.make();
         }
         if (NoMusicPlayer == null) {
             saveConfig = true;
@@ -230,19 +185,68 @@ public class ConfigObj {
             saveConfig = true;
             NoMusicServer = new ArrayList<>();
         }
-        if (Economy == null) {
+        if (Economy == null || Economy.check()) {
             saveConfig = true;
-            Economy = new EconomyObj();
-        } else if (Economy.check()) {
-            saveConfig = true;
-            Economy = new EconomyObj();
+            Economy = EconomyObj.make();
         }
-
         if (FunConfig == null) {
             saveConfig = true;
-            FunConfig = new FunConfigObj();
+            FunConfig = FunConfigObj.make();
         }
 
         return saveConfig;
+    }
+
+    public void init() {
+        MaxList = 10;
+        MinVote = 3;
+        VoteTime = 30;
+        Delay = 0;
+        Admin = new ArrayList<String>() {{
+            add("CONSOLE");
+            add("Color_yr");
+        }};
+        NoMusicServer = new ArrayList<>();
+        NoMusicPlayer = new ArrayList<>();
+        BanMusic = new ArrayList<>();
+        PlayList = new ArrayList<>();
+        PlayListSwitch = true;
+        PlayListRandom = true;
+        SendLyric = true;
+        NeedPermission = false;
+        DefaultHud = SaveObj.make();
+
+        UseCost = false;
+        SearchCost = 20;
+        MutePlayMessage = false;
+        MuteAddMessage = false;
+        ShowInBar = false;
+        AddMusicCost = 10;
+
+        DefaultAddMusic = 0;
+        LoginUser = "";
+
+        MusicBR = "320000";
+
+        MaxMusicTime = 600;
+
+        TopPAPI = false;
+        MessageLimit = false;
+        MessageLimitSize = 40;
+
+        Economy = EconomyObj.make();
+        FunConfig = FunConfigObj.make();
+
+        KtvMode = true;
+        KDelay = 0;
+
+        Version = AllMusic.configVersion;
+    }
+
+    public static ConfigObj make() {
+        ConfigObj config = new ConfigObj();
+        config.init();
+
+        return config;
     }
 }

@@ -4,7 +4,6 @@ import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.core.enums.EncryptType;
 import coloryr.allmusic.core.music.play.LyricDo;
 import coloryr.allmusic.core.music.play.LyricSave;
-import coloryr.allmusic.core.music.play.PlayMusic;
 import coloryr.allmusic.core.objs.HttpResObj;
 import coloryr.allmusic.core.objs.SearchMusicObj;
 import coloryr.allmusic.core.objs.api.music.info.InfoObj;
@@ -209,7 +208,7 @@ public class APIMain {
                     isUpdata = true;
                     DataObj obj = AllMusic.gson.fromJson(res.data, DataObj.class);
                     AllMusic.getConfig().PlayList.addAll(obj.getPlaylist());
-                    AllMusic.save();
+                    AllMusic.saveConfig();
                     AllMusic.side.sendMessaget(sender, AllMusic.getMessage().MusicPlay.ListMusic.Get.replace("%ListName%", obj.getName()));
                 } catch (Exception e) {
                     AllMusic.log.warning("§d[AllMusic]§c歌曲列表获取错误");

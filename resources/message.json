@@ -5,8 +5,8 @@
     "Play": "§d[AllMusic]§e正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%",
     "NoPlay": "§d[AllMusic]§e队列中无歌曲",
     "ListMusic": {
-      "Head": "§d[AllMusic]§e队列中有歌曲数：&Count&",
-      "Item": "§e%index%->%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%",
+      "Head": "§d[AllMusic]§e队列中有歌曲数：%Count%",
+      "Item": "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%",
       "Get": "§d[AllMusic]§e歌曲列表%ListName%获取成功"
     },
     "NoCanPlay": "§d[AllMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲",
@@ -29,7 +29,7 @@
     "TimeOut": "§d[AllMusic]§e点歌被取消，音乐长度过长"
   },
   "Page": {
-    "Choice": "§e%index%->%MusicName% | %MusicAuthor% | %MusicAl%",
+    "Choice": "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl%",
     "Next": "§e[§n点我下一页§r§e]",
     "Last": "§e[§n点我上一页§r§e]"
   },
@@ -69,8 +69,8 @@
     "NoList": "队列中无歌曲",
     "NoLyric": "无歌词",
     "PicSize": "§d[ALLMusic]§e设置图片尺寸为%Size%",
-    "PicRotate": "§d[AllMusic]§2设置图片旋转为%State%",
-    "PicRotateSpeed": "§d[AllMusic]§2设置图片旋转速度为%Size%",
+    "PicRotate": "§d[AllMusic]§e设置图片旋转为%State%",
+    "PicRotateSpeed": "§d[AllMusic]§e设置图片旋转速度为%Size%",
     "Music": "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%",
     "Lyric": "%Lyric%\n%Tlyric%",
     "Ktv": "§e%KLyric%§f%Lyric%§r\n%Tlyric%",
@@ -129,11 +129,12 @@
       "Delete": "§d[AllMusic]§e使用/music delete [序号] 删除队列中的歌曲",
       "AddList": "§d[AllMusic]§e使用/music addlist [歌单ID] 添加歌单到空闲列表",
       "ClearList": "§d[AllMusic]§e使用/music clearlist 清空空闲歌单",
-      "Login": "§d[AllMusic]§e使用/music login 重新登录账户"
+      "Login": "§d[AllMusic]§e使用/music login [验证码] 登录账户",
+      "Code": "§d[AllMusic]§e使用/music code 获取短信验证码"
     }
   },
   "Fun": {
     "Rain": "§d[AllMusic]§e天空开始变得湿润"
   },
-  "Version": "104"
+  "Version": "105"
 }

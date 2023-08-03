@@ -2,7 +2,7 @@ package coloryr.allmusic.core.hud;
 
 import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.core.objs.hud.PosObj;
-import coloryr.allmusic.core.objs.hud.SaveObj;
+import coloryr.allmusic.core.objs.config.SaveObj;
 
 import java.io.File;
 import java.sql.Connection;

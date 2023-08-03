@@ -6,13 +6,6 @@ public class CostObj {
     public String NoMoney;
     public String CostFail;
 
-    public CostObj() {
-        Search = "§d[ALLMusic]§2你搜歌花费了%Cost%";
-        AddMusic = "§d[ALLMusic]§2你点歌花费了%Cost%";
-        NoMoney = "§d[ALLMusic]§c你没有足够的钱";
-        CostFail = "§d[ALLMusic]§c扣钱过程中错误";
-    }
-
     public boolean check() {
         if (Search == null)
             return true;
@@ -21,5 +14,19 @@ public class CostObj {
         if (NoMoney == null)
             return true;
         return CostFail == null;
+    }
+
+    public void init(){
+        Search = "§d[AllMusic]§e你搜歌花费了%Cost%";
+        AddMusic = "§d[ALLMusic]§e你点歌花费了%Cost%";
+        NoMoney = "§d[ALLMusic]§c你没有足够的钱";
+        CostFail = "§d[ALLMusic]§c扣钱过程中错误";
+    }
+
+    public static CostObj make() {
+        CostObj obj = new CostObj();
+        obj.init();
+
+        return obj;
     }
 }

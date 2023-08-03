@@ -13,11 +13,13 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
 }
 apply plugin: 'net.minecraftforge.gradle'
 
 
-version = '2.18.8'
+version = '2.18.12'
 group = 'coloryr.allmusic' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = '[Forge1.18.2]AllMusic_Server'
 
@@ -142,6 +144,11 @@ repositories {
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
+    maven {
+        name = 'Kotlin for Forge'
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+    }
+
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
     // flatDir {
     //     dir 'libs'
@@ -154,8 +161,10 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.18.2-40.2.1'
 
+    implementation 'thedarkcolour:kotlinforforge:3.12.0'
+
     shadow 'com.squareup.okhttp3:okhttp:4.10.0'
-    shadow 'org.xerial:sqlite-jdbc:3.39.3.0'
+    shadow 'org.xerial:sqlite-jdbc:3.42.0.0'
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
@@ -178,10 +187,11 @@ shadowJar {
 //    relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
     configurations = [project.configurations.shadow]
     archiveClassifier.set('')
-//    dependencies {
-//        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
-//        include(dependency('org.xerial:sqlite-jdbc:3.39.3.0'))
-//    }
+    dependencies {
+        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
+        include(dependency('com.squareup.okio:okio-jvm:3.0.0'))
+        include(dependency('org.xerial:sqlite-jdbc:3.42.0.0'))
+    }
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

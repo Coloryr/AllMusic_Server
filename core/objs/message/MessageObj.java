@@ -1,8 +1,6 @@
-package coloryr.allmusic.core.objs;
+package coloryr.allmusic.core.objs.message;
 
 import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.message.SearchObj;
-import coloryr.allmusic.core.objs.message.*;
 
 public class MessageObj {
     public MusicPlayObj MusicPlay;
@@ -22,87 +20,94 @@ public class MessageObj {
     public FunObj Fun;
     public String Version;
 
-    public MessageObj() {
-        MusicPlay = new MusicPlayObj();
-        AddMusic = new AddMusicObj();
-        Page = new PageObj();
-        Lyric = new LyricObj();
-        Vote = new VoteObj();
-        Search = new SearchObj();
-        Hud = new HudObj();
-        Command = new CommandObj();
-        HudList = new HudListObj();
-        Custom = new CustomObj();
-        PAPI = new PAPIObj();
-        Cost = new CostObj();
-        Click = new ClickObj();
-        Help = new HelpObj();
-        Fun = new FunObj();
-        Version = AllMusic.configVersion;
-    }
-
     public boolean check() {
         boolean saveConfig = false;
         if (MusicPlay == null || MusicPlay.check()) {
             saveConfig = true;
-            MusicPlay = new MusicPlayObj();
+            MusicPlay = MusicPlayObj.make();
         }
         if (AddMusic == null || AddMusic.check()) {
             saveConfig = true;
-            AddMusic = new AddMusicObj();
+            AddMusic = AddMusicObj.make();
         }
         if (Page == null || Page.check()) {
             saveConfig = true;
-            Page = new PageObj();
+            Page = PageObj.make();
         }
         if (Lyric == null || Lyric.check()) {
             saveConfig = true;
-            Lyric = new LyricObj();
+            Lyric = LyricObj.make();
         }
         if (Vote == null || Vote.check()) {
             saveConfig = true;
-            Vote = new VoteObj();
+            Vote = VoteObj.make();
         }
         if (Search == null || Search.check()) {
             saveConfig = true;
-            Search = new SearchObj();
+            Search = SearchObj.make();
         }
         if (Hud == null || Hud.check()) {
             saveConfig = true;
-            Hud = new HudObj();
+            Hud = HudObj.make();
         }
         if (HudList == null || HudList.check()) {
             saveConfig = true;
-            HudList = new HudListObj();
+            HudList = HudListObj.make();
         }
         if (Command == null || Command.check()) {
             saveConfig = true;
-            Command = new CommandObj();
+            Command = CommandObj.make();
         }
         if (Custom == null || Custom.check()) {
             saveConfig = true;
-            Custom = new CustomObj();
+            Custom = CustomObj.make();
         }
         if (PAPI == null || PAPI.check()) {
             saveConfig = true;
-            PAPI = new PAPIObj();
+            PAPI = PAPIObj.make();
         }
         if (Cost == null || Cost.check()) {
             saveConfig = true;
-            Cost = new CostObj();
+            Cost = CostObj.make();
         }
         if (Click == null || Click.check()) {
             saveConfig = true;
-            Click = new ClickObj();
+            Click = ClickObj.make();
         }
         if (Help == null || Help.check()) {
             saveConfig = true;
-            Help = new HelpObj();
+            Help = HelpObj.make();
         }
         if (Fun == null || Fun.check()) {
             saveConfig = true;
-            Fun = new FunObj();
+            Fun = FunObj.make();
         }
         return saveConfig;
+    }
+
+    public void init(){
+        MusicPlay = MusicPlayObj.make();
+        AddMusic = AddMusicObj.make();
+        Page = PageObj.make();
+        Lyric = LyricObj.make();
+        Vote = VoteObj.make();
+        Search = SearchObj.make();
+        Hud = HudObj.make();
+        Command = CommandObj.make();
+        HudList = HudListObj.make();
+        Custom = CustomObj.make();
+        PAPI = PAPIObj.make();
+        Cost = CostObj.make();
+        Click = ClickObj.make();
+        Help = HelpObj.make();
+        Fun = FunObj.make();
+        Version = AllMusic.messageVersion;
+    }
+
+    public static MessageObj make() {
+        MessageObj obj = new MessageObj();
+        obj.init();
+
+        return obj;
     }
 }

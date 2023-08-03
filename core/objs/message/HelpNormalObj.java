@@ -15,22 +15,6 @@ public class HelpNormalObj {
     public String Hud4;
     public String Hud5;
 
-    public HelpNormalObj() {
-        Head = "§d[AllMusic]§2帮助手册";
-        Base = "§d[AllMusic]§2使用/music [音乐ID] 来点歌";
-        Stop = "§d[AllMusic]§2使用/music stop 停止播放歌曲";
-        List = "§d[AllMusic]§2使用/music list 查看歌曲队列";
-        Vote = "§d[AllMusic]§2使用/music vote 投票切歌";
-        NoMusic = "§d[AllMusic]§2使用/music nomusic 不再参与点歌";
-        Search = "§d[AllMusic]§2使用/music search [歌名] 搜索歌曲";
-        Select = "§d[AllMusic]§2使用/music select [序列] 选择歌曲";
-        Hud1 = "§d[AllMusic]§2使用/music hud enable [位置] 启用关闭Hud";
-        Hud2 = "§d[AllMusic]§2使用/music hud [位置] [x] [y] 设置某个Hud的位置";
-        Hud3 = "§d[AllMusic]§2使用/music hud picsize [尺寸] 设置图片尺寸";
-        Hud4 = "§d[AllMusic]§e使用/music hud picrotate [开关] 设置图片旋转模式";
-        Hud5 = "§d[AllMusic]§e使用/music hud picrotatespeed [数值] 设置图片旋转速度";
-    }
-
     public boolean check() {
         if (Head == null)
             return true;
@@ -57,5 +41,28 @@ public class HelpNormalObj {
         if (Hud4 == null)
             return true;
         return Hud5 == null;
+    }
+
+    public void init(){
+        Head = "§d[AllMusic]§e帮助手册";
+        Base = "§d[AllMusic]§e使用/music [音乐ID] 来点歌";
+        Stop = "§d[AllMusic]§e使用/music stop 停止播放歌曲";
+        List = "§d[AllMusic]§e使用/music list 查看歌曲队列";
+        Vote = "§d[AllMusic]§e使用/music vote 投票切歌";
+        NoMusic = "§d[AllMusic]§e使用/music nomusic 不再参与点歌";
+        Search = "§d[AllMusic]§e使用/music search [歌名] 搜索歌曲";
+        Select = "§d[AllMusic]§e使用/music select [序列] 选择歌曲";
+        Hud1 = "§d[AllMusic]§e使用/music hud enable [位置] 启用关闭Hud";
+        Hud2 = "§d[AllMusic]§e使用/music hud [位置] [x] [y] 设置某个Hud的位置";
+        Hud3 = "§d[AllMusic]§e使用/music hud picsize [尺寸] 设置图片尺寸";
+        Hud4 = "§d[AllMusic]§e使用/music hud picrotate [开关] 设置图片旋转模式";
+        Hud5 = "§d[AllMusic]§e使用/music hud picrotatespeed [数值] 设置图片旋转速度";
+    }
+
+    public static HelpNormalObj make() {
+        HelpNormalObj obj = new HelpNormalObj();
+        obj.init();
+
+        return obj;
     }
 }

@@ -204,7 +204,7 @@ public class PlayMusic {
         for (int i = 0; i < playList.size(); i++) {
             info = playList.get(i);
             a = AllMusic.getMessage().MusicPlay.ListMusic.Item;
-            a = a.replace("%index%", "" + (i + 1))
+            a = a.replace("%Index%", "" + (i + 1))
                     .replace("%MusicName%", info.getName())
                     .replace("%MusicAuthor%", info.getAuthor())
                     .replace("%MusicAl%", info.getAl())

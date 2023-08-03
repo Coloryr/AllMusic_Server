@@ -11,18 +11,6 @@ public class SearchObj {
     public String CantLast;
     public String StartSearch;
 
-    public SearchObj() {
-        StartSearch = "§d[AllMusic]§2正在排队搜歌";
-        NoPer = "§d[AllMusic]§c你没有权限搜歌";
-        CantSearch = "§d[AllMusic]§c无法搜索歌曲：%Music%";
-        Res = "§d[AllMusic]§2搜索结果";
-        NoSearch = "§d[AllMusic]§c你没有搜索音乐";
-        ErrorNum = "§d[AllMusic]§c请输入正确的序号";
-        Chose = "§d[AllMusic]§2你选择了序号%Num%";
-        CantNext = "§d[AllMusic]§c无法下一页";
-        CantLast = "§d[AllMusic]§c无法上一页";
-    }
-
     public boolean check() {
         if (NoPer == null)
             return true;
@@ -41,5 +29,24 @@ public class SearchObj {
         if (CantLast == null)
             return true;
         return StartSearch == null;
+    }
+
+    public void init(){
+        StartSearch = "§d[AllMusic]§e正在排队搜歌";
+        NoPer = "§d[AllMusic]§c你没有权限搜歌";
+        CantSearch = "§d[AllMusic]§c无法搜索歌曲：%Music%";
+        Res = "§d[AllMusic]§e搜索结果";
+        NoSearch = "§d[AllMusic]§c你没有搜索音乐";
+        ErrorNum = "§d[AllMusic]§c请输入正确的序号";
+        Chose = "§d[AllMusic]§e你选择了序号%Num%";
+        CantNext = "§d[AllMusic]§c无法下一页";
+        CantLast = "§d[AllMusic]§c无法上一页";
+    }
+
+    public static SearchObj make() {
+        SearchObj obj = new SearchObj();
+        obj.init();
+
+        return obj;
     }
 }

@@ -6,10 +6,10 @@ import coloryr.allmusic.core.music.api.APIMain;
 import coloryr.allmusic.core.music.play.MusicSearch;
 import coloryr.allmusic.core.music.play.PlayGo;
 import coloryr.allmusic.core.music.play.PlayMusic;
-import coloryr.allmusic.core.objs.ConfigObj;
+import coloryr.allmusic.core.objs.config.ConfigObj;
 import coloryr.allmusic.core.objs.CookieObj;
-import coloryr.allmusic.core.objs.MessageObj;
-import coloryr.allmusic.core.objs.hud.SaveObj;
+import coloryr.allmusic.core.objs.message.MessageObj;
+import coloryr.allmusic.core.objs.config.SaveObj;
 import coloryr.allmusic.core.objs.music.SearchPageObj;
 import coloryr.allmusic.core.side.IMyLogger;
 import coloryr.allmusic.core.side.ISide;
@@ -41,11 +41,11 @@ public class AllMusic {
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "103";
+    public static final String configVersion = "104";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "104";
+    public static final String messageVersion = "105";
     /**
      * 搜歌结果
      * 玩家名 结果
@@ -108,13 +108,10 @@ public class AllMusic {
      * 检查配置文件完整性
      */
     public static void configCheck() {
-        if (config == null) {
-            config = ConfigObj.makeDefault();
+        if (config == null || config.check()) {
+            config = ConfigObj.make();
             log.warning("§d[AllMusic]§c配置文件config.json错误，已覆盖");
-            save();
-        } else if (config.check()) {
-            log.warning("§d[AllMusic]§c配置文件config.json错误，已覆盖");
-            save();
+            saveConfig();
         }
     }
 
@@ -122,13 +119,10 @@ public class AllMusic {
      * 检查语言文件完整性
      */
     private static void messageCheck() {
-        if (message == null) {
-            message = new MessageObj();
+        if (message == null || message.check()) {
+            message = MessageObj.make();
             log.warning("§d[AllMusic]§c配置文件message.json错误，已覆盖");
-            save();
-        } else if (message.check()) {
-            log.warning("§d[AllMusic]§c配置文件message.json错误，已覆盖");
-            save();
+            saveMessage();
         }
     }
 
@@ -142,8 +136,7 @@ public class AllMusic {
      */
     public static boolean isOK(String name, String server, boolean checkList) {
         try {
-            if (AllMusic.getConfig().NoMusicServer
-                    .contains(server))
+            if (AllMusic.getConfig().NoMusicServer.contains(server))
                 return true;
             if (server != null && AllMusic.getConfig().NoMusicPlayer.contains(name))
                 return true;
@@ -173,7 +166,7 @@ public class AllMusic {
     public static ConfigObj getConfig() {
         if (config == null) {
             log.warning("§d[AllMusic]§c配置文件config.json错误，已使用默认配置文件");
-            config = ConfigObj.makeDefault();
+            config = ConfigObj.make();
         }
         return config;
     }
@@ -186,7 +179,7 @@ public class AllMusic {
     public static MessageObj getMessage() {
         if (message == null) {
             log.warning("§d[AllMusic]§c配置文件message.json错误，已使用默认配置文件");
-            message = new MessageObj();
+            message = MessageObj.make();
         }
         return message;
     }
@@ -285,7 +278,7 @@ public class AllMusic {
     /**
      * 保存配置文件
      */
-    public static void save() {
+    public static void saveConfig() {
         try {
             String data = new GsonBuilder().setPrettyPrinting().create().toJson(config);
             FileOutputStream out = new FileOutputStream(configFile);
@@ -293,12 +286,22 @@ public class AllMusic {
                     out, StandardCharsets.UTF_8);
             write.write(data);
             write.close();
-            data = new GsonBuilder().setPrettyPrinting().create().toJson(message);
-            out = new FileOutputStream(messageFile);
-            write = new OutputStreamWriter(
+            out.close();
+        } catch (Exception e) {
+            log.warning("§d[AllMusic]§c配置文件保存错误");
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveMessage() {
+        try {
+            String data = new GsonBuilder().setPrettyPrinting().create().toJson(message);
+            FileOutputStream out = new FileOutputStream(messageFile);
+            OutputStreamWriter write = new OutputStreamWriter(
                     out, StandardCharsets.UTF_8);
             write.write(data);
             write.close();
+            out.close();
         } catch (Exception e) {
             log.warning("§d[AllMusic]§c配置文件保存错误");
             e.printStackTrace();
@@ -330,6 +333,7 @@ public class AllMusic {
         PlayGo.start();
         MusicSearch.start();
         DataSql.start();
+        AllMusic.apiMusic = new APIMain();
 
         log.info("§d[AllMusic]§e已启动-" + version);
     }
@@ -358,9 +362,6 @@ public class AllMusic {
      * @return 音乐API
      */
     public static APIMain getMusicApi() {
-        if (apiMusic == null) {
-            AllMusic.apiMusic = new APIMain();
-        }
         return apiMusic;
     }
 
@@ -449,9 +450,9 @@ public class AllMusic {
             if (!file.exists())
                 file.mkdir();
             if (configFile == null)
-                configFile = new File(file, "core/config.json");
+                configFile = new File(file, "config.json");
             if (messageFile == null)
-                messageFile = new File(file, "core/message.json");
+                messageFile = new File(file, "message.json");
             if (cookieFile == null)
                 cookieFile = new File(file, "cookie.json");
             if (Logs.file == null)
@@ -459,10 +460,10 @@ public class AllMusic {
             if (DataSql.sqlFile == null)
                 DataSql.sqlFile = new File(file, "data.db");
             if (!configFile.exists()) {
-                Files.copy(this.getClass().getResourceAsStream("/core/config.json"), configFile.toPath());
+                configFile.createNewFile();
             }
             if (!messageFile.exists()) {
-                Files.copy(this.getClass().getResourceAsStream("/core/message.json"), messageFile.toPath());
+                messageFile.createNewFile();
             }
             if (!cookieFile.exists()) {
                 cookieFile.createNewFile();
