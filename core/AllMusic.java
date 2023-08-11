@@ -37,7 +37,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "2.18.12";
+    public static final String version = "2.18.14";
     /**
      * 配置文件版本号
      */
@@ -136,9 +136,9 @@ public class AllMusic {
      */
     public static boolean isOK(String name, String server, boolean checkList) {
         try {
-            if (AllMusic.getConfig().NoMusicServer.contains(server))
+            if (server != null && AllMusic.getConfig().NoMusicServer.contains(server))
                 return true;
-            if (server != null && AllMusic.getConfig().NoMusicPlayer.contains(name))
+            if (AllMusic.getConfig().NoMusicPlayer.contains(name))
                 return true;
             if (!checkList)
                 return false;
@@ -329,11 +329,11 @@ public class AllMusic {
      * 启动插件
      */
     public static void start() {
+        AllMusic.apiMusic = new APIMain();
         PlayMusic.start();
         PlayGo.start();
         MusicSearch.start();
         DataSql.start();
-        AllMusic.apiMusic = new APIMain();
 
         log.info("§d[AllMusic]§e已启动-" + version);
     }

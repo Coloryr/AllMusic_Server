@@ -229,7 +229,7 @@ public class PlayGo {
                     }
                     clear();
                 }
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 AllMusic.log.warning("§c歌曲播放出现错误");
                 e.printStackTrace();
             }
