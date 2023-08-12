@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "allmusic_server",
+    "name": "AllMusic_Server",
+    "description": "allmusic server",
+    "version": "2.18.14",
+    "mcversion": "1.12.2",
+    "url": "https://github.com/Coloryr/AllMusic_Server",
+    "updateUrl": "",
+    "authorList": [
+      "Color_yr"
+    ],
+    "credits": "This mod is use in allmusic",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": ["forgelin"]
+  }
+]
