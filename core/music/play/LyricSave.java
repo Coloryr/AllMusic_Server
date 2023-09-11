@@ -85,12 +85,33 @@ public class LyricSave {
         return false;
     }
 
+    /*
+     * 因为一些原因，直接 Map.get 会出现歌词匹配速度不太对的问题... 
+     * 本方法虽然没有原来的好看，但准度提高并且几乎不会影响服务器
+     */
+    public LyricItemObj findLrcObj(Map<Integer, LyricItemObj> map, int time) {
+        Set set = map.entrySet();
+        LyricItemObj latestObj = new LyricItemObj("", "");
+        for (Iterator iter = set.iterator(); iter.hasNext();) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            int key = (int) entry.getKey();
+            if (time == key)
+                return (LyricItemObj) entry.getValue();
+            else if (time < key) {
+                return latestObj;
+            } else {
+                latestObj = (LyricItemObj) entry.getValue();
+            }
+        }
+        return latestObj;
+    }
+
     public boolean checkTime(int playNow, boolean ktv) {
         if (lyric == null)
             return false;
 
         boolean res = false;
-        LyricItemObj temp = lyric.get(playNow);
+        LyricItemObj temp = findLrcObj(lyric, playNow);
         if (temp != null) {
             now = temp;
             lly = now.lyric;
