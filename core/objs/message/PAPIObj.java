@@ -7,7 +7,7 @@ public class PAPIObj {
         return NoMusic == null;
     }
 
-    public void init(){
+    public void init() {
         NoMusic = "没有播放的音乐";
     }
 

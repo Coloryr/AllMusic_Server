@@ -15,7 +15,7 @@ public class PageObj {
         return res;
     }
 
-    public void init(){
+    public void init() {
         Choice = "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl%";
         Next = "§e[§n点我下一页§r§e]";
         Last = "§e[§n点我上一页§r§e]";

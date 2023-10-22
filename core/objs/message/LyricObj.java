@@ -19,7 +19,7 @@ public class LyricObj {
         return Empty3 == null;
     }
 
-    public void init(){
+    public void init() {
         Data = "%Lyric%";
         TData = "%Lyric%(%TLyric%)";
         Empty1 = "没有歌词";

@@ -31,7 +31,7 @@ public class SearchObj {
         return StartSearch == null;
     }
 
-    public void init(){
+    public void init() {
         StartSearch = "§d[AllMusic]§e正在排队搜歌";
         NoPer = "§d[AllMusic]§c你没有权限搜歌";
         CantSearch = "§d[AllMusic]§c无法搜索歌曲：%Music%";

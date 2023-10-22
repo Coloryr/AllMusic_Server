@@ -85,7 +85,7 @@ public class MessageObj {
         return saveConfig;
     }
 
-    public void init(){
+    public void init() {
         MusicPlay = MusicPlayObj.make();
         AddMusic = AddMusicObj.make();
         Page = PageObj.make();

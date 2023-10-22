@@ -1,7 +1,7 @@
 package coloryr.allmusic.side.bukkit;
 
-import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.AllMusicBukkit;
+import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.core.music.play.PlayMusic;
 import coloryr.allmusic.core.music.play.TopLyricSave;
 import coloryr.allmusic.core.objs.music.TopSongInfoObj;

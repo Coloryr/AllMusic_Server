@@ -43,7 +43,7 @@ public class HelpNormalObj {
         return Hud5 == null;
     }
 
-    public void init(){
+    public void init() {
         Head = "§d[AllMusic]§e帮助手册";
         Base = "§d[AllMusic]§e使用/music [音乐ID] 来点歌";
         Stop = "§d[AllMusic]§e使用/music stop 停止播放歌曲";

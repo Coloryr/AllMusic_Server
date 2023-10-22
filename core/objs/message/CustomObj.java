@@ -7,7 +7,7 @@ public class CustomObj {
         return Info == null;
     }
 
-    public void init(){
+    public void init() {
         Info = "自定义音乐";
     }
 

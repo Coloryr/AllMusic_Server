@@ -43,7 +43,7 @@ public class HudObj {
         return Ktv == null;
     }
 
-    public void init(){
+    public void init() {
         State = "§d[AllMusic]§e设置信息位置：%Hud%，状态：%State%";
         Set = "§d[AllMusic]§e已设置%Hud%的坐标为%x%, %y%";
         Reset = "§d[AllMusic]§eHud恢复至默认位置";

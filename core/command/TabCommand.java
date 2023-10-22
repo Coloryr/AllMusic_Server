@@ -86,8 +86,7 @@ public class TabCommand {
             if ("hud".equalsIgnoreCase(arg[0]) &&
                     "enable".equalsIgnoreCase(arg[1])) {
                 arguments.addAll(hudlist);
-            }
-            else if ("hud".equalsIgnoreCase(arg[0])) {
+            } else if ("hud".equalsIgnoreCase(arg[0])) {
                 arguments.addAll(hud);
             }
         } else if (arg.length == 3) {

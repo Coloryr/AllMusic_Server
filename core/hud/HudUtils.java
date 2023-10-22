@@ -4,8 +4,8 @@ import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.core.enums.HudPos;
 import coloryr.allmusic.core.music.play.LyricSave;
 import coloryr.allmusic.core.music.play.PlayMusic;
-import coloryr.allmusic.core.objs.hud.PosObj;
 import coloryr.allmusic.core.objs.config.SaveObj;
+import coloryr.allmusic.core.objs.hud.PosObj;
 import coloryr.allmusic.core.objs.music.SongInfoObj;
 import coloryr.allmusic.core.utils.Function;
 import com.google.gson.Gson;
@@ -310,8 +310,9 @@ public class HudUtils {
 
     /**
      * 图片旋转开关
+     *
      * @param player 用户名
-     * @param open 开关
+     * @param open   开关
      * @return 结果
      */
     public static boolean setPicRotate(String player, String open) {
@@ -328,11 +329,12 @@ public class HudUtils {
 
     /**
      * 图片旋转速度设置
+     *
      * @param player 用户名
-     * @param size 大小
+     * @param size   大小
      * @return 结果
      */
-    public static boolean setPicRotateSpeed(String player, String size){
+    public static boolean setPicRotateSpeed(String player, String size) {
         SaveObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().DefaultHud.copy();

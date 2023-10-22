@@ -1,8 +1,8 @@
 package coloryr.allmusic.core.hud;
 
 import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.hud.PosObj;
 import coloryr.allmusic.core.objs.config.SaveObj;
+import coloryr.allmusic.core.objs.hud.PosObj;
 
 import java.io.File;
 import java.sql.Connection;
@@ -115,7 +115,7 @@ public class DataSql {
                     hud.Lyric.x, hud.Lyric.y, hud.EnableLyric ? 1 : 0,
                     hud.List.x, hud.List.y, hud.EnableList ? 1 : 0,
                     hud.Pic.x, hud.Pic.y, hud.EnablePic ? 1 : 0,
-                    hud.PicSize, hud.EnablePicRotate ? 1: 0,
+                    hud.PicSize, hud.EnablePicRotate ? 1 : 0,
                     hud.PicRotateSpeed);
             sql = sql.replace("@name", "'" + name + "'");
             stat.execute(sql);
@@ -150,7 +150,7 @@ public class DataSql {
                         hud.Lyric.x, hud.Lyric.y, hud.EnableLyric ? 1 : 0,
                         hud.List.x, hud.List.y, hud.EnableList ? 1 : 0,
                         hud.Pic.x, hud.Pic.y, hud.EnablePic ? 1 : 0,
-                        hud.PicSize, hud.EnablePicRotate ? 1: 0,
+                        hud.PicSize, hud.EnablePicRotate ? 1 : 0,
                         hud.PicRotateSpeed);
                 sql = sql.replace("@name", "'" + name + "'");
                 stat.execute(sql);

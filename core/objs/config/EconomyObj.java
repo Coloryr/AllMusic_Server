@@ -11,7 +11,7 @@ public class EconomyObj {
         return res;
     }
 
-    public void init(){
+    public void init() {
         Backend = "Server1";
         MysqlUrl = "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true";
         Vault = true;

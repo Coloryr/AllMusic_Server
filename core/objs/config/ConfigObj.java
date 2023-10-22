@@ -3,7 +3,9 @@ package coloryr.allmusic.core.objs.config;
 import coloryr.allmusic.core.AllMusic;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 配置文件对象
@@ -13,6 +15,10 @@ public class ConfigObj {
      * 最大歌曲数
      */
     public int MaxList;
+    /**
+     * 一个玩家最大可点数量
+     */
+    public int PlayerMaxList;
     /**
      * 最小通过投票数
      */
@@ -53,24 +59,27 @@ public class ConfigObj {
     /**
      * 管理员ID列表
      */
-    public List<String> Admin;
+    public Set<String> Admin;
     /**
      * 不参与点歌的服务器列表
      */
-    public List<String> NoMusicServer;
+    public Set<String> NoMusicServer;
     /**
      * 不参与点歌的玩家列表
      */
-    public List<String> NoMusicPlayer;
+    public Set<String> NoMusicPlayer;
     /**
      * 禁止点歌ID列表
      */
-    public List<String> BanMusic;
+    public Set<String> BanMusic;
     /**
      * 空闲歌单列表
      */
     public List<String> PlayList;
-
+    /**
+     * 禁止玩家点歌列表
+     */
+    public Set<String> BanPlayer;
     /**
      * 玩家点歌后是否直接从空闲歌单切换至玩家歌曲
      */
@@ -142,15 +151,18 @@ public class ConfigObj {
      */
     public FunConfigObj FunConfig;
 
-    public void addBanID(String ID) {
-        if (!BanMusic.contains(ID))
-            BanMusic.add(ID);
+    public void addBanMusic(String id) {
+        BanMusic.add(id);
+        AllMusic.saveConfig();
+    }
+
+    public void addBanPlayer(String id) {
+        BanPlayer.add(id);
         AllMusic.saveConfig();
     }
 
     public void AddNoMusicPlayer(String ID) {
-        if (!NoMusicPlayer.contains(ID))
-            NoMusicPlayer.add(ID);
+        NoMusicPlayer.add(ID);
         AllMusic.saveConfig();
     }
 
@@ -167,11 +179,15 @@ public class ConfigObj {
         }
         if (Admin == null) {
             saveConfig = true;
-            Admin = new ArrayList<>();
+            Admin = new HashSet<>();
         }
         if (BanMusic == null) {
             saveConfig = true;
-            BanMusic = new ArrayList<>();
+            BanMusic = new HashSet<>();
+        }
+        if (BanPlayer == null) {
+            saveConfig = true;
+            BanPlayer = new HashSet<>();
         }
         if (DefaultHud == null) {
             saveConfig = true;
@@ -179,11 +195,11 @@ public class ConfigObj {
         }
         if (NoMusicPlayer == null) {
             saveConfig = true;
-            NoMusicPlayer = new ArrayList<>();
+            NoMusicPlayer = new HashSet<>();
         }
         if (NoMusicServer == null) {
             saveConfig = true;
-            NoMusicServer = new ArrayList<>();
+            NoMusicServer = new HashSet<>();
         }
         if (Economy == null || Economy.check()) {
             saveConfig = true;
@@ -198,18 +214,19 @@ public class ConfigObj {
     }
 
     public void init() {
+        PlayerMaxList = 0;
         MaxList = 10;
         MinVote = 3;
         VoteTime = 30;
         Delay = 0;
-        Admin = new ArrayList<String>() {{
-            add("CONSOLE");
-            add("Color_yr");
-        }};
-        NoMusicServer = new ArrayList<>();
-        NoMusicPlayer = new ArrayList<>();
-        BanMusic = new ArrayList<>();
+        Admin = new HashSet<>();
+        Admin.add("CONSOLE");
+        Admin.add("Color_yr");
+        NoMusicServer = new HashSet<>();
+        NoMusicPlayer = new HashSet<>();
+        BanMusic = new HashSet<>();
         PlayList = new ArrayList<>();
+        BanPlayer = new HashSet<>();
         PlayListSwitch = true;
         PlayListRandom = true;
         SendLyric = true;

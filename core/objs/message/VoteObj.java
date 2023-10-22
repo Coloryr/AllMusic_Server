@@ -28,7 +28,7 @@ public class VoteObj {
         return Do == null;
     }
 
-    public void init(){
+    public void init() {
         NoPermission = "§d[AllMusic]§c你没有权限切歌";
         DoVote = "§d[AllMusic]§e已发起切歌投票";
         BQ = "§d[AllMusic]§e%PlayerName%发起了切歌投票，%Time%秒后结束，输入/music vote 同意切歌。";

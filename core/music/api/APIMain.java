@@ -48,7 +48,11 @@ public class APIMain {
         params.addProperty("ctcode", "86");
         params.addProperty("cellphone", AllMusic.getConfig().LoginUser);
         HttpResObj res = HttpClientUtil.post("https://music.163.com/api/sms/captcha/sent", params, EncryptType.WEAPI, null);
-        AllMusic.side.sendMessage(sender, "§d[AllMusic]§d已发送验证码\n" + res.data);
+        if (res != null && res.ok) {
+            AllMusic.side.sendMessage(sender, "§d[AllMusic]§d已发送验证码\n" + res.data);
+        } else {
+            AllMusic.side.sendMessage(sender, "§d[AllMusic]§c验证码发送失败");
+        }
     }
 
     /**
@@ -317,10 +321,10 @@ public class APIMain {
      * @return 结果
      */
     public String getListMusic() {
-        if (!isUpdata && AllMusic.getConfig().PlayList.size() != 0) {
+        if (!isUpdata && !AllMusic.getConfig().PlayList.isEmpty()) {
             String ID;
             if (AllMusic.getConfig().PlayListRandom) {
-                if (AllMusic.getConfig().PlayList.size() == 0)
+                if (AllMusic.getConfig().PlayList.isEmpty())
                     return null;
                 else if (AllMusic.getConfig().PlayList.size() == 1)
                     return AllMusic.getConfig().PlayList.get(0);

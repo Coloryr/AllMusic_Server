@@ -15,7 +15,7 @@ public class ListMusicObj {
         return res;
     }
 
-    public void init(){
+    public void init() {
         Head = "§d[AllMusic]§e队列中有歌曲数：%Count%";
         Item = "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
         Get = "§d[AllMusic]§e歌曲列表%ListName%获取成功";

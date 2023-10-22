@@ -12,7 +12,7 @@ public class FunObj {
         return res;
     }
 
-    public void init(){
+    public void init() {
         Rain = "§d[AllMusic]§e天空开始变得湿润";
     }
 

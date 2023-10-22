@@ -200,6 +200,7 @@ public class PlayMusic {
     public static String getAllList() {
         StringBuilder list = new StringBuilder();
         String a;
+
         SongInfoObj info;
         for (int i = 0; i < playList.size(); i++) {
             info = playList.get(i);
@@ -258,6 +259,21 @@ public class PlayMusic {
             AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
             e.printStackTrace();
         }
+    }
+
+    public static boolean havePlayer(String name) {
+        int list = AllMusic.getConfig().PlayerMaxList;
+        if (list == 0) {
+            return false;
+        }
+        int count = 0;
+        for (MusicObj obj : tasks) {
+            if (obj.name.equalsIgnoreCase(name)) {
+                count++;
+            }
+        }
+
+        return list <= count;
     }
 }
 

@@ -45,7 +45,7 @@ public class MusicPlayObj {
         return res;
     }
 
-    public void init(){
+    public void init() {
         StopPlay = "§d[AllMusic]§e已停止你的音乐播放";
         NoMusic = "§d[AllMusic]§e无正在播放的歌曲";
         Play = "§d[AllMusic]§e正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";

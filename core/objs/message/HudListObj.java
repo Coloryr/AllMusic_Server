@@ -38,7 +38,7 @@ public class HudListObj {
         return null;
     }
 
-    public void init(){
+    public void init() {
         List = "待播放列表";
         Lyric = "歌词";
         Info = "歌曲信息";

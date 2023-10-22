@@ -1,7 +1,7 @@
 package coloryr.allmusic.side.bukkit;
 
-import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.AllMusicBukkit;
+import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.core.hud.HudUtils;
 import coloryr.allmusic.core.objs.config.SaveObj;
 import coloryr.allmusic.core.objs.music.MusicObj;

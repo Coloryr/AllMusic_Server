@@ -2,7 +2,9 @@ package coloryr.allmusic.core.objs.message;
 
 public class AddMusicObj {
     public String ListFull;
+    public String PlayerToMany;
     public String BanMusic;
+    public String PlayerBan;
     public String ExistMusic;
     public String Success;
     public String NoPlayer;
@@ -25,11 +27,17 @@ public class AddMusicObj {
             return true;
         if (Cancel == null)
             return true;
+        if (PlayerToMany == null)
+            return true;
+        if (PlayerBan == null)
+            return true;
         return TimeOut == null;
     }
 
-    public void init(){
+    public void init() {
         ListFull = "§d[AllMusic]§c错误，队列已满";
+        PlayerToMany = "§d[AllMusic]§c错误，你点了太多的歌";
+        PlayerBan = "§d[AllMusic]§c错误，你已被禁止点歌";
         BanMusic = "§d[AllMusic]§c错误，这首歌被禁点了";
         ExistMusic = "§d[AllMusic]§c错误，这首歌已经存在了";
         Success = "§d[AllMusic]§2点歌成功";

@@ -6,10 +6,10 @@ import coloryr.allmusic.core.music.api.APIMain;
 import coloryr.allmusic.core.music.play.MusicSearch;
 import coloryr.allmusic.core.music.play.PlayGo;
 import coloryr.allmusic.core.music.play.PlayMusic;
-import coloryr.allmusic.core.objs.config.ConfigObj;
 import coloryr.allmusic.core.objs.CookieObj;
-import coloryr.allmusic.core.objs.message.MessageObj;
+import coloryr.allmusic.core.objs.config.ConfigObj;
 import coloryr.allmusic.core.objs.config.SaveObj;
+import coloryr.allmusic.core.objs.message.MessageObj;
 import coloryr.allmusic.core.objs.music.SearchPageObj;
 import coloryr.allmusic.core.side.IMyLogger;
 import coloryr.allmusic.core.side.ISide;
@@ -37,15 +37,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "2.18.14";
+    public static final String version = "2.19.0";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "104";
+    public static final String configVersion = "105";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "105";
+    public static final String messageVersion = "106";
     /**
      * 搜歌结果
      * 玩家名 结果

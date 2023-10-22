@@ -16,7 +16,7 @@ public class CostObj {
         return CostFail == null;
     }
 
-    public void init(){
+    public void init() {
         Search = "§d[AllMusic]§e你搜歌花费了%Cost%";
         AddMusic = "§d[ALLMusic]§e你点歌花费了%Cost%";
         NoMoney = "§d[ALLMusic]§c你没有足够的钱";
