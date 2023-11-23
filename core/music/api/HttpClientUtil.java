@@ -103,7 +103,7 @@ public class HttpClientUtil {
             } else if (type == EncryptType.EAPI) {
                 request = request.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 9; PCT-AL10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.64 HuaweiBrowser/10.0.3.311 Mobile Safari/537.36");
                 JsonObject header = new JsonObject();
-                header.addProperty("appver", "8.0.0");
+                header.addProperty("appver", "8.10.90");
                 header.addProperty("versioncode", "140");
                 header.addProperty("buildver", new Date().toString().substring(0, 10));
                 header.addProperty("resolution", "1920x1080");

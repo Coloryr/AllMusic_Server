@@ -219,7 +219,7 @@ public class CommandEX {
             return;
         }
 
-        if (AllMusic.getConfig().Admin.contains(name)) {
+        if (AllMusic.getConfig().Admin.stream().anyMatch(name::equalsIgnoreCase)) {
             command = CommandAdminList.get(args[0]);
             if (command != null) {
                 command.ex(sender, name, args);

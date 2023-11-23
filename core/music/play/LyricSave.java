@@ -2,9 +2,7 @@ package coloryr.allmusic.core.music.play;
 
 import coloryr.allmusic.core.objs.music.LyricItemObj;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class LyricSave {
     public int lastIndex = 0;
