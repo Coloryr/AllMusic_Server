@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "coloryr.allmusic.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "server": [
+
+  ],
+  "mixins": [
+    "IGetCommandOutput",
+    "ServerPlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
