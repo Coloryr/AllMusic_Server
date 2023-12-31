@@ -37,7 +37,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "2.19.1";
+    public static final String version = "2.19.2";
     /**
      * 配置文件版本号
      */
@@ -386,7 +386,7 @@ public class AllMusic {
             messageCheck();
 
             log.info("§d[AllMusic]§e当前语言配置文件版本为：" + messageVersion
-                    + "，你的语言文件版本为：" + config.Version);
+                    + "，你的语言文件版本为：" + message.Version);
 
             if (!message.Version.equalsIgnoreCase(messageVersion)) {
                 log.warning("§d[AllMusic]§c语言文件版本号错误，运行可能会发生问题，请删除后重载");

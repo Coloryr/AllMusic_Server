@@ -130,11 +130,15 @@ public class PlayMusic {
             }
             playList.add(info);
             if (!AllMusic.getConfig().MuteAddMessage) {
-                String data = AllMusic.getMessage().MusicPlay.AddMusic;
-                data = data.replace("%MusicName%", info.getName())
+                String data = AllMusic.getMessage().MusicPlay.AddMusic
+                        .replace("%MusicName%", info.getName())
                         .replace("%MusicAuthor%", info.getAuthor())
                         .replace("%MusicAl%", info.getAl())
                         .replace("%MusicAlia%", info.getAlia());
+                if(AllMusic.getConfig().MessageLimit
+                        && data.length() > AllMusic.getConfig().MessageLimitSize) {
+                    data = data.substring(0, AllMusic.getConfig().MessageLimitSize) + "...";
+                }
                 if (AllMusic.getConfig().ShowInBar) {
                     AllMusic.side.sendBar(data);
                 } else {

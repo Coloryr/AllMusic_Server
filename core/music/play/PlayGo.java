@@ -172,20 +172,24 @@ public class PlayGo {
 
                     if (PlayMusic.nowPlayMusic.getLength() != 0) {
                         PlayMusic.musicAllTime = PlayMusic.musicLessTime = (PlayMusic.nowPlayMusic.getLength() / 1000) + 3;
+                        startTimer();
+                        AllMusic.side.sendMusic(url);
                         if (!AllMusic.getConfig().MutePlayMessage) {
-                            String info = AllMusic.getMessage().MusicPlay.Play;
-                            info = info.replace("%MusicName%", PlayMusic.nowPlayMusic.getName())
+                            String info = AllMusic.getMessage().MusicPlay.Play
+                                    .replace("%MusicName%", PlayMusic.nowPlayMusic.getName())
                                     .replace("%MusicAuthor%", PlayMusic.nowPlayMusic.getAuthor())
                                     .replace("%MusicAl%", PlayMusic.nowPlayMusic.getAl())
                                     .replace("%MusicAlia%", PlayMusic.nowPlayMusic.getAlia())
                                     .replace("%PlayerName%", PlayMusic.nowPlayMusic.getCall());
+                            if(AllMusic.getConfig().MessageLimit
+                                    && info.length() > AllMusic.getConfig().MessageLimitSize) {
+                                info = info.substring(0, AllMusic.getConfig().MessageLimitSize) + "...";
+                            }
                             if (AllMusic.getConfig().ShowInBar)
                                 AllMusic.side.sendBar(info);
                             else
                                 AllMusic.side.bqt(info);
                         }
-                        startTimer();
-                        AllMusic.side.sendMusic(url);
                         if (!PlayMusic.nowPlayMusic.isUrl() && PlayMusic.nowPlayMusic.getPicUrl() != null) {
                             AllMusic.side.sendPic(PlayMusic.nowPlayMusic.getPicUrl());
                         }

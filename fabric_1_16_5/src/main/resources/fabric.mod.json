@@ -29,7 +29,7 @@
 		"fabricloader": ">=0.14.14",
 		"minecraft": "~1.16",
 		"java": ">=16",
-		"fabric-api": "*",
+		"fabric": "*",
 		"fabric-language-kotlin": ">=1.8.10"
 	},
 	"suggests": {

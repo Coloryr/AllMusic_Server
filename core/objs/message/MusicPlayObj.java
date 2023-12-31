@@ -48,7 +48,7 @@ public class MusicPlayObj {
     public void init() {
         StopPlay = "§d[AllMusic]§e已停止你的音乐播放";
         NoMusic = "§d[AllMusic]§e无正在播放的歌曲";
-        Play = "§d[AllMusic]§e正在播放：%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
+        Play = "§d[AllMusic]§e正在播放：%MusicName% | %MusicAuthor% by:%PlayerName%";
         NoPlay = "§d[AllMusic]§e队列中无歌曲";
         ListMusic = ListMusicObj.make();
         NoCanPlay = "§d[AllMusic]§c无法播放歌曲%MusicID%可能该歌曲为VIP歌曲";
