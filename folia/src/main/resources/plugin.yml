@@ -1,10 +1,10 @@
 name: AllMusic
 main: coloryr.allmusic.AllMusicFolia
 author: Color_yr
-version: 2.18.14
+version: 2.19.2
 folia-supported: true
 softdepend: [PlaceholderAPI, Vault, Essentials, CMI]
-api-version: 1.19
+api-version: 1.13
 
 commands:
   music:
