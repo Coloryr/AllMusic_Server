@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import java.nio.file.Path;
 
 @Plugin(id = "allmusic", name = "AllMusic", version = AllMusic.version,
-        url = "https://github.com/Coloryr/AllMusic_P", description = "全服点歌插件", authors = {"Color_yr"})
+        url = "https://github.com/Coloryr/AllMusic_Server", description = "全服点歌插件", authors = {"Color_yr"})
 public class AllMusicVelocity {
     public static AllMusicVelocity plugin;
     public static ChannelIdentifier channel;

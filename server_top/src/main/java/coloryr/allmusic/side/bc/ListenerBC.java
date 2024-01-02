@@ -4,9 +4,7 @@ import coloryr.allmusic.core.AllMusic;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import net.md_5.bungee.api.connection.Server;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PluginMessageEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -19,6 +17,28 @@ public class ListenerBC implements Listener {
     @EventHandler
     public void onLoginEvent(PostLoginEvent event) {
         AllMusic.joinPlay(event.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void onServerKickEvent(ServerKickEvent event){
+        AllMusic.pauseSend(event.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void onServerSwitchEvent(ServerSwitchEvent event){
+        AllMusic.pauseSend(event.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void onServerConnectEvent(ServerConnectEvent event){
+        AllMusic.pauseSend(event.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void onServerConnectedEvent(ServerConnectedEvent event){
+        AllMusic.side.runTask(()->{
+            AllMusic.resumeSend(event.getPlayer().getName());
+        }, 500);
     }
 
     @EventHandler

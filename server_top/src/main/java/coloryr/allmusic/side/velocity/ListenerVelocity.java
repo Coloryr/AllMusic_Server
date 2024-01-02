@@ -6,6 +6,9 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
+import com.velocitypowered.api.event.player.KickedFromServerEvent;
+import com.velocitypowered.api.event.player.ServerPostConnectEvent;
+import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.ServerConnection;
 
 public class ListenerVelocity {
@@ -16,7 +19,24 @@ public class ListenerVelocity {
 
     @Subscribe
     public void onPostLoginEvent(final PostLoginEvent event) {
-        AllMusic.removeNowPlayPlayer(event.getPlayer().getUsername());
+        AllMusic.joinPlay(event.getPlayer().getUsername());
+    }
+
+    @Subscribe
+    public void onKickedFromServerEvent(KickedFromServerEvent event) {
+        AllMusic.pauseSend(event.getPlayer().getUsername());
+    }
+
+    @Subscribe
+    public void onServerPreConnectEvent(ServerPreConnectEvent event){
+        AllMusic.pauseSend(event.getPlayer().getUsername());
+    }
+
+    @Subscribe
+    public void onServerPostConnectEvent(ServerPostConnectEvent event){
+        AllMusic.side.runTask(()->{
+            AllMusic.resumeSend(event.getPlayer().getUsername());
+        }, 500);
     }
 
     @Subscribe

@@ -167,6 +167,13 @@ public class SideVelocity extends ISide implements IEconomy {
     @Override
     public boolean needPlay() {
         int online = 0;
+        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+            if (player.getCurrentServer().isPresent()) {
+                continue;
+            }
+            if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
+                online++;
+        }
         for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
             if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
                 continue;

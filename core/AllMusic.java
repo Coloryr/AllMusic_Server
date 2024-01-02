@@ -37,7 +37,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "2.19.2";
+    public static final String version = "2.19.3";
     /**
      * 配置文件版本号
      */
@@ -54,11 +54,15 @@ public class AllMusic {
     /**
      * 投票的玩家
      */
-    private static final List<String> votePlayer = new ArrayList<>();
+    private static final Set<String> votePlayer = new HashSet<>();
     /**
      * 正在播放的玩家
      */
-    private static final List<String> nowPlayPlayer = new ArrayList<>();
+    private static final Set<String> nowPlayPlayer = new HashSet<>();
+    /**
+     * 暂时不往玩家发送数据包
+     */
+    private static final Set<String> pauseSendPlayer = new HashSet<>();
     /**
      * 日志
      */
@@ -140,6 +144,8 @@ public class AllMusic {
                 return true;
             if (AllMusic.getConfig().NoMusicPlayer.contains(name))
                 return true;
+            if(AllMusic.isPause(name))
+                return true;
             if (!checkList)
                 return false;
             return AllMusic.containNowPlay(name);
@@ -219,8 +225,7 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void addVote(String player) {
-        if (!votePlayer.contains(player))
-            votePlayer.add(player);
+        votePlayer.add(player);
     }
 
     /**
@@ -255,8 +260,7 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void addNowPlayPlayer(String player) {
-        if (!nowPlayPlayer.contains(player))
-            nowPlayPlayer.add(player);
+        nowPlayPlayer.add(player);
     }
 
     /**
@@ -266,6 +270,7 @@ public class AllMusic {
      */
     public static void removeNowPlayPlayer(String player) {
         nowPlayPlayer.remove(player);
+        pauseSendPlayer.remove(player);
     }
 
     /**
@@ -420,7 +425,8 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void joinPlay(String player) {
-        if (getConfig().NoMusicPlayer.contains(player))
+        if (getConfig().NoMusicPlayer.contains(player)
+                || nowPlayPlayer.contains(player) || pauseSendPlayer.contains(player))
             return;
 
         AllMusic.side.runTask(() -> {
@@ -437,6 +443,31 @@ public class AllMusic {
                         AllMusic.side.sendPos(player, PlayMusic.musicNowTime + 1000), 40);
             }
         }, 40);
+    }
+
+    /**
+     * 将玩家添加到暂停发送列表
+     * @param player 玩家名
+     */
+    public static void pauseSend(String player) {
+        pauseSendPlayer.add(player);
+    }
+
+    /**
+     * 继续向玩家发送数据包
+     * @param player 玩家名
+     */
+    public static void resumeSend(String player){
+        pauseSendPlayer.remove(player);
+    }
+
+    /**
+     * 暂停发送列表中是否存在玩家
+     * @param player 玩家名
+     * @return 是否存在
+     */
+    public static boolean isPause(String player){
+        return pauseSendPlayer.contains(player);
     }
 
     /**
