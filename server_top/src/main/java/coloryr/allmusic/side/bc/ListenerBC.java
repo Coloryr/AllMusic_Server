@@ -15,12 +15,6 @@ public class ListenerBC implements Listener {
     }
 
     @EventHandler
-    public void onLoginEvent(PostLoginEvent event) {
-        AllMusic.pauseSend(event.getPlayer().getName());
-        AllMusic.joinPlay(event.getPlayer().getName());
-    }
-
-    @EventHandler
     public void onServerKickEvent(ServerKickEvent event){
         AllMusic.pauseSend(event.getPlayer().getName());
     }
@@ -38,7 +32,7 @@ public class ListenerBC implements Listener {
     @EventHandler
     public void onServerConnectedEvent(ServerConnectedEvent event){
         AllMusic.side.runTask(()->{
-            AllMusic.resumeSend(event.getPlayer().getName());
+            AllMusic.joinPlay(event.getPlayer().getName());
         }, 500);
     }
 

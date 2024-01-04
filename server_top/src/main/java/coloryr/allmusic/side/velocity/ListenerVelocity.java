@@ -18,12 +18,6 @@ public class ListenerVelocity {
     }
 
     @Subscribe
-    public void onPostLoginEvent(final PostLoginEvent event) {
-        AllMusic.pauseSend(event.getPlayer().getUsername());
-        AllMusic.joinPlay(event.getPlayer().getUsername());
-    }
-
-    @Subscribe
     public void onKickedFromServerEvent(KickedFromServerEvent event) {
         AllMusic.pauseSend(event.getPlayer().getUsername());
     }
@@ -36,7 +30,7 @@ public class ListenerVelocity {
     @Subscribe
     public void onServerPostConnectEvent(ServerPostConnectEvent event){
         AllMusic.side.runTask(()->{
-            AllMusic.resumeSend(event.getPlayer().getUsername());
+            AllMusic.joinPlay(event.getPlayer().getUsername());
         }, 500);
     }
 

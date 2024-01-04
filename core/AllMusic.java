@@ -425,9 +425,10 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void joinPlay(String player) {
-        if (getConfig().NoMusicPlayer.contains(player)
-                || nowPlayPlayer.contains(player) || pauseSendPlayer.contains(player))
+        if (getConfig().NoMusicPlayer.contains(player) || nowPlayPlayer.contains(player)) {
+            pauseSendPlayer.remove(player);
             return;
+        }
 
         AllMusic.side.runTask(() -> {
             if (PlayMusic.nowPlayMusic != null) {
@@ -442,6 +443,8 @@ public class AllMusic {
                 AllMusic.side.runTask(() ->
                         AllMusic.side.sendPos(player, PlayMusic.musicNowTime + 1000), 40);
             }
+
+            pauseSendPlayer.remove(player);
         }, 40);
     }
 
@@ -451,14 +454,6 @@ public class AllMusic {
      */
     public static void pauseSend(String player) {
         pauseSendPlayer.add(player);
-    }
-
-    /**
-     * 继续向玩家发送数据包
-     * @param player 玩家名
-     */
-    public static void resumeSend(String player){
-        pauseSendPlayer.remove(player);
     }
 
     /**
