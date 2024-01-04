@@ -16,6 +16,7 @@ public class ListenerBC implements Listener {
 
     @EventHandler
     public void onLoginEvent(PostLoginEvent event) {
+        AllMusic.pauseSend(event.getPlayer().getName());
         AllMusic.joinPlay(event.getPlayer().getName());
     }
 

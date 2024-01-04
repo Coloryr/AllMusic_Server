@@ -19,6 +19,7 @@ public class ListenerVelocity {
 
     @Subscribe
     public void onPostLoginEvent(final PostLoginEvent event) {
+        AllMusic.pauseSend(event.getPlayer().getUsername());
         AllMusic.joinPlay(event.getPlayer().getUsername());
     }
 
