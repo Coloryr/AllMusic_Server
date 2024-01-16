@@ -1,7 +1,7 @@
 package coloryr.allmusic.side.velocity;
 
-import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.AllMusicVelocity;
+import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.core.hud.HudUtils;
 import coloryr.allmusic.core.music.play.PlayMusic;
 import coloryr.allmusic.core.objs.config.SaveObj;
@@ -203,7 +203,6 @@ public class SideVelocity extends ISide implements IEconomy {
             if (!player.isPresent())
                 return;
             send(player.get(), ComType.stop);
-            AllMusic.removeNowPlayPlayer(player.get().getUsername());
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();

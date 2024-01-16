@@ -7,7 +7,7 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
 }
 
-version = '2.19.0'
+version = '2.19.4'
 group = 'coloryr.allmusic' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = '[Forge1.19.2]AllMusic_Server'
 

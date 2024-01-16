@@ -15,23 +15,28 @@ public class ListenerBC implements Listener {
     }
 
     @EventHandler
-    public void onServerKickEvent(ServerKickEvent event){
+    public void onLoginEvent(PostLoginEvent event) {
         AllMusic.pauseSend(event.getPlayer().getName());
     }
 
     @EventHandler
-    public void onServerSwitchEvent(ServerSwitchEvent event){
+    public void onServerKickEvent(ServerKickEvent event) {
         AllMusic.pauseSend(event.getPlayer().getName());
     }
 
     @EventHandler
-    public void onServerConnectEvent(ServerConnectEvent event){
+    public void onServerSwitchEvent(ServerSwitchEvent event) {
         AllMusic.pauseSend(event.getPlayer().getName());
     }
 
     @EventHandler
-    public void onServerConnectedEvent(ServerConnectedEvent event){
-        AllMusic.side.runTask(()->{
+    public void onServerConnectEvent(ServerConnectEvent event) {
+        AllMusic.pauseSend(event.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void onServerConnectedEvent(ServerConnectedEvent event) {
+        AllMusic.side.runTask(() -> {
             AllMusic.joinPlay(event.getPlayer().getName());
         }, 500);
     }

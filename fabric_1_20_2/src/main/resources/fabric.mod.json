@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "allmusic_server",
-  "version": "2.19.1",
+  "version": "${version}",
 
   "name": "AllMusic Server",
   "description": "AllMusic Server Mod",

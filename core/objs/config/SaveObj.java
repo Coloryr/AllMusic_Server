@@ -58,7 +58,7 @@ public class SaveObj {
         EnableInfo = true;
         EnablePic = true;
         EnablePicRotate = true;
-        PicRotateSpeed = 10;
+        PicRotateSpeed = 30;
         List = new PosObj(2, 74);
         Lyric = new PosObj(74, 53);
         Info = new PosObj(74, 2);

@@ -1,7 +1,7 @@
 package coloryr.allmusic.side.bc;
 
-import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.AllMusicBC;
+import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.core.hud.HudUtils;
 import coloryr.allmusic.core.music.play.PlayMusic;
 import coloryr.allmusic.core.objs.config.SaveObj;
@@ -294,7 +294,7 @@ public class SideBC extends ISide implements IEconomy {
                 return;
             if (ok(player1))
                 return;
-            send(ComType.pos + pos ,player);
+            send(ComType.pos + pos, player);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");
             e.printStackTrace();

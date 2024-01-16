@@ -1,7 +1,7 @@
 name: AllMusic
 main: coloryr.allmusic.AllMusicBukkit
 author: Color_yr
-version: 2.19.2
+version: 2.19.4
 softdepend: [PlaceholderAPI, Vault, Essentials, CMI]
 api-version: 1.13
 
