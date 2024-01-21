@@ -6,7 +6,7 @@
 
 注：需要配合[客户端Mod](https://github.com/Coloryr/AllMusic_Client)使用
 
-[下载地址](https://www.aliyundrive.com/s/fKHnLh1N5nC)
+[下载地址](https://www.123pan.com/s/Nh4zVv-BjOAH.html)
 
 支持的服务器
 - LoliServer
