@@ -1,62 +1,70 @@
 package coloryr.allmusic.core.objs.message;
 
 public class HudObj {
-    public String State;
-    public String Set;
-    public String Reset;
-    public String NoMusic;
-    public String NoList;
-    public String NoLyric;
-    public String PicSize;
-    public String PicRotate;
-    public String PicRotateSpeed;
-    public String Music;
-    public String Lyric;
-    public String List;
-    public String Ktv;
+    public String state;
+    public String set;
+    public String set1;
+    public String set2;
+    public String reset;
+    public String emptyMusic;
+    public String emptyList;
+    public String emptyLyric;
+    public String picSize;
+    public String picRotate;
+    public String picSpeed;
+    public String music;
+    public String lyric;
+    public String list;
+    public String ktv;
 
     public boolean check() {
-        if (State == null)
+        if (state == null)
             return true;
-        if (Set == null)
+        if (set == null)
             return true;
-        if (Reset == null)
+        if (set1 == null)
             return true;
-        if (NoMusic == null)
+        if (set2 == null)
             return true;
-        if (NoList == null)
+        if (reset == null)
             return true;
-        if (NoLyric == null)
+        if (emptyMusic == null)
             return true;
-        if (PicSize == null)
+        if (emptyList == null)
             return true;
-        if (Music == null)
+        if (emptyLyric == null)
             return true;
-        if (Lyric == null)
+        if (picSize == null)
             return true;
-        if (List == null)
+        if (music == null)
             return true;
-        if (PicRotate == null)
+        if (lyric == null)
             return true;
-        if (PicRotateSpeed == null)
+        if (list == null)
             return true;
-        return Ktv == null;
+        if (picRotate == null)
+            return true;
+        if (picSpeed == null)
+            return true;
+        return ktv == null;
     }
 
     public void init() {
-        State = "§d[AllMusic]§e设置信息位置：%Hud%，状态：%State%";
-        Set = "§d[AllMusic]§e已设置%Hud%的坐标为%x%, %y%";
-        Reset = "§d[AllMusic]§eHud恢复至默认位置";
-        NoMusic = "没有播放的音乐";
-        NoList = "队列中无歌曲";
-        NoLyric = "无歌词";
-        PicSize = "§d[AllMusic]§e设置图片尺寸为%Size%";
-        PicRotate = "§d[AllMusic]§e设置图片旋转为%State%";
-        PicRotateSpeed = "§d[AllMusic]§e设置图片旋转速度为%Size%";
-        Music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
-        Lyric = "%Lyric%\n%Tlyric%";
-        Ktv = "§e%KLyric%§f%Lyric%§r\n%Tlyric%";
-        List = "播放列表里面有%Size%首歌\n%List%";
+        state = "§d[AllMusic3]§e设置信息位置：%Hud%，状态：%State%";
+        set = "§d[AllMusic3]§e已设置[%Hud%]的坐标为[%x%, %y%]";
+        set1 = "§d[AllMusic3]§e已设置[%Hud%]的对齐方式为[%Dir%]";
+        set2 = "§d[AllMusic3]§e已设置[%Hud%]的颜色为[%Color%]";
+        reset = "§d[AllMusic3]§e界面[%Hud%]恢复至默认位置";
+        emptyMusic = "没有播放的音乐";
+        emptyList = "队列中无歌曲";
+        emptyLyric = "无歌词";
+        picSize = "§d[AllMusic3]§e设置图片尺寸为%Size%";
+        picRotate = "§d[AllMusic3]§e设置图片旋转为%State%";
+        picSpeed = "§d[AllMusic3]§e设置图片旋转速度为%Size%";
+        music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
+        lyric = "%Lyric%\n%Tlyric%";
+        ktv = "§e%KLyric%§f%Lyric%§r\n%Tlyric%";
+        list = "播放列表里面有%Size%首歌\n%List%";
     }
 
     public static HudObj make() {

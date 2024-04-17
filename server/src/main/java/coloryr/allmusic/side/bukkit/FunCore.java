@@ -10,8 +10,8 @@ public class FunCore {
     private static final Random random = new Random();
 
     public static void addMusic() {
-        if (AllMusic.getConfig().FunConfig.Rain) {
-            int rate = AllMusic.getConfig().FunConfig.RainRate;
+        if (AllMusic.getConfig().funConfig.rain) {
+            int rate = AllMusic.getConfig().funConfig.rainRate;
             boolean rain;
             if (rate <= 1) {
                 rain = true;
@@ -22,7 +22,7 @@ public class FunCore {
                 for (World item : Bukkit.getWorlds()) {
                     item.setStorm(true);
                 }
-                AllMusic.side.bq(AllMusic.getMessage().Fun.Rain);
+                AllMusic.side.bq(AllMusic.getMessage().fun.rain);
             }
         }
     }

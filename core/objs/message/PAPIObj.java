@@ -1,14 +1,14 @@
 package coloryr.allmusic.core.objs.message;
 
 public class PAPIObj {
-    public String NoMusic;
+    public String emptyMusic;
 
     public boolean check() {
-        return NoMusic == null;
+        return emptyMusic == null;
     }
 
     public void init() {
-        NoMusic = "没有播放的音乐";
+        emptyMusic = "没有播放的音乐";
     }
 
     public static PAPIObj make() {

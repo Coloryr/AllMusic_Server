@@ -1,11 +1,11 @@
-name: AllMusic
+name: AllMusic3
 main: coloryr.allmusic.AllMusicBukkit
 author: Color_yr
-version: 2.19.4
+version: 3.0.0
 softdepend: [PlaceholderAPI, Vault, Essentials, CMI]
 api-version: 1.13
 
 commands:
   music:
-    description: AllMusic
-    usage: §4[AllMusic]§6/music help
+    description: AllMusic3
+    usage: §4[AllMusic3]§6/music help

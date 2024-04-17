@@ -1,12 +1,12 @@
 package coloryr.allmusic.core.objs.config;
 
 public class FunConfigObj {
-    public boolean Rain;
-    public int RainRate;
+    public boolean rain;
+    public int rainRate;
 
     public void init() {
-        Rain = true;
-        RainRate = 10;
+        rain = true;
+        rainRate = 10;
     }
 
     public static FunConfigObj make() {

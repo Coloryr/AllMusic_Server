@@ -1,18 +1,18 @@
 package coloryr.allmusic.core.objs.message;
 
 public class CommandObj {
-    public String Error;
-    public String NoPer;
+    public String error;
+    public String noPer;
 
     public boolean check() {
-        if (Error == null)
+        if (error == null)
             return true;
-        return NoPer == null;
+        return noPer == null;
     }
 
     public void init() {
-        Error = "§d[AllMusic]§c参数错误，请输入/music help获取帮助";
-        NoPer = "§d[AllMusic]§c你没有权限点歌";
+        error = "§d[AllMusic3]§c参数错误，请输入/music help获取帮助";
+        noPer = "§d[AllMusic3]§c你没有权限执行这个操作";
     }
 
     public static CommandObj make() {

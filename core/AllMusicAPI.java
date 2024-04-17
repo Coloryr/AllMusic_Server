@@ -1,7 +1,7 @@
 package coloryr.allmusic.core;
 
-import coloryr.allmusic.core.enums.HudPos;
-import coloryr.allmusic.core.side.ComType;
+import coloryr.allmusic.core.objs.enums.HudType;
+import coloryr.allmusic.core.objs.enums.ComType;
 
 public class AllMusicAPI {
     /**
@@ -11,7 +11,7 @@ public class AllMusicAPI {
      * @param url  链接
      */
     public static void playMusic(String name, String url) {
-        AllMusic.side.send(name, ComType.play + url);
+        AllMusic.side.sendMusic(name, url);
     }
 
     /**
@@ -21,11 +21,8 @@ public class AllMusicAPI {
      * @param pos  位置
      * @param data 数据
      */
-    public static void sendHud(String name, HudPos pos, String data) {
-        String temp = getType(pos);
-        if (temp == null)
-            return;
-        AllMusic.side.send(name, temp + data);
+    public static void sendHud(String name, HudType pos, String data) {
+        AllMusic.side.sendHud(name, pos, data);
     }
 
     /**
@@ -35,7 +32,7 @@ public class AllMusicAPI {
      * @param url  图片地址
      */
     public static void sendPic(String name, String url) {
-        AllMusic.side.send(name, ComType.img + url);
+        AllMusic.side.sendPic(name, url);
     }
 
     /**
@@ -53,14 +50,14 @@ public class AllMusicAPI {
      * @param pos 位置
      * @return 字符串
      */
-    private static String getType(HudPos pos) {
+    private static ComType getType(HudType pos) {
         switch (pos) {
-            case info:
-                return ComType.info;
-            case lyric:
-                return ComType.lyric;
-            case list:
-                return ComType.list;
+            case INFO:
+                return ComType.INFO;
+            case LYRIC:
+                return ComType.LYRIC;
+            case LIST:
+                return ComType.LIST;
         }
 
         return null;

@@ -114,8 +114,8 @@ public class LyricDo {
                 milt /= 10;
             }
             time = Integer.parseInt(min) * 60 * 1000 + Integer.parseInt(sec) * 1000 + milt * 10;
-            if (time > 0 && time + AllMusic.getConfig().Delay > 0)
-                time += AllMusic.getConfig().Delay / 10 * 10;
+            if (time > 0 && time + AllMusic.getConfig().lyricDelay > 0)
+                time += AllMusic.getConfig().lyricDelay / 10 * 10;
             res.put(time, Function.getString(s, "]", null));
         }
         return res;
@@ -147,8 +147,8 @@ public class LyricDo {
             int temp5;
             if (yrc) {
                 temp5 = (Integer.parseInt(temp8[0]) / 10 * 10);
-                if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
-                    temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
+                if (temp5 > 0 && temp5 + AllMusic.getConfig().ktvLyricDelay > 0)
+                    temp5 += (AllMusic.getConfig().ktvLyricDelay / 10 * 10);
                 res.put(temp5, data);
             } else {
                 try {
@@ -159,8 +159,8 @@ public class LyricDo {
                     return null;
                 }
 
-                if (temp5 > 0 && temp5 + AllMusic.getConfig().KDelay > 0)
-                    temp5 += (AllMusic.getConfig().KDelay / 10 * 10);
+                if (temp5 > 0 && temp5 + AllMusic.getConfig().ktvLyricDelay > 0)
+                    temp5 += (AllMusic.getConfig().ktvLyricDelay / 10 * 10);
                 res.put(now, data);
                 now += temp5;
             }

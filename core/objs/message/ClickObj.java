@@ -1,18 +1,18 @@
 package coloryr.allmusic.core.objs.message;
 
 public class ClickObj {
-    public String This;
-    public String Check;
+    public String clickRun;
+    public String clickCheck;
 
     public boolean check() {
-        if (This == null)
+        if (clickRun == null)
             return true;
-        return Check == null;
+        return clickCheck == null;
     }
 
     public void init() {
-        This = "§b[§n点我选择§r§b]";
-        Check = "§b[§n点我查看§r§b]";
+        clickRun = "§b[§n点我选择§r§b]";
+        clickCheck = "§b[§n点我查看§r§b]";
     }
 
     public static ClickObj make() {

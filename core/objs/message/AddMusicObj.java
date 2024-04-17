@@ -1,50 +1,50 @@
 package coloryr.allmusic.core.objs.message;
 
 public class AddMusicObj {
-    public String ListFull;
-    public String PlayerToMany;
-    public String BanMusic;
-    public String PlayerBan;
-    public String ExistMusic;
-    public String Success;
-    public String NoPlayer;
-    public String NoID;
-    public String Cancel;
-    public String TimeOut;
+    public String listFull;
+    public String playerToMany;
+    public String banMusic;
+    public String playerBan;
+    public String existMusic;
+    public String success;
+    public String noPlayer;
+    public String noID;
+    public String cancel;
+    public String timeOut;
 
     public boolean check() {
-        if (ListFull == null)
+        if (listFull == null)
             return true;
-        if (BanMusic == null)
+        if (banMusic == null)
             return true;
-        if (ExistMusic == null)
+        if (existMusic == null)
             return true;
-        if (Success == null)
+        if (success == null)
             return true;
-        if (NoPlayer == null)
+        if (noPlayer == null)
             return true;
-        if (NoID == null)
+        if (noID == null)
             return true;
-        if (Cancel == null)
+        if (cancel == null)
             return true;
-        if (PlayerToMany == null)
+        if (playerToMany == null)
             return true;
-        if (PlayerBan == null)
+        if (playerBan == null)
             return true;
-        return TimeOut == null;
+        return timeOut == null;
     }
 
     public void init() {
-        ListFull = "§d[AllMusic]§c错误，队列已满";
-        PlayerToMany = "§d[AllMusic]§c错误，你点了太多的歌";
-        PlayerBan = "§d[AllMusic]§c错误，你已被禁止点歌";
-        BanMusic = "§d[AllMusic]§c错误，这首歌被禁点了";
-        ExistMusic = "§d[AllMusic]§c错误，这首歌已经存在了";
-        Success = "§d[AllMusic]§2点歌成功";
-        NoPlayer = "§d[AllMusic]§c没有播放的玩家";
-        NoID = "§d[AllMusic]§c错误，请输入歌曲数字ID";
-        Cancel = "§d[AllMusic]§e点歌被取消";
-        TimeOut = "§d[AllMusic]§e点歌被取消，音乐长度过长";
+        listFull = "§d[AllMusic3]§c错误，队列已满";
+        playerToMany = "§d[AllMusic3]§c错误，你点了太多的歌";
+        playerBan = "§d[AllMusic3]§c错误，你已被禁止点歌";
+        banMusic = "§d[AllMusic3]§c错误，这首歌被禁点了";
+        existMusic = "§d[AllMusic3]§c错误，这首歌已经存在了";
+        success = "§d[AllMusic3]§2点歌成功";
+        noPlayer = "§d[AllMusic3]§c没有播放的玩家";
+        noID = "§d[AllMusic3]§c错误，请输入歌曲数字ID";
+        cancel = "§d[AllMusic3]§e点歌被取消";
+        timeOut = "§d[AllMusic3]§e点歌被取消，音乐长度过长";
     }
 
     public static AddMusicObj make() {

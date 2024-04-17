@@ -5,6 +5,7 @@ import coloryr.allmusic.core.decoder.Bitstream;
 import coloryr.allmusic.core.decoder.Header;
 import coloryr.allmusic.core.objs.music.MusicObj;
 import coloryr.allmusic.core.objs.music.SongInfoObj;
+import coloryr.allmusic.core.sql.DataSql;
 import coloryr.allmusic.core.utils.Logs;
 
 import java.io.BufferedInputStream;
@@ -13,20 +14,24 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PlayMusic {
 
     /**
      * 播放列表
      */
-    private static final List<SongInfoObj> playList = new CopyOnWriteArrayList<>();
+    private static final List<SongInfoObj> playList = new ArrayList<>();
     private static final Queue<MusicObj> tasks = new ConcurrentLinkedQueue<>();
+    private static final List<String> playIdleList = new ArrayList<>();
     /**
      * 投票时间
      */
     public static int voteTime = 0;
+    public static String voteSender;
+    public static int pushTime = 0;
+    public static String pushSender;
     /**
      * 总歌曲长度
      */
@@ -52,6 +57,9 @@ public class PlayMusic {
      */
     public static int error;
     private static boolean isRun;
+    private static int idleNow;
+
+    public static SongInfoObj push;
 
     /**
      * 停止歌曲逻辑
@@ -107,10 +115,10 @@ public class PlayMusic {
      * @param isList 是否是空闲歌单
      */
     public static void addMusic(Object sender, String id, String player, boolean isList) {
-        if (isHave(id))
+        if (haveMusic(id))
             return;
         if (sender != null) {
-            String text = AllMusic.getMessage().MusicPlay.CheckMusic;
+            String text = AllMusic.getMessage().musicPlay.checkMusic;
             text = text.replace("%MusicID%", id);
             AllMusic.side.sendMessaget(sender, text);
         }
@@ -119,45 +127,56 @@ public class PlayMusic {
             SongInfoObj info = AllMusic.getMusicApi().getMusic(id, player, isList);
             if (info == null) {
                 if (sender != null) {
-                    String data = AllMusic.getMessage().MusicPlay.NoCanPlay;
+                    String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
                     AllMusic.side.sendMessaget(sender, data.replace("%MusicID%", id));
                 }
                 return;
             }
-            if (info.getLength() / 1000 > AllMusic.getConfig().MaxMusicTime) {
-                AllMusic.side.sendMessaget(sender, AllMusic.getMessage().AddMusic.TimeOut);
+            if (info.getLength() / 1000 > AllMusic.getConfig().maxMusicTime) {
+                AllMusic.side.sendMessaget(sender, AllMusic.getMessage().addMusic.timeOut);
                 return;
             }
             playList.add(info);
-            if (!AllMusic.getConfig().MuteAddMessage) {
-                String data = AllMusic.getMessage().MusicPlay.AddMusic
+            if (!AllMusic.getConfig().muteAddMessage) {
+                String data = AllMusic.getMessage().musicPlay.addMusic
                         .replace("%MusicName%", info.getName())
                         .replace("%MusicAuthor%", info.getAuthor())
                         .replace("%MusicAl%", info.getAl())
                         .replace("%MusicAlia%", info.getAlia());
-                if(AllMusic.getConfig().MessageLimit
-                        && data.length() > AllMusic.getConfig().MessageLimitSize) {
-                    data = data.substring(0, AllMusic.getConfig().MessageLimitSize) + "...";
+                if (AllMusic.getConfig().messageLimit
+                        && data.length() > AllMusic.getConfig().messageLimitSize) {
+                    data = data.substring(0, AllMusic.getConfig().messageLimitSize) + "...";
                 }
-                if (AllMusic.getConfig().ShowInBar) {
+                if (AllMusic.getConfig().showInBar) {
                     AllMusic.side.sendBar(data);
                 } else {
                     AllMusic.side.bqt(data);
                 }
             }
-            if (AllMusic.getConfig().PlayListSwitch
+            if (AllMusic.getConfig().playListSwitch
                     && (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList())) {
                 PlayMusic.musicLessTime = 1;
                 if (!isList)
-                    AllMusic.side.bqt(AllMusic.getMessage().MusicPlay.Switch);
+                    AllMusic.side.bqt(AllMusic.getMessage().musicPlay.switchMusic);
             }
             error = 0;
         } catch (Exception e) {
             if (isList) {
                 error++;
             }
-            AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
+            AllMusic.log.warning("§d[AllMusic3]§c歌曲信息解析错误");
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 将歌曲移动到队列头
+     * @param obj
+     */
+    public static void pushMusic(SongInfoObj obj) {
+        synchronized (playList) {
+            playList.remove(obj);
+            playList.add(0, obj);
         }
     }
 
@@ -166,8 +185,10 @@ public class PlayMusic {
      *
      * @return 长度
      */
-    public static int getSize() {
-        return playList.size();
+    public static int getListSize() {
+        synchronized (playList) {
+            return playList.size();
+        }
     }
 
     /**
@@ -176,14 +197,18 @@ public class PlayMusic {
      * @return 播放列表
      */
     public static List<SongInfoObj> getList() {
-        return new ArrayList<>(playList);
+        synchronized (playList) {
+            return new ArrayList<>(playList);
+        }
     }
 
     /**
      * 清理播放列表
      */
     public static void clear() {
-        playList.clear();
+        synchronized (playList) {
+            playList.clear();
+        }
     }
 
     /**
@@ -193,7 +218,19 @@ public class PlayMusic {
      * @return 结果
      */
     public static SongInfoObj remove(int index) {
-        return playList.remove(index);
+        synchronized (playList) {
+            return playList.remove(index);
+        }
+    }
+
+    /**
+     * 从播放列表删除
+     * @param index
+     */
+    public static void remove(SongInfoObj index) {
+        synchronized (playList) {
+            playList.remove(index);
+        }
     }
 
     /**
@@ -208,7 +245,7 @@ public class PlayMusic {
         SongInfoObj info;
         for (int i = 0; i < playList.size(); i++) {
             info = playList.get(i);
-            a = AllMusic.getMessage().MusicPlay.ListMusic.Item;
+            a = AllMusic.getMessage().musicPlay.listMusic.item;
             a = a.replace("%Index%", "" + (i + 1))
                     .replace("%MusicName%", info.getName())
                     .replace("%MusicAuthor%", info.getAuthor())
@@ -228,7 +265,7 @@ public class PlayMusic {
      * @param id 音乐ID
      * @return 结果
      */
-    public static boolean isHave(String id) {
+    public static boolean haveMusic(String id) {
         if (nowPlayMusic != null && nowPlayMusic.getID().equalsIgnoreCase(id))
             return true;
         for (SongInfoObj item : playList) {
@@ -253,20 +290,20 @@ public class PlayMusic {
             Header h = bt.readFrame();
             int le = 6000000;
             if (h == null) {
-                AllMusic.side.bqt("§d[AllMusic]§c未知音乐类型");
+                AllMusic.side.bqt("§d[AllMusic3]§c未知音乐类型");
             } else {
                 le = (int) h.total_ms(b);
             }
-            SongInfoObj info = new SongInfoObj(AllMusic.getMessage().Custom.Info, url, le);
+            SongInfoObj info = new SongInfoObj(AllMusic.getMessage().custom.info, url, le);
             playList.add(info);
         } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲信息解析错误");
+            AllMusic.log.warning("§d[AllMusic3]§c歌曲信息解析错误");
             e.printStackTrace();
         }
     }
 
     public static boolean havePlayer(String name) {
-        int list = AllMusic.getConfig().PlayerMaxList;
+        int list = AllMusic.getConfig().maxPlayerList;
         if (list == 0) {
             return false;
         }
@@ -278,6 +315,71 @@ public class PlayMusic {
         }
 
         return list <= count;
+    }
+
+    public static void addIdleList(List<String> list) {
+        playIdleList.addAll(list);
+    }
+
+    public static void clearIdleList() {
+        playIdleList.clear();
+        DataSql.clearIdleList();
+    }
+
+    public static int getIdleListSize() {
+        return playIdleList.size();
+    }
+
+    /**
+     * 获取空闲歌单的一首歌
+     *
+     * @return 结果
+     */
+    public static String getIdleMusic() {
+        if (AllMusic.getMusicApi().isUpdate()) {
+            return null;
+        }
+        String ID;
+        if (playIdleList.isEmpty())
+            return null;
+        if (AllMusic.getConfig().playListRandom) {
+            if (playIdleList.size() == 1)
+                return playIdleList.get(0);
+            ID = playIdleList.get(new Random().nextInt(playIdleList.size()));
+        } else {
+            ID = playIdleList.get(idleNow);
+            idleNow++;
+            if (idleNow >= playIdleList.size())
+            {
+                idleNow = 0;
+            }
+        }
+        return ID;
+    }
+
+    public static SongInfoObj findPlayerMusic(String name) {
+        List<SongInfoObj> list1 = getList();
+        for (int a = 0; a < playList.size(); a++) {
+            SongInfoObj item = list1.get(a);
+            if (name.equalsIgnoreCase(item.getCall())) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    public static SongInfoObj findMusicIndex(int index) {
+        List<SongInfoObj> list1 = getList();
+        index--;
+        if (index <= 0) {
+            return null;
+        }
+        if (list1.size() <= index) {
+            return null;
+        }
+
+        return list1.get(index);
     }
 }
 

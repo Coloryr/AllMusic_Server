@@ -1,8 +1,11 @@
 package coloryr.allmusic.core.side;
 
 import coloryr.allmusic.core.AllMusic;
+import coloryr.allmusic.core.objs.enums.HudType;
 import coloryr.allmusic.core.objs.music.MusicObj;
 import coloryr.allmusic.core.objs.music.SongInfoObj;
+
+import java.util.List;
 
 public abstract class ISide {
     /**
@@ -47,15 +50,6 @@ public abstract class ISide {
      * @return 结果
      */
     public abstract boolean needPlay();
-
-
-    /**
-     * 发送AllMusic插件信道消息
-     *
-     * @param data   数据
-     * @param player 用户名
-     */
-    public abstract void send(String data, String player);
 
     /**
      * 发送停止指令
@@ -112,7 +106,7 @@ public abstract class ISide {
      * 发送歌曲位置信息
      *
      * @param player 用户名
-     * @param pos    歌曲位置
+     * @param pos    歌曲位置(毫秒)
      */
     public abstract void sendPos(String player, int pos);
 
@@ -129,6 +123,21 @@ public abstract class ISide {
      * @param data 数据
      */
     public abstract void sendHudInfo(String data);
+
+    /**
+     * 发送Hud的位置信息
+     *
+     * @param name 用户名
+     */
+    public abstract void sendHudPos(String name);
+
+    /**
+     * 发送Hud数据
+     * @param name 用户名
+     * @param pos 位置
+     * @param data 信息
+     */
+    public abstract void sendHud(String name, HudType pos, String data);
 
     /**
      * 发送Hud的歌曲列表数据
@@ -167,6 +176,14 @@ public abstract class ISide {
      * @param data 消息
      */
     public abstract void bq(String data);
+
+    /**
+     * 广播点击消息
+     * @param message 消息
+     * @param end     结尾
+     * @param command 指令
+     */
+    public abstract void bqRun(String message, String end, String command);
 
     /**
      * 在主线程中广播消息
@@ -243,4 +260,10 @@ public abstract class ISide {
      * 发送BC的ping包
      */
     public abstract void ping();
+
+    /**
+     * 获取玩家列表
+     * @return 玩家列表
+     */
+    public abstract List<String> getPlayerList();
 }

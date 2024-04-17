@@ -1,24 +1,24 @@
 package coloryr.allmusic.core.objs.message;
 
 public class PageObj {
-    public String Choice;
-    public String Next;
-    public String Last;
+    public String choice;
+    public String next;
+    public String last;
 
     public boolean check() {
-        boolean res = Choice == null;
-        if (Next == null)
+        boolean res = choice == null;
+        if (next == null)
             res = true;
-        if (Last == null)
+        if (last == null)
             res = true;
 
         return res;
     }
 
     public void init() {
-        Choice = "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl%";
-        Next = "§e[§n点我下一页§r§e]";
-        Last = "§e[§n点我上一页§r§e]";
+        choice = "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl%";
+        next = "§e[§n点我下一页§r§e]";
+        last = "§e[§n点我上一页§r§e]";
     }
 
     public static PageObj make() {

@@ -1,24 +1,24 @@
 package coloryr.allmusic.core.objs.message;
 
 public class ListMusicObj {
-    public String Head;
-    public String Item;
-    public String Get;
+    public String head;
+    public String item;
+    public String get;
 
     public boolean check() {
-        boolean res = Head == null;
-        if (Item == null)
+        boolean res = head == null;
+        if (item == null)
             res = true;
-        if (Get == null)
+        if (get == null)
             res = true;
 
         return res;
     }
 
     public void init() {
-        Head = "§d[AllMusic]§e队列中有歌曲数：%Count%";
-        Item = "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
-        Get = "§d[AllMusic]§e歌曲列表%ListName%获取成功";
+        head = "§d[AllMusic3]§e队列中有歌曲数：%Count%";
+        item = "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia%";
+        get = "§d[AllMusic3]§e歌曲列表%ListName%获取成功";
     }
 
     public static ListMusicObj make() {

@@ -1,25 +1,25 @@
 package coloryr.allmusic.core.objs.message;
 
 public class HelpObj {
-    public HelpNormalObj Normal;
-    public HelpAdminObj Admin;
+    public HelpNormalObj normal;
+    public HelpAdminObj admin;
 
     public boolean check() {
         boolean save = false;
-        if (Normal == null || Normal.check()) {
+        if (normal == null || normal.check()) {
             save = true;
-            Normal = new HelpNormalObj();
+            normal = new HelpNormalObj();
         }
-        if (Admin == null || Admin.check()) {
+        if (admin == null || admin.check()) {
             save = true;
-            Admin = new HelpAdminObj();
+            admin = new HelpAdminObj();
         }
         return save;
     }
 
     public void init() {
-        Normal = HelpNormalObj.make();
-        Admin = HelpAdminObj.make();
+        normal = HelpNormalObj.make();
+        admin = HelpAdminObj.make();
     }
 
     public static HelpObj make() {

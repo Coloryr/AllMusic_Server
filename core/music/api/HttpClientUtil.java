@@ -1,7 +1,7 @@
 package coloryr.allmusic.core.music.api;
 
 import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.enums.EncryptType;
+import coloryr.allmusic.core.objs.enums.EncryptType;
 import coloryr.allmusic.core.objs.HttpResObj;
 import coloryr.allmusic.core.objs.api.EncResObj;
 import com.google.gson.JsonElement;
@@ -50,7 +50,7 @@ public class HttpClientUtil {
             int httpCode = response.code();
             ResponseBody body = response.body();
             if (body == null) {
-                AllMusic.log.warning("§d[AllMusic]§c获取网页错误");
+                AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
                 return null;
             }
             InputStream inputStream = body.byteStream();
@@ -63,11 +63,11 @@ public class HttpClientUtil {
             }
             String data1 = result.toString(StandardCharsets.UTF_8.name());
             if (!ok) {
-                AllMusic.log.warning("§d[AllMusic]§c服务器返回错误：" + data1);
+                AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
             }
             return new HttpResObj(data1, ok);
         } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c获取网页错误");
+            AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
             e.printStackTrace();
         }
         return null;
@@ -146,7 +146,7 @@ public class HttpClientUtil {
             int httpCode = response.code();
             ResponseBody body = response.body();
             if (body == null) {
-                AllMusic.log.warning("§d[AllMusic]§c获取网页错误");
+                AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
                 return null;
             }
             InputStream inputStream = body.byteStream();
@@ -159,11 +159,11 @@ public class HttpClientUtil {
             }
             String data1 = result.toString(StandardCharsets.UTF_8.name());
             if (!ok) {
-                AllMusic.log.warning("§d[AllMusic]§c服务器返回错误：" + data1);
+                AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
             }
             return new HttpResObj(data1, ok);
         } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c获取网页错误");
+            AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
             e.printStackTrace();
         }
         return null;

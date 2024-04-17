@@ -1,26 +1,26 @@
 package coloryr.allmusic.core.objs.message;
 
 public class CostObj {
-    public String Search;
-    public String AddMusic;
-    public String NoMoney;
-    public String CostFail;
+    public String search;
+    public String addMusic;
+    public String noMoney;
+    public String costFail;
 
     public boolean check() {
-        if (Search == null)
+        if (search == null)
             return true;
-        if (AddMusic == null)
+        if (addMusic == null)
             return true;
-        if (NoMoney == null)
+        if (noMoney == null)
             return true;
-        return CostFail == null;
+        return costFail == null;
     }
 
     public void init() {
-        Search = "§d[AllMusic]§e你搜歌花费了%Cost%";
-        AddMusic = "§d[ALLMusic]§e你点歌花费了%Cost%";
-        NoMoney = "§d[ALLMusic]§c你没有足够的钱";
-        CostFail = "§d[ALLMusic]§c扣钱过程中错误";
+        search = "§d[AllMusic3]§e你搜歌花费了%Cost%";
+        addMusic = "§d[AllMusic3]§e你点歌花费了%Cost%";
+        noMoney = "§d[AllMusic3]§c你没有足够的钱";
+        costFail = "§d[AllMusic3]§c扣钱过程中错误";
     }
 
     public static CostObj make() {

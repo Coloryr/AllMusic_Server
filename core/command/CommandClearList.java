@@ -1,12 +1,12 @@
 package coloryr.allmusic.core.command;
 
 import coloryr.allmusic.core.AllMusic;
+import coloryr.allmusic.core.music.play.PlayMusic;
 
-public class CommandClearList implements ICommand {
+public class CommandClearList extends ACommand {
     @Override
     public void ex(Object sender, String name, String[] args) {
-        AllMusic.getConfig().PlayList.clear();
-        AllMusic.saveConfig();
-        AllMusic.side.sendMessage(sender, "§d[AllMusic]§2添加空闲音乐列表已清空");
+        PlayMusic.clearIdleList();
+        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§2添加空闲音乐列表已清空");
     }
 }

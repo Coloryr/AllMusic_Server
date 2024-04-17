@@ -2,19 +2,19 @@ package coloryr.allmusic.side.velocity;
 
 import coloryr.allmusic.AllMusicVelocity;
 import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.hud.HudUtils;
+import coloryr.allmusic.core.objs.enums.HudType;
+import coloryr.allmusic.core.utils.HudUtils;
 import coloryr.allmusic.core.music.play.PlayMusic;
 import coloryr.allmusic.core.objs.config.SaveObj;
 import coloryr.allmusic.core.objs.music.MusicObj;
 import coloryr.allmusic.core.objs.music.SongInfoObj;
-import coloryr.allmusic.core.side.ComType;
+import coloryr.allmusic.core.objs.enums.ComType;
 import coloryr.allmusic.core.side.ISide;
 import coloryr.allmusic.core.sql.IEconomy;
 import coloryr.allmusic.side.velocity.event.MusicAddEvent;
 import coloryr.allmusic.side.velocity.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.google.gson.Gson;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
@@ -40,12 +40,12 @@ public class SideVelocity extends ISide implements IEconomy {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
-            out.writeUTF(AllMusic.getMessage().PAPI.NoMusic);
+            out.writeUTF(AllMusic.getMessage().papi.NoMusic);
         else {
-            if (AllMusic.getConfig().MessageLimit
-                    && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().MessageLimitSize) {
+            if (AllMusic.getConfig().messageLimit
+                    && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().messageLimitSize) {
                 out.writeUTF(PlayMusic.nowPlayMusic.getName()
-                        .substring(0, AllMusic.getConfig().MessageLimitSize));
+                        .substring(0, AllMusic.getConfig().messageLimitSize));
             } else {
                 out.writeUTF(PlayMusic.nowPlayMusic.getName());
             }
@@ -86,7 +86,7 @@ public class SideVelocity extends ISide implements IEconomy {
 
         out = ByteStreams.newDataOutput();
         out.writeInt(5);
-        out.writeInt(PlayMusic.getSize());
+        out.writeInt(PlayMusic.getListSize());
         server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
 
         out = ByteStreams.newDataOutput();
@@ -132,30 +132,37 @@ public class SideVelocity extends ISide implements IEconomy {
     }
 
     @Override
-    public void send(String data, String player) {
-        if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
-            send(AllMusicVelocity.plugin.server.getPlayer(player).get(), data);
-        }
-    }
-
-    @Override
     public int getAllPlayer() {
         return AllMusicVelocity.plugin.server.getPlayerCount();
     }
 
     @Override
     public void bq(String data) {
-        if (AllMusic.getConfig().MessageLimit
-                && data.length() > AllMusic.getConfig().MessageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
+        if (AllMusic.getConfig().messageLimit
+                && data.length() > AllMusic.getConfig().messageLimitSize) {
+            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
         }
         Component message = Component.text(data);
         for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
+            if (AllMusic.getConfig().muteServer.contains(server.getServerInfo().getName()))
                 continue;
             for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
+                if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
                     player.sendMessage(message);
+        }
+    }
+
+    @Override
+    public void bqRun(String message, String end, String command) {
+        TextComponent endtext = Component.text(end)
+                .clickEvent(ClickEvent.runCommand(command));
+        TextComponent send = Component.text(message).append(endtext);
+        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
+            if (AllMusic.getConfig().muteServer.contains(server.getServerInfo().getName()))
+                continue;
+            for (Player player : server.getPlayersConnected())
+                if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
+                    player.sendMessage(send);
         }
     }
 
@@ -171,14 +178,14 @@ public class SideVelocity extends ISide implements IEconomy {
             if (player.getCurrentServer().isPresent()) {
                 continue;
             }
-            if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
+            if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
                 online++;
         }
         for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().NoMusicServer.contains(server.getServerInfo().getName()))
+            if (AllMusic.getConfig().muteServer.contains(server.getServerInfo().getName()))
                 continue;
             for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getUsername()))
+                if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
                     online++;
         }
         return online > 0;
@@ -188,7 +195,9 @@ public class SideVelocity extends ISide implements IEconomy {
     protected void topSendStop() {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                send(player, ComType.stop);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.stop.ordinal());
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -202,7 +211,9 @@ public class SideVelocity extends ISide implements IEconomy {
             Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
             if (!player.isPresent())
                 return;
-            send(player.get(), ComType.stop);
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.stop.ordinal());
+            send(player.get(), buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -217,7 +228,10 @@ public class SideVelocity extends ISide implements IEconomy {
                         player.getCurrentServer().get().getServerInfo().getName() : null;
                 if (AllMusic.isOK(player.getUsername(), server, false))
                     continue;
-                send(player, ComType.play + url);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.play.ordinal());
+                writeString(buf, url);
+                send(player, buf);
                 AllMusic.addNowPlayPlayer(player.getUsername());
             }
         } catch (Exception e) {
@@ -235,7 +249,10 @@ public class SideVelocity extends ISide implements IEconomy {
                         player1.getCurrentServer().get().getServerInfo().getName() : null;
                 if (AllMusic.isOK(player1.getUsername(), server, false))
                     return;
-                send(ComType.play + url, player);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.play.ordinal());
+                writeString(buf, url);
+                send(player1, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
@@ -251,9 +268,12 @@ public class SideVelocity extends ISide implements IEconomy {
                     continue;
                 String name = player.getUsername();
                 SaveObj obj = HudUtils.get(name);
-                if (!obj.EnablePic)
+                if (!obj.pic.enable)
                     continue;
-                send(player, ComType.img + url);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.img.ordinal());
+                writeString(buf, url);
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -268,7 +288,10 @@ public class SideVelocity extends ISide implements IEconomy {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
                 if (ok(player1))
                     return;
-                send(ComType.img + url, player);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.img.ordinal());
+                writeString(buf, url);
+                send(player1, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -283,7 +306,10 @@ public class SideVelocity extends ISide implements IEconomy {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
                 if (ok(player1))
                     return;
-                send(ComType.pos + pos, player);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.pos.ordinal());
+                buf.writeInt(pos);
+                send(player1, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");
@@ -298,9 +324,12 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (ok(player))
                     continue;
                 SaveObj obj = HudUtils.get(player.getUsername());
-                if (!obj.EnableLyric)
+                if (!obj.lyric.enable)
                     continue;
-                send(player, ComType.lyric + data);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.lyric.ordinal());
+                writeString(buf, data);
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -315,12 +344,67 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (ok(player))
                     continue;
                 SaveObj obj = HudUtils.get(player.getUsername());
-                if (!obj.EnableInfo)
+                if (!obj.info.enable)
                     continue;
-                send(player, ComType.info + data);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.info.ordinal());
+                writeString(buf, data);
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHudPos(String name) {
+        try {
+            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
+            if (!player.isPresent())
+                return;
+            SaveObj obj = HudUtils.get(name);
+            String data = AllMusic.gson.toJson(obj);
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.hud.ordinal());
+            writeString(buf, data);
+            send(player.get(), buf);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHud(String name, HudType pos, String data) {
+        try {
+            if (pos == HudType.PIC) {
+                return;
+            }
+            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
+            if (!player.isPresent())
+                return;
+
+            if (ok(player.get()))
+                return;
+
+            ByteBuf buf = Unpooled.buffer();
+            switch (pos) {
+                case INFO:
+                    buf.writeByte(ComType.info.ordinal());
+                    break;
+                case LIST:
+                    buf.writeByte(ComType.list.ordinal());
+                    break;
+                case LYRIC:
+                    buf.writeByte(ComType.lyric.ordinal());
+                    break;
+            }
+            writeString(buf, data);
+
+            send(player.get(), buf);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
         }
     }
@@ -333,9 +417,12 @@ public class SideVelocity extends ISide implements IEconomy {
                     continue;
                 String name = player.getUsername();
                 SaveObj obj = HudUtils.get(name);
-                if (!obj.EnableList)
+                if (!obj.list.enable)
                     continue;
-                send(player, ComType.list + data);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.list.ordinal());
+                writeString(buf, data);
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -345,12 +432,14 @@ public class SideVelocity extends ISide implements IEconomy {
 
     @Override
     public void sendHudUtilsAll() {
-        for (Player players : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            String Name = players.getUsername();
+        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             try {
-                SaveObj obj = HudUtils.get(Name);
-                String data = new Gson().toJson(obj);
-                send(data, Name);
+                SaveObj obj = HudUtils.get(player.getUsername());
+                String data = AllMusic.gson.toJson(obj);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.hud.ordinal());
+                writeString(buf, data);
+                send(player, buf);
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -374,9 +463,15 @@ public class SideVelocity extends ISide implements IEconomy {
     }
 
     @Override
-    public void clearHud(String player) {
+    public void clearHud(String name) {
         try {
-            send(ComType.clear, player);
+            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
+            if (!player.isPresent())
+                return;
+
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.clear.ordinal());
+            send(player.get(), buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -387,8 +482,10 @@ public class SideVelocity extends ISide implements IEconomy {
     public void clearHud() {
         try {
             Collection<Player> values = AllMusicVelocity.plugin.server.getAllPlayers();
-            for (Player players : values) {
-                send(players, ComType.clear);
+            for (Player player : values) {
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.clear.ordinal());
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
@@ -440,7 +537,7 @@ public class SideVelocity extends ISide implements IEconomy {
     @Override
     public boolean checkPermission(String player, String permission) {
         try {
-            if (AllMusic.getConfig().Admin.contains(player))
+            if (AllMusic.getConfig().adminList.contains(player))
                 return false;
             Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
             player1.hasPermission(permission);
@@ -469,6 +566,11 @@ public class SideVelocity extends ISide implements IEconomy {
                 iterator.remove();
             }
         }
+    }
+
+    @Override
+    public List<String> getPlayerList() {
+        return Collections.emptyList();
     }
 
     @Override
@@ -507,15 +609,11 @@ public class SideVelocity extends ISide implements IEconomy {
         }
     }
 
-    private void send(Player players, String data) {
+    private void send(Player players, ByteBuf data) {
         if (players == null)
             return;
         try {
-            byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
-            buf.writeByte(666);
-            buf.writeBytes(bytes);
-            runTask(() -> players.sendPluginMessage(AllMusicVelocity.channel, buf.array()));
+            runTask(() -> players.sendPluginMessage(AllMusicVelocity.channel, data.array()));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
             e.printStackTrace();
@@ -547,7 +645,7 @@ public class SideVelocity extends ISide implements IEconomy {
         } while (SendToBackend.containsKey(uuid));
 
         SendToBackend.put(uuid, -1);
-        String server = AllMusic.getConfig().Economy.Backend;
+        String server = AllMusic.getConfig().economy.backend;
         ServerConnection toServer = null;
         for (ServerConnection connection : TopServers) {
             if (connection.getServerInfo().getName().equalsIgnoreCase(server)) {
@@ -597,5 +695,11 @@ public class SideVelocity extends ISide implements IEconomy {
         AllMusic.log.warning("§d[AllMusic]§c经济数据请求超时");
 
         return false;
+    }
+
+    private static void writeString(ByteBuf buf, String text) {
+        byte[] temp = text.getBytes(StandardCharsets.UTF_8);
+        buf.writeInt(temp.length);
+        buf.writeBytes(temp);
     }
 }

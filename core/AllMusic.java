@@ -1,7 +1,7 @@
 package coloryr.allmusic.core;
 
-import coloryr.allmusic.core.hud.DataSql;
-import coloryr.allmusic.core.hud.HudUtils;
+import coloryr.allmusic.core.sql.DataSql;
+import coloryr.allmusic.core.utils.HudUtils;
 import coloryr.allmusic.core.music.api.APIMain;
 import coloryr.allmusic.core.music.play.MusicSearch;
 import coloryr.allmusic.core.music.play.PlayGo;
@@ -37,24 +37,28 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "2.19.4";
+    public static final String version = "3.0.0";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "105";
+    public static final String configVersion = "200";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "106";
+    public static final String messageVersion = "200";
     /**
      * 搜歌结果
      * 玩家名 结果
      */
     private static final Map<String, SearchPageObj> searchSave = new HashMap<>();
     /**
-     * 投票的玩家
+     * 切歌投票的玩家
      */
     private static final Set<String> votePlayer = new HashSet<>();
+    /**
+     * 插歌投票的玩家
+     */
+    private static final Set<String> pushPlayer = new HashSet<>();
     /**
      * 正在播放的玩家
      */
@@ -114,7 +118,7 @@ public class AllMusic {
     public static void configCheck() {
         if (config == null || config.check()) {
             config = ConfigObj.make();
-            log.warning("§d[AllMusic]§c配置文件config.json错误，已覆盖");
+            log.warning("§d[AllMusic3]§c配置文件config.json错误，已覆盖");
             saveConfig();
         }
     }
@@ -125,7 +129,7 @@ public class AllMusic {
     private static void messageCheck() {
         if (message == null || message.check()) {
             message = MessageObj.make();
-            log.warning("§d[AllMusic]§c配置文件message.json错误，已覆盖");
+            log.warning("§d[AllMusic3]§c配置文件message.json错误，已覆盖");
             saveMessage();
         }
     }
@@ -140,9 +144,9 @@ public class AllMusic {
      */
     public static boolean isOK(String name, String server, boolean checkList) {
         try {
-            if (server != null && AllMusic.getConfig().NoMusicServer.contains(server))
+            if (server != null && AllMusic.getConfig().muteServer.contains(server))
                 return true;
-            if (AllMusic.getConfig().NoMusicPlayer.contains(name))
+            if (AllMusic.getConfig().mutePlayer.contains(name))
                 return true;
             if(AllMusic.isPause(name))
                 return true;
@@ -171,7 +175,7 @@ public class AllMusic {
      */
     public static ConfigObj getConfig() {
         if (config == null) {
-            log.warning("§d[AllMusic]§c配置文件config.json错误，已使用默认配置文件");
+            log.warning("§d[AllMusic3]§c配置文件config.json错误，已使用默认配置文件");
             config = ConfigObj.make();
         }
         return config;
@@ -184,7 +188,7 @@ public class AllMusic {
      */
     public static MessageObj getMessage() {
         if (message == null) {
-            log.warning("§d[AllMusic]§c配置文件message.json错误，已使用默认配置文件");
+            log.warning("§d[AllMusic3]§c配置文件message.json错误，已使用默认配置文件");
             message = MessageObj.make();
         }
         return message;
@@ -229,6 +233,15 @@ public class AllMusic {
     }
 
     /**
+     * 添加投票的玩家
+     *
+     * @param player 用户名
+     */
+    public static void addPush(String player){
+        pushPlayer.add(player);
+    }
+
+    /**
      * 获取投票数量
      *
      * @return 数量
@@ -244,6 +257,10 @@ public class AllMusic {
         votePlayer.clear();
     }
 
+    public static void clearPush() {
+        pushPlayer.clear();
+    }
+
     /**
      * 是否已经投票了
      *
@@ -252,6 +269,10 @@ public class AllMusic {
      */
     public static boolean containVote(String player) {
         return votePlayer.contains(player);
+    }
+
+    public static boolean containPush(String player) {
+        return pushPlayer.contains(player);
     }
 
     /**
@@ -293,7 +314,7 @@ public class AllMusic {
             write.close();
             out.close();
         } catch (Exception e) {
-            log.warning("§d[AllMusic]§c配置文件保存错误");
+            log.warning("§d[AllMusic3]§c配置文件保存错误");
             e.printStackTrace();
         }
     }
@@ -308,7 +329,7 @@ public class AllMusic {
             write.close();
             out.close();
         } catch (Exception e) {
-            log.warning("§d[AllMusic]§c配置文件保存错误");
+            log.warning("§d[AllMusic3]§c配置文件保存错误");
             e.printStackTrace();
         }
     }
@@ -325,7 +346,7 @@ public class AllMusic {
             write.write(data);
             write.close();
         } catch (Exception e) {
-            log.warning("§d[AllMusic]§c配置文件保存错误");
+            log.warning("§d[AllMusic3]§c配置文件保存错误");
             e.printStackTrace();
         }
     }
@@ -340,7 +361,7 @@ public class AllMusic {
         MusicSearch.start();
         DataSql.start();
 
-        log.info("§d[AllMusic]§e已启动-" + version);
+        log.info("§d[AllMusic3]§e已启动-" + version);
     }
 
     /**
@@ -358,7 +379,7 @@ public class AllMusic {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        log.info("§d[AllMusic]§2§e已停止，感谢使用");
+        log.info("§d[AllMusic3]§2§e已停止，感谢使用");
     }
 
     /**
@@ -390,11 +411,11 @@ public class AllMusic {
             reader.close();
             messageCheck();
 
-            log.info("§d[AllMusic]§e当前语言配置文件版本为：" + messageVersion
-                    + "，你的语言文件版本为：" + message.Version);
+            log.info("§d[AllMusic3]§e当前语言配置文件版本为：" + messageVersion
+                    + "，你的语言文件版本为：" + message.version);
 
-            if (!message.Version.equalsIgnoreCase(messageVersion)) {
-                log.warning("§d[AllMusic]§c语言文件版本号错误，运行可能会发生问题，请删除后重载");
+            if (!message.version.equalsIgnoreCase(messageVersion)) {
+                log.warning("§d[AllMusic3]§c语言文件版本号错误，运行可能会发生问题，请删除后重载");
             }
 
             reader = new InputStreamReader(Files.newInputStream(cookieFile.toPath()), StandardCharsets.UTF_8);
@@ -407,14 +428,14 @@ public class AllMusic {
                 saveCookie();
             }
 
-            log.info("§d[AllMusic]§e当前插件配置文件版本为：" + configVersion
-                    + "，你的配置文件版本为：" + config.Version);
+            log.info("§d[AllMusic3]§e当前插件配置文件版本为：" + configVersion
+                    + "，你的配置文件版本为：" + config.version);
 
-            if (!AllMusic.configVersion.equalsIgnoreCase(config.Version)) {
-                log.warning("§d[AllMusic]§c请及时更新配置文件");
+            if (!AllMusic.configVersion.equalsIgnoreCase(config.version)) {
+                log.warning("§d[AllMusic3]§c请及时更新配置文件");
             }
         } catch (Exception e) {
-            log.warning("§d[AllMusic]§c读取配置文件错误");
+            log.warning("§d[AllMusic3]§c读取配置文件错误");
             e.printStackTrace();
         }
     }
@@ -425,16 +446,14 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void joinPlay(String player) {
-        if (getConfig().NoMusicPlayer.contains(player) || nowPlayPlayer.contains(player)) {
+        if (getConfig().mutePlayer.contains(player) || nowPlayPlayer.contains(player)) {
             pauseSendPlayer.remove(player);
             return;
         }
 
         AllMusic.side.runTask(() -> {
             if (PlayMusic.nowPlayMusic != null) {
-                SaveObj obj = HudUtils.get(player);
-                String data = gson.toJson(obj);
-                AllMusic.side.send(data, player);
+                AllMusic.side.sendHudPos(player);
                 AllMusic.side.sendMusic(player, PlayGo.url);
                 if (!PlayMusic.nowPlayMusic.isUrl()) {
                     AllMusic.side.runTask(() ->
@@ -471,7 +490,7 @@ public class AllMusic {
      * @param file 配置文件文件夹
      */
     public void init(File file) {
-        log.info("§d[AllMusic]§2§e正在启动，感谢使用，本插件交流群：571239090");
+        log.info("§d[AllMusic3]§2§e正在启动，感谢使用，本插件交流群：571239090");
         try {
             if (!file.exists())
                 file.mkdir();
@@ -501,7 +520,7 @@ public class AllMusic {
             isRun = true;
         } catch (IOException e) {
             isRun = false;
-            log.warning("§d[AllMusic]§c启动失败");
+            log.warning("§d[AllMusic3]§c启动失败");
             e.printStackTrace();
         }
     }

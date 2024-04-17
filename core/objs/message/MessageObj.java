@@ -3,105 +3,117 @@ package coloryr.allmusic.core.objs.message;
 import coloryr.allmusic.core.AllMusic;
 
 public class MessageObj {
-    public MusicPlayObj MusicPlay;
-    public AddMusicObj AddMusic;
-    public PageObj Page;
-    public LyricObj Lyric;
-    public VoteObj Vote;
-    public SearchObj Search;
-    public HudObj Hud;
-    public HudListObj HudList;
-    public CommandObj Command;
-    public CustomObj Custom;
-    public PAPIObj PAPI;
-    public CostObj Cost;
-    public ClickObj Click;
-    public HelpObj Help;
-    public FunObj Fun;
-    public String Version;
+    public MusicPlayObj musicPlay;
+    public AddMusicObj addMusic;
+    public PageObj page;
+    public LyricObj lyric;
+    public VoteObj vote;
+    public PushObj push;
+    public SearchObj search;
+    public HudObj hud;
+    public HudNameObj hudList;
+    public CommandObj command;
+    public CustomObj custom;
+    public PAPIObj papi;
+    public CostObj cost;
+    public ClickObj click;
+    public HelpObj help;
+    public FunObj fun;
+    public CancelObj cancel;
+    public String version;
 
     public boolean check() {
         boolean saveConfig = false;
-        if (MusicPlay == null || MusicPlay.check()) {
+        if (musicPlay == null || musicPlay.check()) {
             saveConfig = true;
-            MusicPlay = MusicPlayObj.make();
+            musicPlay = MusicPlayObj.make();
         }
-        if (AddMusic == null || AddMusic.check()) {
+        if (addMusic == null || addMusic.check()) {
             saveConfig = true;
-            AddMusic = AddMusicObj.make();
+            addMusic = AddMusicObj.make();
         }
-        if (Page == null || Page.check()) {
+        if (page == null || page.check()) {
             saveConfig = true;
-            Page = PageObj.make();
+            page = PageObj.make();
         }
-        if (Lyric == null || Lyric.check()) {
+        if (lyric == null || lyric.check()) {
             saveConfig = true;
-            Lyric = LyricObj.make();
+            lyric = LyricObj.make();
         }
-        if (Vote == null || Vote.check()) {
+        if (vote == null || vote.check()) {
             saveConfig = true;
-            Vote = VoteObj.make();
+            vote = VoteObj.make();
         }
-        if (Search == null || Search.check()) {
+        if (search == null || search.check()) {
             saveConfig = true;
-            Search = SearchObj.make();
+            search = SearchObj.make();
         }
-        if (Hud == null || Hud.check()) {
+        if (hud == null || hud.check()) {
             saveConfig = true;
-            Hud = HudObj.make();
+            hud = HudObj.make();
         }
-        if (HudList == null || HudList.check()) {
+        if (hudList == null || hudList.check()) {
             saveConfig = true;
-            HudList = HudListObj.make();
+            hudList = HudNameObj.make();
         }
-        if (Command == null || Command.check()) {
+        if (command == null || command.check()) {
             saveConfig = true;
-            Command = CommandObj.make();
+            command = CommandObj.make();
         }
-        if (Custom == null || Custom.check()) {
+        if (custom == null || custom.check()) {
             saveConfig = true;
-            Custom = CustomObj.make();
+            custom = CustomObj.make();
         }
-        if (PAPI == null || PAPI.check()) {
+        if (papi == null || papi.check()) {
             saveConfig = true;
-            PAPI = PAPIObj.make();
+            papi = PAPIObj.make();
         }
-        if (Cost == null || Cost.check()) {
+        if (cost == null || cost.check()) {
             saveConfig = true;
-            Cost = CostObj.make();
+            cost = CostObj.make();
         }
-        if (Click == null || Click.check()) {
+        if (click == null || click.check()) {
             saveConfig = true;
-            Click = ClickObj.make();
+            click = ClickObj.make();
         }
-        if (Help == null || Help.check()) {
+        if (help == null || help.check()) {
             saveConfig = true;
-            Help = HelpObj.make();
+            help = HelpObj.make();
         }
-        if (Fun == null || Fun.check()) {
+        if (fun == null || fun.check()) {
             saveConfig = true;
-            Fun = FunObj.make();
+            fun = FunObj.make();
+        }
+        if (push == null || push.check()) {
+            saveConfig = true;
+            push = PushObj.make();
+        }
+        if (cancel == null || cancel.check()) {
+            saveConfig = true;
+            cancel = CancelObj.make();
         }
         return saveConfig;
     }
 
     public void init() {
-        MusicPlay = MusicPlayObj.make();
-        AddMusic = AddMusicObj.make();
-        Page = PageObj.make();
-        Lyric = LyricObj.make();
-        Vote = VoteObj.make();
-        Search = SearchObj.make();
-        Hud = HudObj.make();
-        Command = CommandObj.make();
-        HudList = HudListObj.make();
-        Custom = CustomObj.make();
-        PAPI = PAPIObj.make();
-        Cost = CostObj.make();
-        Click = ClickObj.make();
-        Help = HelpObj.make();
-        Fun = FunObj.make();
-        Version = AllMusic.messageVersion;
+        musicPlay = MusicPlayObj.make();
+        addMusic = AddMusicObj.make();
+        page = PageObj.make();
+        lyric = LyricObj.make();
+        vote = VoteObj.make();
+        search = SearchObj.make();
+        hud = HudObj.make();
+        command = CommandObj.make();
+        hudList = HudNameObj.make();
+        custom = CustomObj.make();
+        papi = PAPIObj.make();
+        cost = CostObj.make();
+        click = ClickObj.make();
+        help = HelpObj.make();
+        fun = FunObj.make();
+        push = PushObj.make();
+        cancel = CancelObj.make();
+        version = AllMusic.messageVersion;
     }
 
     public static MessageObj make() {

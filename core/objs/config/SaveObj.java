@@ -1,69 +1,52 @@
 package coloryr.allmusic.core.objs.config;
 
+import coloryr.allmusic.core.objs.enums.HudDirType;
 import coloryr.allmusic.core.objs.hud.PosObj;
 
 public class SaveObj {
-    public PosObj List;
-    public PosObj Lyric;
-    public PosObj Info;
-    public PosObj Pic;
-    public int PicSize;
-    public int PicRotateSpeed;
-    public boolean EnablePicRotate;
-    public boolean EnableList;
-    public boolean EnableLyric;
-    public boolean EnableInfo;
-    public boolean EnablePic;
+    public PosObj list;
+    public PosObj lyric;
+    public PosObj info;
+    public PosObj pic;
+    public int picRotateSpeed;
 
     public SaveObj copy() {
         SaveObj obj1 = new SaveObj();
-        obj1.EnableInfo = this.EnableInfo;
-        obj1.EnableList = this.EnableList;
-        obj1.EnableLyric = this.EnableLyric;
-        obj1.EnablePic = this.EnablePic;
-        obj1.Info = this.Info.copy();
-        obj1.List = this.List.copy();
-        obj1.Lyric = this.Lyric.copy();
-        obj1.Pic = this.Pic.copy();
-        obj1.PicSize = this.PicSize;
-        obj1.EnablePicRotate = this.EnablePicRotate;
-        obj1.PicRotateSpeed = this.PicRotateSpeed;
+        obj1.info = this.info.copy();
+        obj1.list = this.list.copy();
+        obj1.lyric = this.lyric.copy();
+        obj1.pic = this.pic.copy();
+        obj1.picRotateSpeed = this.picRotateSpeed;
         return obj1;
     }
 
     public boolean check() {
         boolean save = false;
-        if (List == null) {
+        if (list == null) {
             save = true;
-            List = new PosObj(2, 74);
+            list = new PosObj(2, 74, HudDirType.TOP_LEFT, 0xffffff, false, true);
         }
-        if (Lyric == null) {
+        if (lyric == null) {
             save = true;
-            Lyric = new PosObj(74, 53);
+            lyric = new PosObj(74, 53, HudDirType.TOP_LEFT, 0xffffff, false, true);
         }
-        if (Info == null) {
+        if (info == null) {
             save = true;
-            Info = new PosObj(74, 2);
+            info = new PosObj(74, 2, HudDirType.TOP_LEFT, 0xffffff, false, true);
         }
-        if (Pic == null) {
+        if (pic == null) {
             save = true;
-            Pic = new PosObj(2, 2);
+            pic = new PosObj(2, 2, HudDirType.TOP_LEFT, 70, true, true);
         }
         return save;
     }
 
     public void init() {
-        EnableList = true;
-        EnableLyric = true;
-        EnableInfo = true;
-        EnablePic = true;
-        EnablePicRotate = true;
-        PicRotateSpeed = 30;
-        List = new PosObj(2, 74);
-        Lyric = new PosObj(74, 53);
-        Info = new PosObj(74, 2);
-        Pic = new PosObj(2, 2);
-        PicSize = 70;
+        picRotateSpeed = 30;
+        list = new PosObj(2, 74, HudDirType.TOP_LEFT, 0xffffff, false, true);
+        lyric = new PosObj(74, 53, HudDirType.TOP_LEFT, 0xffffff, false, true);
+        info = new PosObj(74, 2, HudDirType.TOP_LEFT, 0xffffff, false, true);
+        pic = new PosObj(2, 2, HudDirType.TOP_LEFT, 0, false, true);
     }
 
     public static SaveObj make() {

@@ -1,46 +1,46 @@
 package coloryr.allmusic.core.objs.message;
 
 public class SearchObj {
-    public String NoPer;
-    public String CantSearch;
-    public String Res;
-    public String NoSearch;
-    public String ErrorNum;
-    public String Chose;
-    public String CantNext;
-    public String CantLast;
-    public String StartSearch;
+    public String noPer;
+    public String cantSearch;
+    public String res;
+    public String emptySearch;
+    public String errorNum;
+    public String choice;
+    public String cantNext;
+    public String cantLast;
+    public String startSearch;
 
     public boolean check() {
-        if (NoPer == null)
+        if (noPer == null)
             return true;
-        if (CantSearch == null)
+        if (cantSearch == null)
             return true;
-        if (Res == null)
+        if (res == null)
             return true;
-        if (NoSearch == null)
+        if (emptySearch == null)
             return true;
-        if (ErrorNum == null)
+        if (errorNum == null)
             return true;
-        if (Chose == null)
+        if (choice == null)
             return true;
-        if (CantNext == null)
+        if (cantNext == null)
             return true;
-        if (CantLast == null)
+        if (cantLast == null)
             return true;
-        return StartSearch == null;
+        return startSearch == null;
     }
 
     public void init() {
-        StartSearch = "§d[AllMusic]§e正在排队搜歌";
-        NoPer = "§d[AllMusic]§c你没有权限搜歌";
-        CantSearch = "§d[AllMusic]§c无法搜索歌曲：%Music%";
-        Res = "§d[AllMusic]§e搜索结果";
-        NoSearch = "§d[AllMusic]§c你没有搜索音乐";
-        ErrorNum = "§d[AllMusic]§c请输入正确的序号";
-        Chose = "§d[AllMusic]§e你选择了序号%Num%";
-        CantNext = "§d[AllMusic]§c无法下一页";
-        CantLast = "§d[AllMusic]§c无法上一页";
+        startSearch = "§d[AllMusic3]§e正在排队搜歌";
+        noPer = "§d[AllMusic3]§c你没有权限搜歌";
+        cantSearch = "§d[AllMusic3]§c无法搜索歌曲：%Music%";
+        res = "§d[AllMusic3]§e搜索结果";
+        emptySearch = "§d[AllMusic3]§c你没有搜索音乐";
+        errorNum = "§d[AllMusic3]§c请输入正确的序号";
+        choice = "§d[AllMusic3]§e你选择了序号%Num%";
+        cantNext = "§d[AllMusic3]§c无法下一页";
+        cantLast = "§d[AllMusic3]§c无法上一页";
     }
 
     public static SearchObj make() {

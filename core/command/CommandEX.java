@@ -8,36 +8,40 @@ import coloryr.allmusic.core.objs.music.MusicObj;
 import coloryr.allmusic.core.objs.music.SearchPageObj;
 import coloryr.allmusic.core.utils.Function;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandEX {
 
-    private static final Map<String, ICommand> CommandList = new HashMap<>();
-    private static final Map<String, ICommand> CommandAdminList = new HashMap<>();
+    public static final Map<String, ICommand> commandList = new HashMap<>();
+    public static final Map<String, ICommand> commandAdminList = new HashMap<>();
 
     static {
-        CommandList.put("stop", new CommandStop());
-        CommandList.put("help", new CommandHelp());
-        CommandList.put("list", new CommandList());
-        CommandList.put("vote", new CommandVote());
-        CommandList.put("nomusic", new CommandNoMusic());
-        CommandList.put("search", new CommandSearch());
-        CommandList.put("select", new CommandSelect());
-        CommandList.put("nextpage", new CommandNextPage());
-        CommandList.put("lastpage", new CommandLastPage());
-        CommandList.put("hud", new CommandHud());
-        CommandList.put("reload", new CommandReload());
+        commandList.put("stop", new CommandStop());
+        commandList.put("help", new CommandHelp());
+        commandList.put("list", new CommandList());
+        commandList.put("vote", new CommandVote());
+        commandList.put("mute", new CommandMute());
+        commandList.put("search", new CommandSearch());
+        commandList.put("select", new CommandSelect());
+        commandList.put("nextpage", new CommandNextPage());
+        commandList.put("lastpage", new CommandLastPage());
+        commandList.put("hud", new CommandHud());
+        commandList.put("reload", new CommandReload());
+        commandList.put("push", new CommandPush());
+        commandList.put("cancel", new CommandCancel());
 
-        CommandAdminList.put("next", new CommandNext());
-        CommandAdminList.put("ban", new CommandBan());
-        CommandAdminList.put("banplayer", new CommandBanPlayer());
-        CommandAdminList.put("url", new CommandUrl());
-        CommandAdminList.put("delete", new CommandDelete());
-        CommandAdminList.put("addlist", new CommandAddList());
-        CommandAdminList.put("clearlist", new CommandClearList());
-        CommandAdminList.put("code", new CommandCode());
-        CommandAdminList.put("login", new CommandLogin());
+        commandAdminList.put("next", new CommandNext());
+        commandAdminList.put("ban", new CommandBan());
+        commandAdminList.put("banplayer", new CommandBanPlayer());
+        commandAdminList.put("url", new CommandUrl());
+        commandAdminList.put("delete", new CommandDelete());
+        commandAdminList.put("addlist", new CommandAddList());
+        commandAdminList.put("clearlist", new CommandClearList());
+        commandAdminList.put("code", new CommandCode());
+        commandAdminList.put("login", new CommandLogin());
     }
 
     /**
@@ -56,7 +60,7 @@ public class CommandEX {
         obj.isDefault = isDefault;
 
         if (AllMusic.side.onMusicAdd(sender, obj)) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.Cancel);
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.cancel);
             return;
         }
 
@@ -72,12 +76,12 @@ public class CommandEX {
      * @return 结果
      */
     public static boolean checkMoney(Object sender, String name, int cost) {
-        if (!AllMusic.getConfig().UseCost || AllMusic.economy == null) {
+        if (!AllMusic.getConfig().useCost || AllMusic.economy == null) {
             return false;
         }
 
         if (!AllMusic.economy.check(name, cost)) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().Cost.NoMoney);
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().cost.noMoney);
             return true;
         }
         return false;
@@ -93,7 +97,7 @@ public class CommandEX {
      * @return 结果
      */
     public static boolean cost(Object sender, String name, int cost, String message) {
-        if (!AllMusic.getConfig().UseCost || AllMusic.economy == null) {
+        if (!AllMusic.getConfig().useCost || AllMusic.economy == null) {
             return false;
         }
 
@@ -102,7 +106,7 @@ public class CommandEX {
                     .replace("%Cost%", "" + cost));
             return false;
         } else {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().Cost.CostFail);
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().cost.costFail);
             return true;
         }
     }
@@ -129,22 +133,22 @@ public class CommandEX {
         } else
             musicID = args[0];
         if (Function.isInteger(musicID)) {
-            if (PlayMusic.getSize() >= AllMusic.getConfig().MaxList) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.ListFull);
-            } else if (AllMusic.getConfig().BanMusic.contains(musicID)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.BanMusic);
-            } else if (PlayMusic.isHave(musicID)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.ExistMusic);
+            if (PlayMusic.getListSize() >= AllMusic.getConfig().maxPlayList) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.listFull);
+            } else if (AllMusic.getConfig().banMusic.contains(musicID)) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.banMusic);
+            } else if (PlayMusic.haveMusic(musicID)) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.existMusic);
             } else if (PlayMusic.havePlayer(name)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.PlayerToMany);
-            } else if (AllMusic.getConfig().BanPlayer.contains(name)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.PlayerBan);
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.playerToMany);
+            } else if (AllMusic.getConfig().banPlayer.contains(name)) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.playerBan);
             } else {
-                if (checkMoney(sender, name, AllMusic.getConfig().AddMusicCost)) {
+                if (checkMoney(sender, name, AllMusic.getConfig().addMusicCost)) {
                     return;
                 }
-                if (cost(sender, name, AllMusic.getConfig().AddMusicCost,
-                        AllMusic.getMessage().Cost.AddMusic)) {
+                if (cost(sender, name, AllMusic.getConfig().addMusicCost,
+                        AllMusic.getMessage().cost.addMusic)) {
                     return;
                 }
                 AllMusic.getConfig().RemoveNoMusicPlayer(name);
@@ -156,17 +160,17 @@ public class CommandEX {
                     obj.isDefault = false;
 
                     if (AllMusic.side.onMusicAdd(sender, obj)) {
-                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.Cancel);
+                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.cancel);
                         return;
                     }
 
                     PlayMusic.addTask(obj);
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.Success);
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.success);
                 } else
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.NoPlayer);
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.noPlayer);
             }
         } else
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.NoID);
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.noID);
     }
 
     /**
@@ -181,22 +185,22 @@ public class CommandEX {
         String info;
         AllMusic.side.sendMessage(sender, "");
         if (search.haveLastPage()) {
-            AllMusic.side.sendMessageRun(sender, "§d[AllMusic]§2输入/music lastpage上一页",
-                    AllMusic.getMessage().Page.Last, "/music lastpage");
+            AllMusic.side.sendMessageRun(sender, "§d[AllMusic3]§2输入/music lastpage上一页",
+                    AllMusic.getMessage().page.last, "/music lastpage");
         }
         for (int a = 0; a < index; a++) {
             item = search.getRes(a + search.getPage() * 10);
-            info = AllMusic.getMessage().Page.Choice;
+            info = AllMusic.getMessage().page.choice;
             info = info.replace("%Index%", "" + (a + 1))
                     .replace("%MusicName%", item.name)
                     .replace("%MusicAuthor%", item.author)
                     .replace("%MusicAl%", item.al);
             AllMusic.side.sendMessageRun(sender, info,
-                    AllMusic.getMessage().Click.This, "/music select " + (a + 1));
+                    AllMusic.getMessage().click.clickRun, "/music select " + (a + 1));
         }
         if (search.haveNextPage()) {
-            AllMusic.side.sendMessageRun(sender, "§d[AllMusic]§2输入/music nextpage下一页",
-                    AllMusic.getMessage().Page.Next, "/music nextpage");
+            AllMusic.side.sendMessageRun(sender, "§d[AllMusic3]§2输入/music nextpage下一页",
+                    AllMusic.getMessage().page.next, "/music nextpage");
         }
         AllMusic.side.sendMessage(sender, "");
     }
@@ -210,27 +214,27 @@ public class CommandEX {
      */
     public static void ex(Object sender, String name, String[] args) {
         if (args.length == 0) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().Command.Error);
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             return;
         }
-        ICommand command = CommandList.get(args[0]);
+        ICommand command = commandList.get(args[0]);
         if (command != null) {
             command.ex(sender, name, args);
             return;
         }
 
-        if (AllMusic.getConfig().Admin.stream().anyMatch(name::equalsIgnoreCase)) {
-            command = CommandAdminList.get(args[0]);
+        if (AllMusic.getConfig().adminList.stream().anyMatch(name::equalsIgnoreCase)) {
+            command = commandAdminList.get(args[0]);
             if (command != null) {
                 command.ex(sender, name, args);
                 return;
             }
         }
-        if (AllMusic.getConfig().NeedPermission &&
+        if (AllMusic.getConfig().needPermission &&
                 AllMusic.side.checkPermission(name, "allmusic.addmusic"))
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().Command.NoPer);
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.noPer);
         else {
-            switch (AllMusic.getConfig().DefaultAddMusic) {
+            switch (AllMusic.getConfig().defaultAddMusic) {
                 case 1:
                     searchMusic(sender, name, args, true);
                     break;
@@ -239,5 +243,81 @@ public class CommandEX {
                     addMusic(sender, name, args);
             }
         }
+    }
+
+    private static final List<String> normal = new ArrayList<String>() {{
+        this.add("stop");
+        this.add("cancel");
+        this.add("list");
+        this.add("vote");
+        this.add("mute");
+        this.add("search");
+        this.add("hud");
+        this.add("push");
+    }};
+
+    /**
+     * 管理员的指令
+     */
+    private static final List<String> admin = new ArrayList<String>() {{
+        this.add("reload");
+        this.add("next");
+        this.add("ban");
+        this.add("delete");
+        this.add("addlist");
+        this.add("clearlist");
+        this.add("login");
+    }};
+
+    /**
+     * 搜歌的指令
+     */
+    private static final List<String> search = new ArrayList<String>() {{
+        this.add("select");
+        this.add("nextpage");
+        this.add("lastpage");
+    }};
+
+    /**
+     * 获取Tab指令列表
+     *
+     * @param name 用户名
+     * @param arg  参数
+     * @return 指令列表
+     */
+    public static List<String> getTabList(String name, String[] arg) {
+        List<String> arguments = new ArrayList<>();
+        if (arg.length == 0) {
+            arguments.addAll(normal);
+            if (AllMusic.getConfig().adminList.contains(name)) {
+                arguments.addAll(admin);
+            }
+            if (AllMusic.getSearch(name) != null) {
+                return search;
+            }
+        } else if (arg.length == 1) {
+            if (arg[0].isEmpty()) {
+                arguments.addAll(normal);
+                if (AllMusic.getConfig().adminList.contains(name)) {
+                    arguments.addAll(admin);
+                }
+                if (arg[0].isEmpty()) {
+                    if (AllMusic.getSearch(name) != null) {
+                        return search;
+                    }
+                }
+            } else {
+                ICommand command = CommandEX.commandList.get(arg[0]);
+                if (command != null) {
+                    arguments.addAll(command.tab(name, arg));
+                }
+                command = CommandEX.commandAdminList.get(arg[0]);
+                if (command != null) {
+                    arguments.addAll(command.tab(name, arg));
+                }
+            }
+        }
+
+        return arguments;
     }
 }

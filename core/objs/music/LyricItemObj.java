@@ -16,12 +16,12 @@ public class LyricItemObj {
             return "";
         String data;
         if (tlyric != null && !tlyric.isEmpty()) {
-            data = AllMusic.getMessage().Lyric.TData;
+            data = AllMusic.getMessage().lyric.tdata;
             return data.replace("%Lyric%", lyric)
                     .replace("%TLyric%", tlyric);
         }
 
-        data = AllMusic.getMessage().Lyric.Data;
+        data = AllMusic.getMessage().lyric.data;
         return data.replace("%Lyric%", lyric);
     }
 }

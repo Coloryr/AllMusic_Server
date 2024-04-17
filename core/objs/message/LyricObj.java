@@ -1,30 +1,30 @@
 package coloryr.allmusic.core.objs.message;
 
 public class LyricObj {
-    public String Data;
-    public String TData;
-    public String Empty1;
-    public String Empty2;
-    public String Empty3;
+    public String data;
+    public String tdata;
+    public String empty1;
+    public String empty2;
+    public String empty3;
 
     public boolean check() {
-        if (Data == null)
+        if (data == null)
             return true;
-        if (TData == null)
+        if (tdata == null)
             return true;
-        if (Empty1 == null)
+        if (empty1 == null)
             return true;
-        if (Empty2 == null)
+        if (empty2 == null)
             return true;
-        return Empty3 == null;
+        return empty3 == null;
     }
 
     public void init() {
-        Data = "%Lyric%";
-        TData = "%Lyric%(%TLyric%)";
-        Empty1 = "没有歌词";
-        Empty2 = "没有翻译歌词";
-        Empty3 = "没有KTV歌词";
+        data = "%Lyric%";
+        tdata = "%Lyric%(%TLyric%)";
+        empty1 = "没有歌词";
+        empty2 = "没有翻译歌词";
+        empty3 = "没有KTV歌词";
     }
 
     public static LyricObj make() {

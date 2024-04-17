@@ -136,7 +136,7 @@ public class SongInfoObj {
     }
 
     public String getInfo() {
-        String info = AllMusic.getMessage().MusicPlay.MusicInfo;
+        String info = AllMusic.getMessage().musicPlay.musicInfo;
         info = info.replace("%MusicName%", name == null ? "" : name)
                 .replace("%MusicAuthor%", author == null ? "" : author)
                 .replace("%MusicAl%", al == null ? "" : al)

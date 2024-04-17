@@ -2,55 +2,73 @@ package coloryr.allmusic.core.command;
 
 import coloryr.allmusic.core.AllMusic;
 
-public class CommandHelp implements ICommand {
+public class CommandHelp extends ACommand {
     @Override
     public void ex(Object sender, String name, String[] args) {
-        AllMusic.side.sendMessage(sender, AllMusic.getMessage().Help.Normal.Head);
-        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Base,
-                AllMusic.getMessage().Click.Check, "/music ");
-        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Normal.Stop,
-                AllMusic.getMessage().Click.This, "/music stop");
-        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Normal.List,
-                AllMusic.getMessage().Click.This, "/music list");
-        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Normal.Vote,
-                AllMusic.getMessage().Click.This, "/music vote");
-        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Normal.NoMusic,
-                AllMusic.getMessage().Click.This, "/music nomusic");
-        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Search,
-                AllMusic.getMessage().Click.Check, "/music search ");
-        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Select,
-                AllMusic.getMessage().Click.Check, "/music select ");
-        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Hud1,
-                AllMusic.getMessage().Click.Check, "/music hud enable ");
-        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Hud2,
-                AllMusic.getMessage().Click.Check, "/music hud ");
-        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Hud3,
-                AllMusic.getMessage().Click.Check, "/music hud picsize ");
-        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Hud4,
-                AllMusic.getMessage().Click.Check, "/music hud picrotate ");
-        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Normal.Hud5,
-                AllMusic.getMessage().Click.Check, "/music hud picrotatespeed ");
-        if (AllMusic.getConfig().Admin.contains(name)) {
-            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.Reload,
-                    AllMusic.getMessage().Click.This, "/music reload");
-            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.Next,
-                    AllMusic.getMessage().Click.This, "/music next");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Admin.Ban,
-                    AllMusic.getMessage().Click.Check, "/music ban ");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Admin.BanPlayer,
-                    AllMusic.getMessage().Click.Check, "/music banplayer ");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Admin.Url,
-                    AllMusic.getMessage().Click.Check, "/music url ");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Admin.Delete,
-                    AllMusic.getMessage().Click.Check, "/music delete ");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().Help.Admin.AddList,
-                    AllMusic.getMessage().Click.Check, "/music addlist ");
-            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.ClearList,
-                    AllMusic.getMessage().Click.This, "/music clearlist");
-            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.Login,
-                    AllMusic.getMessage().Click.Check, "/music login ");
-            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().Help.Admin.Code,
-                    AllMusic.getMessage().Click.This, "/music code");
+        AllMusic.side.sendMessage(sender, AllMusic.getMessage().help.normal.head);
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.base,
+                AllMusic.getMessage().click.clickCheck, "/music ");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.stop,
+                AllMusic.getMessage().click.clickRun, "/music stop");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.list,
+                AllMusic.getMessage().click.clickRun, "/music list");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.cancel,
+                AllMusic.getMessage().click.clickRun, "/music cancel");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.vote,
+                AllMusic.getMessage().click.clickRun, "/music vote");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.vote1,
+                AllMusic.getMessage().click.clickRun, "/music vote cancel");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.push,
+                AllMusic.getMessage().click.clickRun, "/music push");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.push1,
+                AllMusic.getMessage().click.clickRun, "/music push cancel");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.mute,
+                AllMusic.getMessage().click.clickRun, "/music mute");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.search,
+                AllMusic.getMessage().click.clickCheck, "/music search ");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.select,
+                AllMusic.getMessage().click.clickCheck, "/music select ");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.hud9,
+                AllMusic.getMessage().click.clickRun, "/music hud enable");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.hud10,
+                AllMusic.getMessage().click.clickRun, "/music hud reset");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud1,
+                AllMusic.getMessage().click.clickCheck, "/music hud ");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud2,
+                AllMusic.getMessage().click.clickCheck, "/music hud ");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud6,
+                AllMusic.getMessage().click.clickCheck, "/music hud ");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud7,
+                AllMusic.getMessage().click.clickCheck, "/music hud ");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud8,
+                AllMusic.getMessage().click.clickCheck, "/music hud ");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud3,
+                AllMusic.getMessage().click.clickCheck, "/music hud pic size ");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud4,
+                AllMusic.getMessage().click.clickCheck, "/music hud pic rotate ");
+        AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud5,
+                AllMusic.getMessage().click.clickCheck, "/music hud pic speed ");
+        if (AllMusic.getConfig().adminList.contains(name)) {
+            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.reload,
+                    AllMusic.getMessage().click.clickRun, "/music reload");
+            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.next,
+                    AllMusic.getMessage().click.clickRun, "/music next");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.ban,
+                    AllMusic.getMessage().click.clickCheck, "/music ban ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.banPlayer,
+                    AllMusic.getMessage().click.clickCheck, "/music banplayer ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.url,
+                    AllMusic.getMessage().click.clickCheck, "/music url ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.delete,
+                    AllMusic.getMessage().click.clickCheck, "/music delete ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.addList,
+                    AllMusic.getMessage().click.clickCheck, "/music addlist ");
+            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.clearList,
+                    AllMusic.getMessage().click.clickRun, "/music clearlist");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.login,
+                    AllMusic.getMessage().click.clickCheck, "/music login ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.code,
+                    AllMusic.getMessage().click.clickCheck, "/music code ");
         }
     }
 }

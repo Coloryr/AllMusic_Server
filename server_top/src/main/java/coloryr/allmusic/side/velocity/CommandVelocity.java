@@ -1,7 +1,6 @@
 package coloryr.allmusic.side.velocity;
 
 import coloryr.allmusic.core.command.CommandEX;
-import coloryr.allmusic.core.command.TabCommand;
 import com.google.common.collect.ImmutableList;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
@@ -33,7 +32,7 @@ public class CommandVelocity implements SimpleCommand {
         if (invocation.source() instanceof Player) {
             Player player = (Player) invocation.source();
             String name = player.getUsername();
-            return TabCommand.getTabList(name, args);
+            return CommandEX.getTabList(name, args);
         }
         return ImmutableList.of();
     }

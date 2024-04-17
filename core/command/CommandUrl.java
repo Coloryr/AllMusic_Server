@@ -4,11 +4,11 @@ import coloryr.allmusic.core.AllMusic;
 import coloryr.allmusic.core.music.play.PlayMusic;
 import coloryr.allmusic.core.objs.music.MusicObj;
 
-public class CommandUrl implements ICommand {
+public class CommandUrl extends ACommand {
     @Override
     public void ex(Object sender, String name, String[] args) {
         if (args.length != 2) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().Command.Error);
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             return;
         }
         MusicObj obj = new MusicObj();
@@ -16,6 +16,6 @@ public class CommandUrl implements ICommand {
         obj.isUrl = true;
         obj.url = args[1];
         PlayMusic.addTask(obj);
-        AllMusic.side.sendMessage(sender, AllMusic.getMessage().AddMusic.Success);
+        AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.success);
     }
 }

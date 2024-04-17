@@ -1,11 +1,11 @@
 package coloryr.allmusic.core.objs.message;
 
 public class FunObj {
-    public String Rain;
+    public String rain;
 
     public boolean check() {
         boolean res = false;
-        if (Rain == null) {
+        if (rain == null) {
             res = true;
         }
 
@@ -13,7 +13,7 @@ public class FunObj {
     }
 
     public void init() {
-        Rain = "§d[AllMusic]§e天空开始变得湿润";
+        rain = "§d[AllMusic3]§e天空开始变得湿润";
     }
 
     public static FunObj make() {

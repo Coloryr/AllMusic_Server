@@ -1,14 +1,14 @@
 package coloryr.allmusic.core.objs.message;
 
 public class CustomObj {
-    public String Info;
+    public String info;
 
     public boolean check() {
-        return Info == null;
+        return info == null;
     }
 
     public void init() {
-        Info = "自定义音乐";
+        info = "自定义音乐";
     }
 
     public static CustomObj make() {
