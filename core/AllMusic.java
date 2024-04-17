@@ -452,7 +452,7 @@ public class AllMusic {
         }
 
         AllMusic.side.runTask(() -> {
-            if (PlayMusic.nowPlayMusic != null) {
+            if (PlayMusic.nowPlayMusic != null && PlayGo.url != null) {
                 AllMusic.side.sendHudPos(player);
                 AllMusic.side.sendMusic(player, PlayGo.url);
                 if (!PlayMusic.nowPlayMusic.isUrl()) {

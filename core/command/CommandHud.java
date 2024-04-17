@@ -18,7 +18,7 @@ public class CommandHud extends ACommand {
         commandList.put("pic", new CommandHudSet(HudType.PIC));
     }
 
-    public static class HudEnable implements  ICommand {
+    public static class HudEnable implements ICommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
             boolean temp = HudUtils.setHudEnable(name, null);
@@ -33,7 +33,7 @@ public class CommandHud extends ACommand {
         }
     }
 
-    public static class HudReset implements  ICommand {
+    public static class HudReset implements ICommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
             HudUtils.reset(name);
@@ -77,6 +77,11 @@ public class CommandHud extends ACommand {
     public List<String> tab(String name, String[] args) {
         if (args.length == 1 || (args.length == 2 && args[1].isEmpty())) {
             return hudlist;
+        } else if (args.length >= 2) {
+            ICommand command = commandList.get(args[1]);
+            if (command != null) {
+                return command.tab(name, args);
+            }
         }
         return Collections.emptyList();
     }

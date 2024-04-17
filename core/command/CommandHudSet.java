@@ -26,7 +26,6 @@ public class CommandHudSet extends AHudCommand {
         }
     }
 
-
     private static class HudEnable extends AHudCommand {
         public HudEnable(HudType type) {
             super(type);
@@ -39,7 +38,7 @@ public class CommandHudSet extends AHudCommand {
                     .replace("%State%", temp
                             ? AllMusic.getMessage().hudList.enable
                             : AllMusic.getMessage().hudList.disable)
-                    .replace("%Hud%", AllMusic.getMessage().hudList.all));
+                    .replace("%Hud%", AllMusic.getMessage().hudList.getHud(type)));
         }
     }
 
@@ -127,6 +126,10 @@ public class CommandHudSet extends AHudCommand {
 
         @Override
         public void ex(Object sender, String name, String[] args) {
+            if (args.length != 4) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                return;
+            }
             if (!HudUtils.setColor(name, type, args[3])) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
@@ -176,7 +179,7 @@ public class CommandHudSet extends AHudCommand {
                 return;
             }
             AllMusic.side.sendMessage(sender,
-                    AllMusic.getMessage().hud.picSpeed.replace("%Size%", args[2]));
+                    AllMusic.getMessage().hud.picSpeed.replace("%Size%", args[3]));
         }
     }
 
@@ -225,6 +228,11 @@ public class CommandHudSet extends AHudCommand {
             }
 
             return list;
+        } else if (args.length >= 3) {
+            ICommand command = commandList.get(args[2]);
+            if (command != null) {
+                return command.tab(name, args);
+            }
         }
         return Collections.emptyList();
     }

@@ -296,7 +296,7 @@ public class CommandEX {
             if (AllMusic.getSearch(name) != null) {
                 return search;
             }
-        } else if (arg.length == 1) {
+        } else {
             if (arg[0].isEmpty()) {
                 arguments.addAll(normal);
                 if (AllMusic.getConfig().adminList.contains(name)) {
@@ -307,7 +307,7 @@ public class CommandEX {
                         return search;
                     }
                 }
-            } else {
+            } else if(arg.length > 1) {
                 ICommand command = CommandEX.commandList.get(arg[0]);
                 if (command != null) {
                     arguments.addAll(command.tab(name, arg));

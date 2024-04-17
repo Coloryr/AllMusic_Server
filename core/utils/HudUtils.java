@@ -11,6 +11,7 @@ import coloryr.allmusic.core.objs.music.SongInfoObj;
 import coloryr.allmusic.core.sql.DataSql;
 import com.google.gson.Gson;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,22 +19,27 @@ public class HudUtils {
     private static final Map<String, SaveObj> HudList = new ConcurrentHashMap<>();
 
     public static SaveObj get(String name) {
+        name = name.toLowerCase(Locale.ROOT);
         if (!HudList.containsKey(name)) {
             SaveObj obj = AllMusic.getConfig().defaultHud.copy();
             HudList.put(name, obj);
-            DataSql.task(() -> DataSql.addUser(name, obj));
+            String finalName = name;
+            DataSql.task(() -> DataSql.addUser(finalName, obj));
             return obj;
         }
         return HudList.get(name);
     }
 
     public static void add(String name, SaveObj hud) {
+        name = name.toLowerCase(Locale.ROOT);
         HudList.put(name, hud);
     }
 
     public static void addAndSave(String name, SaveObj hud) {
+        name = name.toLowerCase(Locale.ROOT);
         HudList.put(name, hud);
-        DataSql.task(() -> DataSql.addUser(name, hud));
+        String finalName = name;
+        DataSql.task(() -> DataSql.addUser(finalName, hud));
     }
 
     public static void save() {
@@ -212,7 +218,7 @@ public class HudUtils {
                 }
             }
         }
-        clearHud(player);
+
         addAndSave(player, obj);
         HudUtils.sendHudPos(player);
         if (pos == null) {
@@ -299,7 +305,7 @@ public class HudUtils {
                 obj1.picRotateSpeed = obj.picRotateSpeed;
                 break;
         }
-        clearHud(player);
+
         addAndSave(player, obj1);
         HudUtils.sendHudPos(player);
     }
@@ -409,7 +415,9 @@ public class HudUtils {
     public static boolean setColor(String player, HudType type, String arg) {
         int color;
         try {
-            color = Integer.parseInt(arg);
+            color = arg.startsWith("0x")
+                    ? Integer.parseUnsignedInt(arg.substring(2), 16)
+                    : Integer.parseUnsignedInt(arg);
         } catch (Exception ignored) {
             return false;
         }

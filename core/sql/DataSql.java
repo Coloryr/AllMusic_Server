@@ -12,6 +12,7 @@ import java.sql.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
@@ -94,6 +95,7 @@ public class DataSql {
      */
     public static boolean check(String name) {
         try {
+            name = name.toLowerCase(Locale.ROOT);
             boolean have = false;
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
@@ -119,6 +121,7 @@ public class DataSql {
      * @param hud  Hud数据
      */
     private static void update(String name, SaveObj hud) {
+        name = name.toLowerCase(Locale.ROOT);
         String sql = "";
         try {
             if (connection.isReadOnly() || connection.isClosed()) {
@@ -166,6 +169,7 @@ public class DataSql {
      * @param hud  数据
      */
     public static void addUser(String name, SaveObj hud) {
+        name = name.toLowerCase(Locale.ROOT);
         String sql = "";
         try {
             if (connection.isReadOnly() || connection.isClosed()) {
@@ -180,7 +184,7 @@ public class DataSql {
                         "pic_x,pic_y,pic_enable,pic_size,pic_rotate,pic_rotate_speed," +
                         "info_color,info_dir,info_shadow,lyric_color,lyric_dir," +
                         "lyric_shadow,list_color,list_dir,list_shadow,pic_dir)" +
-                        "VALUES (`" + name + "`," +
+                        "VALUES ('" + name + "'," +
                         hud.info.x + "," +
                         hud.info.y + "," +
                         (hud.info.enable ? 1 : 0) + "," +
@@ -266,7 +270,7 @@ public class DataSql {
                 obj.list.color = set.getInt(23);
                 obj.list.dir = vas[set.getInt(24)];
                 obj.list.shadow = set.getInt(25) == 1;
-                obj.list.dir = vas[set.getInt(26)];
+                obj.pic.dir = vas[set.getInt(26)];
                 HudUtils.add(name, obj);
             }
             stat.close();
