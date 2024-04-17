@@ -46,7 +46,7 @@ public class SaveObj {
         list = new PosObj(2, 74, HudDirType.TOP_LEFT, 0xffffff, false, true);
         lyric = new PosObj(74, 53, HudDirType.TOP_LEFT, 0xffffff, false, true);
         info = new PosObj(74, 2, HudDirType.TOP_LEFT, 0xffffff, false, true);
-        pic = new PosObj(2, 2, HudDirType.TOP_LEFT, 0, false, true);
+        pic = new PosObj(2, 2, HudDirType.TOP_LEFT, 70, false, true);
     }
 
     public static SaveObj make() {

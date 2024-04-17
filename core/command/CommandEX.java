@@ -267,6 +267,7 @@ public class CommandEX {
         this.add("addlist");
         this.add("clearlist");
         this.add("login");
+        this.add("code");
     }};
 
     /**

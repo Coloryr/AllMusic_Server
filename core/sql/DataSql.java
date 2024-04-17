@@ -125,17 +125,32 @@ public class DataSql {
                 init();
             }
             Statement stat = connection.createStatement();
-            sql = MessageFormat.format("UPDATE allmusic SET info_x={0},info_y={1},info_color={15},info_dir={16},info_shadow={17},info_enable={2},lyric_x={3},lyric_y={4},lyric_color={18},lyric_dir={19},lyric_shadow={20},lyric_enable={5},list_x={6},list_y={7}, list_color={21},list_dir={22},list_shadow={23},list_enable={8},pic_x={9},pic_y={10},pic_dir={24},pic_enable={11},pic_size={12},pic_rotate={13},pic_rotate_speed={14} WHERE name=@name",
-                    hud.info.x, hud.info.y, hud.info.enable ? 1 : 0,
-                    hud.lyric.x, hud.lyric.y, hud.lyric.enable ? 1 : 0,
-                    hud.list.x, hud.list.y, hud.list.enable ? 1 : 0,
-                    hud.pic.x, hud.pic.y, hud.pic.enable ? 1 : 0,
-                    hud.pic.color, hud.pic.shadow ? 1 : 0,
-                    hud.picRotateSpeed, hud.info.color, hud.info.dir.ordinal(),
-                    hud.info.shadow ? 1 : 0, hud.lyric.color, hud.lyric.dir.ordinal(),
-                    hud.lyric.shadow ? 1 : 0, hud.list.color, hud.list.dir.ordinal(),
-                    hud.list.shadow ? 1 : 0, hud.pic.dir.ordinal());
-            sql = sql.replace("@name", "'" + name + "'");
+            sql = "UPDATE allmusic SET " +
+                    "info_x=" + hud.info.x + "," +
+                    "info_y=" + hud.info.y + "," +
+                    "info_color=" + hud.info.color + "," +
+                    "info_dir=" + hud.info.dir.ordinal() + "," +
+                    "info_shadow=" + (hud.info.shadow ? 1 : 0) + "," +
+                    "info_enable=" + (hud.info.enable ? 1 : 0) + "," +
+                    "lyric_x=" + hud.lyric.x + "," +
+                    "lyric_y=" + hud.lyric.y + "," +
+                    "lyric_color=" + hud.lyric.color + "," +
+                    "lyric_dir=" + hud.lyric.dir.ordinal() + "," +
+                    "lyric_shadow=" + (hud.lyric.shadow ? 1 : 0) + "," +
+                    "lyric_enable=" + (hud.lyric.enable ? 1 : 0) + "," +
+                    "list_x=" + hud.list.x + "," +
+                    "list_y=" + hud.list.y + "," +
+                    "list_color=" + hud.list.color + "," +
+                    "list_dir=" + hud.list.dir.ordinal() + "," +
+                    "list_shadow=" + (hud.list.shadow ? 1 : 0) + "," +
+                    "list_enable=" + (hud.list.enable ? 1 : 0) + "," +
+                    "pic_x=" + hud.pic.x + "," +
+                    "pic_y=" + hud.pic.y + "," +
+                    "pic_dir=" + hud.pic.dir.ordinal() + "," +
+                    "pic_enable=" + (hud.pic.enable ? 1 : 0) + "," +
+                    "pic_size=" + hud.pic.color + "," +
+                    "pic_rotate=" + (hud.pic.shadow ? 1 : 0) + "," +
+                    "pic_rotate_speed=" + hud.picRotateSpeed + " WHERE name='" + name + "'";
             stat.execute(sql);
             stat.close();
         } catch (Exception e) {
@@ -160,22 +175,38 @@ public class DataSql {
                 update(name, hud);
             } else {
                 Statement stat = connection.createStatement();
-                sql = MessageFormat.format("INSERT INTO allmusic (name,info_x,info_y," +
-                                "info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable," +
-                                "pic_x,pic_y,pic_enable,pic_size,pic_rotate,pic_rotate_speed," +
-                                "info_color,info_dir,info_shadow,lyric_color,lyric_dir," +
-                                "lyric_shadow,list_color,list_dir,list_shadow,pic_dir)" +
-                                "VALUES (@name,{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24})",
-                        hud.info.x, hud.info.y, hud.info.enable ? 1 : 0,
-                        hud.lyric.x, hud.lyric.y, hud.lyric.enable ? 1 : 0,
-                        hud.list.x, hud.list.y, hud.list.enable ? 1 : 0,
-                        hud.pic.x, hud.pic.y, hud.pic.enable ? 1 : 0,
-                        hud.pic.color, hud.pic.shadow ? 1 : 0,
-                        hud.picRotateSpeed, hud.info.color, hud.info.dir.ordinal(),
-                        hud.info.shadow ? 1 : 0, hud.lyric.color, hud.lyric.dir.ordinal(),
-                        hud.lyric.shadow ? 1 : 0, hud.list.color, hud.list.dir.ordinal(),
-                        hud.list.shadow ? 1 : 0, hud.pic.dir.ordinal());
-                sql = sql.replace("@name", "'" + name + "'");
+                sql = "INSERT INTO allmusic (name,info_x,info_y," +
+                        "info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable," +
+                        "pic_x,pic_y,pic_enable,pic_size,pic_rotate,pic_rotate_speed," +
+                        "info_color,info_dir,info_shadow,lyric_color,lyric_dir," +
+                        "lyric_shadow,list_color,list_dir,list_shadow,pic_dir)" +
+                        "VALUES (`" + name + "`," +
+                        hud.info.x + "," +
+                        hud.info.y + "," +
+                        (hud.info.enable ? 1 : 0) + "," +
+                        hud.lyric.x + "," +
+                        hud.lyric.y + "," +
+                        (hud.lyric.enable ? 1 : 0) + "," +
+                        hud.list.x + "," +
+                        hud.list.y + "," +
+                        (hud.list.enable ? 1 : 0) + "," +
+                        hud.pic.x + "," +
+                        hud.pic.y + "," +
+                        (hud.pic.enable ? 1 : 0) + "," +
+                        hud.pic.color + "," +
+                        (hud.pic.shadow ? 1 : 0) + "," +
+                        hud.picRotateSpeed + "," +
+                        hud.info.color + "," +
+                        hud.info.dir.ordinal() + "," +
+                        (hud.info.shadow ? 1 : 0) + "," +
+                        hud.lyric.color + "," +
+                        hud.lyric.dir.ordinal() + "," +
+                        (hud.lyric.shadow ? 1 : 0) + "," +
+                        hud.list.color + "," +
+                        hud.list.dir.ordinal() + "," +
+                        (hud.list.shadow ? 1 : 0) + "," +
+                        hud.pic.dir.ordinal() +
+                        ")";
                 stat.execute(sql);
                 stat.close();
             }
@@ -248,7 +279,7 @@ public class DataSql {
     /**
      * 读取空闲歌单列表
      */
-    private static void readAllList(){
+    private static void readAllList() {
         try {
             AllMusic.log.info("正在读取空闲歌单");
             if (connection.isReadOnly() || connection.isClosed()) {

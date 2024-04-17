@@ -206,8 +206,8 @@ public class ConfigObj {
         minVote = 3;
         voteTime = 30;
         adminList = new HashSet<>();
-        adminList.add("CONSOLE");
-        adminList.add("Color_yr");
+        adminList.add("console");
+        adminList.add("color_yr");
         muteServer = new HashSet<>();
         mutePlayer = new HashSet<>();
         banMusic = new HashSet<>();

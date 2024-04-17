@@ -40,7 +40,7 @@ public class SideVelocity extends ISide implements IEconomy {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeInt(0);
         if (PlayMusic.nowPlayMusic == null)
-            out.writeUTF(AllMusic.getMessage().papi.NoMusic);
+            out.writeUTF(AllMusic.getMessage().papi.emptyMusic);
         else {
             if (AllMusic.getConfig().messageLimit
                     && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().messageLimitSize) {
@@ -196,7 +196,7 @@ public class SideVelocity extends ISide implements IEconomy {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.stop.ordinal());
+                buf.writeByte(ComType.STOP.ordinal());
                 send(player, buf);
             }
         } catch (Exception e) {
@@ -212,7 +212,7 @@ public class SideVelocity extends ISide implements IEconomy {
             if (!player.isPresent())
                 return;
             ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.stop.ordinal());
+            buf.writeByte(ComType.STOP.ordinal());
             send(player.get(), buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -229,7 +229,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (AllMusic.isOK(player.getUsername(), server, false))
                     continue;
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.play.ordinal());
+                buf.writeByte(ComType.PLAY.ordinal());
                 writeString(buf, url);
                 send(player, buf);
                 AllMusic.addNowPlayPlayer(player.getUsername());
@@ -250,7 +250,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (AllMusic.isOK(player1.getUsername(), server, false))
                     return;
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.play.ordinal());
+                buf.writeByte(ComType.PLAY.ordinal());
                 writeString(buf, url);
                 send(player1, buf);
             }
@@ -271,7 +271,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (!obj.pic.enable)
                     continue;
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.img.ordinal());
+                buf.writeByte(ComType.IMG.ordinal());
                 writeString(buf, url);
                 send(player, buf);
             }
@@ -289,7 +289,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (ok(player1))
                     return;
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.img.ordinal());
+                buf.writeByte(ComType.IMG.ordinal());
                 writeString(buf, url);
                 send(player1, buf);
             }
@@ -307,7 +307,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (ok(player1))
                     return;
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.pos.ordinal());
+                buf.writeByte(ComType.POS.ordinal());
                 buf.writeInt(pos);
                 send(player1, buf);
             }
@@ -327,7 +327,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (!obj.lyric.enable)
                     continue;
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.lyric.ordinal());
+                buf.writeByte(ComType.LYRIC.ordinal());
                 writeString(buf, data);
                 send(player, buf);
             }
@@ -347,7 +347,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (!obj.info.enable)
                     continue;
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.info.ordinal());
+                buf.writeByte(ComType.INFO.ordinal());
                 writeString(buf, data);
                 send(player, buf);
             }
@@ -366,7 +366,7 @@ public class SideVelocity extends ISide implements IEconomy {
             SaveObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
             ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.hud.ordinal());
+            buf.writeByte(ComType.HUD.ordinal());
             writeString(buf, data);
             send(player.get(), buf);
         } catch (Exception e) {
@@ -391,13 +391,13 @@ public class SideVelocity extends ISide implements IEconomy {
             ByteBuf buf = Unpooled.buffer();
             switch (pos) {
                 case INFO:
-                    buf.writeByte(ComType.info.ordinal());
+                    buf.writeByte(ComType.INFO.ordinal());
                     break;
                 case LIST:
-                    buf.writeByte(ComType.list.ordinal());
+                    buf.writeByte(ComType.LIST.ordinal());
                     break;
                 case LYRIC:
-                    buf.writeByte(ComType.lyric.ordinal());
+                    buf.writeByte(ComType.LYRIC.ordinal());
                     break;
             }
             writeString(buf, data);
@@ -420,7 +420,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (!obj.list.enable)
                     continue;
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.list.ordinal());
+                buf.writeByte(ComType.LIST.ordinal());
                 writeString(buf, data);
                 send(player, buf);
             }
@@ -437,7 +437,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(player.getUsername());
                 String data = AllMusic.gson.toJson(obj);
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.hud.ordinal());
+                buf.writeByte(ComType.HUD.ordinal());
                 writeString(buf, data);
                 send(player, buf);
             } catch (Exception e1) {
@@ -470,7 +470,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 return;
 
             ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.clear.ordinal());
+            buf.writeByte(ComType.CLEAR.ordinal());
             send(player.get(), buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
@@ -484,7 +484,7 @@ public class SideVelocity extends ISide implements IEconomy {
             Collection<Player> values = AllMusicVelocity.plugin.server.getAllPlayers();
             for (Player player : values) {
                 ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.clear.ordinal());
+                buf.writeByte(ComType.CLEAR.ordinal());
                 send(player, buf);
             }
         } catch (Exception e) {
