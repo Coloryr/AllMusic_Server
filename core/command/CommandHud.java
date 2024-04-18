@@ -18,32 +18,39 @@ public class CommandHud extends ACommand {
         commandList.put("pic", new CommandHudSet(HudType.PIC));
     }
 
-    public static class HudEnable implements ICommand {
+    public static class HudEnable extends ACommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
-            boolean temp = HudUtils.setHudEnable(name, null);
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
-                    .replace("%State%", temp ? "启用" : "关闭")
-                    .replace("%Hud%", AllMusic.getMessage().hudList.getHud(null)));
+            if(args.length == 2 || args.length == 3) {
+                boolean temp = HudUtils.setHudEnable(name, null, args.length == 3 ? args[2] : null);
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
+                        .replace("%State%", temp ? "启用" : "关闭")
+                        .replace("%Hud%", AllMusic.getMessage().hudList.getHud(null)));
+                return;
+            }
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
         }
 
         @Override
-        public List<String> tab(String name, String[] args) {
+        public List<String> tab(String name, String[] args, int index) {
+            if (args.length == index + 1) {
+                return tf;
+            }
             return Collections.emptyList();
         }
+
+        private static final List<String> tf = new ArrayList<String>() {{
+            this.add("true");
+            this.add("false");
+        }};
     }
 
-    public static class HudReset implements ICommand {
+    public static class HudReset extends ACommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
             HudUtils.reset(name);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.reset
                     .replace("%Hud%", AllMusic.getMessage().hudList.getHud(null)));
-        }
-
-        @Override
-        public List<String> tab(String name, String[] args) {
-            return Collections.emptyList();
         }
     }
 
@@ -74,13 +81,13 @@ public class CommandHud extends ACommand {
     }};
 
     @Override
-    public List<String> tab(String name, String[] args) {
-        if (args.length == 1 || (args.length == 2 && args[1].isEmpty())) {
+    public List<String> tab(String name, String[] args, int index) {
+        if (args.length == index + 1) {
             return hudlist;
-        } else if (args.length >= 2) {
-            ICommand command = commandList.get(args[1]);
+        } else {
+            ICommand command = commandList.get(args[index]);
             if (command != null) {
-                return command.tab(name, args);
+                return command.tab(name, args, index + 1);
             }
         }
         return Collections.emptyList();

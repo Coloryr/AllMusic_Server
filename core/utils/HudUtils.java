@@ -181,39 +181,48 @@ public class HudUtils {
      * @param pos    输入数据
      * @return 设置结果
      */
-    public static boolean setHudEnable(String player, HudType pos) {
+    public static boolean setHudEnable(String player, HudType pos, String arg) {
         SaveObj obj = get(player);
         boolean res = false;
+        boolean value = false;
+        boolean have = false;
+        if (arg != null) {
+            try {
+                value = Boolean.parseBoolean(arg);
+                have = true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
         if (obj == null) {
             obj = AllMusic.getConfig().defaultHud.copy();
-            res = obj.info.enable && obj.list.enable && obj.lyric.enable;
+            if (have) {
+                res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = value;
+            } else {
+                res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = true;
+            }
         } else {
             if (pos == null) {
-                if (obj.info.enable && obj.list.enable && obj.lyric.enable) {
-                    obj.info.enable = false;
-                    obj.list.enable = false;
-                    obj.lyric.enable = false;
-                    obj.pic.enable = false;
+                if (have) {
+                    res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = value;
+                } else if (obj.info.enable && obj.list.enable && obj.lyric.enable && obj.pic.enable) {
+                    obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = false;
                 } else {
-                    obj.info.enable = true;
-                    obj.list.enable = true;
-                    obj.lyric.enable = true;
-                    obj.pic.enable = true;
-                    res = true;
+                    res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = true;
                 }
             } else {
                 switch (pos) {
                     case INFO:
-                        obj.info.enable = !obj.info.enable;
+                        res = obj.info.enable = have ? value : !obj.info.enable;
                         break;
                     case LIST:
-                        obj.list.enable = !obj.list.enable;
+                        res = obj.list.enable = have ? value : !obj.list.enable;
                         break;
                     case LYRIC:
-                        obj.lyric.enable = !obj.lyric.enable;
+                        res = obj.lyric.enable = have ? value : !obj.lyric.enable;
                         break;
                     case PIC:
-                        obj.pic.enable = !obj.pic.enable;
+                        res = obj.pic.enable = have ? value : !obj.pic.enable;
                         break;
                 }
             }
@@ -221,21 +230,8 @@ public class HudUtils {
 
         addAndSave(player, obj);
         HudUtils.sendHudPos(player);
-        if (pos == null) {
-            return res;
-        } else {
-            switch (pos) {
-                case INFO:
-                    return obj.info.enable;
-                case LIST:
-                    return obj.list.enable;
-                case LYRIC:
-                    return obj.lyric.enable;
-                case PIC:
-                    return obj.pic.enable;
-            }
-        }
-        return false;
+
+        return res;
     }
 
     /**
@@ -343,7 +339,11 @@ public class HudUtils {
         if (obj == null)
             obj = AllMusic.getConfig().defaultHud.copy();
 
-        obj.pic.shadow = Boolean.parseBoolean(open);
+        if (open != null) {
+            obj.pic.shadow = Boolean.parseBoolean(open);
+        } else {
+            obj.pic.shadow = !obj.pic.shadow;
+        }
 
         addAndSave(player, obj);
         HudUtils.sendHudPos(player);

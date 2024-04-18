@@ -297,7 +297,7 @@ public class CommandEX {
                 return search;
             }
         } else {
-            if (arg[0].isEmpty()) {
+            if (arg[0].isEmpty() || arg.length == 1) {
                 arguments.addAll(normal);
                 if (AllMusic.getConfig().adminList.contains(name)) {
                     arguments.addAll(admin);
@@ -307,14 +307,14 @@ public class CommandEX {
                         return search;
                     }
                 }
-            } else if(arg.length > 1) {
+            } else {
                 ICommand command = CommandEX.commandList.get(arg[0]);
                 if (command != null) {
-                    arguments.addAll(command.tab(name, arg));
+                    arguments.addAll(command.tab(name, arg, 1));
                 }
                 command = CommandEX.commandAdminList.get(arg[0]);
                 if (command != null) {
-                    arguments.addAll(command.tab(name, arg));
+                    arguments.addAll(command.tab(name, arg, 1));
                 }
             }
         }

@@ -33,12 +33,24 @@ public class CommandHudSet extends AHudCommand {
 
         @Override
         public void ex(Object sender, String name, String[] args) {
-            boolean temp = HudUtils.setHudEnable(name, type);
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
-                    .replace("%State%", temp
-                            ? AllMusic.getMessage().hudList.enable
-                            : AllMusic.getMessage().hudList.disable)
-                    .replace("%Hud%", AllMusic.getMessage().hudList.getHud(type)));
+            if(args.length == 3 || args.length == 4) {
+                boolean temp = HudUtils.setHudEnable(name, type, args.length == 4 ? args[3] : null);
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
+                        .replace("%State%", temp
+                                ? AllMusic.getMessage().hudList.enable
+                                : AllMusic.getMessage().hudList.disable)
+                        .replace("%Hud%", AllMusic.getMessage().hudList.getHud(type)));
+                return;
+            }
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+        }
+
+        @Override
+        public List<String> tab(String name, String[] args, int index) {
+            if (args.length == index + 1) {
+                return tf;
+            }
+            return Collections.emptyList();
         }
     }
 
@@ -111,8 +123,8 @@ public class CommandHudSet extends AHudCommand {
         }};
 
         @Override
-        public List<String> tab(String name, String[] args) {
-            if (args.length == 3 || (args.length == 4 && args[3].isEmpty())) {
+        public List<String> tab(String name, String[] args, int index) {
+            if (args.length == index + 1) {
                 return dir;
             }
             return Collections.emptyList();
@@ -140,7 +152,7 @@ public class CommandHudSet extends AHudCommand {
         }
     }
 
-    private static class PicSize implements ICommand {
+    private static class PicSize extends ACommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
             if (args.length != 3 || !HudUtils.setPicSize(name, args[2])) {
@@ -150,24 +162,27 @@ public class CommandHudSet extends AHudCommand {
             AllMusic.side.sendMessage(sender,
                     AllMusic.getMessage().hud.picSize.replace("%Size%", args[2]));
         }
-
-        @Override
-        public List<String> tab(String name, String[] args) {
-            return Collections.emptyList();
-        }
     }
 
     private static class PicRotate extends ACommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
-            if (args.length != 4) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+            if (args.length == 3 || args.length == 4) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.picRotate
+                        .replace("%State%", HudUtils.setPicRotate(name, args.length == 4 ? args[3] : null)
+                                ? AllMusic.getMessage().hudList.enable
+                                : AllMusic.getMessage().hudList.disable));
                 return;
             }
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.picRotate
-                    .replace("%State%", HudUtils.setPicRotate(name, args[3])
-                            ? AllMusic.getMessage().hudList.enable
-                            : AllMusic.getMessage().hudList.disable));
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+        }
+
+        @Override
+        public List<String> tab(String name, String[] args, int index) {
+            if (args.length == index + 1) {
+                return tf;
+            }
+            return Collections.emptyList();
         }
     }
 
@@ -217,9 +232,14 @@ public class CommandHudSet extends AHudCommand {
         this.add("color");
     }};
 
+    private static final List<String> tf = new ArrayList<String>() {{
+        this.add("true");
+        this.add("false");
+    }};
+
     @Override
-    public List<String> tab(String name, String[] args) {
-        if (args.length == 2 || (args.length == 3 && args[2].isEmpty())) {
+    public List<String> tab(String name, String[] args, int index) {
+        if (args.length == index + 1) {
             List<String> list = new ArrayList<>(hud);
             if (type == HudType.PIC) {
                 list.addAll(pic);
@@ -228,10 +248,10 @@ public class CommandHudSet extends AHudCommand {
             }
 
             return list;
-        } else if (args.length >= 3) {
-            ICommand command = commandList.get(args[2]);
+        } else {
+            ICommand command = commandList.get(args[index]);
             if (command != null) {
-                return command.tab(name, args);
+                return command.tab(name, args, index + 1);
             }
         }
         return Collections.emptyList();

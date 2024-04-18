@@ -98,7 +98,7 @@ public class CommandPush extends ACommand {
     }
 
     @Override
-    public List<String> tab(String name, String[] args) {
+    public List<String> tab(String name, String[] args, int index) {
         if (args.length == 1 || (args.length == 2 && args[1].isEmpty())) {
             List<String> list = new ArrayList<>();
             List<SongInfoObj> list1 = PlayMusic.getList();
