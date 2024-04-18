@@ -416,7 +416,7 @@ public class SideBukkit extends ISide {
 
     @Override
     public void bqRun(String message, String end, String command) {
-
+        SpigotApi.sendMessageBqRun(message, end, command);
     }
 
     @Override
@@ -551,7 +551,7 @@ public class SideBukkit extends ISide {
         if (players == null)
             return;
         try {
-            if (AllMusic.isRun)
+            if (AllMusic.isRun) {
                 runTask(() ->
                 {
                     try {
@@ -560,7 +560,6 @@ public class SideBukkit extends ISide {
                         e.printStackTrace();
                     }
                 });
-            else {
             }
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");

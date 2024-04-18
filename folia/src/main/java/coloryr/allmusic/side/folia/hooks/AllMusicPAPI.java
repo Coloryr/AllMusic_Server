@@ -55,7 +55,7 @@ public class AllMusicPAPI extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String identifier) {
-        if (AllMusic.getConfig().TopPAPI) {
+        if (AllMusic.getConfig().topPAPI) {
             if (!PluginMessage.update) {
                 PluginMessage.startUpdate();
                 return "";
@@ -87,19 +87,19 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                 }
                 case "lyric": {
                     if (PlayMusic.lyric == null || PlayMusic.lyric.getLyric() == null) {
-                        return AllMusic.getMessage().Lyric.Empty1;
+                        return AllMusic.getMessage().lyric.empty1;
                     }
                     return PlayMusic.lyric.getLyric();
                 }
                 case "tlyric": {
                     if (PlayMusic.lyric == null || PlayMusic.lyric.getTlyric() == null) {
-                        return AllMusic.getMessage().Lyric.Empty2;
+                        return AllMusic.getMessage().lyric.empty2;
                     }
                     return PlayMusic.lyric.getTlyric();
                 }
                 case "klyric": {
                     if (PlayMusic.lyric == null || PlayMusic.lyric.getKly() == null) {
-                        return AllMusic.getMessage().Lyric.Empty3;
+                        return AllMusic.getMessage().lyric.empty3;
                     }
                     return PlayMusic.lyric.getKly();
                 }
@@ -108,10 +108,10 @@ public class AllMusicPAPI extends PlaceholderExpansion {
             switch (identifier) {
                 case "now_music_name": {
                     if (PlayMusic.nowPlayMusic == null)
-                        return AllMusic.getMessage().PAPI.NoMusic;
-                    if (AllMusic.getConfig().MessageLimit
-                            && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().MessageLimitSize) {
-                        return PlayMusic.nowPlayMusic.getName().substring(0, AllMusic.getConfig().MessageLimitSize);
+                        return AllMusic.getMessage().papi.emptyMusic;
+                    if (AllMusic.getConfig().messageLimit
+                            && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().messageLimitSize) {
+                        return PlayMusic.nowPlayMusic.getName().substring(0, AllMusic.getConfig().messageLimitSize);
                     }
                     return PlayMusic.nowPlayMusic.getName();
                 }
@@ -141,7 +141,7 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     return PlayMusic.nowPlayMusic.getInfo();
                 }
                 case "list_size": {
-                    return "" + PlayMusic.getSize();
+                    return "" + PlayMusic.getListSize();
                 }
                 case "music_list": {
                     return PlayMusic.getAllList();

@@ -1,7 +1,6 @@
 package coloryr.allmusic.side.folia;
 
 import coloryr.allmusic.core.command.CommandEX;
-import coloryr.allmusic.core.command.TabCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +22,7 @@ public class CommandFolia implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (command.getName().equalsIgnoreCase("music")) {
-            return TabCommand.getTabList(sender.getName(), args);
+            return CommandEX.getTabList(sender.getName(), args);
         }
         return null;
     }

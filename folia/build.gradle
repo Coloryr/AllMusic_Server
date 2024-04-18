@@ -38,7 +38,7 @@ dependencies {
     //implementation "org.apache.commons:commons-dbcp2:2.9.0"
     //implementation 'mysql:mysql-connector-java:8.0.31'
 
-    compileOnly 'dev.folia:folia-api:1.20.2-R0.1-SNAPSHOT'
+    compileOnly 'dev.folia:folia-api:1.20.4-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
     compileOnly 'me.clip:placeholderapi:2.10.10'
     //compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
@@ -46,7 +46,6 @@ dependencies {
 
     //implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 shadowJar {
@@ -55,7 +54,6 @@ shadowJar {
     relocate 'kotlin', 'coloryr.allmusic.lib.kotlin'
     relocate 'org.intellij', 'coloryr.allmusic.lib.org.intellij'
     relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
-    relocate 'com.google.gson', 'coloryr.allmusic.lib.com.google.gson'
 }
 
 tasks.withType(JavaCompile).configureEach {

@@ -49,7 +49,7 @@ public class AllMusicFolia extends JavaPlugin {
             AllMusic.log.info("§2PAPI未挂钩");
         }
 
-        if (AllMusic.getConfig().TopPAPI) {
+        if (AllMusic.getConfig().topPAPI) {
             PlayMusic.nowPlayMusic = new TopSongInfoObj();
             PlayMusic.lyric = new TopLyricSave();
             pluginMessage = new PluginMessage();
@@ -58,7 +58,7 @@ public class AllMusicFolia extends JavaPlugin {
             AllMusic.log.info("§2设置为顶层模式");
         } else {
             if (Bukkit.getPluginManager().getPlugin("Vault") != null
-                    && AllMusic.getConfig().Economy.Vault) {
+                    && AllMusic.getConfig().economy.vault) {
                 try {
                     VaultHook vault = new VaultHook();
                     AllMusic.economy = vault;
@@ -92,7 +92,7 @@ public class AllMusicFolia extends JavaPlugin {
     @Override
     public void onDisable() {
         AllMusic.isRun = false;
-        if (AllMusic.getConfig().TopPAPI)
+        if (AllMusic.getConfig().topPAPI)
             pluginMessage.stop();
         else
             AllMusic.stop();
