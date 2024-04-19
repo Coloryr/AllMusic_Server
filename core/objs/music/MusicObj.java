@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.objs.music;
+package com.coloryr.allmusic.server.core.objs.music;
 
 public class MusicObj {
     /**

@@ -1,11 +1,11 @@
 [
   {
     "modid": "allmusic_server",
-    "name": "AllMusic_Server",
-    "description": "allmusic server",
-    "version": "2.19.4",
+    "name": "AllMusic Server",
+    "description": "AllMusic Server Mod",
+    "version": "3.0.0",
     "mcversion": "1.12.2",
-    "url": "https://github.com/Coloryr/AllMusic_Server",
+    "url": "https://github.com/Coloryr/AllMusic3_Server",
     "updateUrl": "",
     "authorList": [
       "Color_yr"

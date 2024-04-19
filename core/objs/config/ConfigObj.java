@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.objs.config;
+package com.coloryr.allmusic.server.core.objs.config;
 
-import coloryr.allmusic.core.AllMusic;
+import com.coloryr.allmusic.server.core.AllMusic;
 
 import java.util.HashSet;
 import java.util.Set;

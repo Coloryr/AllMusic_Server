@@ -1,61 +1,19 @@
-rmdir "folia/src/main/java/coloryr/allmusic/core"
-rmdir "server/src/main/java/coloryr/allmusic/core"
-rmdir "server_top/src/main/java/coloryr/allmusic/core"
-rmdir "forge_1_20/src/main/java/coloryr/allmusic/core"
-rmdir "forge_1_19_3/src/main/java/coloryr/allmusic/core"
-rmdir "forge_1_19_2/src/main/java/coloryr/allmusic/core"
-rmdir "forge_1_18_2/src/main/java/coloryr/allmusic/core"
-rmdir "forge_1_16_5/src/main/java/coloryr/allmusic/core"
-rmdir "forge_1_12_2/src/main/java/coloryr/allmusic/core"
-rmdir "fabric_1_20_2/src/main/java/coloryr/allmusic/core"
-rmdir "fabric_1_20/src/main/java/coloryr/allmusic/core"
-rmdir "fabric_1_19_3/src/main/java/coloryr/allmusic/core"
-rmdir "fabric_1_19_2/src/main/java/coloryr/allmusic/core"
-rmdir "fabric_1_18_2/src/main/java/coloryr/allmusic/core"
-rmdir "fabric_1_16_5/src/main/java/coloryr/allmusic/core"
+@echo off
 
-@REM rmdir /s /q "folia/src/main/resources/core"
-@REM rmdir /s /q "server/src/main/resources/core"
-@REM rmdir /s /q "server_top/src/main/resources/core"
-@REM rmdir /s /q "forge_1_20/src/main/resources/core"
-@REM rmdir /s /q "forge_1_19_3/src/main/resources/core"
-@REM rmdir /s /q "forge_1_19_2/src/main/resources/core"
-@REM rmdir /s /q "forge_1_18_2/src/main/resources/core"
-@REM rmdir /s /q "forge_1_16_5/src/main/resources/core"
-@REM rmdir /s /q "fabric_1_20/src/main/resources/core"
-@REM rmdir /s /q "fabric_1_19_3/src/main/resources/core"
-@REM rmdir /s /q "fabric_1_19_2/src/main/resources/core"
-@REM rmdir /s /q "fabric_1_18_2/src/main/resources/core"
-@REM rmdir /s /q "fabric_1_16_5/src/main/resources/core"
+mkdir "build"
+mkdir ".gradle"
 
-rmdir /s /q "folia/build"
-rmdir /s /q "server/build"
-rmdir /s /q "server_top/build"
-rmdir /s /q "forge_1_20/build"
-rmdir /s /q "forge_1_19_3/build"
-rmdir /s /q "forge_1_19_2/build"
-rmdir /s /q "forge_1_18_2/build"
-rmdir /s /q "forge_1_16_5/build"
-rmdir /s /q "forge_1_12_2/build"
-rmdir /s /q "fabric_1_20_2/build"
-rmdir /s /q "fabric_1_20/build"
-rmdir /s /q "fabric_1_19_3/build"
-rmdir /s /q "fabric_1_19_2/build"
-rmdir /s /q "fabric_1_18_2/build"
-rmdir /s /q "fabric_1_16_5/build"
+setlocal enabledelayedexpansion
 
-rmdir /s /q "folia/.gradle"
-rmdir /s /q "server/.gradle"
-rmdir /s /q "server_top/.gradle"
-rmdir /s /q "forge_1_20/.gradle"
-rmdir /s /q "forge_1_19_3/.gradle"
-rmdir /s /q "forge_1_19_2/.gradle"
-rmdir /s /q "forge_1_18_2/.gradle"
-rmdir /s /q "forge_1_16_5/.gradle"
-rmdir /s /q "forge_1_12_2/.gradle"
-rmdir /s /q "fabric_1_20_2/.gradle"
-rmdir /s /q "fabric_1_20/.gradle"
-rmdir /s /q "fabric_1_19_3/.gradle"
-rmdir /s /q "fabric_1_19_2/.gradle"
-rmdir /s /q "fabric_1_18_2/.gradle"
-rmdir /s /q "fabric_1_16_5/.gradle"
+set array=folia server_top server forge_1_20 forge_1_19_3 ^
+forge_1_19_2 forge_1_18_2 forge_1_16_5 forge_1_12_2 ^
+fabric_1_20_2 fabric_1_20 fabric_1_19_3 fabric_1_19_2 fabric_1_18_2 ^
+fabric_1_16_5
+
+for %%i in (%array%) do (
+    if exist "%%i\src\main\java\com\coloryr\allmusic\server\core" rmdir "%%i\src\main\java\com\coloryr\allmusic\server\core" "core"
+    if exist "%%i\build" rmdir /s /q "%%i\build" "build"
+    if exist "%%i\.gradle" rmdir /s /q "%%i\.gradle" ".gradle"
+)
+
+endlocal

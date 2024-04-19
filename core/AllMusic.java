@@ -1,20 +1,20 @@
-package coloryr.allmusic.core;
+package com.coloryr.allmusic.server.core;
 
-import coloryr.allmusic.core.sql.DataSql;
-import coloryr.allmusic.core.utils.HudUtils;
-import coloryr.allmusic.core.music.api.APIMain;
-import coloryr.allmusic.core.music.play.MusicSearch;
-import coloryr.allmusic.core.music.play.PlayGo;
-import coloryr.allmusic.core.music.play.PlayMusic;
-import coloryr.allmusic.core.objs.CookieObj;
-import coloryr.allmusic.core.objs.config.ConfigObj;
-import coloryr.allmusic.core.objs.config.SaveObj;
-import coloryr.allmusic.core.objs.message.MessageObj;
-import coloryr.allmusic.core.objs.music.SearchPageObj;
-import coloryr.allmusic.core.side.IMyLogger;
-import coloryr.allmusic.core.side.ISide;
-import coloryr.allmusic.core.sql.IEconomy;
-import coloryr.allmusic.core.utils.Logs;
+import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
+import com.coloryr.allmusic.server.core.music.api.APIMain;
+import com.coloryr.allmusic.server.core.music.play.MusicSearch;
+import com.coloryr.allmusic.server.core.music.play.PlayGo;
+import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.objs.CookieObj;
+import com.coloryr.allmusic.server.core.objs.config.ConfigObj;
+import com.coloryr.allmusic.server.core.objs.config.SaveObj;
+import com.coloryr.allmusic.server.core.objs.message.MessageObj;
+import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
+import com.coloryr.allmusic.server.core.side.IMyLogger;
+import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.core.utils.Logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.objs.config;
+package com.coloryr.allmusic.server.core.objs.config;
 
 public class FunConfigObj {
     public boolean rain;

@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.objs.music;
+package com.coloryr.allmusic.server.core.objs.music;
 
-import coloryr.allmusic.core.objs.api.music.trialinfo.freeTrialInfo;
+import com.coloryr.allmusic.server.core.objs.api.music.trialinfo.freeTrialInfo;
 
 public class TopSongInfoObj extends SongInfoObj {
     public TopSongInfoObj() {

@@ -1,6 +1,6 @@
 # AllMusic3
 
-[AllMusic](https://github.com/Coloryr/AllMusic_Server)3.0版本
+[AllMusic](https://github.com/Coloryr/AllMusic3_Server)3.0版本
 
 一个全服点歌插件
 

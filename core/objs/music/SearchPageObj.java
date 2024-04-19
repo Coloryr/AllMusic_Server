@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.objs.music;
+package com.coloryr.allmusic.server.core.objs.music;
 
-import coloryr.allmusic.core.objs.SearchMusicObj;
+import com.coloryr.allmusic.server.core.objs.SearchMusicObj;
 
 import java.util.List;
 

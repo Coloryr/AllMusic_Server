@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.command;
+package com.coloryr.allmusic.server.core.command;
 
-import coloryr.allmusic.core.AllMusic;
+import com.coloryr.allmusic.server.core.AllMusic;
 
 public class CommandSearch extends ACommand {
     @Override

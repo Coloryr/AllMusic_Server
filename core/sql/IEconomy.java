@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.sql;
+package com.coloryr.allmusic.server.core.sql;
 
 public interface IEconomy {
     boolean check(String name, int cost);

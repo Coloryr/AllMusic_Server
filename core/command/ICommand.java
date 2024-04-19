@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.command;
+package com.coloryr.allmusic.server.core.command;
 
 import java.util.List;
 

@@ -18,7 +18,7 @@
  *----------------------------------------------------------------------
  */
 
-package coloryr.allmusic.core.decoder;
+package com.coloryr.allmusic.server.core.decoder;
 
 /**
  * Instances of <code>BitstreamException</code> are thrown

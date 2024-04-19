@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.command;
+package com.coloryr.allmusic.server.core.command;
 
-import coloryr.allmusic.core.objs.enums.HudType;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
 
 public abstract class AHudCommand extends ACommand {
     protected final HudType type;

@@ -1,7 +1,7 @@
-package coloryr.allmusic.core.objs.config;
+package com.coloryr.allmusic.server.core.objs.config;
 
-import coloryr.allmusic.core.objs.enums.HudDirType;
-import coloryr.allmusic.core.objs.hud.PosObj;
+import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
+import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 
 public class SaveObj {
     public PosObj list;

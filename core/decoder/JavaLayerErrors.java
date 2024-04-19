@@ -18,7 +18,7 @@
  *----------------------------------------------------------------------
  */
 
-package coloryr.allmusic.core.decoder;
+package com.coloryr.allmusic.server.core.decoder;
 
 /**
  * Exception erorr codes for components of the JavaLayer API.

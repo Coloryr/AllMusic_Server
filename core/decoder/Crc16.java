@@ -22,7 +22,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *----------------------------------------------------------------------
  */
-package coloryr.allmusic.core.decoder;
+package com.coloryr.allmusic.server.core.decoder;
 
 /**
  * 16-Bit CRC checksum

@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.music.api;
+package com.coloryr.allmusic.server.core.music.api;
 
-import coloryr.allmusic.core.AllMusic;
+import com.coloryr.allmusic.server.core.AllMusic;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;

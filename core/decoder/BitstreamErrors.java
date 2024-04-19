@@ -19,7 +19,7 @@
  *----------------------------------------------------------------------
  */
 
-package coloryr.allmusic.core.decoder;
+package com.coloryr.allmusic.server.core.decoder;
 
 /**
  * This interface describes all error codes that can be thrown

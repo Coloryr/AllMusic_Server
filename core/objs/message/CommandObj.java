@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.objs.message;
+package com.coloryr.allmusic.server.core.objs.message;
 
 public class CommandObj {
     public String error;

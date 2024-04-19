@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.objs.api.music.info;
+package com.coloryr.allmusic.server.core.objs.api.music.info;
 
 import java.util.List;
 

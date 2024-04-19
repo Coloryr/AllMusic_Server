@@ -1,5 +1,5 @@
 name: AllMusic3
-main: coloryr.allmusic.AllMusicFolia
+main: com.coloryr.allmusic.server.AllMusicFolia
 author: Color_yr
 version: 3.0.0
 folia-supported: true

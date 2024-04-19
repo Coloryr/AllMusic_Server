@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.objs.hud;
+package com.coloryr.allmusic.server.core.objs.hud;
 
-import coloryr.allmusic.core.objs.enums.HudDirType;
+import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
 
 public class PosObj {
     public int x;

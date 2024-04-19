@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.objs;
+package com.coloryr.allmusic.server.core.objs;
 
 import okhttp3.Cookie;
 

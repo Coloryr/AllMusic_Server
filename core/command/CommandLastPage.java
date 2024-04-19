@@ -1,7 +1,7 @@
-package coloryr.allmusic.core.command;
+package com.coloryr.allmusic.server.core.command;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.music.SearchPageObj;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 
 public class CommandLastPage extends ACommand {
     @Override

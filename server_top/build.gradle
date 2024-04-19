@@ -50,12 +50,12 @@ dependencies {
 }
 
 shadowJar {
-    relocate 'okhttp3', 'coloryr.allmusic.lib.okhttp3'
-    relocate 'okio', 'coloryr.allmusic.lib.okio'
-    relocate 'kotlin', 'coloryr.allmusic.lib.kotlin'
-    relocate 'org.intellij', 'coloryr.allmusic.lib.org.intellij'
-    relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
-    relocate 'com.google.gson', 'coloryr.allmusic.lib.com.google.gson'
+    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
+    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
+    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
+    relocate 'org.intellij', 'com.coloryr.allmusic.server.lib.org.intellij'
+    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
+    relocate 'com.google.gson', 'com.coloryr.allmusic.server.lib.com.google.gson'
 }
 
 tasks.withType(JavaCompile) {

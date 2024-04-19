@@ -1,14 +1,14 @@
-package coloryr.allmusic.core.utils;
+package com.coloryr.allmusic.server.core.utils;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.enums.HudType;
-import coloryr.allmusic.core.music.play.LyricSave;
-import coloryr.allmusic.core.music.play.PlayMusic;
-import coloryr.allmusic.core.objs.config.SaveObj;
-import coloryr.allmusic.core.objs.enums.HudDirType;
-import coloryr.allmusic.core.objs.hud.PosObj;
-import coloryr.allmusic.core.objs.music.SongInfoObj;
-import coloryr.allmusic.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
+import com.coloryr.allmusic.server.core.music.play.LyricSave;
+import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.objs.config.SaveObj;
+import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
+import com.coloryr.allmusic.server.core.objs.hud.PosObj;
+import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.google.gson.Gson;
 
 import java.util.Locale;
@@ -445,5 +445,58 @@ public class HudUtils {
         HudUtils.sendHudPos(player);
 
         return true;
+    }
+
+    public static boolean setShadow(String name, HudType pos, String arg) {
+        SaveObj obj = get(name);
+        boolean res = false;
+        boolean value = false;
+        boolean have = false;
+        if (arg != null) {
+            try {
+                value = Boolean.parseBoolean(arg);
+                have = true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        if (obj == null) {
+            obj = AllMusic.getConfig().defaultHud.copy();
+            if (have) {
+                res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = value;
+            } else {
+                res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = true;
+            }
+        } else {
+            if (pos == null) {
+                if (have) {
+                    res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = value;
+                } else if (obj.info.shadow && obj.list.shadow && obj.lyric.shadow && obj.pic.shadow) {
+                    obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = false;
+                } else {
+                    res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = true;
+                }
+            } else {
+                switch (pos) {
+                    case INFO:
+                        res = obj.info.shadow = have ? value : !obj.info.shadow;
+                        break;
+                    case LIST:
+                        res = obj.list.shadow = have ? value : !obj.list.shadow;
+                        break;
+                    case LYRIC:
+                        res = obj.lyric.shadow = have ? value : !obj.lyric.shadow;
+                        break;
+                    case PIC:
+                        res = obj.pic.shadow = have ? value : !obj.pic.shadow;
+                        break;
+                }
+            }
+        }
+
+        addAndSave(name, obj);
+        HudUtils.sendHudPos(name);
+
+        return res;
     }
 }

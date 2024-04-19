@@ -1,12 +1,12 @@
-package coloryr.allmusic.core.music.play;
+package com.coloryr.allmusic.server.core.music.play;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.decoder.Bitstream;
-import coloryr.allmusic.core.decoder.Header;
-import coloryr.allmusic.core.objs.music.MusicObj;
-import coloryr.allmusic.core.objs.music.SongInfoObj;
-import coloryr.allmusic.core.sql.DataSql;
-import coloryr.allmusic.core.utils.Logs;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.decoder.Bitstream;
+import com.coloryr.allmusic.server.core.decoder.Header;
+import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
+import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.utils.Logs;
 
 import java.io.BufferedInputStream;
 import java.net.URL;

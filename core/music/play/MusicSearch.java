@@ -1,9 +1,9 @@
-package coloryr.allmusic.core.music.play;
+package com.coloryr.allmusic.server.core.music.play;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.command.CommandEX;
-import coloryr.allmusic.core.objs.music.MusicObj;
-import coloryr.allmusic.core.objs.music.SearchPageObj;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.command.CommandEX;
+import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

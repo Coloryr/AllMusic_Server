@@ -1,9 +1,9 @@
-package coloryr.allmusic.core.music.play;
+package com.coloryr.allmusic.server.core.music.play;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.music.SongInfoObj;
-import coloryr.allmusic.core.utils.HudUtils;
-import coloryr.allmusic.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
+import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 
 import java.util.List;
 import java.util.concurrent.Executors;

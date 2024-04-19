@@ -1,7 +1,7 @@
-package coloryr.allmusic.core.music.api;
+package com.coloryr.allmusic.server.core.music.api;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.api.EncResObj;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.api.EncResObj;
 import com.google.gson.JsonObject;
 
 import javax.crypto.Cipher;

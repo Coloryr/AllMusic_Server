@@ -1,7 +1,7 @@
-package coloryr.allmusic.core.objs.message;
+package com.coloryr.allmusic.server.core.objs.message;
 
-import coloryr.allmusic.core.objs.enums.HudType;
-import coloryr.allmusic.core.objs.enums.HudDirType;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
+import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
 
 public class HudNameObj {
     public String list;

@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.utils;
+package com.coloryr.allmusic.server.core.utils;
 
-import coloryr.allmusic.core.AllMusic;
+import com.coloryr.allmusic.server.core.AllMusic;
 
 import java.io.File;
 import java.io.FileWriter;

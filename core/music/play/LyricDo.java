@@ -1,9 +1,9 @@
-package coloryr.allmusic.core.music.play;
+package com.coloryr.allmusic.server.core.music.play;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.api.music.lyric.WLyricObj;
-import coloryr.allmusic.core.objs.music.LyricItemObj;
-import coloryr.allmusic.core.utils.Function;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.api.music.lyric.WLyricObj;
+import com.coloryr.allmusic.server.core.objs.music.LyricItemObj;
+import com.coloryr.allmusic.server.core.utils.Function;
 
 import java.util.*;
 import java.util.regex.Matcher;

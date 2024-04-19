@@ -1,6 +1,6 @@
-package coloryr.allmusic.core.objs.message;
+package com.coloryr.allmusic.server.core.objs.message;
 
-import coloryr.allmusic.core.AllMusic;
+import com.coloryr.allmusic.server.core.AllMusic;
 
 public class MessageObj {
     public MusicPlayObj musicPlay;

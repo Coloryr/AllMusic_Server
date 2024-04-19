@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.utils;
+package com.coloryr.allmusic.server.core.utils;
 
 import java.util.regex.Pattern;
 

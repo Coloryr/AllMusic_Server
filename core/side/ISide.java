@@ -1,9 +1,9 @@
-package coloryr.allmusic.core.side;
+package com.coloryr.allmusic.server.core.side;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.enums.HudType;
-import coloryr.allmusic.core.objs.music.MusicObj;
-import coloryr.allmusic.core.objs.music.SongInfoObj;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
+import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 
 import java.util.List;
 

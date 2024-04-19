@@ -7,8 +7,8 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
 }
 
-version = '2.19.4'
-group = 'coloryr.allmusic' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = '3.0.0'
+group = 'com.coloryr.allmusic.server' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = '[Forge1.19.2]AllMusic_Server'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
@@ -163,11 +163,11 @@ dependencies {
 }
 
 shadowJar {
-//    relocate 'okhttp3', 'coloryr.allmusic.lib.okhttp3'
-//    relocate 'okio', 'coloryr.allmusic.lib.okio'
-//    relocate 'kotlin', 'coloryr.allmusic.lib.kotlin'
-//    relocate 'org.intellij', 'coloryr.allmusic.lib.org.intellij'
-//    relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
+//    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
+//    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
+//    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
+//    relocate 'org.intellij', 'com.coloryr.allmusic.server.lib.org.intellij'
+//    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
     configurations = [project.configurations.shadow]
     archiveClassifier.set('')
     dependencies {

@@ -1,10 +1,10 @@
-package coloryr.allmusic.core.command;
+package com.coloryr.allmusic.server.core.command;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.enums.HudType;
-import coloryr.allmusic.core.objs.enums.HudDirType;
-import coloryr.allmusic.core.objs.hud.PosObj;
-import coloryr.allmusic.core.utils.HudUtils;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
+import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
+import com.coloryr.allmusic.server.core.objs.hud.PosObj;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 import java.util.*;
 
@@ -23,6 +23,7 @@ public class CommandHudSet extends AHudCommand {
             commandList.put("speed", new PicRotateSpeed());
         } else {
             commandList.put("color", new HudColor(type));
+            commandList.put("shadow", new HudShadow(type));
         }
     }
 
@@ -152,6 +153,33 @@ public class CommandHudSet extends AHudCommand {
         }
     }
 
+    private static class HudShadow extends AHudCommand {
+        public HudShadow(HudType type) {
+            super(type);
+        }
+
+        @Override
+        public void ex(Object sender, String name, String[] args) {
+            if (args.length == 3 || args.length == 4) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set3
+                        .replace("%Hud%", AllMusic.getMessage().hudList.getHud(type))
+                        .replace("%State%", HudUtils.setShadow(name, type, args.length == 4 ? args[3] : null)
+                                ? AllMusic.getMessage().hudList.enable
+                                : AllMusic.getMessage().hudList.disable));
+                return;
+            }
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+        }
+
+        @Override
+        public List<String> tab(String name, String[] args, int index) {
+            if (args.length == index + 1) {
+                return tf;
+            }
+            return Collections.emptyList();
+        }
+    }
+
     private static class PicSize extends ACommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
@@ -230,6 +258,7 @@ public class CommandHudSet extends AHudCommand {
 
     private static final List<String> info = new ArrayList<String>() {{
         this.add("color");
+        this.add("shadow");
     }};
 
     private static final List<String> tf = new ArrayList<String>() {{

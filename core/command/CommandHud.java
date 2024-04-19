@@ -1,8 +1,8 @@
-package coloryr.allmusic.core.command;
+package com.coloryr.allmusic.server.core.command;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.enums.HudType;
-import coloryr.allmusic.core.utils.HudUtils;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 import java.util.*;
 

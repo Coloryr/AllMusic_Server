@@ -9,8 +9,8 @@
     "Color_yr"
   ],
   "contact": {
-    "homepage": "https://github.com/Coloryr/AllMusic_Server",
-    "sources": "https://github.com/Coloryr/AllMusic_Server"
+    "homepage": "https://github.com/Coloryr/AllMusic3_Server",
+    "sources": "https://github.com/Coloryr/AllMusic3_Server"
   },
 
   "license": "GPL-3.0",
@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "coloryr.allmusic.AllMusicFabric"
+      "com.coloryr.allmusic.server.AllMusicFabric"
     ]
   },
   "mixins": [
@@ -34,6 +34,6 @@
     "fabric-language-kotlin": ">=1.9.1+kotlin.1.8.10"
   },
   "suggests": {
-    "another-mod": "*"
+    
   }
 }

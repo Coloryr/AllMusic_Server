@@ -1,10 +1,11 @@
-package coloryr.allmusic.core.objs.message;
+package com.coloryr.allmusic.server.core.objs.message;
 
 public class HudObj {
     public String state;
     public String set;
     public String set1;
     public String set2;
+    public String set3;
     public String reset;
     public String emptyMusic;
     public String emptyList;
@@ -25,6 +26,8 @@ public class HudObj {
         if (set1 == null)
             return true;
         if (set2 == null)
+            return true;
+        if (set3 == null)
             return true;
         if (reset == null)
             return true;
@@ -54,13 +57,14 @@ public class HudObj {
         set = "§d[AllMusic3]§e已设置[%Hud%]的坐标为[%x%, %y%]";
         set1 = "§d[AllMusic3]§e已设置[%Hud%]的对齐方式为[%Dir%]";
         set2 = "§d[AllMusic3]§e已设置[%Hud%]的颜色为[%Color%]";
+        set3 = "§d[AllMusic3]§e已设置[%Hud%]的阴影为[%State%]";
         reset = "§d[AllMusic3]§e界面[%Hud%]恢复至默认位置";
         emptyMusic = "没有播放的音乐";
         emptyList = "队列中无歌曲";
         emptyLyric = "无歌词";
-        picSize = "§d[AllMusic3]§e设置图片尺寸为%Size%";
-        picRotate = "§d[AllMusic3]§e设置图片旋转为%State%";
-        picSpeed = "§d[AllMusic3]§e设置图片旋转速度为%Size%";
+        picSize = "§d[AllMusic3]§e设置图片尺寸为[%Size%]";
+        picRotate = "§d[AllMusic3]§e设置图片旋转为[%State%]";
+        picSpeed = "§d[AllMusic3]§e设置图片旋转速度为[%Size%]";
         music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
         lyric = "%Lyric%\n%Tlyric%";
         ktv = "§e%KLyric%§f%Lyric%§r\n%Tlyric%";

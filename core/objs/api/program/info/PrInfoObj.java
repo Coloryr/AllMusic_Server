@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.objs.api.program.info;
+package com.coloryr.allmusic.server.core.objs.api.program.info;
 
 public class PrInfoObj {
 

@@ -1,8 +1,8 @@
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.CookieObj;
-import coloryr.allmusic.core.objs.music.LyricItemObj;
-import coloryr.allmusic.core.music.play.LyricSave;
-import coloryr.allmusic.core.side.IMyLogger;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.CookieObj;
+import com.coloryr.allmusic.server.core.objs.music.LyricItemObj;
+import com.coloryr.allmusic.server.core.music.play.LyricSave;
+import com.coloryr.allmusic.server.core.side.IMyLogger;
 
 public class RunTest implements IMyLogger {
     public static void main(String[] arg) {

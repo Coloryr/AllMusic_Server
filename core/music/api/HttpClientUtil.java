@@ -1,9 +1,9 @@
-package coloryr.allmusic.core.music.api;
+package com.coloryr.allmusic.server.core.music.api;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.objs.enums.EncryptType;
-import coloryr.allmusic.core.objs.HttpResObj;
-import coloryr.allmusic.core.objs.api.EncResObj;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.enums.EncryptType;
+import com.coloryr.allmusic.server.core.objs.HttpResObj;
+import com.coloryr.allmusic.server.core.objs.api.EncResObj;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import okhttp3.*;

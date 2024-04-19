@@ -1,11 +1,11 @@
-package coloryr.allmusic.core.sql;
+package com.coloryr.allmusic.server.core.sql;
 
-import coloryr.allmusic.core.AllMusic;
-import coloryr.allmusic.core.music.play.PlayMusic;
-import coloryr.allmusic.core.objs.enums.HudDirType;
-import coloryr.allmusic.core.utils.HudUtils;
-import coloryr.allmusic.core.objs.config.SaveObj;
-import coloryr.allmusic.core.objs.hud.PosObj;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
+import com.coloryr.allmusic.server.core.objs.config.SaveObj;
+import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 
 import java.io.File;
 import java.sql.*;

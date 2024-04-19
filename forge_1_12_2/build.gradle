@@ -16,8 +16,8 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = '2.19.4'
-group = "com.coloryr.allmusic" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = '3.0.0'
+group = "com.coloryr.allmusic.server" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "[Forge1.12.2]AllMusic_Server"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
@@ -109,11 +109,11 @@ dependencies {
 jar.finalizedBy('reobfJar')
 
 shadowJar {
-//    relocate 'okhttp3', 'coloryr.allmusic.lib.okhttp3'
-//    relocate 'okio', 'coloryr.allmusic.lib.okio'
-//    relocate 'kotlin', 'coloryr.allmusic.lib.kotlin'
-//    relocate 'org.intellij', 'coloryr.allmusic.lib.org.intellij'
-//    relocate 'org.jetbrains', 'coloryr.allmusic.lib.org.jetbrains'
+//    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
+//    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
+//    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
+//    relocate 'org.intellij', 'com.coloryr.allmusic.server.lib.org.intellij'
+//    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
     configurations = [project.configurations.shadow]
     archiveClassifier.set('')
     dependencies {

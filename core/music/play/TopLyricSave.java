@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.music.play;
+package com.coloryr.allmusic.server.core.music.play;
 
 public class TopLyricSave extends LyricSave {
 

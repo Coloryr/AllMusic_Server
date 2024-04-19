@@ -1,4 +1,4 @@
 name: AllMusic3
-main: coloryr.allmusic.AllMusicBC
+main: com.coloryr.allmusic.server.AllMusicBC
 author: Color_yr
 version: 3.0.0

@@ -1,4 +1,4 @@
-package coloryr.allmusic.core.objs.api;
+package com.coloryr.allmusic.server.core.objs.api;
 
 public class EncResObj {
     public String params;
