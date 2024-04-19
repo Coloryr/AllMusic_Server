@@ -32,7 +32,7 @@
 >fabric同理
 
 如果你是forge或者fabric服务器，复制服务器mod到你的mods文件夹下即可  
-需要补全前置mod kotlinforforge
+需要补全前置mod kotlinforforge 或者 kotlinforfabirc
 
 ## 播放VIP歌曲
 1. 手机号创建网易云账户并购买网易云音乐VIP
