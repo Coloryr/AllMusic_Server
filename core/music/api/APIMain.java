@@ -1,10 +1,9 @@
 package com.coloryr.allmusic.server.core.music.api;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.enums.EncryptType;
 import com.coloryr.allmusic.server.core.music.play.LyricDo;
 import com.coloryr.allmusic.server.core.music.play.LyricSave;
+import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.HttpResObj;
 import com.coloryr.allmusic.server.core.objs.SearchMusicObj;
 import com.coloryr.allmusic.server.core.objs.api.music.info.InfoObj;
@@ -14,6 +13,7 @@ import com.coloryr.allmusic.server.core.objs.api.music.search.SearchDataObj;
 import com.coloryr.allmusic.server.core.objs.api.music.search.songs;
 import com.coloryr.allmusic.server.core.objs.api.music.trialinfo.TrialInfoObj;
 import com.coloryr.allmusic.server.core.objs.api.program.info.PrInfoObj;
+import com.coloryr.allmusic.server.core.objs.enums.EncryptType;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.Logs;
@@ -67,7 +67,7 @@ public class APIMain {
      * @param code   手机验证码
      */
     public void login(Object sender, String code) {
-        if(phone == null) {
+        if (phone == null) {
             if (sender == null)
                 AllMusic.log.info("§d[AllMusic3]§c没有发送过验证码");
             else

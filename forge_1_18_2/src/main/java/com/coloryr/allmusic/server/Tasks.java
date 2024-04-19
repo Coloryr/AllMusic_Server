@@ -12,20 +12,16 @@ public class Tasks {
     }
 
     public static void tick() {
-        synchronized (taskItems) {
-            for(TaskItem item : taskItems){
-                item.tick--;
-                if (item.tick == 0) {
-                    taskItems.remove(item);
-                    item.run.run();
-                }
+        for (TaskItem item : new ArrayList<>(taskItems)) {
+            item.tick--;
+            if (item.tick <= 0) {
+                taskItems.remove(item);
+                item.run.run();
             }
         }
     }
 
     public static void add(TaskItem item) {
-        synchronized (taskItems) {
-            taskItems.add(item);
-        }
+        taskItems.add(item);
     }
 }

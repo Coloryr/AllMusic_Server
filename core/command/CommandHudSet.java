@@ -1,8 +1,8 @@
 package com.coloryr.allmusic.server.core.command;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
@@ -34,7 +34,7 @@ public class CommandHudSet extends AHudCommand {
 
         @Override
         public void ex(Object sender, String name, String[] args) {
-            if(args.length == 3 || args.length == 4) {
+            if (args.length == 3 || args.length == 4) {
                 boolean temp = HudUtils.setHudEnable(name, type, args.length == 4 ? args[3] : null);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
                         .replace("%State%", temp

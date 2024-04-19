@@ -1,66 +1,43 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.command.CommandEX;
 import com.coloryr.allmusic.server.side.forge.CommandForge;
 import com.coloryr.allmusic.server.side.forge.LogForge;
 import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.ParseResults;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.ComponentArgument;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.server.command.ForgeCommand;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.SimpleChannel;
 import org.slf4j.Logger;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.function.Supplier;
-
-import static net.minecraftforge.server.command.ForgeCommand.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AllMusicForge.MODID)
 public class AllMusicForge {
     public static MinecraftServer server;
-    public static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(new ResourceLocation("allmusic", "channel"),
-            () -> "1.0", s -> true, s -> true);
+    public static final SimpleChannel channel = ChannelBuilder.named(new ResourceLocation("allmusic", "channel"))
+            .networkProtocolVersion(0)
+            .optional()
+            .clientAcceptedVersions(((status, i) -> true))
+            .serverAcceptedVersions(((status, i) -> true))
+            .simpleChannel();
 
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
@@ -79,7 +56,11 @@ public class AllMusicForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        channel.registerMessage(666, String.class, this::enc, this::dec, this::proc);
+        channel.messageBuilder(FriendlyByteBuf.class)
+                .decoder(this::dec)
+                .encoder(this::enc)
+                .consumerNetworkThread(this::proc)
+                .add();
 
         String path = String.format(Locale.ROOT, "config/%s/", "AllMusic");
 
@@ -89,17 +70,17 @@ public class AllMusicForge {
         new AllMusic().init(new File(path));
     }
 
-    private void enc(String str, FriendlyByteBuf buffer) {
-        buffer.writeBytes(str.getBytes(StandardCharsets.UTF_8));
+    private void enc(FriendlyByteBuf str, FriendlyByteBuf buffer) {
+        buffer.writeBytes(str);
     }
 
-    private String dec(FriendlyByteBuf buffer) {
-        return buffer.toString(StandardCharsets.UTF_8);
+    private FriendlyByteBuf dec(FriendlyByteBuf buffer) {
+        return buffer;
     }
 
-    private void proc(String str, Supplier<NetworkEvent.Context> supplier) {
-        NetworkEvent.Context context = supplier.get();
-        context.setPacketHandled(true);
+    private void proc(FriendlyByteBuf buffer, CustomPayloadEvent.Context ctx) {
+        //ctx.enqueueWork(() -> handle(buffer));
+        ctx.setPacketHandled(true);
     }
 
     @SubscribeEvent

@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server.core;
 
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
 
 public class AllMusicAPI {
     /**

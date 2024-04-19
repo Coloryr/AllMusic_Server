@@ -47,7 +47,7 @@ public class PushObj {
             return true;
         if (pushErr == null)
             return true;
-        if(cancel == null)
+        if (cancel == null)
             return true;
         if (err1 == null)
             return true;

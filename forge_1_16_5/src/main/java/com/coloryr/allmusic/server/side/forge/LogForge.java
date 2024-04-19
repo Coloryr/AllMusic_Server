@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.side.forge;
 
-import coloryr.allmusic.AllMusicForge;
+import com.coloryr.allmusic.server.AllMusicForge;
 import com.coloryr.allmusic.server.core.side.IMyLogger;
 
 public class LogForge implements IMyLogger {

@@ -21,7 +21,7 @@ public class CommandHud extends ACommand {
     public static class HudEnable extends ACommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
-            if(args.length == 2 || args.length == 3) {
+            if (args.length == 2 || args.length == 3) {
                 boolean temp = HudUtils.setHudEnable(name, null, args.length == 3 ? args[2] : null);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
                         .replace("%State%", temp ? "启用" : "关闭")

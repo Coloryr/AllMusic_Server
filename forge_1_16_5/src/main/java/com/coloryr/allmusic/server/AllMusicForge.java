@@ -5,6 +5,7 @@ import com.coloryr.allmusic.server.side.forge.CommandForge;
 import com.coloryr.allmusic.server.side.forge.LogForge;
 import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.command.CommandSource;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
@@ -54,7 +55,7 @@ public class AllMusicForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        channel.registerMessage(666, String.class, this::enc, this::dec, this::proc);
+        channel.registerMessage(0, ByteBuf.class, this::enc, this::dec, this::proc);
 
         String path = String.format(Locale.ROOT, "config/%s/", "AllMusic");
 
@@ -64,15 +65,15 @@ public class AllMusicForge {
         new AllMusic().init(new File(path));
     }
 
-    private void enc(String str, PacketBuffer buffer) {
-        buffer.writeBytes(str.getBytes(StandardCharsets.UTF_8));
+    private void enc(ByteBuf str, PacketBuffer buffer) {
+        buffer.writeBytes(str);
     }
 
-    private String dec(PacketBuffer buffer) {
-        return buffer.toString(StandardCharsets.UTF_8);
+    private ByteBuf dec(PacketBuffer buffer) {
+        return buffer;
     }
 
-    private void proc(String str, Supplier<NetworkEvent.Context> supplier) {
+    private void proc(ByteBuf str, Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.setPacketHandled(true);
     }
@@ -90,8 +91,6 @@ public class AllMusicForge {
 
         AllMusic.start();
         Tasks.init();
-
-
     }
 
     @SubscribeEvent

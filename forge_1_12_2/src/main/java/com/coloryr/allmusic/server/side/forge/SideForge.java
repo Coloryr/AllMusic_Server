@@ -23,6 +23,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -452,7 +453,11 @@ public class SideForge extends ISide {
 
     @Override
     public List<String> getPlayerList() {
-        return Collections.emptyList();
+        List<String> list = new ArrayList<>();
+        for (EntityPlayerMP player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            list.add(player.getName());
+        }
+        return list;
     }
 
     private void send(EntityPlayerMP players, ByteBuf data) {

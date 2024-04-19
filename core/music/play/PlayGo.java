@@ -1,9 +1,9 @@
 package com.coloryr.allmusic.server.core.music.play;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -273,7 +273,7 @@ public class PlayGo {
                                     .replace("%MusicAl%", PlayMusic.nowPlayMusic.getAl())
                                     .replace("%MusicAlia%", PlayMusic.nowPlayMusic.getAlia())
                                     .replace("%PlayerName%", PlayMusic.nowPlayMusic.getCall());
-                            if(AllMusic.getConfig().messageLimit
+                            if (AllMusic.getConfig().messageLimit
                                     && info.length() > AllMusic.getConfig().messageLimitSize) {
                                 info = info.substring(0, AllMusic.getConfig().messageLimitSize) + "...";
                             }

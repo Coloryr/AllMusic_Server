@@ -133,8 +133,9 @@ public abstract class ISide {
 
     /**
      * 发送Hud数据
+     *
      * @param name 用户名
-     * @param pos 位置
+     * @param pos  位置
      * @param data 信息
      */
     public abstract void sendHud(String name, HudType pos, String data);
@@ -179,6 +180,7 @@ public abstract class ISide {
 
     /**
      * 广播点击消息
+     *
      * @param message 消息
      * @param end     结尾
      * @param command 指令
@@ -263,6 +265,7 @@ public abstract class ISide {
 
     /**
      * 获取玩家列表
+     *
      * @return 玩家列表
      */
     public abstract List<String> getPlayerList();

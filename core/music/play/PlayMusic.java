@@ -171,6 +171,7 @@ public class PlayMusic {
 
     /**
      * 将歌曲移动到队列头
+     *
      * @param obj
      */
     public static void pushMusic(SongInfoObj obj) {
@@ -225,6 +226,7 @@ public class PlayMusic {
 
     /**
      * 从播放列表删除
+     *
      * @param index
      */
     public static void remove(SongInfoObj index) {
@@ -349,8 +351,7 @@ public class PlayMusic {
         } else {
             ID = playIdleList.get(idleNow);
             idleNow++;
-            if (idleNow >= playIdleList.size())
-            {
+            if (idleNow >= playIdleList.size()) {
                 idleNow = 0;
             }
         }

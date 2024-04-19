@@ -81,7 +81,7 @@ public class AllMusicForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        channel.registerMessage(666, String.class, this::enc, this::dec, this::proc);
+        channel.registerMessage(0, String.class, this::enc, this::dec, this::proc);
 
         String path = String.format(Locale.ROOT, "config/%s/", "AllMusic");
 

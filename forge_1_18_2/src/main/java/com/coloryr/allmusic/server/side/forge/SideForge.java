@@ -1,33 +1,30 @@
 package com.coloryr.allmusic.server.side.forge;
 
-import coloryr.allmusic.AllMusicForge;
-import coloryr.allmusic.TaskItem;
-import coloryr.allmusic.Tasks;
+import com.coloryr.allmusic.server.AllMusicForge;
+import com.coloryr.allmusic.server.TaskItem;
+import com.coloryr.allmusic.server.Tasks;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.hud.HudUtils;
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
+import com.coloryr.allmusic.server.core.objs.enums.ComType;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.side.ComType;
 import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.forge.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.commands.CommandSource;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 public class SideForge extends ISide {
 
@@ -57,7 +54,7 @@ public class SideForge extends ISide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        var player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+        ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
         if (player1 == null)
             return false;
 
@@ -67,8 +64,8 @@ public class SideForge extends ISide {
     @Override
     public boolean needPlay() {
         int online = getAllPlayer();
-        for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
-            if (AllMusic.getConfig().NoMusicPlayer.contains(player.getName().getString())) {
+        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            if (AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 online--;
             }
         }
@@ -76,15 +73,12 @@ public class SideForge extends ISide {
     }
 
     @Override
-    public void send(String data, String player) {
-        send(AllMusicForge.server.getPlayerList().getPlayerByName(player), data);
-    }
-
-    @Override
     protected void topSendStop() {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                send(player, ComType.stop);
+            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.STOP.ordinal());
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -95,10 +89,12 @@ public class SideForge extends ISide {
     @Override
     protected void topSendStop(String name) {
         try {
-            var player =  AllMusicForge.server.getPlayerList().getPlayerByName(name);
+            ServerPlayer player =  AllMusicForge.server.getPlayerList().getPlayerByName(name);
             if (player == null)
                 return;
-            send(player, ComType.stop);
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.STOP.ordinal());
+            send(player, buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -108,10 +104,13 @@ public class SideForge extends ISide {
     @Override
     public void sendMusic(String url) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 if (AllMusic.isOK(player.getName().getString(), null, false))
                     continue;
-                send(player, ComType.play + url);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.PLAY.ordinal());
+                writeString(buf, url);
+                send(player, buf);
                 AllMusic.addNowPlayPlayer(player.getName().getString());
             }
         } catch (Exception e) {
@@ -123,12 +122,15 @@ public class SideForge extends ISide {
     @Override
     protected void topSendMusic(String player, String url) {
         try {
-            var player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+            ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player, null, false))
                 return;
-            send(ComType.play + url, player);
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.PLAY.ordinal());
+            writeString(buf, url);
+            send(player1, buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -138,14 +140,17 @@ public class SideForge extends ISide {
     @Override
     public void sendPic(String url) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
-                if (!obj.EnablePic)
+                if (!obj.pic.enable)
                     continue;
-                send(player, ComType.img + url);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.IMG.ordinal());
+                writeString(buf, url);
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -156,12 +161,15 @@ public class SideForge extends ISide {
     @Override
     public void sendPic(String player, String url) {
         try {
-            var player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+            ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
                 return;
-            send(ComType.img + url, player);
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.IMG.ordinal());
+            writeString(buf, url);
+            send(player1, buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
             e.printStackTrace();
@@ -171,12 +179,15 @@ public class SideForge extends ISide {
     @Override
     public void sendPos(String player, int pos) {
         try {
-            var player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+            ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
                 return;
-            send(ComType.pos + pos, player);
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.POS.ordinal());
+            buf.writeInt(pos);
+            send(player1, buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -186,14 +197,17 @@ public class SideForge extends ISide {
     @Override
     public void sendHudLyric(String data) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
-                if (!obj.EnableLyric)
+                if (!obj.lyric.enable)
                     continue;
-                send(player, ComType.lyric + data);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.LYRIC.ordinal());
+                writeString(buf, data);
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -204,14 +218,17 @@ public class SideForge extends ISide {
     @Override
     public void sendHudInfo(String data) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
-                if (!obj.EnableInfo)
+                if (!obj.info.enable)
                     continue;
-                send(player, ComType.info + data);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.INFO.ordinal());
+                writeString(buf, data);
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -220,16 +237,68 @@ public class SideForge extends ISide {
     }
 
     @Override
+    public void sendHudPos(String name) {
+        try {
+            ServerPlayer player = AllMusicForge.server.getPlayerList().getPlayerByName(name);
+            if (player == null)
+                return;
+            SaveObj obj = HudUtils.get(name);
+            String data = AllMusic.gson.toJson(obj);
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.HUD.ordinal());
+            writeString(buf, data);
+            send(player, buf);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c界面位置发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHud(String name, HudType pos, String data) {
+        try {
+            if (pos == HudType.PIC) {
+                return;
+            }
+            ServerPlayer player = AllMusicForge.server.getPlayerList().getPlayerByName(name);
+            if (player == null)
+                return;
+            if (AllMusic.isOK(name, null, true))
+                return;
+            ByteBuf buf = Unpooled.buffer();
+            switch (pos) {
+                case INFO:
+                    buf.writeByte(ComType.INFO.ordinal());
+                    break;
+                case LIST:
+                    buf.writeByte(ComType.LIST.ordinal());
+                    break;
+                case LYRIC:
+                    buf.writeByte(ComType.LYRIC.ordinal());
+                    break;
+            }
+            writeString(buf, data);
+            send(player, buf);
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void sendHudList(String data) {
         try {
-            for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
-                if (!obj.EnableList)
+                if (!obj.list.enable)
                     continue;
-                send(player, ComType.list + data);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.LIST.ordinal());
+                writeString(buf, data);
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -239,12 +308,15 @@ public class SideForge extends ISide {
 
     @Override
     public void sendHudUtilsAll() {
-        for (var player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player :  AllMusicForge.server.getPlayerList().getPlayers()) {
             String Name = player.getName().getString();
             try {
                 SaveObj obj = HudUtils.get(Name);
                 String data = new Gson().toJson(obj);
-                send(player, data);
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.HUD.ordinal());
+                writeString(buf, data);
+                send(player, buf);
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -254,7 +326,7 @@ public class SideForge extends ISide {
 
     @Override
     public void sendBar(String data) {
-        for (var player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             try {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
                     continue;
@@ -269,7 +341,12 @@ public class SideForge extends ISide {
     @Override
     public void clearHud(String player) {
         try {
-            send(ComType.clear, player);
+            ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
+            if (player1 == null)
+                return;
+            ByteBuf buf = Unpooled.buffer();
+            buf.writeByte(ComType.CLEAR.ordinal());
+            send(player1, buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -279,8 +356,10 @@ public class SideForge extends ISide {
     @Override
     public void clearHud() {
         try {
-            for (var player :  AllMusicForge.server.getPlayerList().getPlayers()) {
-                send(player, ComType.clear);
+            for (ServerPlayer player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+                ByteBuf buf = Unpooled.buffer();
+                buf.writeByte(ComType.CLEAR.ordinal());
+                send(player, buf);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
@@ -290,27 +369,32 @@ public class SideForge extends ISide {
 
     @Override
     public void bq(String data) {
-        if (AllMusic.getConfig().MessageLimit
-                && data.length() > AllMusic.getConfig().MessageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
+        if (AllMusic.getConfig().messageLimit
+                && data.length() > AllMusic.getConfig().messageLimitSize) {
+            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
         }
-        for (var player :  AllMusicForge.server.getPlayerList().getPlayers()) {
-            if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getName().getString())) {
+        for (ServerPlayer player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+            if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 player.sendMessage(new TextComponent(data), UUID.randomUUID());
             }
         }
     }
 
     @Override
+    public void bqRun(String message, String end, String command) {
+        ForgeApi.sendMessageBqRun(message, end, command);
+    }
+
+    @Override
     public void bqt(String data) {
-        if (AllMusic.getConfig().MessageLimit
-                && data.length() > AllMusic.getConfig().MessageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().MessageLimitSize - 1) + "...";
+        if (AllMusic.getConfig().messageLimit
+                && data.length() > AllMusic.getConfig().messageLimitSize) {
+            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
         }
-        var finalData = new TextComponent(data);
+        TextComponent finalData = new TextComponent(data);
         runTask(() -> {
-            for (Player player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                if (!AllMusic.getConfig().NoMusicPlayer.contains(player.getName().getString())) {
+            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
+                if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                     player.sendMessage(finalData, UUID.randomUUID());
                 }
             }
@@ -365,15 +449,19 @@ public class SideForge extends ISide {
 
     }
 
-    private void send(ServerPlayer players, String data) {
+    @Override
+    public List<String> getPlayerList() {
+        List<String> list = new ArrayList<>();
+        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
+            list.add(player.getName().getString());
+        }
+        return list;
+    }
+
+    private void send(ServerPlayer players, ByteBuf data) {
         if (players == null)
             return;
         try {
-//            byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-//            ByteBuf buf = Unpooled.buffer(bytes.length + 1);
-//            buf.writeByte(666);
-//            buf.writeBytes(bytes);
-
             runTask(() -> AllMusicForge.channel.send(PacketDistributor.PLAYER.with(
                     () -> players
             ), data));
@@ -381,5 +469,11 @@ public class SideForge extends ISide {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
         }
+    }
+
+    private void writeString(ByteBuf buf, String data) {
+        byte[] temp = data.getBytes(StandardCharsets.UTF_8);
+        buf.writeInt(temp.length)
+                .writeBytes(temp);
     }
 }

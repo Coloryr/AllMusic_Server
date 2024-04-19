@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.side.forge;
 
 import com.coloryr.allmusic.server.core.command.CommandEX;
-import com.coloryr.allmusic.server.core.command.TabCommand;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -12,7 +11,6 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -59,7 +57,7 @@ public class CommandForge implements Command<CommandSourceStack>, Predicate<Comm
         if (input.endsWith(" "))
             builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
-        List<String> results = TabCommand.getTabList(context.getSource().getTextName(), arg);
+        List<String> results = CommandEX.getTabList(context.getSource().getTextName(), arg);
 
         for (String s : results) {
             builder.suggest(s);

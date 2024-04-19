@@ -1,18 +1,16 @@
 package com.coloryr.allmusic.server.core;
 
-import com.coloryr.allmusic.server.core.sql.DataSql;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.core.music.api.APIMain;
 import com.coloryr.allmusic.server.core.music.play.MusicSearch;
 import com.coloryr.allmusic.server.core.music.play.PlayGo;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.CookieObj;
 import com.coloryr.allmusic.server.core.objs.config.ConfigObj;
-import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.message.MessageObj;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.side.IMyLogger;
 import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
 import com.coloryr.allmusic.server.core.utils.Logs;
 import com.google.gson.Gson;
@@ -148,7 +146,7 @@ public class AllMusic {
                 return true;
             if (AllMusic.getConfig().mutePlayer.contains(name))
                 return true;
-            if(AllMusic.isPause(name))
+            if (AllMusic.isPause(name))
                 return true;
             if (!checkList)
                 return false;
@@ -237,7 +235,7 @@ public class AllMusic {
      *
      * @param player 用户名
      */
-    public static void addPush(String player){
+    public static void addPush(String player) {
         pushPlayer.add(player);
     }
 
@@ -469,6 +467,7 @@ public class AllMusic {
 
     /**
      * 将玩家添加到暂停发送列表
+     *
      * @param player 玩家名
      */
     public static void pauseSend(String player) {
@@ -477,10 +476,11 @@ public class AllMusic {
 
     /**
      * 暂停发送列表中是否存在玩家
+     *
      * @param player 玩家名
      * @return 是否存在
      */
-    public static boolean isPause(String player){
+    public static boolean isPause(String player) {
         return pauseSendPlayer.contains(player);
     }
 
