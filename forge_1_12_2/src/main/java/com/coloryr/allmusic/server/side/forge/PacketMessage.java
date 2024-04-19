@@ -6,12 +6,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import java.nio.charset.StandardCharsets;
 
 public class PacketMessage implements IMessage {
-    private String data;
+    private ByteBuf data;
 
     public PacketMessage() {
     }
 
-    public PacketMessage(String data) {
+    public PacketMessage(ByteBuf data) {
         this.data = data;
     }
 
@@ -22,7 +22,6 @@ public class PacketMessage implements IMessage {
 
     @Override
     public void toBytes(ByteBuf buf) {
-        byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-        buf.writeBytes(bytes);
+        buf.writeBytes(data);
     }
 }

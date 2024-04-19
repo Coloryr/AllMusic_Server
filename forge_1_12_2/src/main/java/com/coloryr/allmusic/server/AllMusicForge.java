@@ -21,20 +21,17 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.Locale;
 
-@Mod(modid = "allmusic", version = AllMusic.version, acceptableRemoteVersions = "*" ,acceptedMinecraftVersions = "[1.12,)", serverSideOnly = true)
+@Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*" ,acceptedMinecraftVersions = "[1.12,)", serverSideOnly = true)
 public class AllMusicForge {
     public static MinecraftServer server;
-
     public static SimpleNetworkWrapper channel;
-
     public static final Logger LOGGER = LogManager.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
     @Mod.EventHandler
     private void commonSetup(final FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
         channel = NetworkRegistry.INSTANCE.newSimpleChannel("allmusic:channel");
-        channel.registerMessage(PacketMessageHandler.class, PacketMessage.class, 0, Side.CLIENT);
+        channel.registerMessage(PacketMessageHandler.class, PacketMessage.class, 0, Side.SERVER);
 
         String path = String.format(Locale.ROOT, "config/%s/", "AllMusic");
 

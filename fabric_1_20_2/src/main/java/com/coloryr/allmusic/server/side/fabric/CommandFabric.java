@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.side.fabric;
 
 import com.coloryr.allmusic.server.core.command.CommandEX;
-import com.coloryr.allmusic.server.core.command.TabCommand;
 import com.coloryr.allmusic.server.mixin.IGetCommandOutput;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -56,7 +55,7 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
         if (input.endsWith(" "))
             builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
-        List<String> results = TabCommand.getTabList(context.getSource().getName(), arg);
+        List<String> results = CommandEX.getTabList(context.getSource().getName(), arg);
 
         for (String s : results) {
             builder.suggest(s);

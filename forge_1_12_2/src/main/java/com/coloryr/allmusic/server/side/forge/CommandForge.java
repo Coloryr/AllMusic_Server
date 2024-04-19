@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.side.forge;
 
 import com.coloryr.allmusic.server.core.command.CommandEX;
-import com.coloryr.allmusic.server.core.command.TabCommand;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -29,7 +28,7 @@ public class CommandForge extends CommandBase {
 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        return TabCommand.getTabList(sender.getName(), args);
+        return CommandEX.getTabList(sender.getName(), args);
     }
 
     @Override
