@@ -207,6 +207,7 @@ public class PlayGo {
                         && players <= AllMusic.getVoteCount())) {
                     AllMusic.side.bqt(AllMusic.getMessage().vote.voteDone);
                     AllMusic.clearVote();
+                    PlayMusic.musicLessTime = 0;
                     PlayMusic.voteTime = 0;
                 }
             }
