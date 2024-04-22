@@ -498,4 +498,9 @@ public class HudUtils {
 
         return res;
     }
+
+    public static void set(String name, SaveObj obj) {
+        addAndSave(name, obj);
+        HudUtils.sendHudPos(name);
+    }
 }

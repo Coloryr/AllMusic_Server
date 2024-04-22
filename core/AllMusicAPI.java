@@ -1,7 +1,9 @@
 package com.coloryr.allmusic.server.core;
 
+import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 public class AllMusicAPI {
     /**
@@ -45,21 +47,21 @@ public class AllMusicAPI {
     }
 
     /**
-     * 获取位置字符串
+     * 获取玩家Hud信息
      *
-     * @param pos 位置
-     * @return 字符串
+     * @param player 玩家
+     * @return Hud信息
      */
-    private static ComType getType(HudType pos) {
-        switch (pos) {
-            case INFO:
-                return ComType.INFO;
-            case LYRIC:
-                return ComType.LYRIC;
-            case LIST:
-                return ComType.LIST;
-        }
+    public static SaveObj getHud(String player) {
+        return HudUtils.get(player);
+    }
 
-        return null;
+    /**
+     * 设置玩家Hud
+     * @param player 玩家
+     * @param hud Hud信息
+     */
+    public static void setHud(String player, SaveObj hud) {
+        HudUtils.set(player, hud);
     }
 }
