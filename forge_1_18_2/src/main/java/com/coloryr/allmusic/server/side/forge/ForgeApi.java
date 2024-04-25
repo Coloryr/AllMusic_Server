@@ -3,9 +3,9 @@ package com.coloryr.allmusic.server.side.forge;
 import com.coloryr.allmusic.server.AllMusicForge;
 import com.coloryr.allmusic.server.core.AllMusic;
 import net.minecraft.commands.CommandSource;
-import net.minecraft.commands.arguments.ComponentArgument;
-import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 

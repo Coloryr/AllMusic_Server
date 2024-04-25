@@ -16,33 +16,33 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 
 public class AllMusicFabric implements ModInitializer {
-	public static MinecraftServer server;
-	public static final Logger LOGGER = LogManager.getLogger("allmusic");
+    public static MinecraftServer server;
+    public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
 
-	public static final Identifier ID = new Identifier("allmusic", "channel");
+    public static final Identifier ID = new Identifier("allmusic", "channel");
 
-	@Override
-	public void onInitialize() {
-		String path = "allmusic/";
+    @Override
+    public void onInitialize() {
+        String path = "allmusic3/";
 
-		AllMusic.log = new LogFabric();
-		AllMusic.side = new SideFabric();
+        AllMusic.log = new LogFabric();
+        AllMusic.side = new SideFabric();
 
-		new AllMusic().init(new File(path));
+        new AllMusic().init(new File(path));
 
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> CommandFabric.instance.register(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> CommandFabric.instance.register(dispatcher));
 
-		Buffer buffer = new Buffer();
-		buffer.close();
+        Buffer buffer = new Buffer();
+        buffer.close();
 
-		ServerLifecycleEvents.SERVER_STARTED.register((a)->{
-			server = a;
-			AllMusic.start();
-			Tasks.init();
-		});
+        ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
+            server = a;
+            AllMusic.start();
+            Tasks.init();
+        });
 
-		ServerLifecycleEvents.SERVER_STOPPING.register((a)->{
-			AllMusic.stop();
-		});
-	}
+        ServerLifecycleEvents.SERVER_STOPPING.register((a) -> {
+            AllMusic.stop();
+        });
+    }
 }

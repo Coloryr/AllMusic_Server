@@ -27,7 +27,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.function.Supplier;
 
@@ -41,7 +40,7 @@ public class AllMusicForge {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
     public AllMusicForge() {
@@ -57,7 +56,7 @@ public class AllMusicForge {
     private void commonSetup(final FMLCommonSetupEvent event) {
         channel.registerMessage(0, ByteBuf.class, this::enc, this::dec, this::proc);
 
-        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic");
+        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
 
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();

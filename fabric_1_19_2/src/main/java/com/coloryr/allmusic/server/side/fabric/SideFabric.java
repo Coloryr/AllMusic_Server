@@ -25,7 +25,6 @@ import net.minecraft.util.ActionResult;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.UUID;
 
 public class SideFabric extends ISide {
 

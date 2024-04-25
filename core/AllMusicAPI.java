@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.core;
 
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
@@ -58,8 +57,9 @@ public class AllMusicAPI {
 
     /**
      * 设置玩家Hud
+     *
      * @param player 玩家
-     * @param hud Hud信息
+     * @param hud    Hud信息
      */
     public static void setHud(String player, SaveObj hud) {
         HudUtils.set(player, hud);

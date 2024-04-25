@@ -2,7 +2,6 @@ package com.coloryr.allmusic.server.side.forge.event;
 
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import net.minecraft.command.CommandSource;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 

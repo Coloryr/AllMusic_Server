@@ -24,7 +24,10 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
 public class SideForge extends ISide {
 
@@ -89,7 +92,7 @@ public class SideForge extends ISide {
     @Override
     protected void topSendStop(String name) {
         try {
-            ServerPlayerEntity player =  AllMusicForge.server.getPlayerList().getPlayerByName(name);
+            ServerPlayerEntity player = AllMusicForge.server.getPlayerList().getPlayerByName(name);
             if (player == null)
                 return;
             ByteBuf buf = Unpooled.buffer();
@@ -308,7 +311,7 @@ public class SideForge extends ISide {
 
     @Override
     public void sendHudUtilsAll() {
-        for (ServerPlayerEntity player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
             String Name = player.getName().getString();
             try {
                 SaveObj obj = HudUtils.get(Name);
@@ -356,7 +359,7 @@ public class SideForge extends ISide {
     @Override
     public void clearHud() {
         try {
-            for (ServerPlayerEntity player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 ByteBuf buf = Unpooled.buffer();
                 buf.writeByte(ComType.CLEAR.ordinal());
                 send(player, buf);
@@ -373,7 +376,7 @@ public class SideForge extends ISide {
                 && data.length() > AllMusic.getConfig().messageLimitSize) {
             data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
         }
-        for (ServerPlayerEntity player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 player.sendMessage(new StringTextComponent(data), UUID.randomUUID());
             }

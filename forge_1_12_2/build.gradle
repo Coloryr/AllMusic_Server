@@ -109,6 +109,8 @@ dependencies {
 jar.finalizedBy('reobfJar')
 
 shadowJar {
+    exclude 'META-INF/versions/9/org/sqlite/nativeimage/*'
+    exclude 'META-INF/versions/9/*'
 //    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
 //    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
 //    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
@@ -143,6 +145,12 @@ processResources {
 
 reobf {
     shadowJar {}
+}
+
+jar {
+    exclude '**/SqliteJdbcFeature.class'
+    // 如果路径更具体，也可以使用类似下面的规则
+    // exclude 'META-INF/versions/9/org/sqlite/nativeimage/SqliteJdbcFeature.class'
 }
 
 jar.finalizedBy('reobfJar')

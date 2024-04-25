@@ -3,8 +3,6 @@ package com.coloryr.allmusic.server.side.forge;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
-import java.nio.charset.StandardCharsets;
-
 public class PacketMessage implements IMessage {
     private ByteBuf data;
 

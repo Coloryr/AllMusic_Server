@@ -24,7 +24,9 @@ import net.minecraftforge.network.PacketDistributor;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class SideForge extends ISide {
 
@@ -89,7 +91,7 @@ public class SideForge extends ISide {
     @Override
     protected void topSendStop(String name) {
         try {
-            ServerPlayer player =  AllMusicForge.server.getPlayerList().getPlayerByName(name);
+            ServerPlayer player = AllMusicForge.server.getPlayerList().getPlayerByName(name);
             if (player == null)
                 return;
             ByteBuf buf = Unpooled.buffer();
@@ -308,7 +310,7 @@ public class SideForge extends ISide {
 
     @Override
     public void sendHudUtilsAll() {
-        for (ServerPlayer player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             String Name = player.getName().getString();
             try {
                 SaveObj obj = HudUtils.get(Name);
@@ -356,7 +358,7 @@ public class SideForge extends ISide {
     @Override
     public void clearHud() {
         try {
-            for (ServerPlayer player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 ByteBuf buf = Unpooled.buffer();
                 buf.writeByte(ComType.CLEAR.ordinal());
                 send(player, buf);
@@ -373,7 +375,7 @@ public class SideForge extends ISide {
                 && data.length() > AllMusic.getConfig().messageLimitSize) {
             data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
         }
-        for (ServerPlayer player :  AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 player.sendSystemMessage(Component.literal(data));
             }
@@ -403,7 +405,7 @@ public class SideForge extends ISide {
 
     @Override
     public void sendMessaget(Object obj, String message) {
-        runTask(() -> ((CommandSource) obj).sendSystemMessage( Component.literal(message)));
+        runTask(() -> ((CommandSource) obj).sendSystemMessage(Component.literal(message)));
     }
 
     @Override

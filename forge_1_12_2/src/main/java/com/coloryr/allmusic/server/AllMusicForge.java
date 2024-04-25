@@ -21,11 +21,11 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.Locale;
 
-@Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*" ,acceptedMinecraftVersions = "[1.12,)", serverSideOnly = true)
+@Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.12,)", serverSideOnly = true)
 public class AllMusicForge {
     public static MinecraftServer server;
     public static SimpleNetworkWrapper channel;
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
 
     @Mod.EventHandler
     private void commonSetup(final FMLPreInitializationEvent event) {
@@ -33,7 +33,7 @@ public class AllMusicForge {
         channel = NetworkRegistry.INSTANCE.newSimpleChannel("allmusic:channel");
         channel.registerMessage(PacketMessageHandler.class, PacketMessage.class, 0, Side.SERVER);
 
-        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic");
+        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
 
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
@@ -42,8 +42,9 @@ public class AllMusicForge {
     }
 
     @Mod.EventHandler
-    public void onRegisterCommands(FMLServerStartedEvent event) {
-
+    public void onServerStarted(FMLServerStartedEvent event) {
+        AllMusic.start();
+        Tasks.init();
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -51,11 +52,8 @@ public class AllMusicForge {
     public void onServerStarting(FMLServerStartingEvent event) {
         server = event.getServer();
 
-        ServerCommandManager commandManager = (ServerCommandManager)server.commandManager;
+        ServerCommandManager commandManager = (ServerCommandManager) server.commandManager;
         commandManager.registerCommand(new CommandForge());
-
-        AllMusic.start();
-        Tasks.init();
     }
 
     @Mod.EventHandler

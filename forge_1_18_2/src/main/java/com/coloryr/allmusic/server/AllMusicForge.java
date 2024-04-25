@@ -1,21 +1,12 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.command.CommandEX;
 import com.coloryr.allmusic.server.side.forge.CommandForge;
 import com.coloryr.allmusic.server.side.forge.LogForge;
 import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.ParseResults;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.ComponentArgument;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,26 +16,19 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.server.command.ForgeCommand;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.function.Supplier;
-
-import static net.minecraftforge.server.command.ForgeCommand.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AllMusicForge.MODID)
@@ -56,7 +40,7 @@ public class AllMusicForge {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic_Server");
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
     public AllMusicForge() {
@@ -72,7 +56,7 @@ public class AllMusicForge {
     private void commonSetup(final FMLCommonSetupEvent event) {
         channel.registerMessage(0, String.class, this::enc, this::dec, this::proc);
 
-        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic");
+        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
 
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
@@ -106,8 +90,6 @@ public class AllMusicForge {
 
         AllMusic.start();
         Tasks.init();
-
-
     }
 
     @SubscribeEvent
