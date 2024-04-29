@@ -67,8 +67,7 @@ public class AllMusicForge {
 
     @SubscribeEvent
     public void register(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("allmusic")
-                .versioned("1.0")
+        final PayloadRegistrar registrar = event.registrar("1.0")
                 .optional();
         registrar.playBidirectional(PackData.TYPE, PackData.CODEC, new HandelPack());
     }

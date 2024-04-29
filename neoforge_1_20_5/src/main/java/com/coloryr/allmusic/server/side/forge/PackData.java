@@ -26,6 +26,4 @@ public record PackData(ByteBuf buffer) implements CustomPacketPayload {
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
-
-
 }
