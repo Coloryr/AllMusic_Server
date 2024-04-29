@@ -3,12 +3,12 @@ package com.coloryr.allmusic.server.core.objs.api.music.search;
 import java.util.List;
 
 public class songs {
-    private int id;
+    private long id;
     private String name;
     private List<artists> artists;
     private album album;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

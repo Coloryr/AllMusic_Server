@@ -5,6 +5,7 @@ import com.coloryr.allmusic.server.side.forge.*;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.IEventBus;
@@ -16,8 +17,11 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
-import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +39,13 @@ public class AllMusicForge {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic_Server");
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
+
+    private static class HandelPack implements IPayloadHandler<PackData> {
+        @Override
+        public void handle(@NotNull PackData payload, IPayloadContext context) {
+            context.handle(payload);
+        }
+    }
 
     public AllMusicForge(IEventBus modEventBus) {
         // Register the commonSetup method for modloading
@@ -54,9 +65,12 @@ public class AllMusicForge {
         new AllMusic().init(new File(path));
     }
 
-    public void register(final RegisterPayloadHandlerEvent event) {
-        final IPayloadRegistrar registrar = event.registrar("allmusic");
-        registrar.versioned("1.0").optional();
+    @SubscribeEvent
+    public void register(final RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar("allmusic")
+                .versioned("1.0")
+                .optional();
+        registrar.playBidirectional(PackData.TYPE, PackData.CODEC, new HandelPack());
     }
 
     @SubscribeEvent

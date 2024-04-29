@@ -313,7 +313,8 @@ public class APIMain {
                 List<songs> res1 = obj.getResult();
                 SearchMusicObj item;
                 for (songs temp : res1) {
-                    item = new SearchMusicObj(String.valueOf(temp.getId()), temp.getName(), temp.getArtists(), temp.getAlbum());
+                    item = new SearchMusicObj(String.valueOf(temp.getId()), temp.getName(),
+                            temp.getArtists(), temp.getAlbum());
                     resData.add(item);
                 }
                 maxpage = res1.size() / 10;
