@@ -18,6 +18,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.CCustomPayloadPacket;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -465,9 +467,8 @@ public class SideForge extends ISide {
         if (players == null)
             return;
         try {
-            runTask(() -> AllMusicForge.channel.send(PacketDistributor.PLAYER.with(
-                    () -> players
-            ), data));
+            runTask(() -> PacketDistributor.PLAYER.with( () -> players)
+                    .send(new CCustomPayloadPacket(AllMusicForge.channel, new PacketBuffer(data))) );
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();

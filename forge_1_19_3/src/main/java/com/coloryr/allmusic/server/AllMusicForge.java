@@ -34,8 +34,7 @@ import java.util.function.Supplier;
 @Mod(AllMusicForge.MODID)
 public class AllMusicForge {
     public static MinecraftServer server;
-    public static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(new ResourceLocation("allmusic", "channel"),
-            () -> "1.0", s -> true, s -> true);
+    public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
 
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
@@ -54,27 +53,12 @@ public class AllMusicForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        channel.registerMessage(0, String.class, this::enc, this::dec, this::proc);
-
         String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
 
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
 
         new AllMusic().init(new File(path));
-    }
-
-    private void enc(String str, FriendlyByteBuf buffer) {
-        buffer.writeBytes(str.getBytes(StandardCharsets.UTF_8));
-    }
-
-    private String dec(FriendlyByteBuf buffer) {
-        return buffer.toString(StandardCharsets.UTF_8);
-    }
-
-    private void proc(String str, Supplier<NetworkEvent.Context> supplier) {
-        NetworkEvent.Context context = supplier.get();
-        context.setPacketHandled(true);
     }
 
     @SubscribeEvent
@@ -90,8 +74,6 @@ public class AllMusicForge {
 
         AllMusic.start();
         Tasks.init();
-
-
     }
 
     @SubscribeEvent

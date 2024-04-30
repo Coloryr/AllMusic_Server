@@ -43,7 +43,7 @@ public class AllMusicForge {
     private static class HandelPack implements IPayloadHandler<PackData> {
         @Override
         public void handle(@NotNull PackData payload, IPayloadContext context) {
-            context.handle(payload);
+            //context.handle(payload);
         }
     }
 
@@ -65,11 +65,9 @@ public class AllMusicForge {
         new AllMusic().init(new File(path));
     }
 
-    @SubscribeEvent
     public void register(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1.0")
-                .optional();
-        registrar.playBidirectional(PackData.TYPE, PackData.CODEC, new HandelPack());
+                .optional().playToClient(PackData.TYPE, PackData.CODEC, new HandelPack());
     }
 
     @SubscribeEvent

@@ -297,12 +297,12 @@ public class CommandEX {
                 return search;
             }
         } else {
-            if (arg[0].isEmpty() || arg.length == 1) {
+            if (arg[0] == null || arg[0].isEmpty() || arg.length == 1) {
                 arguments.addAll(normal);
                 if (AllMusic.getConfig().adminList.contains(name)) {
                     arguments.addAll(admin);
                 }
-                if (arg[0].isEmpty()) {
+                if (arg[0] == null || arg[0].isEmpty()) {
                     if (AllMusic.getSearch(name) != null) {
                         return search;
                     }

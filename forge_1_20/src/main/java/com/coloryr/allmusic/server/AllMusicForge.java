@@ -90,8 +90,6 @@ public class AllMusicForge {
 
         AllMusic.start();
         Tasks.init();
-
-
     }
 
     @SubscribeEvent

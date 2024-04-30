@@ -12,9 +12,8 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,14 +23,13 @@ import java.util.Locale;
 @Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.12,)", serverSideOnly = true)
 public class AllMusicForge {
     public static MinecraftServer server;
-    public static SimpleNetworkWrapper channel;
+    public static FMLEventChannel channel;
     public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
 
     @Mod.EventHandler
     private void commonSetup(final FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
-        channel = NetworkRegistry.INSTANCE.newSimpleChannel("allmusic:channel");
-        channel.registerMessage(PacketMessageHandler.class, PacketMessage.class, 0, Side.SERVER);
+        channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("allmusic:channel");
 
         String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
 
