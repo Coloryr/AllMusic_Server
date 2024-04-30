@@ -1,29 +1,54 @@
 package com.coloryr.allmusic.server.side.forge;
 
 import com.coloryr.allmusic.server.AllMusicForge;
+import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import org.jetbrains.annotations.NotNull;
 
-public record PackData(ByteBuf buffer) implements CustomPacketPayload {
+import java.nio.charset.StandardCharsets;
+
+public record PackData(ComType cmd, String data, int data1) implements CustomPacketPayload {
     public static final Type<PackData> TYPE = new Type<>(AllMusicForge.channel);
     public static final StreamCodec<RegistryFriendlyByteBuf, PackData> CODEC = new PackCodec();
 
     public static class PackCodec implements StreamCodec<RegistryFriendlyByteBuf, PackData> {
         @Override
-        public PackData decode(RegistryFriendlyByteBuf pack) {
-            return new PackData(pack.asByteBuf());
+        public @NotNull PackData decode(RegistryFriendlyByteBuf pack) {
+            pack.clear();
+            return new PackData(ComType.CLEAR, "", 0);
         }
 
         @Override
         public void encode(RegistryFriendlyByteBuf pack, PackData buffer) {
-            pack.writeBytes(buffer.buffer);
+            pack.writeByte(buffer.cmd.ordinal());
+            switch (buffer.cmd)
+            {
+                case IMG:
+                case PLAY:
+                case INFO:
+                case LIST:
+                case LYRIC:
+                case HUD:
+                    writeString(pack, buffer.data);
+                    break;
+                case POS:
+                    pack.writeInt(buffer.data1);
+                    break;
+            }
+        }
+
+        private void writeString(ByteBuf buf, String data) {
+            byte[] temp = data.getBytes(StandardCharsets.UTF_8);
+            buf.writeInt(temp.length)
+                    .writeBytes(temp);
         }
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }
