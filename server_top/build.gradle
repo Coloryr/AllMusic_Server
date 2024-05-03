@@ -5,6 +5,8 @@ plugins {
 }
 version = "3.0.0"
 
+archivesBaseName = "[bungeecord_velocity]AllMusic_Server"
+
 repositories {
     mavenCentral()
 
