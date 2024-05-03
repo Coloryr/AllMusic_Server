@@ -277,7 +277,6 @@ public class HudUtils {
      */
     public static void reset(String player) {
         SaveObj obj = AllMusic.getConfig().defaultHud.copy();
-        clearHud(player);
         addAndSave(player, obj);
         HudUtils.sendHudPos(player);
     }

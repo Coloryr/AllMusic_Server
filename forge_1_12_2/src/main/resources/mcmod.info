@@ -13,6 +13,8 @@
     "credits": "This mod is use in allmusic",
     "logoFile": "",
     "screenshots": [],
+    "useDependencyInformation": true,
+    "requiredMods" : ["forgelin"],
     "dependencies": ["forgelin"]
   }
 ]

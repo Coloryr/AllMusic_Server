@@ -83,7 +83,7 @@ public class CommandPush extends ACommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.err3);
                 return;
             }
-            if (!AllMusic.containVote(name)) {
+            if (!AllMusic.containPush(name)) {
                 AllMusic.addPush(name);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.agree);
                 String data = AllMusic.getMessage().push.bqAgree;

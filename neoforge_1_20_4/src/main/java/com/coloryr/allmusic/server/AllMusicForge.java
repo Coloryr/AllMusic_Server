@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.side.forge.*;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
@@ -17,7 +18,10 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
+import net.neoforged.neoforge.network.handling.IPlayPayloadHandler;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +30,7 @@ import java.util.Locale;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AllMusicForge.MODID)
-public class AllMusicForge {
+public class AllMusicForge implements IPlayPayloadHandler<PackData> {
     public static MinecraftServer server;
     public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
 
@@ -56,7 +60,20 @@ public class AllMusicForge {
 
     public void register(final RegisterPayloadHandlerEvent event) {
         final IPayloadRegistrar registrar = event.registrar("allmusic");
-        registrar.versioned("1.0").optional();
+        registrar.versioned("1.0").optional().play(channel, new DataReader(), han -> han.server(this));
+    }
+
+    @Override
+    public void handle(@NotNull PackData payload, @NotNull PlayPayloadContext context) {
+
+    }
+
+    public static class DataReader implements FriendlyByteBuf.Reader<PackData> {
+        @Override
+        public PackData apply(FriendlyByteBuf buf) {
+            buf.clear();
+            return new PackData(ComType.CLEAR, null, 0);
+        }
     }
 
     @SubscribeEvent

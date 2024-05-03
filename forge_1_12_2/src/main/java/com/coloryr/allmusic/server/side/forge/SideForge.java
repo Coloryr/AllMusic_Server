@@ -19,10 +19,12 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.network.play.server.SPacketCustomPayload;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -466,9 +468,9 @@ public class SideForge extends ISide {
         if (players == null)
             return;
         try {
-            runTask(() -> AllMusicForge.channel.sendTo(new FMLProxyPacket(
-                    new SPacketCustomPayload("allmusic:channel", new PacketBuffer(data))
-            ), players));
+            FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(data), "allmusic:channel");
+            packet.setTarget(Side.CLIENT);
+            runTask(() -> AllMusicForge.channel.sendTo(packet, players));
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
