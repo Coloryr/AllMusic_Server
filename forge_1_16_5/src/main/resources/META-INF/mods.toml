@@ -9,7 +9,7 @@ modLoader="javafml" #mandatory
 loaderVersion="[36,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
-issueTrackerURL="https://github.com/Coloryr/AllMusic3_Server/issues" #optional
+issueTrackerURL="https://github.com/Coloryr/AllMusic_Server/issues" #optional
 license="GPL-3.0"
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
@@ -26,7 +26,7 @@ displayName="AllMusic Server" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://github.com/Coloryr/AllMusic3_Server" #optional
+displayURL="https://github.com/Coloryr/AllMusic_Server" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="icon.png" #optional
 # A text field displayed in the mod UI

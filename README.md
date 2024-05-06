@@ -1,38 +1,39 @@
-# AllMusic3
-
-[AllMusic](https://github.com/Coloryr/AllMusic3_Server)3.0版本
-
+# AllMusic
 一个全服点歌插件
 
-![GIF.gif](img%2FGIF.gif)
+![GIF.gif](img/allmusic.jpg)
 
-注：需要配合[客户端Mod](https://github.com/Coloryr/AllMusic3_Client)使用  
+![GIF.gif](img/GIF.gif)
+
+注：需要配合[客户端Mod](https://github.com/Coloryr/AllMusic_Client)使用  
 **不兼容旧版客户端Mod，需要新版客户端Mod**
 
 [下载地址](https://www.123pan.com/s/Nh4zVv-BjOAH.html)
 
-支持的服务器
-- LoliServer
-- CatServer
-- CraftBukkit
-- Spigot
+插件支持的服务器
+- CatServer(LoliServer)
+- Spigot(CraftBukkit)
 - Paper
 - Bungeecord
 - Velocity
+兼容但未测试服务器
 - KCauldron
 - Uranium
 - Thermos
-- Mirai
+模组支持的服务器
+- Forge(<1.20.4)
+- NeoForge(>=1.20.5)
+- Fabric
 
 ## 使用方法
->1. 安装AllMusic插件  
->复制`AllMusic-3.0.0-all.jar`到你的`plugins`文件夹  
->重启过服务器
->2. 安装客户端mod  
->复制`[forge-xxx]AllMusic-3.0.0`到客户端的`mods`文件夹  
->fabric同理
+1. 安装AllMusic插件  
+复制`AllMusic-3.0.0-all.jar`到你的`plugins`文件夹  
+重启过服务器
+2. 安装客户端mod  
+复制`[forge-xxx]AllMusic-3.0.0`到客户端的`mods`文件夹  
+fabric同理
 
-如果你是forge或者fabric服务器，复制服务器mod到你的mods文件夹下即可  
+如果你是forge或者fabric服务器，复制`服务器mod`到你的mods文件夹下即可  
 需要补全前置mod kotlinforforge 或者 kotlinforfabirc
 
 ## 播放VIP歌曲
