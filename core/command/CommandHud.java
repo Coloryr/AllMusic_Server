@@ -7,6 +7,17 @@ import com.coloryr.allmusic.server.core.utils.HudUtils;
 import java.util.*;
 
 public class CommandHud extends ACommand {
+    /**
+     * Hud的指令
+     */
+    private static final List<String> hudlist = new ArrayList<String>() {{
+        this.add("enable");
+        this.add("reset");
+        this.add("info");
+        this.add("list");
+        this.add("lyric");
+        this.add("pic");
+    }};
     private final Map<String, ICommand> commandList = new HashMap<>();
 
     public CommandHud() {
@@ -18,7 +29,39 @@ public class CommandHud extends ACommand {
         commandList.put("pic", new CommandHudSet(HudType.PIC));
     }
 
+    @Override
+    public void ex(Object sender, String name, String[] args) {
+        if (args.length == 1) {
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+        } else {
+            ICommand command = commandList.get(args[1]);
+            if (command != null) {
+                command.ex(sender, name, args);
+            } else {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+            }
+        }
+    }
+
+    @Override
+    public List<String> tab(String name, String[] args, int index) {
+        if (args.length == index + 1) {
+            return hudlist;
+        } else {
+            ICommand command = commandList.get(args[index]);
+            if (command != null) {
+                return command.tab(name, args, index + 1);
+            }
+        }
+        return Collections.emptyList();
+    }
+
     public static class HudEnable extends ACommand {
+        private static final List<String> tf = new ArrayList<String>() {{
+            this.add("true");
+            this.add("false");
+        }};
+
         @Override
         public void ex(Object sender, String name, String[] args) {
             if (args.length == 2 || args.length == 3) {
@@ -38,11 +81,6 @@ public class CommandHud extends ACommand {
             }
             return Collections.emptyList();
         }
-
-        private static final List<String> tf = new ArrayList<String>() {{
-            this.add("true");
-            this.add("false");
-        }};
     }
 
     public static class HudReset extends ACommand {
@@ -52,44 +90,5 @@ public class CommandHud extends ACommand {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.reset
                     .replace("%Hud%", AllMusic.getMessage().hudList.getHud(null)));
         }
-    }
-
-    @Override
-    public void ex(Object sender, String name, String[] args) {
-        if (args.length == 1) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
-        } else {
-            ICommand command = commandList.get(args[1]);
-            if (command != null) {
-                command.ex(sender, name, args);
-            } else {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
-            }
-        }
-    }
-
-    /**
-     * Hud的指令
-     */
-    private static final List<String> hudlist = new ArrayList<String>() {{
-        this.add("enable");
-        this.add("reset");
-        this.add("info");
-        this.add("list");
-        this.add("lyric");
-        this.add("pic");
-    }};
-
-    @Override
-    public List<String> tab(String name, String[] args, int index) {
-        if (args.length == index + 1) {
-            return hudlist;
-        } else {
-            ICommand command = commandList.get(args[index]);
-            if (command != null) {
-                return command.tab(name, args, index + 1);
-            }
-        }
-        return Collections.emptyList();
     }
 }

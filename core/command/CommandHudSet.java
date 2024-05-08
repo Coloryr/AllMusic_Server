@@ -9,6 +9,28 @@ import com.coloryr.allmusic.server.core.utils.HudUtils;
 import java.util.*;
 
 public class CommandHudSet extends AHudCommand {
+    /**
+     * Hud的指令
+     */
+    private static final List<String> hud = new ArrayList<String>() {{
+        this.add("enable");
+        this.add("pos");
+        this.add("dir");
+        this.add("reset");
+    }};
+    private static final List<String> pic = new ArrayList<String>() {{
+        this.add("size");
+        this.add("rotate");
+        this.add("speed");
+    }};
+    private static final List<String> info = new ArrayList<String>() {{
+        this.add("color");
+        this.add("shadow");
+    }};
+    private static final List<String> tf = new ArrayList<String>() {{
+        this.add("true");
+        this.add("false");
+    }};
     private final Map<String, ICommand> commandList = new HashMap<>();
 
     public CommandHudSet(HudType type) {
@@ -25,6 +47,40 @@ public class CommandHudSet extends AHudCommand {
             commandList.put("color", new HudColor(type));
             commandList.put("shadow", new HudShadow(type));
         }
+    }
+
+    @Override
+    public void ex(Object sender, String name, String[] args) {
+        if (args.length == 1) {
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+        } else {
+            ICommand command = commandList.get(args[2]);
+            if (command != null) {
+                command.ex(sender, name, args);
+            } else {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+            }
+        }
+    }
+
+    @Override
+    public List<String> tab(String name, String[] args, int index) {
+        if (args.length == index + 1) {
+            List<String> list = new ArrayList<>(hud);
+            if (type == HudType.PIC) {
+                list.addAll(pic);
+            } else {
+                list.addAll(info);
+            }
+
+            return list;
+        } else {
+            ICommand command = commandList.get(args[index]);
+            if (command != null) {
+                return command.tab(name, args, index + 1);
+            }
+        }
+        return Collections.emptyList();
     }
 
     private static class HudEnable extends AHudCommand {
@@ -97,6 +153,12 @@ public class CommandHudSet extends AHudCommand {
     }
 
     private static class HudDir extends AHudCommand {
+        private static final List<String> dir = new ArrayList<String>() {{
+            for (HudDirType type : HudDirType.values()) {
+                this.add(type.name());
+            }
+        }};
+
         public HudDir(HudType type) {
             super(type);
         }
@@ -116,12 +178,6 @@ public class CommandHudSet extends AHudCommand {
                     .replace("%Hud%", AllMusic.getMessage().hudList.getHud(type))
                     .replace("%Dir%", AllMusic.getMessage().hudList.getDir(type1)));
         }
-
-        private static final List<String> dir = new ArrayList<String>() {{
-            for (HudDirType type : HudDirType.values()) {
-                this.add(type.name());
-            }
-        }};
 
         @Override
         public List<String> tab(String name, String[] args, int index) {
@@ -224,65 +280,5 @@ public class CommandHudSet extends AHudCommand {
             AllMusic.side.sendMessage(sender,
                     AllMusic.getMessage().hud.picSpeed.replace("%Size%", args[3]));
         }
-    }
-
-    @Override
-    public void ex(Object sender, String name, String[] args) {
-        if (args.length == 1) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
-        } else {
-            ICommand command = commandList.get(args[2]);
-            if (command != null) {
-                command.ex(sender, name, args);
-            } else {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
-            }
-        }
-    }
-
-    /**
-     * Hud的指令
-     */
-    private static final List<String> hud = new ArrayList<String>() {{
-        this.add("enable");
-        this.add("pos");
-        this.add("dir");
-        this.add("reset");
-    }};
-
-    private static final List<String> pic = new ArrayList<String>() {{
-        this.add("size");
-        this.add("rotate");
-        this.add("speed");
-    }};
-
-    private static final List<String> info = new ArrayList<String>() {{
-        this.add("color");
-        this.add("shadow");
-    }};
-
-    private static final List<String> tf = new ArrayList<String>() {{
-        this.add("true");
-        this.add("false");
-    }};
-
-    @Override
-    public List<String> tab(String name, String[] args, int index) {
-        if (args.length == index + 1) {
-            List<String> list = new ArrayList<>(hud);
-            if (type == HudType.PIC) {
-                list.addAll(pic);
-            } else {
-                list.addAll(info);
-            }
-
-            return list;
-        } else {
-            ICommand command = commandList.get(args[index]);
-            if (command != null) {
-                return command.tab(name, args, index + 1);
-            }
-        }
-        return Collections.emptyList();
     }
 }

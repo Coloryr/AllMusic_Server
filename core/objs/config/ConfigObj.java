@@ -142,6 +142,13 @@ public class ConfigObj {
      */
     public int sendDelay;
 
+    public static ConfigObj make() {
+        ConfigObj config = new ConfigObj();
+        config.init();
+
+        return config;
+    }
+
     public void addBanMusic(String id) {
         banMusic.add(id);
         AllMusic.saveConfig();
@@ -236,12 +243,5 @@ public class ConfigObj {
         lyricDelay = 0;
         sendDelay = 1000;
         version = AllMusic.configVersion;
-    }
-
-    public static ConfigObj make() {
-        ConfigObj config = new ConfigObj();
-        config.init();
-
-        return config;
     }
 }

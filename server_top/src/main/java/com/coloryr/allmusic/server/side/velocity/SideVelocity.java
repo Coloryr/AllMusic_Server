@@ -1,16 +1,17 @@
 package com.coloryr.allmusic.server.side.velocity;
 
 import com.coloryr.allmusic.server.AllMusicVelocity;
+import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
+import com.coloryr.allmusic.server.core.objs.enums.ComType;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.side.ISide;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.velocity.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.velocity.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
@@ -20,7 +21,6 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -131,6 +131,12 @@ public class SideVelocity extends ISide implements IEconomy {
         server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
     }
 
+    private static void writeString(ByteBuf buf, String text) {
+        byte[] temp = text.getBytes(StandardCharsets.UTF_8);
+        buf.writeInt(temp.length);
+        buf.writeBytes(temp);
+    }
+
     @Override
     public int getAllPlayer() {
         return AllMusicVelocity.plugin.server.getPlayerCount();
@@ -195,9 +201,7 @@ public class SideVelocity extends ISide implements IEconomy {
     protected void topSendStop() {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.STOP.ordinal());
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.STOP, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -211,9 +215,7 @@ public class SideVelocity extends ISide implements IEconomy {
             Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
             if (!player.isPresent())
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.STOP.ordinal());
-            send(player.get(), buf);
+            send(player.get(), PacketCodec.pack(ComType.STOP, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -221,17 +223,14 @@ public class SideVelocity extends ISide implements IEconomy {
     }
 
     @Override
-    public void sendMusic(String url) {
+    public void sendMusic(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 String server = player.getCurrentServer().isPresent() ?
                         player.getCurrentServer().get().getServerInfo().getName() : null;
                 if (AllMusic.isOK(player.getUsername(), server, false))
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.PLAY.ordinal());
-                writeString(buf, url);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getUsername());
             }
         } catch (Exception e) {
@@ -241,7 +240,7 @@ public class SideVelocity extends ISide implements IEconomy {
     }
 
     @Override
-    protected void topSendMusic(String player, String url) {
+    protected void topSendMusic(String player, String data) {
         try {
             if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
@@ -249,10 +248,7 @@ public class SideVelocity extends ISide implements IEconomy {
                         player1.getCurrentServer().get().getServerInfo().getName() : null;
                 if (AllMusic.isOK(player1.getUsername(), server, false))
                     return;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.PLAY.ordinal());
-                writeString(buf, url);
-                send(player1, buf);
+                send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
@@ -261,7 +257,7 @@ public class SideVelocity extends ISide implements IEconomy {
     }
 
     @Override
-    public void sendPic(String url) {
+    public void sendPic(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 if (ok(player))
@@ -270,10 +266,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.pic.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.IMG.ordinal());
-                writeString(buf, url);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.IMG, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -282,16 +275,13 @@ public class SideVelocity extends ISide implements IEconomy {
     }
 
     @Override
-    public void sendPic(String player, String url) {
+    public void sendPic(String player, String data) {
         try {
             if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
                 if (ok(player1))
                     return;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.IMG.ordinal());
-                writeString(buf, url);
-                send(player1, buf);
+                send(player1, PacketCodec.pack(ComType.IMG, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -306,10 +296,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
                 if (ok(player1))
                     return;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.POS.ordinal());
-                buf.writeInt(pos);
-                send(player1, buf);
+                send(player1, PacketCodec.pack(ComType.POS, null, pos));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");
@@ -326,10 +313,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(player.getUsername());
                 if (!obj.lyric.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.LYRIC.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -346,10 +330,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(player.getUsername());
                 if (!obj.info.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.INFO.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.INFO, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -365,10 +346,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 return;
             SaveObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.HUD.ordinal());
-            writeString(buf, data);
-            send(player.get(), buf);
+            send(player.get(), PacketCodec.pack(ComType.HUD, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -388,21 +366,17 @@ public class SideVelocity extends ISide implements IEconomy {
             if (ok(player.get()))
                 return;
 
-            ByteBuf buf = Unpooled.buffer();
             switch (pos) {
                 case INFO:
-                    buf.writeByte(ComType.INFO.ordinal());
+                    send(player.get(), PacketCodec.pack(ComType.INFO, data, 0));
                     break;
                 case LIST:
-                    buf.writeByte(ComType.LIST.ordinal());
+                    send(player.get(), PacketCodec.pack(ComType.LIST, data, 0));
                     break;
                 case LYRIC:
-                    buf.writeByte(ComType.LYRIC.ordinal());
+                    send(player.get(), PacketCodec.pack(ComType.LYRIC, data, 0));
                     break;
             }
-            writeString(buf, data);
-
-            send(player.get(), buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -419,10 +393,7 @@ public class SideVelocity extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.list.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.LIST.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.LIST, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -436,10 +407,7 @@ public class SideVelocity extends ISide implements IEconomy {
             try {
                 SaveObj obj = HudUtils.get(player.getUsername());
                 String data = AllMusic.gson.toJson(obj);
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.HUD.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.HUD, data, 0));
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -468,10 +436,7 @@ public class SideVelocity extends ISide implements IEconomy {
             Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
             if (!player.isPresent())
                 return;
-
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.CLEAR.ordinal());
-            send(player.get(), buf);
+            send(player.get(), PacketCodec.pack(ComType.CLEAR, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -483,9 +448,7 @@ public class SideVelocity extends ISide implements IEconomy {
         try {
             Collection<Player> values = AllMusicVelocity.plugin.server.getAllPlayers();
             for (Player player : values) {
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.CLEAR.ordinal());
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
@@ -695,11 +658,5 @@ public class SideVelocity extends ISide implements IEconomy {
         AllMusic.log.warning("§d[AllMusic]§c经济数据请求超时");
 
         return false;
-    }
-
-    private static void writeString(ByteBuf buf, String text) {
-        byte[] temp = text.getBytes(StandardCharsets.UTF_8);
-        buf.writeInt(temp.length);
-        buf.writeBytes(temp);
     }
 }

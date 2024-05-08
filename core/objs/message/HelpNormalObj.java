@@ -24,6 +24,13 @@ public class HelpNormalObj {
     public String hud9;
     public String hud10;
 
+    public static HelpNormalObj make() {
+        HelpNormalObj obj = new HelpNormalObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (head == null)
             return true;
@@ -93,12 +100,5 @@ public class HelpNormalObj {
         hud3 = "§d[AllMusic3]§e使用/music hud pic size [尺寸] 设置图片尺寸";
         hud4 = "§d[AllMusic3]§e使用/music hud pic rotate [开关] 设置图片旋转模式";
         hud5 = "§d[AllMusic3]§e使用/music hud pic speed [数值] 设置图片旋转速度";
-    }
-
-    public static HelpNormalObj make() {
-        HelpNormalObj obj = new HelpNormalObj();
-        obj.init();
-
-        return obj;
     }
 }

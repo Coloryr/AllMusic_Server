@@ -20,6 +20,13 @@ public class PushObj {
     public String err2;
     public String err3;
 
+    public static PushObj make() {
+        PushObj obj = new PushObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (noPermission == null)
             return true;
@@ -77,12 +84,5 @@ public class PushObj {
         err2 = "§d[AllMusic3]§c你发起的插歌已超时";
         err3 = "§d[AllMusic3]§c发起失败，已经有人发起了插歌投票";
         cancel = "§d[AllMusic3]§e插歌投票已被发起者取消";
-    }
-
-    public static PushObj make() {
-        PushObj obj = new PushObj();
-        obj.init();
-
-        return obj;
     }
 }

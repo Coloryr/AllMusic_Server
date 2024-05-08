@@ -16,6 +16,13 @@ public class VoteObj {
     public String err3;
     public String cancel;
 
+    public static VoteObj make() {
+        VoteObj obj = new VoteObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (noPermission == null)
             return true;
@@ -61,12 +68,5 @@ public class VoteObj {
         err3 = "§d[AllMusic3]§c已经有人发起了切歌";
         voteDone = "§d[AllMusic3]§e已切歌";
         cancel = "§d[AllMusic3]§e切歌投票已被发起者取消";
-    }
-
-    public static VoteObj make() {
-        VoteObj obj = new VoteObj();
-        obj.init();
-
-        return obj;
     }
 }

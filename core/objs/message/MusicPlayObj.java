@@ -15,6 +15,13 @@ public class MusicPlayObj {
     public String trail;
     public String cancel;
 
+    public static MusicPlayObj make() {
+        MusicPlayObj obj = new MusicPlayObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         boolean res = stopPlaying == null;
         if (emptyPlayingMusic == null)
@@ -59,12 +66,5 @@ public class MusicPlayObj {
         musicInfo = "%MusicName% | %MusicAuthor% | %MusicAl% | %MusicAlia% | by: %PlayerName%";
         trail = "§d[AllMusic3]§e该音乐为试听音乐";
         cancel = "§d[AllMusic3]§e播放被取消";
-    }
-
-    public static MusicPlayObj make() {
-        MusicPlayObj obj = new MusicPlayObj();
-        obj.init();
-
-        return obj;
     }
 }

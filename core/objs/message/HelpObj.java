@@ -4,6 +4,13 @@ public class HelpObj {
     public HelpNormalObj normal;
     public HelpAdminObj admin;
 
+    public static HelpObj make() {
+        HelpObj obj = new HelpObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         boolean save = false;
         if (normal == null || normal.check()) {
@@ -20,12 +27,5 @@ public class HelpObj {
     public void init() {
         normal = HelpNormalObj.make();
         admin = HelpAdminObj.make();
-    }
-
-    public static HelpObj make() {
-        HelpObj obj = new HelpObj();
-        obj.init();
-
-        return obj;
     }
 }

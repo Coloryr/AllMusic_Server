@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.side.fabric;
 import com.coloryr.allmusic.server.AllMusicFabric;
 import com.coloryr.allmusic.server.TaskItem;
 import com.coloryr.allmusic.server.Tasks;
+import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
@@ -76,9 +77,7 @@ public class SideFabric extends ISide {
     protected void topSendStop() {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.STOP.ordinal());
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.STOP, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -92,9 +91,7 @@ public class SideFabric extends ISide {
             var player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
             if (player == null)
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.STOP.ordinal());
-            send(player, buf);
+            send(player, PacketCodec.pack(ComType.STOP, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -102,15 +99,12 @@ public class SideFabric extends ISide {
     }
 
     @Override
-    public void sendMusic(String url) {
+    public void sendMusic(String data) {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 if (AllMusic.isOK(player.getName().getString(), null, false))
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.PLAY.ordinal());
-                writeString(buf, url);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getName().getString());
             }
         } catch (Exception e) {
@@ -120,17 +114,14 @@ public class SideFabric extends ISide {
     }
 
     @Override
-    protected void topSendMusic(String player, String url) {
+    protected void topSendMusic(String player, String data) {
         try {
             var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player, null, false))
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.PLAY.ordinal());
-            writeString(buf, url);
-            send(player1, buf);
+            send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -138,7 +129,7 @@ public class SideFabric extends ISide {
     }
 
     @Override
-    public void sendPic(String url) {
+    public void sendPic(String data) {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
@@ -147,10 +138,7 @@ public class SideFabric extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.pic.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.IMG.ordinal());
-                writeString(buf, url);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.IMG, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -159,17 +147,14 @@ public class SideFabric extends ISide {
     }
 
     @Override
-    public void sendPic(String player, String url) {
+    public void sendPic(String player, String data) {
         try {
             var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.IMG.ordinal());
-            writeString(buf, url);
-            send(player1, buf);
+            send(player1, PacketCodec.pack(ComType.IMG, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
             e.printStackTrace();
@@ -184,10 +169,7 @@ public class SideFabric extends ISide {
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.POS.ordinal());
-            buf.writeInt(pos);
-            send(player1, buf);
+            send(player1, PacketCodec.pack(ComType.POS, null, pos));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -204,10 +186,7 @@ public class SideFabric extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.lyric.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.LYRIC.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -225,10 +204,7 @@ public class SideFabric extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.info.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.INFO.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.INFO, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -244,10 +220,7 @@ public class SideFabric extends ISide {
                 return;
             SaveObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.HUD.ordinal());
-            writeString(buf, data);
-            send(player, buf);
+            send(player, PacketCodec.pack(ComType.HUD, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c界面位置发送出错");
             e.printStackTrace();
@@ -263,22 +236,21 @@ public class SideFabric extends ISide {
             var player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
             if (player == null)
                 return;
+
             if (AllMusic.isOK(name, null, true))
                 return;
-            ByteBuf buf = Unpooled.buffer();
+
             switch (pos) {
                 case INFO:
-                    buf.writeByte(ComType.INFO.ordinal());
+                    send(player, PacketCodec.pack(ComType.INFO, data, 0));
                     break;
                 case LIST:
-                    buf.writeByte(ComType.LIST.ordinal());
+                    send(player, PacketCodec.pack(ComType.LIST, data, 0));
                     break;
                 case LYRIC:
-                    buf.writeByte(ComType.LYRIC.ordinal());
+                    send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
                     break;
             }
-            writeString(buf, data);
-            send(player, buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -295,10 +267,7 @@ public class SideFabric extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.list.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.LIST.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.LIST, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -313,10 +282,7 @@ public class SideFabric extends ISide {
             try {
                 SaveObj obj = HudUtils.get(Name);
                 String data = AllMusic.gson.toJson(obj);
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.HUD.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.HUD, data, 0));
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -344,9 +310,7 @@ public class SideFabric extends ISide {
             var player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
             if (player == null)
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.CLEAR.ordinal());
-            send(player, buf);
+            send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -357,9 +321,7 @@ public class SideFabric extends ISide {
     public void clearHud() {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.CLEAR.ordinal());
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");

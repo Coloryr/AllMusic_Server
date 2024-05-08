@@ -25,11 +25,11 @@
 		"allmusic_server.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.14.14",
+		"fabricloader": ">=0.15.11",
 		"minecraft": "~1.19.2",
 		"java": ">=17",
 		"fabric-api": "*",
-		"fabric-language-kotlin": ">=1.8.10"
+		"fabric-language-kotlin": ">=1.10.19"
 	},
 	"suggests": {
 		

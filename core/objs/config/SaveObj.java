@@ -10,6 +10,13 @@ public class SaveObj {
     public PosObj pic;
     public int picRotateSpeed;
 
+    public static SaveObj make() {
+        SaveObj obj = new SaveObj();
+        obj.init();
+
+        return obj;
+    }
+
     public SaveObj copy() {
         SaveObj obj1 = new SaveObj();
         obj1.info = this.info.copy();
@@ -47,12 +54,5 @@ public class SaveObj {
         lyric = new PosObj(74, 53, HudDirType.TOP_LEFT, 0xffffff, false, true);
         info = new PosObj(74, 2, HudDirType.TOP_LEFT, 0xffffff, false, true);
         pic = new PosObj(2, 2, HudDirType.TOP_LEFT, 70, true, true);
-    }
-
-    public static SaveObj make() {
-        SaveObj obj = new SaveObj();
-        obj.init();
-
-        return obj;
     }
 }

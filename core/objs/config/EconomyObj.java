@@ -5,6 +5,13 @@ public class EconomyObj {
     public String backend;
     public boolean vault;
 
+    public static EconomyObj make() {
+        EconomyObj obj = new EconomyObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         boolean res = mysqlUrl == null;
 
@@ -15,12 +22,5 @@ public class EconomyObj {
         backend = "Server1";
         mysqlUrl = "jdbc:mysql://localhost:3306/minecraft?autoReconnect=true&autoReconnectForPools=true";
         vault = true;
-    }
-
-    public static EconomyObj make() {
-        EconomyObj obj = new EconomyObj();
-        obj.init();
-
-        return obj;
     }
 }

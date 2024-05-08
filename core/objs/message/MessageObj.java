@@ -22,6 +22,13 @@ public class MessageObj {
     public CancelObj cancel;
     public String version;
 
+    public static MessageObj make() {
+        MessageObj obj = new MessageObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         boolean saveConfig = false;
         if (musicPlay == null || musicPlay.check()) {
@@ -114,12 +121,5 @@ public class MessageObj {
         push = PushObj.make();
         cancel = CancelObj.make();
         version = AllMusic.messageVersion;
-    }
-
-    public static MessageObj make() {
-        MessageObj obj = new MessageObj();
-        obj.init();
-
-        return obj;
     }
 }

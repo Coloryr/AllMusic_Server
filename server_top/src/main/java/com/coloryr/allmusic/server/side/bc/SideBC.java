@@ -1,22 +1,22 @@
 package com.coloryr.allmusic.server.side.bc;
 
 import com.coloryr.allmusic.server.AllMusicBC;
+import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
+import com.coloryr.allmusic.server.core.objs.enums.ComType;
+import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.side.ISide;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.bc.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.bc.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -26,7 +26,6 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -147,10 +146,7 @@ public class SideBC extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(player.getName());
                 if (!obj.lyric.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.LYRIC.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -167,10 +163,7 @@ public class SideBC extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(player.getName());
                 if (!obj.info.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.INFO.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.INFO, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -188,10 +181,7 @@ public class SideBC extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.list.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.LIST.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.LIST, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -205,10 +195,7 @@ public class SideBC extends ISide implements IEconomy {
             try {
                 SaveObj obj = HudUtils.get(player.getName());
                 String data = AllMusic.gson.toJson(obj);
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.HUD.ordinal());
-                writeString(buf, data);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.HUD, data, 0));
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -230,16 +217,13 @@ public class SideBC extends ISide implements IEconomy {
     }
 
     @Override
-    public void sendMusic(String url) {
+    public void sendMusic(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 String server = player.getServer() == null ? null : player.getServer().getInfo().getName();
                 if (AllMusic.isOK(player.getName(), server, false))
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.PLAY.ordinal());
-                writeString(buf, url);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getName());
             }
         } catch (Exception e) {
@@ -249,7 +233,7 @@ public class SideBC extends ISide implements IEconomy {
     }
 
     @Override
-    protected void topSendMusic(String player, String url) {
+    protected void topSendMusic(String player, String data) {
         try {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
             if (player1 == null)
@@ -257,11 +241,7 @@ public class SideBC extends ISide implements IEconomy {
             String server = player1.getServer() == null ? null : player1.getServer().getInfo().getName();
             if (AllMusic.isOK(player1.getName(), server, false))
                 return;
-
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.PLAY.ordinal());
-            writeString(buf, url);
-            send(player1, buf);
+            send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -280,10 +260,7 @@ public class SideBC extends ISide implements IEconomy {
 
             SaveObj obj = HudUtils.get(player);
             String data = AllMusic.gson.toJson(obj);
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.HUD.ordinal());
-            writeString(buf, data);
-            send(player1, buf);
+            send(player1, PacketCodec.pack(ComType.HUD, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -302,21 +279,17 @@ public class SideBC extends ISide implements IEconomy {
             if (ok(player1))
                 return;
 
-            ByteBuf buf = Unpooled.buffer();
             switch (pos) {
                 case INFO:
-                    buf.writeByte(ComType.INFO.ordinal());
+                    send(player1, PacketCodec.pack(ComType.INFO, data, 0));
                     break;
                 case LIST:
-                    buf.writeByte(ComType.LIST.ordinal());
+                    send(player1, PacketCodec.pack(ComType.LIST, data, 0));
                     break;
                 case LYRIC:
-                    buf.writeByte(ComType.LYRIC.ordinal());
+                    send(player1, PacketCodec.pack(ComType.LYRIC, data, 0));
                     break;
             }
-            writeString(buf, data);
-
-            send(player1, buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -324,7 +297,7 @@ public class SideBC extends ISide implements IEconomy {
     }
 
     @Override
-    public void sendPic(String url) {
+    public void sendPic(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 if (ok(player))
@@ -333,10 +306,7 @@ public class SideBC extends ISide implements IEconomy {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.pic.enable)
                     continue;
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.IMG.ordinal());
-                writeString(buf, url);
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.IMG, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -345,17 +315,14 @@ public class SideBC extends ISide implements IEconomy {
     }
 
     @Override
-    public void sendPic(String player, String url) {
+    public void sendPic(String player, String data) {
         try {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
             if (player1 == null)
                 return;
             if (ok(player1))
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.IMG.ordinal());
-            writeString(buf, url);
-            send(player1, buf);
+            send(player1, PacketCodec.pack(ComType.IMG, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
             e.printStackTrace();
@@ -370,10 +337,7 @@ public class SideBC extends ISide implements IEconomy {
                 return;
             if (ok(player1))
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.POS.ordinal());
-            buf.writeInt(pos);
-            send(player1, buf);
+            send(player1, PacketCodec.pack(ComType.POS, null, pos));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");
             e.printStackTrace();
@@ -384,9 +348,7 @@ public class SideBC extends ISide implements IEconomy {
     protected void topSendStop() {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.STOP.ordinal());
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.STOP, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -400,9 +362,7 @@ public class SideBC extends ISide implements IEconomy {
             ProxiedPlayer player = ProxyServer.getInstance().getPlayer(name);
             if (player == null)
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.STOP.ordinal());
-            send(player, buf);
+            send(player, PacketCodec.pack(ComType.STOP, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -415,9 +375,7 @@ public class SideBC extends ISide implements IEconomy {
             ProxiedPlayer player = ProxyServer.getInstance().getPlayer(name);
             if (player == null)
                 return;
-            ByteBuf buf = Unpooled.buffer();
-            buf.writeByte(ComType.CLEAR.ordinal());
-            send(player, buf);
+            send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -429,9 +387,7 @@ public class SideBC extends ISide implements IEconomy {
         try {
             Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
             for (ProxiedPlayer player : values) {
-                ByteBuf buf = Unpooled.buffer();
-                buf.writeByte(ComType.CLEAR.ordinal());
-                send(player, buf);
+                send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
@@ -688,11 +644,5 @@ public class SideBC extends ISide implements IEconomy {
         AllMusic.log.warning("§d[AllMusic]§c经济数据请求超时");
 
         return false;
-    }
-
-    private static void writeString(ByteBuf buf, String text) {
-        byte[] temp = text.getBytes(StandardCharsets.UTF_8);
-        buf.writeInt(temp.length);
-        buf.writeBytes(temp);
     }
 }

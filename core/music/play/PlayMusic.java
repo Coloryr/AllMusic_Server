@@ -56,10 +56,9 @@ public class PlayMusic {
      * 错误次数
      */
     public static int error;
+    public static SongInfoObj push;
     private static boolean isRun;
     private static int idleNow;
-
-    public static SongInfoObj push;
 
     /**
      * 停止歌曲逻辑

@@ -16,10 +16,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 
 public class AllMusicFabric implements ModInitializer {
-    public static MinecraftServer server;
     public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
-
     public static final Identifier ID = new Identifier("allmusic", "channel");
+    public static MinecraftServer server;
 
     @Override
     public void onInitialize() {

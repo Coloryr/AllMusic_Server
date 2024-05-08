@@ -1,7 +1,7 @@
 plugins {
-	id 'fabric-loom' version '1.4-SNAPSHOT'
+	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id 'maven-publish'
-	id "org.jetbrains.kotlin.jvm" version "1.8.10"
+	id "org.jetbrains.kotlin.jvm" version "1.9.23"
 }
 
 version = project.mod_version
@@ -10,7 +10,6 @@ group = project.maven_group
 base {
 	archivesName = project.archives_base_name
 }
-
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.
@@ -49,7 +48,13 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 16
+	it.options.release = 8
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+	kotlinOptions {
+		jvmTarget = 1.8
+	}
 }
 
 java {
@@ -58,8 +63,8 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_16
-	targetCompatibility = JavaVersion.VERSION_16
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 jar {
@@ -71,7 +76,8 @@ jar {
 // configure the maven publication
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
+		create("mavenJava", MavenPublication) {
+			artifactId = project.archives_base_name
 			from components.java
 		}
 	}

@@ -7,6 +7,13 @@ public class LyricObj {
     public String empty2;
     public String empty3;
 
+    public static LyricObj make() {
+        LyricObj obj = new LyricObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (data == null)
             return true;
@@ -25,12 +32,5 @@ public class LyricObj {
         empty1 = "没有歌词";
         empty2 = "没有翻译歌词";
         empty3 = "没有KTV歌词";
-    }
-
-    public static LyricObj make() {
-        LyricObj obj = new LyricObj();
-        obj.init();
-
-        return obj;
     }
 }

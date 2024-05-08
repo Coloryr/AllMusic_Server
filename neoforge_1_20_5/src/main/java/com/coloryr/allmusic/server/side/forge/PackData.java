@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.side.forge;
 
 import com.coloryr.allmusic.server.AllMusicForge;
+import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -23,21 +24,7 @@ public record PackData(ComType cmd, String data, int data1) implements CustomPac
 
         @Override
         public void encode(RegistryFriendlyByteBuf pack, PackData buffer) {
-            pack.writeByte(buffer.cmd.ordinal());
-            switch (buffer.cmd)
-            {
-                case IMG:
-                case PLAY:
-                case INFO:
-                case LIST:
-                case LYRIC:
-                case HUD:
-                    writeString(pack, buffer.data);
-                    break;
-                case POS:
-                    pack.writeInt(buffer.data1);
-                    break;
-            }
+            PacketCodec.pack(pack, buffer.cmd, buffer.data, buffer.data1);
         }
 
         private void writeString(ByteBuf buf, String data) {

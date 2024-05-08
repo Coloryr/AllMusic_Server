@@ -23,6 +23,13 @@ public class HudNameObj {
     public String pos8;
     public String pos9;
 
+    public static HudNameObj make() {
+        HudNameObj obj = new HudNameObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (list == null)
             return true;
@@ -122,12 +129,5 @@ public class HudNameObj {
         pos7 = "左下";
         pos8 = "下";
         pos9 = "右下";
-    }
-
-    public static HudNameObj make() {
-        HudNameObj obj = new HudNameObj();
-        obj.init();
-
-        return obj;
     }
 }

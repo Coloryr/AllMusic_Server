@@ -12,6 +12,13 @@ public class HelpAdminObj {
     public String login;
     public String code;
 
+    public static HelpAdminObj make() {
+        HelpAdminObj obj = new HelpAdminObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (reload == null)
             return true;
@@ -45,12 +52,5 @@ public class HelpAdminObj {
         clearList = "§d[AllMusic3]§e使用/music clearlist 清空空闲歌单";
         login = "§d[AllMusic3]§e使用/music login [验证码] 登录账户";
         code = "§d[AllMusic3]§e使用/music code [手机号] 获取短信验证码";
-    }
-
-    public static HelpAdminObj make() {
-        HelpAdminObj obj = new HelpAdminObj();
-        obj.init();
-
-        return obj;
     }
 }

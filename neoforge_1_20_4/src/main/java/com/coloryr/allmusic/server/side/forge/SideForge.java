@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.side.forge;
 import com.coloryr.allmusic.server.AllMusicForge;
 import com.coloryr.allmusic.server.TaskItem;
 import com.coloryr.allmusic.server.Tasks;
+import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
@@ -102,12 +103,12 @@ public class SideForge extends ISide {
     }
 
     @Override
-    public void sendMusic(String url) {
+    public void sendMusic(String data) {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 if (AllMusic.isOK(player.getName().getString(), null, false))
                     continue;
-                send(player, new PackData(ComType.PLAY, url, 0));
+                send(player, new PackData(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getName().getString());
             }
         } catch (Exception e) {
@@ -117,14 +118,14 @@ public class SideForge extends ISide {
     }
 
     @Override
-    protected void topSendMusic(String player, String url) {
+    protected void topSendMusic(String player, String data) {
         try {
             ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player, null, false))
                 return;
-            send(player1, new PackData(ComType.PLAY, url, 0));
+            send(player1, new PackData(ComType.PLAY, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -132,7 +133,7 @@ public class SideForge extends ISide {
     }
 
     @Override
-    public void sendPic(String url) {
+    public void sendPic(String data) {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 if (AllMusic.isOK(player.getName().getString(), null, true))
@@ -141,7 +142,7 @@ public class SideForge extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.pic.enable)
                     continue;
-                send(player, new PackData(ComType.IMG, url, 0));
+                send(player, new PackData(ComType.IMG, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -150,14 +151,14 @@ public class SideForge extends ISide {
     }
 
     @Override
-    public void sendPic(String player, String url) {
+    public void sendPic(String player, String data) {
         try {
             ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
                 return;
-            send(player1, new PackData(ComType.IMG, url, 0));
+            send(player1, new PackData(ComType.IMG, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
             e.printStackTrace();
@@ -223,7 +224,7 @@ public class SideForge extends ISide {
                 return;
             SaveObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
-            send(player, new PackData(ComType.INFO, data, 0));
+            send(player, new PackData(ComType.HUD, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c界面位置发送出错");
             e.printStackTrace();

@@ -17,6 +17,37 @@ public class CommandEX {
 
     public static final Map<String, ICommand> commandList = new HashMap<>();
     public static final Map<String, ICommand> commandAdminList = new HashMap<>();
+    private static final List<String> normal = new ArrayList<String>() {{
+        this.add("stop");
+        this.add("cancel");
+        this.add("list");
+        this.add("vote");
+        this.add("mute");
+        this.add("search");
+        this.add("hud");
+        this.add("push");
+    }};
+    /**
+     * 管理员的指令
+     */
+    private static final List<String> admin = new ArrayList<String>() {{
+        this.add("reload");
+        this.add("next");
+        this.add("ban");
+        this.add("delete");
+        this.add("addlist");
+        this.add("clearlist");
+        this.add("login");
+        this.add("code");
+    }};
+    /**
+     * 搜歌的指令
+     */
+    private static final List<String> search = new ArrayList<String>() {{
+        this.add("select");
+        this.add("nextpage");
+        this.add("lastpage");
+    }};
 
     static {
         commandList.put("stop", new CommandStop());
@@ -244,40 +275,6 @@ public class CommandEX {
             }
         }
     }
-
-    private static final List<String> normal = new ArrayList<String>() {{
-        this.add("stop");
-        this.add("cancel");
-        this.add("list");
-        this.add("vote");
-        this.add("mute");
-        this.add("search");
-        this.add("hud");
-        this.add("push");
-    }};
-
-    /**
-     * 管理员的指令
-     */
-    private static final List<String> admin = new ArrayList<String>() {{
-        this.add("reload");
-        this.add("next");
-        this.add("ban");
-        this.add("delete");
-        this.add("addlist");
-        this.add("clearlist");
-        this.add("login");
-        this.add("code");
-    }};
-
-    /**
-     * 搜歌的指令
-     */
-    private static final List<String> search = new ArrayList<String>() {{
-        this.add("select");
-        this.add("nextpage");
-        this.add("lastpage");
-    }};
 
     /**
      * 获取Tab指令列表

@@ -18,6 +18,13 @@ public class HudObj {
     public String list;
     public String ktv;
 
+    public static HudObj make() {
+        HudObj obj = new HudObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (state == null)
             return true;
@@ -69,12 +76,5 @@ public class HudObj {
         lyric = "%Lyric%\n%Tlyric%";
         ktv = "§e%KLyric%§f%Lyric%§r\n%Tlyric%";
         list = "播放列表里面有%Size%首歌\n%List%";
-    }
-
-    public static HudObj make() {
-        HudObj obj = new HudObj();
-        obj.init();
-
-        return obj;
     }
 }

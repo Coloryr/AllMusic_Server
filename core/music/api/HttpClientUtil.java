@@ -39,7 +39,7 @@ public class HttpClientUtil {
 
     public static HttpResObj get(String path, String data) {
         try {
-            data = URLEncoder.encode(data, "UTF-8");
+            data = URLEncoder.encode(data, StandardCharsets.UTF_8.name());
             Request request = new Request.Builder().url(path + data)
                     .addHeader("referer", "https://music.163.com")
                     .addHeader("content-type", "application/json;charset=UTF-8")

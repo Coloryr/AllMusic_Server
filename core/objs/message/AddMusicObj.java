@@ -12,6 +12,13 @@ public class AddMusicObj {
     public String cancel;
     public String timeOut;
 
+    public static AddMusicObj make() {
+        AddMusicObj obj = new AddMusicObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (listFull == null)
             return true;
@@ -45,12 +52,5 @@ public class AddMusicObj {
         noID = "§d[AllMusic3]§c错误，请输入歌曲数字ID";
         cancel = "§d[AllMusic3]§e点歌被取消";
         timeOut = "§d[AllMusic3]§e点歌被取消，音乐长度过长";
-    }
-
-    public static AddMusicObj make() {
-        AddMusicObj obj = new AddMusicObj();
-        obj.init();
-
-        return obj;
     }
 }

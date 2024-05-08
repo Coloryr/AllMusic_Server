@@ -11,6 +11,13 @@ public class SearchObj {
     public String cantLast;
     public String startSearch;
 
+    public static SearchObj make() {
+        SearchObj obj = new SearchObj();
+        obj.init();
+
+        return obj;
+    }
+
     public boolean check() {
         if (noPer == null)
             return true;
@@ -41,12 +48,5 @@ public class SearchObj {
         choice = "§d[AllMusic3]§e你选择了序号%Num%";
         cantNext = "§d[AllMusic3]§c无法下一页";
         cantLast = "§d[AllMusic3]§c无法上一页";
-    }
-
-    public static SearchObj make() {
-        SearchObj obj = new SearchObj();
-        obj.init();
-
-        return obj;
     }
 }
