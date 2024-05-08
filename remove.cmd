@@ -21,7 +21,7 @@ forge_1_19_2 forge_1_18_2 forge_1_16_5 forge_1_12_2 ^
 fabric_1_20_2 fabric_1_20 fabric_1_19_3 fabric_1_19_2 fabric_1_18_2 ^
 fabric_1_16_5 fabric_1_20_6 neoforge_1_20_4 neoforge_1_20_5
 
-for %%i in (%array%) do (
+for %%i in (%array1%) do (
     if exist "%%i\src\main\java\com\coloryr\allmusic\server\codec" rmdir "%%i\src\main\java\com\coloryr\allmusic\server\codec" "codec"
 )
 
