@@ -12,7 +12,7 @@ public class Tasks {
     }
 
     public static void tick() {
-        for (var item : new ArrayList<>(taskItems)) {
+        for (TaskItem item : new ArrayList<>(taskItems)) {
             item.tick--;
             if (item.tick <= 0) {
                 taskItems.remove(item);

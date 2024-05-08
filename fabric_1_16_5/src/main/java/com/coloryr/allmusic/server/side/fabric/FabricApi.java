@@ -31,7 +31,7 @@ public class FabricApi {
     }
 
     public static void sendBar(ServerPlayerEntity player, String message) {
-        var pack = new TitleS2CPacket(TitleS2CPacket.Action.ACTIONBAR, new LiteralText(message));
+        TitleS2CPacket pack = new TitleS2CPacket(TitleS2CPacket.Action.ACTIONBAR, new LiteralText(message));
         player.networkHandler.sendPacket(pack);
     }
 
@@ -40,7 +40,7 @@ public class FabricApi {
         LiteralText endText = new LiteralText(end);
         endText.setStyle(endText.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.append(endText);
-        for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
+        for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 player.sendMessage(send, false);
             }

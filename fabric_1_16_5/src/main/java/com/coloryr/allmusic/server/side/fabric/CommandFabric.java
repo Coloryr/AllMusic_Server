@@ -10,6 +10,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 
 import java.util.List;
@@ -27,12 +28,12 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
 
     @Override
     public int run(CommandContext<ServerCommandSource> context) {
-        var item = context.getSource();
-        var source = ((IGetCommandOutput) item).getOutput();
+        ServerCommandSource item = context.getSource();
+        CommandOutput source = ((IGetCommandOutput) item).getOutput();
 
-        var input = context.getInput();
-        var temp = input.split(" ");
-        var arg = new String[temp.length - 1];
+        String input = context.getInput();
+        String[] temp = input.split(" ");
+        String[] arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
         CommandEX.ex(source, context.getSource().getName(), arg);
@@ -47,9 +48,9 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
 
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
-        var input = context.getInput();
-        var temp = input.split(" ");
-        var arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
+        String input = context.getInput();
+        String[] temp = input.split(" ");
+        String[] arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, temp.length - 1);
 
         if (input.endsWith(" "))
