@@ -16,18 +16,15 @@ import com.coloryr.allmusic.server.side.forge.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.CCustomPayloadPacket;
 import net.minecraft.network.play.server.SCustomPayloadPlayPacket;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -399,21 +396,6 @@ public class SideForge extends ISide {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSource) obj);
         return MinecraftForge.EVENT_BUS.post(event);
     }
-//
-    @Override
-    public void updateInfo() {
-
-    }
-
-    @Override
-    public void updateLyric() {
-
-    }
-
-    @Override
-    public void ping() {
-
-    }
 
     @Override
     public List<String> getPlayerList() {
@@ -428,17 +410,11 @@ public class SideForge extends ISide {
         if (players == null)
             return;
         try {
-            runTask(() -> PacketDistributor.PLAYER.with( () -> players)
+            runTask(() -> PacketDistributor.PLAYER.with(() -> players)
                     .send(new SCustomPayloadPlayPacket(AllMusicForge.channel, new PacketBuffer(data))));
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
         }
-    }
-
-    private void writeString(ByteBuf buf, String data) {
-        byte[] temp = data.getBytes(StandardCharsets.UTF_8);
-        buf.writeInt(temp.length)
-                .writeBytes(temp);
     }
 }

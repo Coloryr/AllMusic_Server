@@ -15,6 +15,11 @@ public record PackData(ComType cmd, String data, int data1) implements CustomPac
     public static final Type<PackData> TYPE = new Type<>(AllMusicForge.channel);
     public static final StreamCodec<RegistryFriendlyByteBuf, PackData> CODEC = new PackCodec();
 
+    @Override
+    public @NotNull Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+
     public static class PackCodec implements StreamCodec<RegistryFriendlyByteBuf, PackData> {
         @Override
         public @NotNull PackData decode(RegistryFriendlyByteBuf pack) {
@@ -32,10 +37,5 @@ public record PackData(ComType cmd, String data, int data1) implements CustomPac
             buf.writeInt(temp.length)
                     .writeBytes(temp);
         }
-    }
-
-    @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
-        return TYPE;
     }
 }

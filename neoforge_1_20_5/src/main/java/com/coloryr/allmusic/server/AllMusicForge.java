@@ -1,7 +1,10 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.side.forge.*;
+import com.coloryr.allmusic.server.side.forge.CommandForge;
+import com.coloryr.allmusic.server.side.forge.LogForge;
+import com.coloryr.allmusic.server.side.forge.PackData;
+import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
@@ -29,21 +32,13 @@ import java.util.Locale;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AllMusicForge.MODID)
 public class AllMusicForge {
-    public static MinecraftServer server;
     public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
-
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic_Server");
+    public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
-
-    private static class HandelPack implements IPayloadHandler<PackData> {
-        @Override
-        public void handle(@NotNull PackData payload, IPayloadContext context) {
-            //context.handle(payload);
-        }
-    }
 
     public AllMusicForge(IEventBus modEventBus) {
         // Register the commonSetup method for modloading
@@ -96,5 +91,12 @@ public class AllMusicForge {
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         AllMusic.joinPlay(event.getEntity().getName().getString());
+    }
+
+    private static class HandelPack implements IPayloadHandler<PackData> {
+        @Override
+        public void handle(@NotNull PackData payload, IPayloadContext context) {
+            //context.handle(payload);
+        }
     }
 }

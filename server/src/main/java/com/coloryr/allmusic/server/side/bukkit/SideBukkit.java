@@ -63,7 +63,7 @@ public class SideBukkit extends ISide {
         }
         if (UnpooledC != null) {
             try {
-                bufferM = UnpooledC.getMethod("buffer");
+                bufferM = UnpooledC.getMethod("buffer", int.class);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -85,12 +85,7 @@ public class SideBukkit extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.lyric.enable)
                     continue;
-
-                Object buf = bufferM.invoke(null);
-                writeByteM.invoke(buf, ComType.LYRIC.ordinal());
-                writeString(buf, data);
-
-                send(player, buf);
+                send(player, pack(ComType.LYRIC, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -108,12 +103,7 @@ public class SideBukkit extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.info.enable)
                     continue;
-
-                Object buf = bufferM.invoke(null);
-                writeByteM.invoke(buf, ComType.INFO.ordinal());
-                writeString(buf, data);
-
-                send(player, buf);
+                send(player, pack(ComType.INFO, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -129,14 +119,9 @@ public class SideBukkit extends ISide {
                 return;
             if (AllMusic.isOK(name, null, false))
                 return;
-
             SaveObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
-            Object buf = bufferM.invoke(null);
-            writeByteM.invoke(buf, ComType.HUD.ordinal());
-            writeString(buf, data);
-
-            send(player, buf);
+            send(player, pack(ComType.HUD, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -156,21 +141,17 @@ public class SideBukkit extends ISide {
             if (AllMusic.isOK(name, null, true))
                 return;
 
-            Object buf = bufferM.invoke(null);
             switch (pos) {
                 case INFO:
-                    writeByteM.invoke(buf, ComType.INFO.ordinal());
+                    send(player, pack(ComType.INFO, data, 0));
                     break;
                 case LIST:
-                    writeByteM.invoke(buf, ComType.LIST.ordinal());
+                    send(player, pack(ComType.LIST, data, 0));
                     break;
                 case LYRIC:
-                    writeByteM.invoke(buf, ComType.LYRIC.ordinal());
+                    send(player, pack(ComType.LYRIC, data, 0));
                     break;
             }
-            writeString(buf, data);
-
-            send(player, buf);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -187,12 +168,7 @@ public class SideBukkit extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.list.enable)
                     continue;
-
-                Object buf = bufferM.invoke(null);
-                writeByteM.invoke(buf, ComType.LIST.ordinal());
-                writeString(buf, data);
-
-                send(player, buf);
+                send(player, pack(ComType.LIST, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -207,12 +183,7 @@ public class SideBukkit extends ISide {
             try {
                 SaveObj obj = HudUtils.get(Name);
                 String data = AllMusic.gson.toJson(obj);
-                Object buf = bufferM.invoke(null);
-                writeByteM.invoke(buf, ComType.HUD.ordinal());
-                writeString(buf, data);
-
-                send(player, buf);
-
+                send(player, pack(ComType.HUD, data, 0));
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -239,17 +210,12 @@ public class SideBukkit extends ISide {
     }
 
     @Override
-    public void sendMusic(String url) {
+    public void sendMusic(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (AllMusic.isOK(player.getName(), null, false))
                     continue;
-
-                Object buf = bufferM.invoke(null);
-                writeByteM.invoke(buf, ComType.PLAY.ordinal());
-                writeString(buf, url);
-
-                send(player, buf);
+                send(player, pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getName());
             }
         } catch (Exception e) {
@@ -259,18 +225,14 @@ public class SideBukkit extends ISide {
     }
 
     @Override
-    protected void topSendMusic(String player, String url) {
+    protected void topSendMusic(String player, String data) {
         try {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player, null, false))
                 return;
-            Object buf = bufferM.invoke(null);
-            writeByteM.invoke(buf, ComType.PLAY.ordinal());
-            writeString(buf, url);
-
-            send(player1, buf);
+            send(player1, pack(ComType.PLAY, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -278,7 +240,7 @@ public class SideBukkit extends ISide {
     }
 
     @Override
-    public void sendPic(String url) {
+    public void sendPic(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (AllMusic.isOK(player.getName(), null, true))
@@ -287,12 +249,7 @@ public class SideBukkit extends ISide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.pic.enable)
                     continue;
-
-                Object buf = bufferM.invoke(null);
-                writeByteM.invoke(buf, ComType.IMG.ordinal());
-                writeString(buf, url);
-
-                send(player, buf);
+                send(player, pack(ComType.IMG, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -301,18 +258,14 @@ public class SideBukkit extends ISide {
     }
 
     @Override
-    public void sendPic(String player, String url) {
+    public void sendPic(String player, String data) {
         try {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
                 return;
             if (AllMusic.isOK(player1.getName(), null, true))
                 return;
-            Object buf = bufferM.invoke(null);
-            writeByteM.invoke(buf, ComType.IMG.ordinal());
-            writeString(buf, url);
-
-            send(player1, buf);
+            send(player1, pack(ComType.IMG, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
             e.printStackTrace();
@@ -327,11 +280,7 @@ public class SideBukkit extends ISide {
                 return;
             if (AllMusic.isOK(player1.getName(), null, true))
                 return;
-            Object buf = bufferM.invoke(null);
-            writeByteM.invoke(buf, ComType.POS.ordinal());
-            writeIntM.invoke(buf, pos);
-
-            send(player1, buf);
+            send(player1, pack(ComType.POS, null, pos));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -342,10 +291,7 @@ public class SideBukkit extends ISide {
     protected void topSendStop() {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Object buf = bufferM.invoke(null);
-                writeByteM.invoke(buf, ComType.STOP.ordinal());
-
-                send(player, buf);
+                send(player, pack(ComType.STOP, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -359,10 +305,7 @@ public class SideBukkit extends ISide {
             Player player = Bukkit.getPlayer(name);
             if (player == null)
                 return;
-
-            Object buf = bufferM.invoke(null);
-            writeByteM.invoke(buf, ComType.STOP.ordinal());
-            send(player, buf);
+            send(player, pack(ComType.STOP, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -375,11 +318,7 @@ public class SideBukkit extends ISide {
             Player player = Bukkit.getPlayer(name);
             if (player == null)
                 return;
-
-            Object buf = bufferM.invoke(null);
-            writeByteM.invoke(buf, ComType.CLEAR.ordinal());
-
-            send(player, buf);
+            send(player, pack(ComType.CLEAR, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -390,10 +329,7 @@ public class SideBukkit extends ISide {
     public void clearHud() {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Object buf = bufferM.invoke(null);
-                writeByteM.invoke(buf, ComType.CLEAR.ordinal());
-
-                send(player, buf);
+                send(player, pack(ComType.CLEAR, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
@@ -505,21 +441,6 @@ public class SideBukkit extends ISide {
     }
 
     @Override
-    public void updateInfo() {
-
-    }
-
-    @Override
-    public void updateLyric() {
-
-    }
-
-    @Override
-    public void ping() {
-
-    }
-
-    @Override
     public List<String> getPlayerList() {
         return Collections.emptyList();
     }
@@ -571,5 +492,25 @@ public class SideBukkit extends ISide {
         byte[] temp = data.getBytes(StandardCharsets.UTF_8);
         writeIntM.invoke(buf, temp.length);
         writeBytesM.invoke(buf, temp);
+    }
+
+    private Object pack(ComType type, String data, int data1) throws InvocationTargetException, IllegalAccessException {
+        Object buf = bufferM.invoke(null, 0);
+        writeByteM.invoke(buf, type.ordinal());
+        switch (type)
+        {
+            case PLAY:
+            case IMG:
+            case INFO:
+            case LIST:
+            case LYRIC:
+            case HUD:
+                writeString(buf, data);
+                break;
+            case POS:
+                writeIntM.invoke(buf, data1);
+                break;
+        }
+        return buf;
     }
 }

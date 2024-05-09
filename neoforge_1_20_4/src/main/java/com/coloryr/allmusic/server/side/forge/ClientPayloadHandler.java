@@ -1,6 +1,5 @@
 package com.coloryr.allmusic.server.side.forge;
 
-import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 
 public class ClientPayloadHandler {

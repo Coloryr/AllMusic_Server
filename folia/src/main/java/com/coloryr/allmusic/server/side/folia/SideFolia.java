@@ -15,13 +15,11 @@ import com.coloryr.allmusic.server.side.folia.event.MusicPlayEvent;
 import com.coloryr.allmusic.server.side.folia.hooks.CitizensNPC;
 import com.coloryr.allmusic.server.side.folia.hooks.SpigotApi;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class SideFolia extends ISide {
@@ -397,21 +395,6 @@ public class SideFolia extends ISide {
     }
 
     @Override
-    public void updateInfo() {
-
-    }
-
-    @Override
-    public void updateLyric() {
-
-    }
-
-    @Override
-    public void ping() {
-
-    }
-
-    @Override
     public List<String> getPlayerList() {
         return List.of();
     }
@@ -419,13 +402,14 @@ public class SideFolia extends ISide {
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
         MusicPlayEvent event = new MusicPlayEvent(obj);
-        var task = Bukkit.getGlobalRegionScheduler().run(AllMusicFolia.plugin, (scheduledTask) -> {
+        ScheduledTask task = Bukkit.getGlobalRegionScheduler().run(AllMusicFolia.plugin, (scheduledTask) -> {
             Bukkit.getPluginManager().callEvent(event);
             if (!event.isCancel()) {
                 FunCore.addMusic();
             }
         });
-        while (task.getExecutionState() == ScheduledTask.ExecutionState.IDLE || task.getExecutionState() == ScheduledTask.ExecutionState.RUNNING) {
+        while (task.getExecutionState() == ScheduledTask.ExecutionState.IDLE
+                || task.getExecutionState() == ScheduledTask.ExecutionState.RUNNING) {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
@@ -438,13 +422,14 @@ public class SideFolia extends ISide {
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
-        var task = Bukkit.getGlobalRegionScheduler().run(AllMusicFolia.plugin, (scheduledTask) -> {
+        ScheduledTask task = Bukkit.getGlobalRegionScheduler().run(AllMusicFolia.plugin, (scheduledTask) -> {
             Bukkit.getPluginManager().callEvent(event);
             if (!event.isCancel()) {
                 FunCore.addMusic();
             }
         });
-        while (task.getExecutionState() == ScheduledTask.ExecutionState.IDLE || task.getExecutionState() == ScheduledTask.ExecutionState.RUNNING) {
+        while (task.getExecutionState() == ScheduledTask.ExecutionState.IDLE
+                || task.getExecutionState() == ScheduledTask.ExecutionState.RUNNING) {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {

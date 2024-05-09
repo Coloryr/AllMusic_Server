@@ -247,26 +247,31 @@ public abstract class ISide {
      */
     public abstract boolean onMusicAdd(Object obj, MusicObj music);
 
-
-    /**
-     * 更新信息
-     */
-    public abstract void updateInfo();
-
-    /**
-     * 更新歌词
-     */
-    public abstract void updateLyric();
-
-    /**
-     * 发送BC的ping包
-     */
-    public abstract void ping();
-
     /**
      * 获取玩家列表
      *
      * @return 玩家列表
      */
     public abstract List<String> getPlayerList();
+
+    /**
+     * 更新信息
+     */
+    public void updateInfo() {
+
+    }
+
+    /**
+     * 更新歌词
+     */
+    public void updateLyric() {
+
+    }
+
+    /**
+     * BC发送ping包
+     */
+    public void ping() {
+
+    }
 }

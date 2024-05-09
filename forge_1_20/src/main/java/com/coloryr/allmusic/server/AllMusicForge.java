@@ -33,14 +33,13 @@ import java.util.function.Supplier;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AllMusicForge.MODID)
 public class AllMusicForge {
-    public static MinecraftServer server;
     public static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(new ResourceLocation("allmusic", "channel"),
             () -> "1.0", s -> true, s -> true);
-
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic_Server");
+    public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
     public AllMusicForge() {

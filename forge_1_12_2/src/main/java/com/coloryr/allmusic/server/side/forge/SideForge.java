@@ -16,7 +16,6 @@ import com.coloryr.allmusic.server.side.forge.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
@@ -26,7 +25,6 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -399,21 +397,6 @@ public class SideForge extends ISide {
     }
 
     @Override
-    public void updateInfo() {
-
-    }
-
-    @Override
-    public void updateLyric() {
-
-    }
-
-    @Override
-    public void ping() {
-
-    }
-
-    @Override
     public List<String> getPlayerList() {
         List<String> list = new ArrayList<>();
         for (EntityPlayerMP player : AllMusicForge.server.getPlayerList().getPlayers()) {
@@ -433,12 +416,6 @@ public class SideForge extends ISide {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
         }
-    }
-
-    private void writeString(ByteBuf buf, String data) {
-        byte[] temp = data.getBytes(StandardCharsets.UTF_8);
-        buf.writeInt(temp.length)
-                .writeBytes(temp);
     }
 }
 

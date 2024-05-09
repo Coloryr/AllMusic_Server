@@ -23,7 +23,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -395,23 +395,12 @@ public class SideFabric extends ISide {
     }
 
     @Override
-    public void updateInfo() {
-
-    }
-
-    @Override
-    public void updateLyric() {
-
-    }
-
-    @Override
-    public void ping() {
-
-    }
-
-    @Override
     public List<String> getPlayerList() {
-        return List.of();
+        var list = new ArrayList<String>();
+        for (var item : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
+            list.add(item.getGameProfile().getName());
+        }
+        return list;
     }
 
     private void send(ServerPlayerEntity players, ByteBuf data) {
@@ -423,11 +412,5 @@ public class SideFabric extends ISide {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
         }
-    }
-
-    private void writeString(ByteBuf buf, String data) {
-        byte[] temp = data.getBytes(StandardCharsets.UTF_8);
-        buf.writeInt(temp.length)
-                .writeBytes(temp);
     }
 }

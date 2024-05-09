@@ -395,21 +395,6 @@ public class SideFabric extends ISide {
     }
 
     @Override
-    public void updateInfo() {
-
-    }
-
-    @Override
-    public void updateLyric() {
-
-    }
-
-    @Override
-    public void ping() {
-
-    }
-
-    @Override
     public List<String> getPlayerList() {
         return Arrays.asList(AllMusicFabric.server.getPlayerNames());
     }

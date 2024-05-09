@@ -39,7 +39,7 @@ public class HttpClientUtil {
 
     public static HttpResObj get(String path, String data) {
         try {
-            data = URLEncoder.encode(data, StandardCharsets.UTF_8.name());
+            data = URLEncoder.encode(data, StandardCharsets.UTF_8.toString());
             Request request = new Request.Builder().url(path + data)
                     .addHeader("referer", "https://music.163.com")
                     .addHeader("content-type", "application/json;charset=UTF-8")
@@ -61,7 +61,7 @@ public class HttpClientUtil {
             while ((length = inputStream.read(buffer)) != -1) {
                 result.write(buffer, 0, length);
             }
-            String data1 = result.toString(StandardCharsets.UTF_8.name());
+            String data1 = result.toString(StandardCharsets.UTF_8.toString());
             if (!ok) {
                 AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
             }
@@ -157,7 +157,7 @@ public class HttpClientUtil {
             while ((length = inputStream.read(buffer)) != -1) {
                 result.write(buffer, 0, length);
             }
-            String data1 = result.toString(StandardCharsets.UTF_8.name());
+            String data1 = result.toString(StandardCharsets.UTF_8.toString());
             if (!ok) {
                 AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
             }

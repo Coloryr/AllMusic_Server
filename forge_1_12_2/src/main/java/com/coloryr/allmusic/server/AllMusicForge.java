@@ -1,7 +1,9 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.side.forge.*;
+import com.coloryr.allmusic.server.side.forge.CommandForge;
+import com.coloryr.allmusic.server.side.forge.LogForge;
+import com.coloryr.allmusic.server.side.forge.SideForge;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,8 +16,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,9 +24,9 @@ import java.util.Locale;
 
 @Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.12,)")
 public class AllMusicForge {
+    public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
     public static MinecraftServer server;
     public static FMLEventChannel channel;
-    public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
 
     @Mod.EventHandler
     private void commonSetup(final FMLPreInitializationEvent event) {
