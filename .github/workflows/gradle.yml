@@ -369,28 +369,28 @@ jobs:
       with:
         name: "allmusic_server_forge_1_20"
         path: build/libs/
-  # build_neoforge_1_20_4:
-  #   runs-on: windows-latest
-  #   permissions:
-  #     contents: read
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - name: Set up JDK 17
-  #     uses: actions/setup-java@v4
-  #     with:
-  #       java-version: '17'
-  #       distribution: 'temurin'
-  #   - name: Setup Gradle
-  #     uses: gradle/actions/setup-gradle@v3 # v3.1.0
-  #   - name: build
-  #     shell: cmd
-  #     run: |
-  #       link.cmd && cd neoforge_1_20_4 && gradlew build
-  #   - name: update
-  #     uses: actions/upload-artifact@v4
-  #     with:
-  #       name: "allmusic_server_neoforge_1_20_4"
-  #       path: build/libs/
+  build_neoforge_1_20_4:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3 # v3.1.0
+    - name: build
+      shell: cmd
+      run: |
+        link.cmd && cd neoforge_1_20_4 && gradlew build
+    - name: update
+      uses: actions/upload-artifact@v4
+      with:
+        name: "allmusic_server_neoforge_1_20_4"
+        path: build/libs/
   build_neoforge_1_20_5:
     runs-on: windows-latest
     permissions:
