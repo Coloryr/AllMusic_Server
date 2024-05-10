@@ -38,8 +38,9 @@ fabric同理
 
 ## 播放VIP歌曲
 1. 手机号创建网易云账户并购买网易云音乐VIP
-2. 输入/music code 手机号码 获取手机验证码
-3. 输入/music login 验证码 登录账户
+2. 在配置文件给自己管理员然后/music reload
+3. 输入/music code 手机号码 获取手机验证码
+4. 输入/music login 验证码 登录账户
 
 如果登录失效，请删除`cookie.json`再打`/music reload`再重新登录
 
