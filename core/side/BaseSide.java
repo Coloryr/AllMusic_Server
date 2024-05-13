@@ -226,7 +226,7 @@ public abstract class BaseSide {
      * @param message 消息
      */
     public final void sendMessageTask(Object obj, String message) {
-        runTask(() -> sendMessageTask(obj, message));
+        runTask(() -> sendMessage(obj, message));
     }
 
     /**
