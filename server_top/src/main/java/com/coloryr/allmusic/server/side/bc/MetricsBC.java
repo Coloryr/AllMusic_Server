@@ -1,8 +1,8 @@
 package com.coloryr.allmusic.server.side.bc;
 
-import coloryr.allmusic.bstats.MetricsBase;
-import coloryr.allmusic.bstats.charts.CustomChart;
-import coloryr.allmusic.bstats.json.JsonObjectBuilder;
+import com.coloryr.allmusic.server.bstats.MetricsBase;
+import com.coloryr.allmusic.server.bstats.charts.CustomChart;
+import com.coloryr.allmusic.server.bstats.json.JsonObjectBuilder;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -16,6 +16,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class MetricsBC {
+
     private final Plugin plugin;
     private final MetricsBase metricsBase;
 
@@ -28,7 +29,7 @@ public class MetricsBC {
     /**
      * Creates a new Metrics instance.
      *
-     * @param plugin    Your plugin instance.
+     * @param plugin Your plugin instance.
      * @param serviceId The id of the service.
      *                  It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
      */
@@ -102,6 +103,13 @@ public class MetricsBC {
     }
 
     /**
+     * Shuts down the underlying scheduler service.
+     */
+    public void shutdown() {
+        metricsBase.shutdown();
+    }
+
+    /**
      * Adds a custom chart.
      *
      * @param chart The chart to add.
@@ -111,10 +119,11 @@ public class MetricsBC {
     }
 
     private void appendPlatformData(JsonObjectBuilder builder) {
-        builder.appendField("playerAmount", plugin.getProxy().getOnlineCount());
+        builder.appendField("playerAmount",  plugin.getProxy().getOnlineCount());
         builder.appendField("managedServers", plugin.getProxy().getServers().size());
         builder.appendField("onlineMode", plugin.getProxy().getConfig().isOnlineMode() ? 1 : 0);
         builder.appendField("bungeecordVersion", plugin.getProxy().getVersion());
+        builder.appendField("bungeecordName", plugin.getProxy().getName());
 
         builder.appendField("javaVersion", System.getProperty("java.version"));
         builder.appendField("osName", System.getProperty("os.name"));
@@ -126,4 +135,5 @@ public class MetricsBC {
     private void appendServiceData(JsonObjectBuilder builder) {
         builder.appendField("pluginVersion", plugin.getDescription().getVersion());
     }
+
 }

@@ -17,6 +17,7 @@ public class AllMusicFolia extends JavaPlugin {
     public static AllMusicPAPI PAPI;
     public static boolean spigotSet;
     private static PluginMessage pluginMessage;
+    private static MetricsFolia metricsFolia;
 
     @Override
     public void onEnable() {
@@ -86,12 +87,13 @@ public class AllMusicFolia extends JavaPlugin {
             AllMusic.start();
         }
 
-        new MetricsFolia(this, 6720);
+        metricsFolia = new MetricsFolia(this, 6720);
     }
 
     @Override
     public void onDisable() {
         AllMusic.isRun = false;
+        metricsFolia.shutdown();
         if (AllMusic.getConfig().topPAPI)
             pluginMessage.stop();
         else

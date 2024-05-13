@@ -17,6 +17,7 @@ public class AllMusicBukkit extends JavaPlugin {
     public static AllMusicPAPI PAPI;
     public static boolean spigotSet;
     private static PluginMessage pluginMessage;
+    private static MetricsBukkit metricsBukkit;
 
     @Override
     public void onEnable() {
@@ -86,12 +87,13 @@ public class AllMusicBukkit extends JavaPlugin {
             AllMusic.start();
         }
 
-        new MetricsBukkit(this, 6720);
+        metricsBukkit = new MetricsBukkit(this, 6720);
     }
 
     @Override
     public void onDisable() {
         AllMusic.isRun = false;
+        metricsBukkit.shutdown();
         if (AllMusic.getConfig().topPAPI)
             pluginMessage.stop();
         else

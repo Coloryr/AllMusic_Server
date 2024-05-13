@@ -17,13 +17,14 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class MetricsBukkit {
+
     private final Plugin plugin;
     private final MetricsBase metricsBase;
 
     /**
      * Creates a new Metrics instance.
      *
-     * @param plugin    Your plugin instance.
+     * @param plugin Your plugin instance.
      * @param serviceId The id of the service.
      *                  It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
      */
@@ -52,8 +53,7 @@ public class MetricsBukkit {
             ).copyDefaults(true);
             try {
                 config.save(configFile);
-            } catch (IOException ignored) {
-            }
+            } catch (IOException ignored) { }
         }
 
         // Load the data
@@ -78,6 +78,13 @@ public class MetricsBukkit {
                 logSentData,
                 logResponseStatusText
         );
+    }
+
+    /**
+     * Shuts down the underlying scheduler service.
+     */
+    public void shutdown() {
+        metricsBase.shutdown();
     }
 
     /**
@@ -118,4 +125,5 @@ public class MetricsBukkit {
             return Bukkit.getOnlinePlayers().size(); // Just use the new method if the reflection failed
         }
     }
+
 }

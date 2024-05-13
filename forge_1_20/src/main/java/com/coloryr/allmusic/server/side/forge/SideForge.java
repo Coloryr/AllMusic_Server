@@ -10,7 +10,7 @@ import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.forge.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SideForge extends ISide {
+public class SideForge extends BaseSide {
 
     @Override
     public void reload() {
@@ -36,7 +36,7 @@ public class SideForge extends ISide {
     }
 
     @Override
-    public int getAllPlayer() {
+    public int getPlayerSize() {
         return AllMusicForge.server.getPlayerCount();
     }
 
@@ -64,7 +64,7 @@ public class SideForge extends ISide {
 
     @Override
     public boolean needPlay() {
-        int online = getAllPlayer();
+        int online = getPlayerSize();
         for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 online--;
@@ -328,11 +328,7 @@ public class SideForge extends ISide {
     }
 
     @Override
-    public void bq(String data) {
-        if (AllMusic.getConfig().messageLimit
-                && data.length() > AllMusic.getConfig().messageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
-        }
+    public void topBq(String data) {
         for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 player.sendSystemMessage(Component.literal(data));
@@ -343,27 +339,6 @@ public class SideForge extends ISide {
     @Override
     public void bqRun(String message, String end, String command) {
         ForgeApi.sendMessageBqRun(message, end, command);
-    }
-
-    @Override
-    public void bqt(String data) {
-        if (AllMusic.getConfig().messageLimit
-                && data.length() > AllMusic.getConfig().messageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
-        }
-        var finalData = Component.literal(data);
-        runTask(() -> {
-            for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
-                    player.sendSystemMessage(finalData);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void sendMessaget(Object obj, String message) {
-        runTask(() -> ((CommandSource) obj).sendSystemMessage(Component.literal(message)));
     }
 
     @Override

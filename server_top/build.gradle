@@ -44,9 +44,9 @@ dependencies {
     //compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
 //    compileOnly fileTree(dir:'lib',include:['*.jar'])
 
-    implementation 'org.xerial:sqlite-jdbc:3.44.1.0'
-    compile 'com.squareup.okhttp3:okhttp:4.12.0'
-    compile 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.xerial:sqlite-jdbc:+'
+    compile 'com.squareup.okhttp3:okhttp:+'
+    compile 'com.google.code.gson:gson:+'
 
     annotationProcessor 'com.velocitypowered:velocity-api:3.0.0'
 }

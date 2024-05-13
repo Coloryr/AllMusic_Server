@@ -8,6 +8,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 public class AllMusicBC extends Plugin {
 
     public static Plugin plugin;
+    private static MetricsBC metricsBC;
 
     @Override
     public void onEnable() {
@@ -22,13 +23,14 @@ public class AllMusicBC extends Plugin {
         ProxyServer.getInstance().registerChannel(AllMusic.channelBC);
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new CommandBC());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new ListenerBC());
-        new MetricsBC(this, 6720);
+        metricsBC = new MetricsBC(this, 6720);
 
         AllMusic.start();
     }
 
     @Override
     public void onDisable() {
+        metricsBC.shutdown();
         AllMusic.stop();
     }
 }

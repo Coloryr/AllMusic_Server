@@ -10,7 +10,7 @@ import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.fabric.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.fabric.event.MusicPlayEvent;
@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SideFabric extends ISide {
+public class SideFabric extends BaseSide {
 
     @Override
     public void reload() {
@@ -37,7 +37,7 @@ public class SideFabric extends ISide {
     }
 
     @Override
-    public int getAllPlayer() {
+    public int getPlayerSize() {
         return AllMusicFabric.server.getCurrentPlayerCount();
     }
 
@@ -65,7 +65,7 @@ public class SideFabric extends ISide {
 
     @Override
     public boolean needPlay() {
-        int online = getAllPlayer();
+        int online = getPlayerSize();
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 online--;
@@ -331,11 +331,7 @@ public class SideFabric extends ISide {
     }
 
     @Override
-    public void bq(String data) {
-        if (AllMusic.getConfig().messageLimit
-                && data.length() > AllMusic.getConfig().messageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
-        }
+    public void topBq(String data) {
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
                 player.sendMessage(Text.of(data), false);
@@ -346,27 +342,6 @@ public class SideFabric extends ISide {
     @Override
     public void bqRun(String message, String end, String command) {
         FabricApi.sendMessageBqRun(message, end, command);
-    }
-
-    @Override
-    public void bqt(String data) {
-        if (AllMusic.getConfig().messageLimit
-                && data.length() > AllMusic.getConfig().messageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
-        }
-        var finalData = Text.of(data);
-        runTask(() -> {
-            for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
-                    player.sendMessage(finalData, false);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void sendMessaget(Object obj, String message) {
-        runTask(() -> ((CommandOutput) obj).sendMessage(Text.of(message)));
     }
 
     @Override
