@@ -25,4 +25,10 @@ for %%i in (%array1%) do (
     if exist "%%i\src\main\java\com\coloryr\allmusic\server\codec" rmdir "%%i\src\main\java\com\coloryr\allmusic\server\codec" "codec"
 )
 
+set array2=folia server_top server
+
+for %%i in (%array2%) do (
+    if exist "%%i\src\main\java\com\coloryr\allmusic\server\bstats" rmdir "%%i\src\main\java\com\coloryr\allmusic\server\bstats" "bstats"
+)
+
 endlocal

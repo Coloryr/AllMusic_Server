@@ -4,12 +4,13 @@ import com.coloryr.allmusic.server.AllMusicBC;
 import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.bc.event.MusicAddEvent;
@@ -31,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
-public class SideBC extends ISide implements IEconomy {
+public class SideBC extends BaseSide implements IEconomy {
     public static final Set<Server> TopServers = new CopyOnWriteArraySet<>();
 
     public static final Map<String, Integer> SendToBackend = new ConcurrentHashMap<>();
@@ -42,13 +43,7 @@ public class SideBC extends ISide implements IEconomy {
         if (PlayMusic.nowPlayMusic == null)
             out.writeUTF(AllMusic.getMessage().papi.emptyMusic);
         else {
-            if (AllMusic.getConfig().messageLimit
-                    && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().messageLimitSize) {
-                out.writeUTF(PlayMusic.nowPlayMusic.getName()
-                        .substring(0, AllMusic.getConfig().messageLimitSize));
-            } else {
-                out.writeUTF(PlayMusic.nowPlayMusic.getName());
-            }
+            out.writeUTF(PlayMusic.nowPlayMusic.getName());
         }
 
         server.sendData(AllMusic.channelBC, out.toByteArray());
@@ -133,7 +128,7 @@ public class SideBC extends ISide implements IEconomy {
     }
 
     @Override
-    public int getAllPlayer() {
+    public int getPlayerSize() {
         return ProxyServer.getInstance().getOnlineCount();
     }
 
@@ -396,11 +391,7 @@ public class SideBC extends ISide implements IEconomy {
     }
 
     @Override
-    public void bq(String data) {
-        if (AllMusic.getConfig().messageLimit
-                && data.length() > AllMusic.getConfig().messageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
-        }
+    public void topBq(String data) {
         TextComponent message = new TextComponent(data);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             if (ok(player))
@@ -423,11 +414,6 @@ public class SideBC extends ISide implements IEconomy {
     }
 
     @Override
-    public void bqt(String data) {
-        this.bq(data);
-    }
-
-    @Override
     public boolean needPlay() {
         int online = 0;
         for (ServerInfo server : ProxyServer.getInstance().getServers().values()) {
@@ -438,12 +424,6 @@ public class SideBC extends ISide implements IEconomy {
                     online++;
         }
         return online > 0;
-    }
-
-    @Override
-    public void sendMessaget(Object obj, String message) {
-        CommandSender sender = (CommandSender) obj;
-        sender.sendMessage(new TextComponent(message));
     }
 
     @Override

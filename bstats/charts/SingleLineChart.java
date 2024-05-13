@@ -1,12 +1,12 @@
-package coloryr.allmusic.bstats.charts;
+package com.coloryr.allmusic.server.bstats.charts;
 
-import coloryr.allmusic.bstats.json.JsonObjectBuilder;
+import com.coloryr.allmusic.server.bstats.json.JsonObjectBuilder;
 
 import java.util.concurrent.Callable;
 
-public class SimplePie extends CustomChart {
+public class SingleLineChart extends CustomChart {
 
-    private final Callable<String> callable;
+    private final Callable<Integer> callable;
 
     /**
      * Class constructor.
@@ -14,15 +14,15 @@ public class SimplePie extends CustomChart {
      * @param chartId  The id of the chart.
      * @param callable The callable which is used to request the chart data.
      */
-    public SimplePie(String chartId, Callable<String> callable) {
+    public SingleLineChart(String chartId, Callable<Integer> callable) {
         super(chartId);
         this.callable = callable;
     }
 
     @Override
     protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
-        String value = callable.call();
-        if (value == null || value.isEmpty()) {
+        int value = callable.call();
+        if (value == 0) {
             // Null = skip the chart
             return null;
         }
@@ -30,4 +30,5 @@ public class SimplePie extends CustomChart {
                 .appendField("value", value)
                 .build();
     }
+
 }

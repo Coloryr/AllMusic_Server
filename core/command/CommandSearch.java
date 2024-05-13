@@ -10,10 +10,10 @@ public class CommandSearch extends ACommand {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.noPer);
             return;
         }
-        if (CommandEX.checkMoney(sender, name, AllMusic.getConfig().searchCost)) {
+        if (CommandEX.checkMoney(sender, name, AllMusic.getConfig().cost.searchCost)) {
             return;
         }
-        if (CommandEX.cost(sender, name, AllMusic.getConfig().searchCost,
+        if (CommandEX.cost(sender, name, AllMusic.getConfig().cost.searchCost,
                 AllMusic.getMessage().cost.search)) {
             return;
         }

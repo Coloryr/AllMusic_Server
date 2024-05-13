@@ -224,7 +224,7 @@ public class APIMain {
                     isUpdate = true;
                     DataObj obj = AllMusic.gson.fromJson(res.data, DataObj.class);
                     PlayMusic.addIdleList(obj.getPlaylist());
-                    AllMusic.side.sendMessaget(sender, AllMusic.getMessage().musicPlay.listMusic.get.replace("%ListName%", obj.getName()));
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().musicPlay.listMusic.get.replace("%ListName%", obj.getName()));
                 } catch (Exception e) {
                     AllMusic.log.warning("§d[AllMusic3]§c歌曲列表获取错误");
                     e.printStackTrace();

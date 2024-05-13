@@ -1,4 +1,4 @@
-package coloryr.allmusic.bstats.json;
+package com.coloryr.allmusic.server.bstats.json;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

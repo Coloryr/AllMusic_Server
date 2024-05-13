@@ -9,7 +9,7 @@ import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.velocity.event.MusicAddEvent;
@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
-public class SideVelocity extends ISide implements IEconomy {
+public class SideVelocity extends BaseSide implements IEconomy {
     public static final Set<ServerConnection> TopServers = new CopyOnWriteArraySet<>();
 
     public static final Map<String, Integer> SendToBackend = new ConcurrentHashMap<>();
@@ -42,13 +42,7 @@ public class SideVelocity extends ISide implements IEconomy {
         if (PlayMusic.nowPlayMusic == null)
             out.writeUTF(AllMusic.getMessage().papi.emptyMusic);
         else {
-            if (AllMusic.getConfig().messageLimit
-                    && PlayMusic.nowPlayMusic.getName().length() > AllMusic.getConfig().messageLimitSize) {
-                out.writeUTF(PlayMusic.nowPlayMusic.getName()
-                        .substring(0, AllMusic.getConfig().messageLimitSize));
-            } else {
-                out.writeUTF(PlayMusic.nowPlayMusic.getName());
-            }
+            out.writeUTF(PlayMusic.nowPlayMusic.getName());
         }
         server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
 
@@ -138,16 +132,12 @@ public class SideVelocity extends ISide implements IEconomy {
     }
 
     @Override
-    public int getAllPlayer() {
+    public int getPlayerSize() {
         return AllMusicVelocity.plugin.server.getPlayerCount();
     }
 
     @Override
-    public void bq(String data) {
-        if (AllMusic.getConfig().messageLimit
-                && data.length() > AllMusic.getConfig().messageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
-        }
+    public void topBq(String data) {
         Component message = Component.text(data);
         for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
             if (AllMusic.getConfig().muteServer.contains(server.getServerInfo().getName()))
@@ -170,11 +160,6 @@ public class SideVelocity extends ISide implements IEconomy {
                 if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
                     player.sendMessage(send);
         }
-    }
-
-    @Override
-    public void bqt(String data) {
-        this.bq(data);
     }
 
     @Override
@@ -454,12 +439,6 @@ public class SideVelocity extends ISide implements IEconomy {
             AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void sendMessaget(Object obj, String message) {
-        CommandSource sender = (CommandSource) obj;
-        sender.sendMessage(Component.text(message));
     }
 
     @Override

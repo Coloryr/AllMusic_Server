@@ -1,11 +1,11 @@
-package coloryr.allmusic.bstats.charts;
+package com.coloryr.allmusic.server.bstats.charts;
 
-import coloryr.allmusic.bstats.json.JsonObjectBuilder;
+import com.coloryr.allmusic.server.bstats.json.JsonObjectBuilder;
 
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-public class SimpleBarChart extends CustomChart {
+public class MultiLineChart extends CustomChart {
 
     private final Callable<Map<String, Integer>> callable;
 
@@ -15,7 +15,7 @@ public class SimpleBarChart extends CustomChart {
      * @param chartId  The id of the chart.
      * @param callable The callable which is used to request the chart data.
      */
-    public SimpleBarChart(String chartId, Callable<Map<String, Integer>> callable) {
+    public MultiLineChart(String chartId, Callable<Map<String, Integer>> callable) {
         super(chartId);
         this.callable = callable;
     }
@@ -29,8 +29,17 @@ public class SimpleBarChart extends CustomChart {
             // Null = skip the chart
             return null;
         }
+        boolean allSkipped = true;
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            valuesBuilder.appendField(entry.getKey(), new int[]{entry.getValue()});
+            if (entry.getValue() == 0) {
+                continue; // Skip this invalid
+            }
+            allSkipped = false;
+            valuesBuilder.appendField(entry.getKey(), entry.getValue());
+        }
+        if (allSkipped) {
+            // Null = skip the chart
+            return null;
         }
 
         return new JsonObjectBuilder()

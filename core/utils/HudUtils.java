@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.core.utils;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.LyricSave;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
@@ -97,12 +98,13 @@ public class HudUtils {
         } else {
             String now;
             StringBuilder list = new StringBuilder();
+            LimitObj limit = AllMusic.getConfig().limit;
             for (SongInfoObj info1 : PlayMusic.getList()) {
                 if (info1 == null)
                     continue;
                 now = info1.getInfo();
-                if (now.length() > AllMusic.getConfig().messageLimitSize)
-                    now = now.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
+                if (limit.listLimit && now.length() > limit.listLimitSize)
+                    now = now.substring(0, limit.listLimitSize - 1) + limit.limitText;
                 list.append(now).append("\n");
             }
             info = AllMusic.getMessage().hud.list
@@ -142,6 +144,10 @@ public class HudUtils {
                     .replace("%Al%", PlayMusic.nowPlayMusic.getAl())
                     .replace("%Player%", PlayMusic.nowPlayMusic.getCall());
         }
+
+        LimitObj limit = AllMusic.getConfig().limit;
+        if (limit.messageLimit && info.length() > limit.messageLimitSize)
+            info = info.substring(0, limit.messageLimitSize - 1) + limit.limitText;
 
         AllMusic.side.sendHudInfo(info);
     }

@@ -9,7 +9,7 @@ import com.coloryr.allmusic.server.core.objs.config.ConfigObj;
 import com.coloryr.allmusic.server.core.objs.message.MessageObj;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.side.IMyLogger;
-import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
 import com.coloryr.allmusic.server.core.utils.Logs;
@@ -35,15 +35,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.0.0";
+    public static final String version = "3.1.0";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "200";
+    public static final String configVersion = "201";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "200";
+    public static final String messageVersion = "201";
     /**
      * 搜歌结果
      * 玩家名 结果
@@ -72,7 +72,7 @@ public class AllMusic {
     /**
      * 服务器端操作
      */
-    public static ISide side;
+    public static BaseSide side;
     /**
      * 是否在运行
      */

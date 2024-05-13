@@ -19,10 +19,10 @@ public class MusicSearch {
                 if (obj != null) {
                     SearchPageObj search = AllMusic.getMusicApi().search(obj.args, obj.isDefault);
                     if (search == null)
-                        AllMusic.side.sendMessaget(obj.sender, AllMusic.getMessage().search
+                        AllMusic.side.sendMessageTask(obj.sender, AllMusic.getMessage().search
                                 .cantSearch.replace("%Music%", obj.isDefault ? obj.args[0] : obj.args[1]));
                     else {
-                        AllMusic.side.sendMessaget(obj.sender, AllMusic.getMessage().search.res);
+                        AllMusic.side.sendMessageTask(obj.sender, AllMusic.getMessage().search.res);
                         AllMusic.addSearch(obj.name, search);
                         AllMusic.side.runTask(() -> CommandEX.showSearch(obj.sender, search));
                     }

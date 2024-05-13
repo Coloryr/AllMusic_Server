@@ -1,9 +1,10 @@
 package com.coloryr.allmusic.server.core.music.play;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -140,7 +141,7 @@ public class PlayGo {
             SongInfoObj push = PlayMusic.push;
             if (PlayMusic.nowPlayMusic.getID().equalsIgnoreCase(push.getID())) {
                 PlayMusic.voteTime = 0;
-                AllMusic.side.bqt(AllMusic.getMessage().push.cancel);
+                AllMusic.side.bqTask(AllMusic.getMessage().push.cancel);
                 return false;
             }
             List<SongInfoObj> list = PlayMusic.getList();
@@ -173,22 +174,22 @@ public class PlayGo {
             if (!checkPush()) {
                 PlayMusic.push = null;
                 PlayMusic.pushTime = 0;
-                AllMusic.side.bqt(AllMusic.getMessage().push.cancel);
+                AllMusic.side.bqTask(AllMusic.getMessage().push.cancel);
             } else {
                 PlayMusic.pushTime--;
                 if (PlayMusic.pushTime == 0) {
                     PlayMusic.push = null;
                     AllMusic.clearPush();
-                    AllMusic.side.bqt(AllMusic.getMessage().push.timeOut);
+                    AllMusic.side.bqTask(AllMusic.getMessage().push.timeOut);
                 } else {
-                    int players = AllMusic.side.getAllPlayer();
+                    int players = AllMusic.side.getPlayerSize();
                     if (AllMusic.getVoteCount() >= AllMusic.getConfig().minVote
                             || (players <= AllMusic.getConfig().minVote
                             && players <= AllMusic.getVoteCount())) {
                         SongInfoObj info = PlayMusic.push;
                         PlayMusic.push = null;
                         PlayMusic.pushMusic(info);
-                        AllMusic.side.bqt(AllMusic.getMessage().push.doPush);
+                        AllMusic.side.bqTask(AllMusic.getMessage().push.doPush);
                         AllMusic.clearPush();
                         PlayMusic.pushTime = 0;
                     }
@@ -199,13 +200,13 @@ public class PlayGo {
             PlayMusic.voteTime--;
             if (PlayMusic.voteTime == 0) {
                 AllMusic.clearPush();
-                AllMusic.side.bqt(AllMusic.getMessage().vote.timeOut);
+                AllMusic.side.bqTask(AllMusic.getMessage().vote.timeOut);
             } else {
-                int players = AllMusic.side.getAllPlayer();
+                int players = AllMusic.side.getPlayerSize();
                 if (AllMusic.getVoteCount() >= AllMusic.getConfig().minVote
                         || (players <= AllMusic.getConfig().minVote
                         && players <= AllMusic.getVoteCount())) {
-                    AllMusic.side.bqt(AllMusic.getMessage().vote.voteDone);
+                    AllMusic.side.bqTask(AllMusic.getMessage().vote.voteDone);
                     AllMusic.clearVote();
                     PlayMusic.musicLessTime = 0;
                     PlayMusic.voteTime = 0;
@@ -227,11 +228,7 @@ public class PlayGo {
                         if (AllMusic.side.needPlay()) {
                             String ID = PlayMusic.getIdleMusic();
                             if (ID != null) {
-                                MusicObj obj = new MusicObj();
-                                obj.sender = ID;
-                                obj.name = "空闲列表";
-                                obj.isDefault = true;
-                                PlayMusic.addMusic(null, ID, "空闲列表", true);
+                                PlayMusic.addMusic(null, ID, AllMusic.getMessage().custom.idle, true);
                             }
                         }
                     }
@@ -244,7 +241,7 @@ public class PlayGo {
                     AllMusic.side.sendHudUtilsAll();
                     PlayMusic.nowPlayMusic = PlayMusic.remove(0);
                     if (AllMusic.side.onMusicPlay(PlayMusic.nowPlayMusic)) {
-                        AllMusic.side.bqt(AllMusic.getMessage().musicPlay.cancel);
+                        AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.cancel);
                         continue;
                     }
 
@@ -253,7 +250,7 @@ public class PlayGo {
                             PlayMusic.nowPlayMusic.getPlayerUrl();
                     if (url == null) {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                        AllMusic.side.bqt(data.replace("%MusicID%", PlayMusic.nowPlayMusic.getID()));
+                        AllMusic.side.bqTask(data.replace("%MusicID%", PlayMusic.nowPlayMusic.getID()));
                         PlayMusic.nowPlayMusic = null;
                         continue;
                     }
@@ -268,26 +265,17 @@ public class PlayGo {
                         startTimer();
                         AllMusic.side.sendMusic(url);
                         if (!AllMusic.getConfig().mutePlayMessage) {
-                            String info = AllMusic.getMessage().musicPlay.nowPlay
-                                    .replace("%MusicName%", PlayMusic.nowPlayMusic.getName())
-                                    .replace("%MusicAuthor%", PlayMusic.nowPlayMusic.getAuthor())
-                                    .replace("%MusicAl%", PlayMusic.nowPlayMusic.getAl())
-                                    .replace("%MusicAlia%", PlayMusic.nowPlayMusic.getAlia())
-                                    .replace("%PlayerName%", PlayMusic.nowPlayMusic.getCall());
-                            if (AllMusic.getConfig().messageLimit
-                                    && info.length() > AllMusic.getConfig().messageLimitSize) {
-                                info = info.substring(0, AllMusic.getConfig().messageLimitSize) + "...";
-                            }
+                            String info = getInfo();
                             if (AllMusic.getConfig().showInBar)
                                 AllMusic.side.sendBar(info);
                             else
-                                AllMusic.side.bqt(info);
+                                AllMusic.side.bqTask(info);
                         }
                         if (!PlayMusic.nowPlayMusic.isUrl() && PlayMusic.nowPlayMusic.getPicUrl() != null) {
                             AllMusic.side.sendPic(PlayMusic.nowPlayMusic.getPicUrl());
                         }
                         if (PlayMusic.nowPlayMusic.isTrial()) {
-                            AllMusic.side.bqt(AllMusic.getMessage().musicPlay.trail);
+                            AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.trail);
                             PlayMusic.musicLessTime = PlayMusic.nowPlayMusic.getTrialInfo().getEnd();
                             PlayMusic.musicNowTime = PlayMusic.nowPlayMusic.getTrialInfo().getStart();
                         }
@@ -305,7 +293,7 @@ public class PlayGo {
                         AllMusic.side.sendStop();
                     } else {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                        AllMusic.side.bqt(data.replace("%MusicID%", PlayMusic.nowPlayMusic.getID()));
+                        AllMusic.side.bqTask(data.replace("%MusicID%", PlayMusic.nowPlayMusic.getID()));
                     }
                     clear();
                 }
@@ -314,5 +302,20 @@ public class PlayGo {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static @NotNull String getInfo() {
+        String info = AllMusic.getMessage().musicPlay.nowPlay
+                .replace("%MusicName%", PlayMusic.nowPlayMusic.getName())
+                .replace("%MusicAuthor%", PlayMusic.nowPlayMusic.getAuthor())
+                .replace("%MusicAl%", PlayMusic.nowPlayMusic.getAl())
+                .replace("%MusicAlia%", PlayMusic.nowPlayMusic.getAlia())
+                .replace("%PlayerName%", PlayMusic.nowPlayMusic.getCall());
+        LimitObj limit = AllMusic.getConfig().limit;
+        if (limit.messageLimit
+                && info.length() > limit.messageLimitSize) {
+            info = info.substring(0, limit.messageLimitSize) + limit.limitText;
+        }
+        return info;
     }
 }

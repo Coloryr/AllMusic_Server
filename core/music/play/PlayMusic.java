@@ -3,10 +3,12 @@ package com.coloryr.allmusic.server.core.music.play;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.decoder.Bitstream;
 import com.coloryr.allmusic.server.core.decoder.Header;
+import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Logs;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedInputStream;
 import java.net.URL;
@@ -119,44 +121,37 @@ public class PlayMusic {
         if (sender != null) {
             String text = AllMusic.getMessage().musicPlay.checkMusic;
             text = text.replace("%MusicID%", id);
-            AllMusic.side.sendMessaget(sender, text);
+            AllMusic.side.sendMessageTask(sender, text);
         }
-        Logs.logWrite("玩家：" + player + " 点歌：" + id);
+        Logs.logWrite("player:" + player + " add:" + id);
         try {
             SongInfoObj info = AllMusic.getMusicApi().getMusic(id, player, isList);
             if (info == null) {
                 if (sender != null) {
                     String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                    AllMusic.side.sendMessaget(sender, data.replace("%MusicID%", id));
+                    AllMusic.side.sendMessageTask(sender, data.replace("%MusicID%", id));
                 }
                 return;
             }
-            if (info.getLength() / 1000 > AllMusic.getConfig().maxMusicTime) {
-                AllMusic.side.sendMessaget(sender, AllMusic.getMessage().addMusic.timeOut);
+            LimitObj limit = AllMusic.getConfig().limit;
+            if (limit.musicTimeLimit && info.getLength() / 1000 > limit.maxMusicTime) {
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.timeOut);
                 return;
             }
             playList.add(info);
             if (!AllMusic.getConfig().muteAddMessage) {
-                String data = AllMusic.getMessage().musicPlay.addMusic
-                        .replace("%MusicName%", info.getName())
-                        .replace("%MusicAuthor%", info.getAuthor())
-                        .replace("%MusicAl%", info.getAl())
-                        .replace("%MusicAlia%", info.getAlia());
-                if (AllMusic.getConfig().messageLimit
-                        && data.length() > AllMusic.getConfig().messageLimitSize) {
-                    data = data.substring(0, AllMusic.getConfig().messageLimitSize) + "...";
-                }
+                String data = getData(info);
                 if (AllMusic.getConfig().showInBar) {
                     AllMusic.side.sendBar(data);
                 } else {
-                    AllMusic.side.bqt(data);
+                    AllMusic.side.bqTask(data);
                 }
             }
             if (AllMusic.getConfig().playListSwitch
                     && (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList())) {
                 PlayMusic.musicLessTime = 1;
                 if (!isList)
-                    AllMusic.side.bqt(AllMusic.getMessage().musicPlay.switchMusic);
+                    AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.switchMusic);
             }
             error = 0;
         } catch (Exception e) {
@@ -166,6 +161,25 @@ public class PlayMusic {
             AllMusic.log.warning("§d[AllMusic3]§c歌曲信息解析错误");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 构建字符串
+     * @param info 歌曲信息
+     * @return 信息
+     */
+    private static @NotNull String getData(SongInfoObj info) {
+        LimitObj limit = AllMusic.getConfig().limit;
+        String message = AllMusic.getMessage().musicPlay.addMusic
+                .replace("%MusicName%", info.getName())
+                .replace("%MusicAuthor%", info.getAuthor())
+                .replace("%MusicAl%", info.getAl())
+                .replace("%MusicAlia%", info.getAlia());
+        if (limit.messageLimit
+                && message.length() > limit.messageLimitSize) {
+            message = message.substring(0, limit.messageLimitSize) + limit.limitText;
+        }
+        return message;
     }
 
     /**
@@ -291,7 +305,7 @@ public class PlayMusic {
             Header h = bt.readFrame();
             int le = 6000000;
             if (h == null) {
-                AllMusic.side.bqt("§d[AllMusic3]§c未知音乐类型");
+                AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.error1);
             } else {
                 le = (int) h.total_ms(b);
             }

@@ -1,6 +1,6 @@
-package coloryr.allmusic.bstats.charts;
+package com.coloryr.allmusic.server.bstats.charts;
 
-import coloryr.allmusic.bstats.json.JsonObjectBuilder;
+import com.coloryr.allmusic.server.bstats.json.JsonObjectBuilder;
 
 import java.util.Map;
 import java.util.concurrent.Callable;

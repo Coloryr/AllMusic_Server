@@ -30,25 +30,9 @@ public class ConfigObj {
      */
     public int lyricDelay;
     /**
-     * 搜歌花费
-     */
-    public int searchCost;
-    /**
-     * 点歌花费
-     */
-    public int addMusicCost;
-    /**
      * 默认添加歌曲方式
      */
     public int defaultAddMusic;
-    /**
-     * 消息限制长度
-     */
-    public int messageLimitSize;
-    /**
-     * 最长音乐长度
-     */
-    public int maxMusicTime;
     /**
      * KTV模式歌词加时
      */
@@ -90,17 +74,9 @@ public class ConfigObj {
      */
     public boolean needPermission;
     /**
-     * 开启花钱点歌
-     */
-    public boolean useCost;
-    /**
      * 顶层模式，用于和BC交换数据
      */
     public boolean topPAPI;
-    /**
-     * 开启信息长度限制
-     */
-    public boolean messageLimit;
     /**
      * 不发送播放信息
      */
@@ -137,6 +113,14 @@ public class ConfigObj {
      * 娱乐选项
      */
     public FunConfigObj funConfig;
+    /**
+     * 限制设置
+     */
+    public LimitObj limit;
+    /**
+     * 花费点歌
+     */
+    public CostObj cost;
     /**
      * 信息更新延迟
      */
@@ -203,6 +187,14 @@ public class ConfigObj {
             saveConfig = true;
             funConfig = FunConfigObj.make();
         }
+        if (limit == null) {
+            saveConfig = true;
+            limit = LimitObj.make();
+        }
+        if (cost == null) {
+            saveConfig = true;
+            cost = CostObj.make();
+        }
 
         return saveConfig;
     }
@@ -224,18 +216,13 @@ public class ConfigObj {
         sendLyric = true;
         needPermission = false;
         defaultHud = SaveObj.make();
-        useCost = false;
-        searchCost = 20;
         mutePlayMessage = false;
         muteAddMessage = false;
         showInBar = false;
-        addMusicCost = 10;
         defaultAddMusic = 0;
         musicBR = "320000";
-        maxMusicTime = 600;
         topPAPI = false;
-        messageLimit = false;
-        messageLimitSize = 40;
+        limit = LimitObj.make();
         economy = EconomyObj.make();
         funConfig = FunConfigObj.make();
         ktvMode = true;

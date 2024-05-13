@@ -107,7 +107,7 @@ public class CommandEX {
      * @return 结果
      */
     public static boolean checkMoney(Object sender, String name, int cost) {
-        if (!AllMusic.getConfig().useCost || AllMusic.economy == null) {
+        if (!AllMusic.getConfig().cost.useCost || AllMusic.economy == null) {
             return false;
         }
 
@@ -128,7 +128,7 @@ public class CommandEX {
      * @return 结果
      */
     public static boolean cost(Object sender, String name, int cost, String message) {
-        if (!AllMusic.getConfig().useCost || AllMusic.economy == null) {
+        if (!AllMusic.getConfig().cost.useCost || AllMusic.economy == null) {
             return false;
         }
 
@@ -175,10 +175,10 @@ public class CommandEX {
             } else if (AllMusic.getConfig().banPlayer.contains(name)) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.playerBan);
             } else {
-                if (checkMoney(sender, name, AllMusic.getConfig().addMusicCost)) {
+                if (checkMoney(sender, name, AllMusic.getConfig().cost.addMusicCost)) {
                     return;
                 }
-                if (cost(sender, name, AllMusic.getConfig().addMusicCost,
+                if (cost(sender, name, AllMusic.getConfig().cost.addMusicCost,
                         AllMusic.getMessage().cost.addMusic)) {
                     return;
                 }

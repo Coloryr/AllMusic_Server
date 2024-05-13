@@ -8,7 +8,7 @@ import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.side.ISide;
+import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.folia.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.folia.event.MusicPlayEvent;
@@ -22,9 +22,9 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SideFolia extends ISide {
+public class SideFolia extends BaseSide {
     @Override
-    public int getAllPlayer() {
+    public int getPlayerSize() {
         return Bukkit.getOnlinePlayers().size();
     }
 
@@ -291,11 +291,7 @@ public class SideFolia extends ISide {
     }
 
     @Override
-    public void bq(String data) {
-        if (AllMusic.getConfig().messageLimit
-                && data.length() > AllMusic.getConfig().messageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
-        }
+    public void topBq(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.getConfig().mutePlayer.contains(player.getName())) {
                 player.sendMessage(data);
@@ -309,24 +305,8 @@ public class SideFolia extends ISide {
     }
 
     @Override
-    public void bqt(String data) {
-        if (AllMusic.getConfig().messageLimit
-                && data.length() > AllMusic.getConfig().messageLimitSize) {
-            data = data.substring(0, AllMusic.getConfig().messageLimitSize - 1) + "...";
-        }
-        String finalData = data;
-        Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, () -> {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!AllMusic.getConfig().mutePlayer.contains(player.getName())) {
-                    player.sendMessage(finalData);
-                }
-            }
-        });
-    }
-
-    @Override
     public boolean needPlay() {
-        int online = getAllPlayer();
+        int online = getPlayerSize();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (CitizensNPC.isNPC(player))
                 online--;
@@ -335,11 +315,6 @@ public class SideFolia extends ISide {
             }
         }
         return online > 0;
-    }
-
-    @Override
-    public void sendMessaget(Object obj, String message) {
-        Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, () -> ((CommandSender) obj).sendMessage(message));
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.coloryr.allmusic.server.side.folia;
 
-import coloryr.allmusic.bstats.MetricsBase;
-import coloryr.allmusic.bstats.charts.CustomChart;
-import coloryr.allmusic.bstats.json.JsonObjectBuilder;
+import com.coloryr.allmusic.server.bstats.MetricsBase;
+import com.coloryr.allmusic.server.bstats.charts.CustomChart;
+import com.coloryr.allmusic.server.bstats.json.JsonObjectBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;

@@ -1,13 +1,14 @@
 package com.coloryr.allmusic.server.core.side;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 
 import java.util.List;
 
-public abstract class ISide {
+public abstract class BaseSide {
     /**
      * 重载
      */
@@ -18,7 +19,7 @@ public abstract class ISide {
      *
      * @return 数量
      */
-    public abstract int getAllPlayer();
+    public abstract int getPlayerSize();
 
     /**
      * 主线程运行任务
@@ -80,6 +81,11 @@ public abstract class ISide {
      */
     public abstract void sendMusic(String url);
 
+    /**
+     * 向指定玩家发送播放歌曲指令
+     * @param player 玩家
+     * @param url 地址
+     */
     public final void sendMusic(String player, String url) {
         AllMusic.addNowPlayPlayer(player);
         topSendMusic(player, url);
@@ -176,7 +182,17 @@ public abstract class ISide {
      *
      * @param data 消息
      */
-    public abstract void bq(String data);
+    public final void bq(String data) {
+        LimitObj limit = AllMusic.getConfig().limit;
+        if (limit.messageLimit
+                && data.length() > limit.messageLimitSize) {
+            data = data.substring(0, limit.messageLimitSize - 1) + limit.limitText;
+        }
+
+        topBq(data);
+    }
+
+    protected abstract void topBq(String data);
 
     /**
      * 广播点击消息
@@ -192,7 +208,16 @@ public abstract class ISide {
      *
      * @param data 消息
      */
-    public abstract void bqt(String data);
+    public final void bqTask(String data) {
+        LimitObj limit = AllMusic.getConfig().limit;
+        if (limit.messageLimit
+                && data.length() > limit.messageLimitSize) {
+            data = data.substring(0, limit.messageLimitSize - 1) + limit.limitText;
+        }
+
+        String finalData = data;
+        runTask(() -> bq(finalData));
+    }
 
     /**
      * 在主线程发送消息
@@ -200,7 +225,9 @@ public abstract class ISide {
      * @param obj     接受对象
      * @param message 消息
      */
-    public abstract void sendMessaget(Object obj, String message);
+    public final void sendMessageTask(Object obj, String message) {
+        runTask(() -> sendMessageTask(obj, message));
+    }
 
     /**
      * 发送消息

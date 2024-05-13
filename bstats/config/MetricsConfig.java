@@ -1,4 +1,4 @@
-package coloryr.allmusic.bstats.config;
+package com.coloryr.allmusic.server.bstats.config;
 
 import java.io.*;
 import java.util.ArrayList;
