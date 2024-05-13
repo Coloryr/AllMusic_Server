@@ -16,10 +16,12 @@
 - Paper
 - Bungeecord
 - Velocity
+
 兼容但未测试服务器
 - KCauldron
 - Uranium
 - Thermos
+
 模组支持的服务器
 - Forge(<1.20.4)
 - NeoForge(>=1.20.5)
