@@ -12,7 +12,7 @@ public class CommandPush extends ACommand {
     @Override
     public void ex(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
-                AllMusic.side.checkPermission(name, "allmusic.push")) {
+                !AllMusic.side.checkPermission(name, "allmusic.push")) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.noPermission);
             return;
         }

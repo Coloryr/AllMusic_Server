@@ -40,6 +40,14 @@ public abstract class BaseSide {
      * 检查权限
      *
      * @param player     用户名
+     * @return 是否有权限
+     */
+    public abstract boolean checkPermission(String player);
+
+    /**
+     * 检查权限
+     *
+     * @param player     用户名
      * @param permission 权限
      * @return 是否有权限
      */

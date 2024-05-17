@@ -35,15 +35,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.1.0";
+    public static final String version = "3.1.1";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "201";
+    public static final String configVersion = "202";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "201";
+    public static final String messageVersion = "202";
     /**
      * 搜歌结果
      * 玩家名 结果

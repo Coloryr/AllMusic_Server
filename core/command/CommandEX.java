@@ -254,7 +254,7 @@ public class CommandEX {
             return;
         }
 
-        if (AllMusic.getConfig().adminList.stream().anyMatch(name::equalsIgnoreCase)) {
+        if (AllMusic.side.checkPermission(name)) {
             command = commandAdminList.get(args[0]);
             if (command != null) {
                 command.ex(sender, name, args);
@@ -262,7 +262,7 @@ public class CommandEX {
             }
         }
         if (AllMusic.getConfig().needPermission &&
-                AllMusic.side.checkPermission(name, "allmusic.addmusic"))
+                !AllMusic.side.checkPermission(name, "allmusic.addmusic"))
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.noPer);
         else {
             switch (AllMusic.getConfig().defaultAddMusic) {

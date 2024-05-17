@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-version = '3.1.0'
+version = '3.1.1'
 group = "com.coloryr.allmusic.server" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "[forge-1.12.2]AllMusic_Server"
 

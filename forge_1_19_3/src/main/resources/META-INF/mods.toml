@@ -17,7 +17,7 @@ license="GPL-3.0"
 # The modid of the mod
 modId="allmusic_server" #mandatory
 # The version number of the mod
-version="3.0.0" #mandatory
+version="3.1.1" #mandatory
 # A display name for the mod
 displayName="AllMusic Server" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/

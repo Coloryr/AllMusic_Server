@@ -7,7 +7,7 @@ public class CommandLastPage extends ACommand {
     @Override
     public void ex(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
-                AllMusic.side.checkPermission(name, "allmusic.search")) {
+                !AllMusic.side.checkPermission(name, "allmusic.search")) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.noPer);
             return;
         }

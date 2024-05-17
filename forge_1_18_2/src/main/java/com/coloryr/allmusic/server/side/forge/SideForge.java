@@ -58,6 +58,16 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
+        return checkPermission(player);
+    }
+
+    @Override
+    public boolean checkPermission(String player) {
+        for (String item : AllMusic.getConfig().adminList) {
+            if (item.equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
         ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
         if (player1 == null)
             return false;

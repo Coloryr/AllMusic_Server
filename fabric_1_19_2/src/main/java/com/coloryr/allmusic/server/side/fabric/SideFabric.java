@@ -55,12 +55,22 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public boolean checkPermission(String player, String permission) {
+    public boolean checkPermission(String player) {
+        for (String item : AllMusic.getConfig().adminList) {
+            if (item.equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
         var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
         if (player1 == null)
             return false;
 
         return player1.hasPermissionLevel(2);
+    }
+
+    @Override
+    public boolean checkPermission(String player, String permission) {
+        return checkPermission(player);
     }
 
     @Override

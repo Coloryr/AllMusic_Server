@@ -436,12 +436,28 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        if (AllMusic.getConfig().adminList.contains(player))
-            return false;
+        for (String item : AllMusic.getConfig().adminList) {
+            if (item.equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
         Player player1 = Bukkit.getPlayer(player);
         if (player1 == null)
-            return true;
-        return !player1.hasPermission(permission);
+            return false;
+        return player1.hasPermission(permission);
+    }
+
+    @Override
+    public boolean checkPermission(String player) {
+        for (String item : AllMusic.getConfig().adminList) {
+            if (item.equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
+        Player player1 = Bukkit.getPlayer(player);
+        if (player1 == null)
+            return false;
+        return player1.isOp();
     }
 
     @Override

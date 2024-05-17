@@ -28,6 +28,10 @@ public class CommandHelp extends ACommand {
                 AllMusic.getMessage().click.clickCheck, "/music search ");
         AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.select,
                 AllMusic.getMessage().click.clickCheck, "/music select ");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.nextpage,
+                AllMusic.getMessage().click.clickRun, "/music nextpage");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.lastpage,
+                AllMusic.getMessage().click.clickRun, "/music lastpage");
         AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.hud9,
                 AllMusic.getMessage().click.clickRun, "/music hud enable");
         AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.hud10,

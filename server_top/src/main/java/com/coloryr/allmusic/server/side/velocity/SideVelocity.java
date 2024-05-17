@@ -478,15 +478,24 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        try {
-            if (AllMusic.getConfig().adminList.contains(player))
-                return false;
-            Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-            player1.hasPermission(permission);
-        } catch (NoSuchElementException ignored) {
-
+        for (String item : AllMusic.getConfig().adminList) {
+            if (item.equalsIgnoreCase(player)) {
+                return true;
+            }
         }
-        return true;
+        Optional<Player> player1 = AllMusicVelocity.plugin.server.getPlayer(player);
+        return player1.map(value -> value.hasPermission(permission)).orElse(false);
+    }
+
+    @Override
+    public boolean checkPermission(String player) {
+        for (String item : AllMusic.getConfig().adminList) {
+            if (item.equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
