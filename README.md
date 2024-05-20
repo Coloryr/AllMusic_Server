@@ -127,9 +127,9 @@ fabric同理
         - enable
     - picRotateSpeed       图片旋转速度
 - economy                  经济扩展配置
-- mysqlUrl                 目前无用
-- backend                  目前无用
-- vault                    是否使用vault插件
+    - mysqlUrl             目前无用
+    - backend              目前无用
+    - vault                是否使用vault插件
 - funConfig                娱乐选项
     - rain                 是否启用随机下雨
     - rainRate             随机下雨概率
@@ -142,7 +142,11 @@ fabric同理
     - infoLimitSize        信息长限制长度
     - musicTimeLimit       是否启用歌曲长度限制
     - maxMusicTime         限制最长歌曲长度，单位秒
-- limitText                限制长度替换文本
+    - limitText            限制长度替换文本
+- cost                     花费相关配置
+    - searchCost           搜歌花费
+    - addMusicCost         点歌花费
+    - useCost              启用花费
 - sendDelay                Hud信息更新延迟
 
 ## 指令说明

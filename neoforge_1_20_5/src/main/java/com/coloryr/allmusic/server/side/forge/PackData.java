@@ -28,14 +28,8 @@ public record PackData(ComType cmd, String data, int data1) implements CustomPac
         }
 
         @Override
-        public void encode(RegistryFriendlyByteBuf pack, PackData buffer) {
+        public void encode(@NotNull RegistryFriendlyByteBuf pack, PackData buffer) {
             PacketCodec.pack(pack, buffer.cmd, buffer.data, buffer.data1);
-        }
-
-        private void writeString(ByteBuf buf, String data) {
-            byte[] temp = data.getBytes(StandardCharsets.UTF_8);
-            buf.writeInt(temp.length)
-                    .writeBytes(temp);
         }
     }
 }
