@@ -1,7 +1,7 @@
 name: AllMusic3
 main: com.coloryr.allmusic.server.AllMusicFolia
 author: Color_yr
-version: 3.1.1
+version: 3.1.2
 folia-supported: true
 softdepend: [PlaceholderAPI, Vault, Essentials, CMI]
 api-version: 1.19

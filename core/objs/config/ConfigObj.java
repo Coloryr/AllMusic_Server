@@ -225,6 +225,7 @@ public class ConfigObj {
         limit = LimitObj.make();
         economy = EconomyObj.make();
         funConfig = FunConfigObj.make();
+        cost = CostObj.make();
         ktvMode = true;
         ktvLyricDelay = 0;
         lyricDelay = 0;

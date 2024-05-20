@@ -35,7 +35,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.1.1";
+    public static final String version = "3.1.2";
     /**
      * 配置文件版本号
      */
@@ -421,7 +421,7 @@ public class AllMusic {
             cookie = new Gson().fromJson(bf, CookieObj.class);
             bf.close();
             reader.close();
-            if (cookie == null) {
+            if (cookie == null || cookie.cookieStore == null) {
                 cookie = new CookieObj();
                 saveCookie();
             }

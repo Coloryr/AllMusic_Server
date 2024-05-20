@@ -1,7 +1,7 @@
 name: AllMusic3
 main: com.coloryr.allmusic.server.AllMusicBukkit
 author: Color_yr
-version: 3.1.1
+version: 3.1.2
 softdepend: [PlaceholderAPI, Vault, Essentials, CMI]
 api-version: 1.13
 
