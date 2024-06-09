@@ -317,7 +317,12 @@ public class PlayMusic {
         }
     }
 
-    public static boolean havePlayer(String name) {
+    /**
+     * 判断玩家点歌数量是否超上限
+     * @param name 玩家名
+     * @return
+     */
+    public static boolean isPlayerMax(String name) {
         int list = AllMusic.getConfig().maxPlayerList;
         if (list == 0) {
             return false;

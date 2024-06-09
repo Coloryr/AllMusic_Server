@@ -7,7 +7,7 @@ public class CommandMute extends ACommand {
     public void ex(Object sender, String name, String[] args) {
         AllMusic.side.sendStop(name);
         AllMusic.side.clearHud(name);
-        AllMusic.getConfig().AddNoMusicPlayer(name);
+        AllMusic.getConfig().addNoMusicPlayer(name);
         AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.mute);
     }
 }

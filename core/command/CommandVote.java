@@ -52,6 +52,6 @@ public class CommandVote extends ACommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.arAgree);
             }
         }
-        AllMusic.getConfig().RemoveNoMusicPlayer(name);
+        AllMusic.getConfig().removeNoMusicPlayer(name);
     }
 }

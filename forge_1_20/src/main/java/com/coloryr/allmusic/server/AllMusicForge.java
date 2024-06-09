@@ -6,7 +6,6 @@ import com.coloryr.allmusic.server.side.forge.LogForge;
 import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,22 +18,16 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.function.Supplier;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AllMusicForge.MODID)
 public class AllMusicForge {
-    public static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(new ResourceLocation("allmusic", "channel"),
-            () -> "1.0", s -> true, s -> true);
+    public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
     // Directly reference a slf4j logger
@@ -53,27 +46,12 @@ public class AllMusicForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        channel.registerMessage(0, String.class, this::enc, this::dec, this::proc);
-
         String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
 
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
 
         new AllMusic().init(new File(path));
-    }
-
-    private void enc(String str, FriendlyByteBuf buffer) {
-        buffer.writeBytes(str.getBytes(StandardCharsets.UTF_8));
-    }
-
-    private String dec(FriendlyByteBuf buffer) {
-        return buffer.toString(StandardCharsets.UTF_8);
-    }
-
-    private void proc(String str, Supplier<NetworkEvent.Context> supplier) {
-        NetworkEvent.Context context = supplier.get();
-        context.setPacketHandled(true);
     }
 
     @SubscribeEvent

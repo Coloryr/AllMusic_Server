@@ -17,7 +17,9 @@ import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.commands.CommandSource;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.PacketDistributor;
@@ -407,9 +409,10 @@ public class SideForge extends BaseSide {
         if (players == null)
             return;
         try {
-            runTask(() -> AllMusicForge.channel.send(PacketDistributor.PLAYER.with(
+            runTask(() -> PacketDistributor.PLAYER.with(
                     () -> players
-            ), data));
+            ).send(new ClientboundCustomPayloadPacket(AllMusicForge.channel,
+                    new FriendlyByteBuf(data))));
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();

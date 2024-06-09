@@ -143,12 +143,12 @@ public class ConfigObj {
         AllMusic.saveConfig();
     }
 
-    public void AddNoMusicPlayer(String ID) {
+    public void addNoMusicPlayer(String ID) {
         mutePlayer.add(ID);
         AllMusic.saveConfig();
     }
 
-    public void RemoveNoMusicPlayer(String ID) {
+    public void removeNoMusicPlayer(String ID) {
         mutePlayer.remove(ID);
         AllMusic.saveConfig();
     }

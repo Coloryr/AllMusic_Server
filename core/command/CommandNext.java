@@ -9,6 +9,6 @@ public class CommandNext extends ACommand {
     public void ex(Object sender, String name, String[] args) {
         PlayMusic.musicLessTime = 1;
         AllMusic.side.sendMessage(sender, "§d[AllMusic3]§2已强制切歌");
-        AllMusic.getConfig().RemoveNoMusicPlayer(name);
+        AllMusic.getConfig().removeNoMusicPlayer(name);
     }
 }

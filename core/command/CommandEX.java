@@ -170,7 +170,7 @@ public class CommandEX {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.banMusic);
             } else if (PlayMusic.haveMusic(musicID)) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.existMusic);
-            } else if (PlayMusic.havePlayer(name)) {
+            } else if (PlayMusic.isPlayerMax(name)) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.playerToMany);
             } else if (AllMusic.getConfig().banPlayer.contains(name)) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.playerBan);
@@ -182,7 +182,7 @@ public class CommandEX {
                         AllMusic.getMessage().cost.addMusic)) {
                     return;
                 }
-                AllMusic.getConfig().RemoveNoMusicPlayer(name);
+                AllMusic.getConfig().removeNoMusicPlayer(name);
                 if (AllMusic.side.needPlay()) {
                     MusicObj obj = new MusicObj();
                     obj.sender = sender;

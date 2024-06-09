@@ -94,7 +94,7 @@ public class CommandPush extends ACommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.arAgree);
             }
         }
-        AllMusic.getConfig().RemoveNoMusicPlayer(name);
+        AllMusic.getConfig().removeNoMusicPlayer(name);
     }
 
     @Override
