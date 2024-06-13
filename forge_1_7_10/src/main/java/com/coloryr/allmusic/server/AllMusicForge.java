@@ -69,12 +69,12 @@ public class AllMusicForge {
         AllMusic.removeNowPlayPlayer(event.player.getCommandSenderName());
     }
 
-//    @SubscribeEvent
-//    public void onServerTickEvent(TickEvent.ServerTickEvent event) {
-//        if (event.phase == TickEvent.Phase.END) {
-//            Tasks.tick();
-//        }
-//    }
+    @SubscribeEvent
+    public void onServerTickEvent(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            Tasks.tick();
+        }
+    }
 
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
