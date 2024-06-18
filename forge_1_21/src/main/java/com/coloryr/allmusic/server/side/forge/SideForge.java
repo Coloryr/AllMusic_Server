@@ -89,7 +89,7 @@ public class SideForge extends BaseSide {
     protected void topSendStop() {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                send(player, PacketCodec.pack(ComType.STOP, null, 0));
+                send(player, new MusicPacketPayload(ComType.STOP, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -103,7 +103,7 @@ public class SideForge extends BaseSide {
             ServerPlayer player = AllMusicForge.server.getPlayerList().getPlayerByName(name);
             if (player == null)
                 return;
-            send(player, PacketCodec.pack(ComType.STOP, null, 0));
+            send(player, new MusicPacketPayload(ComType.STOP, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -116,7 +116,7 @@ public class SideForge extends BaseSide {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 if (AllMusic.isOK(player.getName().getString(), null, false))
                     continue;
-                send(player, PacketCodec.pack(ComType.PLAY, data, 0));
+                send(player, new MusicPacketPayload(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getName().getString());
             }
         } catch (Exception e) {
@@ -133,7 +133,7 @@ public class SideForge extends BaseSide {
                 return;
             if (AllMusic.isOK(player, null, false))
                 return;
-            send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
+            send(player1, new MusicPacketPayload(ComType.PLAY, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -150,7 +150,7 @@ public class SideForge extends BaseSide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.pic.enable)
                     continue;
-                send(player, PacketCodec.pack(ComType.IMG, data, 0));
+                send(player, new MusicPacketPayload(ComType.IMG, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
@@ -166,7 +166,7 @@ public class SideForge extends BaseSide {
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
                 return;
-            send(player1, PacketCodec.pack(ComType.IMG, data, 0));
+            send(player1, new MusicPacketPayload(ComType.IMG, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
             e.printStackTrace();
@@ -181,7 +181,7 @@ public class SideForge extends BaseSide {
                 return;
             if (AllMusic.isOK(player1.getName().getString(), null, true))
                 return;
-            send(player1, PacketCodec.pack(ComType.POS, null, pos));
+            send(player1, new MusicPacketPayload(ComType.POS, null, pos));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -198,7 +198,7 @@ public class SideForge extends BaseSide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.lyric.enable)
                     continue;
-                send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
+                send(player, new MusicPacketPayload(ComType.LYRIC, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
@@ -216,7 +216,7 @@ public class SideForge extends BaseSide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.info.enable)
                     continue;
-                send(player, PacketCodec.pack(ComType.INFO, data, 0));
+                send(player, new MusicPacketPayload(ComType.INFO, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
@@ -232,7 +232,7 @@ public class SideForge extends BaseSide {
                 return;
             SaveObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
-            send(player, PacketCodec.pack(ComType.HUD, data, 0));
+            send(player, new MusicPacketPayload(ComType.HUD, data, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c界面位置发送出错");
             e.printStackTrace();
@@ -252,13 +252,13 @@ public class SideForge extends BaseSide {
                 return;
             switch (pos) {
                 case INFO:
-                    send(player, PacketCodec.pack(ComType.INFO, data, 0));
+                    send(player, new MusicPacketPayload(ComType.INFO, data, 0));
                     break;
                 case LIST:
-                    send(player, PacketCodec.pack(ComType.LIST, data, 0));
+                    send(player, new MusicPacketPayload(ComType.LIST, data, 0));
                     break;
                 case LYRIC:
-                    send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
+                    send(player, new MusicPacketPayload(ComType.LYRIC, data, 0));
                     break;
             }
         } catch (Exception e) {
@@ -277,7 +277,7 @@ public class SideForge extends BaseSide {
                 SaveObj obj = HudUtils.get(name);
                 if (!obj.list.enable)
                     continue;
-                send(player, PacketCodec.pack(ComType.LIST, data, 0));
+                send(player, new MusicPacketPayload(ComType.LIST, data, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
@@ -292,7 +292,7 @@ public class SideForge extends BaseSide {
             try {
                 SaveObj obj = HudUtils.get(Name);
                 String data = new Gson().toJson(obj);
-                send(player, PacketCodec.pack(ComType.HUD, data, 0));
+                send(player, new MusicPacketPayload(ComType.HUD, data, 0));
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -320,7 +320,7 @@ public class SideForge extends BaseSide {
             ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
-            send(player1, PacketCodec.pack(ComType.CLEAR, null, 0));
+            send(player1, new MusicPacketPayload(ComType.CLEAR, null, 0));
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -331,7 +331,7 @@ public class SideForge extends BaseSide {
     public void clearHud() {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
+                send(player, new MusicPacketPayload(ComType.CLEAR, null, 0));
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
@@ -405,12 +405,11 @@ public class SideForge extends BaseSide {
         return list;
     }
 
-    private void send(ServerPlayer players, ByteBuf data) {
+    private void send(ServerPlayer players, MusicPacketPayload data) {
         if (players == null)
             return;
         try {
-            runTask(() -> PacketDistributor.PLAYER.with(players)
-                    .send(new ClientboundCustomPayloadPacket(new MusicPacketPayload(data))));
+            runTask(() -> AllMusicForge.channel1.send(data, players.connection.getConnection()));
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
