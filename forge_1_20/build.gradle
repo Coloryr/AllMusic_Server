@@ -2,20 +2,28 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.+'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
-    id 'org.jetbrains.kotlin.jvm' version '1.8.22'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.22'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
 
-version = mod_version
+version = getVersionFromFile()
+mod_version = version
+
 group = mod_group_id
 
 base {
     archivesName = file_name
 }
+
+jarJar.enable()
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -48,7 +56,7 @@ minecraft {
     // This property allows configuring Gradle's ProcessResources task(s) to run on IDE output locations before launching the game.
     // It is REQUIRED to be set to true for this template to function.
     // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
-    //copyIdeResources = true
+    copyIdeResources = true
 
     // When true, this property will add the folder name of all declared run configurations to generated IDE run configurations.
     // The folder name can be set on a run configuration using the "folderName" property.
@@ -172,16 +180,19 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
+    implementation "thedarkcolour:kotlinforforge:$kff_version"
+
+    jarJar(group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12.0,5.0)')
+    jarJar(group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46.0.0,4.0)')
+
+    implementation(group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12.0,5.0)')
+    implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46.0.0,4.0)')
+
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
     // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
-
-    implementation "thedarkcolour:kotlinforforge:$kff_version"
-
-    shadow 'com.squareup.okhttp3:okhttp:4.10.0'
-    shadow 'org.xerial:sqlite-jdbc:3.42.0.0'
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
@@ -251,25 +262,3 @@ publishing {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
-
-
-shadowJar {
-//    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
-//    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
-//    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
-//    relocate 'org.intellij', 'com.coloryr.allmusic.server.lib.org.intellij'
-//    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
-    configurations = [project.configurations.shadow]
-    archiveClassifier.set('')
-    dependencies {
-        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
-        include(dependency('com.squareup.okio:okio-jvm:3.0.0'))
-        include(dependency('org.xerial:sqlite-jdbc:3.42.0.0'))
-    }
-}
-
-reobf {
-    shadowJar {}
-}
-
-jar.finalizedBy('reobfJar')

@@ -6,7 +6,17 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.142'
 }
 
-version = mod_version
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
+mod_version = version
 group = mod_group_id
 
 repositories {
@@ -107,11 +117,11 @@ dependencies {
     jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: '[1.9.10, 2.0)')
     jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '[1.9.10, 2.0)')
     jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '[1.9.10, 2.0)')
-    jarJar (group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.10, 5.0)')
+    jarJar (group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12, 5.0)')
     jarJar (group: 'com.squareup.okio', name: 'okio-jvm', version: '[3.6, 4.0)') {
         jarJar.pin(it, '3.6.0')
     }
-    jarJar (group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.42, 4.0)')
+    jarJar (group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46, 4.0)')
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar

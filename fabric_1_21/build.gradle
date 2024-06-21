@@ -39,9 +39,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
-	include modImplementation('com.squareup.okio:okio-jvm:3.0.0')
-	include modImplementation('com.squareup.okhttp3:okhttp:4.10.0')
-	include modImplementation('org.xerial:sqlite-jdbc:3.39.3.0')
+	include modImplementation('com.squareup.okio:okio-jvm:3.6.0')
+	include modImplementation('com.squareup.okhttp3:okhttp:4.12.0')
+	include modImplementation('org.xerial:sqlite-jdbc:3.46.0.0')
 }
 
 processResources {
