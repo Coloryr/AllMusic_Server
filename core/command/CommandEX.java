@@ -3,9 +3,8 @@ package com.coloryr.allmusic.server.core.command;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.MusicSearch;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.SearchMusicObj;
+import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
-import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.utils.Function;
 
 import java.util.ArrayList;
@@ -134,7 +133,7 @@ public class CommandEX {
 
         if (AllMusic.economy.cost(name, cost)) {
             AllMusic.side.sendMessage(sender, message
-                    .replace("%Cost%", "" + cost));
+                    .replace(PAL.cost, String.valueOf(cost)));
             return false;
         } else {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().cost.costFail);
@@ -202,38 +201,6 @@ public class CommandEX {
             }
         } else
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.noID);
-    }
-
-    /**
-     * 展示搜歌结果
-     *
-     * @param sender 发送者
-     * @param search 搜歌结果
-     */
-    public static void showSearch(Object sender, SearchPageObj search) {
-        int index = search.getIndex();
-        SearchMusicObj item;
-        String info;
-        AllMusic.side.sendMessage(sender, "");
-        if (search.haveLastPage()) {
-            AllMusic.side.sendMessageRun(sender, "§d[AllMusic3]§2输入/music lastpage上一页",
-                    AllMusic.getMessage().page.last, "/music lastpage");
-        }
-        for (int a = 0; a < index; a++) {
-            item = search.getRes(a + search.getPage() * 10);
-            info = AllMusic.getMessage().page.choice;
-            info = info.replace("%Index%", "" + (a + 1))
-                    .replace("%MusicName%", item.name)
-                    .replace("%MusicAuthor%", item.author)
-                    .replace("%MusicAl%", item.al);
-            AllMusic.side.sendMessageRun(sender, info,
-                    AllMusic.getMessage().click.clickRun, "/music select " + (a + 1));
-        }
-        if (search.haveNextPage()) {
-            AllMusic.side.sendMessageRun(sender, "§d[AllMusic3]§2输入/music nextpage下一页",
-                    AllMusic.getMessage().page.next, "/music nextpage");
-        }
-        AllMusic.side.sendMessage(sender, "");
     }
 
     /**

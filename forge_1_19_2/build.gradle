@@ -1,15 +1,29 @@
 plugins {
     id 'eclipse'
+    id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
-    id 'org.jetbrains.kotlin.jvm' version '1.8.21'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-version = '3.1.2'
-group = 'com.coloryr.allmusic.server' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = '[forge-1.19.2]AllMusic_Server'
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
+mod_version = version
+
+group = mod_group_id
+
+base {
+    archivesName = file_name
+}
+
+jarJar.enable()
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -25,18 +39,40 @@ minecraft {
     // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
     //
     // Parchment is an unofficial project maintained by ParchmentMC, separate from MinecraftForge
-    // Additional setup is needed to use their mappings: https://parchmentmc.org/docs/getting-started
+    // Additional setup is needed to use their mappings: https://github.com/ParchmentMC/Parchment/wiki/Getting-Started
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: mapping_channel, version: mapping_version
 
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
+    // When true, this property will have all Eclipse/IntelliJ IDEA run configurations run the "prepareX" task for the given run configuration before launching the game.
+    // In most cases, it is not necessary to enable.
+    // enableEclipsePrepareRuns = true
+    // enableIdeaPrepareRuns = true
+
+    // This property allows configuring Gradle's ProcessResources task(s) to run on IDE output locations before launching the game.
+    // It is REQUIRED to be set to true for this template to function.
+    // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
+    copyIdeResources = true
+
+    // When true, this property will add the folder name of all declared run configurations to generated IDE run configurations.
+    // The folder name can be set on a run configuration using the "folderName" property.
+    // By default, the folder name of a run configuration is the name of the Gradle project containing it.
+    // generateRunFolders = true
+
+    // This property enables access transformers for use in development.
+    // They will be applied to the Minecraft artifact.
+    // The access transformer file can be anywhere in the project.
+    // However, it must be at "META-INF/accesstransformer.cfg" in the final mod jar to be loaded by Forge.
+    // This default location is a best practice to automatically put the file in the right place in the final jar.
+    // See https://docs.minecraftforge.net/en/latest/advanced/accesstransformers/ for more information.
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
-        client {
+        // applies to all the run configs below
+        configureEach {
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
@@ -52,65 +88,38 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'allmusic'
+            property 'forge.enabledGameTestNamespaces', mod_id
 
             mods {
-                allmusic {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
         }
 
+        client {
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
+
         server {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'allmusic'
-
-            mods {
-                allmusic {
-                    source sourceSets.main
-                }
-            }
+            property 'forge.enabledGameTestNamespaces', mod_id
+            args '--nogui'
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
         // By default, the server will crash when no gametests are provided.
         // The gametest system is also enabled by default for other run configs under the /test command.
         gameTestServer {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'allmusic'
-
-            mods {
-                allmusic {
-                    source sourceSets.main
-                }
-            }
+            property 'forge.enabledGameTestNamespaces', mod_id
         }
 
         data {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
+            // example of overriding the workingDirectory set in configureEach above
+            workingDirectory project.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'allmusic', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-                allmusic {
-                    source sourceSets.main
-                }
-            }
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
     }
 }
@@ -131,72 +140,84 @@ repositories {
         name = 'Kotlin for Forge'
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
     }
-
-    maven {
-        url 'https://jitpack.io'
-    }
 }
 
 dependencies {
-    // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
-    // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
-    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.19.2-43.2.21'
-
-    implementation 'thedarkcolour:kotlinforforge:3.12.0'
-
-    shadow 'com.squareup.okhttp3:okhttp:4.10.0'
-    shadow 'org.xerial:sqlite-jdbc:3.42.0.0'
-
-//    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-//    implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
+    // Specify the version of Minecraft to use.
+    // Any artifact can be supplied so long as it has a "userdev" classifier artifact and is a compatible patcher artifact.
+    // The "userdev" classifier will be requested and setup by ForgeGradle.
+    // If the group id is "net.minecraft" and the artifact id is one of ["client", "server", "joined"],
+    // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
+    // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
+    // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 
-    // Examples using mod jars from ./libs
+    implementation "thedarkcolour:kotlinforforge:$kff_version"
+
+    jarJar(group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12.0,5.0)')
+    jarJar(group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46.0.0,4.0)')
+
+    implementation(group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12.0,5.0)')
+    implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46.0.0,4.0)')
+
+    // Example mod dependency using a mod jar from ./libs with a flat dir repository
+    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
+    // The group id is ignored when searching -- in this case, it is "blank"
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
 
-    // For more info...
+    // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
-shadowJar {
-//    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
-//    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
-//    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
-//    relocate 'org.intellij', 'com.coloryr.allmusic.server.lib.org.intellij'
-//    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
-    configurations = [project.configurations.shadow]
-    archiveClassifier.set('')
-    dependencies {
-        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
-        include(dependency('com.squareup.okio:okio-jvm:3.0.0'))
-        include(dependency('org.xerial:sqlite-jdbc:3.42.0.0'))
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+// When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
+// See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
     }
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
-jar {
+tasks.named('jar', Jar).configure {
     manifest {
         attributes([
-                "Specification-Title"     : "allmusic",
-                "Specification-Vendor"    : "allmusic",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : "allmusic",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : mod_authors,
+                'Specification-Version'   : '1', // We are version 1 of ourselves
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+
+    // This is the preferred method to reobfuscate your jar file
+    finalizedBy 'reobfJar'
 }
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-// publish.dependsOn('reobfJar')
+
+// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing:
+// tasks.named('publish').configure {
+//     dependsOn 'reobfJar'
+// }
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        register('mavenJava', MavenPublication) {
             artifact jar
         }
     }
@@ -210,11 +231,3 @@ publishing {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
-
-reobf {
-    shadowJar {}
-}
-
-//tasks.build.dependsOn shadowJar
-//tasks.build.dependsOn reobfShadowJar
-jar.finalizedBy('reobfJar')

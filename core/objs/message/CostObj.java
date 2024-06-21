@@ -24,8 +24,8 @@ public class CostObj {
     }
 
     public void init() {
-        search = "§d[AllMusic3]§e你搜歌花费了%Cost%";
-        addMusic = "§d[AllMusic3]§e你点歌花费了%Cost%";
+        search = "§d[AllMusic3]§e你搜歌花费了" + PAL.cost;
+        addMusic = "§d[AllMusic3]§e你点歌花费了" + PAL.cost;
         noMoney = "§d[AllMusic3]§c你没有足够的钱";
         costFail = "§d[AllMusic3]§c扣钱过程中错误";
     }

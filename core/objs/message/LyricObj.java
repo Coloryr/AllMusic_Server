@@ -27,8 +27,8 @@ public class LyricObj {
     }
 
     public void init() {
-        data = "%Lyric%";
-        tdata = "%Lyric%(%TLyric%)";
+        data = PAL.lyric;
+        tdata = PAL.lyric + "(" + PAL.tlyric + ")";
         empty1 = "没有歌词";
         empty2 = "没有翻译歌词";
         empty3 = "没有KTV歌词";

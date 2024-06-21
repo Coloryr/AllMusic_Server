@@ -402,9 +402,20 @@ catch (Exception ignored) {
     versionOverride = 'NO-GIT-TAG-SET'
     identifiedVersion = versionOverride
 }
-version = identifiedVersion
+
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
+
 ext {
-    modVersion = identifiedVersion
+    modVersion = version
 }
 
 if (identifiedVersion == versionOverride) {

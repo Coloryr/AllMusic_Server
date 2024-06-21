@@ -56,11 +56,11 @@ public class VoteObj {
     public void init() {
         noPermission = "§d[AllMusic3]§c你没有权限切歌";
         doVote = "§d[AllMusic3]§e已发起切歌投票";
-        bq = "§d[AllMusic3]§e%PlayerName%发起了切歌投票，%Time%秒后结束，输入/music vote 同意切歌。";
+        bq = "§d[AllMusic3]§e" + PAL.player + "发起了切歌投票，" + PAL.time + "秒后结束，输入/music vote 同意切歌。";
         bq1 = "§d[AllMusic3]§e或者点击 ";
         bq2 = "§a同意切歌";
         agree = "§d[AllMusic3]§e你同意切歌";
-        bqAgree = "§d[AllMusic3]§e%PlayerName%同意切歌，共有%Count%名玩家同意切歌。";
+        bqAgree = "§d[AllMusic3]§e" + PAL.player + "同意切歌，共有" + PAL.count + "名玩家同意切歌。";
         arAgree = "§d[AllMusic3]§e你已申请切歌";
         timeOut = "§d[AllMusic3]§e切歌时间结束";
         err1 = "§d[AllMusic3]§c你没有发起切歌";

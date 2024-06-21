@@ -3,9 +3,17 @@ plugins {
     id 'maven-publish'
     id 'io.github.goooler.shadow' version '8.1.7'
 }
-version = "3.1.2"
 
-//java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
 
 archivesBaseName = "[folia]AllMusic_Server"
 
@@ -63,4 +71,12 @@ shadowJar {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("plugin.yml") {
+        expand "version": project.version
+    }
 }

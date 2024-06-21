@@ -29,6 +29,10 @@ public class MusicAddEvent extends Event {
         this.player = player;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public boolean isCancel() {
         return cancel;
     }
@@ -48,10 +52,6 @@ public class MusicAddEvent extends Event {
     @NotNull
     @Override
     public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

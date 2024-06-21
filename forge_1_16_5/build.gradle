@@ -19,7 +19,17 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'kotlin'
 
-version = '3.1.2'
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
+
 group = 'com.coloryr.allmusic.server' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = '[forge-1.16.5]AllMusic_Server'
 

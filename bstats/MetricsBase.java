@@ -4,11 +4,7 @@ import com.coloryr.allmusic.server.bstats.charts.CustomChart;
 import com.coloryr.allmusic.server.bstats.json.JsonObjectBuilder;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
@@ -126,6 +122,23 @@ public class MetricsBase {
         }
     }
 
+    /**
+     * Gzips the given string.
+     *
+     * @param str The string to gzip.
+     * @return The gzipped string.
+     */
+    private static byte[] compress(final String str) throws IOException {
+        if (str == null) {
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
+            gzip.write(str.getBytes(StandardCharsets.UTF_8));
+        }
+        return outputStream.toByteArray();
+    }
+
     public void addCustomChart(CustomChart chart) {
         this.customCharts.add(chart);
     }
@@ -241,9 +254,9 @@ public class MetricsBase {
             // Maven's Relocate is clever and changes strings, too. So we have to use this
             // little "trick" ... :D
             final String defaultPackage = new String(
-                    new byte[] { 'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's' });
+                    new byte[]{'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's'});
             final String examplePackage = new String(
-                    new byte[] { 'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e' });
+                    new byte[]{'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e'});
             // We want to make sure no one just copy & pastes the example and uses the wrong
             // package names
             if (MetricsBase.class.getPackage().getName().startsWith(defaultPackage)
@@ -251,23 +264,6 @@ public class MetricsBase {
                 throw new IllegalStateException("bStats Metrics class has not been relocated correctly!");
             }
         }
-    }
-
-    /**
-     * Gzips the given string.
-     *
-     * @param str The string to gzip.
-     * @return The gzipped string.
-     */
-    private static byte[] compress(final String str) throws IOException {
-        if (str == null) {
-            return null;
-        }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
-            gzip.write(str.getBytes(StandardCharsets.UTF_8));
-        }
-        return outputStream.toByteArray();
     }
 
 }

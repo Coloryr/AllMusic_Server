@@ -68,16 +68,16 @@ public class PushObj {
     public void init() {
         noPermission = "§d[AllMusic3]§c你没有权限插歌";
         doVote = "§d[AllMusic3]§e已发起插歌投票";
-        bq = "§d[AllMusic3]§e%PlayerName%发起了插歌投票，将曲目%MusicName%-%MusicAuthor%调整到下一首播放，%Time%秒后结束，输入/music push 同意插歌。";
+        bq = "§d[AllMusic3]§e" + PAL.player + "发起了插歌投票，将曲目" + PAL.musicName + "-" + PAL.musicAuthor + "调整到下一首播放，" + PAL.time + "秒后结束，输入/music push 同意插歌。";
         bq1 = "§d[AllMusic3]§e或者点击 ";
         bq2 = "§a同意插歌";
         agree = "§d[AllMusic3]§e你同意插歌";
-        bqAgree = "§d[AllMusic3]§e%PlayerName%同意插歌，共有%Count%名玩家同意插歌。";
+        bqAgree = "§d[AllMusic3]§e" + PAL.player + "同意插歌，共有" + PAL.count + "名玩家同意插歌。";
         arAgree = "§d[AllMusic3]§e你已申请插歌";
         timeOut = "§d[AllMusic3]§e插歌时间结束";
         doPush = "§d[AllMusic3]§e播放顺序已调整";
         noId = "§d[AllMusic3]§c没有找到你的点歌";
-        noId1 = "§d[AllMusic3]§c没有找到序号为%Index%的点歌";
+        noId1 = "§d[AllMusic3]§c没有找到序号为" + PAL.index + "的点歌";
         idErr = "§d[AllMusic3]§c错误的歌曲序号";
         pushErr = "§d[AllMusic3]§c这首歌已经是下一首播放了";
         err1 = "§d[AllMusic3]§c你没有发起插歌";

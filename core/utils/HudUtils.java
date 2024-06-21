@@ -8,6 +8,7 @@ import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.hud.PosObj;
+import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
@@ -108,8 +109,8 @@ public class HudUtils {
                 list.append(now).append("\n");
             }
             info = AllMusic.getMessage().hud.list
-                    .replace("%Size%", String.valueOf(PlayMusic.getList().size()))
-                    .replace("%List%", list.toString());
+                    .replace(PAL.size, String.valueOf(PlayMusic.getList().size()))
+                    .replace(PAL.list, list.toString());
         }
 
         AllMusic.side.sendHudList(info);
@@ -136,13 +137,13 @@ public class HudUtils {
             info = AllMusic.getMessage().hud.emptyMusic;
         } else {
             info = AllMusic.getMessage().hud.music
-                    .replace("%Name%", PlayMusic.nowPlayMusic.getName())
-                    .replace("%AllTime%", tranTime(PlayMusic.musicAllTime))
-                    .replace("%NowTime%", tranTime(PlayMusic.musicNowTime / 1000))
-                    .replace("%Author%", PlayMusic.nowPlayMusic.getAuthor())
-                    .replace("%Alia%", PlayMusic.nowPlayMusic.getAlia())
-                    .replace("%Al%", PlayMusic.nowPlayMusic.getAl())
-                    .replace("%Player%", PlayMusic.nowPlayMusic.getCall());
+                    .replace(PAL.name, PlayMusic.nowPlayMusic.getName())
+                    .replace(PAL.allTime, tranTime(PlayMusic.musicAllTime))
+                    .replace(PAL.nowTime, tranTime(PlayMusic.musicNowTime / 1000))
+                    .replace(PAL.musicAuthor, PlayMusic.nowPlayMusic.getAuthor())
+                    .replace(PAL.musicAlia, PlayMusic.nowPlayMusic.getAlia())
+                    .replace(PAL.musicAl, PlayMusic.nowPlayMusic.getAl())
+                    .replace(PAL.player, PlayMusic.nowPlayMusic.getCall());
         }
 
         LimitObj limit = AllMusic.getConfig().limit;
@@ -166,13 +167,13 @@ public class HudUtils {
             String kLyric = obj.getKly();
             if (!AllMusic.getConfig().ktvMode) {
                 info = AllMusic.getMessage().hud.lyric
-                        .replace("%Lyric%", lyric == null ? "" : lyric)
-                        .replace("%Tlyric%", tLyric != null ? tLyric : "");
+                        .replace(PAL.lyric, lyric == null ? "" : lyric)
+                        .replace(PAL.tlyric, tLyric != null ? tLyric : "");
             } else {
                 info = AllMusic.getMessage().hud.ktv
-                        .replace("%Lyric%", lyric != null ? lyric : "")
-                        .replace("%KLyric%", kLyric != null ? kLyric : "")
-                        .replace("%Tlyric%", tLyric != null ? tLyric : "");
+                        .replace(PAL.lyric, lyric != null ? lyric : "")
+                        .replace(PAL.klyric, kLyric != null ? kLyric : "")
+                        .replace(PAL.tlyric, tLyric != null ? tLyric : "");
             }
         }
 

@@ -39,7 +39,7 @@ public abstract class BaseSide {
     /**
      * 检查权限
      *
-     * @param player     用户名
+     * @param player 用户名
      * @return 是否有权限
      */
     public abstract boolean checkPermission(String player);
@@ -91,8 +91,9 @@ public abstract class BaseSide {
 
     /**
      * 向指定玩家发送播放歌曲指令
+     *
      * @param player 玩家
-     * @param url 地址
+     * @param url    地址
      */
     public final void sendMusic(String player, String url) {
         AllMusic.addNowPlayPlayer(player);

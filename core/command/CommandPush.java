@@ -2,6 +2,7 @@ package com.coloryr.allmusic.server.core.command;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class CommandPush extends ACommand {
                     return;
                 }
                 if (id == null) {
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.noId1.replace("%Index%", args[1]));
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.noId1.replace(PAL.index, args[1]));
                     return;
                 }
             }
@@ -73,10 +74,10 @@ public class CommandPush extends ACommand {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.doVote);
             String data = AllMusic.getMessage().push.bq;
             AllMusic.side.bq(data
-                    .replace("%PlayerName%", name)
-                    .replace("%Time%", String.valueOf(AllMusic.getConfig().voteTime))
-                    .replace("%MusicName%", id.getName())
-                    .replace("%MusicAuthor%", id.getAuthor()));
+                    .replace(PAL.player, name)
+                    .replace(PAL.time, String.valueOf(AllMusic.getConfig().voteTime))
+                    .replace(PAL.musicName, id.getName())
+                    .replace(PAL.musicAuthor, id.getAuthor()));
             AllMusic.side.bqRun(AllMusic.getMessage().push.bq1, AllMusic.getMessage().push.bq2, "/music push");
         } else {
             if (id != null) {
@@ -87,8 +88,8 @@ public class CommandPush extends ACommand {
                 AllMusic.addPush(name);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.agree);
                 String data = AllMusic.getMessage().push.bqAgree;
-                data = data.replace("%PlayerName%", name)
-                        .replace("%Count%", "" + AllMusic.getVoteCount());
+                data = data.replace(PAL.player, name)
+                        .replace(PAL.count, "" + AllMusic.getVoteCount());
                 AllMusic.side.bq(data);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.arAgree);

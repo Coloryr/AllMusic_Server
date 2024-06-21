@@ -18,8 +18,17 @@ plugins {
 }
 apply plugin: 'net.minecraftforge.gradle'
 
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
 
-version = '3.1.2'
+version = getVersionFromFile()
+
 group = 'com.coloryr.allmusic.server' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = '[forge-1.18.2]AllMusic_Server'
 
@@ -163,8 +172,8 @@ dependencies {
 
     implementation 'thedarkcolour:kotlinforforge:3.12.0'
 
-    shadow 'com.squareup.okhttp3:okhttp:4.10.0'
-    shadow 'org.xerial:sqlite-jdbc:3.42.0.0'
+    shadow 'com.squareup.okhttp3:okhttp:4.12.0'
+    shadow 'org.xerial:sqlite-jdbc:3.46.0.0'
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
@@ -188,9 +197,9 @@ shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set('')
     dependencies {
-        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
-        include(dependency('com.squareup.okio:okio-jvm:3.0.0'))
-        include(dependency('org.xerial:sqlite-jdbc:3.42.0.0'))
+        include(dependency('com.squareup.okhttp3:okhttp:4.12.0'))
+        include(dependency('com.squareup.okio:okio-jvm:3.6.0'))
+        include(dependency('org.xerial:sqlite-jdbc:3.46.0.0'))
     }
 }
 

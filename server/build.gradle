@@ -3,7 +3,17 @@ plugins {
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
-version = "3.1.2"
+
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
 
 archivesBaseName = "[bukkit_spigot_paper]AllMusic_Server"
 
@@ -62,4 +72,12 @@ shadowJar {
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("plugin.yml") {
+        expand "version": project.version
+    }
 }

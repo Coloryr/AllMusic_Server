@@ -23,7 +23,7 @@ public class PageObj {
     }
 
     public void init() {
-        choice = "§e%Index%->%MusicName% | %MusicAuthor% | %MusicAl%";
+        choice = "§e" + PAL.index + "->" + PAL.musicName + " | " + PAL.musicAuthor + " | " + PAL.musicAl;
         next = "§e[§n点我下一页§r§e]";
         last = "§e[§n点我上一页§r§e]";
     }

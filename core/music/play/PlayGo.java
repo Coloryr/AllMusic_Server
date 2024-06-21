@@ -2,6 +2,7 @@ package com.coloryr.allmusic.server.core.music.play;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.config.LimitObj;
+import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 import org.jetbrains.annotations.NotNull;
@@ -250,7 +251,7 @@ public class PlayGo {
                             PlayMusic.nowPlayMusic.getPlayerUrl();
                     if (url == null) {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                        AllMusic.side.bqTask(data.replace("%MusicID%", PlayMusic.nowPlayMusic.getID()));
+                        AllMusic.side.bqTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
                         PlayMusic.nowPlayMusic = null;
                         continue;
                     }
@@ -293,7 +294,7 @@ public class PlayGo {
                         AllMusic.side.sendStop();
                     } else {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                        AllMusic.side.bqTask(data.replace("%MusicID%", PlayMusic.nowPlayMusic.getID()));
+                        AllMusic.side.bqTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
                     }
                     clear();
                 }
@@ -306,11 +307,11 @@ public class PlayGo {
 
     private static @NotNull String getInfo() {
         String info = AllMusic.getMessage().musicPlay.nowPlay
-                .replace("%MusicName%", PlayMusic.nowPlayMusic.getName())
-                .replace("%MusicAuthor%", PlayMusic.nowPlayMusic.getAuthor())
-                .replace("%MusicAl%", PlayMusic.nowPlayMusic.getAl())
-                .replace("%MusicAlia%", PlayMusic.nowPlayMusic.getAlia())
-                .replace("%PlayerName%", PlayMusic.nowPlayMusic.getCall());
+                .replace(PAL.musicName, PlayMusic.nowPlayMusic.getName())
+                .replace(PAL.musicAuthor, PlayMusic.nowPlayMusic.getAuthor())
+                .replace(PAL.musicAl, PlayMusic.nowPlayMusic.getAl())
+                .replace(PAL.musicAlia, PlayMusic.nowPlayMusic.getAlia())
+                .replace(PAL.player, PlayMusic.nowPlayMusic.getCall());
         LimitObj limit = AllMusic.getConfig().limit;
         if (limit.messageLimit
                 && info.length() > limit.messageLimitSize) {

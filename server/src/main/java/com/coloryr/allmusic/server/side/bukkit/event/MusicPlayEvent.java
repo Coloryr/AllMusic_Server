@@ -23,6 +23,10 @@ public class MusicPlayEvent extends Event {
         this.music = music;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public SongInfoObj getMusic() {
         return music;
     }
@@ -38,10 +42,6 @@ public class MusicPlayEvent extends Event {
     @NotNull
     @Override
     public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

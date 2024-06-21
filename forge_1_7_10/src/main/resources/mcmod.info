@@ -3,7 +3,7 @@
     "modid": "allmusic_server",
     "name": "AllMusic Server",
     "description": "AllMusic Server Mod",
-    "version": "3.1.2",
+    "version": "${modVersion}",
     "mcversion": "1.7.10",
     "url": "https://github.com/Coloryr/AllMusic_Server",
     "updateUrl": "",

@@ -14,6 +14,7 @@ import com.coloryr.allmusic.server.core.objs.api.music.search.songs;
 import com.coloryr.allmusic.server.core.objs.api.music.trialinfo.TrialInfoObj;
 import com.coloryr.allmusic.server.core.objs.api.program.info.PrInfoObj;
 import com.coloryr.allmusic.server.core.objs.enums.EncryptType;
+import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.Logs;
@@ -224,7 +225,7 @@ public class APIMain {
                     isUpdate = true;
                     DataObj obj = AllMusic.gson.fromJson(res.data, DataObj.class);
                     PlayMusic.addIdleList(obj.getPlaylist());
-                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().musicPlay.listMusic.get.replace("%ListName%", obj.getName()));
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().musicPlay.listMusic.get.replace(PAL.name, obj.getName()));
                 } catch (Exception e) {
                     AllMusic.log.warning("§d[AllMusic3]§c歌曲列表获取错误");
                     e.printStackTrace();

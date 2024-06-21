@@ -60,21 +60,23 @@ public class HudObj {
     }
 
     public void init() {
-        state = "§d[AllMusic3]§e设置信息位置：%Hud%，状态：%State%";
-        set = "§d[AllMusic3]§e已设置[%Hud%]的坐标为[%x%, %y%]";
-        set1 = "§d[AllMusic3]§e已设置[%Hud%]的对齐方式为[%Dir%]";
-        set2 = "§d[AllMusic3]§e已设置[%Hud%]的颜色为[%Color%]";
-        set3 = "§d[AllMusic3]§e已设置[%Hud%]的阴影为[%State%]";
-        reset = "§d[AllMusic3]§e界面[%Hud%]恢复至默认位置";
+        state = "§d[AllMusic3]§e设置信息位置：" + PAL.hud + "，状态：" + PAL.state;
+        set = "§d[AllMusic3]§e已设置[" + PAL.hud + "]的坐标为[" + PAL.x + ", " + PAL.y + "]";
+        set1 = "§d[AllMusic3]§e已设置[" + PAL.hud + "]的对齐方式为[" + PAL.dir + "]";
+        set2 = "§d[AllMusic3]§e已设置[" + PAL.hud + "]的颜色为[" + PAL.color + "]";
+        set3 = "§d[AllMusic3]§e已设置[" + PAL.hud + "]的阴影为[" + PAL.state + "]";
+        reset = "§d[AllMusic3]§e界面[" + PAL.hud + "]恢复至默认位置";
         emptyMusic = "没有播放的音乐";
         emptyList = "队列中无歌曲";
         emptyLyric = "无歌词";
-        picSize = "§d[AllMusic3]§e设置图片尺寸为[%Size%]";
-        picRotate = "§d[AllMusic3]§e设置图片旋转为[%State%]";
-        picSpeed = "§d[AllMusic3]§e设置图片旋转速度为[%Size%]";
-        music = "%Name%  %AllTime%/%NowTime%\n%Author%\n%Alia%\n%Al%\nby: %Player%";
-        lyric = "%Lyric%\n%Tlyric%";
-        ktv = "§e%KLyric%§f%Lyric%§r\n%Tlyric%";
-        list = "播放列表里面有%Size%首歌\n%List%";
+        picSize = "§d[AllMusic3]§e设置图片尺寸为[" + PAL.size + "]";
+        picRotate = "§d[AllMusic3]§e设置图片旋转为[" + PAL.state + "]";
+        picSpeed = "§d[AllMusic3]§e设置图片旋转速度为[" + PAL.size + "]";
+        music = PAL.name + " " + PAL.allTime + "/" + PAL.nowTime
+                + "\n" + PAL.musicAuthor + "\n" + PAL.musicAlia + "\n" + PAL.musicAl
+                + "\nby: " + PAL.player;
+        lyric = PAL.lyric + "\n" + PAL.tlyric;
+        ktv = "§e" + PAL.klyric + "§f" + PAL.lyric + "§r\n" + PAL.tlyric;
+        list = "播放列表里面有" + PAL.size + "首歌\n" + PAL.list;
     }
 }

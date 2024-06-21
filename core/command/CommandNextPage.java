@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.core.command;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.play.MusicSearch;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 
 public class CommandNextPage extends ACommand {
@@ -15,7 +16,7 @@ public class CommandNextPage extends ACommand {
         if (obj == null) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.emptySearch);
         } else if (obj.nextPage()) {
-            CommandEX.showSearch(sender, obj);
+            MusicSearch.showSearch(sender, obj);
         } else {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.cantNext);
         }

@@ -4,6 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.decoder.Bitstream;
 import com.coloryr.allmusic.server.core.decoder.Header;
 import com.coloryr.allmusic.server.core.objs.config.LimitObj;
+import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
@@ -120,7 +121,7 @@ public class PlayMusic {
             return;
         if (sender != null) {
             String text = AllMusic.getMessage().musicPlay.checkMusic;
-            text = text.replace("%MusicID%", id);
+            text = text.replace(PAL.musicId, id);
             AllMusic.side.sendMessageTask(sender, text);
         }
         Logs.logWrite("player:" + player + " add:" + id);
@@ -129,7 +130,7 @@ public class PlayMusic {
             if (info == null) {
                 if (sender != null) {
                     String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                    AllMusic.side.sendMessageTask(sender, data.replace("%MusicID%", id));
+                    AllMusic.side.sendMessageTask(sender, data.replace(PAL.musicId, id));
                 }
                 return;
             }
@@ -165,16 +166,17 @@ public class PlayMusic {
 
     /**
      * 构建字符串
+     *
      * @param info 歌曲信息
      * @return 信息
      */
     private static @NotNull String getData(SongInfoObj info) {
         LimitObj limit = AllMusic.getConfig().limit;
         String message = AllMusic.getMessage().musicPlay.addMusic
-                .replace("%MusicName%", info.getName())
-                .replace("%MusicAuthor%", info.getAuthor())
-                .replace("%MusicAl%", info.getAl())
-                .replace("%MusicAlia%", info.getAlia());
+                .replace(PAL.musicName, info.getName())
+                .replace(PAL.musicAuthor, info.getAuthor())
+                .replace(PAL.musicAl, info.getAl())
+                .replace(PAL.musicAlia, info.getAlia());
         if (limit.messageLimit
                 && message.length() > limit.messageLimitSize) {
             message = message.substring(0, limit.messageLimitSize) + limit.limitText;
@@ -261,11 +263,11 @@ public class PlayMusic {
         for (int i = 0; i < playList.size(); i++) {
             info = playList.get(i);
             a = AllMusic.getMessage().musicPlay.listMusic.item;
-            a = a.replace("%Index%", "" + (i + 1))
-                    .replace("%MusicName%", info.getName())
-                    .replace("%MusicAuthor%", info.getAuthor())
-                    .replace("%MusicAl%", info.getAl())
-                    .replace("%MusicAlia%", info.getAlia());
+            a = a.replace(PAL.index, String.valueOf(i + 1))
+                    .replace(PAL.musicName, info.getName())
+                    .replace(PAL.musicAuthor, info.getAuthor())
+                    .replace(PAL.musicAl, info.getAl())
+                    .replace(PAL.musicAlia, info.getAlia());
             list.append(a).append("\n");
         }
         String temp = list.toString();
@@ -319,6 +321,7 @@ public class PlayMusic {
 
     /**
      * 判断玩家点歌数量是否超上限
+     *
      * @param name 玩家名
      * @return
      */

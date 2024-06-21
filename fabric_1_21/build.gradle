@@ -4,7 +4,17 @@ plugins {
 	id "org.jetbrains.kotlin.jvm" version "2.0.0"
 }
 
-version = project.mod_version
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
+
 group = project.maven_group
 
 base {
