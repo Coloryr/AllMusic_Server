@@ -1,7 +1,7 @@
 # AllMusic
 一个全服点歌插件
 
-**This project only can use in china main land**
+**This project only can use in china main land**  
 **Chinese only**
 
 ![GIF.gif](img/allmusic.jpg)
