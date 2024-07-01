@@ -1,6 +1,9 @@
 # AllMusic
 一个全服点歌插件
 
+**This project only can use in china main land**
+**Chinese only**
+
 ![GIF.gif](img/allmusic.jpg)
 
 ![GIF.gif](img/GIF.gif)
@@ -24,20 +27,24 @@
 - Thermos
 
 模组支持的服务器
-- Forge(<1.20.4)
+- Forge(<1.20.1)
 - NeoForge(>=1.20.4)
-- Fabric
+- Fabric(>=1.16.5)
 
 ## 使用方法
-1. 安装AllMusic插件  
-复制`AllMusic-3.0.0-all.jar`到你的`plugins`文件夹  
-重启过服务器
-2. 安装客户端mod  
-复制`[forge-xxx]AllMusic-3.0.0`到客户端的`mods`文件夹  
-fabric同理
+1. 安装AllMusic_Server
 
-如果你是forge或者fabric服务器，复制`服务器mod`到你的mods文件夹下即可  
-需要补全前置mod kotlinforforge 或者 kotlinforfabirc
+Bukkit/Folia类服务器
+复制`[bukkit_spigot_paper]AllMusic_Server-xxx-all.jar`到你的`plugins`文件夹
+重启服务器
+Bungeecord/Velocity类服务器
+复制`[bungeecord_velocity]AllMusic_Server-xxx-all.jar`到你的`plugins`文件夹
+Forge/Fabric/NeoForge类服务器
+复制`[xxx-xxx]AllMusic_Server-xxx-all.jar`到你的`mods`文件夹
+
+2. 安装[客户端mod](https://github.com/Coloryr/AllMusic_Client)  
+复制`[xxx-xxx]AllMusic_Client-3.0.0`到客户端的`mods`文件夹
+重启客户端
 
 ## 播放VIP歌曲
 1. 手机号创建网易云账户并购买网易云音乐VIP
@@ -45,8 +52,8 @@ fabric同理
    - bukkit/spigot/paper/folia 服务器给自己op是同样的效果
    - forge/fabric/neoforge 服务器给自己等级权限2是同样的效果
    - bc/velocity 需要配置文件写上自己的游戏名
-3. 输入/music code 手机号码 获取手机验证码
-4. 输入/music login 验证码 登录账户
+3. 输入/music code [手机号码] 获取手机验证码
+4. 输入/music login [验证码] 登录账户
 
 如果登录失效，请删除`cookie.json`再打`/music reload`再重新登录
 
@@ -69,6 +76,7 @@ fabric同理
 3.0.0：将插件大部分重写
 3.1.0：添加文本长度限制
 3.1.1：调整配置文件
+3.1.4：修改语言文件
 ```
 
 ## 配置文件说明
@@ -175,7 +183,12 @@ fabric同理
 - /music hud pic rotate [开关] 设置图片旋转模式
 - /music hud pic speed [数值] 设置图片旋转速度
 
-在配置文件给管理员后  
+管理员指令
+以下方式才是管理员
+   - 在配置文件给自己管理员然后/music reload
+   - bukkit/spigot/paper/folia 服务器给自己op
+   - forge/fabric/neoforge 服务器给自己等级权限2
+   - bc/velocity 配置文件写上自己的游戏名
 - /music reload 重读配置文件
 - /music next 强制切歌
 - /music ban [ID] 禁止点这首歌
