@@ -376,7 +376,7 @@ public class SideBukkit extends BaseSide {
     @Override
     public void topBq(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!AllMusic.isSkip(player.getName(), null, true)) {
+            if (!AllMusic.isSkip(player.getName(), null, false)) {
                 player.sendMessage(data);
             }
         }
@@ -438,10 +438,8 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+        if (checkPermission(player)) {
+            return true;
         }
         Player player1 = Bukkit.getPlayer(player);
         if (player1 == null)

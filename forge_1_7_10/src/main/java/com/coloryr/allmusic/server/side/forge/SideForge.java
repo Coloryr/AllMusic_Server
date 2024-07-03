@@ -76,14 +76,13 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean needPlay() {
-        int online = getPlayerSize();
         for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
-            if (AllMusic.getConfig().mutePlayer.contains(player.getCommandSenderName())) {
-                online--;
+            if (!AllMusic.isSkip(player.getCommandSenderName(), null, false)) {
+                return true;
             }
         }
-        return online > 0;
+        return false;
     }
 
     @Override
@@ -117,7 +116,7 @@ public class SideForge extends BaseSide {
         try {
             for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
                 EntityPlayerMP player = (EntityPlayerMP) player1;
-                if (AllMusic.isOK(player.getCommandSenderName(), null, false))
+                if (AllMusic.isSkip(player.getCommandSenderName(), null, false))
                     continue;
                 send(player, PacketCodec.pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getCommandSenderName());
@@ -134,7 +133,7 @@ public class SideForge extends BaseSide {
             EntityPlayerMP player1 = AllMusicForge.server.getConfigurationManager().func_152612_a(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player, null, false))
+            if (AllMusic.isSkip(player, null, false))
                 return;
             send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
         } catch (Exception e) {
@@ -148,7 +147,7 @@ public class SideForge extends BaseSide {
         try {
             for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
                 EntityPlayerMP player = (EntityPlayerMP) player1;
-                if (AllMusic.isOK(player.getCommandSenderName(), null, true))
+                if (AllMusic.isSkip(player.getCommandSenderName(), null, true))
                     continue;
                 String name = player.getCommandSenderName();
                 SaveObj obj = HudUtils.get(name);
@@ -168,7 +167,7 @@ public class SideForge extends BaseSide {
             EntityPlayerMP player1 = AllMusicForge.server.getConfigurationManager().func_152612_a(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getCommandSenderName(), null, true))
+            if (AllMusic.isSkip(player1.getCommandSenderName(), null, true))
                 return;
             send(player1, PacketCodec.pack(ComType.IMG, data, 0));
         } catch (Exception e) {
@@ -183,7 +182,7 @@ public class SideForge extends BaseSide {
             EntityPlayerMP player1 = AllMusicForge.server.getConfigurationManager().func_152612_a(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getCommandSenderName(), null, true))
+            if (AllMusic.isSkip(player1.getCommandSenderName(), null, true))
                 return;
             send(player1, PacketCodec.pack(ComType.POS, null, pos));
         } catch (Exception e) {
@@ -197,7 +196,7 @@ public class SideForge extends BaseSide {
         try {
             for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
                 EntityPlayerMP player = (EntityPlayerMP) player1;
-                if (AllMusic.isOK(player.getCommandSenderName(), null, true))
+                if (AllMusic.isSkip(player.getCommandSenderName(), null, true))
                     continue;
                 String name = player.getCommandSenderName();
                 SaveObj obj = HudUtils.get(name);
@@ -216,7 +215,7 @@ public class SideForge extends BaseSide {
         try {
             for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
                 EntityPlayerMP player = (EntityPlayerMP) player1;
-                if (AllMusic.isOK(player.getCommandSenderName(), null, true))
+                if (AllMusic.isSkip(player.getCommandSenderName(), null, true))
                     continue;
                 String name = player.getCommandSenderName();
                 SaveObj obj = HudUtils.get(name);
@@ -254,7 +253,7 @@ public class SideForge extends BaseSide {
             EntityPlayerMP player = AllMusicForge.server.getConfigurationManager().func_152612_a(name);
             if (player == null)
                 return;
-            if (AllMusic.isOK(name, null, true))
+            if (AllMusic.isSkip(name, null, true))
                 return;
             switch (pos) {
                 case INFO:
@@ -278,7 +277,7 @@ public class SideForge extends BaseSide {
         try {
             for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
                 EntityPlayerMP player = (EntityPlayerMP) player1;
-                if (AllMusic.isOK(player.getCommandSenderName(), null, true))
+                if (AllMusic.isSkip(player.getCommandSenderName(), null, true))
                     continue;
                 String name = player.getCommandSenderName();
                 SaveObj obj = HudUtils.get(name);
@@ -313,7 +312,7 @@ public class SideForge extends BaseSide {
         for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
             try {
-                if (AllMusic.isOK(player.getCommandSenderName(), null, true))
+                if (AllMusic.isSkip(player.getCommandSenderName(), null, true))
                     continue;
                 ForgeApi.sendBar(player, data);
             } catch (Exception e1) {
@@ -353,7 +352,7 @@ public class SideForge extends BaseSide {
     public void topBq(String data) {
         for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getCommandSenderName())) {
+            if (!AllMusic.isSkip(player.getCommandSenderName(), null, false)) {
                 player.addChatMessage(new ChatComponentText(data));
             }
         }

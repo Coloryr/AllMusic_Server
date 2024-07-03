@@ -19,7 +19,6 @@ import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
 import io.netty.buffer.ByteBuf;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -139,12 +138,12 @@ public class SideVelocity extends BaseSide implements IEconomy {
     @Override
     public void topBq(String data) {
         Component message = Component.text(data);
-        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().muteServer.contains(server.getServerInfo().getName()))
+        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+            if (skip(player)) {
                 continue;
-            for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
-                    player.sendMessage(message);
+            }
+
+            player.sendMessage(message);
         }
     }
 
@@ -153,33 +152,24 @@ public class SideVelocity extends BaseSide implements IEconomy {
         TextComponent endtext = Component.text(end)
                 .clickEvent(ClickEvent.runCommand(command));
         TextComponent send = Component.text(message).append(endtext);
-        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().muteServer.contains(server.getServerInfo().getName()))
+        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
+            if (skip(player)) {
                 continue;
-            for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
-                    player.sendMessage(send);
+            }
+
+            player.sendMessage(send);
         }
     }
 
     @Override
     public boolean needPlay() {
-        int online = 0;
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            if (player.getCurrentServer().isPresent()) {
-                continue;
+            if (!skip(player)) {
+                return true;
             }
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
-                online++;
         }
-        for (RegisteredServer server : AllMusicVelocity.plugin.server.getAllServers()) {
-            if (AllMusic.getConfig().muteServer.contains(server.getServerInfo().getName()))
-                continue;
-            for (Player player : server.getPlayersConnected())
-                if (!AllMusic.getConfig().mutePlayer.contains(player.getUsername()))
-                    online++;
-        }
-        return online > 0;
+
+        return false;
     }
 
     @Override
@@ -213,7 +203,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 String server = player.getCurrentServer().isPresent() ?
                         player.getCurrentServer().get().getServerInfo().getName() : null;
-                if (AllMusic.isOK(player.getUsername(), server, false))
+                if (AllMusic.isSkip(player.getUsername(), server, false))
                     continue;
                 send(player, PacketCodec.pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getUsername());
@@ -231,7 +221,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
                 String server = player1.getCurrentServer().isPresent() ?
                         player1.getCurrentServer().get().getServerInfo().getName() : null;
-                if (AllMusic.isOK(player1.getUsername(), server, false))
+                if (AllMusic.isSkip(player1.getUsername(), server, false))
                     return;
                 send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
             }
@@ -245,7 +235,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     public void sendPic(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 String name = player.getUsername();
                 SaveObj obj = HudUtils.get(name);
@@ -264,7 +254,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
         try {
             if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-                if (ok(player1))
+                if (skip(player1))
                     return;
                 send(player1, PacketCodec.pack(ComType.IMG, data, 0));
             }
@@ -279,7 +269,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
         try {
             if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-                if (ok(player1))
+                if (skip(player1))
                     return;
                 send(player1, PacketCodec.pack(ComType.POS, null, pos));
             }
@@ -293,7 +283,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     public void sendHudLyric(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 SaveObj obj = HudUtils.get(player.getUsername());
                 if (!obj.lyric.enable)
@@ -310,7 +300,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     public void sendHudInfo(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 SaveObj obj = HudUtils.get(player.getUsername());
                 if (!obj.info.enable)
@@ -348,7 +338,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
             if (!player.isPresent())
                 return;
 
-            if (ok(player.get()))
+            if (skip(player.get()))
                 return;
 
             switch (pos) {
@@ -372,7 +362,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     public void sendHudList(String data) {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 String name = player.getUsername();
                 SaveObj obj = HudUtils.get(name);
@@ -405,7 +395,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
         Component message = Component.text(data);
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             try {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 player.sendActionBar(message);
             } catch (Exception e1) {
@@ -478,10 +468,8 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+        if (checkPermission(player)) {
+            return true;
         }
         Optional<Player> player1 = AllMusicVelocity.plugin.server.getPlayer(player);
         return player1.map(value -> value.hasPermission(permission)).orElse(false);
@@ -571,10 +559,13 @@ public class SideVelocity extends BaseSide implements IEconomy {
         }
     }
 
-    private boolean ok(Player player) {
-        String server = player.getCurrentServer().isPresent() ?
-                player.getCurrentServer().get().getServerInfo().getName() : null;
-        return AllMusic.isOK(player.getUsername(), server, true);
+    private boolean skip(Player player) {
+        String server = null;
+        if (player.getCurrentServer().isPresent()) {
+            server = player.getCurrentServer().get().getServerInfo().getName();
+        }
+
+        return AllMusic.isSkip(player.getUsername(), server, true);
     }
 
     @Override

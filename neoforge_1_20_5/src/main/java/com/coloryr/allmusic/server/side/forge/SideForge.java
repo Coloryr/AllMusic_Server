@@ -72,13 +72,12 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean needPlay() {
-        int online = getPlayerSize();
         for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-            if (AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
-                online--;
+            if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
+                return true;
             }
         }
-        return online > 0;
+        return false;
     }
 
     @Override
@@ -110,7 +109,7 @@ public class SideForge extends BaseSide {
     public void sendMusic(String url) {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                if (AllMusic.isOK(player.getName().getString(), null, false))
+                if (AllMusic.isSkip(player.getName().getString(), null, false))
                     continue;
                 send(player, new PackData(ComType.PLAY, url, 0));
                 AllMusic.addNowPlayPlayer(player.getName().getString());
@@ -127,7 +126,7 @@ public class SideForge extends BaseSide {
             ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player, null, false))
+            if (AllMusic.isSkip(player, null, false))
                 return;
             send(player1, new PackData(ComType.PLAY, url, 0));
         } catch (Exception e) {
@@ -140,7 +139,7 @@ public class SideForge extends BaseSide {
     public void sendPic(String url) {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
@@ -160,7 +159,7 @@ public class SideForge extends BaseSide {
             ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName().getString(), null, true))
+            if (AllMusic.isSkip(player1.getName().getString(), null, true))
                 return;
             send(player1, new PackData(ComType.IMG, url, 0));
         } catch (Exception e) {
@@ -175,7 +174,7 @@ public class SideForge extends BaseSide {
             ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName().getString(), null, true))
+            if (AllMusic.isSkip(player1.getName().getString(), null, true))
                 return;
             send(player1, new PackData(ComType.POS, null, pos));
         } catch (Exception e) {
@@ -188,7 +187,7 @@ public class SideForge extends BaseSide {
     public void sendHudLyric(String data) {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
@@ -206,7 +205,7 @@ public class SideForge extends BaseSide {
     public void sendHudInfo(String data) {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
@@ -244,7 +243,7 @@ public class SideForge extends BaseSide {
             ServerPlayer player = AllMusicForge.server.getPlayerList().getPlayerByName(name);
             if (player == null)
                 return;
-            if (AllMusic.isOK(name, null, true))
+            if (AllMusic.isSkip(name, null, true))
                 return;
             switch (pos) {
                 case INFO:
@@ -267,7 +266,7 @@ public class SideForge extends BaseSide {
     public void sendHudList(String data) {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
@@ -300,7 +299,7 @@ public class SideForge extends BaseSide {
     public void sendBar(String data) {
         for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             try {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 ForgeApi.sendBar(player, data);
             } catch (Exception e1) {
@@ -338,7 +337,7 @@ public class SideForge extends BaseSide {
     @Override
     public void topBq(String data) {
         for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
+            if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendSystemMessage(Component.literal(data));
             }
         }

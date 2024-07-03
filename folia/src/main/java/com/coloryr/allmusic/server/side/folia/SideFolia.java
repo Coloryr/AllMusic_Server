@@ -33,7 +33,7 @@ public class SideFolia extends BaseSide {
     public void sendHudLyric(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isSkip(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -51,7 +51,7 @@ public class SideFolia extends BaseSide {
     public void sendHudInfo(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isSkip(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -71,7 +71,7 @@ public class SideFolia extends BaseSide {
             Player player = Bukkit.getPlayer(name);
             if (player == null)
                 return;
-            if (AllMusic.isOK(name, null, false))
+            if (AllMusic.isSkip(name, null, false))
                 return;
             SaveObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
@@ -92,7 +92,7 @@ public class SideFolia extends BaseSide {
             if (player == null)
                 return;
 
-            if (AllMusic.isOK(name, null, true))
+            if (AllMusic.isSkip(name, null, true))
                 return;
 
             switch (pos) {
@@ -116,7 +116,7 @@ public class SideFolia extends BaseSide {
     public void sendHudList(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isSkip(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -150,7 +150,7 @@ public class SideFolia extends BaseSide {
         if (AllMusicFolia.spigotSet) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 try {
-                    if (AllMusic.isOK(player.getName(), null, true))
+                    if (AllMusic.isSkip(player.getName(), null, true))
                         continue;
                     SpigotApi.sendBar(player, data);
                 } catch (Exception e1) {
@@ -167,7 +167,7 @@ public class SideFolia extends BaseSide {
     public void sendMusic(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, false))
+                if (AllMusic.isSkip(player.getName(), null, false))
                     continue;
                 send(player, PacketCodec.pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getName());
@@ -184,7 +184,7 @@ public class SideFolia extends BaseSide {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player, null, false))
+            if (AllMusic.isSkip(player, null, false))
                 return;
             send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
         } catch (Exception e) {
@@ -197,7 +197,7 @@ public class SideFolia extends BaseSide {
     public void sendPic(String data) {
         try {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isSkip(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -217,7 +217,7 @@ public class SideFolia extends BaseSide {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName(), null, true))
+            if (AllMusic.isSkip(player1.getName(), null, true))
                 return;
             send(player1, PacketCodec.pack(ComType.IMG, data, 0));
         } catch (Exception e) {
@@ -232,7 +232,7 @@ public class SideFolia extends BaseSide {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName(), null, true))
+            if (AllMusic.isSkip(player1.getName(), null, true))
                 return;
             send(player1, PacketCodec.pack(ComType.POS, null, pos));
         } catch (Exception e) {
@@ -294,7 +294,7 @@ public class SideFolia extends BaseSide {
     @Override
     public void topBq(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName())) {
+            if (!AllMusic.isSkip(player.getName(), null, false)) {
                 player.sendMessage(data);
             }
         }
@@ -311,7 +311,7 @@ public class SideFolia extends BaseSide {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (CitizensNPC.isNPC(player))
                 online--;
-            else if (AllMusic.getConfig().mutePlayer.contains(player.getName())) {
+            else if (AllMusic.isSkip(player.getName(), null, false)) {
                 online--;
             }
         }
@@ -356,10 +356,8 @@ public class SideFolia extends BaseSide {
 
     @Override
     public boolean checkPermission(String player, String permission) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+        if (checkPermission(player)) {
+            return true;
         }
         Player player1 = Bukkit.getPlayer(player);
         if (player1 == null)

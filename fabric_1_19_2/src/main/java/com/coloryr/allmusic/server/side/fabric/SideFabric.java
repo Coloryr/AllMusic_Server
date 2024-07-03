@@ -77,7 +77,7 @@ public class SideFabric extends BaseSide {
     public boolean needPlay() {
         int online = getPlayerSize();
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            if (AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
+            if (AllMusic.isSkip(player.getName().getString(), null, false)) {
                 online--;
             }
         }
@@ -113,7 +113,7 @@ public class SideFabric extends BaseSide {
     public void sendMusic(String data) {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isOK(player.getName().getString(), null, false))
+                if (AllMusic.isSkip(player.getName().getString(), null, false))
                     continue;
                 send(player, PacketCodec.pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getName().getString());
@@ -130,7 +130,7 @@ public class SideFabric extends BaseSide {
             var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player, null, false))
+            if (AllMusic.isSkip(player, null, false))
                 return;
             send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
         } catch (Exception e) {
@@ -143,7 +143,7 @@ public class SideFabric extends BaseSide {
     public void sendPic(String data) {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
@@ -163,7 +163,7 @@ public class SideFabric extends BaseSide {
             var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName().getString(), null, true))
+            if (AllMusic.isSkip(player1.getName().getString(), null, true))
                 return;
             send(player1, PacketCodec.pack(ComType.IMG, data, 0));
         } catch (Exception e) {
@@ -178,7 +178,7 @@ public class SideFabric extends BaseSide {
             var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName().getString(), null, true))
+            if (AllMusic.isSkip(player1.getName().getString(), null, true))
                 return;
             send(player1, PacketCodec.pack(ComType.POS, null, pos));
         } catch (Exception e) {
@@ -191,7 +191,7 @@ public class SideFabric extends BaseSide {
     public void sendHudLyric(String data) {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
@@ -209,7 +209,7 @@ public class SideFabric extends BaseSide {
     public void sendHudInfo(String data) {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
@@ -248,7 +248,7 @@ public class SideFabric extends BaseSide {
             if (player == null)
                 return;
 
-            if (AllMusic.isOK(name, null, true))
+            if (AllMusic.isSkip(name, null, true))
                 return;
 
             switch (pos) {
@@ -272,7 +272,7 @@ public class SideFabric extends BaseSide {
     public void sendHudList(String data) {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 String name = player.getName().getString();
                 SaveObj obj = HudUtils.get(name);
@@ -305,7 +305,7 @@ public class SideFabric extends BaseSide {
     public void sendBar(String data) {
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             try {
-                if (AllMusic.isOK(player.getName().getString(), null, true))
+                if (AllMusic.isSkip(player.getName().getString(), null, true))
                     continue;
                 FabricApi.sendBar(player, data);
             } catch (Exception e1) {
@@ -343,7 +343,7 @@ public class SideFabric extends BaseSide {
     @Override
     public void topBq(String data) {
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
+            if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendMessage(Text.of(data), false);
             }
         }

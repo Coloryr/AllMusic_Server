@@ -254,7 +254,7 @@ public class CommandEX {
         List<String> arguments = new ArrayList<>();
         if (arg.length == 0) {
             arguments.addAll(normal);
-            if (AllMusic.getConfig().adminList.contains(name)) {
+            if (AllMusic.side.checkPermission(name)) {
                 arguments.addAll(admin);
             }
             if (AllMusic.getSearch(name) != null) {
@@ -263,7 +263,7 @@ public class CommandEX {
         } else {
             if (arg[0] == null || arg[0].isEmpty() || arg.length == 1) {
                 arguments.addAll(normal);
-                if (AllMusic.getConfig().adminList.contains(name)) {
+                if (AllMusic.side.checkPermission(name)) {
                     arguments.addAll(admin);
                 }
                 if (arg[0] == null || arg[0].isEmpty()) {
@@ -276,9 +276,11 @@ public class CommandEX {
                 if (command != null) {
                     arguments.addAll(command.tab(name, arg, 1));
                 }
-                command = CommandEX.commandAdminList.get(arg[0]);
-                if (command != null) {
-                    arguments.addAll(command.tab(name, arg, 1));
+                if (AllMusic.side.checkPermission(name)) {
+                    command = CommandEX.commandAdminList.get(arg[0]);
+                    if (command != null) {
+                        arguments.addAll(command.tab(name, arg, 1));
+                    }
                 }
             }
         }

@@ -135,7 +135,7 @@ public class SideBC extends BaseSide implements IEconomy {
     public void sendHudLyric(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 SaveObj obj = HudUtils.get(player.getName());
                 if (!obj.lyric.enable)
@@ -152,7 +152,7 @@ public class SideBC extends BaseSide implements IEconomy {
     public void sendHudInfo(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 SaveObj obj = HudUtils.get(player.getName());
                 if (!obj.info.enable)
@@ -169,7 +169,7 @@ public class SideBC extends BaseSide implements IEconomy {
     public void sendHudList(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -215,7 +215,7 @@ public class SideBC extends BaseSide implements IEconomy {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 String server = player.getServer() == null ? null : player.getServer().getInfo().getName();
-                if (AllMusic.isOK(player.getName(), server, false))
+                if (AllMusic.isSkip(player.getName(), server, false))
                     continue;
                 send(player, PacketCodec.pack(ComType.PLAY, data, 0));
                 AllMusic.addNowPlayPlayer(player.getName());
@@ -233,7 +233,7 @@ public class SideBC extends BaseSide implements IEconomy {
             if (player1 == null)
                 return;
             String server = player1.getServer() == null ? null : player1.getServer().getInfo().getName();
-            if (AllMusic.isOK(player1.getName(), server, false))
+            if (AllMusic.isSkip(player1.getName(), server, false))
                 return;
             send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
         } catch (Exception e) {
@@ -249,7 +249,7 @@ public class SideBC extends BaseSide implements IEconomy {
             if (player1 == null)
                 return;
             String server = player1.getServer() == null ? null : player1.getServer().getInfo().getName();
-            if (AllMusic.isOK(player1.getName(), server, false))
+            if (AllMusic.isSkip(player1.getName(), server, false))
                 return;
 
             SaveObj obj = HudUtils.get(player);
@@ -270,7 +270,7 @@ public class SideBC extends BaseSide implements IEconomy {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(name);
             if (player1 == null)
                 return;
-            if (ok(player1))
+            if (skip(player1))
                 return;
 
             switch (pos) {
@@ -294,7 +294,7 @@ public class SideBC extends BaseSide implements IEconomy {
     public void sendPic(String data) {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (ok(player))
+                if (skip(player))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -314,7 +314,7 @@ public class SideBC extends BaseSide implements IEconomy {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
             if (player1 == null)
                 return;
-            if (ok(player1))
+            if (skip(player1))
                 return;
             send(player1, PacketCodec.pack(ComType.IMG, data, 0));
         } catch (Exception e) {
@@ -329,7 +329,7 @@ public class SideBC extends BaseSide implements IEconomy {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
             if (player1 == null)
                 return;
-            if (ok(player1))
+            if (skip(player1))
                 return;
             send(player1, PacketCodec.pack(ComType.POS, null, pos));
         } catch (Exception e) {
@@ -393,7 +393,7 @@ public class SideBC extends BaseSide implements IEconomy {
     public void topBq(String data) {
         TextComponent message = new TextComponent(data);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            if (ok(player))
+            if (skip(player))
                 continue;
             player.sendMessage(message);
         }
@@ -406,7 +406,7 @@ public class SideBC extends BaseSide implements IEconomy {
         endtext.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         send.addExtra(endtext);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            if (ok(player))
+            if (skip(player))
                 continue;
             player.sendMessage(send);
         }
@@ -414,15 +414,13 @@ public class SideBC extends BaseSide implements IEconomy {
 
     @Override
     public boolean needPlay() {
-        int online = 0;
-        for (ServerInfo server : ProxyServer.getInstance().getServers().values()) {
-            if (AllMusic.getConfig().muteServer.contains(server.getName()))
-                continue;
-            for (ProxiedPlayer player : server.getPlayers())
-                if (!AllMusic.getConfig().mutePlayer.contains(player.getName()))
-                    online++;
+        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+            if (!skip(player)) {
+                return true;
+            }
         }
-        return online > 0;
+
+        return false;
     }
 
     @Override
@@ -563,9 +561,9 @@ public class SideBC extends BaseSide implements IEconomy {
         }
     }
 
-    private boolean ok(ProxiedPlayer player) {
+    private boolean skip(ProxiedPlayer player) {
         String server = player.getServer() == null ? null : player.getServer().getInfo().getName();
-        return AllMusic.isOK(player.getName(), server, true);
+        return AllMusic.isSkip(player.getName(), server, true);
     }
 
     @Override
