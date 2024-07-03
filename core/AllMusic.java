@@ -35,7 +35,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.1.4";
+    public static final String version = "3.1.5";
     /**
      * 配置文件版本号
      */
@@ -61,10 +61,6 @@ public class AllMusic {
      * 正在播放的玩家
      */
     private static final Set<String> nowPlayPlayer = new HashSet<>();
-    /**
-     * 暂时不往玩家发送数据包
-     */
-    private static final Set<String> pauseSendPlayer = new HashSet<>();
     /**
      * 日志
      */
@@ -140,13 +136,12 @@ public class AllMusic {
      * @param checkList 是否检查正在播放的列表
      * @return 结果
      */
-    public static boolean isOK(String name, String server, boolean checkList) {
+    public static boolean isSkip(String name, String server, boolean checkList) {
         try {
+            name = name.toLowerCase();
             if (server != null && AllMusic.getConfig().muteServer.contains(server))
                 return true;
             if (AllMusic.getConfig().mutePlayer.contains(name))
-                return true;
-            if (AllMusic.isPause(name))
                 return true;
             if (!checkList)
                 return false;
@@ -163,6 +158,7 @@ public class AllMusic {
      * @return 是否存在
      */
     public static boolean containNowPlay(String player) {
+        player = player.toLowerCase();
         return !nowPlayPlayer.contains(player);
     }
 
@@ -199,6 +195,7 @@ public class AllMusic {
      * @param page   结果
      */
     public static void addSearch(String player, SearchPageObj page) {
+        player = player.toLowerCase();
         searchSave.put(player, page);
     }
 
@@ -209,6 +206,7 @@ public class AllMusic {
      * @return 结果
      */
     public static SearchPageObj getSearch(String player) {
+        player = player.toLowerCase();
         return searchSave.get(player);
     }
 
@@ -218,6 +216,7 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void removeSearch(String player) {
+        player = player.toLowerCase();
         searchSave.remove(player);
     }
 
@@ -227,6 +226,7 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void addVote(String player) {
+        player = player.toLowerCase();
         votePlayer.add(player);
     }
 
@@ -236,6 +236,7 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void addPush(String player) {
+        player = player.toLowerCase();
         pushPlayer.add(player);
     }
 
@@ -255,6 +256,9 @@ public class AllMusic {
         votePlayer.clear();
     }
 
+    /**
+     * 清空插歌
+     */
     public static void clearPush() {
         pushPlayer.clear();
     }
@@ -266,10 +270,12 @@ public class AllMusic {
      * @return 结果
      */
     public static boolean containVote(String player) {
+        player = player.toLowerCase();
         return votePlayer.contains(player);
     }
 
     public static boolean containPush(String player) {
+        player = player.toLowerCase();
         return pushPlayer.contains(player);
     }
 
@@ -279,6 +285,7 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void addNowPlayPlayer(String player) {
+        player = player.toLowerCase();
         nowPlayPlayer.add(player);
     }
 
@@ -288,8 +295,8 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void removeNowPlayPlayer(String player) {
+        player = player.toLowerCase();
         nowPlayPlayer.remove(player);
-        pauseSendPlayer.remove(player);
     }
 
     /**
@@ -444,44 +451,24 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void joinPlay(String player) {
+        player = player.toLowerCase();
         if (getConfig().mutePlayer.contains(player) || nowPlayPlayer.contains(player)) {
-            pauseSendPlayer.remove(player);
             return;
         }
 
+        String finalPlayer = player;
         AllMusic.side.runTask(() -> {
             if (PlayMusic.nowPlayMusic != null && PlayGo.url != null) {
-                AllMusic.side.sendHudPos(player);
-                AllMusic.side.sendMusic(player, PlayGo.url);
+                AllMusic.side.sendHudPos(finalPlayer);
+                AllMusic.side.sendMusic(finalPlayer, PlayGo.url);
                 if (!PlayMusic.nowPlayMusic.isUrl()) {
                     AllMusic.side.runTask(() ->
-                            AllMusic.side.sendPic(player, PlayMusic.nowPlayMusic.getPicUrl()), 15);
+                            AllMusic.side.sendPic(finalPlayer, PlayMusic.nowPlayMusic.getPicUrl()), 15);
                 }
                 AllMusic.side.runTask(() ->
-                        AllMusic.side.sendPos(player, PlayMusic.musicNowTime + 1000), 40);
+                        AllMusic.side.sendPos(finalPlayer, PlayMusic.musicNowTime + 1000), 40);
             }
-
-            pauseSendPlayer.remove(player);
         }, 40);
-    }
-
-    /**
-     * 将玩家添加到暂停发送列表
-     *
-     * @param player 玩家名
-     */
-    public static void pauseSend(String player) {
-        pauseSendPlayer.add(player);
-    }
-
-    /**
-     * 暂停发送列表中是否存在玩家
-     *
-     * @param player 玩家名
-     * @return 是否存在
-     */
-    public static boolean isPause(String player) {
-        return pauseSendPlayer.contains(player);
     }
 
     /**

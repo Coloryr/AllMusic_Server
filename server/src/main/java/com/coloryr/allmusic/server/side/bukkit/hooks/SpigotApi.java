@@ -37,7 +37,7 @@ public class SpigotApi {
         endtext.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         send.addExtra(endtext);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName())) {
+            if (!AllMusic.isSkip(player.getName(), null, false)) {
                 player.spigot().sendMessage(send);
             }
         }

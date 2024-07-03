@@ -81,7 +81,7 @@ public class SideBukkit extends BaseSide {
             Object obj1 = pack(ComType.LYRIC, data, 0);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isSkip(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -101,7 +101,7 @@ public class SideBukkit extends BaseSide {
             Object obj1 = pack(ComType.INFO, data, 0);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isSkip(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -121,7 +121,7 @@ public class SideBukkit extends BaseSide {
             Player player = Bukkit.getPlayer(name);
             if (player == null)
                 return;
-            if (AllMusic.isOK(name, null, false))
+            if (AllMusic.isSkip(name, null, false))
                 return;
             SaveObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
@@ -144,7 +144,7 @@ public class SideBukkit extends BaseSide {
             if (player == null)
                 return;
 
-            if (AllMusic.isOK(name, null, true))
+            if (AllMusic.isSkip(name, null, true))
                 return;
             Object obj1 = null;
             switch (pos) {
@@ -176,7 +176,7 @@ public class SideBukkit extends BaseSide {
             Object obj1 = pack(ComType.LIST, data, 0);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isSkip(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -212,7 +212,7 @@ public class SideBukkit extends BaseSide {
         if (AllMusicBukkit.spigotSet) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 try {
-                    if (AllMusic.isOK(player.getName(), null, true))
+                    if (AllMusic.isSkip(player.getName(), null, true))
                         continue;
                     SpigotApi.sendBar(player, data);
                 } catch (Exception e1) {
@@ -231,8 +231,9 @@ public class SideBukkit extends BaseSide {
             Object obj1 = pack(ComType.PLAY, data, 0);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, false))
+                if (AllMusic.isSkip(player.getName(), null, false)) {
                     continue;
+                }
                 send(player, temp);
                 AllMusic.addNowPlayPlayer(player.getName());
             }
@@ -248,8 +249,9 @@ public class SideBukkit extends BaseSide {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player, null, false))
+            if (AllMusic.isSkip(player, null, false)) {
                 return;
+            }
             Object obj1 = pack(ComType.PLAY, data, 0);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
             send(player1, temp);
@@ -265,7 +267,7 @@ public class SideBukkit extends BaseSide {
             Object obj1 = pack(ComType.IMG, data, 0);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (AllMusic.isOK(player.getName(), null, true))
+                if (AllMusic.isSkip(player.getName(), null, true))
                     continue;
                 String name = player.getName();
                 SaveObj obj = HudUtils.get(name);
@@ -285,7 +287,7 @@ public class SideBukkit extends BaseSide {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName(), null, true))
+            if (AllMusic.isSkip(player1.getName(), null, true))
                 return;
             Object obj1 = pack(ComType.IMG, data, 0);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
@@ -302,7 +304,7 @@ public class SideBukkit extends BaseSide {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
                 return;
-            if (AllMusic.isOK(player1.getName(), null, true))
+            if (AllMusic.isSkip(player1.getName(), null, true))
                 return;
             Object obj1 = pack(ComType.POS, null, pos);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
@@ -374,7 +376,7 @@ public class SideBukkit extends BaseSide {
     @Override
     public void topBq(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName())) {
+            if (!AllMusic.isSkip(player.getName(), null, true)) {
                 player.sendMessage(data);
             }
         }
@@ -391,7 +393,7 @@ public class SideBukkit extends BaseSide {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (CitizensNPC.isNPC(player))
                 online--;
-            else if (AllMusic.getConfig().mutePlayer.contains(player.getName())) {
+            else if (AllMusic.isSkip(player.getName(), null, false)) {
                 online--;
             }
         }

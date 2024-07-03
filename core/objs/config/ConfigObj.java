@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.core.objs.config;
 import com.coloryr.allmusic.server.core.AllMusic;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -138,18 +139,21 @@ public class ConfigObj {
         AllMusic.saveConfig();
     }
 
-    public void addBanPlayer(String id) {
-        banPlayer.add(id);
+    public void addBanPlayer(String name) {
+        name = name.toLowerCase(Locale.ROOT);
+        banPlayer.add(name);
         AllMusic.saveConfig();
     }
 
-    public void addNoMusicPlayer(String ID) {
-        mutePlayer.add(ID);
+    public void addNoMusicPlayer(String name) {
+        name = name.toLowerCase(Locale.ROOT);
+        mutePlayer.add(name);
         AllMusic.saveConfig();
     }
 
-    public void removeNoMusicPlayer(String ID) {
-        mutePlayer.remove(ID);
+    public void removeNoMusicPlayer(String name) {
+        name = name.toLowerCase(Locale.ROOT);
+        mutePlayer.remove(name);
         AllMusic.saveConfig();
     }
 
