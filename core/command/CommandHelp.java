@@ -73,6 +73,8 @@ public class CommandHelp extends ACommand {
                     AllMusic.getMessage().click.clickCheck, "/music login ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.code,
                     AllMusic.getMessage().click.clickCheck, "/music code ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.code,
+                    AllMusic.getMessage().click.clickCheck, "/music test ");
         }
     }
 }

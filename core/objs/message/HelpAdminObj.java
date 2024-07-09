@@ -11,6 +11,7 @@ public class HelpAdminObj {
     public String clearList;
     public String login;
     public String code;
+    public String test;
 
     public static HelpAdminObj make() {
         HelpAdminObj obj = new HelpAdminObj();
@@ -38,6 +39,8 @@ public class HelpAdminObj {
             return true;
         if (banPlayer == null)
             return true;
+        if (test == null)
+            return true;
         return login == null;
     }
 
@@ -52,5 +55,6 @@ public class HelpAdminObj {
         clearList = "§d[AllMusic3]§e使用/music clearlist 清空空闲歌单";
         login = "§d[AllMusic3]§e使用/music login [验证码] 登录账户";
         code = "§d[AllMusic3]§e使用/music code [手机号] 获取短信验证码";
+        test = "§d[AllMusic3]§e使用/music test [音乐ID] 测试解析音乐";
     }
 }

@@ -38,6 +38,7 @@ public class CommandEX {
         this.add("clearlist");
         this.add("login");
         this.add("code");
+        this.add("test");
     }};
     /**
      * 搜歌的指令
@@ -72,6 +73,7 @@ public class CommandEX {
         commandAdminList.put("clearlist", new CommandClearList());
         commandAdminList.put("code", new CommandCode());
         commandAdminList.put("login", new CommandLogin());
+        commandAdminList.put("test", new CommandTest());
     }
 
     /**

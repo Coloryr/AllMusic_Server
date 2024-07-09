@@ -57,7 +57,7 @@ public class CommandHud extends ACommand {
         return Collections.emptyList();
     }
 
-    public static class HudEnable extends ACommand {
+    private static class HudEnable extends ACommand {
         private static final List<String> tf = new ArrayList<String>() {{
             this.add("true");
             this.add("false");
@@ -84,7 +84,7 @@ public class CommandHud extends ACommand {
         }
     }
 
-    public static class HudReset extends ACommand {
+    private static class HudReset extends ACommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
             HudUtils.reset(name);

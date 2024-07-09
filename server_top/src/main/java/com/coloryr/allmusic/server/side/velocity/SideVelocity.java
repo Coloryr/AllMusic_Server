@@ -164,7 +164,12 @@ public class SideVelocity extends BaseSide implements IEconomy {
     @Override
     public boolean needPlay() {
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            if (!skip(player)) {
+            String server = null;
+            if (player.getCurrentServer().isPresent()) {
+                server = player.getCurrentServer().get().getServerInfo().getName();
+            }
+
+            if (!AllMusic.isSkip(player.getUsername(), server, false)) {
                 return true;
             }
         }

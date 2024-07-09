@@ -415,7 +415,8 @@ public class SideBC extends BaseSide implements IEconomy {
     @Override
     public boolean needPlay() {
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            if (!skip(player)) {
+            String server = player.getServer() == null ? null : player.getServer().getInfo().getName();
+            if (!AllMusic.isSkip(player.getName(), server, false)) {
                 return true;
             }
         }

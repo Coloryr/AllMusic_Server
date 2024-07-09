@@ -52,7 +52,7 @@ public class CommandHudSet extends AHudCommand {
 
     @Override
     public void ex(Object sender, String name, String[] args) {
-        if (args.length == 1) {
+        if (args.length == 2) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
         } else {
             ICommand command = commandList.get(args[2]);

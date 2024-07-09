@@ -35,7 +35,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.1.5";
+    public static final String version = "3.1.6";
     /**
      * 配置文件版本号
      */
@@ -43,7 +43,7 @@ public class AllMusic {
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "203";
+    public static final String messageVersion = "204";
     /**
      * 搜歌结果
      * 玩家名 结果
