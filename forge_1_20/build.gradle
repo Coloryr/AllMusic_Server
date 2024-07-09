@@ -183,9 +183,11 @@ dependencies {
     implementation "thedarkcolour:kotlinforforge:$kff_version"
 
     jarJar(group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12.0,5.0)')
+    jarJar(group: 'com.squareup.okio', name: 'okio-jvm', version: '[3.9.0,4.0)')
     jarJar(group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46.0.0,4.0)')
 
     implementation(group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12.0,5.0)')
+    implementation(group: 'com.squareup.okio', name: 'okio-jvm', version: '[3.9.0,4.0)')
     implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46.0.0,4.0)')
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
