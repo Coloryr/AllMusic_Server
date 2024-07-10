@@ -47,7 +47,7 @@ public class PluginMessage implements PluginMessageListener {
 
     public static void startUpdate() {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.write(255);
+        out.writeInt(255);
         out.writeUTF("allmusic");
         sendPack(out);
     }
