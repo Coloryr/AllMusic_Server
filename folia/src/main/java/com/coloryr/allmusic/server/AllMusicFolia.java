@@ -50,6 +50,26 @@ public class AllMusicFolia extends JavaPlugin {
             AllMusic.log.info("§2PAPI未挂钩");
         }
 
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null
+                && AllMusic.getConfig().economy.vault) {
+            try {
+                VaultHook vault = new VaultHook();
+                AllMusic.economy = vault;
+                if (vault.setupEconomy()) {
+                    AllMusic.log.info("§2Vault支持已启动");
+                } else {
+                    AllMusic.log.info("§2Vault未挂钩");
+                    AllMusic.economy = null;
+                }
+            } catch (Exception e) {
+                AllMusic.log.info("§2Vault未挂钩");
+                AllMusic.economy = null;
+            }
+        } else {
+            AllMusic.log.info("§2Vault未挂钩");
+            AllMusic.economy = null;
+        }
+
         if (AllMusic.getConfig().topPAPI) {
             PlayMusic.nowPlayMusic = new TopSongInfoObj();
             PlayMusic.lyric = new TopLyricSave();
@@ -58,26 +78,6 @@ public class AllMusicFolia extends JavaPlugin {
             getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);
             AllMusic.log.info("§2设置为顶层模式");
         } else {
-            if (Bukkit.getPluginManager().getPlugin("Vault") != null
-                    && AllMusic.getConfig().economy.vault) {
-                try {
-                    VaultHook vault = new VaultHook();
-                    AllMusic.economy = vault;
-                    if (vault.setupEconomy()) {
-                        AllMusic.log.info("§2Vault支持已启动");
-                    } else {
-                        AllMusic.log.info("§2Vault未挂钩");
-                        AllMusic.economy = null;
-                    }
-                } catch (Exception e) {
-                    AllMusic.log.info("§2Vault未挂钩");
-                    AllMusic.economy = null;
-                }
-            } else {
-                AllMusic.log.info("§2Vault未挂钩");
-                AllMusic.economy = null;
-            }
-
             CommandFolia command = new CommandFolia();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);
             PluginCommand command1 = Bukkit.getPluginCommand("music");

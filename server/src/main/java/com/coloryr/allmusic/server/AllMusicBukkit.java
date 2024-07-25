@@ -35,6 +35,12 @@ public class AllMusicBukkit extends JavaPlugin {
             AllMusic.log.info("§2Spigot不支持");
         }
 
+        new AllMusic().init(plugin.getDataFolder());
+        if (!AllMusic.isRun) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
         if (Bukkit.getPluginManager().getPlugin("Vault") != null
                 && AllMusic.getConfig().economy.vault) {
             try {
@@ -53,12 +59,6 @@ public class AllMusicBukkit extends JavaPlugin {
         } else {
             AllMusic.log.info("§2Vault未挂钩");
             AllMusic.economy = null;
-        }
-
-        new AllMusic().init(plugin.getDataFolder());
-        if (!AllMusic.isRun) {
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
         }
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {

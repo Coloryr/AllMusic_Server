@@ -40,12 +40,15 @@ public class AllMusicVelocity {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         plugin = this;
         AllMusic.log = new LogVelocity(logger);
+        AllMusic.side = new SideVelocity();
+
         new AllMusic().init(dataDirectory.toFile());
+
         CommandMeta meta = server.getCommandManager().metaBuilder("music")
                 .build();
         channel = () -> AllMusic.channel;
         channelBC = MinecraftChannelIdentifier.from(AllMusic.channelBC);
-        AllMusic.side = new SideVelocity();
+
         server.getChannelRegistrar().register(channelBC);
         server.getCommandManager().register(meta, new CommandVelocity());
         server.getEventManager().register(this, new ListenerVelocity());
