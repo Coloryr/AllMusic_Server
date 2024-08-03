@@ -8,6 +8,7 @@ import com.coloryr.allmusic.server.core.objs.CookieObj;
 import com.coloryr.allmusic.server.core.objs.config.ConfigObj;
 import com.coloryr.allmusic.server.core.objs.message.MessageObj;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
+import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.side.IMyLogger;
 import com.coloryr.allmusic.server.core.sql.DataSql;
@@ -35,7 +36,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.1.6";
+    public static final String version = "3.1.9";
     /**
      * 配置文件版本号
      */
@@ -458,15 +459,14 @@ public class AllMusic {
 
         String finalPlayer = player;
         AllMusic.side.runTask(() -> {
-            if (PlayMusic.nowPlayMusic != null && PlayGo.url != null) {
+            SongInfoObj music = PlayMusic.nowPlayMusic;
+            if (music != null && PlayGo.url != null) {
                 AllMusic.side.sendHudPos(finalPlayer);
                 AllMusic.side.sendMusic(finalPlayer, PlayGo.url);
-                if (!PlayMusic.nowPlayMusic.isUrl()) {
-                    AllMusic.side.runTask(() ->
-                            AllMusic.side.sendPic(finalPlayer, PlayMusic.nowPlayMusic.getPicUrl()), 15);
+                if (!music.isUrl()) {
+                    AllMusic.side.sendPic(finalPlayer, music.getPicUrl());
                 }
-                AllMusic.side.runTask(() ->
-                        AllMusic.side.sendPos(finalPlayer, PlayMusic.musicNowTime + 1000), 40);
+                AllMusic.side.sendPos(finalPlayer, PlayMusic.musicNowTime);
             }
         }, 40);
     }
