@@ -191,17 +191,7 @@ public abstract class BaseSide {
      *
      * @param data 消息
      */
-    public final void bq(String data) {
-        LimitObj limit = AllMusic.getConfig().limit;
-        if (limit.messageLimit
-                && data.length() > limit.messageLimitSize) {
-            data = data.substring(0, limit.messageLimitSize - 1) + limit.limitText;
-        }
-
-        topBq(data);
-    }
-
-    protected abstract void topBq(String data);
+    public abstract void bq(String data);
 
     /**
      * 广播点击消息
@@ -218,14 +208,7 @@ public abstract class BaseSide {
      * @param data 消息
      */
     public final void bqTask(String data) {
-        LimitObj limit = AllMusic.getConfig().limit;
-        if (limit.messageLimit
-                && data.length() > limit.messageLimitSize) {
-            data = data.substring(0, limit.messageLimitSize - 1) + limit.limitText;
-        }
-
-        String finalData = data;
-        runTask(() -> bq(finalData));
+        runTask(() -> bq(data));
     }
 
     /**

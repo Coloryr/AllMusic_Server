@@ -25,7 +25,7 @@ public class ListMusicObj {
     public void init() {
         head = "§d[AllMusic3]§e队列中有歌曲数：" + PAL.count;
         item = "§e" + PAL.index + "->" + PAL.musicName + " | " + PAL.musicAuthor
-                + " | " + PAL.musicAl + " | " + PAL.musicAlia;
+                + " | " + PAL.musicAl + " | " + PAL.musicAlia + " | by: " + PAL.player;
         get = "§d[AllMusic3]§e歌曲列表" + PAL.name + "获取成功";
     }
 }

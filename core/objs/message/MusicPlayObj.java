@@ -66,7 +66,7 @@ public class MusicPlayObj {
         mute = "§d[AllMusic3]§e你不会再收到点歌了！想要再次参与点歌就点一首歌吧！";
         switchMusic = "§d[AllMusic3]§e切换到玩家歌曲";
         addMusic = "§d[AllMusic3]§e音乐列表添加" + PAL.musicName + " | " + PAL.musicAuthor
-                + " | " + PAL.musicAl + " | " + PAL.musicAlia;
+                + " | " + PAL.musicAl + " | " + PAL.musicAlia + " | by: " + PAL.player;
         checkMusic = "§d[AllMusic3]§e正在解析歌曲" + PAL.musicId;
         musicInfo = PAL.musicName + " | " + PAL.musicAuthor + " | " + PAL.musicAl
                 + " | " + PAL.musicAlia + " | by: " + PAL.player;

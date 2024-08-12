@@ -17,6 +17,7 @@ import com.coloryr.allmusic.server.core.objs.enums.EncryptType;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Logs;
 import com.google.gson.JsonObject;
 import okhttp3.Cookie;
@@ -224,6 +225,7 @@ public class APIMain {
                 try {
                     isUpdate = true;
                     DataObj obj = AllMusic.gson.fromJson(res.data, DataObj.class);
+                    DataSql.addIdleList(obj.getPlaylist());
                     PlayMusic.addIdleList(obj.getPlaylist());
                     AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().musicPlay.listMusic.get.replace(PAL.name, obj.getName()));
                 } catch (Exception e) {

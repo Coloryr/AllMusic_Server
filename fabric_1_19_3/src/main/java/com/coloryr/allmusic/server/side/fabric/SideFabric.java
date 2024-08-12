@@ -338,7 +338,7 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void topBq(String data) {
+    public void bq(String data) {
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendMessage(Text.of(data), false);

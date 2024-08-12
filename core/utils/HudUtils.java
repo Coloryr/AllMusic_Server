@@ -99,13 +99,16 @@ public class HudUtils {
         } else {
             String now;
             StringBuilder list = new StringBuilder();
-            LimitObj limit = AllMusic.getConfig().limit;
             for (SongInfoObj info1 : PlayMusic.getList()) {
                 if (info1 == null)
                     continue;
-                now = info1.getInfo();
-                if (limit.listLimit && now.length() > limit.listLimitSize)
-                    now = now.substring(0, limit.listLimitSize - 1) + limit.limitText;
+                now = AllMusic.getMessage().musicPlay.musicInfo
+                        .replace(PAL.musicName, listLimit(info1.getName()))
+                        .replace(PAL.musicAuthor, listLimit(info1.getAuthor()))
+                        .replace(PAL.musicAl, listLimit(info1.getAl()))
+                        .replace(PAL.musicAlia, listLimit(info1.getAlia()))
+                        .replace(PAL.player, info1.getCall());
+
                 list.append(now).append("\n");
             }
             info = AllMusic.getMessage().hud.list
@@ -137,18 +140,14 @@ public class HudUtils {
             info = AllMusic.getMessage().hud.emptyMusic;
         } else {
             info = AllMusic.getMessage().hud.music
-                    .replace(PAL.name, PlayMusic.nowPlayMusic.getName())
+                    .replace(PAL.name, infoLimit(PlayMusic.nowPlayMusic.getName()))
                     .replace(PAL.allTime, tranTime(PlayMusic.musicAllTime))
                     .replace(PAL.nowTime, tranTime(PlayMusic.musicNowTime / 1000))
-                    .replace(PAL.musicAuthor, PlayMusic.nowPlayMusic.getAuthor())
-                    .replace(PAL.musicAlia, PlayMusic.nowPlayMusic.getAlia())
-                    .replace(PAL.musicAl, PlayMusic.nowPlayMusic.getAl())
+                    .replace(PAL.musicAuthor, infoLimit(PlayMusic.nowPlayMusic.getAuthor()))
+                    .replace(PAL.musicAlia, infoLimit(PlayMusic.nowPlayMusic.getAlia()))
+                    .replace(PAL.musicAl, infoLimit(PlayMusic.nowPlayMusic.getAl()))
                     .replace(PAL.player, PlayMusic.nowPlayMusic.getCall());
         }
-
-        LimitObj limit = AllMusic.getConfig().limit;
-        if (limit.messageLimit && info.length() > limit.messageLimitSize)
-            info = info.substring(0, limit.messageLimitSize - 1) + limit.limitText;
 
         AllMusic.side.sendHudInfo(info);
     }
@@ -508,5 +507,29 @@ public class HudUtils {
     public static void set(String name, SaveObj obj) {
         addAndSave(name, obj);
         HudUtils.sendHudPos(name);
+    }
+
+    public static String infoLimit(String info) {
+        LimitObj limit = AllMusic.getConfig().limit;
+        if (limit.infoLimit && info.length() > limit.infoLimitSize)
+            info = info.substring(0, limit.infoLimitSize - 1) + limit.limitText;
+
+        return info;
+    }
+
+    public static String listLimit(String list) {
+        LimitObj limit = AllMusic.getConfig().limit;
+        if (limit.listLimit && list.length() > limit.listLimitSize)
+            list = list.substring(0, limit.listLimitSize - 1) + limit.limitText;
+
+        return list;
+    }
+
+    public static String messageLimit(String message) {
+        LimitObj limit = AllMusic.getConfig().limit;
+        if (limit.messageLimit && message.length() > limit.messageLimitSize)
+            message = message.substring(0, limit.messageLimitSize - 1) + limit.limitText;
+
+        return message;
     }
 }

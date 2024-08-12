@@ -12,11 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class PlayGo {
-    /**
-     * 播放链接
-     */
-    public static String url;
+public class PlayRuntime {
     /**
      * 倒数计数器
      */
@@ -44,12 +40,12 @@ public class PlayGo {
      * 启动歌曲工作
      */
     public static void start() {
-        Thread taskT = new Thread(PlayGo::task, "AllMusic_Play");
+        Thread taskT = new Thread(PlayRuntime::task, "AllMusicPlay");
         isRun = true;
         taskT.start();
 
         service2 = Executors.newSingleThreadScheduledExecutor();
-        service2.scheduleAtFixedRate(PlayGo::time3, 0, 1, TimeUnit.SECONDS);
+        service2.scheduleAtFixedRate(PlayRuntime::time3, 0, 1, TimeUnit.SECONDS);
     }
 
     /**
@@ -78,10 +74,10 @@ public class PlayGo {
 
     private static void startTimer() {
         service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(PlayGo::time1, 0, 10, TimeUnit.MILLISECONDS);
+        service.scheduleAtFixedRate(PlayRuntime::time1, 0, 10, TimeUnit.MILLISECONDS);
         if (PlayMusic.lyric != null && PlayMusic.lyric.isHaveLyric()) {
             service1 = Executors.newSingleThreadScheduledExecutor();
-            service1.scheduleAtFixedRate(PlayGo::time2, 0, 2, TimeUnit.MILLISECONDS);
+            service1.scheduleAtFixedRate(PlayRuntime::time2, 0, 2, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -97,6 +93,9 @@ public class PlayGo {
         PlayMusic.nowPlayMusic = null;
         AllMusic.side.updateInfo();
         HudUtils.clearHud();
+        HudUtils.sendHudNowData();
+        HudUtils.sendHudLyricData();
+        HudUtils.sendHudListData();
     }
 
     /**
@@ -222,23 +221,19 @@ public class PlayGo {
                 if (PlayMusic.getListSize() == 0) {
                     if (PlayMusic.error >= 10) {
                         Thread.sleep(1000);
-                    } else {
-                        HudUtils.sendHudNowData();
-                        HudUtils.sendHudLyricData();
-                        HudUtils.sendHudListData();
+                    } else if (PlayMusic.getIdleListSize() > 0) {
                         if (AllMusic.side.needPlay()) {
-                            String ID = PlayMusic.getIdleMusic();
-                            if (ID != null) {
-                                PlayMusic.addMusic(null, ID, AllMusic.getMessage().custom.idle, true);
+                            String id = PlayMusic.getIdleMusic();
+                            if (id != null) {
+                                PlayMusic.addMusic(null, id, AllMusic.getMessage().custom.idle, true);
                             }
                         }
                     }
-                    Thread.sleep(50);
+                    Thread.sleep(1000);
                 } else {
                     HudUtils.sendHudNowData();
                     HudUtils.sendHudLyricData();
                     HudUtils.sendHudListData();
-
                     AllMusic.side.sendHudUtilsAll();
                     PlayMusic.nowPlayMusic = PlayMusic.remove(0);
                     if (AllMusic.side.onMusicPlay(PlayMusic.nowPlayMusic)) {
@@ -246,10 +241,10 @@ public class PlayGo {
                         continue;
                     }
 
-                    url = PlayMusic.nowPlayMusic.getPlayerUrl() == null ?
+                    PlayMusic.url = PlayMusic.nowPlayMusic.getPlayerUrl() == null ?
                             AllMusic.getMusicApi().getPlayUrl(PlayMusic.nowPlayMusic.getID()) :
                             PlayMusic.nowPlayMusic.getPlayerUrl();
-                    if (url == null) {
+                    if (PlayMusic.url == null) {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
                         AllMusic.side.bqTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
                         PlayMusic.nowPlayMusic = null;
@@ -264,13 +259,26 @@ public class PlayGo {
                     if (PlayMusic.nowPlayMusic.getLength() != 0) {
                         PlayMusic.musicAllTime = PlayMusic.musicLessTime = (PlayMusic.nowPlayMusic.getLength() / 1000) + 3;
                         startTimer();
-                        AllMusic.side.sendMusic(url);
+                        AllMusic.side.sendMusic(PlayMusic.url);
                         if (!AllMusic.getConfig().mutePlayMessage) {
-                            String info = getInfo();
-                            if (AllMusic.getConfig().showInBar)
+                            SongInfoObj music = PlayMusic.nowPlayMusic;
+                            if (AllMusic.getConfig().showInBar) {
+                                String info = AllMusic.getMessage().musicPlay.nowPlay
+                                        .replace(PAL.musicName, HudUtils.messageLimit(music.getName()))
+                                        .replace(PAL.musicAuthor, HudUtils.messageLimit(music.getAuthor()))
+                                        .replace(PAL.musicAl, HudUtils.messageLimit(music.getAl()))
+                                        .replace(PAL.musicAlia, HudUtils.messageLimit(music.getAlia()))
+                                        .replace(PAL.player, music.getCall());
                                 AllMusic.side.sendBar(info);
-                            else
+                            } else {
+                                String info = AllMusic.getMessage().musicPlay.nowPlay
+                                        .replace(PAL.musicName, music.getName())
+                                        .replace(PAL.musicAuthor, music.getAuthor())
+                                        .replace(PAL.musicAl, music.getAl())
+                                        .replace(PAL.musicAlia, music.getAlia())
+                                        .replace(PAL.player, music.getCall());
                                 AllMusic.side.bqTask(info);
+                            }
                         }
                         if (!PlayMusic.nowPlayMusic.isUrl() && PlayMusic.nowPlayMusic.getPicUrl() != null) {
                             AllMusic.side.sendPic(PlayMusic.nowPlayMusic.getPicUrl());
@@ -303,20 +311,5 @@ public class PlayGo {
                 e.printStackTrace();
             }
         }
-    }
-
-    private static @NotNull String getInfo() {
-        String info = AllMusic.getMessage().musicPlay.nowPlay
-                .replace(PAL.musicName, PlayMusic.nowPlayMusic.getName())
-                .replace(PAL.musicAuthor, PlayMusic.nowPlayMusic.getAuthor())
-                .replace(PAL.musicAl, PlayMusic.nowPlayMusic.getAl())
-                .replace(PAL.musicAlia, PlayMusic.nowPlayMusic.getAlia())
-                .replace(PAL.player, PlayMusic.nowPlayMusic.getCall());
-        LimitObj limit = AllMusic.getConfig().limit;
-        if (limit.messageLimit
-                && info.length() > limit.messageLimitSize) {
-            info = info.substring(0, limit.messageLimitSize) + limit.limitText;
-        }
-        return info;
     }
 }

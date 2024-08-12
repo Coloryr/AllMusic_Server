@@ -136,7 +136,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void topBq(String data) {
+    public void bq(String data) {
         Component message = Component.text(data);
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             if (skip(player)) {

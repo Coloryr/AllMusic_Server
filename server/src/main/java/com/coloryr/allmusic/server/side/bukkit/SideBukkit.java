@@ -374,7 +374,7 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public void topBq(String data) {
+    public void bq(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.isSkip(player.getName(), null, false)) {
                 player.sendMessage(data);

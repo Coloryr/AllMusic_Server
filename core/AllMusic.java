@@ -2,8 +2,8 @@ package com.coloryr.allmusic.server.core;
 
 import com.coloryr.allmusic.server.core.music.api.APIMain;
 import com.coloryr.allmusic.server.core.music.play.MusicSearch;
-import com.coloryr.allmusic.server.core.music.play.PlayGo;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.music.play.PlayRuntime;
 import com.coloryr.allmusic.server.core.objs.CookieObj;
 import com.coloryr.allmusic.server.core.objs.config.ConfigObj;
 import com.coloryr.allmusic.server.core.objs.message.MessageObj;
@@ -36,15 +36,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.1.9";
+    public static final String version = "3.2.0";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "202";
+    public static final String configVersion = "203";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "204";
+    public static final String messageVersion = "205";
     /**
      * 搜歌结果
      * 玩家名 结果
@@ -363,7 +363,7 @@ public class AllMusic {
     public static void start() {
         AllMusic.apiMusic = new APIMain();
         PlayMusic.start();
-        PlayGo.start();
+        PlayRuntime.start();
         MusicSearch.start();
         DataSql.start();
 
@@ -380,7 +380,7 @@ public class AllMusic {
             side.sendStop();
             MusicSearch.stop();
             PlayMusic.stop();
-            PlayGo.stop();
+            PlayRuntime.stop();
             DataSql.stop();
         } catch (IOException e) {
             e.printStackTrace();
@@ -460,9 +460,9 @@ public class AllMusic {
         String finalPlayer = player;
         AllMusic.side.runTask(() -> {
             SongInfoObj music = PlayMusic.nowPlayMusic;
-            if (music != null && PlayGo.url != null) {
+            if (music != null && PlayMusic.url != null) {
                 AllMusic.side.sendHudPos(finalPlayer);
-                AllMusic.side.sendMusic(finalPlayer, PlayGo.url);
+                AllMusic.side.sendMusic(finalPlayer, PlayMusic.url);
                 if (!music.isUrl()) {
                     AllMusic.side.sendPic(finalPlayer, music.getPicUrl());
                 }

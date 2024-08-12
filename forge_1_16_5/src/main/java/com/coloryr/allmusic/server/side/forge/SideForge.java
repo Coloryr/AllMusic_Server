@@ -340,7 +340,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void topBq(String data) {
+    public void bq(String data) {
         for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendMessage(new StringTextComponent(data), UUID.randomUUID());

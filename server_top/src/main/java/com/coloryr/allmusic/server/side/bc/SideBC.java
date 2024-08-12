@@ -390,7 +390,7 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void topBq(String data) {
+    public void bq(String data) {
         TextComponent message = new TextComponent(data);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             if (skip(player))

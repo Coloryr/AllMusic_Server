@@ -349,7 +349,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void topBq(String data) {
+    public void bq(String data) {
         for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
             if (!AllMusic.isSkip(player.getCommandSenderName(), null, false)) {

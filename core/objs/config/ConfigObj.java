@@ -67,6 +67,10 @@ public class ConfigObj {
      */
     public boolean playListRandom;
     /**
+     * 多少首歌不重复
+     */
+    public int playListEscapeDeep;
+    /**
      * 显示歌词
      */
     public boolean sendLyric;
@@ -87,7 +91,7 @@ public class ConfigObj {
      */
     public boolean muteAddMessage;
     /**
-     * 将信息限制在bar处
+     * 将信息显示在bar处
      */
     public boolean showInBar;
     /**
@@ -217,6 +221,7 @@ public class ConfigObj {
         banPlayer = new HashSet<>();
         playListSwitch = true;
         playListRandom = true;
+        playListEscapeDeep = 40;
         sendLyric = true;
         needPermission = false;
         defaultHud = SaveObj.make();

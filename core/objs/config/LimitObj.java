@@ -41,13 +41,13 @@ public class LimitObj {
     public static LimitObj make() {
         LimitObj obj = new LimitObj();
         obj.musicTimeLimit = true;
-        obj.infoLimit = true;
-        obj.infoLimitSize = 80;
-        obj.listLimit = false;
-        obj.listLimitSize = 60;
         obj.maxMusicTime = 600;
+        obj.infoLimit = true;
+        obj.infoLimitSize = 10;
+        obj.listLimit = false;
+        obj.listLimitSize = 10;
         obj.messageLimit = false;
-        obj.messageLimitSize = 40;
+        obj.messageLimitSize = 20;
         obj.limitText = "...";
         return obj;
     }
