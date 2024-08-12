@@ -42,13 +42,12 @@
 ## 使用方法
 1. 安装AllMusic_Server
 
-Bukkit/Folia类服务器
-复制`[bukkit_spigot_paper]AllMusic_Server-xxx-all.jar`到你的`plugins`文件夹
-重启服务器
-Bungeecord/Velocity类服务器
-复制`[bungeecord_velocity]AllMusic_Server-xxx-all.jar`到你的`plugins`文件夹
-Forge/Fabric/NeoForge类服务器
-复制`[xxx-xxx]AllMusic_Server-xxx-all.jar`到你的`mods`文件夹
+Bukkit/Folia类服务器  
+复制`[bukkit_spigot_paper]AllMusic_Server-xxx-all.jar`到你的`plugins`文件夹  
+Bungeecord/Velocity类服务器  
+复制`[bungeecord_velocity]AllMusic_Server-xxx-all.jar`到你的`plugins`文件夹  
+Forge/Fabric/NeoForge类服务器  
+复制`[xxx-xxx]AllMusic_Server-xxx-all.jar`到你的`mods`文件夹  
 
 2. 安装[客户端mod](https://github.com/Coloryr/AllMusic_Client)  
 复制`[xxx-xxx]AllMusic_Client-3.0.0`到客户端的`mods`文件夹
