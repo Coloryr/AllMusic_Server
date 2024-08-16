@@ -36,7 +36,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.2.0";
+    public static final String version = "3.2.1";
     /**
      * 配置文件版本号
      */
@@ -50,14 +50,6 @@ public class AllMusic {
      * 玩家名 结果
      */
     private static final Map<String, SearchPageObj> searchSave = new HashMap<>();
-    /**
-     * 切歌投票的玩家
-     */
-    private static final Set<String> votePlayer = new HashSet<>();
-    /**
-     * 插歌投票的玩家
-     */
-    private static final Set<String> pushPlayer = new HashSet<>();
     /**
      * 正在播放的玩家
      */
@@ -222,65 +214,6 @@ public class AllMusic {
     }
 
     /**
-     * 添加投票的玩家
-     *
-     * @param player 用户名
-     */
-    public static void addVote(String player) {
-        player = player.toLowerCase();
-        votePlayer.add(player);
-    }
-
-    /**
-     * 添加投票的玩家
-     *
-     * @param player 用户名
-     */
-    public static void addPush(String player) {
-        player = player.toLowerCase();
-        pushPlayer.add(player);
-    }
-
-    /**
-     * 获取投票数量
-     *
-     * @return 数量
-     */
-    public static int getVoteCount() {
-        return votePlayer.size();
-    }
-
-    /**
-     * 清空投票
-     */
-    public static void clearVote() {
-        votePlayer.clear();
-    }
-
-    /**
-     * 清空插歌
-     */
-    public static void clearPush() {
-        pushPlayer.clear();
-    }
-
-    /**
-     * 是否已经投票了
-     *
-     * @param player 用户名
-     * @return 结果
-     */
-    public static boolean containVote(String player) {
-        player = player.toLowerCase();
-        return votePlayer.contains(player);
-    }
-
-    public static boolean containPush(String player) {
-        player = player.toLowerCase();
-        return pushPlayer.contains(player);
-    }
-
-    /**
      * 添加正在播放的玩家
      *
      * @param player 用户名
@@ -375,7 +308,8 @@ public class AllMusic {
      */
     public static void stop() {
         try {
-            clearVote();
+            PlayMusic.clearVote();
+            PlayMusic.clearPush();
             Logs.stop();
             side.sendStop();
             MusicSearch.stop();

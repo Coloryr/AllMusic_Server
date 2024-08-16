@@ -13,19 +13,19 @@ public class CommandVote extends ACommand {
             return;
         } else if (PlayMusic.getListSize() == 0 && PlayMusic.getIdleListSize() == 0) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.emptyPlay);
+        } else if (PlayMusic.nowPlayMusic == null) {
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.emptyPlayingMusic);
         } else if (args.length == 2) {
             if (args[1].equalsIgnoreCase("cancel")) {
-                if (!PlayMusic.voteSender.equalsIgnoreCase(name)) {
+                if (!name.equalsIgnoreCase(PlayMusic.getVoteSender())) {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.err1);
                     return;
-                } else if (PlayMusic.voteTime <= 0) {
+                } else if (PlayMusic.getVoteTime() <= 0) {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.err2);
                     return;
                 }
                 AllMusic.side.bq(AllMusic.getMessage().vote.cancel);
-                PlayMusic.voteTime = -1;
-                AllMusic.clearVote();
-                PlayMusic.voteSender = null;
+                PlayMusic.clearVote();
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             }
@@ -33,21 +33,20 @@ public class CommandVote extends ACommand {
         } else if (args.length > 2) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             return;
-        } else if (PlayMusic.voteTime <= 0) {
-            PlayMusic.voteTime = AllMusic.getConfig().voteTime;
-            AllMusic.addVote(name);
+        } else if (PlayMusic.getVoteTime() <= 0) {
+            PlayMusic.startVote(name);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.doVote);
             String data = AllMusic.getMessage().vote.bq;
             AllMusic.side.bq(data.replace(PAL.player, name)
                     .replace(PAL.time, String.valueOf(AllMusic.getConfig().voteTime)));
             AllMusic.side.bqRun(AllMusic.getMessage().vote.bq1, AllMusic.getMessage().vote.bq2, "/music vote");
         } else {
-            if (!AllMusic.containVote(name)) {
-                AllMusic.addVote(name);
+            if (!PlayMusic.containVote(name)) {
+                PlayMusic.addVote(name);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.agree);
                 String data = AllMusic.getMessage().vote.bqAgree;
                 data = data.replace(PAL.player, name)
-                        .replace(PAL.count, "" + AllMusic.getVoteCount());
+                        .replace(PAL.count, String.valueOf(PlayMusic.getVoteCount()));
                 AllMusic.side.bq(data);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.arAgree);

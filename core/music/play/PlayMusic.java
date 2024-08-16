@@ -28,12 +28,33 @@ public class PlayMusic {
     private static final List<String> playIdleList = new ArrayList<>();
     private static final Queue<String> deep = new PriorityQueue<>();
     /**
-     * 投票时间
+     * 切歌投票时间
      */
-    public static int voteTime = 0;
-    public static String voteSender;
-    public static int pushTime = 0;
-    public static String pushSender;
+    private static int voteTime = 0;
+    /**
+     * 切歌发起人
+     */
+    private static String voteSender;
+    /**
+     * 切歌投票的玩家
+     */
+    private static final Set<String> votePlayer = new HashSet<>();
+    /**
+     * 插歌投票时间
+     */
+    private static int pushTime = 0;
+    /**
+     * 插歌发起人
+     */
+    private static String pushSender;
+    /**
+     * 插歌投票的玩家
+     */
+    private static final Set<String> pushPlayer = new HashSet<>();
+    /**
+     * 插歌目标
+     */
+    private static SongInfoObj push;
     /**
      * 总歌曲长度
      */
@@ -62,7 +83,6 @@ public class PlayMusic {
      * 错误次数
      */
     public static int error;
-    public static SongInfoObj push;
     private static boolean isRun;
     private static int idleNow;
 
@@ -82,6 +102,113 @@ public class PlayMusic {
         isRun = true;
         addT.start();
     }
+
+    /**
+     * 添加投票的玩家
+     *
+     * @param player 用户名
+     */
+    public static void addVote(String player) {
+        player = player.toLowerCase();
+        votePlayer.add(player);
+    }
+
+    public static void startVote(String player) {
+        voteTime = AllMusic.getConfig().voteTime;
+        player = player.toLowerCase();
+        voteSender = player;
+        votePlayer.add(player);
+    }
+
+    /**
+     * 添加投票的玩家
+     *
+     * @param player 用户名
+     */
+    public static void addPush(String player) {
+        player = player.toLowerCase();
+        pushPlayer.add(player);
+    }
+
+    public static void startPush(String player, SongInfoObj music) {
+        player = player.toLowerCase();
+        push = music;
+        pushSender = player;
+        pushPlayer.add(player);
+        pushTime = AllMusic.getConfig().voteTime;
+    }
+
+    public static void pushTick() {
+        pushTime--;
+    }
+
+    public static void voteTick() {
+        voteTime--;
+    }
+
+    public static SongInfoObj getPush() {
+        return push;
+    }
+
+    public static int getPushTime() {
+        return pushTime;
+    }
+
+    public static String getPushSender() {
+        return pushSender;
+    }
+
+    public static int getVoteTime() {
+        return voteTime;
+    }
+
+    public static String getVoteSender() {
+        return voteSender;
+    }
+
+    /**
+     * 获取投票数量
+     *
+     * @return 数量
+     */
+    public static int getVoteCount() {
+        return votePlayer.size();
+    }
+
+    /**
+     * 清空投票
+     */
+    public static void clearVote() {
+        voteTime = -1;
+        voteSender = null;
+        votePlayer.clear();
+    }
+
+    /**
+     * 清空插歌
+     */
+    public static void clearPush() {
+        pushTime = -1;
+        push = null;
+        pushSender = null;
+        pushPlayer.clear();
+    }
+
+    /**
+     * 是否已经投票了
+     *
+     * @param player 用户名
+     * @return 结果
+     */
+    public static boolean containVote(String player) {
+        player = player.toLowerCase();
+        return votePlayer.contains(player);
+    }
+
+    public static boolean containPush(String player) {
+        player = player.toLowerCase();
+        return pushPlayer.contains(player);
+    };
 
     /**
      * 添加点歌任务
@@ -180,10 +307,9 @@ public class PlayMusic {
 
     /**
      * 将歌曲移动到队列头
-     *
-     * @param obj
      */
-    public static void pushMusic(SongInfoObj obj) {
+    public static void pushMusic() {
+        SongInfoObj obj = push;
         synchronized (playList) {
             playList.remove(obj);
             playList.add(0, obj);

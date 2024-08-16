@@ -137,11 +137,9 @@ public class PlayRuntime {
     }
 
     private static boolean checkPush() {
-        if (PlayMusic.push != null) {
-            SongInfoObj push = PlayMusic.push;
-            if (PlayMusic.nowPlayMusic.getID().equalsIgnoreCase(push.getID())) {
-                PlayMusic.voteTime = 0;
-                AllMusic.side.bqTask(AllMusic.getMessage().push.cancel);
+        SongInfoObj music = PlayMusic.getPush();
+        if (music != null) {
+            if (PlayMusic.nowPlayMusic.getID().equalsIgnoreCase(music.getID())) {
                 return false;
             }
             List<SongInfoObj> list = PlayMusic.getList();
@@ -149,12 +147,12 @@ public class PlayRuntime {
                 return false;
             }
             SongInfoObj id1 = list.get(0);
-            if (id1 != null && id1.getID().equalsIgnoreCase(push.getID())) {
+            if (id1 != null && id1.getID().equalsIgnoreCase(music.getID())) {
                 return false;
             }
             for (int a = 1; a < list.size(); a++) {
                 id1 = list.get(a);
-                if (id1.getID().equalsIgnoreCase(push.getID()))
+                if (id1.getID().equalsIgnoreCase(music.getID()))
                     return true;
             }
         }
@@ -170,46 +168,40 @@ public class PlayRuntime {
         if (ping >= 10) {
             AllMusic.side.ping();
         }
-        if (PlayMusic.pushTime > 0) {
+        if (PlayMusic.getPushTime() > 0) {
             if (!checkPush()) {
-                PlayMusic.push = null;
-                PlayMusic.pushTime = 0;
+                PlayMusic.clearPush();
                 AllMusic.side.bqTask(AllMusic.getMessage().push.cancel);
             } else {
-                PlayMusic.pushTime--;
-                if (PlayMusic.pushTime == 0) {
-                    PlayMusic.push = null;
-                    AllMusic.clearPush();
+                PlayMusic.pushTick();
+                if (PlayMusic.getPushTime() == 0) {
+                    PlayMusic.clearPush();
                     AllMusic.side.bqTask(AllMusic.getMessage().push.timeOut);
                 } else {
                     int players = AllMusic.side.getPlayerSize();
-                    if (AllMusic.getVoteCount() >= AllMusic.getConfig().minVote
+                    if (PlayMusic.getVoteCount() >= AllMusic.getConfig().minVote
                             || (players <= AllMusic.getConfig().minVote
-                            && players <= AllMusic.getVoteCount())) {
-                        SongInfoObj info = PlayMusic.push;
-                        PlayMusic.push = null;
-                        PlayMusic.pushMusic(info);
+                            && players <= PlayMusic.getVoteCount())) {
+                        PlayMusic.pushMusic();
+                        PlayMusic.clearPush();
                         AllMusic.side.bqTask(AllMusic.getMessage().push.doPush);
-                        AllMusic.clearPush();
-                        PlayMusic.pushTime = 0;
                     }
                 }
             }
         }
-        if (PlayMusic.voteTime > 0) {
-            PlayMusic.voteTime--;
-            if (PlayMusic.voteTime == 0) {
-                AllMusic.clearPush();
+        if (PlayMusic.getVoteTime() > 0) {
+            PlayMusic.voteTick();
+            if (PlayMusic.getVoteTime() == 0) {
+                PlayMusic.clearVote();
                 AllMusic.side.bqTask(AllMusic.getMessage().vote.timeOut);
             } else {
                 int players = AllMusic.side.getPlayerSize();
-                if (AllMusic.getVoteCount() >= AllMusic.getConfig().minVote
+                if (PlayMusic.getVoteCount() >= AllMusic.getConfig().minVote
                         || (players <= AllMusic.getConfig().minVote
-                        && players <= AllMusic.getVoteCount())) {
-                    AllMusic.side.bqTask(AllMusic.getMessage().vote.voteDone);
-                    AllMusic.clearVote();
+                        && players <= PlayMusic.getVoteCount())) {
+                    PlayMusic.clearVote();
                     PlayMusic.musicLessTime = 0;
-                    PlayMusic.voteTime = 0;
+                    AllMusic.side.bqTask(AllMusic.getMessage().vote.voteDone);
                 }
             }
         }
