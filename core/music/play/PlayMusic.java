@@ -114,10 +114,10 @@ public class PlayMusic {
     }
 
     public static void startVote(String player) {
-        voteTime = AllMusic.getConfig().voteTime;
         player = player.toLowerCase();
         voteSender = player;
         votePlayer.add(player);
+        voteTime = AllMusic.getConfig().voteTime;
     }
 
     /**
@@ -173,6 +173,10 @@ public class PlayMusic {
      */
     public static int getVoteCount() {
         return votePlayer.size();
+    }
+
+    public static int getPushCount() {
+        return pushPlayer.size();
     }
 
     /**
@@ -250,8 +254,8 @@ public class PlayMusic {
         if (haveMusic(id))
             return;
         if (sender != null) {
-            String text = AllMusic.getMessage().musicPlay.checkMusic;
-            text = text.replace(PAL.musicId, id);
+            String text = AllMusic.getMessage().musicPlay.checkMusic
+                    .replace(PAL.musicId, id);
             AllMusic.side.sendMessageTask(sender, text);
         }
         Logs.logWrite("player:" + player + " add:" + id);
@@ -266,7 +270,9 @@ public class PlayMusic {
             }
             LimitObj limit = AllMusic.getConfig().limit;
             if (limit.musicTimeLimit && info.getLength() / 1000 > limit.maxMusicTime) {
-                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.timeOut);
+                if (sender != null) {
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.timeOut);
+                }
                 return;
             }
             playList.add(info);
@@ -292,8 +298,9 @@ public class PlayMusic {
             if (AllMusic.getConfig().playListSwitch
                     && (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList())) {
                 PlayMusic.musicLessTime = 1;
-                if (!isList)
+                if (!isList) {
                     AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.switchMusic);
+                }
             }
             error = 0;
         } catch (Exception e) {

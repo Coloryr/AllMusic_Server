@@ -164,46 +164,51 @@ public class PlayRuntime {
      * 事务定时器
      */
     private static void time3() {
-        ping++;
-        if (ping >= 10) {
-            AllMusic.side.ping();
-        }
-        if (PlayMusic.getPushTime() > 0) {
-            if (!checkPush()) {
-                PlayMusic.clearPush();
-                AllMusic.side.bqTask(AllMusic.getMessage().push.cancel);
-            } else {
-                PlayMusic.pushTick();
-                if (PlayMusic.getPushTime() == 0) {
+        try {
+            ping++;
+            if (ping >= 10) {
+                AllMusic.side.ping();
+            }
+            if (PlayMusic.getPushTime() > 0) {
+                if (!checkPush()) {
                     PlayMusic.clearPush();
-                    AllMusic.side.bqTask(AllMusic.getMessage().push.timeOut);
+                    AllMusic.side.bqTask(AllMusic.getMessage().push.cancel);
+                } else {
+                    PlayMusic.pushTick();
+                    if (PlayMusic.getPushTime() == 0) {
+                        PlayMusic.clearPush();
+                        AllMusic.side.bqTask(AllMusic.getMessage().push.timeOut);
+                    } else {
+                        int players = AllMusic.side.getPlayerSize();
+                        if (PlayMusic.getPushCount() >= AllMusic.getConfig().minVote
+                                || (players <= AllMusic.getConfig().minVote
+                                && players <= PlayMusic.getPushCount())) {
+                            PlayMusic.pushMusic();
+                            PlayMusic.clearPush();
+                            AllMusic.side.bqTask(AllMusic.getMessage().push.doPush);
+                        }
+                    }
+                }
+            }
+
+            if (PlayMusic.getVoteTime() > 0) {
+                PlayMusic.voteTick();
+                if (PlayMusic.getVoteTime() == 0) {
+                    PlayMusic.clearVote();
+                    AllMusic.side.bqTask(AllMusic.getMessage().vote.timeOut);
                 } else {
                     int players = AllMusic.side.getPlayerSize();
                     if (PlayMusic.getVoteCount() >= AllMusic.getConfig().minVote
                             || (players <= AllMusic.getConfig().minVote
                             && players <= PlayMusic.getVoteCount())) {
-                        PlayMusic.pushMusic();
-                        PlayMusic.clearPush();
-                        AllMusic.side.bqTask(AllMusic.getMessage().push.doPush);
+                        PlayMusic.musicLessTime = 0;
+                        PlayMusic.clearVote();
+                        AllMusic.side.bqTask(AllMusic.getMessage().vote.voteDone);
                     }
                 }
             }
-        }
-        if (PlayMusic.getVoteTime() > 0) {
-            PlayMusic.voteTick();
-            if (PlayMusic.getVoteTime() == 0) {
-                PlayMusic.clearVote();
-                AllMusic.side.bqTask(AllMusic.getMessage().vote.timeOut);
-            } else {
-                int players = AllMusic.side.getPlayerSize();
-                if (PlayMusic.getVoteCount() >= AllMusic.getConfig().minVote
-                        || (players <= AllMusic.getConfig().minVote
-                        && players <= PlayMusic.getVoteCount())) {
-                    PlayMusic.clearVote();
-                    PlayMusic.musicLessTime = 0;
-                    AllMusic.side.bqTask(AllMusic.getMessage().vote.voteDone);
-                }
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
