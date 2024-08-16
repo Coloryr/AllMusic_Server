@@ -514,15 +514,13 @@ public class SideBC extends BaseSide implements IEconomy {
 
     @Override
     public void ping() {
-        Iterator<Server> iterator = TopServers.iterator();
-        while (iterator.hasNext()) {
-            Server server = iterator.next();
+        for (Server server : new HashSet<>(TopServers)) {
             if (server.isConnected()) {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeInt(200);
                 server.sendData(AllMusic.channelBC, out.toByteArray());
             } else {
-                iterator.remove();
+                TopServers.remove(server);
             }
         }
     }

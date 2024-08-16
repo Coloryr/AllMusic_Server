@@ -499,15 +499,13 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public void ping() {
-        Iterator<ServerConnection> iterator = TopServers.iterator();
-        while (iterator.hasNext()) {
-            ServerConnection server = iterator.next();
+        for (ServerConnection server : new HashSet<>(TopServers)) {
             try {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeInt(200);
                 server.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());
             } catch (Exception e) {
-                iterator.remove();
+                TopServers.remove(server);
             }
         }
     }
