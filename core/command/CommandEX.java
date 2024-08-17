@@ -157,6 +157,11 @@ public class CommandEX {
                 musicID = Function.getString(args[0], "id=", "&user");
             else
                 musicID = Function.getString(args[0], "id=", null);
+        } else  if (args[0].contains("id=") && !args[0].contains("&uct2")) {
+            if (args[0].contains("&uct2"))
+                musicID = Function.getString(args[0], "id=", "&uct2");
+            else
+                musicID = Function.getString(args[0], "id=", null);
         } else if (args[0].contains("song/")) {
             if (args[0].contains("/?userid"))
                 musicID = Function.getString(args[0], "song/", "/?userid");
