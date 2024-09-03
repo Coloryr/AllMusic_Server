@@ -240,7 +240,7 @@ public class CommandHudSet extends AHudCommand {
     private static class PicSize extends ACommand {
         @Override
         public void ex(Object sender, String name, String[] args) {
-            if (args.length != 3 || !HudUtils.setPicSize(name, args[2])) {
+            if (args.length != 4 || !HudUtils.setPicSize(name, args[3])) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
             }
