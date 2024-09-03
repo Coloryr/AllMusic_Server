@@ -111,15 +111,15 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.+'
     implementation 'org.xerial:sqlite-jdbc:3.+'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.+"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.+"
 
-    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: '[1.9.10, 2.0)')
-    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: '[1.9.10, 2.0)')
-    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '[1.9.10, 2.0)')
-    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '[1.9.10, 2.0)')
+//    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: '[2.0, 2.1)')
+//    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: '[2.0, 2.1)')
+//    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '[2.0, 2.1)')
+//    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '[2.0, 2.1)')
     jarJar (group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12, 5.0)')
     jarJar (group: 'com.squareup.okio', name: 'okio-jvm', version: '[3.6, 4.0)') {
-        jarJar.pin(it, '3.6.0')
+        jarJar.pin(it, '3.9.0')
     }
     jarJar (group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46, 4.0)')
 

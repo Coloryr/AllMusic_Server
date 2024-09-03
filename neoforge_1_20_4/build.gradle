@@ -111,7 +111,7 @@ dependencies {
 
     jarJar (group: 'com.squareup.okhttp3', name: 'okhttp', version: '[4.12, 5.0)')
     jarJar (group: 'com.squareup.okio', name: 'okio-jvm', version: '[3.6, 4.0)') {
-        jarJar.pin(it, '3.6.0')
+        jarJar.pin(it, '3.9.0')
     }
     jarJar (group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.46, 4.0)')
 
