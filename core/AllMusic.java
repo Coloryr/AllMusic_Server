@@ -36,7 +36,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.2.3";
+    public static final String version = "3.2.4";
     /**
      * 配置文件版本号
      */
