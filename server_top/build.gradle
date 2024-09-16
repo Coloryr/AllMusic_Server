@@ -50,7 +50,7 @@ dependencies {
     compileOnly 'net.md-5:bungeecord-api:1.20-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
     compileOnly 'com.velocitypowered:velocity-api:3.0.0'
-    compileOnly 'me.clip:placeholderapi:2.10.10'
+    compileOnly 'me.clip:placeholderapi:2.11.6'
     //compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
 //    compileOnly fileTree(dir:'lib',include:['*.jar'])
 

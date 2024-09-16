@@ -6,18 +6,18 @@ public class InfoObj {
     private List<Songs> songs;
 
     public boolean isOk() {
-        return (songs != null && songs.size() != 0);
+        return (songs != null && !songs.isEmpty());
     }
 
     public String getName() {
-        if (songs == null || songs.size() == 0)
+        if (songs == null || songs.isEmpty())
             return "";
         return songs.get(0).getName();
     }
 
     public String getAuthor() {
         StringBuilder Author = new StringBuilder();
-        if (songs.size() == 0)
+        if (songs.isEmpty())
             return "";
         for (ar ar : songs.get(0).getAr()) {
             Author.append(ar.getName()).append(",");

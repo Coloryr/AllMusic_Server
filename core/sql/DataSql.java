@@ -310,10 +310,13 @@ public class DataSql {
                 if (connection.isReadOnly() || connection.isClosed()) {
                     init();
                 }
-                String arrayAsString = String.join(",", list);
                 PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_list (sid) VALUES (?)");
-                pstmt.setString(1, arrayAsString);
-                pstmt.execute();
+                // 遍历 List<String> 并插入每个字符串
+                for (String str : list) {
+                    pstmt.setString(1, str); // 设置参数
+                    pstmt.addBatch(); // 添加到批处理
+                }
+                pstmt.executeBatch();
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
