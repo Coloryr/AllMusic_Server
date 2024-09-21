@@ -125,9 +125,9 @@ public class HudUtils {
      * @param time 时间
      * @return 结果
      */
-    private static String tranTime(int time) {
-        int m = time / 60;
-        int s = time - m * 60;
+    private static String tranTime(long time) {
+        long m = time / 60;
+        long s = time - m * 60;
         return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
     }
 

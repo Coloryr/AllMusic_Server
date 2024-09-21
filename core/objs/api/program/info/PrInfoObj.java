@@ -24,7 +24,7 @@ public class PrInfoObj {
         return program.getDj().getBrand();
     }
 
-    public int getLength() {
+    public long getLength() {
         return program.getMainSong().getLength();
     }
 
@@ -36,13 +36,13 @@ public class PrInfoObj {
 class mainSong {
 
     private String name;
-    private int id;
+    private long id;
     private hMusic hMusic;
     private hMusic mMusic;
     private hMusic lMusic;
     private hMusic bMusic;
 
-    public int getLength() {
+    public long getLength() {
         if (hMusic != null)
             return hMusic.getLength();
         else if (mMusic != null)
@@ -54,7 +54,7 @@ class mainSong {
         return 0;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -90,10 +90,10 @@ class dj {
 }
 
 class hMusic {
-    private int size;
-    private int bitrate;
+    private long size;
+    private long bitrate;
 
-    public int getLength() {
+    public long getLength() {
         return size / bitrate * 8000;
     }
 }

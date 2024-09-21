@@ -15,6 +15,7 @@ import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.fabric.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.fabric.event.MusicPlayEvent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;

@@ -6,6 +6,7 @@ import com.coloryr.allmusic.server.side.forge.LogForge;
 import com.coloryr.allmusic.server.side.forge.PackData;
 import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;

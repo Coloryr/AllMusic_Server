@@ -1,10 +1,10 @@
 package com.coloryr.allmusic.server.core.objs.api.music.trialinfo;
 
 public class freeTrialInfo {
-    private int start;
-    private int end;
+    private long start;
+    private long end;
 
-    public int getEnd() {
+    public long getEnd() {
         return end;
     }
 
@@ -12,7 +12,7 @@ public class freeTrialInfo {
         this.end = end;
     }
 
-    public int getStart() {
+    public long getStart() {
         return start;
     }
 }

@@ -73,10 +73,10 @@ class klyric {
 }
 
 class yrc {
-    private int version;
+    private long version;
     private String lyric;
 
-    public int getVersion() {
+    public long getVersion() {
         return version;
     }
 

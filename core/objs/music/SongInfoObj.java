@@ -49,7 +49,7 @@ public class SongInfoObj {
      * 长度
      */
 
-    protected int length;
+    protected long length;
 
     /**
      * 是否是空闲歌单的歌
@@ -70,7 +70,7 @@ public class SongInfoObj {
     }
 
     public SongInfoObj(String Author, String Name, String ID, String Alia, String Call, String Al,
-                       boolean isList, int Length, String picUrl, boolean isTrial, freeTrialInfo trialInfo) {
+                       boolean isList, long Length, String picUrl, boolean isTrial, freeTrialInfo trialInfo) {
         this.author = Author;
         this.name = Name;
         this.id = ID;
@@ -120,7 +120,7 @@ public class SongInfoObj {
         return author == null ? "" : author;
     }
 
-    public int getLength() {
+    public long getLength() {
         return length;
     }
 

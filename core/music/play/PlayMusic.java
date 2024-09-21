@@ -58,15 +58,15 @@ public class PlayMusic {
     /**
      * 总歌曲长度
      */
-    public static int musicAllTime = 0;
+    public static long musicAllTime = 0;
     /**
      * 剩余歌曲长度
      */
-    public static int musicLessTime = 0;
+    public static long musicLessTime = 0;
     /**
      * 歌曲现在位置
      */
-    public static int musicNowTime = 0;
+    public static long musicNowTime = 0;
     /**
      * 当前歌曲信息
      */

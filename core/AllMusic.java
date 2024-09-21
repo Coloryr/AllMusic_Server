@@ -400,7 +400,7 @@ public class AllMusic {
                 if (!music.isUrl()) {
                     AllMusic.side.sendPic(finalPlayer, music.getPicUrl());
                 }
-                AllMusic.side.sendPos(finalPlayer, PlayMusic.musicNowTime);
+                AllMusic.side.sendPos(finalPlayer, (int)PlayMusic.musicNowTime);
             }
         }, 40);
     }

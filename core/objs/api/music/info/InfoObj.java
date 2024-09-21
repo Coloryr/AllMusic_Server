@@ -43,7 +43,7 @@ public class InfoObj {
         return songs.get(0).getAl();
     }
 
-    public int getLength() {
+    public long getLength() {
         if (songs == null)
             return 0;
         return songs.get(0).getLength();
@@ -65,7 +65,7 @@ class Songs {
     private h m;
     private h h;
 
-    public int getLength() {
+    public long getLength() {
         if (l != null)
             return l.getLength();
         if (m != null)
@@ -118,10 +118,10 @@ class al {
 }
 
 class h {
-    private int br;
-    private int size;
+    private long br;
+    private long size;
 
-    public int getLength() {
+    public long getLength() {
         return size / br * 8000;
     }
 }

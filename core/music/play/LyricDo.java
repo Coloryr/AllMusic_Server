@@ -11,16 +11,16 @@ import java.util.regex.Pattern;
 
 public class LyricDo {
     private static final Pattern p = Pattern.compile("\\(([0-9]+),[0-9]+.[0-9]\\)");
-    private final Map<Integer, LyricItemObj> temp = new LinkedHashMap<>();
+    private final Map<Long, LyricItemObj> temp = new LinkedHashMap<>();
     public boolean isHave = false;
     public boolean isHaveK = false;
-    public Map<Integer, String> kly = new LinkedHashMap<>();
+    public Map<Long, String> kly = new LinkedHashMap<>();
 
-    public Map<Integer, LyricItemObj> getTemp() {
+    public Map<Long, LyricItemObj> getTemp() {
         return temp;
     }
 
-    public Map<Integer, String> getKLyric() {
+    public Map<Long, String> getKLyric() {
         return kly;
     }
 
@@ -40,8 +40,8 @@ public class LyricDo {
             return false;
         lyric = obj.getLyric().split("\n");
 
-        Map<Integer, String> temp = getTime(Arrays.asList(lyric));
-        Map<Integer, String> temp1 = new HashMap<>();
+        Map<Long, String> temp = getTime(Arrays.asList(lyric));
+        Map<Long, String> temp1 = new HashMap<>();
 
         if (obj.getTlyric() != null) {
             List<String> tlyric = Arrays.asList(obj.getTlyric().split("\n"));
@@ -54,7 +54,7 @@ public class LyricDo {
         if (temp2 != null && !temp2.isEmpty()) {
             String[] klyric = temp2.split("\n");
             for (String item : klyric) {
-                Map<Integer, String> temp4 = getKTime(item, obj.getVersion());
+                Map<Long, String> temp4 = getKTime(item, obj.getVersion());
                 if (temp4 != null) {
                     kly.putAll(temp4);
                 }
@@ -62,7 +62,7 @@ public class LyricDo {
             isHaveK = true;
         }
 
-        for (Map.Entry<Integer, String> item : temp.entrySet()) {
+        for (Map.Entry<Long, String> item : temp.entrySet()) {
             this.temp.put(item.getKey(), new LyricItemObj(item.getValue(),
                     haveT ? temp1.get(item.getKey()) : null));
         }
@@ -78,13 +78,13 @@ public class LyricDo {
      * @param lyric 歌词
      * @return 结果
      */
-    private Map<Integer, String> getTime(List<String> lyric) {
-        Map<Integer, String> res = new LinkedHashMap<>();
+    private Map<Long, String> getTime(List<String> lyric) {
+        Map<Long, String> res = new LinkedHashMap<>();
         String min;
         String sec;
         String mil;
-        int time;
-        int milt;
+        long time;
+        long milt;
         for (String s : lyric) {
             if (!s.startsWith("["))
                 continue;
@@ -109,11 +109,11 @@ public class LyricDo {
                 continue;
             if (min.isEmpty() || sec.isEmpty() || mil.isEmpty())
                 continue;
-            milt = Integer.parseInt(mil);
+            milt = Long.parseLong(mil);
             if (mil.length() == 3) {
                 milt /= 10;
             }
-            time = Integer.parseInt(min) * 60 * 1000 + Integer.parseInt(sec) * 1000 + milt * 10;
+            time = Long.parseLong(min) * 60 * 1000 + Long.parseLong(sec) * 1000 + milt * 10;
             if (time > 0 && time + AllMusic.getConfig().lyricDelay > 0)
                 time += AllMusic.getConfig().lyricDelay / 10 * 10;
             res.put(time, Function.getString(s, "]", null));
@@ -121,8 +121,8 @@ public class LyricDo {
         return res;
     }
 
-    private Map<Integer, String> getKTime(String lyric, boolean yrc) {
-        Map<Integer, String> res = new LinkedHashMap<>();
+    private Map<Long, String> getKTime(String lyric, boolean yrc) {
+        Map<Long, String> res = new LinkedHashMap<>();
         if (!lyric.startsWith("[") || !lyric.contains("]("))
             return null;
 
@@ -139,12 +139,12 @@ public class LyricDo {
 
         String temp = Function.getString(lyric, "[", "]");
         String[] temp11 = temp.split(",");
-        int now = Integer.parseInt(temp11[0]) / 10 * 10;
+        long now = Integer.parseInt(temp11[0]) / 10 * 10;
         for (int a = 1; a < datas.length; a++) {
             String data = datas[a];
             String temp3 = temp1111.get(a - 1);
             String[] temp8 = temp3.split(",");
-            int temp5;
+            long temp5;
             if (yrc) {
                 temp5 = (Integer.parseInt(temp8[0]) / 10 * 10);
                 if (temp5 > 0 && temp5 + AllMusic.getConfig().ktvLyricDelay > 0)

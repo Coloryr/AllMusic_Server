@@ -12,10 +12,10 @@ public class LyricSave {
     protected String lly = "";
     protected String kly = "";
     protected String tly = "";
-    private Map<Integer, LyricItemObj> lyric;
-    private Map<Integer, String> klyric;
+    private Map<Long, LyricItemObj> lyric;
+    private Map<Long, String> klyric;
     private LyricItemObj now;
-    private int last;
+    private long last;
     private String kNow;
 
     public LyricSave() {
@@ -23,7 +23,7 @@ public class LyricSave {
         lyric = new HashMap<>();
     }
 
-    public void setKlyric(Map<Integer, String> klyric) {
+    public void setKlyric(Map<Long, String> klyric) {
         this.klyric = klyric;
     }
 
@@ -39,7 +39,7 @@ public class LyricSave {
         return lly;
     }
 
-    public void setLyric(Map<Integer, LyricItemObj> lyric) {
+    public void setLyric(Map<Long, LyricItemObj> lyric) {
         this.lyric = lyric;
     }
 
@@ -71,7 +71,7 @@ public class LyricSave {
         return false;
     }
 
-    public boolean ktv(int time) {
+    public boolean ktv(long time) {
         if (last == time || klyric == null)
             return false;
 
@@ -85,7 +85,7 @@ public class LyricSave {
         return false;
     }
 
-    public boolean checkTime(int playNow, boolean ktv) {
+    public boolean checkTime(long playNow, boolean ktv) {
         if (lyric == null)
             return false;
 
