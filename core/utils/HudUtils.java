@@ -419,9 +419,13 @@ public class HudUtils {
     public static boolean setColor(String player, HudType type, String arg) {
         int color;
         try {
-            color = arg.startsWith("0x")
-                    ? Integer.parseUnsignedInt(arg.substring(2), 16)
-                    : Integer.parseUnsignedInt(arg);
+            if (arg.startsWith("0x")) {
+                color = Integer.parseUnsignedInt(arg.substring(2), 16);
+            } else if (arg.startsWith("#")) {
+                color = Integer.parseUnsignedInt(arg.substring(1), 16);
+            } else {
+                color = Integer.parseUnsignedInt(arg);
+            }
         } catch (Exception ignored) {
             return false;
         }
