@@ -58,9 +58,12 @@ Forge/Fabric/NeoForge类服务器
 2. 在配置文件给自己管理员然后/music reload
    - bukkit/spigot/paper/folia 服务器给自己op是同样的效果
    - forge/fabric/neoforge 服务器给自己等级权限2是同样的效果
-   - bc/velocity 需要配置文件写上自己的游戏名
-3. 输入/music code [手机号码] 获取手机验证码
-4. 输入/music login [验证码] 登录账户
+   - bc/velocity 需要配置文件写上自己的游戏名\
+3. 使用支持安装插件的浏览器，打开music.163.com登录账户
+4. 给浏览器安装插件 https://cookie-editor.com/
+5. 打开插件，然后复制cookie
+![](./img/pic1.png)
+6. 在控制台输入/music cookie 你复制出来的内容
 
 如果登录失效，请删除`cookie.json`再打`/music reload`再重新登录
 
