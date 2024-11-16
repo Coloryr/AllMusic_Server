@@ -9,8 +9,7 @@ public class HelpAdminObj {
     public String delete;
     public String addList;
     public String clearList;
-    public String login;
-    public String code;
+    public String cookie;
     public String test;
 
     public static HelpAdminObj make() {
@@ -35,13 +34,11 @@ public class HelpAdminObj {
             return true;
         if (clearList == null)
             return true;
-        if (code == null)
-            return true;
         if (banPlayer == null)
             return true;
         if (test == null)
             return true;
-        return login == null;
+        return cookie == null;
     }
 
     public void init() {
@@ -53,8 +50,7 @@ public class HelpAdminObj {
         delete = "§d[AllMusic3]§e使用/music delete [序号] 删除队列中的歌曲";
         addList = "§d[AllMusic3]§e使用/music addlist [歌单ID] 添加歌单到空闲列表";
         clearList = "§d[AllMusic3]§e使用/music clearlist 清空空闲歌单";
-        login = "§d[AllMusic3]§e使用/music login [验证码] 登录账户";
-        code = "§d[AllMusic3]§e使用/music code [手机号] 获取短信验证码";
+        cookie = "§d[AllMusic3]§e使用/music cookie [cookie] 填写cookie";
         test = "§d[AllMusic3]§e使用/music test [音乐ID] 测试解析音乐";
     }
 }

@@ -36,8 +36,7 @@ public class CommandEX {
         this.add("delete");
         this.add("addlist");
         this.add("clearlist");
-        this.add("login");
-        this.add("code");
+        this.add("cookie");
         this.add("test");
     }};
     /**
@@ -71,8 +70,7 @@ public class CommandEX {
         commandAdminList.put("delete", new CommandDelete());
         commandAdminList.put("addlist", new CommandAddList());
         commandAdminList.put("clearlist", new CommandClearList());
-        commandAdminList.put("code", new CommandCode());
-        commandAdminList.put("login", new CommandLogin());
+        commandAdminList.put("cookie", new CommandCookie());
         commandAdminList.put("test", new CommandTest());
     }
 

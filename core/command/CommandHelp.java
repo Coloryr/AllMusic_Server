@@ -69,11 +69,9 @@ public class CommandHelp extends ACommand {
                     AllMusic.getMessage().click.clickCheck, "/music addlist ");
             AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.clearList,
                     AllMusic.getMessage().click.clickRun, "/music clearlist");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.login,
-                    AllMusic.getMessage().click.clickCheck, "/music login ");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.code,
-                    AllMusic.getMessage().click.clickCheck, "/music code ");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.code,
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.cookie,
+                    AllMusic.getMessage().click.clickCheck, "/music cookie ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.test,
                     AllMusic.getMessage().click.clickCheck, "/music test ");
         }
     }

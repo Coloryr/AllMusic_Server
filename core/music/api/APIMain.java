@@ -29,7 +29,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class APIMain {
 
     private boolean isUpdate;
-    private String phone;
 
     public APIMain() {
         AllMusic.log.info("§d[AllMusic3]§e正在初始化网络爬虫");
@@ -42,85 +41,6 @@ public class APIMain {
 
     public boolean isUpdate() {
         return isUpdate;
-    }
-
-    /**
-     * 获取手机验证码
-     *
-     * @param sender 发送者
-     */
-    public void sendCode(Object sender, String code) {
-        phone = code;
-        JsonObject params = new JsonObject();
-        params.addProperty("ctcode", "86");
-        params.addProperty("cellphone", code);
-        HttpResObj res = HttpClientUtil.post("https://music.163.com/api/sms/captcha/sent", params, EncryptType.WEAPI, null);
-        if (res != null && res.ok) {
-            AllMusic.side.sendMessage(sender, "§d[AllMusic3]§d已发送验证码\n" + res.data);
-        } else {
-            AllMusic.side.sendMessage(sender, "§d[AllMusic3]§c验证码发送失败");
-        }
-    }
-
-    /**
-     * 登录
-     *
-     * @param sender 发送者
-     * @param code   手机验证码
-     */
-    public void login(Object sender, String code) {
-        if (phone == null) {
-            if (sender == null)
-                AllMusic.log.info("§d[AllMusic3]§c没有发送过验证码");
-            else
-                AllMusic.side.sendMessage(sender, "§d[AllMusic3]§c没有发送过验证码");
-            return;
-        }
-        JsonObject params = new JsonObject();
-        params.addProperty("rememberLogin", "true");
-        if (AllMusic.cookie.cookieStore.containsKey("music.163.com")) {
-            List<Cookie> cookies = AllMusic.cookie.cookieStore.get("music.163.com");
-            for (Cookie item : cookies) {
-                if (item.name().equalsIgnoreCase("os")) {
-                    cookies.remove(item);
-                    break;
-                }
-            }
-            for (Cookie item : cookies) {
-                if (item.name().equalsIgnoreCase("appver")) {
-                    cookies.remove(item);
-                    break;
-                }
-            }
-            List<Cookie> cookies1 = new CopyOnWriteArrayList<>();
-            cookies1.addAll(cookies);
-            cookies1.add(new Cookie.Builder().name("os").value("pc").domain("music.163.com").build());
-            cookies1.add(new Cookie.Builder().name("appver").value("2.10.6").domain("music.163.com").build());
-            AllMusic.cookie.cookieStore.put("music.163.com", cookies1);
-            AllMusic.saveCookie();
-        }
-        params.addProperty("countrycode", "86");
-        params.addProperty("phone", phone);
-        params.addProperty("captcha", code);
-        HttpResObj res = HttpClientUtil.post("https://music.163.com/eapi/w/login/cellphone", params, EncryptType.WEAPI, null);
-        if (res == null || !res.ok) {
-            if (sender == null)
-                AllMusic.log.info("§d[AllMusic3]§c登录失败");
-            else
-                AllMusic.side.sendMessage(sender, "§d[AllMusic3]§c登录失败");
-            return;
-        }
-        if (res.data.contains("200")) {
-            if (sender == null)
-                AllMusic.log.info("§d[AllMusic3]§d已登录");
-            else
-                AllMusic.side.sendMessage(sender, "§d[AllMusic3]§d已登录");
-        } else {
-            if (sender == null)
-                AllMusic.log.info("§d[AllMusic3]§c登录失败:账号或密码错误\n" + res.data);
-            else
-                AllMusic.side.sendMessage(sender, "§d[AllMusic3]§c登录失败:账号或密码错误\n" + res.data);
-        }
     }
 
     /**

@@ -24,6 +24,8 @@ public class HttpClientUtil {
     private static final int READ_TIMEOUT = 7;
     private static OkHttpClient client;
 
+    private static final String UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0";
+
     public static void init() {
         try {
             synchronized (OkHttpClient.class) {
@@ -43,7 +45,7 @@ public class HttpClientUtil {
             Request request = new Request.Builder().url(path + data)
                     .addHeader("referer", "https://music.163.com")
                     .addHeader("content-type", "application/json;charset=UTF-8")
-                    .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36 Edg/91.0.864.41")
+                    .addHeader("user-agent", UserAgent)
                     .get()
                     .build();
             Response response = client.newCall(request).execute();
@@ -80,12 +82,18 @@ public class HttpClientUtil {
             request = request.addHeader("Content-Type", "application/x-www-form-urlencoded");
             request = request.addHeader("Referer", "https://music.163.com");
             EncResObj res;
-            List<Cookie> cookies = new ArrayList<>();
-            if (AllMusic.cookie.cookieStore.containsKey("music.163.com")) {
-                cookies = AllMusic.cookie.cookieStore.get("music.163.com");
+            List<Cookie> cookies = AllMusic.cookie.cookieStore.get("music.163.com");
+            if (cookies == null) {
+                cookies = new ArrayList<>();
             }
+//            StringBuilder cookie = new StringBuilder();
+//            for (Cookie item : cookies) {
+//                cookie.append(item.name()).append("=").append(item.value()).append(";");
+//            }
+//            cookie.append("cookie=");
+//            request.header("Cookie", cookie.toString());
             if (type == EncryptType.WEAPI) {
-                request = request.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/13.10586");
+                request = request.addHeader("User-Agent", UserAgent);
                 String csrfToken = "";
                 for (Cookie item : cookies) {
                     if (item.name().equalsIgnoreCase("__csrf")) {
