@@ -11,6 +11,8 @@
 
 </div>
 
+
+
 **This project only can use in china main land**  
 **Chinese only**
 
@@ -19,7 +21,9 @@
 注：需要配合[客户端Mod](https://github.com/Coloryr/AllMusic_Client)使用  
 **不兼容旧版客户端Mod，需要新版客户端Mod**
 
-[下载地址](https://www.123pan.com/s/Nh4zVv-BjOAH.html)
+## 下载
+登录github账户  
+跳转到action中下载
 
 插件支持的服务器
 - CatServer(LoliServer)
