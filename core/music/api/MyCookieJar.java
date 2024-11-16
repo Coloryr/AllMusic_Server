@@ -4,12 +4,10 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MyCookieJar implements CookieJar {
     @Override
