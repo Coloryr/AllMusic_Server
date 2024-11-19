@@ -20,6 +20,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SCustomPayloadPlayPacket;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -57,22 +58,20 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public boolean checkPermission(String player, String permission) {
+    public boolean checkPermission(Object player, String permission) {
         return checkPermission(player);
     }
 
     @Override
-    public boolean checkPermission(String player) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+    public boolean checkPermission(Object player) {
+        if (player instanceof MinecraftServer) {
+            return true;
         }
-        ServerPlayerEntity player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
-        if (player1 == null)
-            return false;
+        if (player instanceof ServerPlayerEntity) {
+            return ((ServerPlayerEntity) player).hasPermissions(2);
+        }
 
-        return player1.hasPermissions(2);
+        return false;
     }
 
     @Override

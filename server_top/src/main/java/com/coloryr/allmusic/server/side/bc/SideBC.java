@@ -461,27 +461,19 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public boolean checkPermission(String player, String permission) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+    public boolean checkPermission(Object player, String permission) {
+        if (checkPermission(player)) {
+            return true;
         }
-        ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
-        if (player1 == null)
-            return false;
-        return player1.hasPermission(permission);
+        if (player instanceof CommandSender) {
+            return ((CommandSender) player).hasPermission(permission);
+        }
+        return false;
     }
 
     @Override
-    public boolean checkPermission(String player) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean checkPermission(Object player) {
+        return player.equals(ProxyServer.getInstance().getConsole());
     }
 
     @Override

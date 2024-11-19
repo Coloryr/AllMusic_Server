@@ -15,7 +15,10 @@ import com.coloryr.allmusic.server.side.bukkit.hooks.CitizensNPC;
 import com.coloryr.allmusic.server.side.bukkit.hooks.SpigotApi;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permissible;
+import org.bukkit.permissions.ServerOperator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -437,27 +440,29 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public boolean checkPermission(String player, String permission) {
+    public boolean checkPermission(Object player, String permission) {
         if (checkPermission(player)) {
             return true;
         }
-        Player player1 = Bukkit.getPlayer(player);
-        if (player1 == null)
-            return false;
-        return player1.hasPermission(permission);
+        if (player instanceof Permissible) {
+            Permissible player1 = (Permissible) player;
+            return player1.hasPermission(permission);
+        }
+
+        return false;
     }
 
     @Override
-    public boolean checkPermission(String player) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+    public boolean checkPermission(Object player) {
+        if (player instanceof ConsoleCommandSender) {
+            return true;
         }
-        Player player1 = Bukkit.getPlayer(player);
-        if (player1 == null)
-            return false;
-        return player1.isOp();
+        if (player instanceof ServerOperator) {
+            ServerOperator sender = (ServerOperator) player;
+            return sender.isOp();
+        }
+
+        return false;
     }
 
     @Override

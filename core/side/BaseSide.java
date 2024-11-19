@@ -39,19 +39,19 @@ public abstract class BaseSide {
     /**
      * 检查权限
      *
-     * @param player 用户名
+     * @param player 用户
      * @return 是否有权限
      */
-    public abstract boolean checkPermission(String player);
+    public abstract boolean checkPermission(Object player);
 
     /**
      * 检查权限
      *
-     * @param player     用户名
+     * @param player     用户
      * @param permission 权限
      * @return 是否有权限
      */
-    public abstract boolean checkPermission(String player, String permission);
+    public abstract boolean checkPermission(Object player, String permission);
 
     /**
      * 是否需要播放

@@ -16,7 +16,9 @@ import com.coloryr.allmusic.server.side.fabric.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.fabric.event.MusicPlayEvent;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -54,21 +56,18 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public boolean checkPermission(String player) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+    public boolean checkPermission(Object player) {
+        if (player instanceof MinecraftServer) {
+            return true;
         }
-        ServerPlayerEntity player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
-        if (player1 == null)
-            return false;
-
-        return player1.hasPermissionLevel(2);
+        if (player instanceof Entity) {
+            return ((Entity) player).hasPermissionLevel(2);
+        }
+        return false;
     }
 
     @Override
-    public boolean checkPermission(String player, String permission) {
+    public boolean checkPermission(Object player, String permission) {
         return checkPermission(player);
     }
 

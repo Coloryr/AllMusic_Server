@@ -17,6 +17,8 @@ import com.coloryr.allmusic.server.side.velocity.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.permission.PermissionSubject;
+import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import io.netty.buffer.ByteBuf;
@@ -472,23 +474,19 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public boolean checkPermission(String player, String permission) {
+    public boolean checkPermission(Object player, String permission) {
         if (checkPermission(player)) {
             return true;
         }
-        Optional<Player> player1 = AllMusicVelocity.plugin.server.getPlayer(player);
-        return player1.map(value -> value.hasPermission(permission)).orElse(false);
+        if (player instanceof PermissionSubject) {
+            return ((PermissionSubject) player).hasPermission(permission);
+        }
+        return false;
     }
 
     @Override
-    public boolean checkPermission(String player) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean checkPermission(Object player) {
+        return player instanceof ConsoleCommandSource;
     }
 
     @Override

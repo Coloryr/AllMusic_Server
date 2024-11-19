@@ -206,6 +206,16 @@ public class CommandEX {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.noID);
     }
 
+    private static boolean isAdmin(String name)
+    {
+        for (String item : AllMusic.getConfig().adminList) {
+            if (item.equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return  false;
+    }
+
     /**
      * 执行命令
      *
@@ -224,7 +234,7 @@ public class CommandEX {
             return;
         }
 
-        if (AllMusic.side.checkPermission(name)) {
+        if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
             command = commandAdminList.get(args[0]);
             if (command != null) {
                 command.ex(sender, name, args);
@@ -232,7 +242,7 @@ public class CommandEX {
             }
         }
         if (AllMusic.getConfig().needPermission &&
-                !AllMusic.side.checkPermission(name, "allmusic.addmusic"))
+                !AllMusic.side.checkPermission(sender, "allmusic.addmusic"))
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.noPer);
         else {
             switch (AllMusic.getConfig().defaultAddMusic) {

@@ -213,7 +213,6 @@ public class ConfigObj {
         minVote = 3;
         voteTime = 30;
         adminList = new HashSet<>();
-        adminList.add("console");
         adminList.add("color_yr");
         muteServer = new HashSet<>();
         mutePlayer = new HashSet<>();

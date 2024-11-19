@@ -16,6 +16,7 @@ import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -52,22 +53,19 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public boolean checkPermission(String player, String permission) {
+    public boolean checkPermission(Object player, String permission) {
         return checkPermission(player);
     }
 
     @Override
-    public boolean checkPermission(String player) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+    public boolean checkPermission(Object player) {
+        if (player instanceof MinecraftServer) {
+            return true;
         }
-        ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
-        if (player1 == null)
-            return false;
-
-        return player1.hasPermissions(2);
+        if (player instanceof ServerPlayer) {
+            return ((ServerPlayer) player).hasPermissions(2);
+        }
+        return false;
     }
 
     @Override

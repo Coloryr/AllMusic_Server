@@ -18,7 +18,10 @@ import io.netty.buffer.ByteBuf;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permissible;
+import org.bukkit.permissions.ServerOperator;
 
 import java.util.List;
 import java.util.Locale;
@@ -355,27 +358,25 @@ public class SideFolia extends BaseSide {
     }
 
     @Override
-    public boolean checkPermission(String player, String permission) {
+    public boolean checkPermission(Object player, String permission) {
         if (checkPermission(player)) {
             return true;
         }
-        Player player1 = Bukkit.getPlayer(player);
-        if (player1 == null)
-            return false;
-        return player1.hasPermission(permission);
+        if (player instanceof Permissible permissible) {
+            return permissible.hasPermission(permission);
+        }
+        return false;
     }
 
     @Override
-    public boolean checkPermission(String player) {
-        for (String item : AllMusic.getConfig().adminList) {
-            if (item.equalsIgnoreCase(player)) {
-                return true;
-            }
+    public boolean checkPermission(Object player) {
+        if (player instanceof ConsoleCommandSender) {
+            return true;
         }
-        Player player1 = Bukkit.getPlayer(player);
-        if (player1 == null)
-            return false;
-        return player1.isOp();
+        if (player instanceof ServerOperator player1) {
+            return player1.isOp();
+        }
+        return false;
     }
 
     @Override
