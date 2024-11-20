@@ -221,8 +221,7 @@ Forge/Fabric/NeoForge类服务器
 - /music delete [序号] 删除队列中的歌曲
 - /music addlist [歌单ID] 添加歌单到空闲列表
 - /music clearlist 清空空闲歌单
-- /music login [验证码] 登录账户
-- /music code [手机号] 获取短信验证码
+- /music cookie [Cookie] 填写网页Cookie并尝试登录
 
 若开启权限后  
 - 点歌需要权限`allmusic.addmusic`
