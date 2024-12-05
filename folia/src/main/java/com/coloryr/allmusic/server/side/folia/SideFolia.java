@@ -415,7 +415,7 @@ public class SideFolia extends BaseSide {
     public boolean onMusicAdd(Object obj, MusicObj music) {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
         boolean isGlobalTickThread = Bukkit.isGlobalTickThread();
-        if (!isGlobalTickThread) {
+        if (!isGlobalTickThread && obj instanceof Player player && !Bukkit.isOwnedByCurrentRegion(player)) {
             CompletableFuture<Boolean> future = new CompletableFuture<>();
             Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, () -> {
                 Bukkit.getPluginManager().callEvent(event);
