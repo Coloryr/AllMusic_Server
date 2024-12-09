@@ -19,10 +19,12 @@ public class FunCore {
                 rain = random.nextInt(rate) == (rate / 2);
             }
             if (rain) {
-                for (World item : Bukkit.getWorlds()) {
-                    item.setStorm(true);
-                }
-                AllMusic.side.bq(AllMusic.getMessage().fun.rain);
+                AllMusic.side.runTask(() -> {
+                    for (World item : Bukkit.getWorlds()) {
+                        item.setStorm(true);
+                    }
+                    AllMusic.side.bq(AllMusic.getMessage().fun.rain);
+                });
             }
         }
     }
