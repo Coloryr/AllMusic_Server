@@ -76,7 +76,7 @@ public class SideForge extends BaseSide {
     @Override
     public boolean needPlay() {
         for (EntityPlayerMP player : AllMusicForge.server.getPlayerList().getPlayers()) {
-            if (AllMusic.isSkip(player.getName(), null,false)) {
+            if (!AllMusic.isSkip(player.getName(), null,false)) {
                 return true;
             }
         }
