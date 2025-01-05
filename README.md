@@ -71,6 +71,14 @@ Forge/Fabric/NeoForge类服务器
 
 如果登录失效，请删除`cookie.json`再打`/music reload`再重新登录
 
+## 构建
+**仅支持Windows系统**
+
+1. 运行link.cmd
+2. 打开你想要的工程
+3. grdele build
+4. 在根目录的lib文件夹获取jar
+
 ## PAPI变量  
 > %allmusic_now_music_name% 歌曲名字  
 > %allmusic_now_music_al% 歌曲专辑  
