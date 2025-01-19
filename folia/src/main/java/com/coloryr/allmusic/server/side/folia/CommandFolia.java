@@ -13,7 +13,7 @@ public class CommandFolia implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("music")) {
-            CommandEX.ex(sender, sender.getName(), args);
+            CommandEX.execute(sender, sender.getName(), args);
             return true;
         }
         return false;

@@ -247,7 +247,7 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    protected void topSendMusic(String player, String data) {
+    protected void sideSendMusic(String player, String data) {
         try {
             Player player1 = Bukkit.getPlayer(player);
             if (player1 == null)
@@ -319,7 +319,7 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    protected void topSendStop() {
+    protected void sideSendStop() {
         try {
             Object obj1 = pack(ComType.STOP, null, 0);
             byte[] temp = (byte[]) arrayM.invoke(obj1);
@@ -333,7 +333,7 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    protected void topSendStop(String name) {
+    protected void sideSendStop(String name) {
         try {
             Player player = Bukkit.getPlayer(name);
             if (player == null)
@@ -377,7 +377,7 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public void bq(String data) {
+    public void broadcast(String data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.isSkip(player.getName(), null, false)) {
                 player.sendMessage(data);
@@ -386,7 +386,7 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public void bqRun(String message, String end, String command) {
+    public void broadcastWithRun(String message, String end, String command) {
         SpigotApi.sendMessageBqRun(message, end, command);
     }
 

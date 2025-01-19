@@ -10,7 +10,6 @@ import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.core.utils.Logs;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedInputStream;
 import java.net.URL;
@@ -292,14 +291,14 @@ public class PlayMusic {
                             .replace(PAL.musicAl, info.getAl())
                             .replace(PAL.musicAlia, info.getAlia())
                             .replace(PAL.player, info.getCall());
-                    AllMusic.side.bqTask(data);
+                    AllMusic.side.broadcastInTask(data);
                 }
             }
             if (AllMusic.getConfig().playListSwitch
                     && (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList())) {
                 PlayMusic.musicLessTime = 1;
                 if (!isList) {
-                    AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.switchMusic);
+                    AllMusic.side.broadcastInTask(AllMusic.getMessage().musicPlay.switchMusic);
                 }
             }
             error = 0;
@@ -434,7 +433,7 @@ public class PlayMusic {
             Header h = bt.readFrame();
             int le = 6000000;
             if (h == null) {
-                AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.error1);
+                AllMusic.side.broadcastInTask(AllMusic.getMessage().musicPlay.error1);
             } else {
                 le = (int) h.total_ms(b);
             }

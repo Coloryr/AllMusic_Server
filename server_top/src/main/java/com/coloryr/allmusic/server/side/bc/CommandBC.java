@@ -12,7 +12,7 @@ public class CommandBC extends Command implements TabExecutor {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        CommandEX.ex(sender, sender.getName(), args);
+        CommandEX.execute(sender, sender.getName(), args);
     }
 
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {

@@ -18,7 +18,7 @@ public class CommandVelocity implements SimpleCommand {
             Player player = (Player) invocation.source();
             name = player.getUsername();
         }
-        CommandEX.ex(source, name, args);
+        CommandEX.execute(source, name, args);
     }
 
     @Override

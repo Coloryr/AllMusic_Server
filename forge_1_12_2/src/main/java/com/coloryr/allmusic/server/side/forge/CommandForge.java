@@ -23,7 +23,7 @@ public class CommandForge extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-        CommandEX.ex(sender, sender.getName(), args);
+        CommandEX.execute(sender, sender.getName(), args);
     }
 
     @Override

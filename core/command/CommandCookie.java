@@ -6,31 +6,40 @@ import com.google.gson.reflect.TypeToken;
 import okhttp3.Cookie;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class CommandCookie extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (args.length != 2) {
-            AllMusic.side.sendMessage(sender, "§d[AllMusic3]§c没有手机验证码");
+            AllMusic.side.sendMessage(sender, "§d[AllMusic3]§c没有Cookie数据");
             return;
         }
-        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§d登录网易云账户");
+        if (AllMusic.side.isPlayer(sender)) {
+            AllMusic.side.sendMessage(sender, "§d[AllMusic3]§c请在控制台上操作");
+            return;
+        }
+        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§d设置网易云账户");
         try {
             String cookie = args[1];
             String[] cookies = cookie.split(";");
-            ArrayList<Cookie> list1 = new ArrayList<>();
-            for(String item : cookies) {
+            Map<String, Cookie> list1 = new HashMap<>();
+            for (String item : cookies) {
                 String[] cookieitem = item.split("=");
                 if (cookieitem.length == 1) {
-                    list1.add(new Cookie.Builder()
+                    if (list1.containsKey(cookieitem[0])) {
+                        continue;
+                    }
+                    list1.put(cookieitem[0], new Cookie.Builder()
                             .name(cookieitem[0])
                             .domain("163.com")
                             .expiresAt(Long.MAX_VALUE)
                             .build());
                 } else {
-                    list1.add(new Cookie.Builder()
+                    list1.put(cookieitem[0], new Cookie.Builder()
                             .name(cookieitem[0])
                             .value(cookieitem[1])
                             .domain("163.com")
@@ -38,7 +47,7 @@ public class CommandCookie extends ACommand {
                             .build());
                 }
             }
-            AllMusic.cookie.cookieStore.put("music.163.com", list1);
+            AllMusic.cookie.cookieStore.put("music.163.com", new ArrayList<>(list1.values()));
 
             AllMusic.saveCookie();
         } catch (Exception e) {

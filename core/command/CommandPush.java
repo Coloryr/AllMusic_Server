@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CommandPush extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
                 !AllMusic.side.checkPermission(name, "allmusic.push")) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.noPermission);
@@ -43,7 +43,7 @@ public class CommandPush extends ACommand {
                     return;
                 }
                 PlayMusic.clearPush();
-                AllMusic.side.bq(AllMusic.getMessage().push.cancel);
+                AllMusic.side.broadcast(AllMusic.getMessage().push.cancel);
                 return;
             } else {
                 try {
@@ -69,12 +69,12 @@ public class CommandPush extends ACommand {
             PlayMusic.startPush(name, music);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.doVote);
             String data = AllMusic.getMessage().push.bq;
-            AllMusic.side.bq(data
+            AllMusic.side.broadcast(data
                     .replace(PAL.player, name)
                     .replace(PAL.time, String.valueOf(AllMusic.getConfig().voteTime))
                     .replace(PAL.musicName, music.getName())
                     .replace(PAL.musicAuthor, music.getAuthor()));
-            AllMusic.side.bqRun(AllMusic.getMessage().push.bq1, AllMusic.getMessage().push.bq2, "/music push");
+            AllMusic.side.broadcastWithRun(AllMusic.getMessage().push.bq1, AllMusic.getMessage().push.bq2, "/music push");
         } else {
             if (music != null) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.err3);
@@ -86,7 +86,7 @@ public class CommandPush extends ACommand {
                 String data = AllMusic.getMessage().push.bqAgree;
                 data = data.replace(PAL.player, name)
                         .replace(PAL.count, String.valueOf(PlayMusic.getVoteCount()));
-                AllMusic.side.bq(data);
+                AllMusic.side.broadcast(data);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.arAgree);
             }

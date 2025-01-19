@@ -5,7 +5,7 @@ import com.coloryr.allmusic.server.core.utils.Function;
 
 public class CommandAddList extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (args.length != 2) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             return;

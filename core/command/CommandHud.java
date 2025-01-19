@@ -31,13 +31,13 @@ public class CommandHud extends ACommand {
     }
 
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (args.length == 1) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
         } else {
             ICommand command = commandList.get(args[1]);
             if (command != null) {
-                command.ex(sender, name, args);
+                command.execute(sender, name, args);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             }
@@ -64,7 +64,7 @@ public class CommandHud extends ACommand {
         }};
 
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             if (args.length == 2 || args.length == 3) {
                 boolean temp = HudUtils.setHudEnable(name, null, args.length == 3 ? args[2] : null);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
@@ -86,7 +86,7 @@ public class CommandHud extends ACommand {
 
     private static class HudReset extends ACommand {
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             HudUtils.reset(name);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.reset
                     .replace(PAL.hud, AllMusic.getMessage().hudList.getHud(null)));

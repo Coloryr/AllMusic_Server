@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.core.side;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
@@ -45,6 +44,13 @@ public abstract class BaseSide {
     public abstract boolean checkPermission(Object player);
 
     /**
+     * 是否为玩家执行指令
+     * @param source 命令源
+     * @return 是否为玩家
+     */
+    public abstract boolean isPlayer(Object source);
+
+    /**
      * 检查权限
      *
      * @param player     用户
@@ -65,10 +71,10 @@ public abstract class BaseSide {
      */
     public final void sendStop() {
         AllMusic.clearNowPlayer();
-        topSendStop();
+        sideSendStop();
     }
 
-    protected abstract void topSendStop();
+    protected abstract void sideSendStop();
 
     /**
      * 发送停止指令
@@ -77,10 +83,10 @@ public abstract class BaseSide {
      */
     public final void sendStop(String name) {
         AllMusic.removeNowPlayPlayer(name);
-        topSendStop(name);
+        sideSendStop(name);
     }
 
-    protected abstract void topSendStop(String name);
+    protected abstract void sideSendStop(String name);
 
     /**
      * 发送播放歌曲指令
@@ -97,10 +103,10 @@ public abstract class BaseSide {
      */
     public final void sendMusic(String player, String url) {
         AllMusic.addNowPlayPlayer(player);
-        topSendMusic(player, url);
+        sideSendMusic(player, url);
     }
 
-    protected abstract void topSendMusic(String player, String url);
+    protected abstract void sideSendMusic(String player, String url);
 
     /**
      * 发送图片数据指令
@@ -191,7 +197,7 @@ public abstract class BaseSide {
      *
      * @param data 消息
      */
-    public abstract void bq(String data);
+    public abstract void broadcast(String data);
 
     /**
      * 广播点击消息
@@ -200,15 +206,15 @@ public abstract class BaseSide {
      * @param end     结尾
      * @param command 指令
      */
-    public abstract void bqRun(String message, String end, String command);
+    public abstract void broadcastWithRun(String message, String end, String command);
 
     /**
      * 在主线程中广播消息
      *
      * @param data 消息
      */
-    public final void bqTask(String data) {
-        runTask(() -> bq(data));
+    public final void broadcastInTask(String data) {
+        runTask(() -> broadcast(data));
     }
 
     /**

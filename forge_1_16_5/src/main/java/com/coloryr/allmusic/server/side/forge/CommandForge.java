@@ -33,7 +33,7 @@ public class CommandForge implements Command<CommandSource>, Predicate<CommandSo
         String[] arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
-        CommandEX.ex(source, context.getSource().getTextName(), arg);
+        CommandEX.execute(source, context.getSource().getTextName(), arg);
 
         return 0;
     }

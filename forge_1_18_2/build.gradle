@@ -173,7 +173,7 @@ dependencies {
     implementation 'thedarkcolour:kotlinforforge:3.12.0'
 
     shadow 'com.squareup.okhttp3:okhttp:4.12.0'
-    shadow 'org.xerial:sqlite-jdbc:3.46.0.0'
+    shadow 'org.xerial:sqlite-jdbc:3.48.0.0'
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
@@ -199,7 +199,7 @@ shadowJar {
     dependencies {
         include(dependency('com.squareup.okhttp3:okhttp:4.12.0'))
         include(dependency('com.squareup.okio:okio-jvm:3.6.0'))
-        include(dependency('org.xerial:sqlite-jdbc:3.46.0.0'))
+        include(dependency('org.xerial:sqlite-jdbc:3.48.0.0'))
     }
 }
 

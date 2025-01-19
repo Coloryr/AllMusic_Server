@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CommandBan extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (args.length != 2) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             return;

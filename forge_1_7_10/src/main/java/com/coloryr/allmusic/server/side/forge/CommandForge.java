@@ -20,7 +20,7 @@ public class CommandForge extends CommandBase {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        CommandEX.ex(sender, sender.getCommandSenderName(), args);
+        CommandEX.execute(sender, sender.getCommandSenderName(), args);
     }
 
     @Override

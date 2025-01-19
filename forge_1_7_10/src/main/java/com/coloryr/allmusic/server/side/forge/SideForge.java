@@ -74,6 +74,11 @@ public class SideForge extends BaseSide {
     }
 
     @Override
+    public boolean isPlayer(Object source) {
+        return source instanceof EntityPlayerMP;
+    }
+
+    @Override
     public boolean needPlay() {
         for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
@@ -85,7 +90,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendStop() {
+    protected void sideSendStop() {
         try {
             for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
                 EntityPlayerMP player = (EntityPlayerMP) player1;
@@ -98,7 +103,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendStop(String name) {
+    protected void sideSendStop(String name) {
         try {
             EntityPlayerMP player = AllMusicForge.server.getConfigurationManager().func_152612_a(name);
             if (player == null)
@@ -127,7 +132,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendMusic(String player, String data) {
+    protected void sideSendMusic(String player, String data) {
         try {
             EntityPlayerMP player1 = AllMusicForge.server.getConfigurationManager().func_152612_a(player);
             if (player1 == null)
@@ -348,7 +353,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void bq(String data) {
+    public void broadcast(String data) {
         for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
             if (!AllMusic.isSkip(player.getCommandSenderName(), null, false)) {
@@ -358,7 +363,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void bqRun(String message, String end, String command) {
+    public void broadcastWithRun(String message, String end, String command) {
         ForgeApi.sendMessageBqRun(message, end, command);
     }
 

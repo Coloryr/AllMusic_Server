@@ -4,7 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 
 public class CommandHelp extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         AllMusic.side.sendMessage(sender, AllMusic.getMessage().help.normal.head);
         AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.base,
                 AllMusic.getMessage().click.clickCheck, "/music ");

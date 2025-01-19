@@ -51,13 +51,13 @@ public class CommandHudSet extends AHudCommand {
     }
 
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (args.length == 2) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
         } else {
             ICommand command = commandList.get(args[2]);
             if (command != null) {
-                command.ex(sender, name, args);
+                command.execute(sender, name, args);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             }
@@ -90,7 +90,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             if (args.length == 3 || args.length == 4) {
                 boolean temp = HudUtils.setHudEnable(name, type, args.length == 4 ? args[3] : null);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
@@ -118,7 +118,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             HudUtils.reset(name, type);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.reset
                     .replace(PAL.hud, AllMusic.getMessage().hudList.getHud(type)));
@@ -131,7 +131,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             try {
                 if (args.length != 5) {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
@@ -165,7 +165,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             if (args.length != 4) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
@@ -195,7 +195,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             if (args.length != 4) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
@@ -216,7 +216,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             if (args.length == 3 || args.length == 4) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set3
                         .replace(PAL.hud, AllMusic.getMessage().hudList.getHud(type))
@@ -239,7 +239,7 @@ public class CommandHudSet extends AHudCommand {
 
     private static class PicSize extends ACommand {
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             if (args.length != 4 || !HudUtils.setPicSize(name, args[3])) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
@@ -251,7 +251,7 @@ public class CommandHudSet extends AHudCommand {
 
     private static class PicRotate extends ACommand {
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             if (args.length == 3 || args.length == 4) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.picRotate
                         .replace(PAL.state, HudUtils.setPicRotate(name, args.length == 4 ? args[3] : null)
@@ -273,7 +273,7 @@ public class CommandHudSet extends AHudCommand {
 
     private static class PicRotateSpeed extends ACommand {
         @Override
-        public void ex(Object sender, String name, String[] args) {
+        public void execute(Object sender, String name, String[] args) {
             if (args.length != 4 || !HudUtils.setPicRotateSpeed(name, args[3])) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;

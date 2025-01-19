@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CommandSelect extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
                 !AllMusic.side.checkPermission(name, "allmusic.search")) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.noPer);

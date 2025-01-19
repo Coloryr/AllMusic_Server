@@ -1,11 +1,9 @@
 package com.coloryr.allmusic.server.core.music.play;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -172,12 +170,12 @@ public class PlayRuntime {
             if (PlayMusic.getPushTime() > 0) {
                 if (!checkPush()) {
                     PlayMusic.clearPush();
-                    AllMusic.side.bqTask(AllMusic.getMessage().push.cancel);
+                    AllMusic.side.broadcastInTask(AllMusic.getMessage().push.cancel);
                 } else {
                     PlayMusic.pushTick();
                     if (PlayMusic.getPushTime() == 0) {
                         PlayMusic.clearPush();
-                        AllMusic.side.bqTask(AllMusic.getMessage().push.timeOut);
+                        AllMusic.side.broadcastInTask(AllMusic.getMessage().push.timeOut);
                     } else {
                         int players = AllMusic.side.getPlayerSize();
                         if (PlayMusic.getPushCount() >= AllMusic.getConfig().minVote
@@ -185,7 +183,7 @@ public class PlayRuntime {
                                 && players <= PlayMusic.getPushCount())) {
                             PlayMusic.pushMusic();
                             PlayMusic.clearPush();
-                            AllMusic.side.bqTask(AllMusic.getMessage().push.doPush);
+                            AllMusic.side.broadcastInTask(AllMusic.getMessage().push.doPush);
                         }
                     }
                 }
@@ -195,7 +193,7 @@ public class PlayRuntime {
                 PlayMusic.voteTick();
                 if (PlayMusic.getVoteTime() == 0) {
                     PlayMusic.clearVote();
-                    AllMusic.side.bqTask(AllMusic.getMessage().vote.timeOut);
+                    AllMusic.side.broadcastInTask(AllMusic.getMessage().vote.timeOut);
                 } else {
                     int players = AllMusic.side.getPlayerSize();
                     if (PlayMusic.getVoteCount() >= AllMusic.getConfig().minVote
@@ -203,7 +201,7 @@ public class PlayRuntime {
                             && players <= PlayMusic.getVoteCount())) {
                         PlayMusic.musicLessTime = 0;
                         PlayMusic.clearVote();
-                        AllMusic.side.bqTask(AllMusic.getMessage().vote.voteDone);
+                        AllMusic.side.broadcastInTask(AllMusic.getMessage().vote.voteDone);
                     }
                 }
             }
@@ -234,7 +232,7 @@ public class PlayRuntime {
                     AllMusic.side.sendHudUtilsAll();
                     PlayMusic.nowPlayMusic = PlayMusic.remove(0);
                     if (AllMusic.side.onMusicPlay(PlayMusic.nowPlayMusic)) {
-                        AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.cancel);
+                        AllMusic.side.broadcastInTask(AllMusic.getMessage().musicPlay.cancel);
                         continue;
                     }
 
@@ -243,7 +241,7 @@ public class PlayRuntime {
                             PlayMusic.nowPlayMusic.getPlayerUrl();
                     if (PlayMusic.url == null) {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                        AllMusic.side.bqTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
+                        AllMusic.side.broadcastInTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
                         PlayMusic.nowPlayMusic = null;
                         continue;
                     }
@@ -274,14 +272,14 @@ public class PlayRuntime {
                                         .replace(PAL.musicAl, music.getAl())
                                         .replace(PAL.musicAlia, music.getAlia())
                                         .replace(PAL.player, music.getCall());
-                                AllMusic.side.bqTask(info);
+                                AllMusic.side.broadcastInTask(info);
                             }
                         }
                         if (!PlayMusic.nowPlayMusic.isUrl() && PlayMusic.nowPlayMusic.getPicUrl() != null) {
                             AllMusic.side.sendPic(PlayMusic.nowPlayMusic.getPicUrl());
                         }
                         if (PlayMusic.nowPlayMusic.isTrial()) {
-                            AllMusic.side.bqTask(AllMusic.getMessage().musicPlay.trail);
+                            AllMusic.side.broadcastInTask(AllMusic.getMessage().musicPlay.trail);
                             PlayMusic.musicLessTime = PlayMusic.nowPlayMusic.getTrialInfo().getEnd();
                             PlayMusic.musicNowTime = PlayMusic.nowPlayMusic.getTrialInfo().getStart();
                         }
@@ -299,7 +297,7 @@ public class PlayRuntime {
                         AllMusic.side.sendStop();
                     } else {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                        AllMusic.side.bqTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
+                        AllMusic.side.broadcastInTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
                     }
                     clear();
                 }

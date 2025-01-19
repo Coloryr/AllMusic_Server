@@ -6,7 +6,7 @@ import com.coloryr.allmusic.server.core.objs.message.PAL;
 
 public class CommandList extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (PlayMusic.nowPlayMusic == null || PlayMusic.nowPlayMusic.isNull()) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.emptyPlayingMusic);
         } else {

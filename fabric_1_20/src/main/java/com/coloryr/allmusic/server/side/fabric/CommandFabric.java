@@ -35,7 +35,7 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
         var arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
-        CommandEX.ex(source, context.getSource().getName(), arg);
+        CommandEX.execute(source, context.getSource().getName(), arg);
 
         return 0;
     }

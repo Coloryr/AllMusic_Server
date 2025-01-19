@@ -6,7 +6,7 @@ import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 
 public class CommandNextPage extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
                 !AllMusic.side.checkPermission(name, "allmusic.search")) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.noPer);

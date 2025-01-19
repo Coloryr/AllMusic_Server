@@ -17,6 +17,7 @@ import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.command.CommandSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SCustomPayloadPlayPacket;
@@ -75,6 +76,11 @@ public class SideForge extends BaseSide {
     }
 
     @Override
+    public boolean isPlayer(Object source) {
+        return source instanceof PlayerEntity;
+    }
+
+    @Override
     public boolean needPlay() {
         for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
@@ -85,7 +91,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendStop() {
+    protected void sideSendStop() {
         try {
             for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 send(player, PacketCodec.pack(ComType.STOP, null, 0));
@@ -97,7 +103,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendStop(String name) {
+    protected void sideSendStop(String name) {
         try {
             ServerPlayerEntity player = AllMusicForge.server.getPlayerList().getPlayerByName(name);
             if (player == null)
@@ -125,7 +131,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendMusic(String player, String data) {
+    protected void sideSendMusic(String player, String data) {
         try {
             ServerPlayerEntity player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
@@ -339,7 +345,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void bq(String data) {
+    public void broadcast(String data) {
         for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendMessage(new StringTextComponent(data), UUID.randomUUID());
@@ -348,7 +354,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void bqRun(String message, String end, String command) {
+    public void broadcastWithRun(String message, String end, String command) {
         ForgeApi.sendMessageBqRun(message, end, command);
     }
 

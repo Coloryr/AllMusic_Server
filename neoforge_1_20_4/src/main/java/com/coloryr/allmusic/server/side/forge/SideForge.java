@@ -18,6 +18,7 @@ import net.minecraft.commands.CommandSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -69,6 +70,11 @@ public class SideForge extends BaseSide {
     }
 
     @Override
+    public boolean isPlayer(Object source) {
+        return source instanceof Player;
+    }
+
+    @Override
     public boolean needPlay() {
         for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
@@ -79,7 +85,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendStop() {
+    protected void sideSendStop() {
         try {
             for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
                 send(player, new PackData(ComType.STOP, null, 0));
@@ -91,7 +97,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendStop(String name) {
+    protected void sideSendStop(String name) {
         try {
             ServerPlayer player = AllMusicForge.server.getPlayerList().getPlayerByName(name);
             if (player == null)
@@ -119,7 +125,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    protected void topSendMusic(String player, String data) {
+    protected void sideSendMusic(String player, String data) {
         try {
             ServerPlayer player1 = AllMusicForge.server.getPlayerList().getPlayerByName(player);
             if (player1 == null)
@@ -333,7 +339,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void bq(String data) {
+    public void broadcast(String data) {
         for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendSystemMessage(Component.literal(data));
@@ -342,7 +348,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void bqRun(String message, String end, String command) {
+    public void broadcastWithRun(String message, String end, String command) {
         ForgeApi.sendMessageBqRun(message, end, command);
     }
 

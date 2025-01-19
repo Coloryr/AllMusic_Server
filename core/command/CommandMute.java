@@ -4,7 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 
 public class CommandMute extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         AllMusic.side.sendStop(name);
         AllMusic.side.clearHud(name);
         AllMusic.getConfig().addNoMusicPlayer(name);

@@ -68,6 +68,11 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
+    public boolean isPlayer(Object source) {
+        return source instanceof PlayerEntity;
+    }
+
+    @Override
     public boolean checkPermission(Object player, String permission) {
         return checkPermission(player);
     }
@@ -83,7 +88,7 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    protected void topSendStop() {
+    protected void sideSendStop() {
         try {
             for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
                 send(player, PacketCodec.pack(ComType.STOP, null, 0));
@@ -95,7 +100,7 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    protected void topSendStop(String name) {
+    protected void sideSendStop(String name) {
         try {
             var player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
             if (player == null)
@@ -123,7 +128,7 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    protected void topSendMusic(String player, String data) {
+    protected void sideSendMusic(String player, String data) {
         try {
             var player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
             if (player1 == null)
@@ -339,7 +344,7 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void bq(String data) {
+    public void broadcast(String data) {
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendMessage(Text.of(data), false);
@@ -348,7 +353,7 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void bqRun(String message, String end, String command) {
+    public void broadcastWithRun(String message, String end, String command) {
         FabricApi.sendMessageBqRun(message, end, command);
     }
 

@@ -23,7 +23,7 @@ public class FunCore {
                     for (World item : Bukkit.getWorlds()) {
                         item.setStorm(true);
                     }
-                    AllMusic.side.bq(AllMusic.getMessage().fun.rain);
+                    AllMusic.side.broadcast(AllMusic.getMessage().fun.rain);
                 });
             }
         }

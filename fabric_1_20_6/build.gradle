@@ -41,7 +41,7 @@ dependencies {
 
 	include modImplementation('com.squareup.okio:okio-jvm:3.6.0')
 	include modImplementation('com.squareup.okhttp3:okhttp:4.12.0')
-	include modImplementation('org.xerial:sqlite-jdbc:3.46.0.0')
+	include modImplementation('org.xerial:sqlite-jdbc:3.48.0.0')
 
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

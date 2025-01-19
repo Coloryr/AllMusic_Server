@@ -5,7 +5,7 @@ import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 
 public class CommandClearList extends ACommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         PlayMusic.clearIdleList();
         AllMusic.side.sendMessage(sender, "§d[AllMusic3]§2添加空闲音乐列表已清空");
     }

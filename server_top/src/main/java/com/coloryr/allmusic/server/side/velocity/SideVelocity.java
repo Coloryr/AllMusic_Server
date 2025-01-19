@@ -138,7 +138,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void bq(String data) {
+    public void broadcast(String data) {
         Component message = Component.text(data);
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             if (skip(player)) {
@@ -150,7 +150,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void bqRun(String message, String end, String command) {
+    public void broadcastWithRun(String message, String end, String command) {
         TextComponent endtext = Component.text(end)
                 .clickEvent(ClickEvent.runCommand(command));
         TextComponent send = Component.text(message).append(endtext);
@@ -180,7 +180,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    protected void topSendStop() {
+    protected void sideSendStop() {
         try {
             for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
                 send(player, PacketCodec.pack(ComType.STOP, null, 0));
@@ -192,7 +192,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    protected void topSendStop(String name) {
+    protected void sideSendStop(String name) {
         try {
             Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
             if (!player.isPresent())
@@ -222,7 +222,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    protected void topSendMusic(String player, String data) {
+    protected void sideSendMusic(String player, String data) {
         try {
             if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
                 Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();

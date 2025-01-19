@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CommandCancel implements ICommand {
     @Override
-    public void ex(Object sender, String name, String[] args) {
+    public void execute(Object sender, String name, String[] args) {
         if (args.length == 1) {
             SongInfoObj id = PlayMusic.findPlayerMusic(name);
             if (id == null) {

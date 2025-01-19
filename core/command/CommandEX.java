@@ -223,21 +223,21 @@ public class CommandEX {
      * @param name   用户名
      * @param args   参数
      */
-    public static void ex(Object sender, String name, String[] args) {
+    public static void execute(Object sender, String name, String[] args) {
         if (args.length == 0) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             return;
         }
         ICommand command = commandList.get(args[0]);
         if (command != null) {
-            command.ex(sender, name, args);
+            command.execute(sender, name, args);
             return;
         }
 
         if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
             command = commandAdminList.get(args[0]);
             if (command != null) {
-                command.ex(sender, name, args);
+                command.execute(sender, name, args);
                 return;
             }
         }

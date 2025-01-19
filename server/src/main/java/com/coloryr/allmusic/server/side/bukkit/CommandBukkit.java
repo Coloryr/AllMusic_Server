@@ -15,7 +15,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("music")) {
-            CommandEX.ex(sender, sender.getName().toLowerCase(Locale.ROOT), args);
+            CommandEX.execute(sender, sender.getName().toLowerCase(Locale.ROOT), args);
             return true;
         }
         return false;

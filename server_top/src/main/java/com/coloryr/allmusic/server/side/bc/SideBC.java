@@ -227,7 +227,7 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    protected void topSendMusic(String player, String data) {
+    protected void sideSendMusic(String player, String data) {
         try {
             ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
             if (player1 == null)
@@ -339,7 +339,7 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    protected void topSendStop() {
+    protected void sideSendStop() {
         try {
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
                 send(player, PacketCodec.pack(ComType.STOP, null, 0));
@@ -351,7 +351,7 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    protected void topSendStop(String name) {
+    protected void sideSendStop(String name) {
         try {
             ProxiedPlayer player = ProxyServer.getInstance().getPlayer(name);
             if (player == null)
@@ -390,7 +390,7 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void bq(String data) {
+    public void broadcast(String data) {
         TextComponent message = new TextComponent(data);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             if (skip(player))
@@ -400,7 +400,7 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void bqRun(String message, String end, String command) {
+    public void broadcastWithRun(String message, String end, String command) {
         TextComponent send = new TextComponent(message);
         TextComponent endtext = new TextComponent(end);
         endtext.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
