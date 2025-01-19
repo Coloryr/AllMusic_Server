@@ -25,6 +25,7 @@ import org.bukkit.permissions.ServerOperator;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 public class SideFolia extends BaseSide {
     @Override
@@ -413,21 +414,12 @@ public class SideFolia extends BaseSide {
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
-        ScheduledTask task = Bukkit.getGlobalRegionScheduler().run(AllMusicFolia.plugin, (scheduledTask) -> {
-            Bukkit.getPluginManager().callEvent(event);
-            if (!event.isCancel()) {
-                FunCore.addMusic();
-            }
-        });
-        while (task.getExecutionState() == ScheduledTask.ExecutionState.IDLE
-                || task.getExecutionState() == ScheduledTask.ExecutionState.RUNNING) {
-            try {
-                Thread.sleep(10);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        Bukkit.getPluginManager().callEvent(event);
+        final boolean isCancelled = event.isCancelled();
+        if (!isCancelled) {
+            FunCore.addMusic();
         }
-        return event.isCancel();
+        return isCancelled;
     }
 
     private void send(Player players, ByteBuf data) {
