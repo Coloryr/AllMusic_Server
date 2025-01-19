@@ -490,6 +490,11 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
+    public boolean isPlayer(Object source) {
+        return source instanceof Player;
+    }
+
+    @Override
     public void runTask(Runnable run, int delay) {
         AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run)
                 .delay(delay, TimeUnit.MICROSECONDS).schedule();

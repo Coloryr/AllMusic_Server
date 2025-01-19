@@ -224,7 +224,7 @@ public class SideBukkit extends BaseSide {
                 }
             }
         } else {
-            bq(data);
+            broadcast(data);
         }
     }
 
@@ -463,6 +463,11 @@ public class SideBukkit extends BaseSide {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean isPlayer(Object source) {
+        return source instanceof Player;
     }
 
     @Override

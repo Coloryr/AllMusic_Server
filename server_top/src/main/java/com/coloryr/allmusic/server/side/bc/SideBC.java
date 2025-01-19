@@ -477,6 +477,11 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
+    public boolean isPlayer(Object source) {
+        return source instanceof ProxiedPlayer;
+    }
+
+    @Override
     public void runTask(Runnable run, int delay) {
         ProxyServer.getInstance().getScheduler()
                 .schedule(AllMusicBC.plugin, run, delay, TimeUnit.MICROSECONDS);
