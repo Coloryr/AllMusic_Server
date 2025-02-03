@@ -14,12 +14,9 @@ import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.forge.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
-import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -66,7 +63,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public boolean isPlayer(Object source) {
+    public boolean isPlayer(Object player) {
         CommandSourceStack source = (CommandSourceStack) player;
         return source.isPlayer();
     }
