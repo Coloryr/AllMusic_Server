@@ -33,11 +33,7 @@ public class CommandForge implements Command<CommandSourceStack>, Predicate<Comm
         var arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
-        try {
-            CommandEX.execute(item.getPlayerOrException(), context.getSource().getTextName(), arg);
-        } catch (Exception e) {
-
-        }
+        CommandEX.execute(item, context.getSource().getTextName(), arg);
 
         return 0;
     }

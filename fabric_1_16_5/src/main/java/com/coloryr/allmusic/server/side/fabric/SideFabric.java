@@ -12,23 +12,21 @@ import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
+import com.coloryr.allmusic.server.mixin.IGetCommandOutput;
 import com.coloryr.allmusic.server.side.fabric.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.fabric.event.MusicPlayEvent;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.CommandOutput;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Util;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class SideFabric extends BaseSide {
 
@@ -58,18 +56,14 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean checkPermission(Object player) {
-        if (player instanceof MinecraftServer) {
-            return true;
-        }
-        if (player instanceof Entity) {
-            return ((Entity) player).hasPermissionLevel(2);
-        }
-        return false;
+        ServerCommandSource source = (ServerCommandSource) player;
+        return source.hasPermissionLevel(2);
     }
 
     @Override
-    public boolean isPlayer(Object source) {
-        return source instanceof PlayerEntity;
+    public boolean isPlayer(Object player) {
+        ServerCommandSource source = (ServerCommandSource) player;
+        return source.getEntity() instanceof ServerPlayerEntity;
     }
 
     @Override
@@ -359,8 +353,10 @@ public class SideFabric extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, String message) {
-        CommandOutput sender = (CommandOutput) obj;
-        sender.sendSystemMessage(Text.of(message), UUID.randomUUID());
+        IGetCommandOutput output = (IGetCommandOutput) obj;
+        if (!output.getSilent()) {
+            output.getOutput().sendSystemMessage(Text.of(message), Util.NIL_UUID);
+        }
     }
 
     @Override
@@ -380,7 +376,12 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
-        return MusicAddEvent.EVENT.invoker().interact((ServerPlayerEntity) obj, music) != ActionResult.PASS;
+        ServerCommandSource sender = (ServerCommandSource) obj;
+        ServerPlayerEntity entity = null;
+        if (sender.getEntity() instanceof ServerPlayerEntity) {
+            entity = (ServerPlayerEntity) sender.getEntity();
+        }
+        return MusicAddEvent.EVENT.invoker().interact(entity, music) != ActionResult.PASS;
     }
 
     @Override

@@ -65,19 +65,14 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean checkPermission(Object player) {
-        if (player instanceof MinecraftServer) {
-            return true;
-        }
-        if (player instanceof ServerPlayerEntity) {
-            return ((ServerPlayerEntity) player).hasPermissions(2);
-        }
-
-        return false;
+        CommandSource source = (CommandSource) player;
+        return source.hasPermission(2);
     }
 
     @Override
-    public boolean isPlayer(Object source) {
-        return source instanceof PlayerEntity;
+    public boolean isPlayer(Object player) {
+        CommandSource source = (CommandSource) player;
+        return source.getEntity() instanceof PlayerEntity;
     }
 
     @Override

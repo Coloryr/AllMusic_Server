@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.side.fabric;
 
 import com.coloryr.allmusic.server.core.command.CommandEX;
-import com.coloryr.allmusic.server.mixin.IGetCommandOutput;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -28,14 +27,13 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
     @Override
     public int run(CommandContext<ServerCommandSource> context) {
         var item = context.getSource();
-        var source = ((IGetCommandOutput) item).getOutput();
 
         var input = context.getInput();
         var temp = input.split(" ");
         var arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
-        CommandEX.execute(source, context.getSource().getName(), arg);
+        CommandEX.execute(item, context.getSource().getName(), arg);
 
         return 0;
     }

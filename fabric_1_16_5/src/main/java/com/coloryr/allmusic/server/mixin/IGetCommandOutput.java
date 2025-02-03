@@ -9,5 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface IGetCommandOutput {
     @Accessor(value = "output")
     CommandOutput getOutput();
+    @Accessor(value = "silent")
+    boolean getSilent();
 }
 

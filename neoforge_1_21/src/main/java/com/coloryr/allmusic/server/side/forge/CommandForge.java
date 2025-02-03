@@ -27,14 +27,13 @@ public class CommandForge implements Command<CommandSourceStack>, Predicate<Comm
     @Override
     public int run(CommandContext<CommandSourceStack> context) {
         var item = context.getSource();
-        var source = item.source;
 
         var input = context.getInput();
         var temp = input.split(" ");
         var arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
-        CommandEX.execute(source, context.getSource().getTextName(), arg);
+        CommandEX.execute(item, context.getSource().getTextName(), arg);
 
         return 0;
     }

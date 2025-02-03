@@ -24,8 +24,6 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.ServerOperator;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.CompletableFuture;
 
 public class SideFolia extends BaseSide {
     @Override

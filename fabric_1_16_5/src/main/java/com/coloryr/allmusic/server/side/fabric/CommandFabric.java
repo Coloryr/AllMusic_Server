@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.side.fabric;
 
 import com.coloryr.allmusic.server.core.command.CommandEX;
-import com.coloryr.allmusic.server.mixin.IGetCommandOutput;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -10,7 +9,6 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 
 import java.util.List;
@@ -29,14 +27,13 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
     @Override
     public int run(CommandContext<ServerCommandSource> context) {
         ServerCommandSource item = context.getSource();
-        CommandOutput source = ((IGetCommandOutput) item).getOutput();
 
         String input = context.getInput();
         String[] temp = input.split(" ");
         String[] arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
-        CommandEX.execute(source, context.getSource().getName(), arg);
+        CommandEX.execute(item, context.getSource().getName(), arg);
 
         return 0;
     }

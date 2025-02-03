@@ -15,6 +15,7 @@ import com.coloryr.allmusic.server.side.forge.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -60,18 +61,14 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean checkPermission(Object player) {
-        if (player instanceof MinecraftServer) {
-            return true;
-        }
-        if (player instanceof ServerPlayer) {
-            return ((ServerPlayer) player).hasPermissions(2);
-        }
-        return false;
+        CommandSourceStack source = (CommandSourceStack) player;
+        return source.hasPermission(2);
     }
 
     @Override
-    public boolean isPlayer(Object source) {
-        return source instanceof Player;
+    public boolean isPlayer(Object player) {
+        CommandSourceStack source = (CommandSourceStack) player;
+        return source.isPlayer();
     }
 
     @Override
@@ -354,8 +351,8 @@ public class SideForge extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, String message) {
-        CommandSource sender = (CommandSource) obj;
-        sender.sendSystemMessage(Component.literal(message));
+        CommandSourceStack source = (CommandSourceStack) obj;
+        source.sendSystemMessage(Component.literal(message));
     }
 
     @Override
@@ -377,24 +374,10 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
-        MusicAddEvent event = new MusicAddEvent(music, (ServerPlayer) obj);
+        CommandSourceStack source = (CommandSourceStack) obj;
+        MusicAddEvent event = new MusicAddEvent(music, source.getPlayer());
         NeoForge.EVENT_BUS.post(event);
         return event.isCancel();
-    }
-
-    @Override
-    public void updateInfo() {
-
-    }
-
-    @Override
-    public void updateLyric() {
-
-    }
-
-    @Override
-    public void ping() {
-
     }
 
     @Override

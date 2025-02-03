@@ -17,6 +17,7 @@ import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
@@ -64,18 +65,14 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean checkPermission(Object player) {
-        if (player instanceof MinecraftServer) {
-            return true;
-        }
-        if (player instanceof Player) {
-            return ((Player) player).hasPermissions(2);
-        }
-        return false;
+        CommandSourceStack source = (CommandSourceStack) player;
+        return source.hasPermission(2);
     }
 
     @Override
-    public boolean isPlayer(Object source) {
-        return source instanceof Player;
+    public boolean isPlayer(Object player) {
+        CommandSourceStack source = (CommandSourceStack) player;
+        return source.isPlayer();
     }
 
     @Override
@@ -358,8 +355,8 @@ public class SideForge extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, String message) {
-        CommandSource sender = (CommandSource) obj;
-        sender.sendSystemMessage(Component.literal(message));
+        CommandSourceStack source = (CommandSourceStack) obj;
+        source.sendSystemMessage(Component.literal(message));
     }
 
     @Override
@@ -380,23 +377,9 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
-        MusicAddEvent event = new MusicAddEvent(music, (ServerPlayer) obj);
+        CommandSourceStack source = (CommandSourceStack) obj;
+        MusicAddEvent event = new MusicAddEvent(music, source.getPlayer());
         return MinecraftForge.EVENT_BUS.post(event);
-    }
-
-    @Override
-    public void updateInfo() {
-
-    }
-
-    @Override
-    public void updateLyric() {
-
-    }
-
-    @Override
-    public void ping() {
-
     }
 
     @Override

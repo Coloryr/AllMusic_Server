@@ -17,6 +17,7 @@ import com.coloryr.allmusic.server.side.forge.event.MusicPlayEvent;
 import com.google.gson.Gson;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
@@ -65,18 +66,14 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean checkPermission(Object player) {
-        if (player instanceof MinecraftServer) {
-            return true;
-        }
-        if (player instanceof ServerPlayer) {
-            return ((ServerPlayer) player).hasPermissions(2);
-        }
-        return false;
+        CommandSourceStack sender = (CommandSourceStack) player;
+        return sender.hasPermission(2);
     }
 
     @Override
-    public boolean isPlayer(Object source) {
-        return source instanceof Player;
+    public boolean isPlayer(Object player) {
+        CommandSourceStack sender = (CommandSourceStack) player;
+        return sender.getEntity() instanceof ServerPlayer;
     }
 
     @Override
@@ -359,8 +356,8 @@ public class SideForge extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, String message) {
-        CommandSource sender = (CommandSource) obj;
-        sender.sendMessage(new TextComponent(message), UUID.randomUUID());
+        CommandSourceStack sender = (CommandSourceStack) obj;
+        sender.sendSuccess(new TextComponent(message), false);
     }
 
     @Override
@@ -381,7 +378,12 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
-        MusicAddEvent event = new MusicAddEvent(music, (ServerPlayer) obj);
+        CommandSourceStack sender = (CommandSourceStack) obj;
+        ServerPlayer serverPlayer = null;
+        if (sender.getEntity() instanceof ServerPlayer player) {
+            serverPlayer = player;
+        }
+        MusicAddEvent event = new MusicAddEvent(music, serverPlayer);
         return MinecraftForge.EVENT_BUS.post(event);
     }
 

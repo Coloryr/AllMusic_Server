@@ -15,9 +15,8 @@ import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.fabric.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.fabric.event.MusicPlayEvent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandOutput;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -54,18 +53,14 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean checkPermission(Object player) {
-        if (player instanceof MinecraftServer) {
-            return true;
-        }
-        if (player instanceof PlayerEntity) {
-            return ((PlayerEntity) player).hasPermissionLevel(2);
-        }
-        return false;
+        ServerCommandSource source = (ServerCommandSource) player;
+        return source.hasPermissionLevel(2);
     }
 
     @Override
-    public boolean isPlayer(Object source) {
-        return source instanceof PlayerEntity;
+    public boolean isPlayer(Object player) {
+        ServerCommandSource source = (ServerCommandSource) player;
+        return source.isExecutedByPlayer();
     }
 
     @Override
@@ -355,8 +350,8 @@ public class SideFabric extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, String message) {
-        CommandOutput sender = (CommandOutput) obj;
-        sender.sendMessage(Text.of(message));
+        ServerCommandSource source = (ServerCommandSource) obj;
+        source.sendMessage(Text.of(message));
     }
 
     @Override
@@ -376,7 +371,8 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
-        return MusicAddEvent.EVENT.invoker().interact((ServerPlayerEntity) obj, music) != ActionResult.PASS;
+        ServerCommandSource source = (ServerCommandSource) obj;
+        return MusicAddEvent.EVENT.invoker().interact(source.getPlayer(), music) != ActionResult.PASS;
     }
 
     @Override
