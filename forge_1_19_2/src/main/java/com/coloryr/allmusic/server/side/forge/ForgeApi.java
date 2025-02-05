@@ -2,7 +2,7 @@ package com.coloryr.allmusic.server.side.forge;
 
 import com.coloryr.allmusic.server.AllMusicForge;
 import com.coloryr.allmusic.server.core.AllMusic;
-import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -11,7 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class ForgeApi {
     public static void sendMessageRun(Object obj, String message, String end, String command) {
-        CommandSource sender = (CommandSource) obj;
+        CommandSourceStack sender = (CommandSourceStack) obj;
         MutableComponent send = Component.literal(message);
         MutableComponent endtext = Component.literal(end);
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command)));
@@ -20,7 +20,7 @@ public class ForgeApi {
     }
 
     public static void sendMessageSuggest(Object obj, String message, String end, String command) {
-        CommandSource sender = (CommandSource) obj;
+        CommandSourceStack sender = (CommandSourceStack) obj;
         MutableComponent send = Component.literal(message);
         MutableComponent endtext = Component.literal(end);
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
