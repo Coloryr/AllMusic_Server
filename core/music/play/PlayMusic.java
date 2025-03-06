@@ -471,6 +471,7 @@ public class PlayMusic {
     }
 
     public static void clearIdleList() {
+        deep.clear();
         playIdleList.clear();
         DataSql.clearIdleList();
     }
@@ -499,16 +500,16 @@ public class PlayMusic {
                 if (size > playIdleList.size() / 2) {
                     size = playIdleList.size() / 2;
                 }
-                if (deep.size() >= size) {
+                while (deep.size() >= size) {
                     deep.poll();
                 }
                 do {
-                    id = playIdleList.get(new Random().nextInt(playIdleList.size()));
+                    id = playIdleList.get(AllMusic.random.nextInt(playIdleList.size()));
                 }
                 while (deep.contains(id));
                 deep.add(id);
             } else {
-                id = playIdleList.get(new Random().nextInt(playIdleList.size()));
+                id = playIdleList.get(AllMusic.random.nextInt(playIdleList.size()));
             }
         } else {
             id = playIdleList.get(idleNow);

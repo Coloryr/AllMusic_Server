@@ -7,8 +7,6 @@ import org.bukkit.World;
 import java.util.Random;
 
 public class FunCore {
-    private static final Random random = new Random();
-
     public static void addMusic() {
         if (AllMusic.getConfig().funConfig.rain) {
             int rate = AllMusic.getConfig().funConfig.rainRate;
@@ -16,7 +14,7 @@ public class FunCore {
             if (rate <= 1) {
                 rain = true;
             } else {
-                rain = random.nextInt(rate) == (rate / 2);
+                rain = AllMusic.random.nextInt(rate) == (rate / 2);
             }
             if (rain) {
                 for (World item : Bukkit.getWorlds()) {

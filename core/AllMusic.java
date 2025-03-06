@@ -24,6 +24,7 @@ import java.util.*;
 
 public class AllMusic {
     public static final Gson gson = new Gson();
+    public static final Random random = new Random();
 
     /**
      * 客户端插件信道名
@@ -36,7 +37,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.3.3";
+    public static final String version = "3.3.4";
     /**
      * 配置文件版本号
      */
