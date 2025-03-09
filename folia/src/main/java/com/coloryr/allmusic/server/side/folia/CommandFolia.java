@@ -22,7 +22,7 @@ public class CommandFolia implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (command.getName().equalsIgnoreCase("music")) {
-            return CommandEX.getTabList(sender.getName(), args);
+            return CommandEX.getTabList(sender, sender.getName(), args);
         }
         return null;
     }

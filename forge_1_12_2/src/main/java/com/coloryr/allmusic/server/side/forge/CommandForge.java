@@ -28,7 +28,7 @@ public class CommandForge extends CommandBase {
 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        return CommandEX.getTabList(sender.getName(), args);
+        return CommandEX.getTabList(sender, sender.getName(), args);
     }
 
     @Override

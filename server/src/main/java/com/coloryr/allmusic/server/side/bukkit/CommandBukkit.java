@@ -24,7 +24,7 @@ public class CommandBukkit implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, Command command, @NotNull String alias, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("music")) {
-            return CommandEX.getTabList(sender.getName().toLowerCase(Locale.ROOT), args);
+            return CommandEX.getTabList(sender, sender.getName().toLowerCase(Locale.ROOT), args);
         }
         return null;
     }

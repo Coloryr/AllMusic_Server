@@ -65,7 +65,7 @@ public class CommandHudSet extends AHudCommand {
     }
 
     @Override
-    public List<String> tab(String name, String[] args, int index) {
+    public List<String> tab(Object player, String name, String[] args, int index) {
         if (args.length == index + 1) {
             List<String> list = new ArrayList<>(hud);
             if (type == HudType.PIC) {
@@ -78,7 +78,7 @@ public class CommandHudSet extends AHudCommand {
         } else {
             ICommand command = commandList.get(args[index]);
             if (command != null) {
-                return command.tab(name, args, index + 1);
+                return command.tab(player, name, args, index + 1);
             }
         }
         return Collections.emptyList();
@@ -104,7 +104,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public List<String> tab(String name, String[] args, int index) {
+        public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
                 return tf;
             }
@@ -181,7 +181,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public List<String> tab(String name, String[] args, int index) {
+        public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
                 return dir;
             }
@@ -229,7 +229,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public List<String> tab(String name, String[] args, int index) {
+        public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
                 return tf;
             }
@@ -263,7 +263,7 @@ public class CommandHudSet extends AHudCommand {
         }
 
         @Override
-        public List<String> tab(String name, String[] args, int index) {
+        public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
                 return tf;
             }

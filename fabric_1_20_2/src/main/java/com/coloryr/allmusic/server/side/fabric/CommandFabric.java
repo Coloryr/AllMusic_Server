@@ -45,6 +45,8 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
 
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+        var item = context.getSource();
+
         var input = context.getInput();
         var temp = input.split(" ");
         var arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
@@ -53,7 +55,7 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
         if (input.endsWith(" "))
             builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
-        List<String> results = CommandEX.getTabList(context.getSource().getName(), arg);
+        List<String> results = CommandEX.getTabList(item, item.getName(), arg);
 
         for (String s : results) {
             builder.suggest(s);

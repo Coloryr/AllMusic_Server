@@ -32,7 +32,7 @@ public class CommandVelocity implements SimpleCommand {
         if (invocation.source() instanceof Player) {
             Player player = (Player) invocation.source();
             String name = player.getUsername();
-            return CommandEX.getTabList(name, args);
+            return CommandEX.getTabList(player, name, args);
         }
         return ImmutableList.of();
     }

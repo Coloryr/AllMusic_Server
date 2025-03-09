@@ -26,6 +26,7 @@ public class CommandEX {
         this.add("hud");
         this.add("push");
     }};
+
     /**
      * 管理员的指令
      */
@@ -153,12 +154,11 @@ public class CommandEX {
         if (args[0].contains("id=") && !args[0].contains("/?userid")) {
             if (args[0].contains("&uct2")) {
                 musicID = Function.getString(args[0], "id=", "&uct2");
-            }
-            else if (args[0].contains("&user"))
+            } else if (args[0].contains("&user"))
                 musicID = Function.getString(args[0], "id=", "&user");
             else
                 musicID = Function.getString(args[0], "id=", null);
-        }  else if (args[0].contains("song/")) {
+        } else if (args[0].contains("song/")) {
             if (args[0].contains("/?userid"))
                 musicID = Function.getString(args[0], "song/", "/?userid");
             else
@@ -206,14 +206,13 @@ public class CommandEX {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.noID);
     }
 
-    private static boolean isAdmin(String name)
-    {
+    private static boolean isAdmin(String name) {
         for (String item : AllMusic.getConfig().adminList) {
             if (item.equalsIgnoreCase(name)) {
                 return true;
             }
         }
-        return  false;
+        return false;
     }
 
     /**
@@ -263,11 +262,11 @@ public class CommandEX {
      * @param arg  参数
      * @return 指令列表
      */
-    public static List<String> getTabList(String name, String[] arg) {
+    public static List<String> getTabList(Object sender, String name, String[] arg) {
         List<String> arguments = new ArrayList<>();
         if (arg.length == 0) {
             arguments.addAll(normal);
-            if (AllMusic.side.checkPermission(name)) {
+            if (AllMusic.side.checkPermission(sender)) {
                 arguments.addAll(admin);
             }
             if (AllMusic.getSearch(name) != null) {
@@ -276,7 +275,7 @@ public class CommandEX {
         } else {
             if (arg[0] == null || arg[0].isEmpty() || arg.length == 1) {
                 arguments.addAll(normal);
-                if (AllMusic.side.checkPermission(name)) {
+                if (AllMusic.side.checkPermission(sender)) {
                     arguments.addAll(admin);
                 }
                 if (arg[0] == null || arg[0].isEmpty()) {
@@ -287,12 +286,12 @@ public class CommandEX {
             } else {
                 ICommand command = CommandEX.commandList.get(arg[0]);
                 if (command != null) {
-                    arguments.addAll(command.tab(name, arg, 1));
+                    arguments.addAll(command.tab(sender, name, arg, 1));
                 }
-                if (AllMusic.side.checkPermission(name)) {
+                if (AllMusic.side.checkPermission(sender)) {
                     command = CommandEX.commandAdminList.get(arg[0]);
                     if (command != null) {
-                        arguments.addAll(command.tab(name, arg, 1));
+                        arguments.addAll(command.tab(sender, name, arg, 1));
                     }
                 }
             }

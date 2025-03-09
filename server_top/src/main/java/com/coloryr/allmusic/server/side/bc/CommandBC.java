@@ -16,6 +16,6 @@ public class CommandBC extends Command implements TabExecutor {
     }
 
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        return CommandEX.getTabList(sender.getName(), args);
+        return CommandEX.getTabList(sender, sender.getName(), args);
     }
 }

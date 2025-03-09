@@ -46,6 +46,8 @@ public class CommandForge implements Command<CommandSourceStack>, Predicate<Comm
 
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
+        var item = context.getSource();
+
         var input = context.getInput();
         var temp = input.split(" ");
         var arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
@@ -54,7 +56,7 @@ public class CommandForge implements Command<CommandSourceStack>, Predicate<Comm
         if (input.endsWith(" "))
             builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
-        List<String> results = CommandEX.getTabList(context.getSource().getTextName(), arg);
+        List<String> results = CommandEX.getTabList(item, item.getTextName(), arg);
 
         for (String s : results) {
             builder.suggest(s);

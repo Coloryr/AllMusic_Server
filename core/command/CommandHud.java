@@ -45,13 +45,13 @@ public class CommandHud extends ACommand {
     }
 
     @Override
-    public List<String> tab(String name, String[] args, int index) {
+    public List<String> tab(Object player, String name, String[] args, int index) {
         if (args.length == index + 1) {
             return hudlist;
         } else {
             ICommand command = commandList.get(args[index]);
             if (command != null) {
-                return command.tab(name, args, index + 1);
+                return command.tab(player, name, args, index + 1);
             }
         }
         return Collections.emptyList();
@@ -76,7 +76,7 @@ public class CommandHud extends ACommand {
         }
 
         @Override
-        public List<String> tab(String name, String[] args, int index) {
+        public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
                 return tf;
             }

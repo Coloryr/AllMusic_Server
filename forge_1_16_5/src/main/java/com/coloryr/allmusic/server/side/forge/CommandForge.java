@@ -45,6 +45,8 @@ public class CommandForge implements Command<CommandSource>, Predicate<CommandSo
 
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<CommandSource> context, SuggestionsBuilder builder) {
+        CommandSource source = context.getSource();
+
         String input = context.getInput();
         String[] temp = input.split(" ");
         String[] arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
@@ -53,7 +55,7 @@ public class CommandForge implements Command<CommandSource>, Predicate<CommandSo
         if (input.endsWith(" "))
             builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
-        List<String> results = CommandEX.getTabList(context.getSource().getTextName(), arg);
+        List<String> results = CommandEX.getTabList(source, source.getTextName(), arg);
 
         for (String s : results) {
             builder.suggest(s);

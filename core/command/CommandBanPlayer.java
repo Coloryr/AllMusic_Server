@@ -18,7 +18,7 @@ public class CommandBanPlayer implements ICommand {
     }
 
     @Override
-    public List<String> tab(String name, String[] args, int index) {
+    public List<String> tab(Object player, String name, String[] args, int index) {
         if (args.length == index || (args.length == index + 1 && args[index].isEmpty())) {
             return AllMusic.side.getPlayerList();
         }

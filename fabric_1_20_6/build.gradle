@@ -1,7 +1,7 @@
 plugins {
-	id 'fabric-loom' version '1.8-SNAPSHOT'
+	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
-    id "org.jetbrains.kotlin.jvm" version "1.9.23"
+//    id "org.jetbrains.kotlin.jvm" version "1.9.23"
 }
 
 def getVersionFromFile() {
@@ -61,11 +61,11 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release = 17
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-	kotlinOptions {
-		jvmTarget = 17
-	}
-}
+//tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+//	kotlinOptions {
+//		jvmTarget = 17
+//	}
+//}
 
 java {
 	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task

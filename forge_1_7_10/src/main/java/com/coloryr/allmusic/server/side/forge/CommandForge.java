@@ -25,7 +25,7 @@ public class CommandForge extends CommandBase {
 
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        return CommandEX.getTabList(sender.getCommandSenderName(), args);
+        return CommandEX.getTabList(sender, sender.getCommandSenderName(), args);
     }
 
     @Override
