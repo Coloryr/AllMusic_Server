@@ -37,15 +37,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.3.4";
+    public static final String version = "3.4.0";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "203";
+    public static final String configVersion = "204";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "206";
+    public static final String messageVersion = "207";
     /**
      * 搜歌结果
      * 玩家名 结果
@@ -135,7 +135,9 @@ public class AllMusic {
             name = name.toLowerCase();
             if (server != null && AllMusic.getConfig().muteServer.contains(server))
                 return true;
-            if (AllMusic.getConfig().mutePlayer.contains(name))
+            if (DataSql.checkMutePlayer(name))
+                return true;
+            if (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList() && DataSql.checkMuteListPlayer(name))
                 return true;
             if (!checkList)
                 return false;
@@ -387,23 +389,28 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void joinPlay(String player) {
-        player = player.toLowerCase();
-        if (getConfig().mutePlayer.contains(player) || nowPlayPlayer.contains(player)) {
-            return;
-        }
-
-        String finalPlayer = player;
-        AllMusic.side.runTask(() -> {
-            SongInfoObj music = PlayMusic.nowPlayMusic;
-            if (music != null && PlayMusic.url != null) {
-                AllMusic.side.sendHudPos(finalPlayer);
-                AllMusic.side.sendMusic(finalPlayer, PlayMusic.url);
-                if (!music.isUrl()) {
-                    AllMusic.side.sendPic(finalPlayer, music.getPicUrl());
-                }
-                AllMusic.side.sendPos(finalPlayer, (int)PlayMusic.musicNowTime);
+        DataSql.task(() -> {
+            String player1 = player.toLowerCase();
+            if (DataSql.checkMutePlayer(player1) || nowPlayPlayer.contains(player1)) {
+                return;
             }
-        }, 40);
+            if (DataSql.checkMuteListPlayer(player1) && PlayMusic.nowPlayMusic != null
+                    && PlayMusic.nowPlayMusic.isList()) {
+                return;
+            }
+
+            AllMusic.side.runTask(() -> {
+                SongInfoObj music = PlayMusic.nowPlayMusic;
+                if (music != null && PlayMusic.url != null) {
+                    AllMusic.side.sendHudPos(player1);
+                    AllMusic.side.sendMusic(player1, PlayMusic.url);
+                    if (!music.isUrl()) {
+                        AllMusic.side.sendPic(player1, music.getPicUrl());
+                    }
+                    AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime);
+                }
+            }, 20);
+        });
     }
 
     /**

@@ -340,32 +340,47 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void broadcast(String data) {
+    public void broadcast(String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendSystemMessage(Component.literal(data));
+                player.sendSystemMessage(Component.literal(message));
             }
         }
     }
 
     @Override
     public void broadcastWithRun(String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         ForgeApi.sendMessageBqRun(message, end, command);
     }
 
     @Override
     public void sendMessage(Object obj, String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         CommandSourceStack sender = (CommandSourceStack) obj;
         sender.sendSystemMessage(Component.literal(message));
     }
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         ForgeApi.sendMessageRun(obj, message, end, command);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         ForgeApi.sendMessageSuggest(obj, message, end, command);
     }
 

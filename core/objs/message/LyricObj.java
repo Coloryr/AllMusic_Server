@@ -27,10 +27,15 @@ public class LyricObj {
     }
 
     public void init() {
-        data = PAL.lyric;
-        tdata = PAL.lyric + "(" + PAL.tlyric + ")";
-        empty1 = "没有歌词";
-        empty2 = "没有翻译歌词";
-        empty3 = "没有KTV歌词";
+        if (data == null)
+            data = PAL.lyric;
+        if (tdata == null)
+            tdata = PAL.lyric + "(" + PAL.tlyric + ")";
+        if (empty1 == null)
+            empty1 = "没有歌词";
+        if (empty2 == null)
+            empty2 = "没有翻译歌词";
+        if (empty3 == null)
+            empty3 = "没有KTV歌词";
     }
 }

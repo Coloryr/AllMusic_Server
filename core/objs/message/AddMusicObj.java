@@ -42,15 +42,25 @@ public class AddMusicObj {
     }
 
     public void init() {
-        listFull = "§d[AllMusic3]§c错误，队列已满";
-        playerToMany = "§d[AllMusic3]§c错误，你点了太多的歌";
-        playerBan = "§d[AllMusic3]§c错误，你已被禁止点歌";
-        banMusic = "§d[AllMusic3]§c错误，这首歌被禁点了";
-        existMusic = "§d[AllMusic3]§c错误，这首歌已经存在了";
-        success = "§d[AllMusic3]§2点歌成功";
-        noPlayer = "§d[AllMusic3]§c没有播放的玩家";
-        noID = "§d[AllMusic3]§c错误，请输入歌曲数字ID";
-        cancel = "§d[AllMusic3]§e点歌被取消";
-        timeOut = "§d[AllMusic3]§e点歌被取消，音乐长度过长";
+        if (listFull == null)
+            listFull = "§d[AllMusic3]§c错误，队列已满";
+        if (playerToMany == null)
+            playerToMany = "§d[AllMusic3]§c错误，你点了太多的歌";
+        if (playerBan == null)
+            playerBan = "§d[AllMusic3]§c错误，你已被禁止点歌";
+        if (banMusic == null)
+            banMusic = "§d[AllMusic3]§c错误，这首歌被禁点了";
+        if (existMusic == null)
+            existMusic = "§d[AllMusic3]§c错误，这首歌已经存在了";
+        if (success == null)
+            success = "§d[AllMusic3]§2点歌成功";
+        if (noPlayer == null)
+            noPlayer = "§d[AllMusic3]§c没有播放的玩家";
+        if (noID == null)
+            noID = "§d[AllMusic3]§c错误，请输入歌曲数字ID";
+        if (cancel == null)
+            cancel = "§d[AllMusic3]§e点歌被取消";
+        if (timeOut == null)
+            timeOut = "§d[AllMusic3]§e点歌被取消，音乐长度过长";
     }
 }

@@ -338,21 +338,30 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void broadcast(String data) {
+    public void broadcast(String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendMessage(Text.of(data), false);
+                player.sendMessage(Text.of(message), false);
             }
         }
     }
 
     @Override
     public void broadcastWithRun(String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         FabricApi.sendMessageBqRun(message, end, command);
     }
 
     @Override
     public void sendMessage(Object obj, String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         IGetCommandOutput output = (IGetCommandOutput) obj;
         if (!output.getSilent()) {
             output.getOutput().sendSystemMessage(Text.of(message), Util.NIL_UUID);
@@ -361,11 +370,17 @@ public class SideFabric extends BaseSide {
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         FabricApi.sendMessageRun(obj, message, end, command);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         FabricApi.sendMessageSuggest(obj, message, end, command);
     }
 

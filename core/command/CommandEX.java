@@ -5,6 +5,7 @@ import com.coloryr.allmusic.server.core.music.play.MusicSearch;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Function;
 
 import java.util.ArrayList;
@@ -66,11 +67,15 @@ public class CommandEX {
 
         commandAdminList.put("next", new CommandNext());
         commandAdminList.put("ban", new CommandBan());
+        commandAdminList.put("unban", new CommandUnban());
         commandAdminList.put("banplayer", new CommandBanPlayer());
+        commandAdminList.put("unbanplayer", new CommandUnbanPlayer());
         commandAdminList.put("url", new CommandUrl());
         commandAdminList.put("delete", new CommandDelete());
         commandAdminList.put("addlist", new CommandAddList());
         commandAdminList.put("clearlist", new CommandClearList());
+        commandAdminList.put("clearban", new CommandClearBanList());
+        commandAdminList.put("clearbanplayer", new CommandClearBanPlayerList());
         commandAdminList.put("cookie", new CommandCookie());
         commandAdminList.put("test", new CommandTest());
     }
@@ -167,15 +172,15 @@ public class CommandEX {
             musicID = args[0];
         if (Function.isInteger(musicID)) {
             if (PlayMusic.getListSize() >= AllMusic.getConfig().maxPlayList) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.listFull);
-            } else if (AllMusic.getConfig().banMusic.contains(musicID)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.banMusic);
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.listFull);
+            } else if (DataSql.checkBanMusic(musicID)) {
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.banMusic);
             } else if (PlayMusic.haveMusic(musicID)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.existMusic);
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.existMusic);
             } else if (PlayMusic.isPlayerMax(name)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.playerToMany);
-            } else if (AllMusic.getConfig().banPlayer.contains(name)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.playerBan);
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.playerToMany);
+            } else if (DataSql.checkBanPlayer(name)) {
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.playerBan);
             } else {
                 if (checkMoney(sender, name, AllMusic.getConfig().cost.addMusicCost)) {
                     return;
@@ -184,7 +189,7 @@ public class CommandEX {
                         AllMusic.getMessage().cost.addMusic)) {
                     return;
                 }
-                AllMusic.getConfig().removeNoMusicPlayer(name);
+                DataSql.removeMutePlayer(name);
                 if (AllMusic.side.needPlay()) {
                     MusicObj obj = new MusicObj();
                     obj.sender = sender;
@@ -193,17 +198,17 @@ public class CommandEX {
                     obj.isDefault = false;
 
                     if (AllMusic.side.onMusicAdd(sender, obj)) {
-                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.cancel);
+                        AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.cancel);
                         return;
                     }
 
                     PlayMusic.addTask(obj);
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.success);
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.success);
                 } else
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.noPlayer);
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.noPlayer);
             }
         } else
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.noID);
+            AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.noID);
     }
 
     private static boolean isAdmin(String name) {
@@ -250,7 +255,7 @@ public class CommandEX {
                     break;
                 case 0:
                 default:
-                    addMusic(sender, name, args);
+                    DataSql.task(()-> addMusic(sender, name, args));
             }
         }
     }

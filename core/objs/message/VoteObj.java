@@ -54,19 +54,33 @@ public class VoteObj {
     }
 
     public void init() {
-        noPermission = "§d[AllMusic3]§c你没有权限切歌";
-        doVote = "§d[AllMusic3]§e已发起切歌投票";
-        bq = "§d[AllMusic3]§e" + PAL.player + "发起了切歌投票，" + PAL.time + "秒后结束，输入/music vote 同意切歌。";
-        bq1 = "§d[AllMusic3]§e或者点击 ";
-        bq2 = "§a同意切歌";
-        agree = "§d[AllMusic3]§e你同意切歌";
-        bqAgree = "§d[AllMusic3]§e" + PAL.player + "同意切歌，共有" + PAL.count + "名玩家同意切歌。";
-        arAgree = "§d[AllMusic3]§e你已申请切歌";
-        timeOut = "§d[AllMusic3]§e切歌时间结束";
-        err1 = "§d[AllMusic3]§c你没有发起切歌";
-        err2 = "§d[AllMusic3]§c你发起的切歌已超时";
-        err3 = "§d[AllMusic3]§c已经有人发起了切歌";
-        voteDone = "§d[AllMusic3]§e已切歌";
-        cancel = "§d[AllMusic3]§e切歌投票已被发起者取消";
+        if (noPermission == null)
+            noPermission = "§d[AllMusic3]§c你没有权限切歌";
+        if (doVote == null)
+            doVote = "§d[AllMusic3]§e已发起切歌投票";
+        if (bq == null)
+            bq = "§d[AllMusic3]§e" + PAL.player + "发起了切歌投票，" + PAL.time + "秒后结束，输入/music vote 同意切歌。";
+        if (bq1 == null)
+            bq1 = "§d[AllMusic3]§e或者点击 ";
+        if (bq2 == null)
+            bq2 = "§a同意切歌";
+        if (agree == null)
+            agree = "§d[AllMusic3]§e你同意切歌";
+        if (bqAgree == null)
+            bqAgree = "§d[AllMusic3]§e" + PAL.player + "同意切歌，共有" + PAL.count + "名玩家同意切歌。";
+        if (arAgree == null)
+            arAgree = "§d[AllMusic3]§e你已申请切歌";
+        if (timeOut == null)
+            timeOut = "§d[AllMusic3]§e切歌时间结束";
+        if (err1 == null)
+            err1 = "§d[AllMusic3]§c你没有发起切歌";
+        if (err2 == null)
+            err2 = "§d[AllMusic3]§c你发起的切歌已超时";
+        if (err3 == null)
+            err3 = "§d[AllMusic3]§c已经有人发起了切歌";
+        if (voteDone == null)
+            voteDone = "§d[AllMusic3]§e已切歌";
+        if (cancel == null)
+            cancel = "§d[AllMusic3]§e切歌投票已被发起者取消";
     }
 }

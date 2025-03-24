@@ -111,23 +111,41 @@ public class HudNameObj {
     }
 
     public void init() {
-        list = "待播放列表";
-        lyric = "歌词";
-        info = "歌曲信息";
-        pic = "图片";
-        all = "所有位置";
-        picRoute = "图片旋转";
-        picSpeed = "图片旋转速度";
-        enable = "启用";
-        disable = "关闭";
-        pos1 = "左上";
-        pos2 = "上";
-        pos3 = "右上";
-        pos4 = "左";
-        pos5 = "居中";
-        pos6 = "右";
-        pos7 = "左下";
-        pos8 = "下";
-        pos9 = "右下";
+        if (list == null)
+            list = "待播放列表";
+        if (lyric == null)
+            lyric = "歌词";
+        if (info == null)
+            info = "歌曲信息";
+        if (pic == null)
+            pic = "图片";
+        if (all == null)
+            all = "所有位置";
+        if (picRoute == null)
+            picRoute = "图片旋转";
+        if (picSpeed == null)
+            picSpeed = "图片旋转速度";
+        if (enable == null)
+            enable = "启用";
+        if (disable == null)
+            disable = "关闭";
+        if (pos1 == null)
+            pos1 = "左上";
+        if (pos2 == null)
+            pos2 = "上";
+        if (pos3 == null)
+            pos3 = "右上";
+        if (pos4 == null)
+            pos4 = "左";
+        if (pos5 == null)
+            pos5 = "居中";
+        if (pos6 == null)
+            pos6 = "右";
+        if (pos7 == null)
+            pos7 = "左下";
+        if (pos8 == null)
+            pos8 = "下";
+        if (pos9 == null)
+            pos9 = "右下";
     }
 }

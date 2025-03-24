@@ -47,18 +47,6 @@ public class ConfigObj {
      */
     public Set<String> muteServer;
     /**
-     * 不参与点歌的玩家列表
-     */
-    public Set<String> mutePlayer;
-    /**
-     * 禁止点歌ID列表
-     */
-    public Set<String> banMusic;
-    /**
-     * 禁止玩家点歌列表
-     */
-    public Set<String> banPlayer;
-    /**
      * 玩家点歌后是否直接从空闲歌单切换至玩家歌曲
      */
     public boolean playListSwitch;
@@ -138,50 +126,15 @@ public class ConfigObj {
         return config;
     }
 
-    public void addBanMusic(String id) {
-        banMusic.add(id);
-        AllMusic.saveConfig();
-    }
-
-    public void addBanPlayer(String name) {
-        name = name.toLowerCase(Locale.ROOT);
-        banPlayer.add(name);
-        AllMusic.saveConfig();
-    }
-
-    public void addNoMusicPlayer(String name) {
-        name = name.toLowerCase(Locale.ROOT);
-        mutePlayer.add(name);
-        AllMusic.saveConfig();
-    }
-
-    public void removeNoMusicPlayer(String name) {
-        name = name.toLowerCase(Locale.ROOT);
-        mutePlayer.remove(name);
-        AllMusic.saveConfig();
-    }
-
     public boolean check() {
         boolean saveConfig = false;
         if (adminList == null) {
             saveConfig = true;
             adminList = new HashSet<>();
         }
-        if (banMusic == null) {
-            saveConfig = true;
-            banMusic = new HashSet<>();
-        }
-        if (banPlayer == null) {
-            saveConfig = true;
-            banPlayer = new HashSet<>();
-        }
         if (defaultHud == null) {
             saveConfig = true;
             defaultHud = SaveObj.make();
-        }
-        if (mutePlayer == null) {
-            saveConfig = true;
-            mutePlayer = new HashSet<>();
         }
         if (muteServer == null) {
             saveConfig = true;
@@ -215,9 +168,6 @@ public class ConfigObj {
         adminList = new HashSet<>();
         adminList.add("color_yr");
         muteServer = new HashSet<>();
-        mutePlayer = new HashSet<>();
-        banMusic = new HashSet<>();
-        banPlayer = new HashSet<>();
         playListSwitch = true;
         playListRandom = true;
         playListEscapeDeep = 40;

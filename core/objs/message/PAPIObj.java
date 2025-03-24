@@ -15,6 +15,7 @@ public class PAPIObj {
     }
 
     public void init() {
-        emptyMusic = "没有播放的音乐";
+        if (emptyMusic == null)
+            emptyMusic = "没有播放的音乐";
     }
 }

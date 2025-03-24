@@ -391,6 +391,8 @@ public class SideBC extends BaseSide implements IEconomy {
 
     @Override
     public void broadcast(String data) {
+        if (data == null || data.isEmpty())
+            return;
         TextComponent message = new TextComponent(data);
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             if (skip(player))
@@ -401,6 +403,8 @@ public class SideBC extends BaseSide implements IEconomy {
 
     @Override
     public void broadcastWithRun(String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         TextComponent send = new TextComponent(message);
         TextComponent endtext = new TextComponent(end);
         endtext.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
@@ -426,12 +430,16 @@ public class SideBC extends BaseSide implements IEconomy {
 
     @Override
     public void sendMessage(Object obj, String message) {
+        if (message == null || message.isEmpty())
+            return;
         CommandSender sender = (CommandSender) obj;
         sender.sendMessage(new TextComponent(message));
     }
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         CommandSender sender = (CommandSender) obj;
         TextComponent send = new TextComponent(message);
         TextComponent endtext = new TextComponent(end);
@@ -442,6 +450,8 @@ public class SideBC extends BaseSide implements IEconomy {
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         CommandSender sender = (CommandSender) obj;
         TextComponent send = new TextComponent(message);
         TextComponent endtext = new TextComponent(end);

@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.core.command;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Function;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class CommandSelect extends ACommand {
             ID[0] = obj.getSong((obj.getPage() * 10) + (a - 1));
             AllMusic.side.sendMessage(sender,
                     AllMusic.getMessage().search.choice.replace(PAL.index, "" + a));
-            CommandEX.addMusic(sender, name, ID);
+            DataSql.task(() -> CommandEX.addMusic(sender, name, ID));
             AllMusic.removeSearch(name);
         } else {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.errorNum);

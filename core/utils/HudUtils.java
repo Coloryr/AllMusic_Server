@@ -19,21 +19,27 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HudUtils {
     private static final Map<String, SaveObj> HudList = new ConcurrentHashMap<>();
 
+    /**
+     * 获取玩家的Hud储存
+     * @param name 玩家名
+     * @return Hud储存
+     */
     public static SaveObj get(String name) {
         name = name.toLowerCase(Locale.ROOT);
         if (!HudList.containsKey(name)) {
-            SaveObj obj = AllMusic.getConfig().defaultHud.copy();
-            HudList.put(name, obj);
-            String finalName = name;
-            DataSql.task(() -> DataSql.addUser(finalName, obj));
-            return obj;
+            SaveObj obj1 = DataSql.readHud(name);
+            if (obj1 == null) {
+                SaveObj obj = AllMusic.getConfig().defaultHud.copy();
+                HudList.put(name, obj);
+                String finalName = name;
+                DataSql.task(() -> DataSql.addUser(finalName, obj));
+                return obj;
+            }
+
+            HudList.put(name, obj1);
+            return obj1;
         }
         return HudList.get(name);
-    }
-
-    public static void add(String name, SaveObj hud) {
-        name = name.toLowerCase(Locale.ROOT);
-        HudList.put(name, hud);
     }
 
     public static void addAndSave(String name, SaveObj hud) {
@@ -41,12 +47,6 @@ public class HudUtils {
         HudList.put(name, hud);
         String finalName = name;
         DataSql.task(() -> DataSql.addUser(finalName, hud));
-    }
-
-    public static void save() {
-        for (Map.Entry<String, SaveObj> item : HudList.entrySet()) {
-            DataSql.addUser(item.getKey(), item.getValue());
-        }
     }
 
     /**

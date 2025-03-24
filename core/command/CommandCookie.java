@@ -22,7 +22,7 @@ public class CommandCookie extends ACommand {
             AllMusic.side.sendMessage(sender, "§d[AllMusic3]§c请在控制台上操作");
             return;
         }
-        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§d设置网易云账户");
+        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§d设置网易云账户，请点一首歌测试是否生效");
         try {
             String cookie = args[1];
             String[] cookies = cookie.split(";");

@@ -18,7 +18,9 @@ public class ClickObj {
     }
 
     public void init() {
-        clickRun = "§b[§n点我选择§r§b]";
-        clickCheck = "§b[§n点我查看§r§b]";
+        if (clickRun == null)
+            clickRun = "§b[§n点我选择§r§b]";
+        if (clickCheck == null)
+            clickCheck = "§b[§n点我查看§r§b]";
     }
 }

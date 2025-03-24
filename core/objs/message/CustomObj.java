@@ -20,7 +20,9 @@ public class CustomObj {
     }
 
     public void init() {
-        info = "自定义音乐";
-        idle = "空闲列表";
+        if (info == null)
+            info = "自定义音乐";
+        if (idle == null)
+            idle = "空闲列表";
     }
 }

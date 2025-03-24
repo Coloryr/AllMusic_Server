@@ -353,33 +353,48 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void broadcast(String data) {
+    public void broadcast(String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
             if (!AllMusic.isSkip(player.getCommandSenderName(), null, false)) {
-                player.addChatMessage(new ChatComponentText(data));
+                player.addChatMessage(new ChatComponentText(message));
             }
         }
     }
 
     @Override
     public void broadcastWithRun(String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         ForgeApi.sendMessageBqRun(message, end, command);
     }
 
     @Override
     public void sendMessage(Object obj, String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         ICommandSender sender = (ICommandSender) obj;
         sender.addChatMessage(new ChatComponentText(message));
     }
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         ForgeApi.sendMessageRun(obj, message, end, command);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         ForgeApi.sendMessageSuggest(obj, message, end, command);
     }
 

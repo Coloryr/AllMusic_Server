@@ -378,6 +378,8 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public void broadcast(String data) {
+        if (data == null || data.isEmpty())
+            return;
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.isSkip(player.getName(), null, false)) {
                 player.sendMessage(data);
@@ -387,6 +389,8 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public void broadcastWithRun(String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         SpigotApi.sendMessageBqRun(message, end, command);
     }
 
@@ -405,27 +409,31 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, String message) {
+        if (message == null || message.isEmpty())
+            return;
         CommandSender sender = (CommandSender) obj;
         sender.sendMessage(message);
     }
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         if (AllMusicBukkit.spigotSet) {
             SpigotApi.sendMessageRun(obj, message, end, command);
         } else {
-            if (!message.isEmpty())
-                sendMessage(obj, message);
+            sendMessage(obj, message);
         }
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         if (AllMusicBukkit.spigotSet) {
             SpigotApi.sendMessageSuggest(obj, message, end, command);
         } else {
-            if (!message.isEmpty())
-                sendMessage(obj, message);
+            sendMessage(obj, message);
         }
     }
 

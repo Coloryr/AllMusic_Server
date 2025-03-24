@@ -23,8 +23,11 @@ public class PageObj {
     }
 
     public void init() {
-        choice = "§e" + PAL.index + "->" + PAL.musicName + " | " + PAL.musicAuthor + " | " + PAL.musicAl;
-        next = "§e[§n点我下一页§r§e]";
-        last = "§e[§n点我上一页§r§e]";
+        if (choice == null)
+            choice = "§e" + PAL.index + "->" + PAL.musicName + " | " + PAL.musicAuthor + " | " + PAL.musicAl;
+        if (next == null)
+            next = "§e[§n点我下一页§r§e]";
+        if (last == null)
+            last = "§e[§n点我上一页§r§e]";
     }
 }

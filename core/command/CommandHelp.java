@@ -61,6 +61,10 @@ public class CommandHelp extends ACommand {
                     AllMusic.getMessage().click.clickCheck, "/music ban ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.banPlayer,
                     AllMusic.getMessage().click.clickCheck, "/music banplayer ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.unban,
+                    AllMusic.getMessage().click.clickCheck, "/music unban ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.unbanPlayer,
+                    AllMusic.getMessage().click.clickCheck, "/music unbanplayer ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.url,
                     AllMusic.getMessage().click.clickCheck, "/music url ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.delete,
@@ -69,6 +73,10 @@ public class CommandHelp extends ACommand {
                     AllMusic.getMessage().click.clickCheck, "/music addlist ");
             AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.clearList,
                     AllMusic.getMessage().click.clickRun, "/music clearlist");
+            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.clearBanList,
+                    AllMusic.getMessage().click.clickRun, "/music clearban");
+            AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.clearBanPlayerList,
+                    AllMusic.getMessage().click.clickRun, "/music clearbanplayer");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.cookie,
                     AllMusic.getMessage().click.clickCheck, "/music cookie ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.test,

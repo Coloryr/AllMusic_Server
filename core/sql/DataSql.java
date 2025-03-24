@@ -24,7 +24,7 @@ public class DataSql {
      */
     private static final String table = "CREATE TABLE IF NOT EXISTS \"allmusic\" (\n" +
             "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-            "  \"name\" TEXT(20),\n" +
+            "  \"name\" TEXT(60),\n" +
             "  \"info_x\" integer(6),\n" +
             "  \"info_y\" integer(6),\n" +
             "  \"info_color\" integer(20),\n" +
@@ -57,6 +57,26 @@ public class DataSql {
             "  \"sid\" TEXT(40)\n" +
             ");";
 
+    private static final String table2 = "CREATE TABLE IF NOT EXISTS \"allmusic_mute\" (\n" +
+            "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "  \"sid\" TEXT(60)\n" +
+            ");";
+
+    private static final String table3 = "CREATE TABLE IF NOT EXISTS \"allmusic_mutelist\" (\n" +
+            "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "  \"sid\" TEXT(60)\n" +
+            ");";
+
+    private static final String table4 = "CREATE TABLE IF NOT EXISTS \"allmusic_banlist\" (\n" +
+            "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "  \"sid\" TEXT(40)\n" +
+            ");";
+
+    private static final String table5 = "CREATE TABLE IF NOT EXISTS \"allmusic_banplayer\" (\n" +
+            "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "  \"sid\" TEXT(60)\n" +
+            ");";
+
     /**
      * 数据库文件
      */
@@ -80,6 +100,10 @@ public class DataSql {
             Statement stat = connection.createStatement();
             stat.execute(table);
             stat.execute(table1);
+            stat.execute(table2);
+            stat.execute(table3);
+            stat.execute(table4);
+            stat.execute(table5);
             stat.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,86 +246,88 @@ public class DataSql {
     /**
      * 读取所有数据
      */
-    private static void readAll() {
+    public static SaveObj readHud(String name) {
         try {
             AllMusic.log.info("正在读取玩家数据");
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT name,info_x,info_y,info_enable,lyric_x," +
+            ResultSet set = stat.executeQuery("SELECT info_x,info_y,info_enable,lyric_x," +
                     "lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size," +
                     "pic_rotate,pic_rotate_speed,info_color,info_dir,info_shadow,lyric_color," +
-                    "lyric_dir,lyric_shadow,list_color,list_dir,list_shadow,pic_dir FROM allmusic");
+                    "lyric_dir,lyric_shadow,list_color,list_dir,list_shadow,pic_dir FROM allmusic WHERE name=" + name);
             HudDirType[] vas = HudDirType.values();
-            while (set.next()) {
-                String name = set.getString(1);
-                SaveObj obj = new SaveObj();
+            SaveObj obj = null;
+            if (set.next()) {
+                obj = new SaveObj();
                 PosObj pos1 = new PosObj();
-                pos1.x = set.getInt(2);
-                pos1.y = set.getInt(3);
+                pos1.x = set.getInt(1);
+                pos1.y = set.getInt(2);
                 obj.info = pos1;
-                obj.info.enable = set.getInt(4) == 1;
+                obj.info.enable = set.getInt(3) == 1;
                 PosObj pos2 = new PosObj();
-                pos2.x = set.getInt(5);
-                pos2.y = set.getInt(6);
+                pos2.x = set.getInt(4);
+                pos2.y = set.getInt(5);
                 obj.lyric = pos2;
-                obj.lyric.enable = set.getInt(7) == 1;
+                obj.lyric.enable = set.getInt(6) == 1;
                 PosObj pos3 = new PosObj();
-                pos3.x = set.getInt(8);
-                pos3.y = set.getInt(9);
+                pos3.x = set.getInt(7);
+                pos3.y = set.getInt(8);
                 obj.list = pos3;
-                obj.list.enable = set.getInt(10) == 1;
+                obj.list.enable = set.getInt(9) == 1;
                 PosObj pos4 = new PosObj();
-                pos4.x = set.getInt(11);
-                pos4.y = set.getInt(12);
+                pos4.x = set.getInt(10);
+                pos4.y = set.getInt(11);
                 obj.pic = pos4;
-                obj.pic.enable = set.getInt(13) == 1;
-                obj.pic.color = set.getInt(14);
-                obj.pic.shadow = set.getInt(15) == 1;
-                obj.picRotateSpeed = set.getInt(16);
-                obj.info.color = set.getInt(17);
-                obj.info.dir = vas[set.getInt(18)];
-                obj.info.shadow = set.getInt(19) == 1;
-                obj.lyric.color = set.getInt(20);
-                obj.lyric.dir = vas[set.getInt(21)];
-                obj.lyric.shadow = set.getInt(22) == 1;
-                obj.list.color = set.getInt(23);
-                obj.list.dir = vas[set.getInt(24)];
-                obj.list.shadow = set.getInt(25) == 1;
-                obj.pic.dir = vas[set.getInt(26)];
-                HudUtils.add(name, obj);
+                obj.pic.enable = set.getInt(12) == 1;
+                obj.pic.color = set.getInt(13);
+                obj.pic.shadow = set.getInt(14) == 1;
+                obj.picRotateSpeed = set.getInt(15);
+                obj.info.color = set.getInt(16);
+                obj.info.dir = vas[set.getInt(17)];
+                obj.info.shadow = set.getInt(18) == 1;
+                obj.lyric.color = set.getInt(19);
+                obj.lyric.dir = vas[set.getInt(20)];
+                obj.lyric.shadow = set.getInt(21) == 1;
+                obj.list.color = set.getInt(22);
+                obj.list.dir = vas[set.getInt(23)];
+                obj.list.shadow = set.getInt(24) == 1;
+                obj.pic.dir = vas[set.getInt(25)];
             }
             stat.close();
+
+            return obj;
         } catch (Exception e) {
             AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
         }
+
+        return null;
     }
 
     /**
      * 读取空闲歌单列表
      */
-    private static void readAllList() {
+    private static String readListItem() {
         try {
             AllMusic.log.info("正在读取空闲歌单");
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_list");
-            List<String> list = new ArrayList<>();
-            while (set.next()) {
-                String name = set.getString(1);
-                list.add(name);
+            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_list ORDER BY RAND() limit 1");
+            String name = null;
+            if (set.next()) {
+                name = set.getString(1);
             }
             stat.close();
-
-            PlayMusic.addIdleList(list);
+            return name;
         } catch (Exception e) {
             AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
         }
+        return null;
     }
 
     public static void addIdleList(List<String> list) {
@@ -339,6 +365,278 @@ public class DataSql {
         });
     }
 
+    public static void addBanMusic(String music) {
+        task(() -> {
+            try {
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_banlist (sid) VALUES (?)");
+                pstmt.setString(1, music); // 设置参数
+                pstmt.execute();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void removeBanMusic(String music) {
+        task(() -> {
+            try {
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM allmusic_banlist WHERE sid=?");
+                pstmt.setString(1, music); // 设置参数
+                pstmt.execute();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * 检查玩家是否在数据库
+     *
+     * @param name 用户名
+     * @return 结果
+     */
+    public static boolean checkBanMusic(String name) {
+        try {
+            name = name.toLowerCase(Locale.ROOT);
+            boolean have = false;
+            if (connection.isReadOnly() || connection.isClosed()) {
+                init();
+            }
+            Statement stat = connection.createStatement();
+            ResultSet set = stat.executeQuery("SELECT id FROM allmusic_banlist WHERE sid ='" + name + "'");
+            if (set.next()) {
+                have = true;
+            }
+            set.close();
+            stat.close();
+            return have;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void clearBan() {
+        task(() -> {
+            try {
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                Statement stat = connection.createStatement();
+                stat.execute("DELETE FROM allmusic_banlist");
+                stat.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void addBanPlayer(String player) {
+        task(() -> {
+            try {
+                String player1 = player.toLowerCase(Locale.ROOT);
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_banplayer (sid) VALUES (?)");
+                pstmt.setString(1, player1); // 设置参数
+                pstmt.execute();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void removeBanPlayer(String player) {
+        task(() -> {
+            try {
+                String player1 = player.toLowerCase(Locale.ROOT);
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM allmusic_banplayer WHERE sid=?");
+                pstmt.setString(1, player1); // 设置参数
+                pstmt.execute();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * 检查玩家是否在数据库
+     *
+     * @param name 用户名
+     * @return 结果
+     */
+    public static boolean checkBanPlayer(String name) {
+        try {
+            name = name.toLowerCase(Locale.ROOT);
+            boolean have = false;
+            if (connection.isReadOnly() || connection.isClosed()) {
+                init();
+            }
+            Statement stat = connection.createStatement();
+            ResultSet set = stat.executeQuery("SELECT id FROM allmusic_banplayer WHERE sid ='" + name + "'");
+            if (set.next()) {
+                have = true;
+            }
+            set.close();
+            stat.close();
+            return have;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void clearBanPlayer() {
+        task(() -> {
+            try {
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                Statement stat = connection.createStatement();
+                stat.execute("DELETE FROM allmusic_banlist");
+                stat.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void addMutePlayer(String player) {
+        task(() -> {
+            try {
+                String player1 = player.toLowerCase(Locale.ROOT);
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_mute (sid) VALUES (?)");
+                pstmt.setString(1, player1); // 设置参数
+                pstmt.execute();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void removeMutePlayer(String player) {
+        task(() -> {
+            try {
+                String player1 = player.toLowerCase(Locale.ROOT);
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM allmusic_mute WHERE sid=?");
+                pstmt.setString(1, player1); // 设置参数
+                pstmt.execute();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * 检查玩家是否在数据库
+     *
+     * @param name 用户名
+     * @return 结果
+     */
+    public static boolean checkMutePlayer(String name) {
+        try {
+            name = name.toLowerCase(Locale.ROOT);
+            boolean have = false;
+            if (connection.isReadOnly() || connection.isClosed()) {
+                init();
+            }
+            Statement stat = connection.createStatement();
+            ResultSet set = stat.executeQuery("SELECT id FROM allmusic_mute WHERE sid ='" + name + "'");
+            if (set.next()) {
+                have = true;
+            }
+            set.close();
+            stat.close();
+            return have;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void addMuteListPlayer(String player) {
+        task(() -> {
+            try {
+                String player1 = player.toLowerCase(Locale.ROOT);
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_mutelist (sid) VALUES (?)");
+                pstmt.setString(1, player1); // 设置参数
+                pstmt.execute();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void removeMuteListPlayer(String player) {
+        task(() -> {
+            try {
+                String player1 = player.toLowerCase(Locale.ROOT);
+                if (connection.isReadOnly() || connection.isClosed()) {
+                    init();
+                }
+                PreparedStatement pstmt = connection.prepareStatement("DELETE FROM allmusic_mutelist WHERE sid=?");
+                pstmt.setString(1, player1); // 设置参数
+                pstmt.execute();
+                pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * 检查玩家是否在数据库
+     *
+     * @param name 用户名
+     * @return 结果
+     */
+    public static boolean checkMuteListPlayer(String name) {
+        try {
+            name = name.toLowerCase(Locale.ROOT);
+            boolean have = false;
+            if (connection.isReadOnly() || connection.isClosed()) {
+                init();
+            }
+            Statement stat = connection.createStatement();
+            ResultSet set = stat.executeQuery("SELECT id FROM allmusic_mutelist WHERE sid ='" + name + "'");
+            if (set.next()) {
+                have = true;
+            }
+            set.close();
+            stat.close();
+            return have;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void task(Runnable runnable) {
         tasks.add(runnable);
         semaphore.release();
@@ -349,8 +647,6 @@ public class DataSql {
      */
     public static void start() {
         init();
-        readAll();
-        readAllList();
         Thread thread = new Thread(DataSql::run);
         isRun = true;
         thread.start();
@@ -362,7 +658,6 @@ public class DataSql {
     public static void stop() {
         isRun = false;
         semaphore.release();
-        HudUtils.save();
     }
 
     private static void run() {

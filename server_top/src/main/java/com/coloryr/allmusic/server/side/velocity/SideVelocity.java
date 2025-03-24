@@ -139,6 +139,8 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public void broadcast(String data) {
+        if (data == null || data.isEmpty())
+            return;
         Component message = Component.text(data);
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             if (skip(player)) {
@@ -151,6 +153,8 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public void broadcastWithRun(String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         TextComponent endtext = Component.text(end)
                 .clickEvent(ClickEvent.runCommand(command));
         TextComponent send = Component.text(message).append(endtext);
@@ -399,6 +403,8 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public void sendBar(String data) {
+        if (data == null || data.isEmpty())
+            return;
         Component message = Component.text(data);
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             try {
@@ -440,12 +446,16 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public void sendMessage(Object obj, String message) {
+        if (message == null || message.isEmpty())
+            return;
         CommandSource sender = (CommandSource) obj;
         sender.sendMessage(Component.text(message));
     }
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         CommandSource sender = (CommandSource) obj;
         TextComponent endtext = Component.text(end)
                 .clickEvent(ClickEvent.runCommand(command));
@@ -455,11 +465,12 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty())
+            return;
         CommandSource sender = (CommandSource) obj;
         TextComponent endtext = Component.text(end)
                 .clickEvent(ClickEvent.suggestCommand(command));
         TextComponent send = Component.text(message).append(endtext);
-
         sender.sendMessage(send);
     }
 

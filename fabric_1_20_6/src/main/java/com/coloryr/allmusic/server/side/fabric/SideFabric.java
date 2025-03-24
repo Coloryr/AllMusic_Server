@@ -335,32 +335,47 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void broadcast(String data) {
+    public void broadcast(String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendMessage(Text.of(data), false);
+                player.sendMessage(Text.of(message), false);
             }
         }
     }
 
     @Override
     public void broadcastWithRun(String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         FabricApi.sendMessageBqRun(message, end, command);
     }
 
     @Override
     public void sendMessage(Object obj, String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         ServerCommandSource source = (ServerCommandSource) obj;
         source.sendMessage(Text.of(message));
     }
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         FabricApi.sendMessageRun(obj, message, end, command);
     }
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         FabricApi.sendMessageSuggest(obj, message, end, command);
     }
 

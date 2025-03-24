@@ -5,24 +5,23 @@ import com.coloryr.allmusic.server.core.sql.DataSql;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
-public class CommandBanPlayer implements ICommand {
+public class CommandUnbanPlayer implements ICommand {
     @Override
     public void execute(Object sender, String name, String[] args) {
         if (args.length != 2) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             return;
         }
-        DataSql.addBanPlayer(args[1]);
-        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§2已禁止玩家" + args[1] + "点歌");
+        DataSql.removeBanPlayer(args[1]);
+        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§2已解封玩家" + args[1] + "点歌");
     }
 
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
-        if (args.length == index || (args.length == index + 1 && args[index].isEmpty())) {
-            return AllMusic.side.getPlayerList();
-        }
+//        if (args.length == index || (args.length == index + 1 && args[index].isEmpty())) {
+//            return AllMusic.side.getPlayerList();
+//        }
 
         return Collections.emptyList();
     }

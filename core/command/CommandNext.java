@@ -2,6 +2,7 @@ package com.coloryr.allmusic.server.core.command;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 
 public class CommandNext extends ACommand {
 
@@ -9,6 +10,6 @@ public class CommandNext extends ACommand {
     public void execute(Object sender, String name, String[] args) {
         PlayMusic.musicLessTime = 1;
         AllMusic.side.sendMessage(sender, "§d[AllMusic3]§2已强制切歌");
-        AllMusic.getConfig().removeNoMusicPlayer(name);
+        DataSql.removeMutePlayer(name);
     }
 }

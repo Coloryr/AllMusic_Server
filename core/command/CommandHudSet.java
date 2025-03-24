@@ -5,6 +5,7 @@ import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 import java.util.*;
@@ -93,7 +94,7 @@ public class CommandHudSet extends AHudCommand {
         public void execute(Object sender, String name, String[] args) {
             if (args.length == 3 || args.length == 4) {
                 boolean temp = HudUtils.setHudEnable(name, type, args.length == 4 ? args[3] : null);
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.state
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.state
                         .replace(PAL.state, temp
                                 ? AllMusic.getMessage().hudList.enable
                                 : AllMusic.getMessage().hudList.disable)
@@ -139,11 +140,11 @@ public class CommandHudSet extends AHudCommand {
                 }
                 PosObj obj = HudUtils.setHudPos(name, type, args[3], args[4]);
                 if (obj == null) {
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().command.error);
                     return;
                 }
 
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.set
                         .replace(PAL.hud, AllMusic.getMessage().hudList.getHud(type))
                         .replace(PAL.x, args[3])
                         .replace(PAL.y, args[4]));

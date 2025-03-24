@@ -294,16 +294,22 @@ public class SideFolia extends BaseSide {
     }
 
     @Override
-    public void broadcast(String data) {
+    public void broadcast(String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.isSkip(player.getName(), null, false)) {
-                player.sendMessage(data);
+                player.sendMessage(message);
             }
         }
     }
 
     @Override
     public void broadcastWithRun(String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         SpigotApi.sendMessageBqRun(message, end, command);
     }
 
@@ -322,12 +328,18 @@ public class SideFolia extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, String message) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         CommandSender sender = (CommandSender) obj;
         sender.sendMessage(message);
     }
 
     @Override
     public void sendMessageRun(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         if (AllMusicFolia.spigotSet) {
             SpigotApi.sendMessageRun(obj, message, end, command);
         } else {
@@ -338,6 +350,9 @@ public class SideFolia extends BaseSide {
 
     @Override
     public void sendMessageSuggest(Object obj, String message, String end, String command) {
+        if (message == null || message.isEmpty()) {
+            return;
+        }
         if (AllMusicFolia.spigotSet) {
             SpigotApi.sendMessageSuggest(obj, message, end, command);
         } else {

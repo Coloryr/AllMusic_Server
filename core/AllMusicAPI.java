@@ -46,7 +46,7 @@ public class AllMusicAPI {
     }
 
     /**
-     * 获取玩家Hud信息
+     * 获取玩家Hud信息，这个操作会读取数据库，首次读取会有一点卡
      *
      * @param player 玩家
      * @return Hud信息

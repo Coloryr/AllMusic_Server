@@ -27,10 +27,15 @@ public class CancelObj {
     }
 
     public void init() {
-        err1 = "§d[AllMusic3]§c你没有点歌";
-        err2 = "§d[AllMusic3]§c歌曲" + PAL.musicName + "-" + PAL.musicAuthor + "不是你的点歌";
-        err3 = "§d[AllMusic3]§c没有找到序号为" + PAL.index + "的点歌";
-        err4 = "§d[AllMusic3]§c输入的序号错误";
-        done = "§d[AllMusic3]§e已取消你的点歌";
+        if (err1 == null)
+            err1 = "§d[AllMusic3]§c你没有点歌";
+        if (err2 == null)
+            err2 = "§d[AllMusic3]§c歌曲" + PAL.musicName + "-" + PAL.musicAuthor + "不是你的点歌";
+        if (err3 == null)
+            err3 = "§d[AllMusic3]§c没有找到序号为" + PAL.index + "的点歌";
+        if (err4 == null)
+            err4 = "§d[AllMusic3]§c输入的序号错误";
+        if (done == null)
+            done = "§d[AllMusic3]§e已取消你的点歌";
     }
 }

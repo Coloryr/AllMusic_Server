@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.core.command;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 
 public class CommandVote extends ACommand {
     @Override
@@ -52,6 +53,6 @@ public class CommandVote extends ACommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.arAgree);
             }
         }
-        AllMusic.getConfig().removeNoMusicPlayer(name);
+        DataSql.removeMutePlayer(name);
     }
 }
