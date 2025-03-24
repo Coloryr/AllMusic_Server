@@ -5,13 +5,10 @@ import com.coloryr.allmusic.server.TaskItem;
 import com.coloryr.allmusic.server.Tasks;
 import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.mixin.IGetCommandOutput;
 import com.coloryr.allmusic.server.side.fabric.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.fabric.event.MusicPlayEvent;
@@ -25,21 +22,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Util;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 
 public class SideFabric extends BaseSide {
-
-    @Override
-    public void reload() {
-        String path = "allmusic/";
-        new AllMusic().init(new File(path));
-    }
-
-    @Override
-    public int getPlayerSize() {
-        return AllMusicFabric.server.getCurrentPlayerCount();
-    }
 
     @Override
     public void runTask(Runnable run) {
@@ -72,269 +58,59 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public boolean needPlay() {
+    public Collection<Object> getPlayers() {
+        return Collections.singleton(AllMusicFabric.server.getPlayerManager().getPlayerList());
+    }
+
+    @Override
+    public String getPlayerName(Object player) {
+        if (player instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player1 = (ServerPlayerEntity) player;
+            return player1.getName().getString();
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getPlayerServer(Object player) {
+        return null;
+    }
+
+    @Override
+    public void send(Object player, ComType type, String data, int data1) {
+        if (player instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player1 = (ServerPlayerEntity) player;
+            send(player1, PacketCodec.pack(type, data, data1));
+        }
+    }
+
+    @Override
+    public Object getPlayer(String player) {
+        return null;
+    }
+
+    @Override
+    public void sendBar(Object player, String data) {
+        if (player instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player1 = (ServerPlayerEntity) player;
+            FabricApi.sendBar(player1, data);
+        }
+    }
+
+    @Override
+    public File getFolder() {
+        return new File("allmusic/");
+    }
+
+    @Override
+    public boolean needPlay(boolean islist) {
         for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
+            if (!AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
                 return true;
             }
         }
         return false;
-    }
-
-    @Override
-    protected void sideSendStop() {
-        try {
-            for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                send(player, PacketCodec.pack(ComType.STOP, null, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void sideSendStop(String name) {
-        try {
-            ServerPlayerEntity player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
-            if (player == null)
-                return;
-            send(player, PacketCodec.pack(ComType.STOP, null, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendMusic(String data) {
-        try {
-            for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isSkip(player.getName().getString(), null, false))
-                    continue;
-                send(player, PacketCodec.pack(ComType.PLAY, data, 0));
-                AllMusic.addNowPlayPlayer(player.getName().getString());
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void sideSendMusic(String player, String data) {
-        try {
-            ServerPlayerEntity player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
-            if (player1 == null)
-                return;
-            if (AllMusic.isSkip(player, null, false))
-                return;
-            send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPic(String data) {
-        try {
-            for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isSkip(player.getName().getString(), null, true))
-                    continue;
-                String name = player.getName().getString();
-                SaveObj obj = HudUtils.get(name);
-                if (!obj.pic.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.IMG, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPic(String player, String data) {
-        try {
-            ServerPlayerEntity player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
-            if (player1 == null)
-                return;
-            if (AllMusic.isSkip(player1.getName().getString(), null, true))
-                return;
-            send(player1, PacketCodec.pack(ComType.IMG, data, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPos(String player, int pos) {
-        try {
-            ServerPlayerEntity player1 = AllMusicFabric.server.getPlayerManager().getPlayer(player);
-            if (player1 == null)
-                return;
-            if (AllMusic.isSkip(player1.getName().getString(), null, true))
-                return;
-            send(player1, PacketCodec.pack(ComType.POS, null, pos));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudLyric(String data) {
-        try {
-            for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isSkip(player.getName().getString(), null, true))
-                    continue;
-                String name = player.getName().getString();
-                SaveObj obj = HudUtils.get(name);
-                if (!obj.lyric.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudInfo(String data) {
-        try {
-            for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isSkip(player.getName().getString(), null, true))
-                    continue;
-                String name = player.getName().getString();
-                SaveObj obj = HudUtils.get(name);
-                if (!obj.info.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.INFO, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudPos(String name) {
-        try {
-            ServerPlayerEntity player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
-            if (player == null)
-                return;
-            SaveObj obj = HudUtils.get(name);
-            String data = AllMusic.gson.toJson(obj);
-            send(player, PacketCodec.pack(ComType.HUD, data, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c界面位置发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHud(String name, HudType pos, String data) {
-        try {
-            if (pos == HudType.PIC) {
-                return;
-            }
-            ServerPlayerEntity player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
-            if (player == null)
-                return;
-
-            if (AllMusic.isSkip(name, null, true))
-                return;
-
-            switch (pos) {
-                case INFO:
-                    send(player, PacketCodec.pack(ComType.INFO, data, 0));
-                    break;
-                case LIST:
-                    send(player, PacketCodec.pack(ComType.LIST, data, 0));
-                    break;
-                case LYRIC:
-                    send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
-                    break;
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudList(String data) {
-        try {
-            for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                if (AllMusic.isSkip(player.getName().getString(), null, true))
-                    continue;
-                String name = player.getName().getString();
-                SaveObj obj = HudUtils.get(name);
-                if (!obj.list.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.LIST, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudUtilsAll() {
-        for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            String Name = player.getName().getString();
-            try {
-                SaveObj obj = HudUtils.get(Name);
-                String data = AllMusic.gson.toJson(obj);
-                send(player, PacketCodec.pack(ComType.HUD, data, 0));
-            } catch (Exception e1) {
-                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-                e1.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void sendBar(String data) {
-        for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            try {
-                if (AllMusic.isSkip(player.getName().getString(), null, true))
-                    continue;
-                FabricApi.sendBar(player, data);
-            } catch (Exception e1) {
-                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-                e1.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void clearHud(String name) {
-        try {
-            ServerPlayerEntity player = AllMusicFabric.server.getPlayerManager().getPlayer(name);
-            if (player == null)
-                return;
-            send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void clearHud() {
-        try {
-            for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-                send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -343,9 +119,7 @@ public class SideFabric extends BaseSide {
             return;
         }
         for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendMessage(Text.of(message), false);
-            }
+            player.sendMessage(Text.of(message), false);
         }
     }
 
@@ -397,11 +171,6 @@ public class SideFabric extends BaseSide {
             entity = (ServerPlayerEntity) sender.getEntity();
         }
         return MusicAddEvent.EVENT.invoker().interact(entity, music) != ActionResult.PASS;
-    }
-
-    @Override
-    public List<String> getPlayerList() {
-        return Arrays.asList(AllMusicFabric.server.getPlayerNames());
     }
 
     private void send(ServerPlayerEntity players, ByteBuf data) {

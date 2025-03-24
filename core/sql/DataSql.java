@@ -1,15 +1,12 @@
 package com.coloryr.allmusic.server.core.sql;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
 import com.coloryr.allmusic.server.core.objs.hud.PosObj;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 import java.io.File;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
@@ -307,11 +304,10 @@ public class DataSql {
     }
 
     /**
-     * 读取空闲歌单列表
+     * 随机获取空闲歌单歌曲
      */
-    private static String readListItem() {
+    public static String readListItem() {
         try {
-            AllMusic.log.info("正在读取空闲歌单");
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
@@ -330,9 +326,59 @@ public class DataSql {
         return null;
     }
 
+    /**
+     * 读取空闲歌单列表
+     */
+    public static String readListItem(int index) {
+        try {
+            if (connection.isReadOnly() || connection.isClosed()) {
+                init();
+            }
+            Statement stat = connection.createStatement();
+            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_list limit 1 offset " + index);
+            String name = null;
+            if (set.next()) {
+                name = set.getString(1);
+            }
+            stat.close();
+            return name;
+        } catch (Exception e) {
+            AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取空闲歌单歌曲数量
+     *
+     * @return 歌曲数量
+     */
+    public static int getListSize() {
+        try {
+            AllMusic.log.info("正在读取空闲歌单");
+            if (connection.isReadOnly() || connection.isClosed()) {
+                init();
+            }
+            Statement stat = connection.createStatement();
+            ResultSet set = stat.executeQuery("SELECT count(sid) FROM allmusic_list");
+            int count = 0;
+            if (set.next()) {
+                count = set.getInt(1);
+            }
+            stat.close();
+            return count;
+        } catch (Exception e) {
+            AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static void addIdleList(List<String> list) {
         task(() -> {
             try {
+                AllMusic.log.info("添加" + list.size() + "首歌到空闲歌单");
                 if (connection.isReadOnly() || connection.isClosed()) {
                     init();
                 }

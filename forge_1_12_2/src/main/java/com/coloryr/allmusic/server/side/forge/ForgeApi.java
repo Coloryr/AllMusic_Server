@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.side.forge;
 
 import com.coloryr.allmusic.server.AllMusicForge;
-import com.coloryr.allmusic.server.core.AllMusic;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketTitle;
@@ -38,9 +37,7 @@ public class ForgeApi {
         endtext.setStyle(endtext.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.appendSibling(endtext);
         for (EntityPlayerMP player : AllMusicForge.server.getPlayerList().getPlayers()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName())) {
-                player.sendMessage(send);
-            }
+            player.sendMessage(send);
         }
     }
 }

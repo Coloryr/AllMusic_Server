@@ -22,9 +22,8 @@ public class HttpClientUtil {
 
     private static final int CONNECT_TIMEOUT = 5;
     private static final int READ_TIMEOUT = 7;
-    private static OkHttpClient client;
-
     private static final String UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0";
+    private static OkHttpClient client;
 
     public static void init() {
         try {

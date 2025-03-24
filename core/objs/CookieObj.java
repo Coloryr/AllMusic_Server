@@ -4,7 +4,6 @@ import okhttp3.Cookie;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CookieObj {
     public HashMap<String, ArrayList<Cookie>> cookieStore = new HashMap<>();

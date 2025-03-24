@@ -3,7 +3,6 @@ package com.coloryr.allmusic.server.core.music.api;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.LyricDo;
 import com.coloryr.allmusic.server.core.music.play.LyricSave;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.HttpResObj;
 import com.coloryr.allmusic.server.core.objs.SearchMusicObj;
 import com.coloryr.allmusic.server.core.objs.api.music.info.InfoObj;
@@ -20,11 +19,9 @@ import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Logs;
 import com.google.gson.JsonObject;
-import okhttp3.Cookie;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class APIMain {
 
@@ -146,7 +143,6 @@ public class APIMain {
                     isUpdate = true;
                     DataObj obj = AllMusic.gson.fromJson(res.data, DataObj.class);
                     DataSql.addIdleList(obj.getPlaylist());
-                    PlayMusic.addIdleList(obj.getPlaylist());
                     AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().musicPlay.listMusic.get.replace(PAL.name, obj.getName()));
                 } catch (Exception e) {
                     AllMusic.log.warning("§d[AllMusic3]§c歌曲列表获取错误");

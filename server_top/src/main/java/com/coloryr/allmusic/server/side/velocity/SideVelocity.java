@@ -4,14 +4,11 @@ import com.coloryr.allmusic.server.AllMusicVelocity;
 import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.velocity.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.velocity.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
@@ -26,6 +23,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -133,11 +131,6 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public int getPlayerSize() {
-        return AllMusicVelocity.plugin.server.getPlayerCount();
-    }
-
-    @Override
     public void broadcast(String data) {
         if (data == null || data.isEmpty())
             return;
@@ -168,14 +161,14 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public boolean needPlay() {
+    public boolean needPlay(boolean islist) {
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             String server = null;
             if (player.getCurrentServer().isPresent()) {
                 server = player.getCurrentServer().get().getServerInfo().getName();
             }
 
-            if (!AllMusic.isSkip(player.getUsername(), server, false)) {
+            if (!AllMusic.isSkip(player.getUsername(), server, false, islist)) {
                 return true;
             }
         }
@@ -184,264 +177,57 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    protected void sideSendStop() {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                send(player, PacketCodec.pack(ComType.STOP, null, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
+    public Collection<Object> getPlayers() {
+        return Collections.singleton(AllMusicVelocity.plugin.server.getAllPlayers());
     }
 
     @Override
-    protected void sideSendStop(String name) {
-        try {
-            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
-            if (!player.isPresent())
-                return;
-            send(player.get(), PacketCodec.pack(ComType.STOP, null, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
+    public String getPlayerName(Object player) {
+        if (player instanceof Player) {
+            Player player1 = (Player) player;
+            return player1.getUsername();
         }
+        return null;
     }
 
     @Override
-    public void sendMusic(String data) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                String server = player.getCurrentServer().isPresent() ?
-                        player.getCurrentServer().get().getServerInfo().getName() : null;
-                if (AllMusic.isSkip(player.getUsername(), server, false))
-                    continue;
-                send(player, PacketCodec.pack(ComType.PLAY, data, 0));
-                AllMusic.addNowPlayPlayer(player.getUsername());
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void sideSendMusic(String player, String data) {
-        try {
-            if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
-                Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-                String server = player1.getCurrentServer().isPresent() ?
-                        player1.getCurrentServer().get().getServerInfo().getName() : null;
-                if (AllMusic.isSkip(player1.getUsername(), server, false))
-                    return;
-                send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPic(String data) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (skip(player))
-                    continue;
-                String name = player.getUsername();
-                SaveObj obj = HudUtils.get(name);
-                if (!obj.pic.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.IMG, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPic(String player, String data) {
-        try {
-            if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
-                Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-                if (skip(player1))
-                    return;
-                send(player1, PacketCodec.pack(ComType.IMG, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPos(String player, int pos) {
-        try {
-            if (AllMusicVelocity.plugin.server.getPlayer(player).isPresent()) {
-                Player player1 = AllMusicVelocity.plugin.server.getPlayer(player).get();
-                if (skip(player1))
-                    return;
-                send(player1, PacketCodec.pack(ComType.POS, null, pos));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudLyric(String data) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (skip(player))
-                    continue;
-                SaveObj obj = HudUtils.get(player.getUsername());
-                if (!obj.lyric.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudInfo(String data) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (skip(player))
-                    continue;
-                SaveObj obj = HudUtils.get(player.getUsername());
-                if (!obj.info.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.INFO, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudPos(String name) {
-        try {
-            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
-            if (!player.isPresent())
-                return;
-            SaveObj obj = HudUtils.get(name);
-            String data = AllMusic.gson.toJson(obj);
-            send(player.get(), PacketCodec.pack(ComType.HUD, data, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHud(String name, HudType pos, String data) {
-        try {
-            if (pos == HudType.PIC) {
-                return;
-            }
-            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
-            if (!player.isPresent())
-                return;
-
-            if (skip(player.get()))
-                return;
-
-            switch (pos) {
-                case INFO:
-                    send(player.get(), PacketCodec.pack(ComType.INFO, data, 0));
-                    break;
-                case LIST:
-                    send(player.get(), PacketCodec.pack(ComType.LIST, data, 0));
-                    break;
-                case LYRIC:
-                    send(player.get(), PacketCodec.pack(ComType.LYRIC, data, 0));
-                    break;
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudList(String data) {
-        try {
-            for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-                if (skip(player))
-                    continue;
-                String name = player.getUsername();
-                SaveObj obj = HudUtils.get(name);
-                if (!obj.list.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.LIST, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudUtilsAll() {
-        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            try {
-                SaveObj obj = HudUtils.get(player.getUsername());
-                String data = AllMusic.gson.toJson(obj);
-                send(player, PacketCodec.pack(ComType.HUD, data, 0));
-            } catch (Exception e1) {
-                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-                e1.printStackTrace();
+    public String getPlayerServer(Object player) {
+        if (player instanceof Player) {
+            Player player1 = (Player) player;
+            Optional<ServerConnection> serverConnection = player1.getCurrentServer();
+            if (serverConnection.isPresent()) {
+                return serverConnection.get().getServer().getServerInfo().getName();
             }
         }
+
+        return null;
     }
 
     @Override
-    public void sendBar(String data) {
-        if (data == null || data.isEmpty())
-            return;
-        Component message = Component.text(data);
-        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            try {
-                if (skip(player))
-                    continue;
-                player.sendActionBar(message);
-            } catch (Exception e1) {
-                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-                e1.printStackTrace();
-            }
+    public void send(Object player, ComType type, String data, int data1) {
+        if (player instanceof Player) {
+            Player player1 = (Player) player;
+            send(player1, PacketCodec.pack(type, data, data1));
         }
     }
 
     @Override
-    public void clearHud(String name) {
-        try {
-            Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
-            if (!player.isPresent())
-                return;
-            send(player.get(), PacketCodec.pack(ComType.CLEAR, null, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
-            e.printStackTrace();
+    public Object getPlayer(String player) {
+        return AllMusicVelocity.plugin.server.getPlayer(player);
+    }
+
+    @Override
+    public void sendBar(Object player, String data) {
+        if (player instanceof Player) {
+            Player player1 = (Player) player;
+            Component message = Component.text(data);
+            player1.sendActionBar(message);
         }
     }
 
     @Override
-    public void clearHud() {
-        try {
-            Collection<Player> values = AllMusicVelocity.plugin.server.getAllPlayers();
-            for (Player player : values) {
-                send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词发生出错");
-            e.printStackTrace();
-        }
+    public File getFolder() {
+        return AllMusicVelocity.plugin.dataDirectory.toFile();
     }
 
     @Override
@@ -477,11 +263,6 @@ public class SideVelocity extends BaseSide implements IEconomy {
     @Override
     public void runTask(Runnable run) {
         AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run).schedule();
-    }
-
-    @Override
-    public void reload() {
-        new AllMusic().init(AllMusicVelocity.plugin.dataDirectory.toFile());
     }
 
     @Override
@@ -522,11 +303,6 @@ public class SideVelocity extends BaseSide implements IEconomy {
                 TopServers.remove(server);
             }
         }
-    }
-
-    @Override
-    public List<String> getPlayerList() {
-        return Collections.emptyList();
     }
 
     @Override

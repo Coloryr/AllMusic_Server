@@ -123,14 +123,14 @@ public class AllMusic {
     }
 
     /**
-     * 检查是否需要
+     * 检查是否需要放歌
      *
      * @param name      用户名
      * @param server    服务器名
-     * @param checkList 是否检查正在播放的列表
-     * @return 结果
+     * @param checkPlay 是否检查正在播放的列表
+     * @return 是否跳过放歌
      */
-    public static boolean isSkip(String name, String server, boolean checkList) {
+    public static boolean isSkip(String name, String server, boolean checkPlay) {
         try {
             name = name.toLowerCase();
             if (server != null && AllMusic.getConfig().muteServer.contains(server))
@@ -139,7 +139,33 @@ public class AllMusic {
                 return true;
             if (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList() && DataSql.checkMuteListPlayer(name))
                 return true;
-            if (!checkList)
+            if (!checkPlay)
+                return false;
+            return AllMusic.containNowPlay(name);
+        } catch (NoSuchElementException e) {
+            return true;
+        }
+    }
+
+    /**
+     * 检查是否需要放歌
+     *
+     * @param name      用户名
+     * @param server    服务器名
+     * @param checkPlay 是否检查正在播放的列表
+     * @param islist    是否为空闲歌单的歌
+     * @return 是否跳过放歌
+     */
+    public static boolean isSkip(String name, String server, boolean checkPlay, boolean islist) {
+        try {
+            name = name.toLowerCase();
+            if (server != null && AllMusic.getConfig().muteServer.contains(server))
+                return true;
+            if (DataSql.checkMutePlayer(name))
+                return true;
+            if (islist && DataSql.checkMuteListPlayer(name))
+                return true;
+            if (!checkPlay)
                 return false;
             return AllMusic.containNowPlay(name);
         } catch (NoSuchElementException e) {

@@ -17,43 +17,9 @@ import java.nio.file.Path;
 
 public class MetricsVelocity {
 
-    /**
-     * A factory to create new Metrics classes.
-     */
-    public static class Factory {
-
-        private final ProxyServer server;
-        private final Logger logger;
-        private final Path dataDirectory;
-
-        // The constructor is not meant to be called by the user.
-        // The instance is created using Dependency Injection
-        @Inject
-        private Factory(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
-            this.server = server;
-            this.logger = logger;
-            this.dataDirectory = dataDirectory;
-        }
-
-        /**
-         * Creates a new Metrics class.
-         *
-         * @param plugin The plugin instance.
-         * @param serviceId The id of the service.
-         *                  It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
-         *                  <p>Not to be confused with Velocity's {@link PluginDescription#getId()} method!
-         * @return A Metrics instance that can be used to register custom charts.
-         * <p>The return value can be ignored, when you do not want to register custom charts.
-         */
-        public MetricsVelocity make(Object plugin, int serviceId) {
-            return new MetricsVelocity(plugin, server, logger, dataDirectory, serviceId);
-        }
-    }
-
     private final PluginContainer pluginContainer;
     private final ProxyServer server;
     private MetricsBase metricsBase;
-
     private MetricsVelocity(Object plugin, ProxyServer server, Logger logger, Path dataDirectory, int serviceId) {
         pluginContainer = server.getPluginManager().fromInstance(plugin)
                 .orElseThrow(() -> new IllegalArgumentException("The provided instance is not a plugin"));
@@ -129,6 +95,39 @@ public class MetricsVelocity {
 
     private void appendServiceData(JsonObjectBuilder builder) {
         builder.appendField("pluginVersion", pluginContainer.getDescription().getVersion().orElse("unknown"));
+    }
+
+    /**
+     * A factory to create new Metrics classes.
+     */
+    public static class Factory {
+
+        private final ProxyServer server;
+        private final Logger logger;
+        private final Path dataDirectory;
+
+        // The constructor is not meant to be called by the user.
+        // The instance is created using Dependency Injection
+        @Inject
+        private Factory(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
+            this.server = server;
+            this.logger = logger;
+            this.dataDirectory = dataDirectory;
+        }
+
+        /**
+         * Creates a new Metrics class.
+         *
+         * @param plugin    The plugin instance.
+         * @param serviceId The id of the service.
+         *                  It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
+         *                  <p>Not to be confused with Velocity's {@link PluginDescription#getId()} method!
+         * @return A Metrics instance that can be used to register custom charts.
+         * <p>The return value can be ignored, when you do not want to register custom charts.
+         */
+        public MetricsVelocity make(Object plugin, int serviceId) {
+            return new MetricsVelocity(plugin, server, logger, dataDirectory, serviceId);
+        }
     }
 
 }

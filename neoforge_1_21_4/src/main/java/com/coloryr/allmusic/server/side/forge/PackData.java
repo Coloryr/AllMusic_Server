@@ -3,13 +3,10 @@ package com.coloryr.allmusic.server.side.forge;
 import com.coloryr.allmusic.server.AllMusicForge;
 import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.jetbrains.annotations.NotNull;
-
-import java.nio.charset.StandardCharsets;
 
 public record PackData(ComType cmd, String data, int data1) implements CustomPacketPayload {
     public static final Type<PackData> TYPE = new Type<>(AllMusicForge.channel);

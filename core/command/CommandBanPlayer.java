@@ -3,9 +3,9 @@ package com.coloryr.allmusic.server.core.command;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class CommandBanPlayer implements ICommand {
     @Override
@@ -21,7 +21,15 @@ public class CommandBanPlayer implements ICommand {
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
         if (args.length == index || (args.length == index + 1 && args[index].isEmpty())) {
-            return AllMusic.side.getPlayerList();
+            List<String> list = new ArrayList<>();
+            for (Object item : AllMusic.side.getPlayers()) {
+                String name1 = AllMusic.side.getPlayerName(item);
+                if (name1 != null) {
+                    list.add(name1);
+                }
+            }
+
+            return list;
         }
 
         return Collections.emptyList();

@@ -3,7 +3,6 @@ package com.coloryr.allmusic.server.side.fabric;
 import com.coloryr.allmusic.server.AllMusicFabric;
 import com.coloryr.allmusic.server.core.AllMusic;
 import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket;
-import net.minecraft.server.command.CommandOutput;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.ClickEvent;

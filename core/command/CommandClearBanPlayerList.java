@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.core.command;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
 public class CommandClearBanPlayerList extends ACommand {

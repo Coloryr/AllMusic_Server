@@ -3,7 +3,6 @@ package com.coloryr.allmusic.server.core.command;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
-import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 import java.util.*;

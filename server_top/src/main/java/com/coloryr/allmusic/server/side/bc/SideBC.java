@@ -4,14 +4,11 @@ import com.coloryr.allmusic.server.AllMusicBC;
 import com.coloryr.allmusic.server.codec.PacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
 import com.coloryr.allmusic.server.side.bc.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.bc.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
@@ -22,10 +19,10 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -127,269 +124,6 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public int getPlayerSize() {
-        return ProxyServer.getInstance().getOnlineCount();
-    }
-
-    @Override
-    public void sendHudLyric(String data) {
-        try {
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (skip(player))
-                    continue;
-                SaveObj obj = HudUtils.get(player.getName());
-                if (!obj.lyric.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.LYRIC, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudInfo(String data) {
-        try {
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (skip(player))
-                    continue;
-                SaveObj obj = HudUtils.get(player.getName());
-                if (!obj.info.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.INFO, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudList(String data) {
-        try {
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (skip(player))
-                    continue;
-                String name = player.getName();
-                SaveObj obj = HudUtils.get(name);
-                if (!obj.list.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.LIST, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudUtilsAll() {
-        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            try {
-                SaveObj obj = HudUtils.get(player.getName());
-                String data = AllMusic.gson.toJson(obj);
-                send(player, PacketCodec.pack(ComType.HUD, data, 0));
-            } catch (Exception e1) {
-                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-                e1.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void sendBar(String data) {
-        TextComponent message = new TextComponent(data);
-        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            try {
-                player.sendMessage(ChatMessageType.ACTION_BAR, message);
-            } catch (Exception e1) {
-                AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-                e1.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void sendMusic(String data) {
-        try {
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                String server = player.getServer() == null ? null : player.getServer().getInfo().getName();
-                if (AllMusic.isSkip(player.getName(), server, false))
-                    continue;
-                send(player, PacketCodec.pack(ComType.PLAY, data, 0));
-                AllMusic.addNowPlayPlayer(player.getName());
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void sideSendMusic(String player, String data) {
-        try {
-            ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
-            if (player1 == null)
-                return;
-            String server = player1.getServer() == null ? null : player1.getServer().getInfo().getName();
-            if (AllMusic.isSkip(player1.getName(), server, false))
-                return;
-            send(player1, PacketCodec.pack(ComType.PLAY, data, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHudPos(String player) {
-        try {
-            ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
-            if (player1 == null)
-                return;
-            String server = player1.getServer() == null ? null : player1.getServer().getInfo().getName();
-            if (AllMusic.isSkip(player1.getName(), server, false))
-                return;
-
-            SaveObj obj = HudUtils.get(player);
-            String data = AllMusic.gson.toJson(obj);
-            send(player1, PacketCodec.pack(ComType.HUD, data, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHud(String name, HudType pos, String data) {
-        try {
-            if (pos == HudType.PIC) {
-                return;
-            }
-            ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(name);
-            if (player1 == null)
-                return;
-            if (skip(player1))
-                return;
-
-            switch (pos) {
-                case INFO:
-                    send(player1, PacketCodec.pack(ComType.INFO, data, 0));
-                    break;
-                case LIST:
-                    send(player1, PacketCodec.pack(ComType.LIST, data, 0));
-                    break;
-                case LYRIC:
-                    send(player1, PacketCodec.pack(ComType.LYRIC, data, 0));
-                    break;
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPic(String data) {
-        try {
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (skip(player))
-                    continue;
-                String name = player.getName();
-                SaveObj obj = HudUtils.get(name);
-                if (!obj.pic.enable)
-                    continue;
-                send(player, PacketCodec.pack(ComType.IMG, data, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPic(String player, String data) {
-        try {
-            ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
-            if (player1 == null)
-                return;
-            if (skip(player1))
-                return;
-            send(player1, PacketCodec.pack(ComType.IMG, data, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendPos(String player, int pos) {
-        try {
-            ProxiedPlayer player1 = ProxyServer.getInstance().getPlayer(player);
-            if (player1 == null)
-                return;
-            if (skip(player1))
-                return;
-            send(player1, PacketCodec.pack(ComType.POS, null, pos));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c歌曲位置指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void sideSendStop() {
-        try {
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                send(player, PacketCodec.pack(ComType.STOP, null, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void sideSendStop(String name) {
-        try {
-            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(name);
-            if (player == null)
-                return;
-            send(player, PacketCodec.pack(ComType.STOP, null, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void clearHud(String name) {
-        try {
-            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(name);
-            if (player == null)
-                return;
-            send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void clearHud() {
-        try {
-            Collection<ProxiedPlayer> values = ProxyServer.getInstance().getPlayers();
-            for (ProxiedPlayer player : values) {
-                send(player, PacketCodec.pack(ComType.CLEAR, null, 0));
-            }
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void broadcast(String data) {
         if (data == null || data.isEmpty())
             return;
@@ -417,10 +151,10 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public boolean needPlay() {
+    public boolean needPlay(boolean islist) {
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             String server = player.getServer() == null ? null : player.getServer().getInfo().getName();
-            if (!AllMusic.isSkip(player.getName(), server, false)) {
+            if (!AllMusic.isSkip(player.getName(), server, false, islist)) {
                 return true;
             }
         }
@@ -466,11 +200,6 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void reload() {
-        new AllMusic().init(AllMusicBC.plugin.getDataFolder());
-    }
-
-    @Override
     public boolean checkPermission(Object player, String permission) {
         if (checkPermission(player)) {
             return true;
@@ -479,6 +208,58 @@ public class SideBC extends BaseSide implements IEconomy {
             return ((CommandSender) player).hasPermission(permission);
         }
         return false;
+    }
+
+    @Override
+    public Collection<Object> getPlayers() {
+        return Collections.singleton(ProxyServer.getInstance().getPlayers());
+    }
+
+    @Override
+    public String getPlayerName(Object player) {
+        if (player instanceof ProxiedPlayer) {
+            ProxiedPlayer player1 = (ProxiedPlayer) player;
+            return player1.getName();
+        }
+        return null;
+    }
+
+    @Override
+    public String getPlayerServer(Object player) {
+        if (player instanceof ProxiedPlayer) {
+            ProxiedPlayer player1 = (ProxiedPlayer) player;
+            Server info = player1.getServer();
+            if (info != null) {
+                return info.getInfo().getName();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void send(Object player, ComType type, String data, int data1) {
+        if (player instanceof ProxiedPlayer) {
+            ProxiedPlayer player1 = (ProxiedPlayer) player;
+            send(player1, PacketCodec.pack(type, data, data1));
+        }
+    }
+
+    @Override
+    public Object getPlayer(String player) {
+        return ProxyServer.getInstance().getPlayer(player);
+    }
+
+    @Override
+    public void sendBar(Object player, String data) {
+        if (player instanceof ProxiedPlayer) {
+            ProxiedPlayer player1 = (ProxiedPlayer) player;
+            player1.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(data));
+        }
+    }
+
+    @Override
+    public File getFolder() {
+        return AllMusicBC.plugin.getDataFolder();
     }
 
     @Override
@@ -530,16 +311,6 @@ public class SideBC extends BaseSide implements IEconomy {
                 TopServers.remove(server);
             }
         }
-    }
-
-    @Override
-    public List<String> getPlayerList() {
-        List<String> list = new ArrayList<>();
-        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            list.add(player.getName().toLowerCase(Locale.ROOT));
-        }
-
-        return list;
     }
 
     @Override

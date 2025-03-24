@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.side.folia.hooks;
 
-import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -31,15 +31,11 @@ public class SpigotApi {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     }
 
-    public static void sendMessageBqRun(String message, String end, String command) {
+    public static void sendMessageBqRun(Player player, String message, String end, String command) {
         TextComponent send = new TextComponent(message);
         TextComponent endtext = new TextComponent(end);
         endtext.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         send.addExtra(endtext);
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName())) {
-                player.spigot().sendMessage(send);
-            }
-        }
+        player.spigot().sendMessage(send);
     }
 }

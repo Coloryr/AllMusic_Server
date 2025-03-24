@@ -40,9 +40,7 @@ public class ForgeApi {
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.append(endtext);
         for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
-                player.sendMessage(send, UUID.randomUUID());
-            }
+            player.sendMessage(send, UUID.randomUUID());
         }
     }
 }

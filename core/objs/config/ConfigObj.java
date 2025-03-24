@@ -3,7 +3,6 @@ package com.coloryr.allmusic.server.core.objs.config;
 import com.coloryr.allmusic.server.core.AllMusic;
 
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 /**

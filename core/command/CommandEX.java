@@ -190,7 +190,7 @@ public class CommandEX {
                     return;
                 }
                 DataSql.removeMutePlayer(name);
-                if (AllMusic.side.needPlay()) {
+                if (AllMusic.side.needPlay(false)) {
                     MusicObj obj = new MusicObj();
                     obj.sender = sender;
                     obj.id = musicID;
@@ -255,7 +255,7 @@ public class CommandEX {
                     break;
                 case 0:
                 default:
-                    DataSql.task(()-> addMusic(sender, name, args));
+                    DataSql.task(() -> addMusic(sender, name, args));
             }
         }
     }

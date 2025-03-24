@@ -24,36 +24,15 @@ public class PlayMusic {
      */
     private static final List<SongInfoObj> playList = new ArrayList<>();
     private static final Queue<MusicObj> tasks = new ConcurrentLinkedQueue<>();
-    private static final List<String> playIdleList = new ArrayList<>();
     private static final Queue<String> deep = new PriorityQueue<>();
-    /**
-     * 切歌投票时间
-     */
-    private static int voteTime = 0;
-    /**
-     * 切歌发起人
-     */
-    private static String voteSender;
     /**
      * 切歌投票的玩家
      */
     private static final Set<String> votePlayer = new HashSet<>();
     /**
-     * 插歌投票时间
-     */
-    private static int pushTime = 0;
-    /**
-     * 插歌发起人
-     */
-    private static String pushSender;
-    /**
      * 插歌投票的玩家
      */
     private static final Set<String> pushPlayer = new HashSet<>();
-    /**
-     * 插歌目标
-     */
-    private static SongInfoObj push;
     /**
      * 总歌曲长度
      */
@@ -82,6 +61,26 @@ public class PlayMusic {
      * 错误次数
      */
     public static int error;
+    /**
+     * 切歌投票时间
+     */
+    private static int voteTime = 0;
+    /**
+     * 切歌发起人
+     */
+    private static String voteSender;
+    /**
+     * 插歌投票时间
+     */
+    private static int pushTime = 0;
+    /**
+     * 插歌发起人
+     */
+    private static String pushSender;
+    /**
+     * 插歌目标
+     */
+    private static SongInfoObj push;
     private static boolean isRun;
     private static int idleNow;
 
@@ -211,7 +210,9 @@ public class PlayMusic {
     public static boolean containPush(String player) {
         player = player.toLowerCase();
         return pushPlayer.contains(player);
-    };
+    }
+
+    ;
 
     /**
      * 添加点歌任务
@@ -466,18 +467,13 @@ public class PlayMusic {
         return list <= count;
     }
 
-    public static void addIdleList(List<String> list) {
-        playIdleList.addAll(list);
-    }
-
     public static void clearIdleList() {
         deep.clear();
-        playIdleList.clear();
         DataSql.clearIdleList();
     }
 
     public static int getIdleListSize() {
-        return playIdleList.size();
+        return DataSql.getListSize();
     }
 
     /**
@@ -490,31 +486,32 @@ public class PlayMusic {
             return null;
         }
         String id;
-        if (playIdleList.isEmpty())
+        int len = DataSql.getListSize();
+        if (len == 0)
             return null;
         if (AllMusic.getConfig().playListRandom) {
-            if (playIdleList.size() == 1)
-                return playIdleList.get(0);
-            if (playIdleList.size() > 10) {
+            if (len == 1)
+                return DataSql.readListItem();
+            if (len > 10) {
                 int size = AllMusic.getConfig().playListEscapeDeep;
-                if (size > playIdleList.size() / 2) {
-                    size = playIdleList.size() / 2;
+                if (size > len / 2) {
+                    size = len / 2;
                 }
                 while (deep.size() >= size) {
                     deep.poll();
                 }
                 do {
-                    id = playIdleList.get(AllMusic.random.nextInt(playIdleList.size()));
+                    id = DataSql.readListItem();
                 }
                 while (deep.contains(id));
                 deep.add(id);
             } else {
-                id = playIdleList.get(AllMusic.random.nextInt(playIdleList.size()));
+                id = DataSql.readListItem();
             }
         } else {
-            id = playIdleList.get(idleNow);
+            id = DataSql.readListItem(idleNow);
             idleNow++;
-            if (idleNow >= playIdleList.size()) {
+            if (idleNow >= len) {
                 idleNow = 0;
             }
         }

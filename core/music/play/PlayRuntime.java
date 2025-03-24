@@ -177,7 +177,7 @@ public class PlayRuntime {
                         PlayMusic.clearPush();
                         AllMusic.side.broadcastInTask(AllMusic.getMessage().push.timeOut);
                     } else {
-                        int players = AllMusic.side.getPlayerSize();
+                        int players = AllMusic.side.getPlayers().size();
                         if (PlayMusic.getPushCount() >= AllMusic.getConfig().minVote
                                 || (players <= AllMusic.getConfig().minVote
                                 && players <= PlayMusic.getPushCount())) {
@@ -195,7 +195,7 @@ public class PlayRuntime {
                     PlayMusic.clearVote();
                     AllMusic.side.broadcastInTask(AllMusic.getMessage().vote.timeOut);
                 } else {
-                    int players = AllMusic.side.getPlayerSize();
+                    int players = AllMusic.side.getPlayers().size();
                     if (PlayMusic.getVoteCount() >= AllMusic.getConfig().minVote
                             || (players <= AllMusic.getConfig().minVote
                             && players <= PlayMusic.getVoteCount())) {
@@ -217,7 +217,7 @@ public class PlayRuntime {
                     if (PlayMusic.error >= 10) {
                         Thread.sleep(1000);
                     } else if (PlayMusic.getIdleListSize() > 0) {
-                        if (AllMusic.side.needPlay()) {
+                        if (AllMusic.side.needPlay(true)) {
                             String id = PlayMusic.getIdleMusic();
                             if (id != null) {
                                 PlayMusic.addMusic(null, id, AllMusic.getMessage().custom.idle, true);
@@ -289,7 +289,7 @@ public class PlayRuntime {
                         while (PlayMusic.musicLessTime > 0) {
                             HudUtils.sendHudNowData();
                             HudUtils.sendHudListData();
-                            if (!AllMusic.side.needPlay()) {
+                            if (PlayMusic.nowPlayMusic == null || !AllMusic.side.needPlay(PlayMusic.nowPlayMusic.isList())) {
                                 PlayMusic.musicLessTime = 1;
                             }
                             Thread.sleep(AllMusic.getConfig().sendDelay);

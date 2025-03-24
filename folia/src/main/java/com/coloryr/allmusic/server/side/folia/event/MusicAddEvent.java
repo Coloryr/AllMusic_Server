@@ -32,6 +32,7 @@ public class MusicAddEvent extends Event implements Cancellable {
 
     /**
      * 事件是否被取消
+     *
      * @return 是否被取消
      * @deprecated 请使用 {@link #isCancelled()}
      */
@@ -42,6 +43,7 @@ public class MusicAddEvent extends Event implements Cancellable {
 
     /**
      * 设置事件是否被取消
+     *
      * @param cancel 是否取消事件
      * @deprecated 请使用 {@link #setCancelled(boolean)}
      */
