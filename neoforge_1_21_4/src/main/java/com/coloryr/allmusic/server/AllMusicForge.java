@@ -6,7 +6,6 @@ import com.coloryr.allmusic.server.side.forge.LogForge;
 import com.coloryr.allmusic.server.side.forge.PackData;
 import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -59,14 +58,15 @@ public class AllMusicForge {
         new AllMusic().init(new File(path));
     }
 
-    @SubscribeEvent
     public void register(final RegisterPayloadHandlersEvent event) {
+        LOGGER.info("注册插件信道");
         final PayloadRegistrar registrar = event.registrar("1.0");
         registrar.optional().playToClient(PackData.TYPE, PackData.CODEC, new HandelPack());
     }
 
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
+        LOGGER.info("注册指令");
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         CommandForge.instance.register(dispatcher);
     }

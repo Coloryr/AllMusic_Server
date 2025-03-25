@@ -356,7 +356,6 @@ public class DataSql {
      */
     public static int getListSize() {
         try {
-            AllMusic.log.info("正在读取空闲歌单");
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }

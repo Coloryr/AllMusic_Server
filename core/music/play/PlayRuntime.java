@@ -216,12 +216,10 @@ public class PlayRuntime {
                 if (PlayMusic.getListSize() == 0) {
                     if (PlayMusic.error >= 10) {
                         Thread.sleep(1000);
-                    } else if (PlayMusic.getIdleListSize() > 0) {
-                        if (AllMusic.side.needPlay(true)) {
-                            String id = PlayMusic.getIdleMusic();
-                            if (id != null) {
-                                PlayMusic.addMusic(null, id, AllMusic.getMessage().custom.idle, true);
-                            }
+                    } else if (AllMusic.side.needPlay(true) && PlayMusic.getIdleListSize() > 0) {
+                        String id = PlayMusic.getIdleMusic();
+                        if (id != null) {
+                            PlayMusic.addMusic(null, id, AllMusic.getMessage().custom.idle, true);
                         }
                     }
                     Thread.sleep(1000);
