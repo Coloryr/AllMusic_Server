@@ -58,9 +58,10 @@ public class AllMusicForge {
         new AllMusic().init(new File(path));
     }
 
+    @SubscribeEvent
     public void register(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1.0")
-                .optional().playToClient(PackData.TYPE, PackData.CODEC, new HandelPack());
+        final PayloadRegistrar registrar = event.registrar("1.0");
+        registrar.optional().playToClient(PackData.TYPE, PackData.CODEC, new HandelPack());
     }
 
     @SubscribeEvent

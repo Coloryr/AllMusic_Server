@@ -60,6 +60,7 @@ public class AllMusicForge implements IPlayPayloadHandler<PackData> {
         new AllMusic().init(new File(path));
     }
 
+    @SubscribeEvent
     public void register(final RegisterPayloadHandlerEvent event) {
         final IPayloadRegistrar registrar = event.registrar("allmusic");
         registrar.versioned("1.0").optional().play(channel, new DataReader(), han -> han.server(this));
