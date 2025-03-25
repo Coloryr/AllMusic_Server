@@ -52,7 +52,7 @@ public class AllMusicForge implements IPlayPayloadHandler<PackData> {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
+        String path = String.format(Locale.ROOT, "config/%s/", "allmusic");
 
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
