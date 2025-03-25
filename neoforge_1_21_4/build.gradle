@@ -29,11 +29,11 @@ group = mod_group_id
 repositories {
     mavenLocal()
 
-    maven {
-        name = 'Kotlin for Forge'
-        url = 'https://thedarkcolour.github.io/KotlinForForge/'
-        content { includeGroup "thedarkcolour" }
-    }
+//    maven {
+//        name = 'Kotlin for Forge'
+//        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+//        content { includeGroup "thedarkcolour" }
+//    }
 }
 
 base {
@@ -45,7 +45,6 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 // Enable the Jar-in-Jar system for your mod
 jarJar.enable()
-
 
 // Default run configurations.
 // These can be tweaked, removed, or duplicated as needed.
@@ -122,7 +121,7 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'org.xerial:sqlite-jdbc:3.48.0.0'
-    implementation "thedarkcolour:kotlinforforge:$kff_version"
+//    implementation "thedarkcolour:kotlinforforge:$kff_version"
 
 //    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: '[2.0, 2.1)')
 //    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: '[2.0, 2.1)')
