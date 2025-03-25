@@ -66,8 +66,8 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public Collection<Object> getPlayers() {
-        return Collections.singleton(AllMusicFabric.server.getPlayerManager().getPlayerList());
+    public Collection<?> getPlayers() {
+        return AllMusicFabric.server.getPlayerManager().getPlayerList();
     }
 
     @Override

@@ -211,8 +211,8 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public Collection<Object> getPlayers() {
-        return Collections.singleton(ProxyServer.getInstance().getPlayers());
+    public Collection<?> getPlayers() {
+        return ProxyServer.getInstance().getPlayers();
     }
 
     @Override

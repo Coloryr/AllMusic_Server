@@ -73,7 +73,7 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public Collection<Object> getPlayers() {
+    public Collection<?> getPlayers() {
         return AllMusicForge.server.getConfigurationManager().playerEntityList;
     }
 

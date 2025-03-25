@@ -73,8 +73,8 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public Collection<Object> getPlayers() {
-        return Collections.singleton(AllMusicForge.server.getPlayerList().getPlayers());
+    public Collection<?> getPlayers() {
+        return AllMusicForge.server.getPlayerList().getPlayers();
     }
 
     @Override

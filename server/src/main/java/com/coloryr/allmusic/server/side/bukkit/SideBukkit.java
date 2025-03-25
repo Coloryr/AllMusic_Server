@@ -110,8 +110,8 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public Collection<Object> getPlayers() {
-        return Collections.singleton(Bukkit.getOnlinePlayers());
+    public Collection<?> getPlayers() {
+        return Bukkit.getOnlinePlayers();
     }
 
     @Override

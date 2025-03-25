@@ -121,7 +121,7 @@ public class DataSql {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT allmusic.id FROM allmusic WHERE allmusic.name ='" + name + "'");
+            ResultSet set = stat.executeQuery("SELECT id FROM allmusic WHERE name ='" + name + "'");
             if (set.next()) {
                 have = true;
             }
@@ -245,7 +245,7 @@ public class DataSql {
      */
     public static SaveObj readHud(String name) {
         try {
-            AllMusic.log.info("正在读取玩家数据");
+            AllMusic.log.info("正在读取玩家数据:" + name);
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
@@ -253,7 +253,7 @@ public class DataSql {
             ResultSet set = stat.executeQuery("SELECT info_x,info_y,info_enable,lyric_x," +
                     "lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size," +
                     "pic_rotate,pic_rotate_speed,info_color,info_dir,info_shadow,lyric_color," +
-                    "lyric_dir,lyric_shadow,list_color,list_dir,list_shadow,pic_dir FROM allmusic WHERE name=" + name);
+                    "lyric_dir,lyric_shadow,list_color,list_dir,list_shadow,pic_dir FROM allmusic WHERE name='" + name + "'");
             HudDirType[] vas = HudDirType.values();
             SaveObj obj = null;
             if (set.next()) {

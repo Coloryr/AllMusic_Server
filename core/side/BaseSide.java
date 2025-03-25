@@ -65,7 +65,7 @@ public abstract class BaseSide {
      *
      * @return 玩家列表
      */
-    public abstract Collection<Object> getPlayers();
+    public abstract Collection<?> getPlayers();
 
     /**
      * 获取玩家名字

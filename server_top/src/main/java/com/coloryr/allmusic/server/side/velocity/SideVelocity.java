@@ -177,8 +177,8 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public Collection<Object> getPlayers() {
-        return Collections.singleton(AllMusicVelocity.plugin.server.getAllPlayers());
+    public Collection<?> getPlayers() {
+        return AllMusicVelocity.plugin.server.getAllPlayers();
     }
 
     @Override

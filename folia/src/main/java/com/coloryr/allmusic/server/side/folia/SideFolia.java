@@ -21,12 +21,11 @@ import org.bukkit.permissions.ServerOperator;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Collections;
 
 public class SideFolia extends BaseSide {
     @Override
-    public Collection<Object> getPlayers() {
-        return Collections.singleton(Bukkit.getOnlinePlayers());
+    public Collection<?> getPlayers() {
+        return Bukkit.getOnlinePlayers();
     }
 
     @Override
