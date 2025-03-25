@@ -40,9 +40,7 @@ public class FabricApi {
         endText.setStyle(endText.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.append(endText);
         for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            if (!AllMusic.getConfig().mutePlayer.contains(player.getName().getString())) {
-                player.sendMessage(send, false);
-            }
+            player.sendMessage(send, false);
         }
     }
 }
