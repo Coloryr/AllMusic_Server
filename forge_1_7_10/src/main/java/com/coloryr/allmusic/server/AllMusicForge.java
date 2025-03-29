@@ -4,6 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.side.forge.CommandForge;
 import com.coloryr.allmusic.server.side.forge.LogForge;
 import com.coloryr.allmusic.server.side.forge.SideForge;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
@@ -35,6 +36,7 @@ public class AllMusicForge {
     @Mod.EventHandler
     private void commonSetup(final FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
+        FMLCommonHandler.instance().bus().register(this);
         channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("allmusic:channel");
 
         String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
