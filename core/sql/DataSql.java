@@ -312,7 +312,7 @@ public class DataSql {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_list ORDER BY RAND() limit 1");
+            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_list ORDER BY random() limit 1");
             String name = null;
             if (set.next()) {
                 name = set.getString(1);
