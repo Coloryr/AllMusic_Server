@@ -114,6 +114,7 @@ Forge/Fabric/NeoForge类服务器
 3.3.1：修复控制台权限
 3.3.2：修复folia卡死问题
 3.3.5：修复tab补全出现的问题
+3.4.1：修复点歌不生效问题
 ```
 
 ## 配置文件说明
@@ -199,12 +200,13 @@ Forge/Fabric/NeoForge类服务器
 - /music [音乐ID/网易云分享链接] 点歌
 - /music stop 停止播放歌曲
 - /music list 查看歌曲队列
-- /music cancel (序号) 取消你的点歌
+- /music cancel [序号] 取消你的点歌
 - /music vote 投票切歌
 - /music vote cancel 取消发起的切歌
-- /music push (序号) 投票将歌曲插入到队列头
+- /music push [序号] 投票将歌曲插入到队列头
 - /music push cancel 取消发起的插歌
-- /music mute 不再参与点歌
+- /music mute 不再参与点歌，再输入一次恢复
+- /music mute list 不接收空闲列表点歌，再输入一次恢复
 - /music search [歌名] 搜索歌曲
 - /music select [序列] 选择歌曲
 - /music nextpage 切换下一页歌曲搜索结果
@@ -220,21 +222,27 @@ Forge/Fabric/NeoForge类服务器
 - /music hud pic rotate [开关] 设置图片旋转模式
 - /music hud pic speed [数值] 设置图片旋转速度
 
-管理员指令
-以下方式才是管理员
-   - 在配置文件给自己管理员然后/music reload
-   - bukkit/spigot/paper/folia 服务器给自己op
-   - forge/fabric/neoforge 服务器给自己等级权限2
-   - bc/velocity 配置文件写上自己的游戏名
+以下方式才是管理员  
+- 在配置文件给自己管理员
+- bukkit/spigot/paper/folia 服务器给自己op
+- forge/fabric/neoforge 服务器给自己等级权限2
+- bc/velocity 只能在配置文件写上自己的游戏名
+
+管理员指令 
 - /music reload 重读配置文件
 - /music next 强制切歌
 - /music ban [ID] 禁止点这首歌
+- /music unban [ID] 解禁点这首歌
 - /music banplayer [ID] 禁止某位玩家点歌
+- /music unbanplayer [ID] 解禁某位玩家点歌
 - /music url [url] 播放一首自定义歌曲
 - /music delete [序号] 删除队列中的歌曲
 - /music addlist [歌单ID] 添加歌单到空闲列表
 - /music clearlist 清空空闲歌单
-- /music cookie [Cookie] 填写网页Cookie并尝试登录
+- /music clearban 清空禁止点歌列表
+- /music clearbanplayer 清空禁止点歌玩家列表
+- /music cookie [Cookie] 填写网页Cookie
+- /music test [ID] 测试歌曲内容解析
 
 若开启权限后  
 - 点歌需要权限`allmusic.addmusic`
