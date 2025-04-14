@@ -27,10 +27,19 @@ public class CommandMute extends ACommand {
                 }
             });
         } else {
-            DataSql.addMutePlayer(name);
-            AllMusic.side.sendStop(name);
-            AllMusic.side.clearHud(name);
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.mute);
+            DataSql.task(() -> {
+                if (DataSql.checkMutePlayer(name)) {
+                    DataSql.removeMutePlayer(name);
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.mute3);
+                } else {
+                    DataSql.addMutePlayer(name);
+                    AllMusic.side.runTask(() -> {
+                        AllMusic.side.sendStop(name);
+                        AllMusic.side.clearHud(name);
+                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.mute);
+                    });
+                }
+            });
         }
     }
 

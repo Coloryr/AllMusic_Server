@@ -134,7 +134,7 @@ public class SideBukkit extends BaseSide {
         if (player instanceof Player) {
             Player player1 = (Player) player;
             try {
-                Object obj1 = pack(ComType.CLEAR, null, 0);
+                Object obj1 = pack(type, data, data1);
                 byte[] temp = (byte[]) arrayM.invoke(obj1);
                 send(player1, temp);
             } catch (Exception e) {

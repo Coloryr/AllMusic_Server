@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.core.command;
 import com.coloryr.allmusic.server.core.AllMusic;
 
 public class CommandHelp extends ACommand {
+
     @Override
     public void execute(Object sender, String name, String[] args) {
         AllMusic.side.sendMessage(sender, AllMusic.getMessage().help.normal.head);
@@ -24,6 +25,8 @@ public class CommandHelp extends ACommand {
                 AllMusic.getMessage().click.clickRun, "/music push cancel");
         AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.mute,
                 AllMusic.getMessage().click.clickRun, "/music mute");
+        AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.normal.mutelist,
+                AllMusic.getMessage().click.clickRun, "/music mute list");
         AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.search,
                 AllMusic.getMessage().click.clickCheck, "/music search ");
         AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.select,

@@ -45,7 +45,7 @@ public class AllMusic {
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "207";
+    public static final String messageVersion = "208";
     /**
      * 搜歌结果
      * 玩家名 结果

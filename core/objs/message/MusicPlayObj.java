@@ -10,6 +10,7 @@ public class MusicPlayObj {
     public String mute;
     public String mute1;
     public String mute2;
+    public String mute3;
     public String switchMusic;
     public String addMusic;
     public String checkMusic;
@@ -42,6 +43,8 @@ public class MusicPlayObj {
         if (mute1 == null)
             res = true;
         if (mute2 == null)
+            res = true;
+        if (mute3 == null)
             res = true;
         if (switchMusic == null)
             res = true;
@@ -76,11 +79,13 @@ public class MusicPlayObj {
         if (emptyCanPlay == null)
             emptyCanPlay = "§d[AllMusic3]§c无法播放歌曲" + PAL.musicId + "可能该歌曲为VIP歌曲";
         if (mute == null)
-            mute = "§d[AllMusic3]§e你不会再收到点歌了！想要再次参与点歌就点一首歌吧！";
+            mute = "§d[AllMusic3]§e你不会再收到点歌了！想要再次参与点歌就点一首歌吧！或者再输入一次指令恢复";
         if (mute1 == null)
             mute1 = "§d[AllMusic3]§e你不会再收到空闲歌单点歌了，再输入一次指令恢复";
         if (mute2 == null)
-            mute2 = "§d[AllMusic3]§e你已开始收到空闲歌单点歌";
+            mute2 = "§d[AllMusic3]§e你将开始收到空闲歌单点歌";
+        if (mute3 == null)
+            mute3 = "§d[AllMusic3]§e你将开始收到点歌";
         if (switchMusic == null)
             switchMusic = "§d[AllMusic3]§e切换到玩家歌曲";
         if (addMusic == null)

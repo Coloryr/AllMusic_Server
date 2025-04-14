@@ -202,7 +202,6 @@ public class SideFolia extends BaseSide {
             try {
                 runTask(() ->
                         player1.sendPluginMessage(AllMusicFolia.plugin, AllMusic.channel, PacketCodec.pack(type, data, data1).array()));
-
             } catch (Exception e) {
                 AllMusic.log.warning("§c数据发送发生错误");
                 e.printStackTrace();

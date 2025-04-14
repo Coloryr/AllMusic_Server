@@ -31,74 +31,142 @@ public class MessageObj {
 
     public boolean check() {
         boolean saveConfig = false;
-        if (musicPlay == null || musicPlay.check()) {
+        if (musicPlay == null) {
             saveConfig = true;
             musicPlay = MusicPlayObj.make();
+        } else if (musicPlay.check()) {
+            saveConfig = true;
+            musicPlay.init();
         }
-        if (addMusic == null || addMusic.check()) {
+
+        if (addMusic == null) {
             saveConfig = true;
             addMusic = AddMusicObj.make();
+        } else if (addMusic.check()) {
+            saveConfig = true;
+            addMusic.init();
         }
-        if (page == null || page.check()) {
+
+        if (page == null) {
             saveConfig = true;
             page = PageObj.make();
+        } else if (page.check()) {
+            saveConfig = true;
+            page.init();
         }
-        if (lyric == null || lyric.check()) {
+
+        if (lyric == null) {
             saveConfig = true;
             lyric = LyricObj.make();
+        } else if (lyric.check()) {
+            saveConfig = true;
+            lyric.init();
         }
-        if (vote == null || vote.check()) {
+
+        if (vote == null) {
             saveConfig = true;
             vote = VoteObj.make();
+        } else if (vote.check()) {
+            saveConfig = true;
+            vote.init();
         }
-        if (search == null || search.check()) {
+
+        if (search == null) {
             saveConfig = true;
             search = SearchObj.make();
+        } else if (search.check()) {
+            saveConfig = true;
+            search.init();
         }
-        if (hud == null || hud.check()) {
+
+        if (hud == null) {
             saveConfig = true;
             hud = HudObj.make();
+        } else if (hud.check()) {
+            saveConfig = true;
+            hud.init();
         }
-        if (hudList == null || hudList.check()) {
+
+        if (hudList == null) {
             saveConfig = true;
             hudList = HudNameObj.make();
+        } else if (hudList.check()) {
+            saveConfig = true;
+            hudList.init();
         }
-        if (command == null || command.check()) {
+
+        if (command == null) {
             saveConfig = true;
             command = CommandObj.make();
+        } else if (command.check()) {
+            saveConfig = true;
+            command.init();
         }
-        if (custom == null || custom.check()) {
+
+        if (custom == null) {
             saveConfig = true;
             custom = CustomObj.make();
+        } else if (custom.check()) {
+            saveConfig = true;
+            custom.init();
         }
-        if (papi == null || papi.check()) {
+
+        if (papi == null) {
             saveConfig = true;
             papi = PAPIObj.make();
+        } else if (papi.check()) {
+            saveConfig = true;
+            papi.init();
         }
-        if (cost == null || cost.check()) {
+
+        if (cost == null) {
             saveConfig = true;
             cost = CostObj.make();
+        } else if (cost.check()) {
+            saveConfig = true;
+            cost.init();
         }
-        if (click == null || click.check()) {
+
+        if (click == null) {
             saveConfig = true;
             click = ClickObj.make();
+        } else if (click.check()) {
+            saveConfig = true;
+            click.init();
         }
-        if (help == null || help.check()) {
+
+        if (help == null) {
             saveConfig = true;
             help = HelpObj.make();
+        } else if (help.check()) {
+            saveConfig = true;
+            help.init();
         }
-        if (fun == null || fun.check()) {
+
+        if (fun == null) {
             saveConfig = true;
             fun = FunObj.make();
+        } else if (fun.check()) {
+            saveConfig = true;
+            fun.init();
         }
-        if (push == null || push.check()) {
+
+        if (push == null) {
             saveConfig = true;
             push = PushObj.make();
+        } else if (push.check()) {
+            saveConfig = true;
+            push.init();
         }
-        if (cancel == null || cancel.check()) {
+
+        if (cancel == null) {
             saveConfig = true;
             cancel = CancelObj.make();
+        } else if (cancel.check()) {
+            saveConfig = true;
+            cancel.init();
         }
+
         return saveConfig;
     }
 
