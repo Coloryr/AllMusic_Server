@@ -72,12 +72,12 @@ Forge/Fabric/NeoForge类服务器
 如果登录失效，请删除`cookie.json`再打`/music reload`再重新登录
 
 ## 构建
-**仅支持Windows系统**
+**需要在Windows系统下**  
+安装JDK21
 
-1. 运行link.cmd
-2. 打开你想要的工程
-3. grdele build
-4. 在根目录的lib文件夹获取jar
+打开cmd执行`build.cmd`或者直接双击`build.cmd`
+
+选择构建项目
 
 ## PAPI变量  
 > %allmusic_now_music_name% 歌曲名字  

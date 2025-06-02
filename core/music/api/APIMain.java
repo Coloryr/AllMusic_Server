@@ -17,7 +17,6 @@ import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
-import com.coloryr.allmusic.server.core.utils.Logs;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -117,8 +116,7 @@ public class APIMain {
                 TrialInfoObj obj = AllMusic.gson.fromJson(res.data, TrialInfoObj.class);
                 return obj.getUrl();
             } catch (Exception e) {
-                Logs.logWrite(res.data);
-                AllMusic.log.warning("§d[AllMusic3]§c播放连接解析错误");
+                AllMusic.log.warning("§d[AllMusic3]§c播放连接解析错误：" + res.data);
                 e.printStackTrace();
             }
         }

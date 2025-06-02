@@ -9,7 +9,6 @@ import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
-import com.coloryr.allmusic.server.core.utils.Logs;
 
 import java.io.BufferedInputStream;
 import java.net.URL;
@@ -258,7 +257,7 @@ public class PlayMusic {
                     .replace(PAL.musicId, id);
             AllMusic.side.sendMessageTask(sender, text);
         }
-        Logs.logWrite("player:" + player + " add:" + id);
+        AllMusic.log.info("玩家：" + player + " 点歌：" + id);
         try {
             SongInfoObj info = AllMusic.getMusicApi().getMusic(id, player, isList);
             if (info == null) {

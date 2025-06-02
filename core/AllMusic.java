@@ -13,7 +13,6 @@ import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.side.IMyLogger;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
-import com.coloryr.allmusic.server.core.utils.Logs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -336,18 +335,13 @@ public class AllMusic {
      * 停止插件
      */
     public static void stop() {
-        try {
-            PlayMusic.clearVote();
-            PlayMusic.clearPush();
-            Logs.stop();
-            side.sendStop();
-            MusicSearch.stop();
-            PlayMusic.stop();
-            PlayRuntime.stop();
-            DataSql.stop();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PlayMusic.clearVote();
+        PlayMusic.clearPush();
+        side.sendStop();
+        MusicSearch.stop();
+        PlayMusic.stop();
+        PlayRuntime.stop();
+        DataSql.stop();
         log.info("§d[AllMusic3]§2§e已停止，感谢使用");
     }
 
@@ -455,8 +449,6 @@ public class AllMusic {
                 messageFile = new File(file, "message.json");
             if (cookieFile == null)
                 cookieFile = new File(file, "cookie.json");
-            if (Logs.file == null)
-                Logs.file = new File(file, "logs.log");
             if (DataSql.sqlFile == null)
                 DataSql.sqlFile = new File(file, "data.db");
             if (!configFile.exists()) {
@@ -467,9 +459,6 @@ public class AllMusic {
             }
             if (!cookieFile.exists()) {
                 cookieFile.createNewFile();
-            }
-            if (!Logs.file.exists()) {
-                Logs.file.createNewFile();
             }
             loadConfig();
             isRun = true;
