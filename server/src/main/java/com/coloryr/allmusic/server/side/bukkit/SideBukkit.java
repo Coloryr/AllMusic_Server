@@ -145,7 +145,7 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public Object getPlayer(String player) {
-        return null;
+        return Bukkit.getPlayer(player);
     }
 
     @Override
