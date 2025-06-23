@@ -29,7 +29,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *----------------------------------------------------------------------
  */
-package com.coloryr.allmusic.server.core.decoder;
+package com.coloryr.allmusic.server.core.decoder.mp3;
 
 /**
  * Class for extracting information from a frame header.

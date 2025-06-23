@@ -33,7 +33,7 @@
  *----------------------------------------------------------------------
  */
 
-package com.coloryr.allmusic.server.core.decoder;
+package com.coloryr.allmusic.server.core.decoder.mp3;
 
 import java.io.*;
 
@@ -119,9 +119,8 @@ public final class Bitstream implements BitstreamErrors {
      *
      * @param in The InputStream to read from.
      */
-    public Bitstream(InputStream in) {
+    public Bitstream(BufferedInputStream in) {
         if (in == null) throw new NullPointerException("in");
-        in = new BufferedInputStream(in);
         loadID3v2(in);
         firstframe = true;
         //source = new PushbackInputStream(in, 1024);

@@ -38,6 +38,33 @@ public class HttpClientUtil {
         }
     }
 
+    public static InputStream get(String path) {
+        try {
+            Request request = new Request.Builder().url(path)
+                    .addHeader("user-agent", UserAgent)
+                    .get()
+                    .build();
+            Response response = client.newCall(request).execute();
+            int httpCode = response.code();
+            ResponseBody body = response.body();
+            if (body == null) {
+                AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
+                return null;
+            }
+            InputStream inputStream = body.byteStream();
+            boolean ok = httpCode == 200;
+            if(!ok)
+            {
+                return null;
+            }
+            return inputStream;
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static HttpResObj get(String path, String data) {
         try {
             data = URLEncoder.encode(data, StandardCharsets.UTF_8.toString());
@@ -62,6 +89,8 @@ public class HttpClientUtil {
             while ((length = inputStream.read(buffer)) != -1) {
                 result.write(buffer, 0, length);
             }
+            inputStream.close();
+            response.close();
             String data1 = result.toString(StandardCharsets.UTF_8.toString());
             if (!ok) {
                 AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);

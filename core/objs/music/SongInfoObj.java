@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.core.objs.music;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.MediaType;
 import com.coloryr.allmusic.server.core.objs.api.music.trialinfo.freeTrialInfo;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
 
@@ -59,14 +60,19 @@ public class SongInfoObj {
      * 是否是Url歌曲
      */
     protected boolean isUrl;
+    /**
+     * 音乐类型
+     */
+    protected MediaType mediaType;
 
-    public SongInfoObj(String Name, String Url, int Length) {
-        this.length = Length;
-        playerUrl = Url;
-        this.name = Name;
+    public SongInfoObj(String name, String url, int length, MediaType type) {
+        this.length = length;
+        playerUrl = url;
+        this.name = name;
         id = alia = call = al = author = picUrl = "";
         isList = false;
         isUrl = true;
+        mediaType = type;
     }
 
     public SongInfoObj(String Author, String Name, String ID, String Alia, String Call, String Al,
@@ -82,6 +88,7 @@ public class SongInfoObj {
         this.length = Length;
         this.isTrial = isTrial;
         this.trialInfo = trialInfo;
+        this.mediaType = MediaType.Mp3;
     }
 
     public boolean isUrl() {
@@ -148,5 +155,13 @@ public class SongInfoObj {
 
     public boolean isNull() {
         return name == null;
+    }
+
+    public void setName(String info) {
+        name = info;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
     }
 }

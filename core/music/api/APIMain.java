@@ -1,9 +1,14 @@
 package com.coloryr.allmusic.server.core.music.api;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.decoder.flac.FlacDecoder;
+import com.coloryr.allmusic.server.core.decoder.flac.StreamInfo;
+import com.coloryr.allmusic.server.core.decoder.mp3.Bitstream;
+import com.coloryr.allmusic.server.core.decoder.mp3.Header;
 import com.coloryr.allmusic.server.core.music.play.LyricDo;
 import com.coloryr.allmusic.server.core.music.play.LyricSave;
 import com.coloryr.allmusic.server.core.objs.HttpResObj;
+import com.coloryr.allmusic.server.core.objs.MediaType;
 import com.coloryr.allmusic.server.core.objs.SearchMusicObj;
 import com.coloryr.allmusic.server.core.objs.api.music.info.InfoObj;
 import com.coloryr.allmusic.server.core.objs.api.music.list.DataObj;
@@ -19,8 +24,12 @@ import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.google.gson.JsonObject;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class APIMain {
 
@@ -241,6 +250,75 @@ public class APIMain {
 
             }
         }
+        return null;
+    }
+
+    private static int toUnsignedInt(byte x) {
+        return ((int) x) & 0xff;//将高24位全部变成0，低8位保持不变
+    }
+
+    private static MediaType testMediaType(BufferedInputStream stream) throws IOException {
+        stream.mark(10);
+        byte[] temp = new byte[4];
+        int res = stream.read(temp);
+        if (res != 4) {
+            return MediaType.Unknow;
+        }
+        if (temp[0] == 'R' && temp[1] == 'I' && temp[2] == 'F' && temp[3] == 'F') {
+            return MediaType.Wav;
+        } else if (temp[0] == 'f' && temp[1] == 'L' && temp[2] == 'a' && temp[3] == 'C') {
+            return MediaType.Flac;
+        } else if (temp[0] == 'I' && temp[1] == 'D' && temp[2] == '3') {
+            return MediaType.Mp3;
+        } else if (toUnsignedInt(temp[0]) == 0xFF && toUnsignedInt(temp[1]) == 0xE0) {
+            return MediaType.Mp3;
+        }
+
+        return MediaType.Unknow;
+    }
+
+    public static SongInfoObj getUrlMusic(String url) {
+        try {
+            InputStream stream = HttpClientUtil.get(url);
+            if (stream == null) {
+                return null;
+            }
+            BufferedInputStream in = new BufferedInputStream(stream);
+            MediaType type = testMediaType(in);
+            in.reset();
+            float le = 0;
+            if (type == MediaType.Mp3) {
+                Bitstream bt = new Bitstream(in);
+                bt.readFrame();
+                bt.closeFrame();
+                Header h;
+                for (; ; ) {
+                    h = bt.readFrame();
+                    if (h == null) {
+                        break;
+                    }
+                    bt.closeFrame();
+                    le += h.ms_per_frame();
+                }
+                bt.close();
+                return new SongInfoObj(null, url, (int) le, type);
+            } else if (type == MediaType.Flac) {
+                FlacDecoder flac = new FlacDecoder(in);
+                for (; ; ) {
+                    Object temp = flac.readAndHandleMetadataBlock();
+                    if (temp instanceof StreamInfo) {
+                        StreamInfo info = (StreamInfo) temp;
+                        le = (float) info.numSamples / info.sampleRate;
+                        flac.close();
+                        return new SongInfoObj(null, url, (int) le, type);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            AllMusic.log.warning("§d[AllMusic3]§c歌曲长度解析错误");
+            e.printStackTrace();
+        }
+
         return null;
     }
 }

@@ -1,10 +1,11 @@
 package com.coloryr.allmusic.server.core.objs.music;
 
+import com.coloryr.allmusic.server.core.objs.MediaType;
 import com.coloryr.allmusic.server.core.objs.api.music.trialinfo.freeTrialInfo;
 
 public class TopSongInfoObj extends SongInfoObj {
     public TopSongInfoObj() {
-        super(null, null, 0);
+        super(null, null, 0, MediaType.Unknow);
     }
 
     public void setAl(String al) {

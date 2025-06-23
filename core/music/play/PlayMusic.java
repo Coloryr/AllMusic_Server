@@ -1,8 +1,7 @@
 package com.coloryr.allmusic.server.core.music.play;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.decoder.Bitstream;
-import com.coloryr.allmusic.server.core.decoder.Header;
+import com.coloryr.allmusic.server.core.music.api.APIMain;
 import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
@@ -10,9 +9,6 @@ import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
-import java.io.BufferedInputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -424,25 +420,13 @@ public class PlayMusic {
      * @param url 链接
      */
     private static void addUrl(String url) {
-        try {
-            URL urlfile = new URL(url);
-            URLConnection con = urlfile.openConnection();
-            int b = con.getContentLength();// 得到音乐文件的总长度
-            BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
-            Bitstream bt = new Bitstream(bis);
-            Header h = bt.readFrame();
-            int le = 6000000;
-            if (h == null) {
-                AllMusic.side.broadcastInTask(AllMusic.getMessage().musicPlay.error1);
-            } else {
-                le = (int) h.total_ms(b);
-            }
-            SongInfoObj info = new SongInfoObj(AllMusic.getMessage().custom.info, url, le);
-            playList.add(info);
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic3]§c歌曲信息解析错误");
-            e.printStackTrace();
+        SongInfoObj info = APIMain.getUrlMusic(url);
+        if (info == null) {
+            AllMusic.side.broadcastInTask(AllMusic.getMessage().musicPlay.error1);
+            return;
         }
+        info.setName(AllMusic.getMessage().custom.info);
+        playList.add(info);
     }
 
     /**
