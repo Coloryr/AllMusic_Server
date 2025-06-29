@@ -280,7 +280,29 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_fabric_1_21_5"
-        path: build/libs/      
+        path: build/libs/
+  build_fabric_1_21_6:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3 # v3.1.0
+    - name: build
+      shell: cmd
+      run: |
+        link.cmd && cd fabric_1_21_6 && gradlew build
+    - name: update
+      uses: actions/upload-artifact@v4
+      with:
+        name: "allmusic_server_fabric_1_21_6"
+        path: build/libs/
   build_forge_1_7_10:
     runs-on: windows-latest
     permissions:
@@ -522,4 +544,26 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_neoforge_1_21_5"
+        path: build/libs/
+  build_neoforge_1_21_6:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3 # v3.1.0
+    - name: build
+      shell: cmd
+      run: |
+        link.cmd && cd neoforge_1_21_6 && gradlew build
+    - name: update
+      uses: actions/upload-artifact@v4
+      with:
+        name: "allmusic_server_neoforge_1_21_6"
         path: build/libs/
