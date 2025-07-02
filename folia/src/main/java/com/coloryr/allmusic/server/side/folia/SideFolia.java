@@ -168,32 +168,19 @@ public class SideFolia extends BaseSide {
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
         MusicPlayEvent event = new MusicPlayEvent(obj);
-        ScheduledTask task = Bukkit.getGlobalRegionScheduler().run(AllMusicFolia.plugin, (scheduledTask) -> {
-            Bukkit.getPluginManager().callEvent(event);
-            if (!event.isCancel()) {
-                FunCore.addMusic();
-            }
-        });
-        while (task.getExecutionState() == ScheduledTask.ExecutionState.IDLE
-                || task.getExecutionState() == ScheduledTask.ExecutionState.RUNNING) {
-            try {
-                Thread.sleep(10);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return event.isCancel();
-    }
-
-    @Override
-    public boolean onMusicAdd(Object obj, MusicObj music) {
-        MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
         Bukkit.getPluginManager().callEvent(event);
         final boolean isCancelled = event.isCancelled();
         if (!isCancelled) {
             FunCore.addMusic();
         }
         return isCancelled;
+    }
+
+    @Override
+    public boolean onMusicAdd(Object obj, MusicObj music) {
+        MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
+        Bukkit.getPluginManager().callEvent(event);
+        return event.isCancelled();
     }
 
     @Override
