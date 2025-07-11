@@ -55,8 +55,8 @@ jobs:
     - name: build
       shell: cmd
       run: |
-        link.cmd && cd server && gradlew shadowJar
-    - name: update
+        link.cmd && cd server && gradlew clean shadowJar --configure-on-demand
+    - name: Upload Bukkit JAR
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_bukkit"
