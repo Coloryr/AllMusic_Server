@@ -52,8 +52,7 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
         var arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, temp.length - 1);
 
-        if (input.endsWith(" "))
-            builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
+        builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
         List<String> results = CommandEX.getTabList(item, item.getName(), arg);
 
