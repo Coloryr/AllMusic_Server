@@ -11,6 +11,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -56,8 +57,12 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
 
         List<String> results = CommandEX.getTabList(item, item.getName(), arg);
 
+        String remaining = builder.getRemaining().trim();
+
         for (String s : results) {
-            builder.suggest(s);
+            if (s.startsWith(remaining)){
+                builder.suggest(s);
+            }
         }
 
         return builder.buildFuture();

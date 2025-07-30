@@ -19,7 +19,7 @@ public class CommandUnbanPlayer implements ICommand {
 
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
-//        if (args.length == index || (args.length == index + 1 && args[index].isEmpty())) {
+//        if (args.length == index || (args.length == index + 1 )) {
 //            return AllMusic.side.getPlayerList();
 //        }
 

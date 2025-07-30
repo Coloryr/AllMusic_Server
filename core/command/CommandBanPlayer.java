@@ -20,7 +20,7 @@ public class CommandBanPlayer implements ICommand {
 
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
-        if (args.length == index || (args.length == index + 1 && args[index].isEmpty())) {
+        if (args.length == index || (args.length == index + 1)) {
             List<String> list = new ArrayList<>();
             for (Object item : AllMusic.side.getPlayers()) {
                 String name1 = AllMusic.side.getPlayerName(item);
