@@ -55,7 +55,7 @@ public class CommandHelp extends ACommand {
                 AllMusic.getMessage().click.clickCheck, "/music hud pic rotate ");
         AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.normal.hud5,
                 AllMusic.getMessage().click.clickCheck, "/music hud pic speed ");
-        if (AllMusic.side.checkPermission(name)) {
+        if (AllMusic.side.checkPermission(sender)) {
             AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.reload,
                     AllMusic.getMessage().click.clickRun, "/music reload");
             AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.next,
