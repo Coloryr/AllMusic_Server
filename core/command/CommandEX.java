@@ -18,6 +18,7 @@ public class CommandEX {
     public static final Map<String, ICommand> commandList = new HashMap<>();
     public static final Map<String, ICommand> commandAdminList = new HashMap<>();
     private static final List<String> normal = new ArrayList<String>() {{
+        this.add("help");
         this.add("stop");
         this.add("cancel");
         this.add("list");
@@ -35,11 +36,12 @@ public class CommandEX {
         this.add("reload");
         this.add("next");
         this.add("ban");
+        this.add("banplayer");
+        this.add("url");
         this.add("delete");
         this.add("addlist");
         this.add("clearlist");
         this.add("cookie");
-        this.add("test");
     }};
     /**
      * 搜歌的指令
@@ -287,6 +289,8 @@ public class CommandEX {
                     if (AllMusic.getSearch(name) != null) {
                         return search;
                     }
+                }else {
+                    arguments.addAll(search);
                 }
             } else {
                 ICommand command = CommandEX.commandList.get(arg[0]);
