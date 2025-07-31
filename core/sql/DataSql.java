@@ -7,6 +7,7 @@ import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
@@ -443,7 +444,7 @@ public class DataSql {
     }
 
     /**
-     * 检查玩家是否在数据库
+     * check a music in ban list?
      *
      * @param name 用户名
      * @return 结果
@@ -467,6 +468,34 @@ public class DataSql {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+    /***
+     * a way to get ban music list
+     * @return ban music list
+     */
+    public static List<String> getBanMusicList() {
+        try {
+            List<String> banList = new ArrayList<>();
+            if (connection.isReadOnly() || connection.isClosed()) {
+                init();
+            }
+            Statement stat = connection.createStatement();
+            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_banlist");
+            while (set.next()) {
+                String musicName = set.getString("sid");
+                if (musicName != null) {
+                    banList.add(musicName);
+                }
+            }
+            set.close();
+            stat.close();
+            return banList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public static void clearBan() {
@@ -543,6 +572,32 @@ public class DataSql {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /***
+     * @return a list of ban players
+     */
+    public static List<String> getBanPlayerList() {
+        try {
+            List<String> banList = new ArrayList<>();
+            if (connection.isReadOnly() || connection.isClosed()) {
+                init();
+            }
+            Statement stat = connection.createStatement();
+            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_banplayer");
+            while (set.next()) {
+                String playerName = set.getString("sid");
+                if (playerName != null) {
+                    banList.add(playerName);
+                }
+            }
+            set.close();
+            stat.close();
+            return banList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public static void clearBanPlayer() {
