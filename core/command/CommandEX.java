@@ -17,40 +17,6 @@ public class CommandEX {
 
     public static final Map<String, ICommand> commandList = new HashMap<>();
     public static final Map<String, ICommand> commandAdminList = new HashMap<>();
-    private static final List<String> normal = new ArrayList<String>() {{
-        this.add("help");
-        this.add("stop");
-        this.add("cancel");
-        this.add("list");
-        this.add("vote");
-        this.add("mute");
-        this.add("search");
-        this.add("hud");
-        this.add("push");
-    }};
-
-    /**
-     * 管理员的指令
-     */
-    private static final List<String> admin = new ArrayList<String>() {{
-        this.add("reload");
-        this.add("next");
-        this.add("ban");
-        this.add("banplayer");
-        this.add("url");
-        this.add("delete");
-        this.add("addlist");
-        this.add("clearlist");
-        this.add("cookie");
-    }};
-    /**
-     * 搜歌的指令
-     */
-    private static final List<String> search = new ArrayList<String>() {{
-        this.add("select");
-        this.add("nextpage");
-        this.add("lastpage");
-    }};
 
     static {
         commandList.put("stop", new CommandStop());
@@ -81,6 +47,25 @@ public class CommandEX {
         commandAdminList.put("cookie", new CommandCookie());
         commandAdminList.put("test", new CommandTest());
     }
+
+    private static final List<String> normal = new ArrayList<String>() {{
+        this.addAll(commandList.keySet());
+    }};
+
+    /**
+     * 管理员的指令
+     */
+    private static final List<String> admin = new ArrayList<String>() {{
+        this.addAll(commandAdminList.keySet());
+    }};
+    /**
+     * 搜歌的指令
+     */
+    private static final List<String> search = new ArrayList<String>() {{
+        this.add("select");
+        this.add("nextpage");
+        this.add("lastpage");
+    }};
 
     /**
      * 搜索音乐
@@ -289,8 +274,6 @@ public class CommandEX {
                     if (AllMusic.getSearch(name) != null) {
                         return search;
                     }
-                }else {
-                    arguments.addAll(search);
                 }
             } else {
                 ICommand command = CommandEX.commandList.get(arg[0]);
