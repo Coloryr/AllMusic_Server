@@ -45,11 +45,11 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
 
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
-        var item = context.getSource();
+        ServerCommandSource item = context.getSource();
 
-        var input = context.getInput();
-        var temp = input.split(" ");
-        var arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
+        String input = context.getInput();
+        String[] temp = input.split(" ");
+        String[] arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, temp.length - 1);
 
         builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
