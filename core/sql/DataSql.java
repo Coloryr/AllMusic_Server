@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Semaphore;
 
@@ -76,12 +74,6 @@ public class DataSql {
             "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
             "  \"sid\" TEXT(60)\n" +
             ");";
-
-    /**
-     * 缓存器
-     */
-    public static Cache cache = new Cache();
-
     /**
      * 数据库文件
      */
@@ -111,7 +103,7 @@ public class DataSql {
             stat.execute(table5);
             stat.close();
 
-            cache.updateData();
+            Cache.updateData();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -430,10 +422,9 @@ public class DataSql {
                 pstmt.setString(1, music); // 设置参数
                 pstmt.execute();
                 pstmt.close();
+                Cache.banMusic.add(music);
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                cache.updateMusic();
             }
         });
     }
@@ -448,10 +439,9 @@ public class DataSql {
                 pstmt.setString(1, music); // 设置参数
                 pstmt.execute();
                 pstmt.close();
+                Cache.banMusic.remove(music);
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                cache.updateMusic();
             }
         });
     }
@@ -503,10 +493,9 @@ public class DataSql {
                 Statement stat = connection.createStatement();
                 stat.execute("DELETE FROM allmusic_banlist");
                 stat.close();
+                Cache.banMusic.clear();
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                cache.updateMusic();
             }
         });
     }
@@ -522,10 +511,9 @@ public class DataSql {
                 pstmt.setString(1, player1); // 设置参数
                 pstmt.execute();
                 pstmt.close();
+                Cache.banPlayers.add(player);
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                cache.updatePlayer();
             }
         });
     }
@@ -541,10 +529,9 @@ public class DataSql {
                 pstmt.setString(1, player1); // 设置参数
                 pstmt.execute();
                 pstmt.close();
+                Cache.banPlayers.remove(player);
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                cache.updatePlayer();
             }
         });
     }
@@ -594,10 +581,9 @@ public class DataSql {
                 Statement stat = connection.createStatement();
                 stat.execute("DELETE FROM allmusic_banlist");
                 stat.close();
+                Cache.banPlayers.clear();
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                cache.updatePlayer();
             }
         });
     }
@@ -764,27 +750,6 @@ public class DataSql {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public static class Cache{
-        public static CopyOnWriteArraySet<String> banPlayers = new CopyOnWriteArraySet<>();
-        public static CopyOnWriteArraySet<String> banMusic = new CopyOnWriteArraySet<>();
-
-
-        public void updateData(){
-            updatePlayer();
-            updateMusic();
-        }
-
-        public void updatePlayer(){
-            banPlayers.clear();
-            banPlayers.addAll(getBanPlayerList());
-        }
-
-        public void updateMusic(){
-            banMusic.clear();
-            banMusic.addAll(getBanMusicList());
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.core.command;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.sql.Cache;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class CommandBanPlayer implements ICommand {
             List<String> list = new ArrayList<>();
             for (Object item : AllMusic.side.getPlayers()) {
                 String name1 = AllMusic.side.getPlayerName(item);
-                if (name1 != null) {
+                if (name1 != null && !Cache.haveBan(name1)) {
                     list.add(name1);
                 }
             }
