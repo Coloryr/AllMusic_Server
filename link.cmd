@@ -1,7 +1,6 @@
 @echo off
 
 mkdir "build\libs"
-@REM mkdir ".gradle"
 
 setlocal enabledelayedexpansion
 
@@ -14,7 +13,6 @@ neoforge_1_21_4 fabric_1_21_4 fabric_1_21_5 neoforge_1_21_5 fabric_1_21_6 neofor
 for %%i in (%array%) do (
     if not exist "%%i\src\main\java\com\coloryr\allmusic\server\core" mklink /j "%%i\src\main\java\com\coloryr\allmusic\server\core" "core"
     if not exist "%%i\build" mkdir "%%i\build" && mklink /j "%%i\build\libs" "build\libs"
-    @REM if not exist "%%i\.gradle" mklink /j "%%i\.gradle" ".gradle"
 )
 
 set array1=folia server_top forge_1_20 ^
