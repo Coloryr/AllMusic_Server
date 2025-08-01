@@ -26,11 +26,11 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
 
     @Override
     public int run(CommandContext<ServerCommandSource> context) {
-        ServerCommandSource item = context.getSource();
+        var item = context.getSource();
 
-        String input = context.getInput();
-        String[] temp = input.split(" ");
-        String[] arg = new String[temp.length - 1];
+        var input = context.getInput();
+        var temp = input.split(" ");
+        var arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
         CommandEX.execute(item, context.getSource().getName(), arg);
@@ -52,13 +52,16 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
         String[] arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, temp.length - 1);
 
-        if (input.endsWith(" "))
-            builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
+        builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
         List<String> results = CommandEX.getTabList(item, item.getName(), arg);
 
+        String remaining = builder.getRemaining().trim();
+
         for (String s : results) {
-            builder.suggest(s);
+            if (s.startsWith(remaining)){
+                builder.suggest(s);
+            }
         }
 
         return builder.buildFuture();

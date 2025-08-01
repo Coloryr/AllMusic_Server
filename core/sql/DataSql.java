@@ -7,14 +7,17 @@ import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Semaphore;
 
 public class DataSql {
-    private static final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
+    private static final Queue<Runnable> tasks = new LinkedBlockingDeque<>();
     private static final Semaphore semaphore = new Semaphore(0);
     /**
      * 创建表用
@@ -75,6 +78,11 @@ public class DataSql {
             ");";
 
     /**
+     * 缓存器
+     */
+    public static Cache cache = new Cache();
+
+    /**
      * 数据库文件
      */
     public static File sqlFile;
@@ -102,6 +110,8 @@ public class DataSql {
             stat.execute(table4);
             stat.execute(table5);
             stat.close();
+
+            cache.updateData();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -422,6 +432,8 @@ public class DataSql {
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updateMusic();
             }
         });
     }
@@ -438,35 +450,48 @@ public class DataSql {
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updateMusic();
             }
         });
     }
 
     /**
-     * 检查玩家是否在数据库
+     * check a music in ban list?
      *
      * @param name 用户名
      * @return 结果
      */
     public static boolean checkBanMusic(String name) {
+        return Cache.banMusic.contains(name);
+    }
+
+
+    /***
+     * a way to get ban music list
+     * @return ban music list
+     */
+    public static List<String> getBanMusicList() {
         try {
-            name = name.toLowerCase(Locale.ROOT);
-            boolean have = false;
+            List<String> banList = new ArrayList<>();
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT id FROM allmusic_banlist WHERE sid ='" + name + "'");
-            if (set.next()) {
-                have = true;
+            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_banlist");
+            while (set.next()) {
+                String musicName = set.getString("sid");
+                if (musicName != null) {
+                    banList.add(musicName);
+                }
             }
             set.close();
             stat.close();
-            return have;
+            return banList;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return new ArrayList<>();
     }
 
     public static void clearBan() {
@@ -480,6 +505,8 @@ public class DataSql {
                 stat.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updateMusic();
             }
         });
     }
@@ -497,6 +524,8 @@ public class DataSql {
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updatePlayer();
             }
         });
     }
@@ -514,6 +543,8 @@ public class DataSql {
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updatePlayer();
             }
         });
     }
@@ -525,24 +556,33 @@ public class DataSql {
      * @return 结果
      */
     public static boolean checkBanPlayer(String name) {
+        return Cache.banPlayers.contains(name);
+    }
+
+    /***
+     * @return a list of ban players
+     */
+    public static List<String> getBanPlayerList() {
         try {
-            name = name.toLowerCase(Locale.ROOT);
-            boolean have = false;
+            List<String> banList = new ArrayList<>();
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT id FROM allmusic_banplayer WHERE sid ='" + name + "'");
-            if (set.next()) {
-                have = true;
+            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_banplayer");
+            while (set.next()) {
+                String playerName = set.getString("sid");
+                if (playerName != null) {
+                    banList.add(playerName);
+                }
             }
             set.close();
             stat.close();
-            return have;
+            return banList;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return new ArrayList<>();
     }
 
     public static void clearBanPlayer() {
@@ -556,6 +596,8 @@ public class DataSql {
                 stat.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updatePlayer();
             }
         });
     }
@@ -722,6 +764,27 @@ public class DataSql {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static class Cache{
+        public static CopyOnWriteArraySet<String> banPlayers = new CopyOnWriteArraySet<>();
+        public static CopyOnWriteArraySet<String> banMusic = new CopyOnWriteArraySet<>();
+
+
+        public void updateData(){
+            updatePlayer();
+            updateMusic();
+        }
+
+        public void updatePlayer(){
+            banPlayers.clear();
+            banPlayers.addAll(getBanPlayerList());
+        }
+
+        public void updateMusic(){
+            banMusic.clear();
+            banMusic.addAll(getBanMusicList());
         }
     }
 }

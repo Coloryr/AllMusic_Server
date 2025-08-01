@@ -7,6 +7,7 @@ import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandVelocity implements SimpleCommand {
     @Override
@@ -32,6 +33,12 @@ public class CommandVelocity implements SimpleCommand {
         if (invocation.source() instanceof Player) {
             Player player = (Player) invocation.source();
             String name = player.getUsername();
+            if (args.length > 0 && args[args.length - 1] != null){
+                String r = args[args.length - 1].trim();
+                return CommandEX.getTabList(player,name,args).stream()
+                        .filter(s -> s.startsWith(r))
+                        .collect(Collectors.toList());
+            }
             return CommandEX.getTabList(player, name, args);
         }
         return ImmutableList.of();

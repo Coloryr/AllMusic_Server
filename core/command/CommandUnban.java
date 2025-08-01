@@ -4,8 +4,10 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Function;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandUnban extends ACommand {
     @Override
@@ -24,17 +26,9 @@ public class CommandUnban extends ACommand {
 
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
-//        if (args.length == index || (args.length == index + 1 && args[index].isEmpty())) {
-//            List<String> list = new ArrayList<>();
-//            if (PlayMusic.nowPlayMusic != null) {
-//                list.add(PlayMusic.nowPlayMusic.getID());
-//            }
-//            for (SongInfoObj item : PlayMusic.getList()) {
-//                list.add(item.getID());
-//            }
-//
-//            return list;
-//        }
+        if (args.length == index || (args.length == index + 1 )) {
+            return new ArrayList<>(DataSql.Cache.banMusic);
+        }
 
         return Collections.emptyList();
     }

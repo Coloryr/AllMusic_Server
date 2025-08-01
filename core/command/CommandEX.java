@@ -17,38 +17,6 @@ public class CommandEX {
 
     public static final Map<String, ICommand> commandList = new HashMap<>();
     public static final Map<String, ICommand> commandAdminList = new HashMap<>();
-    private static final List<String> normal = new ArrayList<String>() {{
-        this.add("stop");
-        this.add("cancel");
-        this.add("list");
-        this.add("vote");
-        this.add("mute");
-        this.add("search");
-        this.add("hud");
-        this.add("push");
-    }};
-
-    /**
-     * 管理员的指令
-     */
-    private static final List<String> admin = new ArrayList<String>() {{
-        this.add("reload");
-        this.add("next");
-        this.add("ban");
-        this.add("delete");
-        this.add("addlist");
-        this.add("clearlist");
-        this.add("cookie");
-        this.add("test");
-    }};
-    /**
-     * 搜歌的指令
-     */
-    private static final List<String> search = new ArrayList<String>() {{
-        this.add("select");
-        this.add("nextpage");
-        this.add("lastpage");
-    }};
 
     static {
         commandList.put("stop", new CommandStop());
@@ -79,6 +47,25 @@ public class CommandEX {
         commandAdminList.put("cookie", new CommandCookie());
         commandAdminList.put("test", new CommandTest());
     }
+
+    private static final List<String> normal = new ArrayList<String>() {{
+        this.addAll(commandList.keySet());
+    }};
+
+    /**
+     * 管理员的指令
+     */
+    private static final List<String> admin = new ArrayList<String>() {{
+        this.addAll(commandAdminList.keySet());
+    }};
+    /**
+     * 搜歌的指令
+     */
+    private static final List<String> search = new ArrayList<String>() {{
+        this.add("select");
+        this.add("nextpage");
+        this.add("lastpage");
+    }};
 
     /**
      * 搜索音乐
@@ -271,7 +258,7 @@ public class CommandEX {
         List<String> arguments = new ArrayList<>();
         if (arg.length == 0) {
             arguments.addAll(normal);
-            if (AllMusic.side.checkPermission(sender)) {
+            if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
                 arguments.addAll(admin);
             }
             if (AllMusic.getSearch(name) != null) {
@@ -280,7 +267,7 @@ public class CommandEX {
         } else {
             if (arg[0] == null || arg[0].isEmpty() || arg.length == 1) {
                 arguments.addAll(normal);
-                if (AllMusic.side.checkPermission(sender)) {
+                if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
                     arguments.addAll(admin);
                 }
                 if (arg[0] == null || arg[0].isEmpty()) {
@@ -293,7 +280,7 @@ public class CommandEX {
                 if (command != null) {
                     arguments.addAll(command.tab(sender, name, arg, 1));
                 }
-                if (AllMusic.side.checkPermission(sender)) {
+                if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
                     command = CommandEX.commandAdminList.get(arg[0]);
                     if (command != null) {
                         arguments.addAll(command.tab(sender, name, arg, 1));
