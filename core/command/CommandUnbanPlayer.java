@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.core.command;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class CommandUnbanPlayer implements ICommand {
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
         if (args.length == index || (args.length == index + 1 )) {
-            return DataSql.getBanPlayerList();
+            return new ArrayList<>(DataSql.Cache.banPlayers);
         }
 
         return Collections.emptyList();

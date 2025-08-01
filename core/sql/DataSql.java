@@ -12,10 +12,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Semaphore;
 
 public class DataSql {
-    private static final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
+    private static final Queue<Runnable> tasks = new LinkedBlockingDeque<>();
     private static final Semaphore semaphore = new Semaphore(0);
     /**
      * 创建表用
@@ -76,6 +78,11 @@ public class DataSql {
             ");";
 
     /**
+     * 缓存器
+     */
+    public static Cache cache = new Cache();
+
+    /**
      * 数据库文件
      */
     public static File sqlFile;
@@ -103,6 +110,8 @@ public class DataSql {
             stat.execute(table4);
             stat.execute(table5);
             stat.close();
+
+            cache.updateData();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -423,6 +432,8 @@ public class DataSql {
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updateMusic();
             }
         });
     }
@@ -439,6 +450,8 @@ public class DataSql {
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updateMusic();
             }
         });
     }
@@ -450,24 +463,7 @@ public class DataSql {
      * @return 结果
      */
     public static boolean checkBanMusic(String name) {
-        try {
-            name = name.toLowerCase(Locale.ROOT);
-            boolean have = false;
-            if (connection.isReadOnly() || connection.isClosed()) {
-                init();
-            }
-            Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT id FROM allmusic_banlist WHERE sid ='" + name + "'");
-            if (set.next()) {
-                have = true;
-            }
-            set.close();
-            stat.close();
-            return have;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        return Cache.banMusic.contains(name);
     }
 
 
@@ -509,6 +505,8 @@ public class DataSql {
                 stat.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updateMusic();
             }
         });
     }
@@ -526,6 +524,8 @@ public class DataSql {
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updatePlayer();
             }
         });
     }
@@ -543,6 +543,8 @@ public class DataSql {
                 pstmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updatePlayer();
             }
         });
     }
@@ -554,24 +556,7 @@ public class DataSql {
      * @return 结果
      */
     public static boolean checkBanPlayer(String name) {
-        try {
-            name = name.toLowerCase(Locale.ROOT);
-            boolean have = false;
-            if (connection.isReadOnly() || connection.isClosed()) {
-                init();
-            }
-            Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT id FROM allmusic_banplayer WHERE sid ='" + name + "'");
-            if (set.next()) {
-                have = true;
-            }
-            set.close();
-            stat.close();
-            return have;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        return Cache.banPlayers.contains(name);
     }
 
     /***
@@ -611,6 +596,8 @@ public class DataSql {
                 stat.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                cache.updatePlayer();
             }
         });
     }
@@ -777,6 +764,27 @@ public class DataSql {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static class Cache{
+        public static CopyOnWriteArraySet<String> banPlayers = new CopyOnWriteArraySet<>();
+        public static CopyOnWriteArraySet<String> banMusic = new CopyOnWriteArraySet<>();
+
+
+        public void updateData(){
+            updatePlayer();
+            updateMusic();
+        }
+
+        public void updatePlayer(){
+            banPlayers.clear();
+            banPlayers.addAll(getBanPlayerList());
+        }
+
+        public void updateMusic(){
+            banMusic.clear();
+            banMusic.addAll(getBanMusicList());
         }
     }
 }
