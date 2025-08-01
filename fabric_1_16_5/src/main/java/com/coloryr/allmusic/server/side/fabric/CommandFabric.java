@@ -26,11 +26,11 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
 
     @Override
     public int run(CommandContext<ServerCommandSource> context) {
-        var item = context.getSource();
+        ServerCommandSource item = context.getSource();
 
-        var input = context.getInput();
-        var temp = input.split(" ");
-        var arg = new String[temp.length - 1];
+        String input = context.getInput();
+        String[] temp = input.split(" ");
+        String[] arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
         CommandEX.execute(item, context.getSource().getName(), arg);
