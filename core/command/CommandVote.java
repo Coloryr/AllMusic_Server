@@ -9,7 +9,7 @@ public class CommandVote extends ACommand {
     @Override
     public void execute(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
-                !AllMusic.side.checkPermission(name, "allmusic.vote")) {
+                !AllMusic.side.checkPermission(sender, "allmusic.vote")) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.noPermission);
             return;
         } else if (PlayMusic.getListSize() == 0 && PlayMusic.getIdleListSize() == 0) {
