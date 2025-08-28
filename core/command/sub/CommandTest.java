@@ -1,6 +1,7 @@
-package com.coloryr.allmusic.server.core.command;
+package com.coloryr.allmusic.server.core.command.sub;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.music.api.APIMain;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.Function;

@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.core.command;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.command.sub.*;
 import com.coloryr.allmusic.server.core.music.play.MusicSearch;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
@@ -225,7 +226,7 @@ public class CommandEX {
             return;
         }
 
-        if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
+        if (checkAdmin(sender, name)) {
             command = commandAdminList.get(args[0]);
             if (command != null) {
                 command.execute(sender, name, args);
@@ -233,7 +234,7 @@ public class CommandEX {
             }
         }
         if (AllMusic.getConfig().needPermission &&
-                !AllMusic.side.checkPermission(sender, "allmusic.addmusic"))
+                !AllMusic.side.checkPermission(sender, PermissionList.PERMISSION_ADD_MUSIC))
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.noPer);
         else {
             switch (AllMusic.getConfig().defaultAddMusic) {
@@ -258,7 +259,7 @@ public class CommandEX {
         List<String> arguments = new ArrayList<>();
         if (arg.length == 0) {
             arguments.addAll(normal);
-            if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
+            if (checkAdmin(sender, name)) {
                 arguments.addAll(admin);
             }
             if (AllMusic.getSearch(name) != null) {
@@ -267,7 +268,7 @@ public class CommandEX {
         } else {
             if (arg[0] == null || arg[0].isEmpty() || arg.length == 1) {
                 arguments.addAll(normal);
-                if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
+                if (checkAdmin(sender, name)) {
                     arguments.addAll(admin);
                 }
                 if (arg[0] == null || arg[0].isEmpty()) {
@@ -280,7 +281,7 @@ public class CommandEX {
                 if (command != null) {
                     arguments.addAll(command.tab(sender, name, arg, 1));
                 }
-                if (isAdmin(name) || AllMusic.side.checkPermission(sender)) {
+                if (checkAdmin(sender, name)) {
                     command = CommandEX.commandAdminList.get(arg[0]);
                     if (command != null) {
                         arguments.addAll(command.tab(sender, name, arg, 1));
@@ -290,5 +291,15 @@ public class CommandEX {
         }
 
         return arguments;
+    }
+
+    /**
+     * 检查是否为管理员
+     * @param sender 用户
+     * @param name 用户名
+     * @return 是否为管理员
+     */
+    public static boolean checkAdmin(Object sender, String name) {
+        return isAdmin(name) || AllMusic.side.checkPermission(sender);
     }
 }

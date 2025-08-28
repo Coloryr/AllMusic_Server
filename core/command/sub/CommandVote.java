@@ -1,6 +1,8 @@
-package com.coloryr.allmusic.server.core.command;
+package com.coloryr.allmusic.server.core.command.sub;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.command.ACommand;
+import com.coloryr.allmusic.server.core.command.PermissionList;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.message.PAL;
 import com.coloryr.allmusic.server.core.sql.DataSql;
@@ -9,7 +11,7 @@ public class CommandVote extends ACommand {
     @Override
     public void execute(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
-                !AllMusic.side.checkPermission(name, "allmusic.vote")) {
+                !AllMusic.side.checkPermission(sender, PermissionList.PERMISSION_VOTE)) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.noPermission);
             return;
         } else if (PlayMusic.getListSize() == 0 && PlayMusic.getIdleListSize() == 0) {

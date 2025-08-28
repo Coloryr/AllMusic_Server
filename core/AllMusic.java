@@ -122,6 +122,14 @@ public class AllMusic {
     }
 
     /**
+     * 获取正在播放的玩家列表
+     * @return 列表
+     */
+    public static Set<String> getNowPlayPlayer() {
+        return nowPlayPlayer;
+    }
+
+    /**
      * 检查是否需要放歌
      *
      * @param name      用户名

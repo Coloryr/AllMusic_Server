@@ -1,12 +1,15 @@
-package com.coloryr.allmusic.server.core.command;
+package com.coloryr.allmusic.server.core.command.sub;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.command.ACommand;
+import com.coloryr.allmusic.server.core.command.CommandEX;
+import com.coloryr.allmusic.server.core.command.PermissionList;
 
 public class CommandSearch extends ACommand {
     @Override
     public void execute(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
-                !AllMusic.side.checkPermission(sender, "allmusic.search")) {
+                !AllMusic.side.checkPermission(sender, PermissionList.PERMISSION_SEARCH)) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.noPer);
             return;
         }

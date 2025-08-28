@@ -1,6 +1,9 @@
-package com.coloryr.allmusic.server.core.command;
+package com.coloryr.allmusic.server.core.command.sub;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.command.ACommand;
+import com.coloryr.allmusic.server.core.command.AHudCommand;
+import com.coloryr.allmusic.server.core.command.ICommand;
 import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.hud.PosObj;
