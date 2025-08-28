@@ -29,7 +29,7 @@ repositories {
         url 'https://repo.papermc.io/repository/maven-public/'
     }
     maven {
-        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+        url = 'https://repo.helpch.at/releases/'
     }
     maven {
         url 'https://jitpack.io'

@@ -73,7 +73,7 @@ public class CommandMute extends ACommand {
                 }
                 return players;
             }
-            return new ArrayList<>() {{
+            return new ArrayList<String>() {{
                 add("list");
             }};
         } else {
