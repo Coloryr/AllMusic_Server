@@ -15,6 +15,7 @@ import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.neoforged.bus.api.IEventBus;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

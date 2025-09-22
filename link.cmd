@@ -37,4 +37,8 @@ for %%i in (%array1%) do (
     if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" "core"
     if not exist "onejar\%%i\build" mkdir "onejar\%%i\build" && mklink /j "onejar\%%i\build\libs" "build\libs"
     if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\codec" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\server\codec" "codec"
+    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\client" mkdir "onejar\%%i\src\main\java\com\coloryr\allmusic\client"
+    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core" "client\core"
+    if not exist "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder" mkdir "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder"
+    if not exist "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3" mklink /j "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3" "client\mp3"
 )
