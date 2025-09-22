@@ -12,14 +12,14 @@ for module in $array; do
     core_link="$module/src/main/java/com/coloryr/allmusic/server/core"
     if [ ! -e "$core_link" ]; then
         mkdir -p "$(dirname "$core_link")"
-        ln -s "../../../../../../../core" "$core_link"
+        ln -s "../../../../../../../../core" "$core_link"
     fi
     
     # 创建 build 目录和 libs 链接
     build_dir="$module/build"
     if [ ! -d "$build_dir" ]; then
         mkdir -p "$build_dir"
-        ln -s "../../../build/libs" "$build_dir/libs"
+        ln -s "../../build/libs" "$build_dir/libs"
     fi
 done
 
@@ -31,7 +31,7 @@ for module in $array1; do
     codec_link="$module/src/main/java/com/coloryr/allmusic/server/codec"
     if [ ! -e "$codec_link" ]; then
         mkdir -p "$(dirname "$codec_link")"
-        ln -s "../../../../../../../codec" "$codec_link"
+        ln -s "../../../../../../../../codec" "$codec_link"
     fi
 done
 
@@ -43,7 +43,7 @@ for module in $array2; do
     bstats_link="$module/src/main/java/com/coloryr/allmusic/server/bstats"
     if [ ! -e "$bstats_link" ]; then
         mkdir -p "$(dirname "$bstats_link")"
-        ln -s "../../../../../../../bstats" "$bstats_link"
+        ln -s "../../../../../../../../bstats" "$bstats_link"
     fi
 done
 

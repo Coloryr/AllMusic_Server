@@ -28,3 +28,4 @@ lib
 **/allmusic/server/core/
 **/allmusic/server/codec/
 **/allmusic/server/bstats/
+.DS_Store

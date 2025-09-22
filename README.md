@@ -19,7 +19,8 @@
 ![GIF.gif](img/GIF.gif)
 
 注：需要配合[客户端Mod](https://github.com/Coloryr/AllMusic_Client)使用  
-**不兼容旧版客户端Mod，需要新版客户端Mod**
+**不兼容旧版客户端Mod，需要新版客户端Mod**  
+**面板服不提供支持，请自己去问服务器商给不给你用**
 
 ## 下载
 登录github账户  
