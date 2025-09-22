@@ -7,7 +7,9 @@ import com.coloryr.allmusic.server.side.forge.LogForge;
 import com.coloryr.allmusic.server.side.forge.PackData;
 import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.IEventBus;
@@ -20,7 +22,10 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +43,6 @@ public class AllMusicForge {
     public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
-    private static AllMusicClient client;
-
     public AllMusicForge(IEventBus modEventBus) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -47,8 +50,6 @@ public class AllMusicForge {
 
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.register(this);
-
-        client = new AllMusicClient(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -63,7 +64,7 @@ public class AllMusicForge {
     public void register(final RegisterPayloadHandlersEvent event) {
         LOGGER.info("注册插件信道");
         final PayloadRegistrar registrar = event.registrar("1.0");
-        registrar.optional().playToClient(PackData.TYPE, client, client);
+        registrar.optional().playToClient(PackData.TYPE, PackData.CODEC, new HandelPack());
     }
 
     @SubscribeEvent
@@ -95,5 +96,14 @@ public class AllMusicForge {
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         AllMusic.joinPlay(event.getEntity().getName().getString());
+    }
+
+    private static class HandelPack implements IPayloadHandler<PackData> {
+        @Override
+        public void handle(@NotNull PackData payload, IPayloadContext context) {
+            if (context.flow() == PacketFlow.CLIENTBOUND) {
+                AllMusicClient.decode(payload);
+            }
+        }
     }
 }

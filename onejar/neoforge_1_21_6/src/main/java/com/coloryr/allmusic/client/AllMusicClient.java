@@ -2,7 +2,8 @@ package com.coloryr.allmusic.client;
 
 import com.coloryr.allmusic.client.core.AllMusicBridge;
 import com.coloryr.allmusic.client.core.AllMusicCore;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
+import com.coloryr.allmusic.client.core.CommandType;
+import com.coloryr.allmusic.server.AllMusicForge;
 import com.coloryr.allmusic.server.side.forge.PackData;
 import com.mojang.blaze3d.opengl.GlTexture;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,18 +11,18 @@ import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTexture;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.textures.TextureFormat;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
@@ -33,14 +34,15 @@ import net.neoforged.neoforge.client.event.sound.PlayStreamingSourceEvent;
 import net.neoforged.neoforge.client.event.sound.SoundEngineLoadEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.neoforged.neoforge.network.handling.IPayloadHandler;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3x2fStack;
 
 import java.nio.ByteBuffer;
 
-public class AllMusicClient implements IPayloadHandler<PackData>, StreamCodec<RegistryFriendlyByteBuf, PackData>, AllMusicBridge {
+// This class will not load on dedicated servers. Accessing client side code from here is safe.
+@Mod(value = AllMusicForge.MODID, dist = Dist.CLIENT)
+// You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
+@EventBusSubscriber(modid = AllMusicForge.MODID, value = Dist.CLIENT)
+public class AllMusicClient implements AllMusicBridge {
     private static GuiGraphics gui;
 
     public static final ResourceLocation channel =
@@ -70,35 +72,18 @@ public class AllMusicClient implements IPayloadHandler<PackData>, StreamCodec<Re
         event.enqueueWork(AllMusicCore::glInit);
     }
 
-    @Override
-    public PackData decode(RegistryFriendlyByteBuf pack) {
-        handle(pack);
-        pack.clear();
-        return new PackData(ComType.CLEAR, "", 0);
-    }
-
-    @Override
-    public void encode(RegistryFriendlyByteBuf pack, PackData data) {
-        PackData.CODEC.encode(pack, data);
-    }
-
-    @Override
-    public void handle(@NotNull PackData payload, IPayloadContext context) {
-
+    public static void decode(PackData pack) {
+        try {
+            AllMusicCore.packDo(AllMusicCore.types[pack.cmd().ordinal()], pack.data(), pack.data1());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void stopPlayMusic() {
         Minecraft.getInstance().getSoundManager().stop(null, SoundSource.MUSIC);
         Minecraft.getInstance().getSoundManager().stop(null, SoundSource.RECORDS);
-    }
-
-    public void handle(ByteBuf buffer) {
-        try {
-            AllMusicCore.packRead(buffer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void setup1(final FMLCommonSetupEvent event) {

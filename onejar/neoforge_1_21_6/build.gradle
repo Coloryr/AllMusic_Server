@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.189'
+    id 'net.neoforged.gradle.userdev' version '7.0.192'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -156,7 +156,6 @@ tasks.withType(ProcessResources).configureEach {
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,

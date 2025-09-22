@@ -63,7 +63,7 @@ type="required" #mandatory
 # Optional field describing why the dependency is required or why it is incompatible
 # reason="..."
 # The version range of the dependency
-versionRange="${neo_version_range}" #mandatory
+versionRange="[${neo_version},)" #mandatory
 # An ordering relationship for the dependency.
 # BEFORE - This mod is loaded BEFORE the dependency
 # AFTER - This mod is loaded AFTER the dependency
