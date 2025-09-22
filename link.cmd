@@ -30,3 +30,11 @@ set array2=folia server_top server
 for %%i in (%array2%) do (
     if not exist "%%i\src\main\java\com\coloryr\allmusic\server\bstats" mklink /j "%%i\src\main\java\com\coloryr\allmusic\server\bstats" "bstats"
 )
+
+set array1=neoforge_1_21_6
+
+for %%i in (%array1%) do (
+    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" "core"
+    if not exist "onejar\%%i\build" mkdir "onejar\%%i\build" && mklink /j "onejar\%%i\build\libs" "build\libs"
+    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\codec" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\server\codec" "codec"
+)
