@@ -70,14 +70,14 @@ public class MusicPlayObj {
         if (emptyPlayingMusic == null)
             emptyPlayingMusic = "§d[AllMusic3]§e无正在播放的歌曲";
         if (nowPlay == null)
-            nowPlay = "§d[AllMusic3]§e正在播放：" + PAL.musicName + " | " + PAL.musicAuthor
-                    + " by: " + PAL.player;
+            nowPlay = "§d[AllMusic3]§e正在播放：" + ARG.musicName + " | " + ARG.musicAuthor
+                    + " by: " + ARG.player;
         if (emptyPlay == null)
             emptyPlay = "§d[AllMusic3]§e队列中无歌曲";
         if (listMusic == null)
             listMusic = ListMusicObj.make();
         if (emptyCanPlay == null)
-            emptyCanPlay = "§d[AllMusic3]§c无法播放歌曲" + PAL.musicId + "可能该歌曲为VIP歌曲";
+            emptyCanPlay = "§d[AllMusic3]§c无法播放歌曲" + ARG.musicId + "可能该歌曲为VIP歌曲";
         if (mute == null)
             mute = "§d[AllMusic3]§e你不会再收到点歌了！想要再次参与点歌就点一首歌吧！或者再输入一次指令恢复";
         if (mute1 == null)
@@ -89,13 +89,13 @@ public class MusicPlayObj {
         if (switchMusic == null)
             switchMusic = "§d[AllMusic3]§e切换到玩家歌曲";
         if (addMusic == null)
-            addMusic = "§d[AllMusic3]§e音乐列表添加" + PAL.musicName + " | " + PAL.musicAuthor
-                    + " | " + PAL.musicAl + " | " + PAL.musicAlia + " | by: " + PAL.player;
+            addMusic = "§d[AllMusic3]§e音乐列表添加" + ARG.musicName + " | " + ARG.musicAuthor
+                    + " | " + ARG.musicAl + " | " + ARG.musicAlia + " | by: " + ARG.player;
         if (checkMusic == null)
-            checkMusic = "§d[AllMusic3]§e正在解析歌曲" + PAL.musicId;
+            checkMusic = "§d[AllMusic3]§e正在解析歌曲" + ARG.musicId;
         if (musicInfo == null)
-            musicInfo = PAL.musicName + " | " + PAL.musicAuthor + " | " + PAL.musicAl
-                    + " | " + PAL.musicAlia + " | by: " + PAL.player;
+            musicInfo = ARG.musicName + " | " + ARG.musicAuthor + " | " + ARG.musicAl
+                    + " | " + ARG.musicAlia + " | by: " + ARG.player;
         if (trail == null)
             trail = "§d[AllMusic3]§e该音乐为试听音乐";
         if (cancel == null)

@@ -4,7 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.PermissionList;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
 public class CommandVote extends ACommand {
@@ -40,16 +40,16 @@ public class CommandVote extends ACommand {
             PlayMusic.startVote(name);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.doVote);
             String data = AllMusic.getMessage().vote.bq;
-            AllMusic.side.broadcast(data.replace(PAL.player, name)
-                    .replace(PAL.time, String.valueOf(AllMusic.getConfig().voteTime)));
+            AllMusic.side.broadcast(data.replace(ARG.player, name)
+                    .replace(ARG.time, String.valueOf(AllMusic.getConfig().voteTime)));
             AllMusic.side.broadcastWithRun(AllMusic.getMessage().vote.bq1, AllMusic.getMessage().vote.bq2, "/music vote");
         } else {
             if (!PlayMusic.containVote(name)) {
                 PlayMusic.addVote(name);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.agree);
                 String data = AllMusic.getMessage().vote.bqAgree;
-                data = data.replace(PAL.player, name)
-                        .replace(PAL.count, String.valueOf(PlayMusic.getVoteCount()));
+                data = data.replace(ARG.player, name)
+                        .replace(ARG.count, String.valueOf(PlayMusic.getVoteCount()));
                 AllMusic.side.broadcast(data);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.arAgree);

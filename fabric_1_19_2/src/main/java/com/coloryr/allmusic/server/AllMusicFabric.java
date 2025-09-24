@@ -1,9 +1,6 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.side.fabric.CommandFabric;
-import com.coloryr.allmusic.server.side.fabric.LogFabric;
-import com.coloryr.allmusic.server.side.fabric.SideFabric;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -20,14 +17,15 @@ public class AllMusicFabric implements ModInitializer {
     public static final Identifier ID = new Identifier("allmusic", "channel");
     public static MinecraftServer server;
 
+    public static final String dir = "allmusic_server/";
+
     @Override
     public void onInitialize() {
-        String path = "allmusic3/";
 
         AllMusic.log = new LogFabric();
         AllMusic.side = new SideFabric();
 
-        new AllMusic().init(new File(path));
+        new AllMusic().init(new File(dir));
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> CommandFabric.instance.register(dispatcher));
 
@@ -36,9 +34,7 @@ public class AllMusicFabric implements ModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
             server = a;
-
             AllMusic.start();
-
             Tasks.init();
         });
 

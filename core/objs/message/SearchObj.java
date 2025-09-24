@@ -44,7 +44,7 @@ public class SearchObj {
         if (noPer == null)
             noPer = "§d[AllMusic3]§c你没有权限搜歌";
         if (cantSearch == null)
-            cantSearch = "§d[AllMusic3]§c无法搜索歌曲：" + PAL.name;
+            cantSearch = "§d[AllMusic3]§c无法搜索歌曲：" + ARG.name;
         if (res == null)
             res = "§d[AllMusic3]§e搜索结果";
         if (emptySearch == null)
@@ -52,7 +52,7 @@ public class SearchObj {
         if (errorNum == null)
             errorNum = "§d[AllMusic3]§c请输入正确的序号";
         if (choice == null)
-            choice = "§d[AllMusic3]§e你选择了序号：" + PAL.index;
+            choice = "§d[AllMusic3]§e你选择了序号：" + ARG.index;
         if (cantNext == null)
             cantNext = "§d[AllMusic3]§c无法下一页";
         if (cantLast == null)

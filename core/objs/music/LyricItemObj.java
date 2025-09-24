@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server.core.objs.music;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 
 public class LyricItemObj {
     public String lyric;
@@ -18,11 +18,11 @@ public class LyricItemObj {
         String data;
         if (tlyric != null && !tlyric.isEmpty()) {
             data = AllMusic.getMessage().lyric.tdata;
-            return data.replace(PAL.lyric, lyric)
-                    .replace(PAL.tlyric, tlyric);
+            return data.replace(ARG.lyric, lyric)
+                    .replace(ARG.tlyric, tlyric);
         }
 
         data = AllMusic.getMessage().lyric.data;
-        return data.replace(PAL.lyric, lyric);
+        return data.replace(ARG.lyric, lyric);
     }
 }

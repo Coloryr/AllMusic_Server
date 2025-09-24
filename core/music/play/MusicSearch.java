@@ -2,7 +2,7 @@ package com.coloryr.allmusic.server.core.music.play;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.SearchMusicObj;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 
@@ -21,7 +21,7 @@ public class MusicSearch {
                     SearchPageObj search = AllMusic.getMusicApi().search(obj.args, obj.isDefault);
                     if (search == null)
                         AllMusic.side.sendMessageTask(obj.sender, AllMusic.getMessage().search
-                                .cantSearch.replace(PAL.name, obj.isDefault ? obj.args[0] : obj.args[1]));
+                                .cantSearch.replace(ARG.name, obj.isDefault ? obj.args[0] : obj.args[1]));
                     else {
                         AllMusic.side.sendMessageTask(obj.sender, AllMusic.getMessage().search.res);
                         AllMusic.addSearch(obj.name, search);
@@ -68,10 +68,10 @@ public class MusicSearch {
         for (int a = 0; a < index; a++) {
             item = search.getRes(a + search.getPage() * 10);
             info = AllMusic.getMessage().page.choice;
-            info = info.replace(PAL.index, "" + (a + 1))
-                    .replace(PAL.musicName, item.name)
-                    .replace(PAL.musicAuthor, item.author)
-                    .replace(PAL.musicAl, item.al);
+            info = info.replace(ARG.index, "" + (a + 1))
+                    .replace(ARG.musicName, item.name)
+                    .replace(ARG.musicAuthor, item.author)
+                    .replace(ARG.musicAl, item.al);
             AllMusic.side.sendMessageRun(sender, info,
                     AllMusic.getMessage().click.clickRun, "/music select " + (a + 1));
         }

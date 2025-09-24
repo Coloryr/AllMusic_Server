@@ -3,7 +3,7 @@ package com.coloryr.allmusic.server.core.command.sub;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ICommand;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ public class CommandCancel implements ICommand {
                 return;
             }
             if (!id.getCall().equalsIgnoreCase(name)) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().cancel.err2.replace(PAL.musicName, id.getName())
-                        .replace(PAL.musicAuthor, id.getAuthor()));
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().cancel.err2.replace(ARG.musicName, id.getName())
+                        .replace(ARG.musicAuthor, id.getAuthor()));
                 return;
             }
             PlayMusic.remove(id);
@@ -32,12 +32,12 @@ public class CommandCancel implements ICommand {
                 SongInfoObj id = PlayMusic.findMusicIndex(index);
                 if (id == null) {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().cancel.err3
-                            .replace(PAL.index, args[1]));
+                            .replace(ARG.index, args[1]));
                     return;
                 }
                 if (!id.getCall().equalsIgnoreCase(name)) {
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().cancel.err2.replace(PAL.musicName, id.getName())
-                            .replace(PAL.musicAuthor, id.getAuthor()));
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().cancel.err2.replace(ARG.musicName, id.getName())
+                            .replace(ARG.musicAuthor, id.getAuthor()));
                     return;
                 }
 

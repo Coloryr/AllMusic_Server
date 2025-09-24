@@ -4,7 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.sub.*;
 import com.coloryr.allmusic.server.core.music.play.MusicSearch;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Function;
@@ -127,7 +127,7 @@ public class CommandEX {
 
         if (AllMusic.economy.cost(name, cost)) {
             AllMusic.side.sendMessage(sender, message
-                    .replace(PAL.cost, String.valueOf(cost)));
+                    .replace(ARG.cost, String.valueOf(cost)));
             return false;
         } else {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().cost.costFail);
@@ -216,35 +216,39 @@ public class CommandEX {
      * @param args   参数
      */
     public static void execute(Object sender, String name, String[] args) {
-        if (args.length == 0) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
-            return;
-        }
-        ICommand command = commandList.get(args[0]);
-        if (command != null) {
-            command.execute(sender, name, args);
-            return;
-        }
-
-        if (checkAdmin(sender, name)) {
-            command = commandAdminList.get(args[0]);
+        try {
+            if (args.length == 0) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                return;
+            }
+            ICommand command = commandList.get(args[0]);
             if (command != null) {
                 command.execute(sender, name, args);
                 return;
             }
-        }
-        if (AllMusic.getConfig().needPermission &&
-                !AllMusic.side.checkPermission(sender, PermissionList.PERMISSION_ADD_MUSIC))
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.noPer);
-        else {
-            switch (AllMusic.getConfig().defaultAddMusic) {
-                case 1:
-                    searchMusic(sender, name, args, true);
-                    break;
-                case 0:
-                default:
-                    DataSql.task(() -> addMusic(sender, name, args));
+
+            if (checkAdmin(sender, name)) {
+                command = commandAdminList.get(args[0]);
+                if (command != null) {
+                    command.execute(sender, name, args);
+                    return;
+                }
             }
+            if (AllMusic.getConfig().needPermission &&
+                    !AllMusic.side.checkPermission(sender, PermissionList.PERMISSION_ADD_MUSIC))
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.noPer);
+            else {
+                switch (AllMusic.getConfig().defaultAddMusic) {
+                    case 1:
+                        searchMusic(sender, name, args, true);
+                        break;
+                    case 0:
+                    default:
+                        DataSql.task(() -> addMusic(sender, name, args));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

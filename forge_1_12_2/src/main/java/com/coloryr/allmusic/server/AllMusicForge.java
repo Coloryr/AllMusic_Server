@@ -1,9 +1,6 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.side.forge.CommandForge;
-import com.coloryr.allmusic.server.side.forge.LogForge;
-import com.coloryr.allmusic.server.side.forge.SideForge;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,21 +21,21 @@ import java.util.Locale;
 
 @Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.12,)")
 public class AllMusicForge {
-    public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
+    public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
     public static MinecraftServer server;
     public static FMLEventChannel channel;
+
+    public static final String dir = "config/allmusic_server/";
 
     @Mod.EventHandler
     private void commonSetup(final FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
         channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("allmusic:channel");
 
-        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
-
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
 
-        new AllMusic().init(new File(path));
+        new AllMusic().init(new File(dir));
     }
 
     @Mod.EventHandler

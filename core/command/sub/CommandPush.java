@@ -4,7 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.PermissionList;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
@@ -57,7 +57,7 @@ public class CommandPush extends ACommand {
                     return;
                 }
                 if (music == null) {
-                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.noId1.replace(PAL.index, args[1]));
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.noId1.replace(ARG.index, args[1]));
                     return;
                 }
             }
@@ -73,10 +73,10 @@ public class CommandPush extends ACommand {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.doVote);
             String data = AllMusic.getMessage().push.bq;
             AllMusic.side.broadcast(data
-                    .replace(PAL.player, name)
-                    .replace(PAL.time, String.valueOf(AllMusic.getConfig().voteTime))
-                    .replace(PAL.musicName, music.getName())
-                    .replace(PAL.musicAuthor, music.getAuthor()));
+                    .replace(ARG.player, name)
+                    .replace(ARG.time, String.valueOf(AllMusic.getConfig().voteTime))
+                    .replace(ARG.musicName, music.getName())
+                    .replace(ARG.musicAuthor, music.getAuthor()));
             AllMusic.side.broadcastWithRun(AllMusic.getMessage().push.bq1, AllMusic.getMessage().push.bq2, "/music push");
         } else {
             if (music != null) {
@@ -87,8 +87,8 @@ public class CommandPush extends ACommand {
                 PlayMusic.addPush(name);
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.agree);
                 String data = AllMusic.getMessage().push.bqAgree;
-                data = data.replace(PAL.player, name)
-                        .replace(PAL.count, String.valueOf(PlayMusic.getVoteCount()));
+                data = data.replace(ARG.player, name)
+                        .replace(ARG.count, String.valueOf(PlayMusic.getVoteCount()));
                 AllMusic.side.broadcast(data);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.arAgree);

@@ -8,7 +8,7 @@ import com.coloryr.allmusic.server.core.objs.config.SaveObj;
 import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.hud.PosObj;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
@@ -104,17 +104,17 @@ public class HudUtils {
                 if (info1 == null)
                     continue;
                 now = AllMusic.getMessage().musicPlay.musicInfo
-                        .replace(PAL.musicName, listLimit(info1.getName()))
-                        .replace(PAL.musicAuthor, listLimit(info1.getAuthor()))
-                        .replace(PAL.musicAl, listLimit(info1.getAl()))
-                        .replace(PAL.musicAlia, listLimit(info1.getAlia()))
-                        .replace(PAL.player, info1.getCall());
+                        .replace(ARG.musicName, listLimit(info1.getName()))
+                        .replace(ARG.musicAuthor, listLimit(info1.getAuthor()))
+                        .replace(ARG.musicAl, listLimit(info1.getAl()))
+                        .replace(ARG.musicAlia, listLimit(info1.getAlia()))
+                        .replace(ARG.player, info1.getCall());
 
                 list.append(now).append("\n");
             }
             info = AllMusic.getMessage().hud.list
-                    .replace(PAL.size, String.valueOf(PlayMusic.getList().size()))
-                    .replace(PAL.list, list.toString());
+                    .replace(ARG.size, String.valueOf(PlayMusic.getList().size()))
+                    .replace(ARG.list, list.toString());
         }
 
         AllMusic.side.sendHudList(info);
@@ -141,13 +141,13 @@ public class HudUtils {
             info = AllMusic.getMessage().hud.emptyMusic;
         } else {
             info = AllMusic.getMessage().hud.music
-                    .replace(PAL.name, infoLimit(PlayMusic.nowPlayMusic.getName()))
-                    .replace(PAL.allTime, tranTime(PlayMusic.musicAllTime))
-                    .replace(PAL.nowTime, tranTime(PlayMusic.musicNowTime / 1000))
-                    .replace(PAL.musicAuthor, infoLimit(PlayMusic.nowPlayMusic.getAuthor()))
-                    .replace(PAL.musicAlia, infoLimit(PlayMusic.nowPlayMusic.getAlia()))
-                    .replace(PAL.musicAl, infoLimit(PlayMusic.nowPlayMusic.getAl()))
-                    .replace(PAL.player, PlayMusic.nowPlayMusic.getCall());
+                    .replace(ARG.name, infoLimit(PlayMusic.nowPlayMusic.getName()))
+                    .replace(ARG.allTime, tranTime(PlayMusic.musicAllTime))
+                    .replace(ARG.nowTime, tranTime(PlayMusic.musicNowTime / 1000))
+                    .replace(ARG.musicAuthor, infoLimit(PlayMusic.nowPlayMusic.getAuthor()))
+                    .replace(ARG.musicAlia, infoLimit(PlayMusic.nowPlayMusic.getAlia()))
+                    .replace(ARG.musicAl, infoLimit(PlayMusic.nowPlayMusic.getAl()))
+                    .replace(ARG.player, PlayMusic.nowPlayMusic.getCall());
         }
 
         AllMusic.side.sendHudInfo(info);
@@ -167,13 +167,13 @@ public class HudUtils {
             String kLyric = obj.getKly();
             if (!AllMusic.getConfig().ktvMode) {
                 info = AllMusic.getMessage().hud.lyric
-                        .replace(PAL.lyric, lyric == null ? "" : lyric)
-                        .replace(PAL.tlyric, tLyric != null ? tLyric : "");
+                        .replace(ARG.lyric, lyric == null ? "" : lyric)
+                        .replace(ARG.tlyric, tLyric != null ? tLyric : "");
             } else {
                 info = AllMusic.getMessage().hud.ktv
-                        .replace(PAL.lyric, lyric != null ? lyric : "")
-                        .replace(PAL.klyric, kLyric != null ? kLyric : "")
-                        .replace(PAL.tlyric, tLyric != null ? tLyric : "");
+                        .replace(ARG.lyric, lyric != null ? lyric : "")
+                        .replace(ARG.klyric, kLyric != null ? kLyric : "")
+                        .replace(ARG.tlyric, tLyric != null ? tLyric : "");
             }
         }
 

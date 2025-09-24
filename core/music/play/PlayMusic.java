@@ -3,7 +3,7 @@ package com.coloryr.allmusic.server.core.music.play;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.api.APIMain;
 import com.coloryr.allmusic.server.core.objs.config.LimitObj;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
@@ -250,7 +250,7 @@ public class PlayMusic {
             return;
         if (sender != null) {
             String text = AllMusic.getMessage().musicPlay.checkMusic
-                    .replace(PAL.musicId, id);
+                    .replace(ARG.musicId, id);
             AllMusic.side.sendMessageTask(sender, text);
         }
         AllMusic.log.info("玩家：" + player + " 点歌：" + id);
@@ -259,7 +259,7 @@ public class PlayMusic {
             if (info == null) {
                 if (sender != null) {
                     String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                    AllMusic.side.sendMessageTask(sender, data.replace(PAL.musicId, id));
+                    AllMusic.side.sendMessageTask(sender, data.replace(ARG.musicId, id));
                 }
                 return;
             }
@@ -274,19 +274,19 @@ public class PlayMusic {
             if (!AllMusic.getConfig().muteAddMessage) {
                 if (AllMusic.getConfig().showInBar) {
                     String data = AllMusic.getMessage().musicPlay.addMusic
-                            .replace(PAL.musicName, HudUtils.messageLimit(info.getName()))
-                            .replace(PAL.musicAuthor, HudUtils.messageLimit(info.getAuthor()))
-                            .replace(PAL.musicAl, HudUtils.messageLimit(info.getAl()))
-                            .replace(PAL.musicAlia, HudUtils.messageLimit(info.getAlia()))
-                            .replace(PAL.player, info.getCall());
+                            .replace(ARG.musicName, HudUtils.messageLimit(info.getName()))
+                            .replace(ARG.musicAuthor, HudUtils.messageLimit(info.getAuthor()))
+                            .replace(ARG.musicAl, HudUtils.messageLimit(info.getAl()))
+                            .replace(ARG.musicAlia, HudUtils.messageLimit(info.getAlia()))
+                            .replace(ARG.player, info.getCall());
                     AllMusic.side.sendBar(data);
                 } else {
                     String data = AllMusic.getMessage().musicPlay.addMusic
-                            .replace(PAL.musicName, info.getName())
-                            .replace(PAL.musicAuthor, info.getAuthor())
-                            .replace(PAL.musicAl, info.getAl())
-                            .replace(PAL.musicAlia, info.getAlia())
-                            .replace(PAL.player, info.getCall());
+                            .replace(ARG.musicName, info.getName())
+                            .replace(ARG.musicAuthor, info.getAuthor())
+                            .replace(ARG.musicAl, info.getAl())
+                            .replace(ARG.musicAlia, info.getAlia())
+                            .replace(ARG.player, info.getCall());
                     AllMusic.side.broadcastInTask(data);
                 }
             }
@@ -385,11 +385,11 @@ public class PlayMusic {
         for (int i = 0; i < playList.size(); i++) {
             info = playList.get(i);
             a = AllMusic.getMessage().musicPlay.listMusic.item;
-            a = a.replace(PAL.index, String.valueOf(i + 1))
-                    .replace(PAL.musicName, info.getName())
-                    .replace(PAL.musicAuthor, info.getAuthor())
-                    .replace(PAL.musicAl, info.getAl())
-                    .replace(PAL.musicAlia, info.getAlia());
+            a = a.replace(ARG.index, String.valueOf(i + 1))
+                    .replace(ARG.musicName, info.getName())
+                    .replace(ARG.musicAuthor, info.getAuthor())
+                    .replace(ARG.musicAl, info.getAl())
+                    .replace(ARG.musicAlia, info.getAlia());
             list.append(a).append("\n");
         }
         String temp = list.toString();

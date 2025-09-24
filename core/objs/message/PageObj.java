@@ -24,7 +24,7 @@ public class PageObj {
 
     public void init() {
         if (choice == null)
-            choice = "§e" + PAL.index + "->" + PAL.musicName + " | " + PAL.musicAuthor + " | " + PAL.musicAl;
+            choice = "§e" + ARG.index + "->" + ARG.musicName + " | " + ARG.musicAuthor + " | " + ARG.musicAl;
         if (next == null)
             next = "§e[§n点我下一页§r§e]";
         if (last == null)

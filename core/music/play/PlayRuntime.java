@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server.core.music.play;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
@@ -239,7 +239,7 @@ public class PlayRuntime {
                             PlayMusic.nowPlayMusic.getPlayerUrl();
                     if (PlayMusic.url == null) {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                        AllMusic.side.broadcastInTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
+                        AllMusic.side.broadcastInTask(data.replace(ARG.musicId, PlayMusic.nowPlayMusic.getID()));
                         PlayMusic.nowPlayMusic = null;
                         continue;
                     }
@@ -257,19 +257,19 @@ public class PlayRuntime {
                             SongInfoObj music = PlayMusic.nowPlayMusic;
                             if (AllMusic.getConfig().showInBar) {
                                 String info = AllMusic.getMessage().musicPlay.nowPlay
-                                        .replace(PAL.musicName, HudUtils.messageLimit(music.getName()))
-                                        .replace(PAL.musicAuthor, HudUtils.messageLimit(music.getAuthor()))
-                                        .replace(PAL.musicAl, HudUtils.messageLimit(music.getAl()))
-                                        .replace(PAL.musicAlia, HudUtils.messageLimit(music.getAlia()))
-                                        .replace(PAL.player, music.getCall());
+                                        .replace(ARG.musicName, HudUtils.messageLimit(music.getName()))
+                                        .replace(ARG.musicAuthor, HudUtils.messageLimit(music.getAuthor()))
+                                        .replace(ARG.musicAl, HudUtils.messageLimit(music.getAl()))
+                                        .replace(ARG.musicAlia, HudUtils.messageLimit(music.getAlia()))
+                                        .replace(ARG.player, music.getCall());
                                 AllMusic.side.sendBar(info);
                             } else {
                                 String info = AllMusic.getMessage().musicPlay.nowPlay
-                                        .replace(PAL.musicName, music.getName())
-                                        .replace(PAL.musicAuthor, music.getAuthor())
-                                        .replace(PAL.musicAl, music.getAl())
-                                        .replace(PAL.musicAlia, music.getAlia())
-                                        .replace(PAL.player, music.getCall());
+                                        .replace(ARG.musicName, music.getName())
+                                        .replace(ARG.musicAuthor, music.getAuthor())
+                                        .replace(ARG.musicAl, music.getAl())
+                                        .replace(ARG.musicAlia, music.getAlia())
+                                        .replace(ARG.player, music.getCall());
                                 AllMusic.side.broadcastInTask(info);
                             }
                         }
@@ -295,7 +295,7 @@ public class PlayRuntime {
                         AllMusic.side.sendStop();
                     } else {
                         String data = AllMusic.getMessage().musicPlay.emptyCanPlay;
-                        AllMusic.side.broadcastInTask(data.replace(PAL.musicId, PlayMusic.nowPlayMusic.getID()));
+                        AllMusic.side.broadcastInTask(data.replace(ARG.musicId, PlayMusic.nowPlayMusic.getID()));
                     }
                     clear();
                 }

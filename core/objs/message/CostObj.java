@@ -25,9 +25,9 @@ public class CostObj {
 
     public void init() {
         if (search == null)
-            search = "§d[AllMusic3]§e你搜歌花费了" + PAL.cost;
+            search = "§d[AllMusic3]§e你搜歌花费了" + ARG.cost;
         if (addMusic == null)
-            addMusic = "§d[AllMusic3]§e你点歌花费了" + PAL.cost;
+            addMusic = "§d[AllMusic3]§e你点歌花费了" + ARG.cost;
         if (noMoney == null)
             noMoney = "§d[AllMusic3]§c你没有足够的钱";
         if (costFail == null)

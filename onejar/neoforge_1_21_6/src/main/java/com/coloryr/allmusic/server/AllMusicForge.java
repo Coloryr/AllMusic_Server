@@ -2,12 +2,7 @@ package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.client.AllMusicClient;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.side.forge.CommandForge;
-import com.coloryr.allmusic.server.side.forge.LogForge;
-import com.coloryr.allmusic.server.side.forge.PackData;
-import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +34,7 @@ public class AllMusicForge {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic";
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic_Server");
+    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic");
     public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
@@ -53,12 +48,10 @@ public class AllMusicForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        String path = String.format(Locale.ROOT, "config/%s/", "allmusic");
-
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
 
-        new AllMusic().init(new File(path));
+        new AllMusic().init(new File("config/allmusic_server/"));
     }
 
     public void register(final RegisterPayloadHandlersEvent event) {

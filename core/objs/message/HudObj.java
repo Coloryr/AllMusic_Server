@@ -61,17 +61,17 @@ public class HudObj {
 
     public void init() {
         if (state == null)
-            state = "§d[AllMusic3]§e设置信息位置：" + PAL.hud + "，状态：" + PAL.state;
+            state = "§d[AllMusic3]§e设置信息位置：" + ARG.hud + "，状态：" + ARG.state;
         if (set == null)
-            set = "§d[AllMusic3]§e已设置[" + PAL.hud + "]的坐标为[" + PAL.x + ", " + PAL.y + "]";
+            set = "§d[AllMusic3]§e已设置[" + ARG.hud + "]的坐标为[" + ARG.x + ", " + ARG.y + "]";
         if (set1 == null)
-            set1 = "§d[AllMusic3]§e已设置[" + PAL.hud + "]的对齐方式为[" + PAL.dir + "]";
+            set1 = "§d[AllMusic3]§e已设置[" + ARG.hud + "]的对齐方式为[" + ARG.dir + "]";
         if (set2 == null)
-            set2 = "§d[AllMusic3]§e已设置[" + PAL.hud + "]的颜色为[" + PAL.color + "]";
+            set2 = "§d[AllMusic3]§e已设置[" + ARG.hud + "]的颜色为[" + ARG.color + "]";
         if (set3 == null)
-            set3 = "§d[AllMusic3]§e已设置[" + PAL.hud + "]的阴影为[" + PAL.state + "]";
+            set3 = "§d[AllMusic3]§e已设置[" + ARG.hud + "]的阴影为[" + ARG.state + "]";
         if (reset == null)
-            reset = "§d[AllMusic3]§e界面[" + PAL.hud + "]恢复至默认位置";
+            reset = "§d[AllMusic3]§e界面[" + ARG.hud + "]恢复至默认位置";
         if (emptyMusic == null)
             emptyMusic = "没有播放的音乐";
         if (emptyList == null)
@@ -79,20 +79,20 @@ public class HudObj {
         if (emptyLyric == null)
             emptyLyric = "无歌词";
         if (picSize == null)
-            picSize = "§d[AllMusic3]§e设置图片尺寸为[" + PAL.size + "]";
+            picSize = "§d[AllMusic3]§e设置图片尺寸为[" + ARG.size + "]";
         if (picRotate == null)
-            picRotate = "§d[AllMusic3]§e设置图片旋转为[" + PAL.state + "]";
+            picRotate = "§d[AllMusic3]§e设置图片旋转为[" + ARG.state + "]";
         if (picSpeed == null)
-            picSpeed = "§d[AllMusic3]§e设置图片旋转速度为[" + PAL.size + "]";
+            picSpeed = "§d[AllMusic3]§e设置图片旋转速度为[" + ARG.size + "]";
         if (music == null)
-            music = PAL.name + " " + PAL.allTime + "/" + PAL.nowTime
-                    + "\n" + PAL.musicAuthor + "\n" + PAL.musicAlia + "\n" + PAL.musicAl
-                    + "\nby: " + PAL.player;
+            music = ARG.name + " " + ARG.allTime + "/" + ARG.nowTime
+                    + "\n" + ARG.musicAuthor + "\n" + ARG.musicAlia + "\n" + ARG.musicAl
+                    + "\nby: " + ARG.player;
         if (lyric == null)
-            lyric = PAL.lyric + "\n" + PAL.tlyric;
+            lyric = ARG.lyric + "\n" + ARG.tlyric;
         if (ktv == null)
-            ktv = "§e" + PAL.klyric + "§f" + PAL.lyric + "§r\n" + PAL.tlyric;
+            ktv = "§e" + ARG.klyric + "§f" + ARG.lyric + "§r\n" + ARG.tlyric;
         if (list == null)
-            list = "播放列表里面有" + PAL.size + "首歌\n" + PAL.list;
+            list = "播放列表里面有" + ARG.size + "首歌\n" + ARG.list;
     }
 }

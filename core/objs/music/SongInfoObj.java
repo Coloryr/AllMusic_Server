@@ -3,7 +3,7 @@ package com.coloryr.allmusic.server.core.objs.music;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.MediaType;
 import com.coloryr.allmusic.server.core.objs.api.music.trialinfo.freeTrialInfo;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 
 public class SongInfoObj {
     /**
@@ -145,11 +145,11 @@ public class SongInfoObj {
 
     public String getInfo() {
         String info = AllMusic.getMessage().musicPlay.musicInfo;
-        info = info.replace(PAL.musicName, name == null ? "" : name)
-                .replace(PAL.musicAuthor, author == null ? "" : author)
-                .replace(PAL.musicAl, al == null ? "" : al)
-                .replace(PAL.musicAlia, alia == null ? "" : alia)
-                .replace(PAL.player, call == null ? "" : call);
+        info = info.replace(ARG.musicName, name == null ? "" : name)
+                .replace(ARG.musicAuthor, author == null ? "" : author)
+                .replace(ARG.musicAl, al == null ? "" : al)
+                .replace(ARG.musicAlia, alia == null ? "" : alia)
+                .replace(ARG.player, call == null ? "" : call);
         return info;
     }
 

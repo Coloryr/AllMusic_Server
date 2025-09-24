@@ -4,7 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.ICommand;
 import com.coloryr.allmusic.server.core.objs.enums.HudType;
-import com.coloryr.allmusic.server.core.objs.message.PAL;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 import java.util.*;
@@ -70,8 +70,8 @@ public class CommandHud extends ACommand {
             if (args.length == 2 || args.length == 3) {
                 boolean temp = HudUtils.setHudEnable(name, null, args.length == 3 ? args[2] : null);
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.state
-                        .replace(PAL.state, temp ? "启用" : "关闭")
-                        .replace(PAL.hud, AllMusic.getMessage().hudList.getHud(null)));
+                        .replace(ARG.state, temp ? "启用" : "关闭")
+                        .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(null)));
                 return;
             }
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
@@ -91,7 +91,7 @@ public class CommandHud extends ACommand {
         public void execute(Object sender, String name, String[] args) {
             HudUtils.reset(name);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.reset
-                    .replace(PAL.hud, AllMusic.getMessage().hudList.getHud(null)));
+                    .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(null)));
         }
     }
 }

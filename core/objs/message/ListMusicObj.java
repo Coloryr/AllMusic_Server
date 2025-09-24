@@ -24,11 +24,11 @@ public class ListMusicObj {
 
     public void init() {
         if (head == null)
-            head = "§d[AllMusic3]§e队列中有歌曲数：" + PAL.count;
+            head = "§d[AllMusic3]§e队列中有歌曲数：" + ARG.count;
         if (item == null)
-            item = "§e" + PAL.index + "->" + PAL.musicName + " | " + PAL.musicAuthor
-                    + " | " + PAL.musicAl + " | " + PAL.musicAlia + " | by: " + PAL.player;
+            item = "§e" + ARG.index + "->" + ARG.musicName + " | " + ARG.musicAuthor
+                    + " | " + ARG.musicAl + " | " + ARG.musicAlia + " | by: " + ARG.player;
         if (get == null)
-            get = "§d[AllMusic3]§e歌曲列表" + PAL.name + "获取成功";
+            get = "§d[AllMusic3]§e歌曲列表" + ARG.name + "获取成功";
     }
 }

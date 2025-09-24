@@ -28,9 +28,9 @@ public class LyricObj {
 
     public void init() {
         if (data == null)
-            data = PAL.lyric;
+            data = ARG.lyric;
         if (tdata == null)
-            tdata = PAL.lyric + "(" + PAL.tlyric + ")";
+            tdata = ARG.lyric + "(" + ARG.tlyric + ")";
         if (empty1 == null)
             empty1 = "没有歌词";
         if (empty2 == null)

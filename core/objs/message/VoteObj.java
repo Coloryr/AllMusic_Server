@@ -59,7 +59,7 @@ public class VoteObj {
         if (doVote == null)
             doVote = "§d[AllMusic3]§e已发起切歌投票";
         if (bq == null)
-            bq = "§d[AllMusic3]§e" + PAL.player + "发起了切歌投票，" + PAL.time + "秒后结束，输入/music vote 同意切歌。";
+            bq = "§d[AllMusic3]§e" + ARG.player + "发起了切歌投票，" + ARG.time + "秒后结束，输入/music vote 同意切歌。";
         if (bq1 == null)
             bq1 = "§d[AllMusic3]§e或者点击 ";
         if (bq2 == null)
@@ -67,7 +67,7 @@ public class VoteObj {
         if (agree == null)
             agree = "§d[AllMusic3]§e你同意切歌";
         if (bqAgree == null)
-            bqAgree = "§d[AllMusic3]§e" + PAL.player + "同意切歌，共有" + PAL.count + "名玩家同意切歌。";
+            bqAgree = "§d[AllMusic3]§e" + ARG.player + "同意切歌，共有" + ARG.count + "名玩家同意切歌。";
         if (arAgree == null)
             arAgree = "§d[AllMusic3]§e你已申请切歌";
         if (timeOut == null)

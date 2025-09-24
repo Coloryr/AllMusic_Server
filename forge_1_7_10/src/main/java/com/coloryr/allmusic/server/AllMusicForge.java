@@ -1,9 +1,6 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.side.forge.CommandForge;
-import com.coloryr.allmusic.server.side.forge.LogForge;
-import com.coloryr.allmusic.server.side.forge.SideForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -28,10 +25,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.7,)")
 public class AllMusicForge {
-    public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
+    public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
     public static MinecraftServer server;
     public static FMLEventChannel channel;
     public static Queue<Runnable> queue = new ConcurrentLinkedQueue<>();
+
+    public static final String dir = "config/allmusic_server/";
 
     @Mod.EventHandler
     private void commonSetup(final FMLPreInitializationEvent event) {
@@ -39,12 +38,10 @@ public class AllMusicForge {
         FMLCommonHandler.instance().bus().register(this);
         channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("allmusic:channel");
 
-        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
-
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
 
-        new AllMusic().init(new File(path));
+        new AllMusic().init(new File(dir));
     }
 
     @Mod.EventHandler

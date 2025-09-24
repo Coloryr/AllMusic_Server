@@ -42,8 +42,8 @@ public class LimitObj {
         LimitObj obj = new LimitObj();
         obj.musicTimeLimit = true;
         obj.maxMusicTime = 600;
-        obj.infoLimit = true;
-        obj.infoLimitSize = 10;
+        obj.infoLimit = false;
+        obj.infoLimitSize = 20;
         obj.listLimit = false;
         obj.listLimitSize = 10;
         obj.messageLimit = false;

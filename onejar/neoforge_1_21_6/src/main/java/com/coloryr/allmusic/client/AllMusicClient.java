@@ -2,9 +2,8 @@ package com.coloryr.allmusic.client;
 
 import com.coloryr.allmusic.client.core.AllMusicBridge;
 import com.coloryr.allmusic.client.core.AllMusicCore;
-import com.coloryr.allmusic.client.core.CommandType;
 import com.coloryr.allmusic.server.AllMusicForge;
-import com.coloryr.allmusic.server.side.forge.PackData;
+import com.coloryr.allmusic.server.PackData;
 import com.mojang.blaze3d.opengl.GlTexture;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
@@ -35,15 +34,16 @@ import net.neoforged.neoforge.client.event.sound.SoundEngineLoadEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 import org.joml.Matrix3x2fStack;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 
-// This class will not load on dedicated servers. Accessing client side code from here is safe.
 @Mod(value = AllMusicForge.MODID, dist = Dist.CLIENT)
-// You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-@EventBusSubscriber(modid = AllMusicForge.MODID, value = Dist.CLIENT)
 public class AllMusicClient implements AllMusicBridge {
     private static GuiGraphics gui;
+
+    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic");
 
     public static final ResourceLocation channel =
             ResourceLocation.fromNamespaceAndPath("allmusic", "channel");
@@ -64,8 +64,11 @@ public class AllMusicClient implements AllMusicBridge {
     }
 
     public void sendMessage(String data) {
+        data = "[AllMusic Client]" + data;
+        LOGGER.warn(data);
+        String finalData = data;
         Minecraft.getInstance().execute(() ->
-                Minecraft.getInstance().gui.getChat().addMessage(Component.literal(data)));
+                Minecraft.getInstance().gui.getChat().addMessage(Component.literal(finalData)));
     }
 
     private void setup(final FMLClientSetupEvent event) {
