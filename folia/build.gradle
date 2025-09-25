@@ -52,7 +52,7 @@ dependencies {
 
     compileOnly 'io.netty:netty-all:4.1.109.Final'
     compileOnly 'dev.folia:folia-api:+'
-    compileOnly "com.github.MilkBowl:VaultAPI:+"
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
     compileOnly 'me.clip:placeholderapi:+'
     //compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
 //    compileOnly fileTree(dir:'lib',include:['*.jar'])
