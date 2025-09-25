@@ -37,7 +37,7 @@ public class AllMusicNeoForge implements IPlayPayloadHandler<PackData> {
     public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
-    public static final String dir = "config/allmusic_server";
+    public static final String dir = "config/allmusic_server/";
 
     public AllMusicNeoForge(IEventBus modEventBus) {
         // Register the commonSetup method for modloading

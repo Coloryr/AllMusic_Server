@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 public class AllMusicFabric implements ModInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic_Server");
+    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
     public static final Identifier ID = new Identifier("allmusic", "channel");
     public static MinecraftServer server;
 

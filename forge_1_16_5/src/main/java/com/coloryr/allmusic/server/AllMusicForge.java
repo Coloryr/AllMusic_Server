@@ -1,9 +1,6 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.side.forge.CommandForge;
-import com.coloryr.allmusic.server.side.forge.LogForge;
-import com.coloryr.allmusic.server.side.forge.SideForge;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.MinecraftServer;
@@ -22,7 +19,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.util.Locale;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(AllMusicForge.MODID)
@@ -31,9 +27,11 @@ public class AllMusicForge {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LogManager.getLogger("AllMusic_Server");
+    public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
     public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
+
+    public static final String dir = "config/allmusic_server/";
 
     public AllMusicForge() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -46,12 +44,10 @@ public class AllMusicForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        String path = String.format(Locale.ROOT, "config/%s/", "AllMusic3");
-
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
 
-        new AllMusic().init(new File(path));
+        new AllMusic().init(new File(dir));
     }
 
     @SubscribeEvent
