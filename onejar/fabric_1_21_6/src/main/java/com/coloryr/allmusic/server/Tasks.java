@@ -8,11 +8,11 @@ public class Tasks {
     private static final List<TaskItem> taskItems = new CopyOnWriteArrayList<>();
 
     public static void init() {
-        AllMusicNeoForge.server.addTickable(Tasks::tick);
+        AllMusicFabric.server.addServerGuiTickable(Tasks::tick);
     }
 
     public static void tick() {
-        for (TaskItem item : new ArrayList<>(taskItems)) {
+        for (var item : new ArrayList<>(taskItems)) {
             item.tick--;
             if (item.tick <= 0) {
                 taskItems.remove(item);

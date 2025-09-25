@@ -7,23 +7,21 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 
-public class ForgeApi {
-    public static void sendMessageRun(Object obj, String message, String end, String command) {
-        CommandSourceStack sender = (CommandSourceStack) obj;
+public class NeoForgeApi {
+    public static void sendMessageRun(CommandSourceStack obj, String message, String end, String command) {
         MutableComponent send = Component.literal(message);
         MutableComponent endtext = Component.literal(end);
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent.RunCommand(command)));
         send.append(endtext);
-        sender.sendSystemMessage(send);
+        obj.sendSystemMessage(send);
     }
 
-    public static void sendMessageSuggest(Object obj, String message, String end, String command) {
-        CommandSourceStack sender = (CommandSourceStack) obj;
+    public static void sendMessageSuggest(CommandSourceStack obj, String message, String end, String command) {
         MutableComponent send = Component.literal(message);
         MutableComponent endtext = Component.literal(end);
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent.SuggestCommand(command)));
         send.append(endtext);
-        sender.sendSystemMessage(send);
+        obj.sendSystemMessage(send);
     }
 
     public static void sendBar(ServerPlayer player, String message) {
@@ -36,7 +34,7 @@ public class ForgeApi {
         MutableComponent endtext = Component.literal(end);
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent.SuggestCommand(command)));
         send.append(endtext);
-        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicNeoForge.server.getPlayerList().getPlayers()) {
             player.sendSystemMessage(send);
         }
     }

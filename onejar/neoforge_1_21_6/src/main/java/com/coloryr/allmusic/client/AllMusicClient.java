@@ -2,7 +2,7 @@ package com.coloryr.allmusic.client;
 
 import com.coloryr.allmusic.client.core.AllMusicBridge;
 import com.coloryr.allmusic.client.core.AllMusicCore;
-import com.coloryr.allmusic.server.AllMusicForge;
+import com.coloryr.allmusic.server.AllMusicNeoForge;
 import com.coloryr.allmusic.server.PackData;
 import com.mojang.blaze3d.opengl.GlTexture;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,12 +15,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -34,19 +32,12 @@ import net.neoforged.neoforge.client.event.sound.SoundEngineLoadEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 import org.joml.Matrix3x2fStack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 
-@Mod(value = AllMusicForge.MODID, dist = Dist.CLIENT)
+@Mod(value = AllMusicNeoForge.MODID, dist = Dist.CLIENT)
 public class AllMusicClient implements AllMusicBridge {
     private static GuiGraphics gui;
-
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic");
-
-    public static final ResourceLocation channel =
-            ResourceLocation.fromNamespaceAndPath("allmusic", "channel");
 
     public static class Tex extends AbstractTexture {
         public Tex(GpuTexture tex, GpuTextureView view) {
@@ -65,10 +56,13 @@ public class AllMusicClient implements AllMusicBridge {
 
     public void sendMessage(String data) {
         data = "[AllMusic Client]" + data;
-        LOGGER.warn(data);
+        AllMusicNeoForge.LOGGER.warn(data);
         String finalData = data;
-        Minecraft.getInstance().execute(() ->
-                Minecraft.getInstance().gui.getChat().addMessage(Component.literal(finalData)));
+        Minecraft.getInstance().execute(() -> {
+            if (Minecraft.getInstance().player == null)
+                return;
+            Minecraft.getInstance().player.displayClientMessage(Component.literal(finalData), false);
+        });
     }
 
     private void setup(final FMLClientSetupEvent event) {
@@ -153,7 +147,7 @@ public class AllMusicClient implements AllMusicBridge {
             matrix.translation(x + a, y + a);
         }
 
-        gui.blit(RenderPipelines.GUI_TEXTURED, channel, -a, -a, 0, 0, size, size, size, size, size, size);
+        gui.blit(RenderPipelines.GUI_TEXTURED, AllMusicNeoForge.channel, -a, -a, 0, 0, size, size, size, size, size, size);
         stack.popMatrix();
         if (ang > 0) {
             stack.popMatrix();
@@ -188,7 +182,7 @@ public class AllMusicClient implements AllMusicBridge {
 
         Tex tex1 = new Tex(tex, view);
 
-        Minecraft.getInstance().getTextureManager().register(channel, tex1);
+        Minecraft.getInstance().getTextureManager().register(AllMusicNeoForge.channel, tex1);
 
         return tex;
     }

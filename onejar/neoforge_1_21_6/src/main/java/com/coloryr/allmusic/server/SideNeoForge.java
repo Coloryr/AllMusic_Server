@@ -15,12 +15,11 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Locale;
 
-public class SideForge extends BaseSide {
+public class SideNeoForge extends BaseSide {
     @Override
     public void runTask(Runnable run) {
-        AllMusicForge.server.execute(run);
+        AllMusicNeoForge.server.execute(run);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean needPlay(boolean islist) {
-        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicNeoForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
                 return true;
             }
@@ -60,7 +59,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public Collection<?> getPlayers() {
-        return AllMusicForge.server.getPlayerList().getPlayers();
+        return AllMusicNeoForge.server.getPlayerList().getPlayers();
     }
 
     @Override
@@ -86,19 +85,19 @@ public class SideForge extends BaseSide {
 
     @Override
     public Object getPlayer(String player) {
-        return AllMusicForge.server.getPlayerList().getPlayerByName(player);
+        return AllMusicNeoForge.server.getPlayerList().getPlayerByName(player);
     }
 
     @Override
     public void sendBar(Object player, String data) {
         if (player instanceof ServerPlayer player1) {
-            ForgeApi.sendBar(player1, data);
+            NeoForgeApi.sendBar(player1, data);
         }
     }
 
     @Override
     public File getFolder() {
-        return new File("config/allmusic_server/");
+        return new File(AllMusicNeoForge.dir);
     }
 
     @Override
@@ -106,7 +105,7 @@ public class SideForge extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicNeoForge.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendSystemMessage(Component.literal(message));
             }
@@ -118,7 +117,7 @@ public class SideForge extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        ForgeApi.sendMessageBqRun(message, end, command);
+        NeoForgeApi.sendMessageBqRun(message, end, command);
     }
 
     @Override
@@ -135,7 +134,7 @@ public class SideForge extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        ForgeApi.sendMessageRun(obj, message, end, command);
+        NeoForgeApi.sendMessageRun((CommandSourceStack) obj, message, end, command);
     }
 
     @Override
@@ -143,7 +142,7 @@ public class SideForge extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        ForgeApi.sendMessageSuggest(obj, message, end, command);
+        NeoForgeApi.sendMessageSuggest((CommandSourceStack) obj, message, end, command);
     }
 
     @Override

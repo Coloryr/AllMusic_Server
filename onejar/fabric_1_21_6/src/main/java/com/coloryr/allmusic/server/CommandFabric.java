@@ -8,44 +8,43 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
-public class CommandForge implements Command<CommandSourceStack>, Predicate<CommandSourceStack>, SuggestionProvider<CommandSourceStack> {
-    public static CommandForge instance = new CommandForge();
+public class CommandFabric implements Command<ServerCommandSource>, Predicate<ServerCommandSource>, SuggestionProvider<ServerCommandSource> {
+    public static CommandFabric instance = new CommandFabric();
 
-    public void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(((Commands.literal("music").requires(this)).executes(this))
-                .then(Commands.argument("args", StringArgumentType.greedyString())
+    public void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+        dispatcher.register(((CommandManager.literal("music").requires(this)).executes(this))
+                .then(CommandManager.argument("args", StringArgumentType.greedyString())
                         .suggests(this).executes(this)));
     }
 
     @Override
-    public int run(CommandContext<CommandSourceStack> context) {
+    public int run(CommandContext<ServerCommandSource> context) {
         var item = context.getSource();
-//        var source = item.source;
 
         var input = context.getInput();
         var temp = input.split(" ");
         var arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
-        CommandEX.execute(item, context.getSource().getTextName(), arg);
+        CommandEX.execute(item, context.getSource().getName(), arg);
 
         return 0;
     }
 
     @Override
-    public boolean test(CommandSourceStack stack) {
+    public boolean test(ServerCommandSource stack) {
         return true;
     }
 
     @Override
-    public CompletableFuture<Suggestions> getSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
         var item = context.getSource();
 
         var input = context.getInput();
@@ -53,13 +52,16 @@ public class CommandForge implements Command<CommandSourceStack>, Predicate<Comm
         var arg = new String[input.endsWith(" ") ? temp.length : temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, temp.length - 1);
 
-        if (input.endsWith(" "))
-            builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
+        builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
-        List<String> results = CommandEX.getTabList(item, item.getTextName(), arg);
+        List<String> results = CommandEX.getTabList(item, item.getName(), arg);
+
+        String remaining = builder.getRemaining().trim();
 
         for (String s : results) {
-            builder.suggest(s);
+            if (s.startsWith(remaining)){
+                builder.suggest(s);
+            }
         }
 
         return builder.buildFuture();

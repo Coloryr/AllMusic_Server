@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 public record PackData(ComType cmd, String data, int data1) implements CustomPacketPayload {
     public static final ComType[] types = ComType.values();
 
-    public static final Type<PackData> TYPE = new Type<>(AllMusicForge.channel);
+    public static final Type<PackData> TYPE = new Type<>(AllMusicNeoForge.channel);
     public static final StreamCodec<RegistryFriendlyByteBuf, PackData> CODEC = new PackCodec();
 
     @Override

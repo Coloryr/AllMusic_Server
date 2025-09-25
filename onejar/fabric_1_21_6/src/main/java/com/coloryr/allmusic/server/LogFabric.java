@@ -2,14 +2,14 @@ package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.side.IMyLogger;
 
-public class LogForge implements IMyLogger {
+public class LogFabric implements IMyLogger {
     @Override
     public void warning(String data) {
-        AllMusicForge.LOGGER.warn(data);
+        AllMusicFabric.LOGGER.warn(data);
     }
 
     @Override
     public void info(String data) {
-        AllMusicForge.LOGGER.info(data);
+        AllMusicFabric.LOGGER.info(data);
     }
 }

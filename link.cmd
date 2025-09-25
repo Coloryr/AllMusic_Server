@@ -31,14 +31,17 @@ for %%i in (%array2%) do (
     if not exist "%%i\src\main\java\com\coloryr\allmusic\server\bstats" mklink /j "%%i\src\main\java\com\coloryr\allmusic\server\bstats" "bstats"
 )
 
-set array1=neoforge_1_21_6
+set array3=neoforge_1_21_6 fabric_1_21_6
 
-for %%i in (%array1%) do (
-    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" "core"
-    if not exist "onejar\%%i\build" mkdir "onejar\%%i\build" && mklink /j "onejar\%%i\build\libs" "build\libs"
-    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\codec" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\server\codec" "codec"
+for %%i in (%array3%) do (
+
+    if not exist "onejar\%%i\build" mkdir "onejar\%%i\build"
     if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\client" mkdir "onejar\%%i\src\main\java\com\coloryr\allmusic\client"
-    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core" "client\core"
     if not exist "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder" mkdir "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder"
+
+    if not exist "onejar\%%i\build\libs" mklink /j "onejar\%%i\build\libs" "build\libs"
+    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" "core"
+    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\codec" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\server\codec" "codec"
+    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core" mklink /j "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core" "client\core"
     if not exist "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3" mklink /j "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3" "client\mp3"
 )

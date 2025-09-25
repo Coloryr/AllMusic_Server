@@ -25,11 +25,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Locale;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(AllMusicForge.MODID)
-public class AllMusicForge {
+@Mod(AllMusicNeoForge.MODID)
+public class AllMusicNeoForge {
     public static final ResourceLocation channel = ResourceLocation.fromNamespaceAndPath("allmusic", "channel");
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic";
@@ -38,7 +37,9 @@ public class AllMusicForge {
     public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
-    public AllMusicForge(IEventBus modEventBus) {
+    public static final String dir = "config/allmusic_server/";
+
+    public AllMusicNeoForge(IEventBus modEventBus) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::register);
@@ -48,10 +49,10 @@ public class AllMusicForge {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        AllMusic.log = new LogForge();
-        AllMusic.side = new SideForge();
+        AllMusic.log = new LogNeoForge();
+        AllMusic.side = new SideNeoForge();
 
-        new AllMusic().init(new File("config/allmusic_server/"));
+        new AllMusic().init(new File(dir));
     }
 
     public void register(final RegisterPayloadHandlersEvent event) {
@@ -64,7 +65,7 @@ public class AllMusicForge {
     public void onRegisterCommands(RegisterCommandsEvent event) {
         LOGGER.info("注册指令");
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
-        CommandForge.instance.register(dispatcher);
+        CommandNeoForge.instance.register(dispatcher);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
