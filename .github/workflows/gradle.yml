@@ -149,7 +149,7 @@ jobs:
       with:
         name: "allmusic_server_fabric_1_19_2"
         path: build/libs/
-  build_fabric_1_20:
+  build_fabric_1_20_1:
     runs-on: windows-latest
     permissions:
       contents: read
@@ -165,11 +165,11 @@ jobs:
     - name: build
       shell: cmd
       run: |
-        link.cmd && cd fabric_1_20 && gradlew build
+        link.cmd && cd fabric_1_20_1 && gradlew build
     - name: update
       uses: actions/upload-artifact@v4
       with:
-        name: "allmusic_server_fabric_1_20"
+        name: "allmusic_server_fabric_1_20_1"
         path: build/libs/
   build_fabric_1_20_2:
     runs-on: windows-latest
@@ -413,7 +413,7 @@ jobs:
       with:
         name: "allmusic_server_forge_1_19_2"
         path: build/libs/
-  build_forge_1_20:
+  build_forge_1_20_1:
     runs-on: windows-latest
     permissions:
       contents: read
@@ -429,11 +429,11 @@ jobs:
     - name: build
       shell: cmd
       run: |
-        link.cmd && cd forge_1_20 && gradlew build
+        link.cmd && cd forge_1_20_1 && gradlew build
     - name: update
       uses: actions/upload-artifact@v4
       with:
-        name: "allmusic_server_forge_1_20"
+        name: "allmusic_server_forge_1_20_1"
         path: build/libs/
   build_neoforge_1_20_4:
     runs-on: windows-latest
