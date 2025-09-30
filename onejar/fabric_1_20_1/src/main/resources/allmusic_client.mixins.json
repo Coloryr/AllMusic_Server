@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "com.coloryr.allmusic.client.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"GuiShow",
+		"QuitServer",
+		"SoundEvent",
+		"Tick"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
