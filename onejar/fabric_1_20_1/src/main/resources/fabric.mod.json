@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "allmusic_server",
+  "id": "allmusic",
   "version": "3.0.0",
 
-  "name": "AllMusic Server",
-  "description": "AllMusic Server Mod",
+  "name": "AllMusic",
+  "description": "AllMusic Mod",
   "authors": [
     "Color_yr"
   ],
@@ -20,10 +20,14 @@
   "entrypoints": {
     "main": [
       "com.coloryr.allmusic.server.AllMusicFabric"
+    ],
+    "client": [
+      "com.coloryr.allmusic.client.AllMusic"
     ]
   },
   "mixins": [
-    "allmusic_server.mixins.json"
+    "allmusic_server.mixins.json",
+    "allmusic_client.mixins.json"
   ],
 
   "depends": {

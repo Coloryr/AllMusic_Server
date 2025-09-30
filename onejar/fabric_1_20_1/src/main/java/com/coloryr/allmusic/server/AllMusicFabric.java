@@ -14,7 +14,7 @@ import java.io.File;
 
 public class AllMusicFabric implements ModInitializer {
     public static MinecraftServer server;
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
+    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic");
 
     public static final Identifier ID = new Identifier("allmusic", "channel");
 
@@ -34,9 +34,7 @@ public class AllMusicFabric implements ModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
             server = a;
-
             AllMusic.start();
-
             Tasks.init();
         });
 

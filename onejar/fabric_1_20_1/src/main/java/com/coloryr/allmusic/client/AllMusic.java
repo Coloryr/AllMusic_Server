@@ -2,6 +2,7 @@ package com.coloryr.allmusic.client;
 
 import com.coloryr.allmusic.client.core.AllMusicBridge;
 import com.coloryr.allmusic.client.core.AllMusicCore;
+import com.coloryr.allmusic.server.AllMusicFabric;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -23,10 +24,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public class AllMusic implements ClientModInitializer, AllMusicBridge {
-    public static final Identifier ID = new Identifier("allmusic", "channel");
     private static DrawContext context;
-
-    public static final Logger LOGGER = LogManager.getLogger("AllMusic Client");
 
     @Override
     public Object genTexture(int size) {
@@ -99,7 +97,7 @@ public class AllMusic implements ClientModInitializer, AllMusicBridge {
 
     public void sendMessage(String data) {
         data = "[AllMusic Client]" + data;
-        LOGGER.warn(data);
+        AllMusicFabric.LOGGER.warn(data);
         String finalData = data;
         MinecraftClient.getInstance().execute(() -> {
             if (MinecraftClient.getInstance().player == null)
@@ -123,17 +121,9 @@ public class AllMusic implements ClientModInitializer, AllMusicBridge {
         AllMusicCore.hudUpdate();
     }
 
-    private static String readString(PacketByteBuf buf) {
-        int size = buf.readInt();
-        byte[] temp = new byte[size];
-        buf.readBytes(temp);
-
-        return new String(temp, StandardCharsets.UTF_8);
-    }
-
     @Override
     public void onInitializeClient() {
-        ClientPlayNetworking.registerGlobalReceiver(ID, (client, handler, buffer, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(AllMusicFabric.ID, (client, handler, buffer, responseSender) -> {
             try {
                 AllMusicCore.packRead(buffer);
             } catch (Exception e) {
