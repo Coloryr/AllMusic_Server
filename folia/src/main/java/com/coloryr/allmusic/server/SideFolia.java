@@ -165,8 +165,11 @@ public class SideFolia extends BaseSide {
 
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
+        //不要改这个，有事件在其他线程触发
         MusicPlayEvent event = new MusicPlayEvent(obj);
-        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, ()->{
+            Bukkit.getPluginManager().callEvent(event);
+        });
         final boolean isCancelled = event.isCancelled();
         if (!isCancelled) {
             FunCore.addMusic();
@@ -176,8 +179,11 @@ public class SideFolia extends BaseSide {
 
     @Override
     public boolean onMusicAdd(Object obj, MusicObj music) {
+        //不要改这个，有事件在其他线程触发
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
-        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, ()->{
+            Bukkit.getPluginManager().callEvent(event);
+        });
         return event.isCancelled();
     }
 
