@@ -72,6 +72,10 @@ Forge/Fabric/NeoForge类服务器
 
 如果登录失效，请删除`cookie.json`再打`/music reload`再重新登录
 
+> 如果第5步复制出来的cookie无法使用, 可以打开 开发者控制台 -> 网络 选择 `Fetch/XHR` 随便点击一个请求, 查看请求标头, 复制 `cookie` 下的 `MUSIC_U` 部分, 这个也是 `cookie`.
+>
+> <img width="576" height="1313" alt="image" src="https://github.com/user-attachments/assets/93a98fb6-c03e-4f6d-89c9-3ae474cb8db3" />
+
 ## 构建
 **需要在Windows系统下**  
 安装JDK21
