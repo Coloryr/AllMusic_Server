@@ -19,6 +19,7 @@ $projects = @(
     "fabric_1_21_4",
     "fabric_1_21_5",
     "fabric_1_21_6",
+    "fabric_26_1",
     "neoforge_1_20_4",
     "neoforge_1_20_6",
     "neoforge_1_21",
