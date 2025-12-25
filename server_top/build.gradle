@@ -55,7 +55,7 @@ dependencies {
 //    compileOnly fileTree(dir:'lib',include:['*.jar'])
 
     implementation 'org.xerial:sqlite-jdbc:3.46.0.1'
-    compile 'com.squareup.okhttp3:okhttp:4.12.0'
+    compile 'com.squareup.okhttp3:okhttp:5.3.2'
     compile 'com.google.code.gson:gson:2.11.0'
 
     annotationProcessor 'com.velocitypowered:velocity-api:3.0.0'
