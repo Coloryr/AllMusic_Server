@@ -149,8 +149,8 @@ dependencies {
 
     implementation 'thedarkcolour:kotlinforforge:1.16.0'
 
-    shadow 'com.squareup.okhttp3:okhttp:4.10.0'
-    shadow 'org.xerial:sqlite-jdbc:3.42.0.0'
+    shadow 'com.squareup.okhttp3:okhttp:5.3.2'
+    shadow 'org.xerial:sqlite-jdbc:3.51.1.0'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -181,7 +181,7 @@ shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set('')
     dependencies {
-        include(dependency('com.squareup.okhttp3:okhttp:4.10.0'))
+        include(dependency('com.squareup.okhttp3:okhttp:5.3.2'))
         include(dependency('com.squareup.okio:okio-jvm:3.0.0'))
         include(dependency('org.xerial:sqlite-jdbc:3.42.0.0'))
     }

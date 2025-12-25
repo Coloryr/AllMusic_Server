@@ -155,12 +155,9 @@ dependencies {
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
 
-    embed('com.squareup.okhttp3:okhttp:4.10.0') {
-
-    }
-
+    embed('com.squareup.okhttp3:okhttp:5.3.2')
 //    embed 'com.squareup.okio:okio-jvm:3.0.0'
-    embed 'org.xerial:sqlite-jdbc:3.42.0.0'
+    embed('org.xerial:sqlite-jdbc:3.51.1.0')
 }
 
 apply from: 'gradle/scripts/dependencies.gradle'
