@@ -37,27 +37,21 @@ repositories {
         url 'https://maven.citizensnpcs.co/repo'
     }
     maven {
-        name 'velocity'
-        url 'https://nexus.velocitypowered.com/repository/maven-public/'
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
     }
 }
 
 dependencies {
-    //implementation "org.apache.commons:commons-dbcp2:2.9.0"
-    //implementation 'mysql:mysql-connector-java:8.0.31'
-
-    //compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
     compileOnly 'net.md-5:bungeecord-api:1.20-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
-    compileOnly 'com.velocitypowered:velocity-api:3.0.0'
     compileOnly 'me.clip:placeholderapi:2.11.6'
-    //compileOnly 'net.citizensnpcs:citizens-main:2.0.30-SNAPSHOT'
-//    compileOnly fileTree(dir:'lib',include:['*.jar'])
 
     implementation 'org.xerial:sqlite-jdbc:3.46.0.1'
     compile 'com.squareup.okhttp3:okhttp:5.3.2'
     compile 'com.google.code.gson:gson:2.11.0'
 
+    compileOnly 'com.velocitypowered:velocity-api:3.0.0'
     annotationProcessor 'com.velocitypowered:velocity-api:3.0.0'
 }
 

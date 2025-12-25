@@ -48,9 +48,9 @@ repositories {
 
 dependencies {
     compileOnly 'io.netty:netty-all:4.1.109.Final'
-    compileOnly 'dev.folia:folia-api:+'
+    compileOnly 'dev.folia:folia-api:1.21.6-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
-    compileOnly 'me.clip:placeholderapi:+'
+    compileOnly 'me.clip:placeholderapi:2.11.7'
 
     implementation 'com.squareup.okhttp3:okhttp:5.3.2'
 }
