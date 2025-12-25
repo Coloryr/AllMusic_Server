@@ -148,7 +148,7 @@ dependencies {
     implementation 'thedarkcolour:kotlinforforge:1.17.0'
 
     shadow 'com.squareup.okhttp3:okhttp:5.3.2'
-    shadow('com.squareup.okio:okio-jvm:3.16.4')
+    shadow 'com.squareup.okio:okio-jvm:3.16.4'
     shadow 'org.xerial:sqlite-jdbc:3.51.1.0'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
