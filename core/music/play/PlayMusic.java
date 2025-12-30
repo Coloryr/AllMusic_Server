@@ -389,7 +389,8 @@ public class PlayMusic {
                     .replace(ARG.musicName, info.getName())
                     .replace(ARG.musicAuthor, info.getAuthor())
                     .replace(ARG.musicAl, info.getAl())
-                    .replace(ARG.musicAlia, info.getAlia());
+                    .replace(ARG.musicAlia, info.getAlia())
+                    .replace(ARG.player, info.getCall());
             list.append(a).append("\n");
         }
         String temp = list.toString();
