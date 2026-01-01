@@ -313,6 +313,7 @@ public class APIMain {
                     }
                 }
             }
+            stream.close();
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic3]§c歌曲长度解析错误");
             e.printStackTrace();

@@ -55,18 +55,15 @@ dependencies {
 //    compileOnly fileTree(dir:'lib',include:['*.jar'])
 
     //implementation 'org.xerial:sqlite-jdbc:3.51.1.0'
-    compile 'com.squareup.okhttp3:okhttp:5.3.2'
+    compile 'org.apache.httpcomponents.client5:httpclient5:5.6'
     compile 'com.google.code.gson:gson:2.10.1'
 
     //annotationProcessor 'com.velocitypowered:velocity-api:3.0.0'
 }
 
 shadowJar {
-    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
-    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
-    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
-    relocate 'org.intellij', 'com.coloryr.allmusic.server.lib.org.intellij'
-    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
+    relocate 'org.apache.hc.core5', 'com.coloryr.allmusic.server.lib.org.apache.hc.core5'
+    relocate 'org.apache.hc.client5', 'com.coloryr.allmusic.server.lib.org.apache.hc.client5'
     relocate 'com.google.gson', 'com.coloryr.allmusic.server.lib.com.google.gson'
 }
 

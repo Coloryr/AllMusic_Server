@@ -2,35 +2,57 @@ package com.coloryr.allmusic.server.core.music.api;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.HttpResObj;
+import com.coloryr.allmusic.server.core.objs.MyCookie;
 import com.coloryr.allmusic.server.core.objs.api.EncResObj;
 import com.coloryr.allmusic.server.core.objs.enums.EncryptType;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import okhttp3.*;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.cookie.BasicCookieStore;
+import org.apache.hc.client5.http.cookie.Cookie;
+import org.apache.hc.client5.http.cookie.CookieStore;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.cookie.BasicClientCookie;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.util.Timeout;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class HttpClientUtil {
 
     private static final int CONNECT_TIMEOUT = 5;
     private static final int READ_TIMEOUT = 7;
     private static final String UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0";
-    private static OkHttpClient client;
+    private static CloseableHttpClient client;
 
     public static void init() {
         try {
-            synchronized (OkHttpClient.class) {
-                client = new OkHttpClient.Builder().cookieJar(new MyCookieJar())
-                        .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                        .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            synchronized (HttpClientUtil.class) {
+                RequestConfig requestConfig = RequestConfig.custom()
+                        .setConnectTimeout(Timeout.ofSeconds(CONNECT_TIMEOUT))
+                        .setResponseTimeout(Timeout.ofSeconds(READ_TIMEOUT))
+                        .build();
+                client = HttpClients.custom()
+                        .setDefaultRequestConfig(requestConfig)
                         .build();
             }
         } catch (Exception e) {
@@ -38,25 +60,59 @@ public class HttpClientUtil {
         }
     }
 
+    private static CookieStore createCookieStore() {
+        BasicCookieStore cookieStore = new BasicCookieStore();
+        // 从 AllMusic.cookie.cookieStore 加载 cookies
+        List<MyCookie> storedCookies = AllMusic.cookie.cookieStore.get("music.163.com");
+        if (storedCookies != null) {
+            for (MyCookie cookie : storedCookies) {
+                BasicClientCookie cookie1 = new BasicClientCookie(cookie.key, cookie.value);
+                cookie1.setExpiryDate(Instant.MAX);
+                cookie1.setDomain("163.com");
+                cookieStore.addCookie(cookie1);
+            }
+        }
+        return cookieStore;
+    }
+
+    private static void saveCookies(CookieStore cookieStore) {
+        List<Cookie> cookies = cookieStore.getCookies();
+        List<MyCookie> list = new ArrayList<>();
+        for (Cookie cookie : cookies) {
+            MyCookie cookie1  = new MyCookie();
+            cookie1.key = cookie.getName();
+            cookie1.value = cookie.getValue();
+            list.add(cookie1);
+        }
+        AllMusic.cookie.cookieStore.put("music.163.com", list);
+        AllMusic.saveCookie();
+    }
+
     public static InputStream get(String path) {
         try {
-            Request request = new Request.Builder().url(path)
-                    .addHeader("user-agent", UserAgent)
-                    .get()
-                    .build();
-            Response response = client.newCall(request).execute();
-            int httpCode = response.code();
-            ResponseBody body = response.body();
-            if (body == null) {
+            HttpGet request = new HttpGet(path);
+            request.setHeader("user-agent", UserAgent);
+            HttpClientContext context = HttpClientContext.create();
+            CookieStore cookieStore = createCookieStore();
+            context.setCookieStore(cookieStore);
+            CloseableHttpResponse response = client.execute(request, context);
+            int httpCode = response.getCode();
+            HttpEntity entity = response.getEntity();
+            if (entity == null) {
                 AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
                 return null;
             }
-            InputStream inputStream = body.byteStream();
+            InputStream inputStream = entity.getContent();
             boolean ok = httpCode == 200;
-            if(!ok)
-            {
+            if (!ok) {
+                EntityUtils.consume(entity);
+                inputStream.close();
+                response.close();
                 return null;
             }
+            // 保存 cookies
+            saveCookies(cookieStore);
+            // 注意：需要调用者关闭 InputStream
             return inputStream;
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
@@ -68,34 +124,38 @@ public class HttpClientUtil {
     public static HttpResObj get(String path, String data) {
         try {
             data = URLEncoder.encode(data, StandardCharsets.UTF_8.toString());
-            Request request = new Request.Builder().url(path + data)
-                    .addHeader("referer", "https://music.163.com")
-                    .addHeader("content-type", "application/json;charset=UTF-8")
-                    .addHeader("user-agent", UserAgent)
-                    .get()
-                    .build();
-            Response response = client.newCall(request).execute();
-            int httpCode = response.code();
-            ResponseBody body = response.body();
-            if (body == null) {
-                AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
-                return null;
+            HttpGet request = new HttpGet(path + data);
+            request.setHeader("referer", "https://music.163.com");
+            request.setHeader("content-type", "application/json;charset=UTF-8");
+            request.setHeader("user-agent", UserAgent);
+            HttpClientContext context = HttpClientContext.create();
+            CookieStore cookieStore = createCookieStore();
+            context.setCookieStore(cookieStore);
+            try (CloseableHttpResponse response = client.execute(request, context)) {
+                int httpCode = response.getCode();
+                HttpEntity entity = response.getEntity();
+                if (entity == null) {
+                    AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
+                    return null;
+                }
+                InputStream inputStream = entity.getContent();
+                boolean ok = httpCode == 200;
+                ByteArrayOutputStream result = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int length;
+                while ((length = inputStream.read(buffer)) != -1) {
+                    result.write(buffer, 0, length);
+                }
+                inputStream.close();
+                EntityUtils.consume(entity);
+                String data1 = result.toString(StandardCharsets.UTF_8.toString());
+                if (!ok) {
+                    AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
+                }
+                // 保存 cookies
+                saveCookies(cookieStore);
+                return new HttpResObj(data1, ok);
             }
-            InputStream inputStream = body.byteStream();
-            boolean ok = httpCode == 200;
-            ByteArrayOutputStream result = new ByteArrayOutputStream();
-            byte[] buffer = new byte[4096];
-            int length;
-            while ((length = inputStream.read(buffer)) != -1) {
-                result.write(buffer, 0, length);
-            }
-            inputStream.close();
-            response.close();
-            String data1 = result.toString(StandardCharsets.UTF_8.toString());
-            if (!ok) {
-                AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
-            }
-            return new HttpResObj(data1, ok);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
             e.printStackTrace();
@@ -105,39 +165,33 @@ public class HttpClientUtil {
 
     public static HttpResObj post(String url, JsonObject data, EncryptType type, String ourl) {
         try {
-            RequestBody formBody;
-            Request.Builder request = new Request.Builder();
-            request = request.addHeader("Content-Type", "application/x-www-form-urlencoded");
-            request = request.addHeader("Referer", "https://music.163.com");
+            HttpPost request = new HttpPost(url);
+            request.setHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.setHeader("Referer", "https://music.163.com");
+            HttpClientContext context = HttpClientContext.create();
+            CookieStore cookieStore = createCookieStore();
+            context.setCookieStore(cookieStore);
             EncResObj res;
-            List<Cookie> cookies = AllMusic.cookie.cookieStore.get("music.163.com");
-            if (cookies == null) {
-                cookies = new ArrayList<>();
-            }
-//            StringBuilder cookie = new StringBuilder();
-//            for (Cookie item : cookies) {
-//                cookie.append(item.name()).append("=").append(item.value()).append(";");
-//            }
-//            cookie.append("cookie=");
-//            request.header("Cookie", cookie.toString());
+            List<Cookie> cookies = cookieStore.getCookies();
+            // 注意：这里需要根据域名过滤，但为了简化，我们使用所有 cookies
             if (type == EncryptType.WEAPI) {
-                request = request.addHeader("User-Agent", UserAgent);
+                request.setHeader("User-Agent", UserAgent);
                 String csrfToken = "";
-                for (Cookie item : cookies) {
-                    if (item.name().equalsIgnoreCase("__csrf")) {
-                        csrfToken = item.value();
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equalsIgnoreCase("__csrf")) {
+                        csrfToken = cookie.getValue();
                     }
                 }
                 data.addProperty("csrf_token", csrfToken);
                 res = CryptoUtil.weapiEncrypt(AllMusic.gson.toJson(data));
                 url = url.replaceFirst("\\w*api", "weapi");
-                request = request.url(url);
-                formBody = new FormBody.Builder()
-                        .add("params", res.params)
-                        .add("encSecKey", res.encSecKey)
-                        .build();
+                request.setUri(new URI(url));
+                List<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("params", res.params));
+                params.add(new BasicNameValuePair("encSecKey", res.encSecKey));
+                request.setEntity(new UrlEncodedFormEntity(params));
             } else if (type == EncryptType.EAPI) {
-                request = request.addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 9; PCT-AL10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.64 HuaweiBrowser/10.0.3.311 Mobile Safari/537.36");
+                request.setHeader("User-Agent", "Mozilla/5.0 (Linux; Android 9; PCT-AL10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.64 HuaweiBrowser/10.0.3.311 Mobile Safari/537.36");
                 JsonObject header = new JsonObject();
                 header.addProperty("appver", "8.10.90");
                 header.addProperty("versioncode", "140");
@@ -146,58 +200,60 @@ public class HttpClientUtil {
                 header.addProperty("os", "android");
                 String requestId = "0000" + (new Date() + "_" + Math.floor(Math.random() * 1000));
                 header.addProperty("requestId", requestId);
-                for (Cookie item : cookies) {
-                    if (item.name().equalsIgnoreCase("MUSIC_U")) {
-                        header.addProperty("MUSIC_U", item.value());
-                    } else if (item.name().equalsIgnoreCase("MUSIC_A")) {
-                        header.addProperty("MUSIC_A", item.value());
-                    } else if (item.name().equalsIgnoreCase("channel")) {
-                        header.addProperty("channel", item.value());
-                    } else if (item.name().equalsIgnoreCase("mobilename")) {
-                        header.addProperty("mobilename", item.value());
-                    } else if (item.name().equalsIgnoreCase("osver")) {
-                        header.addProperty("osver", item.value());
-                    } else if (item.name().equalsIgnoreCase("__csrf")) {
-                        header.addProperty("__csrf", item.value());
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equalsIgnoreCase("MUSIC_U")) {
+                        header.addProperty("MUSIC_U", cookie.getValue());
+                    } else if (cookie.getName().equalsIgnoreCase("MUSIC_A")) {
+                        header.addProperty("MUSIC_A", cookie.getValue());
+                    } else if (cookie.getName().equalsIgnoreCase("channel")) {
+                        header.addProperty("channel", cookie.getValue());
+                    } else if (cookie.getName().equalsIgnoreCase("mobilename")) {
+                        header.addProperty("mobilename", cookie.getValue());
+                    } else if (cookie.getName().equalsIgnoreCase("osver")) {
+                        header.addProperty("osver", cookie.getValue());
+                    } else if (cookie.getName().equalsIgnoreCase("__csrf")) {
+                        header.addProperty("__csrf", cookie.getValue());
                     }
                 }
-
                 data.add("header", header);
                 res = CryptoUtil.eapi(ourl, data);
                 url = url.replaceFirst("\\w*api", "eapi");
-                request = request.url(url);
-                formBody = new FormBody.Builder()
-                        .add("params", res.params)
-                        .build();
+                request.setUri(new URI(url));
+                List<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("params", res.params));
+                request.setEntity(new UrlEncodedFormEntity(params));
             } else {
-                request = request.url(url);
-                FormBody.Builder builder = new FormBody.Builder();
+                request.setUri(new URI(url));
+                List<NameValuePair> params = new ArrayList<>();
                 for (Map.Entry<String, JsonElement> item : data.entrySet()) {
-                    builder = builder.add(item.getKey(), item.getValue().getAsString());
+                    params.add(new BasicNameValuePair(item.getKey(), item.getValue().getAsString()));
                 }
-                formBody = builder.build();
+                request.setEntity(new UrlEncodedFormEntity(params));
             }
-            request = request.post(formBody);
-            Response response = client.newCall(request.build()).execute();
-            int httpCode = response.code();
-            ResponseBody body = response.body();
-            if (body == null) {
-                AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
-                return null;
+            try (CloseableHttpResponse response = client.execute(request, context)) {
+                int httpCode = response.getCode();
+                HttpEntity entity = response.getEntity();
+                if (entity == null) {
+                    AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
+                    return null;
+                }
+                InputStream inputStream = entity.getContent();
+                boolean ok = httpCode == 200;
+                ByteArrayOutputStream result = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int length;
+                while ((length = inputStream.read(buffer)) != -1) {
+                    result.write(buffer, 0, length);
+                }
+                String data1 = result.toString(StandardCharsets.UTF_8.toString());
+                EntityUtils.consume(entity);
+                if (!ok) {
+                    AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
+                }
+                // 保存 cookies
+                saveCookies(cookieStore);
+                return new HttpResObj(data1, ok);
             }
-            InputStream inputStream = body.byteStream();
-            boolean ok = httpCode == 200;
-            ByteArrayOutputStream result = new ByteArrayOutputStream();
-            byte[] buffer = new byte[4096];
-            int length;
-            while ((length = inputStream.read(buffer)) != -1) {
-                result.write(buffer, 0, length);
-            }
-            String data1 = result.toString(StandardCharsets.UTF_8.toString());
-            if (!ok) {
-                AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
-            }
-            return new HttpResObj(data1, ok);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
             e.printStackTrace();

@@ -2,10 +2,13 @@ package com.coloryr.allmusic.server.core.command.sub;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
-import okhttp3.Cookie;
+import com.coloryr.allmusic.server.core.objs.MyCookie;
+import org.apache.hc.client5.http.impl.cookie.BasicClientCookie;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,28 +27,20 @@ public class CommandCookie extends ACommand {
         try {
             String cookie = args[1];
             String[] cookies = cookie.split(";");
-            Map<String, Cookie> list1 = new HashMap<>();
+            List<MyCookie> list = new ArrayList<>();
             for (String item : cookies) {
                 String[] cookieitem = item.split("=");
+                MyCookie cookie1 = new MyCookie();
                 if (cookieitem.length == 1) {
-                    if (list1.containsKey(cookieitem[0])) {
-                        continue;
-                    }
-                    list1.put(cookieitem[0], new Cookie.Builder()
-                            .name(cookieitem[0])
-                            .domain("163.com")
-                            .expiresAt(Long.MAX_VALUE)
-                            .build());
+                    cookie1.key = cookieitem[0];
+                    cookie1.value = "";
                 } else {
-                    list1.put(cookieitem[0], new Cookie.Builder()
-                            .name(cookieitem[0])
-                            .value(cookieitem[1])
-                            .domain("163.com")
-                            .expiresAt(Long.MAX_VALUE)
-                            .build());
+                    cookie1.key = cookieitem[0];
+                    cookie1.value = cookieitem[1];
                 }
+                list.add(cookie1);
             }
-            AllMusic.cookie.cookieStore.put("music.163.com", new ArrayList<>(list1.values()));
+            AllMusic.cookie.cookieStore.put("music.163.com", list);
 
             AllMusic.saveCookie();
         } catch (Exception e) {
