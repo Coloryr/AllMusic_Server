@@ -11,7 +11,7 @@
 
 </div>
 
-
+**不提供任何技术支持**
 
 **This project only can use in china main land**  
 **Chinese only**
@@ -66,15 +66,13 @@ Forge/Fabric/NeoForge类服务器
    - bc/velocity 需要配置文件写上自己的游戏名\
 3. 使用支持安装插件的浏览器，打开music.163.com登录账户
 4. 给浏览器安装插件 https://cookie-editor.com/
-5. 打开插件，然后复制cookie
+5. 打开插件，然后复制cookie，选择json
 ![](./img/pic1.png)
-6. 在控制台输入/music cookie 你复制出来的内容
-
-如果登录失效，请删除`cookie.json`再打`/music reload`再重新登录
+6. 打开插件配置文件，覆盖`cookie.json`重启服务器
 
 ## 构建
 **需要在Windows系统下**  
-安装JDK21
+安装JDK25
 
 打开cmd执行`build.cmd`或者直接双击`build.cmd`
 
@@ -116,6 +114,8 @@ Forge/Fabric/NeoForge类服务器
 3.3.2：修复folia卡死问题
 3.3.5：修复tab补全出现的问题
 3.4.1：修复点歌不生效问题
+3.5.0：改用httpclient5
+3.6.0：修改cookie设置方式
 ```
 
 ## 配置文件说明
@@ -242,7 +242,6 @@ Forge/Fabric/NeoForge类服务器
 - /music clearlist 清空空闲歌单
 - /music clearban 清空禁止点歌列表
 - /music clearbanplayer 清空禁止点歌玩家列表
-- /music cookie [Cookie] 填写网页Cookie
 - /music test [ID] 测试歌曲内容解析
 
 若开启权限后  
