@@ -1,8 +1,8 @@
 package com.coloryr.allmusic.server.core.music.api;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.CookieObj;
 import com.coloryr.allmusic.server.core.objs.HttpResObj;
-import com.coloryr.allmusic.server.core.objs.MyCookie;
 import com.coloryr.allmusic.server.core.objs.api.EncResObj;
 import com.coloryr.allmusic.server.core.objs.enums.EncryptType;
 import com.google.gson.JsonElement;
@@ -24,7 +24,6 @@ import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.util.Timeout;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -62,29 +61,28 @@ public class HttpClientUtil {
 
     private static CookieStore createCookieStore() {
         BasicCookieStore cookieStore = new BasicCookieStore();
-        // 从 AllMusic.cookie.cookieStore 加载 cookies
-        List<MyCookie> storedCookies = AllMusic.cookie.cookieStore.get("music.163.com");
-        if (storedCookies != null) {
-            for (MyCookie cookie : storedCookies) {
-                BasicClientCookie cookie1 = new BasicClientCookie(cookie.key, cookie.value);
-                cookie1.setExpiryDate(Instant.MAX);
-                cookie1.setDomain("163.com");
-                cookieStore.addCookie(cookie1);
-            }
+        for (CookieObj cookie : AllMusic.cookie) {
+            BasicClientCookie cookie1 = new BasicClientCookie(cookie.name, cookie.value);
+            cookie1.setExpiryDate(Instant.MAX);
+            cookie1.setDomain(cookie.domain);
+            cookie1.setPath(cookie.path);
+            cookie1.setHttpOnly(cookie.hostOnly);
+            cookie1.setHttpOnly(cookie.httpOnly);
+            cookieStore.addCookie(cookie1);
         }
         return cookieStore;
     }
 
     private static void saveCookies(CookieStore cookieStore) {
         List<Cookie> cookies = cookieStore.getCookies();
-        List<MyCookie> list = new ArrayList<>();
         for (Cookie cookie : cookies) {
-            MyCookie cookie1  = new MyCookie();
-            cookie1.key = cookie.getName();
-            cookie1.value = cookie.getValue();
-            list.add(cookie1);
+            CookieObj obj = new CookieObj();
+            obj.domain = cookie.getDomain();
+            obj.hostOnly = cookie.isHttpOnly();
+            obj.httpOnly = cookie.isHttpOnly();
+            obj.name = cookie.getName();
+            obj.value = cookie.getValue();
         }
-        AllMusic.cookie.cookieStore.put("music.163.com", list);
         AllMusic.saveCookie();
     }
 

@@ -1,9 +1,11 @@
 package com.coloryr.allmusic.server.core.objs;
 
-import java.util.HashMap;
-import java.util.List;
-
 public class CookieObj {
-    public HashMap<String, List<MyCookie>> cookieStore = new HashMap<>();
+    public String domain;
+    public boolean hostOnly;
+    public boolean httpOnly;
+    public String name;
+    public String path;
+    public String value;
 }
 

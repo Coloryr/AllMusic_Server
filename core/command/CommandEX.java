@@ -30,10 +30,10 @@ public class CommandEX {
         commandList.put("nextpage", new CommandNextPage());
         commandList.put("lastpage", new CommandLastPage());
         commandList.put("hud", new CommandHud());
-        commandList.put("reload", new CommandReload());
         commandList.put("push", new CommandPush());
         commandList.put("cancel", new CommandCancel());
 
+        commandAdminList.put("reload", new CommandReload());
         commandAdminList.put("next", new CommandNext());
         commandAdminList.put("ban", new CommandBan());
         commandAdminList.put("unban", new CommandUnban());
@@ -45,7 +45,6 @@ public class CommandEX {
         commandAdminList.put("clearlist", new CommandClearList());
         commandAdminList.put("clearban", new CommandClearBanList());
         commandAdminList.put("clearbanplayer", new CommandClearBanPlayerList());
-        commandAdminList.put("cookie", new CommandCookie());
         commandAdminList.put("test", new CommandTest());
     }
 

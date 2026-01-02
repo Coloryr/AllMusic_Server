@@ -15,8 +15,10 @@ import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
@@ -69,7 +71,7 @@ public class AllMusic {
     /**
      * Cookie对象
      */
-    public static CookieObj cookie;
+    public static List<CookieObj> cookie;
     /**
      * 经济插件对象
      */
@@ -391,11 +393,12 @@ public class AllMusic {
 
             reader = new InputStreamReader(Files.newInputStream(cookieFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
-            cookie = new Gson().fromJson(bf, CookieObj.class);
+            Type listType = new TypeToken<ArrayList<CookieObj>>(){}.getType();
+            cookie = new Gson().fromJson(bf, listType);
             bf.close();
             reader.close();
-            if (cookie == null || cookie.cookieStore == null) {
-                cookie = new CookieObj();
+            if (cookie == null) {
+                cookie = new ArrayList<>();
                 saveCookie();
             }
 
