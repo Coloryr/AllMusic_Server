@@ -6,7 +6,6 @@ import com.coloryr.allmusic.server.core.side.IMyLogger;
 
 public class RunTest implements IMyLogger {
     public static void main(String[] arg) {
-        AllMusic.cookie = new CookieObj();
         AllMusic.log = new RunTest();
 //        LyricSaveObj obj = AllMusic.getMusicApi().getLyric("2003496380");
 //        if(obj.isHaveLyric())

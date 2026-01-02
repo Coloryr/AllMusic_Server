@@ -5,9 +5,9 @@ mkdir "build\libs"
 setlocal enabledelayedexpansion
 
 set array=folia server_top server ^
-fabric_1_16_5 fabric_1_20_1 fabric_1_21 fabric_1_21_6 fabric_26_1 ^
+fabric_1_16_5 fabric_1_20_1 fabric_1_21 fabric_1_21_6 fabric_1_21_11 fabric_26_1 ^
 forge_1_7_10 forge_1_12_2 forge_1_16_5 forge_1_20_1 ^
-neoforge_1_21 neoforge_1_21_6
+neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array%) do (
     if not exist "%%i\src\main\java\com\coloryr\allmusic\server\core" mklink /j "%%i\src\main\java\com\coloryr\allmusic\server\core" "core"
@@ -15,9 +15,9 @@ for %%i in (%array%) do (
 )
 
 set array1=folia server_top ^
-fabric_1_16_5 fabric_1_20_1 fabric_1_21 fabric_1_21_6 fabric_26_1 ^
+fabric_1_16_5 fabric_1_20_1 fabric_1_21 fabric_1_21_6 fabric_1_21_11 fabric_26_1 ^
 forge_1_7_10 forge_1_12_2 forge_1_16_5 forge_1_20_1 ^
-neoforge_1_21 neoforge_1_21_6
+neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array1%) do (
     if not exist "%%i\src\main\java\com\coloryr\allmusic\server\codec" mklink /j "%%i\src\main\java\com\coloryr\allmusic\server\codec" "codec"

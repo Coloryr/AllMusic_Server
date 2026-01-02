@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
-import okio.Buffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +27,6 @@ public class AllMusicFabric implements ModInitializer {
         new AllMusic().init(new File(dir));
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> CommandFabric.instance.register(dispatcher));
-
-        Buffer buffer = new Buffer();
-        buffer.close();
 
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
             server = a;

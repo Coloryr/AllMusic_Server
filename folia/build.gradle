@@ -52,15 +52,13 @@ dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
     compileOnly 'me.clip:placeholderapi:2.11.7'
 
-    implementation 'com.squareup.okhttp3:okhttp:5.3.2'
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.6'
 }
 
 shadowJar {
-    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
-    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
-    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
-    relocate 'org.intellij', 'com.coloryr.allmusic.server.lib.org.intellij'
-    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
+    relocate 'org.apache.hc.core5', 'com.coloryr.allmusic.server.lib.org.apache.hc.core5'
+    relocate 'org.apache.hc.client5', 'com.coloryr.allmusic.server.lib.org.apache.hc.client5'
+    relocate 'com.google.gson', 'com.coloryr.allmusic.server.lib.com.google.gson'
 }
 
 tasks.withType(JavaCompile).configureEach {

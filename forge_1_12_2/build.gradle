@@ -155,8 +155,7 @@ dependencies {
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
 
-    embed('com.squareup.okhttp3:okhttp:5.3.2')
-//    embed 'com.squareup.okio:okio-jvm:3.0.0'
+    embed('org.apache.httpcomponents.client5:httpclient5:5.6')
     embed('org.xerial:sqlite-jdbc:3.51.1.0')
 }
 
@@ -216,8 +215,9 @@ processResources {
 }
 
 jar {
-    exclude 'META-INF/versions/9/org/sqlite/nativeimage/*'
-    exclude 'META-INF/versions/9/*'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/NOTICE'
 
     manifest {
         def attribute_map = [:]

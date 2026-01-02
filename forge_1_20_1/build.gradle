@@ -180,14 +180,12 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation "thedarkcolour:kotlinforforge:$kff_version"
-
-    jarJar(group: 'com.squareup.okhttp3', name: 'okhttp', version: '[5.3.2,6.0)')
-    jarJar(group: 'com.squareup.okio', name: 'okio-jvm', version: '[3.16.4,4.0)')
+    jarJar(group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '[5.6,6.0)')
+    jarJar(group: 'org.apache.httpcomponents.core5', name: 'httpcore5', version: '[5.4,6.0)')
+    jarJar(group: 'org.apache.httpcomponents.core5', name: 'httpcore5-h2', version: '[5.4,6.0)')
     jarJar(group: 'org.xerial', name: 'sqlite-jdbc', version: '[3.51.1.0,4.0)')
 
-    implementation('com.squareup.okhttp3:okhttp:5.3.2')
-    implementation('com.squareup.okio:okio-jvm:3.16.4')
+    implementation('org.apache.httpcomponents.client5:httpclient5:5.6')
     implementation('org.xerial:sqlite-jdbc:3.51.1.0')
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
