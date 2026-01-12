@@ -20,6 +20,7 @@ set "PROJECTS[14]=server"
 set "PROJECTS[15]=server_top"
 
 set /a ARRAY_LENGTH=15
+set /a LENGTH="%ARRAY_LENGTH%"+1
 
 cls
 
@@ -58,8 +59,8 @@ if not "%SELECTION%" == "" (
         pause
         goto :menu
     )
-    if %SELECTION% GEQ %ARRAY_LENGTH% (
-        echo 错误：输入超过最大索引%ARRAY_LENGTH%
+    if %SELECTION% GEQ %LENGTH% (
+        echo 错误：输入超过最大索引%LENGTH%
         pause
         goto :menu
     )
