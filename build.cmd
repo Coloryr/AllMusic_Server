@@ -58,7 +58,7 @@ if not "%SELECTION%" == "" (
         pause
         goto :menu
     )
-    if %SELECTION% GEQ %ARRAY_LENGTH%+1 (
+    if %SELECTION% GEQ %ARRAY_LENGTH% (
         echo 错误：输入超过最大索引%ARRAY_LENGTH%
         pause
         goto :menu
