@@ -213,7 +213,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public Object getPlayer(String player) {
-        var player1 = AllMusicVelocity.plugin.server.getPlayer(player);
+        Optional<Player> player1 = AllMusicVelocity.plugin.server.getPlayer(player);
         return player1.orElse(null);
     }
 
