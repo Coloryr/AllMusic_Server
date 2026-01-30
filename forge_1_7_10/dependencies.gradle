@@ -34,10 +34,10 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    compile "com.github.GTNewHorizons:Forgelin:1.10.2-1.0.5"
-
     shadowCompile 'org.apache.httpcomponents.client5:httpclient5:5.6'
     shadowCompile 'org.xerial:sqlite-jdbc:3.51.1.0'
+
+    compileOnly "org.slf4j:slf4j-simple:1.7.36"
 }
 
 shadowJar {
@@ -50,10 +50,16 @@ shadowJar {
 //    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
 //    configurations = [project.configurations.shadow]
 //    archiveClassifier.set('')
+
+    relocate 'org.slf4j', 'com.coloryr.allmusic.server.lib.slf4j'
+    relocate 'org.apache.httpcomponents', 'com.coloryr.allmusic.server.lib.apache.httpcomponents'
+
     dependencies {
         include(dependency('org.apache.httpcomponents.client5:httpclient5:5.6'))
         include(dependency('org.apache.httpcomponents.core5:httpcore5:5.4'))
         include(dependency('org.apache.httpcomponents.core5:httpcore5-h2:5.4'))
         include(dependency('org.xerial:sqlite-jdbc:3.51.1.0'))
+        include(dependency('org.slf4j:slf4j-api:1.7.36'))
+        include(dependency('org.slf4j:slf4j-simple:1.7.36'))
     }
 }
