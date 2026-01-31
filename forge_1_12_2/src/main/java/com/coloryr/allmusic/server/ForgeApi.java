@@ -33,7 +33,7 @@ public class ForgeApi {
         TextComponentString endtext = new TextComponentString(end);
         endtext.setStyle(endtext.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.appendSibling(endtext);
-        for (EntityPlayerMP player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (EntityPlayerMP player : AllMusicServer.server.getPlayerList().getPlayers()) {
             player.sendMessage(send);
         }
     }

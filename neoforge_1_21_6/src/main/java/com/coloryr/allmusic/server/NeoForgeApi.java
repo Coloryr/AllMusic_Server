@@ -34,7 +34,7 @@ public class NeoForgeApi {
         MutableComponent endtext = Component.literal(end);
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent.SuggestCommand(command)));
         send.append(endtext);
-        for (ServerPlayer player : AllMusicNeoForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
             player.sendSystemMessage(send);
         }
     }

@@ -35,7 +35,7 @@ public class ForgeApi {
         StringTextComponent endtext = new StringTextComponent(end);
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.append(endtext);
-        for (ServerPlayerEntity player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayerEntity player : AllMusicServer.server.getPlayerList().getPlayers()) {
             player.sendMessage(send, UUID.randomUUID());
         }
     }

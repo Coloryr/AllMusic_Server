@@ -5,11 +5,11 @@ import com.coloryr.allmusic.server.core.side.IMyLogger;
 public class LogNeoForge implements IMyLogger {
     @Override
     public void warning(String data) {
-        AllMusicNeoForge.LOGGER.warn(data);
+        AllMusicServer.LOGGER.warn(data);
     }
 
     @Override
     public void info(String data) {
-        AllMusicNeoForge.LOGGER.info(data);
+        AllMusicServer.LOGGER.info(data);
     }
 }

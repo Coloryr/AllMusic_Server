@@ -34,7 +34,7 @@ public class ForgeApi {
         MutableComponent endtext = Component.literal(end);
         endtext.setStyle(endtext.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.append(endtext);
-        for (ServerPlayer player : AllMusicForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
             player.sendSystemMessage(send);
         }
     }

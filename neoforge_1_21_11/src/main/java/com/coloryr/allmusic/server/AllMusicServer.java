@@ -25,8 +25,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(AllMusicNeoForge.MODID)
-public class AllMusicNeoForge {
+@Mod(AllMusicServer.MODID)
+public class AllMusicServer {
     public static final Identifier channel = Identifier.fromNamespaceAndPath("allmusic", "channel");
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
@@ -37,7 +37,7 @@ public class AllMusicNeoForge {
 
     public static final String dir = "config/allmusic_server/";
 
-    public AllMusicNeoForge(IEventBus modEventBus) {
+    public AllMusicServer(IEventBus modEventBus) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::register);
@@ -56,7 +56,7 @@ public class AllMusicNeoForge {
     public void register(final RegisterPayloadHandlersEvent event) {
         LOGGER.info("注册插件信道");
         final PayloadRegistrar registrar = event.registrar("1.0");
-        registrar.optional().playToClient(PackData.TYPE, PackData.CODEC, new HandelPack());
+        registrar.optional().playToClient(MusicCodec.TYPE, MusicCodec.CODEC, new HandelPack());
     }
 
     @SubscribeEvent
@@ -90,9 +90,9 @@ public class AllMusicNeoForge {
         AllMusic.joinPlay(event.getEntity().getName().getString());
     }
 
-    private static class HandelPack implements IPayloadHandler<PackData> {
+    private static class HandelPack implements IPayloadHandler<MusicCodec> {
         @Override
-        public void handle(@NotNull PackData payload, IPayloadContext context) {
+        public void handle(@NotNull MusicCodec payload, IPayloadContext context) {
             //context.handle(payload);
         }
     }

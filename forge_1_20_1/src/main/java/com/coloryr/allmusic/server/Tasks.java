@@ -8,7 +8,7 @@ public class Tasks {
     private static final List<TaskItem> taskItems = new CopyOnWriteArrayList<>();
 
     public static void init() {
-        AllMusicForge.server.addTickable(Tasks::tick);
+        AllMusicServer.server.addTickable(Tasks::tick);
     }
 
     public static void tick() {

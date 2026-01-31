@@ -21,8 +21,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(AllMusicForge.MODID)
-public class AllMusicForge {
+@Mod(AllMusicServer.MODID)
+public class AllMusicServer {
     public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
     // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
@@ -33,7 +33,7 @@ public class AllMusicForge {
 
     public static final String dir = "config/allmusic_server/";
 
-    public AllMusicForge() {
+    public AllMusicServer() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading

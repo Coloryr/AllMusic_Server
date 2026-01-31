@@ -121,12 +121,7 @@ dependencies {
 
     implementation('org.apache.httpcomponents.client5:httpclient5:5.6')
     implementation('org.xerial:sqlite-jdbc:3.51.1.0')
-//    implementation "thedarkcolour:kotlinforforge:$kff_version"
 
-//    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: '[2.0, 2.1)')
-//    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk7', version: '[2.0, 2.1)')
-//    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '[2.0, 2.1)')
-//    jarJar (group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '[2.0, 2.1)')
     jarJar(group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '[5.6,6.0)')
     jarJar(group: 'org.apache.httpcomponents.core5', name: 'httpcore5', version: '[5.4,6.0)')
     jarJar(group: 'org.apache.httpcomponents.core5', name: 'httpcore5-h2', version: '[5.4,6.0)')
