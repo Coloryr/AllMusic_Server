@@ -1,7 +1,9 @@
 package com.coloryr.allmusic.server;
 
+import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.comm.MusicCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
@@ -15,12 +17,11 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Locale;
 
 public class SideNeoForge extends BaseSide {
     @Override
     public void runTask(Runnable run) {
-        AllMusicNeoForge.server.execute(run);
+        AllMusicServer.server.execute(run);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class SideNeoForge extends BaseSide {
 
     @Override
     public boolean needPlay(boolean islist) {
-        for (ServerPlayer player : AllMusicNeoForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
                 return true;
             }
@@ -60,7 +61,7 @@ public class SideNeoForge extends BaseSide {
 
     @Override
     public Collection<?> getPlayers() {
-        return AllMusicNeoForge.server.getPlayerList().getPlayers();
+        return AllMusicServer.server.getPlayerList().getPlayers();
     }
 
     @Override
@@ -78,15 +79,15 @@ public class SideNeoForge extends BaseSide {
     }
 
     @Override
-    public void send(Object player, ComType type, String data, int data1) {
+    public void send(Object player, CommandType type, String data, int data1) {
         if (player instanceof ServerPlayer player1) {
-            send(player1, new PackData(type, data, data1));
+            send(player1, new MusicPack(type, data, data1));
         }
     }
 
     @Override
     public Object getPlayer(String player) {
-        return AllMusicNeoForge.server.getPlayerList().getPlayerByName(player);
+        return AllMusicServer.server.getPlayerList().getPlayerByName(player);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class SideNeoForge extends BaseSide {
 
     @Override
     public File getFolder() {
-        return new File(AllMusicNeoForge.dir);
+        return new File(AllMusicServer.dir);
     }
 
     @Override
@@ -106,7 +107,7 @@ public class SideNeoForge extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        for (ServerPlayer player : AllMusicNeoForge.server.getPlayerList().getPlayers()) {
+        for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendSystemMessage(Component.literal(message));
             }
@@ -161,11 +162,11 @@ public class SideNeoForge extends BaseSide {
         return event.isCancel();
     }
 
-    private void send(ServerPlayer players, PackData data) {
+    private void send(ServerPlayer players, MusicPack data) {
         if (players == null)
             return;
         try {
-            runTask(() -> PacketDistributor.sendToPlayer(players, data));
+            runTask(() -> PacketDistributor.sendToPlayer(players, new MusicCodec(data)));
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();

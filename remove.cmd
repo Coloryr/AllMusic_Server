@@ -29,8 +29,7 @@ for %%i in (%array2%) do (
 )
 
 set array3=fabric_1_16_5 fabric_1_20_1 fabric_1_21 fabric_1_21_6 fabric_1_21_11 ^
-neoforge_1_21_6 ^
-forge_1_20_1
+neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array3%) do (
     if exist "onejar\%%i\build" rmdir /s /q "onejar\%%i\build"
@@ -41,12 +40,11 @@ for %%i in (%array3%) do (
     if exist "onejar\%%i\src\main\java\com\coloryr\allmusic\codec" rmdir /s /q "onejar\%%i\src\main\java\com\coloryr\allmusic\codec"
     if exist "onejar\%%i\src\main\java\com\coloryr\allmusic\buffercodec" rmdir /s /q "onejar\%%i\src\main\java\com\coloryr\allmusic\buffercodec"
     
-    if exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" rmdir /s /q "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core"
-    if exist "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core" rmdir /s /q "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core"
     if exist "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3" rmdir /s /q "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3"
 )
 
-set array4=fabric_1_21 fabric_1_21_6 fabric_1_21_11
+set array4=fabric_1_21 fabric_1_21_6 fabric_1_21_11 ^
+neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array4%) do (
     if exist "%%i\src\main\java\com\coloryr\allmusic\comm" rmdir /s /q "%%i\src\main\java\com\coloryr\allmusic\comm"

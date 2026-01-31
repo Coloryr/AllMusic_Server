@@ -21,12 +21,13 @@ import java.io.File;
 @EventBusSubscriber(modid = AllMusicInit.MODID, value = Dist.DEDICATED_SERVER)
 public class AllMusicServer {
     public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
-    public static final String dir = "config/allmusic_server/";
     public static MinecraftServer server;
+
+    public static final String dir = "config/allmusic_server/";
 
     @SubscribeEvent
     public static void commonSetup(final FMLCommonSetupEvent event) {
-        AllMusic.log = new LogNeoForge();
+        AllMusic.log = new LogForge();
         AllMusic.side = new SideNeoForge();
 
         new AllMusic().init(new File(dir));

@@ -31,8 +31,7 @@ for %%i in (%array2%) do (
 )
 
 set array3=fabric_1_16_5 fabric_1_20_1 fabric_1_21 fabric_1_21_6 fabric_1_21_11 ^
-neoforge_1_21_6 ^
-forge_1_20_1
+neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array3%) do (
 
@@ -52,7 +51,7 @@ for %%i in (%array3%) do (
 )
 
 set array4=fabric_1_21 fabric_1_21_6 fabric_1_21_11 ^
-neoforge_1_21_6
+neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array4%) do (
     if not exist "%%i\src\main\java\com\coloryr\allmusic\comm" mklink /j "%%i\src\main\java\com\coloryr\allmusic\comm" "client\%%i\src\main\java\com\coloryr\allmusic\comm"
