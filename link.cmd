@@ -37,6 +37,7 @@ forge_1_20_1
 for %%i in (%array3%) do (
 
     if not exist "onejar\%%i\build" mkdir "onejar\%%i\build"
+    if not exist "onejar\%%i\src\main\java\com\coloryr\allmusic" mkdir "onejar\%%i\src\main\java\com\coloryr\allmusic"
     if not exist "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder" mkdir "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder"
 
     if not exist "onejar\%%i\build\libs" mklink /j "onejar\%%i\build\libs" "build\libs"

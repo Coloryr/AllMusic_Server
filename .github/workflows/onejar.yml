@@ -42,7 +42,7 @@ jobs:
       with:
         name: "allmusic_onejar_fabric_1_16_5"
         path: build/libs/
-  build_onejar_fabric_fabric_1_20_1:
+  build_onejar_fabric_1_20_1:
     runs-on: windows-latest
     permissions:
       contents: read
