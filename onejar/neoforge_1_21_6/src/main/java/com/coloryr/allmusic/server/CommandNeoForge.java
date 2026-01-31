@@ -27,7 +27,6 @@ public class CommandNeoForge implements Command<CommandSourceStack>, Predicate<C
     @Override
     public int run(CommandContext<CommandSourceStack> context) {
         var item = context.getSource();
-//        var source = item.source;
 
         var input = context.getInput();
         var temp = input.split(" ");

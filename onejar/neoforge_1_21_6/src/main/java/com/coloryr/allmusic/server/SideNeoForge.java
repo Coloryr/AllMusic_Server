@@ -15,6 +15,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Locale;
 
 public class SideNeoForge extends BaseSide {
     @Override

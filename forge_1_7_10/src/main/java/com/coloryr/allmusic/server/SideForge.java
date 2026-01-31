@@ -1,8 +1,8 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.codec.PacketCodec;
+import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
+import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
@@ -20,7 +20,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Locale;
 
 public class SideForge extends BaseSide {
     @Override
@@ -60,7 +59,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public boolean needPlay(boolean islist) {
-        for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
+        for (Object player1 : AllMusicServer.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
             if (!AllMusic.isSkip(player.getCommandSenderName(), null, false, islist)) {
                 return true;
@@ -71,7 +70,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public Collection<?> getPlayers() {
-        return AllMusicForge.server.getConfigurationManager().playerEntityList;
+        return AllMusicServer.server.getConfigurationManager().playerEntityList;
     }
 
     @Override
@@ -90,16 +89,16 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void send(Object player, ComType type, String data, int data1) {
+    public void send(Object player, CommandType type, String data, int data1) {
         if (player instanceof EntityPlayerMP) {
             EntityPlayerMP player1 = (EntityPlayerMP) player;
-            send(player1, PacketCodec.pack(type, data, data1));
+            send(player1, MusicPacketCodec.pack(type, data, data1));
         }
     }
 
     @Override
     public Object getPlayer(String player) {
-        return AllMusicForge.server.getConfigurationManager().func_152612_a(player);
+        return AllMusicServer.server.getConfigurationManager().func_152612_a(player);
     }
 
     @Override
@@ -112,7 +111,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public File getFolder() {
-        return new File(AllMusicForge.dir);
+        return new File(AllMusicServer.dir);
     }
 
     @Override
@@ -120,7 +119,7 @@ public class SideForge extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        for (Object player1 : AllMusicForge.server.getConfigurationManager().playerEntityList) {
+        for (Object player1 : AllMusicServer.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
             if (!AllMusic.isSkip(player.getCommandSenderName(), null, false)) {
                 player.addChatMessage(new ChatComponentText(message));
@@ -179,7 +178,7 @@ public class SideForge extends BaseSide {
         try {
             FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(data), "allmusic:channel");
             packet.setTarget(Side.CLIENT);
-            runTask(() -> AllMusicForge.channel.sendTo(packet, players));
+            runTask(() -> AllMusicServer.channel.sendTo(packet, players));
         } catch (Exception e) {
             AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();

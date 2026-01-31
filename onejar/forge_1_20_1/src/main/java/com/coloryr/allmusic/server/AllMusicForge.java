@@ -25,9 +25,9 @@ import java.io.File;
 public class AllMusicForge {
     public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "allmusic";
+    public static final String MODID = "allmusic_server";
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic");
+    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
     public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 

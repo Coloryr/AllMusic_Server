@@ -1,5 +1,6 @@
 package com.coloryr.allmusic.server.side.bukkit;
 
+import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.AllMusicBukkit;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
@@ -125,7 +126,7 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public void send(Object player, ComType type, String data, int data1) {
+    public void send(Object player, CommandType type, String data, int data1) {
         if (player instanceof Player) {
             Player player1 = (Player) player;
             try {
@@ -272,7 +273,7 @@ public class SideBukkit extends BaseSide {
         writeBytesM.invoke(buf, temp);
     }
 
-    private Object pack(ComType type, String data, int data1) throws InvocationTargetException, IllegalAccessException {
+    private Object pack(CommandType type, String data, int data1) throws InvocationTargetException, IllegalAccessException {
         Object buf = bufferM.invoke(null, 0);
         writeByteM.invoke(buf, type.ordinal());
         switch (type) {
@@ -281,7 +282,7 @@ public class SideBukkit extends BaseSide {
             case INFO:
             case LIST:
             case LYRIC:
-            case HUD:
+            case HUD_DATA:
                 writeString(buf, data);
                 break;
             case POS:

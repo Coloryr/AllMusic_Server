@@ -19,12 +19,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.util.Locale;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.7,)")
-public class AllMusicForge {
+public class AllMusicServer {
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
     public static MinecraftServer server;
     public static FMLEventChannel channel;

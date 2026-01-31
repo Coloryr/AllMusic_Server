@@ -1,10 +1,8 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.client.AllMusicClient;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.IEventBus;
@@ -31,9 +29,9 @@ import java.io.File;
 public class AllMusicNeoForge {
     public static final ResourceLocation channel = ResourceLocation.fromNamespaceAndPath("allmusic", "channel");
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "allmusic";
+    public static final String MODID = "allmusic_server";
     // Directly reference a slf4j logger
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic");
+    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
     public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
@@ -95,9 +93,7 @@ public class AllMusicNeoForge {
     private static class HandelPack implements IPayloadHandler<PackData> {
         @Override
         public void handle(@NotNull PackData payload, IPayloadContext context) {
-            if (context.flow() == PacketFlow.CLIENTBOUND) {
-                AllMusicClient.decode(payload);
-            }
+            //context.handle(payload);
         }
     }
 }

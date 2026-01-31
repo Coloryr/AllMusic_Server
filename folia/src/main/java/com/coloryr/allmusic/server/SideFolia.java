@@ -1,8 +1,8 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.codec.PacketCodec;
+import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
+import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
@@ -188,11 +188,11 @@ public class SideFolia extends BaseSide {
     }
 
     @Override
-    public void send(Object player, ComType type, String data, int data1) {
+    public void send(Object player, CommandType type, String data, int data1) {
         if (AllMusic.isRun && player instanceof Player player1) {
             try {
                 runTask(() ->
-                        player1.sendPluginMessage(AllMusicFolia.plugin, AllMusic.channel, PacketCodec.pack(type, data, data1).array()));
+                        player1.sendPluginMessage(AllMusicFolia.plugin, AllMusic.channel, MusicPacketCodec.pack(type, data, data1).array()));
             } catch (Exception e) {
                 AllMusic.log.warning("§c数据发送发生错误");
                 e.printStackTrace();

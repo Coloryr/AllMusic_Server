@@ -34,7 +34,7 @@ public class ForgeApi {
         ChatComponentText endtext = new ChatComponentText(end);
         endtext.setChatStyle(endtext.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.appendSibling(endtext);
-        for (Object player : AllMusicForge.server.getConfigurationManager().playerEntityList) {
+        for (Object player : AllMusicServer.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player1 = (EntityPlayerMP) player;
             player1.addChatMessage(send);
         }
