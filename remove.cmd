@@ -40,6 +40,9 @@ for %%i in (%array3%) do (
     if exist "onejar\%%i\src\main\java\com\coloryr\allmusic\codec" rmdir /s /q "onejar\%%i\src\main\java\com\coloryr\allmusic\codec"
     if exist "onejar\%%i\src\main\java\com\coloryr\allmusic\buffercodec" rmdir /s /q "onejar\%%i\src\main\java\com\coloryr\allmusic\buffercodec"
     
+    if exist "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core" rmdir /s /q "onejar\%%i\src\main\java\com\coloryr\allmusic\server\core"
+    if exist "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core" rmdir /s /q "onejar\%%i\src\main\java\com\coloryr\allmusic\client\core"
+
     if exist "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3" rmdir /s /q "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3"
 )
 
