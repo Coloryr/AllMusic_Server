@@ -1,5 +1,6 @@
 package com.coloryr.allmusic.server.core.objs.config;
 
+import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.server.core.AllMusic;
 
 import java.util.HashSet;
@@ -96,7 +97,7 @@ public class ConfigObj {
     /**
      * 默认的Hud配置
      */
-    public SaveObj defaultHud;
+    public HudPosObj defaultHud;
     /**
      * 经济插件挂钩
      */
@@ -133,7 +134,7 @@ public class ConfigObj {
         }
         if (defaultHud == null) {
             saveConfig = true;
-            defaultHud = SaveObj.make();
+            defaultHud = HudPosObj.make();
         }
         if (muteServer == null) {
             saveConfig = true;
@@ -172,7 +173,7 @@ public class ConfigObj {
         playListEscapeDeep = 40;
         sendLyric = true;
         needPermission = false;
-        defaultHud = SaveObj.make();
+        defaultHud = HudPosObj.make();
         mutePlayMessage = false;
         muteAddMessage = false;
         showInBar = false;

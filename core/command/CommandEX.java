@@ -18,6 +18,23 @@ public class CommandEX {
 
     public static final Map<String, ICommand> commandList = new HashMap<>();
     public static final Map<String, ICommand> commandAdminList = new HashMap<>();
+    private static final List<String> normal = new ArrayList<String>() {{
+        this.addAll(commandList.keySet());
+    }};
+    /**
+     * 管理员的指令
+     */
+    private static final List<String> admin = new ArrayList<String>() {{
+        this.addAll(commandAdminList.keySet());
+    }};
+    /**
+     * 搜歌的指令
+     */
+    private static final List<String> search = new ArrayList<String>() {{
+        this.add("select");
+        this.add("nextpage");
+        this.add("lastpage");
+    }};
 
     static {
         commandList.put("stop", new CommandStop());
@@ -47,25 +64,6 @@ public class CommandEX {
         commandAdminList.put("clearbanplayer", new CommandClearBanPlayerList());
         commandAdminList.put("test", new CommandTest());
     }
-
-    private static final List<String> normal = new ArrayList<String>() {{
-        this.addAll(commandList.keySet());
-    }};
-
-    /**
-     * 管理员的指令
-     */
-    private static final List<String> admin = new ArrayList<String>() {{
-        this.addAll(commandAdminList.keySet());
-    }};
-    /**
-     * 搜歌的指令
-     */
-    private static final List<String> search = new ArrayList<String>() {{
-        this.add("select");
-        this.add("nextpage");
-        this.add("lastpage");
-    }};
 
     /**
      * 搜索音乐
@@ -298,8 +296,9 @@ public class CommandEX {
 
     /**
      * 检查是否为管理员
+     *
      * @param sender 用户
-     * @param name 用户名
+     * @param name   用户名
      * @return 是否为管理员
      */
     public static boolean checkAdmin(Object sender, String name) {

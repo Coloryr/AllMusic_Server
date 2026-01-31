@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.client.mixin;
 
 import com.coloryr.allmusic.client.core.AllMusicCore;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

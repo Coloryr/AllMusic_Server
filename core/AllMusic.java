@@ -125,6 +125,7 @@ public class AllMusic {
 
     /**
      * 获取正在播放的玩家列表
+     *
      * @return 列表
      */
     public static Set<String> getNowPlayPlayer() {
@@ -393,7 +394,8 @@ public class AllMusic {
 
             reader = new InputStreamReader(Files.newInputStream(cookieFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
-            Type listType = new TypeToken<ArrayList<CookieObj>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<CookieObj>>() {
+            }.getType();
             cookie = new Gson().fromJson(bf, listType);
             bf.close();
             reader.close();

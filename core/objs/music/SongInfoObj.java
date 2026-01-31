@@ -139,6 +139,10 @@ public class SongInfoObj {
         return name == null ? "" : name;
     }
 
+    public void setName(String info) {
+        name = info;
+    }
+
     public String getID() {
         return id;
     }
@@ -155,10 +159,6 @@ public class SongInfoObj {
 
     public boolean isNull() {
         return name == null;
-    }
-
-    public void setName(String info) {
-        name = info;
     }
 
     public MediaType getMediaType() {

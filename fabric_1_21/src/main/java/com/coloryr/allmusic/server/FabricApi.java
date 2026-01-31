@@ -35,7 +35,7 @@ public class FabricApi {
         MutableText endText = Text.literal(end);
         endText.setStyle(endText.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.append(endText);
-        for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
+        for (var player : AllMusicServer.server.getPlayerManager().getPlayerList()) {
             player.sendMessage(send, false);
         }
     }

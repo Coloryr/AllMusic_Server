@@ -1,9 +1,9 @@
 package com.coloryr.allmusic.server.core.sql;
 
+import com.coloryr.allmusic.codec.HudDirType;
+import com.coloryr.allmusic.codec.HudItemPosObj;
+import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.config.SaveObj;
-import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
-import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 
 import java.io.File;
 import java.sql.*;
@@ -142,7 +142,7 @@ public class DataSql {
      * @param name 用户名
      * @param hud  Hud数据
      */
-    private static void update(String name, SaveObj hud) {
+    private static void update(String name, HudPosObj hud) {
         name = name.toLowerCase(Locale.ROOT);
         String sql = "";
         try {
@@ -190,7 +190,7 @@ public class DataSql {
      * @param name 用户名
      * @param hud  数据
      */
-    public static void addUser(String name, SaveObj hud) {
+    public static void addUser(String name, HudPosObj hud) {
         name = name.toLowerCase(Locale.ROOT);
         String sql = "";
         try {
@@ -245,7 +245,7 @@ public class DataSql {
     /**
      * 读取所有数据
      */
-    public static SaveObj readHud(String name) {
+    public static HudPosObj readHud(String name) {
         try {
             AllMusic.log.info("正在读取玩家数据:" + name);
             if (connection.isReadOnly() || connection.isClosed()) {
@@ -257,25 +257,25 @@ public class DataSql {
                     "pic_rotate,pic_rotate_speed,info_color,info_dir,info_shadow,lyric_color," +
                     "lyric_dir,lyric_shadow,list_color,list_dir,list_shadow,pic_dir FROM allmusic WHERE name='" + name + "'");
             HudDirType[] vas = HudDirType.values();
-            SaveObj obj = null;
+            HudPosObj obj = null;
             if (set.next()) {
-                obj = new SaveObj();
-                PosObj pos1 = new PosObj();
+                obj = new HudPosObj();
+                HudItemPosObj pos1 = new HudItemPosObj();
                 pos1.x = set.getInt(1);
                 pos1.y = set.getInt(2);
                 obj.info = pos1;
                 obj.info.enable = set.getInt(3) == 1;
-                PosObj pos2 = new PosObj();
+                HudItemPosObj pos2 = new HudItemPosObj();
                 pos2.x = set.getInt(4);
                 pos2.y = set.getInt(5);
                 obj.lyric = pos2;
                 obj.lyric.enable = set.getInt(6) == 1;
-                PosObj pos3 = new PosObj();
+                HudItemPosObj pos3 = new HudItemPosObj();
                 pos3.x = set.getInt(7);
                 pos3.y = set.getInt(8);
                 obj.list = pos3;
                 obj.list.enable = set.getInt(9) == 1;
-                PosObj pos4 = new PosObj();
+                HudItemPosObj pos4 = new HudItemPosObj();
                 pos4.x = set.getInt(10);
                 pos4.y = set.getInt(11);
                 obj.pic = pos4;

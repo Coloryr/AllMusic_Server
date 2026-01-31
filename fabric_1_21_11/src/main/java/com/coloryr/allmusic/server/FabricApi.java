@@ -35,7 +35,7 @@ public class FabricApi {
         MutableComponent endText = Component.literal(end);
         endText.setStyle(endText.getStyle().withClickEvent(new ClickEvent.SuggestCommand(command)));
         send.append(endText);
-        for (var player : AllMusicFabric.server.getPlayerList().getPlayers()) {
+        for (var player : AllMusicServer.server.getPlayerList().getPlayers()) {
             player.sendSystemMessage(send);
         }
     }

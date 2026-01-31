@@ -18,8 +18,8 @@
 
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"com.coloryr.allmusic.server.AllMusicFabric"
+		"server": [
+			"com.coloryr.allmusic.server.AllMusicServer"
 		]
 	},
 	"mixins": [

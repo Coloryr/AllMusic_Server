@@ -1,9 +1,9 @@
 package com.coloryr.allmusic.server.core.command.sub;
 
+import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.ICommand;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 

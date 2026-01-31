@@ -28,7 +28,7 @@ public class CommandBan extends ACommand {
 
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
-        if (args.length == index || (args.length == index + 1 )) {
+        if (args.length == index || (args.length == index + 1)) {
             List<String> list = new ArrayList<>();
             if (PlayMusic.nowPlayMusic != null) {
                 list.add(PlayMusic.nowPlayMusic.getID());

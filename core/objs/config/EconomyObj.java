@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server.core.objs.config;
 
 public class EconomyObj {
-//    public String mysqlUrl;
+    //    public String mysqlUrl;
     public String backend;
     public boolean vault;
 

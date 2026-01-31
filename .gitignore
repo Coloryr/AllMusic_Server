@@ -25,9 +25,16 @@ run
 forge*changelog.txt
 
 lib
+**/allmusic/codec/
+**/allmusic/comm/
+**/allmusic/buffercodec/
 **/allmusic/server/core/
-**/allmusic/server/codec/
 **/allmusic/server/bstats/
 **/allmusic/client/core/
 **/allmusic/client/core/player/decoder/mp3/
 .DS_Store
+/onejar/**/src/main/java/com/coloryr/allmusic/client
+/onejar/**/src/main/java/com/coloryr/allmusic/server
+/onejar/**/src/main/java/com/coloryr/allmusic/comm
+/onejar/**/src/main/java/com/coloryr/allmusic/codec
+/onejar/**/src/main/java/com/coloryr/allmusic/buffercodec

@@ -8,7 +8,7 @@ public class Tasks {
     private static final List<TaskItem> taskItems = new CopyOnWriteArrayList<>();
 
     public static void init() {
-        AllMusicFabric.server.addServerGuiTickable(Tasks::tick);
+        AllMusicServer.server.addServerGuiTickable(Tasks::tick);
     }
 
     public static void tick() {

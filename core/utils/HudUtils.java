@@ -1,13 +1,13 @@
 package com.coloryr.allmusic.server.core.utils;
 
+import com.coloryr.allmusic.codec.HudDirType;
+import com.coloryr.allmusic.codec.HudItemPosObj;
+import com.coloryr.allmusic.codec.HudPosObj;
+import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.play.LyricSave;
 import com.coloryr.allmusic.server.core.music.play.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.config.LimitObj;
-import com.coloryr.allmusic.server.core.objs.config.SaveObj;
-import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
-import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HudUtils {
-    private static final Map<String, SaveObj> HudList = new ConcurrentHashMap<>();
+    private static final Map<String, HudPosObj> HudList = new ConcurrentHashMap<>();
 
     /**
      * 获取玩家的Hud储存
@@ -25,12 +25,12 @@ public class HudUtils {
      * @param name 玩家名
      * @return Hud储存
      */
-    public static SaveObj get(String name) {
+    public static HudPosObj get(String name) {
         name = name.toLowerCase(Locale.ROOT);
         if (!HudList.containsKey(name)) {
-            SaveObj obj1 = DataSql.readHud(name);
+            HudPosObj obj1 = DataSql.readHud(name);
             if (obj1 == null) {
-                SaveObj obj = AllMusic.getConfig().defaultHud.copy();
+                HudPosObj obj = AllMusic.getConfig().defaultHud.copy();
                 HudList.put(name, obj);
                 String finalName = name;
                 DataSql.task(() -> DataSql.addUser(finalName, obj));
@@ -43,7 +43,7 @@ public class HudUtils {
         return HudList.get(name);
     }
 
-    public static void addAndSave(String name, SaveObj hud) {
+    public static void addAndSave(String name, HudPosObj hud) {
         name = name.toLowerCase(Locale.ROOT);
         HudList.put(name, hud);
         String finalName = name;
@@ -59,11 +59,11 @@ public class HudUtils {
      * @param y      y
      * @return 位置数据
      */
-    public static PosObj setHudPos(String player, HudType pos, String x, String y) {
-        SaveObj obj = get(player);
+    public static HudItemPosObj setHudPos(String player, HudType pos, String x, String y) {
+        HudPosObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().defaultHud.copy();
-        PosObj posOBJ = new PosObj(0, 0, HudDirType.TOP_LEFT, 0xffffff, false, true);
+        HudItemPosObj posOBJ = new HudItemPosObj(0, 0, HudDirType.TOP_LEFT, 0xffffff, false, true);
         if (!Function.isInteger(x) && !Function.isInteger(y))
             return null;
         int x1 = Integer.parseInt(x);
@@ -188,7 +188,7 @@ public class HudUtils {
      * @return 设置结果
      */
     public static boolean setHudEnable(String player, HudType pos, String arg) {
-        SaveObj obj = get(player);
+        HudPosObj obj = get(player);
         boolean res = false;
         boolean value = false;
         boolean have = false;
@@ -264,7 +264,7 @@ public class HudUtils {
     public static void sendHudPos(String player) {
         AllMusic.side.runTask(() -> {
             try {
-                SaveObj obj = get(player);
+                HudPosObj obj = get(player);
                 if (obj == null) {
                     obj = AllMusic.getConfig().defaultHud.copy();
                     addAndSave(player, obj);
@@ -283,14 +283,14 @@ public class HudUtils {
      * @param player 用户名
      */
     public static void reset(String player) {
-        SaveObj obj = AllMusic.getConfig().defaultHud.copy();
+        HudPosObj obj = AllMusic.getConfig().defaultHud.copy();
         addAndSave(player, obj);
         HudUtils.sendHudPos(player);
     }
 
     public static void reset(String player, HudType type) {
-        SaveObj obj = AllMusic.getConfig().defaultHud.copy();
-        SaveObj obj1 = get(player);
+        HudPosObj obj = AllMusic.getConfig().defaultHud.copy();
+        HudPosObj obj1 = get(player);
         switch (type) {
             case INFO:
                 obj1.info = obj.info;
@@ -319,7 +319,7 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicSize(String player, String size) {
-        SaveObj obj = get(player);
+        HudPosObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().defaultHud.copy();
         if (!Function.isInteger(size))
@@ -340,7 +340,7 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicRotate(String player, String open) {
-        SaveObj obj = get(player);
+        HudPosObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().defaultHud.copy();
 
@@ -363,7 +363,7 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicRotateSpeed(String player, String size) {
-        SaveObj obj = get(player);
+        HudPosObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().defaultHud.copy();
         if (!Function.isInteger(size))
@@ -392,7 +392,7 @@ public class HudUtils {
             return null;
         }
 
-        SaveObj obj = get(player);
+        HudPosObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().defaultHud.copy();
 
@@ -431,7 +431,7 @@ public class HudUtils {
             return false;
         }
 
-        SaveObj obj = get(player);
+        HudPosObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().defaultHud.copy();
 
@@ -457,7 +457,7 @@ public class HudUtils {
     }
 
     public static boolean setShadow(String name, HudType pos, String arg) {
-        SaveObj obj = get(name);
+        HudPosObj obj = get(name);
         boolean res = false;
         boolean value = false;
         boolean have = false;
@@ -509,7 +509,7 @@ public class HudUtils {
         return res;
     }
 
-    public static void set(String name, SaveObj obj) {
+    public static void set(String name, HudPosObj obj) {
         addAndSave(name, obj);
         HudUtils.sendHudPos(name);
     }

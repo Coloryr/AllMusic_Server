@@ -43,12 +43,12 @@ public class CommandSelect extends ACommand {
 
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
-        if (args.length == 1 || (args.length == 2 )) {
+        if (args.length == 1 || (args.length == 2)) {
             List<String> list = new ArrayList<>();
             SearchPageObj obj = AllMusic.getSearch(name);
             if (obj != null) {
                 for (int a = 0; a < obj.getIndex(); a++) {
-                    list.add(String.valueOf(a+1));
+                    list.add(String.valueOf(a + 1));
                 }
             }
             return list;

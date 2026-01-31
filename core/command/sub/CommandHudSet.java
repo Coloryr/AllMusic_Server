@@ -1,12 +1,12 @@
 package com.coloryr.allmusic.server.core.command.sub;
 
+import com.coloryr.allmusic.codec.HudDirType;
+import com.coloryr.allmusic.codec.HudItemPosObj;
+import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.AHudCommand;
 import com.coloryr.allmusic.server.core.command.ICommand;
-import com.coloryr.allmusic.server.core.objs.enums.HudDirType;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
-import com.coloryr.allmusic.server.core.objs.hud.PosObj;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
@@ -140,7 +140,7 @@ public class CommandHudSet extends AHudCommand {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                     return;
                 }
-                PosObj obj = HudUtils.setHudPos(name, type, args[3], args[4]);
+                HudItemPosObj obj = HudUtils.setHudPos(name, type, args[3], args[4]);
                 if (obj == null) {
                     AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().command.error);
                     return;

@@ -1,7 +1,8 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
+import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.comm.MusicCodec;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
@@ -19,7 +20,7 @@ import java.util.Collection;
 public class SideFabric extends BaseSide {
     @Override
     public void runTask(Runnable run) {
-        AllMusicFabric.server.execute(run);
+        AllMusicServer.server.execute(run);
     }
 
     @Override
@@ -49,8 +50,8 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean needPlay(boolean islist) {
-        for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            if (!AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
+        for (var player : AllMusicServer.server.getPlayerManager().getPlayerList()) {
+            if (!com.coloryr.allmusic.server.core.AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
                 return true;
             }
         }
@@ -59,7 +60,7 @@ public class SideFabric extends BaseSide {
 
     @Override
     public Collection<?> getPlayers() {
-        return AllMusicFabric.server.getPlayerManager().getPlayerList();
+        return AllMusicServer.server.getPlayerManager().getPlayerList();
     }
 
     @Override
@@ -77,15 +78,15 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void send(Object player, ComType type, String data, int data1) {
+    public void send(Object player, CommandType type, String data, int data1) {
         if (player instanceof ServerPlayerEntity player1) {
-            send(player1, new PackPayload(type, data, data1));
+            send(player1, new MusicPack(type, data, data1));
         }
     }
 
     @Override
     public Object getPlayer(String player) {
-        return AllMusicFabric.server.getPlayerManager().getPlayer(player);
+        return AllMusicServer.server.getPlayerManager().getPlayer(player);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class SideFabric extends BaseSide {
 
     @Override
     public File getFolder() {
-        return new File(AllMusicFabric.dir);
+        return new File(AllMusicServer.dir);
     }
 
     @Override
@@ -105,8 +106,8 @@ public class SideFabric extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        for (var player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
-            if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
+        for (var player : AllMusicServer.server.getPlayerManager().getPlayerList()) {
+            if (!com.coloryr.allmusic.server.core.AllMusic.isSkip(player.getName().getString(), null, false)) {
                 player.sendMessage(Text.of(message), false);
             }
         }
@@ -156,13 +157,13 @@ public class SideFabric extends BaseSide {
         return MusicAddEvent.EVENT.invoker().interact(source.getPlayer(), music) != ActionResult.PASS;
     }
 
-    private void send(ServerPlayerEntity players, PackPayload data) {
+    private void send(ServerPlayerEntity players, MusicPack data) {
         if (players == null)
             return;
         try {
-            runTask(() -> ServerPlayNetworking.send(players, data));
+            runTask(() -> ServerPlayNetworking.send(players, new MusicCodec(data)));
         } catch (Exception e) {
-            AllMusic.log.warning("§c数据发送发生错误");
+            com.coloryr.allmusic.server.core.AllMusic.log.warning("§c数据发送发生错误");
             e.printStackTrace();
         }
     }

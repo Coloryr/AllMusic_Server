@@ -44,7 +44,7 @@ public class FabricApi {
         LiteralText endText = new LiteralText(end);
         endText.setStyle(endText.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)));
         send.append(endText);
-        for (ServerPlayerEntity player : AllMusicFabric.server.getPlayerManager().getPlayerList()) {
+        for (ServerPlayerEntity player : AllMusicServer.server.getPlayerManager().getPlayerList()) {
             player.sendMessage(send, false);
         }
     }

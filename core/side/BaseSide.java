@@ -1,9 +1,9 @@
 package com.coloryr.allmusic.server.core.side;
 
+import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.HudPosObj;
+import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.config.SaveObj;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
-import com.coloryr.allmusic.server.core.objs.enums.HudType;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
@@ -91,7 +91,7 @@ public abstract class BaseSide {
      * @param data   数据
      * @param data1  数据
      */
-    public abstract void send(Object player, ComType type, String data, int data1);
+    public abstract void send(Object player, CommandType type, String data, int data1);
 
     /**
      * 根据名字获取玩家
@@ -197,7 +197,7 @@ public abstract class BaseSide {
         if (AllMusic.isSkip(player, getPlayerServer(player), true))
             return;
         try {
-            send(player1, ComType.POS, null, pos);
+            send(player1, CommandType.POS, null, pos);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -215,7 +215,7 @@ public abstract class BaseSide {
         if (player == null)
             return;
         try {
-            send(player, ComType.STOP, null, 0);
+            send(player, CommandType.STOP, null, 0);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
             e.printStackTrace();
@@ -229,7 +229,7 @@ public abstract class BaseSide {
         AllMusic.clearNowPlayer();
         try {
             for (Object player : getPlayers()) {
-                send(player, ComType.STOP, null, 0);
+                send(player, CommandType.STOP, null, 0);
             }
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c停止指令发送出错");
@@ -251,7 +251,7 @@ public abstract class BaseSide {
         try {
             if (AllMusic.isSkip(player, getPlayerServer(player), false))
                 return;
-            send(player1, ComType.PLAY, url, 0);
+            send(player1, CommandType.PLAY, url, 0);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
             e.printStackTrace();
@@ -272,10 +272,10 @@ public abstract class BaseSide {
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 continue;
             try {
-                SaveObj obj = HudUtils.get(name);
+                HudPosObj obj = HudUtils.get(name);
                 if (!obj.lyric.enable)
                     continue;
-                send(player, ComType.LYRIC, data, 0);
+                send(player, CommandType.LYRIC, data, 0);
             } catch (Exception e) {
                 AllMusic.log.warning("§d[AllMusic]§c歌词发送出错");
                 e.printStackTrace();
@@ -297,10 +297,10 @@ public abstract class BaseSide {
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 continue;
             try {
-                SaveObj obj = HudUtils.get(name);
+                HudPosObj obj = HudUtils.get(name);
                 if (!obj.lyric.enable)
                     continue;
-                send(player, ComType.INFO, data, 0);
+                send(player, CommandType.INFO, data, 0);
             } catch (Exception e) {
                 AllMusic.log.warning("§d[AllMusic]§c歌词信息发送出错");
                 e.printStackTrace();
@@ -320,9 +320,9 @@ public abstract class BaseSide {
         if (AllMusic.isSkip(name, null, false))
             return;
         try {
-            SaveObj obj = HudUtils.get(name);
+            HudPosObj obj = HudUtils.get(name);
             String data = AllMusic.gson.toJson(obj);
-            send(player, ComType.HUD, data, 0);
+            send(player, CommandType.HUD_DATA, data, 0);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c界面位置发送出错");
             e.printStackTrace();
@@ -348,13 +348,13 @@ public abstract class BaseSide {
                 return;
             switch (pos) {
                 case INFO:
-                    send(player, ComType.INFO, data, 0);
+                    send(player, CommandType.INFO, data, 0);
                     break;
                 case LIST:
-                    send(player, ComType.LIST, data, 0);
+                    send(player, CommandType.LIST, data, 0);
                     break;
                 case LYRIC:
-                    send(player, ComType.LYRIC, data, 0);
+                    send(player, CommandType.LYRIC, data, 0);
                     break;
             }
         } catch (Exception e) {
@@ -377,10 +377,10 @@ public abstract class BaseSide {
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 continue;
             try {
-                SaveObj obj = HudUtils.get(name);
+                HudPosObj obj = HudUtils.get(name);
                 if (!obj.list.enable)
                     continue;
-                send(player, ComType.LIST, data, 0);
+                send(player, CommandType.LIST, data, 0);
             } catch (Exception e) {
                 AllMusic.log.warning("§d[AllMusic]§c歌曲列表发送出错");
                 e.printStackTrace();
@@ -398,9 +398,9 @@ public abstract class BaseSide {
                 continue;
             name = name.toLowerCase(Locale.ROOT);
             try {
-                SaveObj obj = HudUtils.get(name);
+                HudPosObj obj = HudUtils.get(name);
                 String data = AllMusic.gson.toJson(obj);
-                send(player, ComType.HUD, data, 0);
+                send(player, CommandType.HUD_DATA, data, 0);
             } catch (Exception e1) {
                 AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
                 e1.printStackTrace();
@@ -444,7 +444,7 @@ public abstract class BaseSide {
             if (AllMusic.isSkip(name, getPlayerServer(player), false))
                 continue;
             try {
-                send(player, ComType.PLAY, url, 0);
+                send(player, CommandType.PLAY, url, 0);
                 AllMusic.addNowPlayPlayer(name);
             } catch (Exception e) {
                 AllMusic.log.warning("§d[AllMusic]§c歌曲指令发送出错");
@@ -466,11 +466,11 @@ public abstract class BaseSide {
             name = name.toLowerCase(Locale.ROOT);
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 continue;
-            SaveObj obj = HudUtils.get(name);
+            HudPosObj obj = HudUtils.get(name);
             if (!obj.pic.enable)
                 continue;
             try {
-                send(player, ComType.IMG, url, 0);
+                send(player, CommandType.IMG, url, 0);
             } catch (Exception e) {
                 AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
                 e.printStackTrace();
@@ -491,7 +491,7 @@ public abstract class BaseSide {
         if (AllMusic.isSkip(player, getPlayerServer(player), true))
             return;
         try {
-            send(player1, ComType.IMG, url, 0);
+            send(player1, CommandType.IMG, url, 0);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c图片指令发送出错");
             e.printStackTrace();
@@ -508,7 +508,7 @@ public abstract class BaseSide {
         if (player == null)
             return;
         try {
-            send(player, ComType.CLEAR, null, 0);
+            send(player, CommandType.CLEAR, null, 0);
         } catch (Exception e) {
             AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
             e.printStackTrace();
@@ -521,7 +521,7 @@ public abstract class BaseSide {
     public final void clearHud() {
         for (Object player : getPlayers()) {
             try {
-                send(player, ComType.CLEAR, null, 0);
+                send(player, CommandType.CLEAR, null, 0);
             } catch (Exception e) {
                 AllMusic.log.warning("§d[AllMusic]§c清空Hud发生出错");
                 e.printStackTrace();
