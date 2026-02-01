@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-@EventBusSubscriber(modid = AllMusicInit.MODID, value = Dist.DEDICATED_SERVER)
+@EventBusSubscriber(modid = AllMusicInit.MODID, value = Dist.DEDICATED_SERVER, bus = EventBusSubscriber.Bus.MOD)
 public class AllMusicServer {
     public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
     public static MinecraftServer server;
@@ -33,33 +33,36 @@ public class AllMusicServer {
         new AllMusic().init(new File(dir));
     }
 
-    @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
-        LOGGER.info("注册指令");
-        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
-        CommandNeoForge.instance.register(dispatcher);
-    }
+    @EventBusSubscriber(modid = AllMusicInit.MODID, value = Dist.DEDICATED_SERVER)
+    public static class MusicEvent {
+        @SubscribeEvent
+        public static void onRegisterCommands(RegisterCommandsEvent event) {
+            LOGGER.info("注册指令");
+            CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+            CommandNeoForge.instance.register(dispatcher);
+        }
 
-    @SubscribeEvent
-    public static void onServerStarting(ServerStartedEvent event) {
-        server = event.getServer();
+        @SubscribeEvent
+        public static void onServerStarting(ServerStartedEvent event) {
+            server = event.getServer();
 
-        AllMusic.start();
-        Tasks.init();
-    }
+            AllMusic.start();
+            Tasks.init();
+        }
 
-    @SubscribeEvent
-    public static void onServerStopping(ServerStoppingEvent event) {
-        AllMusic.stop();
-    }
+        @SubscribeEvent
+        public static void onServerStopping(ServerStoppingEvent event) {
+            AllMusic.stop();
+        }
 
-    @SubscribeEvent
-    public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        AllMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
-    }
+        @SubscribeEvent
+        public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+            AllMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
+        }
 
-    @SubscribeEvent
-    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        AllMusic.joinPlay(event.getEntity().getName().getString());
+        @SubscribeEvent
+        public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+            AllMusic.joinPlay(event.getEntity().getName().getString());
+        }
     }
 }
