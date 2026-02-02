@@ -187,8 +187,9 @@ public class APIMain {
     public String getPlayUrl(String id) {
         JsonObject params = new JsonObject();
         params.addProperty("ids", "[" + id + "]");
-        params.addProperty("br", AllMusic.getConfig().musicBR);
-        HttpResObj res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
+        params.addProperty("level", "lossless");
+        params.addProperty("encodeType", "aac");
+        HttpResObj res = HttpClientUtil.post("https://music.163.com/weapi/song/enhance/player/url/v1", params, EncryptType.WEAPI, null);
         if (res != null && res.ok) {
             try {
                 TrialInfoObj obj = AllMusic.gson.fromJson(res.data, TrialInfoObj.class);
