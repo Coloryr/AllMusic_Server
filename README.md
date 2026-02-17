@@ -1,5 +1,5 @@
 <div align="center">
-
+ 
 ![AllMusic_Server](https://socialify.git.ci/Coloryr/AllMusic_Server/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fgithub.com%2FColoryr%2FAllMusic_Server%2Fblob%2Fmain%2Fforge_1_12_2%2Fsrc%2Fmain%2Fresources%2Ficon.png%3Fraw%3Dtrue&name=1&owner=1&pattern=Signal&stargazers=1&theme=Auto)
 
 ![](https://img.shields.io/bstats/players/6720?label=players&style=for-the-badge)
