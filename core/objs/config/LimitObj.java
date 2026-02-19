@@ -40,7 +40,7 @@ public class LimitObj {
 
     public static LimitObj make() {
         LimitObj obj = new LimitObj();
-        obj.musicTimeLimit = true;
+        obj.musicTimeLimit = false;
         obj.maxMusicTime = 600;
         obj.infoLimit = false;
         obj.infoLimitSize = 20;

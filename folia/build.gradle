@@ -52,6 +52,7 @@ dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
     compileOnly 'me.clip:placeholderapi:2.11.7'
 
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.6'
 }
 
