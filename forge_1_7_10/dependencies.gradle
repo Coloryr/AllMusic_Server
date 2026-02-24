@@ -43,13 +43,6 @@ dependencies {
 shadowJar {
     exclude 'META-INF/versions/9/org/sqlite/nativeimage/*'
     exclude 'META-INF/versions/9/*'
-//    relocate 'okhttp3', 'com.coloryr.allmusic.server.lib.okhttp3'
-//    relocate 'okio', 'com.coloryr.allmusic.server.lib.okio'
-//    relocate 'kotlin', 'com.coloryr.allmusic.server.lib.kotlin'
-//    relocate 'org.intellij', 'com.coloryr.allmusic.server.lib.org.intellij'
-//    relocate 'org.jetbrains', 'com.coloryr.allmusic.server.lib.org.jetbrains'
-//    configurations = [project.configurations.shadow]
-//    archiveClassifier.set('')
 
     relocate 'org.slf4j', 'com.coloryr.allmusic.server.lib.slf4j'
     relocate 'org.apache.httpcomponents', 'com.coloryr.allmusic.server.lib.apache.httpcomponents'

@@ -65,4 +65,33 @@ dependencies {
     // implementation ('com.google.code.gson:gson:2.8.6') {
     //     transitive = false
     // }
+
+    implementation('org.apache.httpcomponents.client5:httpclient5:5.6')
+    implementation('org.xerial:sqlite-jdbc:3.51.1.0')
 }
+
+shadowJar {
+    exclude 'META-INF/versions/9/org/sqlite/nativeimage/*'
+    exclude 'META-INF/versions/9/*'
+
+    relocate 'org.slf4j', 'com.coloryr.allmusic.server.lib.slf4j'
+    relocate 'org.apache.httpcomponents', 'com.coloryr.allmusic.server.lib.apache.httpcomponents'
+
+    dependencies {
+        include(dependency('org.apache.httpcomponents.client5:httpclient5:5.6'))
+        include(dependency('org.apache.httpcomponents.core5:httpcore5:5.4'))
+        include(dependency('org.apache.httpcomponents.core5:httpcore5-h2:5.4'))
+        include(dependency('org.xerial:sqlite-jdbc:3.51.1.0'))
+        include(dependency('org.slf4j:slf4j-api:1.7.36'))
+        include(dependency('org.slf4j:slf4j-simple:1.7.36'))
+    }
+}
+
+// 让 reobfJar 使用 shadowJar 的输出
+tasks.reobfJar {
+    dependsOn tasks.shadowJar
+    inputJar.set(tasks.shadowJar.archiveFile)
+}
+
+// 确保 build 任务生成 shadowJar
+tasks.build.dependsOn tasks.shadowJar

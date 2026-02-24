@@ -14,6 +14,7 @@ plugins {
     id 'com.matthewprenger.cursegradle' version '1.4.0' apply false
     id 'com.modrinth.minotaur' version '2.+' apply false
     id 'org.jetbrains.changelog' version '2.2.1'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 apply from: 'gradle/scripts/helpers.gradle'
@@ -154,9 +155,6 @@ dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
-
-    embed('org.apache.httpcomponents.client5:httpclient5:5.6')
-    embed('org.xerial:sqlite-jdbc:3.51.1.0')
 }
 
 apply from: 'gradle/scripts/dependencies.gradle'
