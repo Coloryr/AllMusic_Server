@@ -22,12 +22,6 @@ for %%i in (%array1%) do (
     if exist "%%i\src\main\java\com\coloryr\allmusic\buffercodec" rmdir /s /q "%%i\src\main\java\com\coloryr\allmusic\buffercodec"
 )
 
-set array2=folia server_top server
-
-for %%i in (%array2%) do (
-    if exist "%%i\src\main\java\com\coloryr\allmusic\server\bstats" rmdir /s /q "%%i\src\main\java\com\coloryr\allmusic\server\bstats"
-)
-
 set array3=fabric_1_16_5 fabric_1_20_1 fabric_1_21 fabric_1_21_6 fabric_1_21_11 ^
 neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 

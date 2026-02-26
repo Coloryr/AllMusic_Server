@@ -1,8 +1,8 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.music.play.TopLyricSave;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
+import com.coloryr.allmusic.server.core.music.TopLyricSave;
 import com.coloryr.allmusic.server.core.objs.music.TopSongInfoObj;
 import com.coloryr.allmusic.server.side.bukkit.*;
 import com.coloryr.allmusic.server.side.bukkit.hooks.AllMusicPAPI;
@@ -17,7 +17,6 @@ public class AllMusicBukkit extends JavaPlugin {
     public static AllMusicPAPI PAPI;
     public static boolean spigotSet;
     private static PluginMessage pluginMessage;
-    private static MetricsBukkit metricsBukkit;
 
     @Override
     public void onEnable() {
@@ -86,14 +85,11 @@ public class AllMusicBukkit extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new ListenerBukkit(), this);
             AllMusic.start();
         }
-
-        metricsBukkit = new MetricsBukkit(this, 6720);
     }
 
     @Override
     public void onDisable() {
         AllMusic.isRun = false;
-        metricsBukkit.shutdown();
         if (AllMusic.getConfig().topPAPI)
             pluginMessage.stop();
         else

@@ -3,7 +3,7 @@ package com.coloryr.allmusic.server.core.command.sub;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.PermissionList;
-import com.coloryr.allmusic.server.core.music.play.MusicSearch;
+import com.coloryr.allmusic.server.core.music.MusicSearch;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 
 public class CommandLastPage extends ACommand {

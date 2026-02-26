@@ -4,6 +4,7 @@ import com.coloryr.allmusic.codec.HudDirType;
 import com.coloryr.allmusic.codec.HudItemPosObj;
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 
 import java.io.File;
 import java.sql.*;
@@ -53,6 +54,7 @@ public class DataSql {
     private static final String table1 = "CREATE TABLE IF NOT EXISTS \"allmusic_list\" (\n" +
             "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
             "  \"sid\" TEXT(40)\n" +
+            "  \"api\" TEXT(40)\n" +
             ");";
 
     private static final String table2 = "CREATE TABLE IF NOT EXISTS \"allmusic_mute\" (\n" +
@@ -68,6 +70,7 @@ public class DataSql {
     private static final String table4 = "CREATE TABLE IF NOT EXISTS \"allmusic_banlist\" (\n" +
             "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
             "  \"sid\" TEXT(40)\n" +
+            "  \"api\" TEXT(40)\n" +
             ");";
 
     private static final String table5 = "CREATE TABLE IF NOT EXISTS \"allmusic_banplayer\" (\n" +
@@ -308,19 +311,24 @@ public class DataSql {
     /**
      * 随机获取空闲歌单歌曲
      */
-    public static String readListItem() {
+    public static MusicObj readListItem() {
         try {
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_list ORDER BY random() limit 1");
-            String name = null;
+            ResultSet set = stat.executeQuery("SELECT sid,api FROM allmusic_list ORDER BY random() limit 1");
+            String id = null;
+            String api = null;
             if (set.next()) {
-                name = set.getString(1);
+                id = set.getString(1);
+                api = set.getString(2);
             }
             stat.close();
-            return name;
+            MusicObj obj = new MusicObj();
+            obj.id = id;
+            obj.api = api;
+            return obj;
         } catch (Exception e) {
             AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
@@ -331,19 +339,24 @@ public class DataSql {
     /**
      * 读取空闲歌单列表
      */
-    public static String readListItem(int index) {
+    public static MusicObj readListItem(int index) {
         try {
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
             Statement stat = connection.createStatement();
-            ResultSet set = stat.executeQuery("SELECT sid FROM allmusic_list limit 1 offset " + index);
-            String name = null;
+            ResultSet set = stat.executeQuery("SELECT sid,api FROM allmusic_list limit 1 offset " + index);
+            String id = null;
+            String index1 = null;
             if (set.next()) {
-                name = set.getString(1);
+                id = set.getString(1);
+                index1 = set.getString(2);
             }
             stat.close();
-            return name;
+            MusicObj obj = new MusicObj();
+            obj.id = id;
+            obj.api = index1;
+            return obj;
         } catch (Exception e) {
             AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
@@ -376,17 +389,18 @@ public class DataSql {
         return 0;
     }
 
-    public static void addIdleList(List<String> list) {
+    public static void addIdleList(List<String> list, String api) {
         task(() -> {
             try {
                 AllMusic.log.info("添加" + list.size() + "首歌到空闲歌单");
                 if (connection.isReadOnly() || connection.isClosed()) {
                     init();
                 }
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_list (sid) VALUES (?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_list (sid,api) VALUES (?,?)");
                 // 遍历 List<String> 并插入每个字符串
                 for (String str : list) {
                     pstmt.setString(1, str); // 设置参数
+                    pstmt.setString(2, api);
                     pstmt.addBatch(); // 添加到批处理
                 }
                 pstmt.executeBatch();
@@ -412,14 +426,15 @@ public class DataSql {
         });
     }
 
-    public static void addBanMusic(String music) {
+    public static void addBanMusic(String music, String api) {
         task(() -> {
             try {
                 if (connection.isReadOnly() || connection.isClosed()) {
                     init();
                 }
-                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_banlist (sid) VALUES (?)");
+                PreparedStatement pstmt = connection.prepareStatement("INSERT INTO allmusic_banlist (sid,api) VALUES (?)");
                 pstmt.setString(1, music); // 设置参数
+                pstmt.setString(2, api);
                 pstmt.execute();
                 pstmt.close();
                 Cache.banMusic.add(music);

@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server.core.objs.music;
 
 import com.coloryr.allmusic.server.core.objs.MediaType;
-import com.coloryr.allmusic.server.core.objs.api.music.trialinfo.freeTrialInfo;
+import com.coloryr.allmusic.server.netapi.obj.music.trialinfo.freeTrialInfo;
 
 public class TopSongInfoObj extends SongInfoObj {
     public TopSongInfoObj() {

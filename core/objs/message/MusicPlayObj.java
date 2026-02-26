@@ -18,6 +18,7 @@ public class MusicPlayObj {
     public String trail;
     public String cancel;
     public String error1;
+    public String error2;
 
     public static MusicPlayObj make() {
         MusicPlayObj obj = new MusicPlayObj();
@@ -59,6 +60,8 @@ public class MusicPlayObj {
         if (cancel == null)
             res = true;
         if (error1 == null)
+            res = true;
+        if (error2 == null)
             res = true;
 
         return res;
@@ -102,5 +105,7 @@ public class MusicPlayObj {
             cancel = "§d[AllMusic3]§e播放被取消";
         if (error1 == null)
             error1 = "§d[AllMusic3]§c未知音乐类型";
+        if (error2 == null)
+            error2 = "§d[AllMusic3]§c未知音乐API";
     }
 }

@@ -2,7 +2,7 @@ package com.coloryr.allmusic.server.core.objs.music;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.MediaType;
-import com.coloryr.allmusic.server.core.objs.api.music.trialinfo.freeTrialInfo;
+import com.coloryr.allmusic.server.netapi.obj.music.trialinfo.freeTrialInfo;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 
 public class SongInfoObj {
@@ -64,6 +64,11 @@ public class SongInfoObj {
      * 音乐类型
      */
     protected MediaType mediaType;
+
+    /**
+     * 音乐API
+     */
+    protected String api;
 
     public SongInfoObj(String name, String url, int length, MediaType type) {
         this.length = length;
@@ -163,5 +168,9 @@ public class SongInfoObj {
 
     public MediaType getMediaType() {
         return mediaType;
+    }
+
+    public String getApi() {
+        return api;
     }
 }

@@ -11,6 +11,7 @@ neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array%) do (
     if not exist "%%i\src\main\java\com\coloryr\allmusic\server\core" mklink /j "%%i\src\main\java\com\coloryr\allmusic\server\core" "core"
+    if not exist "%%i\src\main\java\com\coloryr\allmusic\server\netapi" mklink /j "%%i\src\main\java\com\coloryr\allmusic\server\netapi" "netapi"
     if not exist "%%i\src\main\java\com\coloryr\allmusic\codec" mklink /j "%%i\src\main\java\com\coloryr\allmusic\codec" "client\codec"
     if not exist "%%i\build" mkdir "%%i\build" && mklink /j "%%i\build\libs" "build\libs"
 )
@@ -22,12 +23,6 @@ neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array1%) do (
     if not exist "%%i\src\main\java\com\coloryr\allmusic\buffercodec" mklink /j "%%i\src\main\java\com\coloryr\allmusic\buffercodec" "client\buffercodec"
-)
-
-set array2=folia server_top server
-
-for %%i in (%array2%) do (
-    if not exist "%%i\src\main\java\com\coloryr\allmusic\server\bstats" mklink /j "%%i\src\main\java\com\coloryr\allmusic\server\bstats" "bstats"
 )
 
 set array3=fabric_1_16_5 fabric_1_20_1 fabric_1_21 fabric_1_21_6 fabric_1_21_11 ^

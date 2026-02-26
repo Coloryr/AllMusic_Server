@@ -115,6 +115,10 @@ public class ConfigObj {
      */
     public CostObj cost;
     /**
+     * 默认音乐API
+     */
+    public String defaultApi;
+    /**
      * 信息更新延迟
      */
     public int sendDelay;
@@ -179,6 +183,7 @@ public class ConfigObj {
         showInBar = false;
         defaultAddMusic = 0;
         musicBR = "320000";
+        defaultApi = "netapi";
         topPAPI = false;
         limit = LimitObj.make();
         economy = EconomyObj.make();

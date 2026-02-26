@@ -3,7 +3,7 @@ package com.coloryr.allmusic.server.core.command.sub;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.CommandEX;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 
 import java.util.ArrayList;

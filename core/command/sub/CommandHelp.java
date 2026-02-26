@@ -63,17 +63,19 @@ public class CommandHelp extends ACommand {
                     AllMusic.getMessage().click.clickRun, "/music next");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.ban,
                     AllMusic.getMessage().click.clickCheck, "/music ban ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.ban1,
+                    AllMusic.getMessage().click.clickCheck, "/music ban ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.banPlayer,
                     AllMusic.getMessage().click.clickCheck, "/music banplayer ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.unban,
                     AllMusic.getMessage().click.clickCheck, "/music unban ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.unbanPlayer,
                     AllMusic.getMessage().click.clickCheck, "/music unbanplayer ");
-            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.url,
-                    AllMusic.getMessage().click.clickCheck, "/music url ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.delete,
                     AllMusic.getMessage().click.clickCheck, "/music delete ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.addList,
+                    AllMusic.getMessage().click.clickCheck, "/music addlist ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.addList1,
                     AllMusic.getMessage().click.clickCheck, "/music addlist ");
             AllMusic.side.sendMessageRun(sender, AllMusic.getMessage().help.admin.clearList,
                     AllMusic.getMessage().click.clickRun, "/music clearlist");
@@ -84,6 +86,8 @@ public class CommandHelp extends ACommand {
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.cookie,
                     AllMusic.getMessage().click.clickCheck, "/music cookie ");
             AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.test,
+                    AllMusic.getMessage().click.clickCheck, "/music test ");
+            AllMusic.side.sendMessageSuggest(sender, AllMusic.getMessage().help.admin.test1,
                     AllMusic.getMessage().click.clickCheck, "/music test ");
         }
     }

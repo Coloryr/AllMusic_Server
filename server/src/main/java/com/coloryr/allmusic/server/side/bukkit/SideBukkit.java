@@ -3,7 +3,7 @@ package com.coloryr.allmusic.server.side.bukkit;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.AllMusicBukkit;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.side.bukkit.event.MusicAddEvent;
@@ -249,7 +249,7 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public boolean onMusicAdd(Object obj, MusicObj music) {
+    public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
         Bukkit.getScheduler().callSyncMethod(AllMusicBukkit.plugin, () -> {
             Bukkit.getPluginManager().callEvent(event);

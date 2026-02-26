@@ -3,7 +3,7 @@ package com.coloryr.allmusic.server.core.command.sub;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.PermissionList;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;

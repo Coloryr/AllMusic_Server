@@ -4,7 +4,7 @@ import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
@@ -159,7 +159,7 @@ public abstract class BaseSide {
      * @param music 歌曲信息
      * @return 是否阻止添加
      */
-    public abstract boolean onMusicAdd(Object obj, MusicObj music);
+    public abstract boolean onMusicAdd(Object obj, PlayerAddMusicObj music);
 
     /**
      * 广播消息

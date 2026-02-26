@@ -4,7 +4,35 @@ import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
-public class AllMusicAPI {
+public class AllMusicApi {
+
+    /**
+     * 注册音乐API
+     * @param api 音乐API
+     * @return 返回序号
+     */
+    public static int registerApi(IMusicApi api) {
+        AllMusic.MUSIC_APIS.put(api.getId(), api);
+        return AllMusic.MUSIC_APIS.size() - 1;
+    }
+
+    /**
+     * 获取默认音乐API
+     * @return 音乐API
+     */
+    public static IMusicApi getApiMusic() {
+        return AllMusic.MUSIC_APIS.get(AllMusic.getConfig().defaultApi);
+    }
+
+    /**
+     * 获取某个音乐API
+     * @param api 音乐API
+     * @return 音乐API
+     */
+    public static IMusicApi getApiMusic(String api) {
+        return AllMusic.MUSIC_APIS.get(api);
+    }
+
     /**
      * 发送播放音乐
      *

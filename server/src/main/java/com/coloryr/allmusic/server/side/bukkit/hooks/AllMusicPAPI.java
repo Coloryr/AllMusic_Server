@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server.side.bukkit.hooks;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.side.bukkit.PluginMessage;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;

@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.side.bukkit.event;
 
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -14,7 +14,7 @@ public class MusicAddEvent extends Event {
     /**
      * 添加的音乐
      */
-    private final MusicObj music;
+    private final PlayerAddMusicObj music;
     /**
      * 添加者
      */
@@ -24,7 +24,7 @@ public class MusicAddEvent extends Event {
      */
     private boolean cancel = false;
 
-    public MusicAddEvent(MusicObj id, CommandSender player) {
+    public MusicAddEvent(PlayerAddMusicObj id, CommandSender player) {
         this.music = id;
         this.player = player;
     }
@@ -45,7 +45,7 @@ public class MusicAddEvent extends Event {
         return player;
     }
 
-    public MusicObj getMusic() {
+    public PlayerAddMusicObj getMusic() {
         return music;
     }
 

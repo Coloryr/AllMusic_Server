@@ -1,11 +1,12 @@
 package com.coloryr.allmusic.server.core.command;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.IMusicApi;
 import com.coloryr.allmusic.server.core.command.sub.*;
-import com.coloryr.allmusic.server.core.music.play.MusicSearch;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.music.MusicSearch;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Function;
 
@@ -56,7 +57,6 @@ public class CommandEX {
         commandAdminList.put("unban", new CommandUnban());
         commandAdminList.put("banplayer", new CommandBanPlayer());
         commandAdminList.put("unbanplayer", new CommandUnbanPlayer());
-        commandAdminList.put("url", new CommandUrl());
         commandAdminList.put("delete", new CommandDelete());
         commandAdminList.put("addlist", new CommandAddList());
         commandAdminList.put("clearlist", new CommandClearList());
@@ -74,7 +74,7 @@ public class CommandEX {
      * @param isDefault 是否是默认点歌方式
      */
     public static void searchMusic(Object sender, String name, String[] args, boolean isDefault) {
-        MusicObj obj = new MusicObj();
+        PlayerAddMusicObj obj = new PlayerAddMusicObj();
         obj.sender = sender;
         obj.name = name;
         obj.args = args;
@@ -137,30 +137,25 @@ public class CommandEX {
      *
      * @param sender 发送者
      * @param name   用户名
-     * @param args   参数
+     * @param arg   参数
      */
-    public static void addMusic(Object sender, String name, String[] args) {
+    public static void addMusic(Object sender, String name, String api, String arg) {
         String musicID;
-        if (args[0].contains("id=") && !args[0].contains("/?userid")) {
-            if (args[0].contains("&uct2")) {
-                musicID = Function.getString(args[0], "id=", "&uct2");
-            } else if (args[0].contains("&user"))
-                musicID = Function.getString(args[0], "id=", "&user");
-            else
-                musicID = Function.getString(args[0], "id=", null);
-        } else if (args[0].contains("song/")) {
-            if (args[0].contains("/?userid"))
-                musicID = Function.getString(args[0], "song/", "/?userid");
-            else
-                musicID = Function.getString(args[0], "song/", null);
-        } else
-            musicID = args[0];
-        if (Function.isInteger(musicID)) {
+
+        IMusicApi api1 = AllMusic.MUSIC_APIS.get(api);
+        if (api1 == null) {
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.error2);
+            return;
+        }
+
+        musicID = api1.getMusicId(arg);
+
+        if (api1.checkId(musicID)) {
             if (PlayMusic.getListSize() >= AllMusic.getConfig().maxPlayList) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.listFull);
             } else if (DataSql.checkBanMusic(musicID)) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.banMusic);
-            } else if (PlayMusic.haveMusic(musicID)) {
+            } else if (PlayMusic.haveMusic(musicID, api)) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.existMusic);
             } else if (PlayMusic.isPlayerMax(name)) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.playerToMany);
@@ -176,7 +171,7 @@ public class CommandEX {
                 }
                 DataSql.removeMutePlayer(name);
                 if (AllMusic.side.needPlay(false)) {
-                    MusicObj obj = new MusicObj();
+                    PlayerAddMusicObj obj = new PlayerAddMusicObj();
                     obj.sender = sender;
                     obj.id = musicID;
                     obj.name = name;
@@ -241,7 +236,7 @@ public class CommandEX {
                         break;
                     case 0:
                     default:
-                        DataSql.task(() -> addMusic(sender, name, args));
+                        DataSql.task(() -> addMusic(sender, name, AllMusic.getConfig().defaultApi, args[0]));
                 }
             }
         } catch (Exception e) {

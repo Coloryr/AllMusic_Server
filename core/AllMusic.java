@@ -1,9 +1,9 @@
 package com.coloryr.allmusic.server.core;
 
-import com.coloryr.allmusic.server.core.music.api.APIMain;
-import com.coloryr.allmusic.server.core.music.play.MusicSearch;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayRuntime;
+import com.coloryr.allmusic.server.core.music.MusicHttpClient;
+import com.coloryr.allmusic.server.core.music.MusicSearch;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
+import com.coloryr.allmusic.server.core.music.PlayRuntime;
 import com.coloryr.allmusic.server.core.objs.CookieObj;
 import com.coloryr.allmusic.server.core.objs.config.ConfigObj;
 import com.coloryr.allmusic.server.core.objs.message.MessageObj;
@@ -13,6 +13,7 @@ import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.side.IMyLogger;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.netapi.NetiApiMain;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -27,6 +28,8 @@ public class AllMusic {
     public static final Gson gson = new Gson();
     public static final Random random = new Random();
 
+    public static final Map<String, IMusicApi> MUSIC_APIS = new HashMap<>();
+
     /**
      * 客户端插件信道名
      */
@@ -38,15 +41,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.6.0";
+    public static final String version = "3.7.0";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "204";
+    public static final String configVersion = "205";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "208";
+    public static final String messageVersion = "209";
     /**
      * 搜歌结果
      * 玩家名 结果
@@ -76,10 +79,6 @@ public class AllMusic {
      * 经济插件对象
      */
     public static IEconomy economy;
-    /**
-     * 网易API
-     */
-    private static APIMain apiMusic;
     /**
      * 配置对象
      */
@@ -333,7 +332,11 @@ public class AllMusic {
      * 启动插件
      */
     public static void start() {
-        AllMusic.apiMusic = new APIMain();
+        MusicHttpClient.init();
+
+        IMusicApi api = new NetiApiMain();
+        MUSIC_APIS.put(api.getId(), api);
+
         PlayMusic.start();
         PlayRuntime.start();
         MusicSearch.start();
@@ -354,15 +357,6 @@ public class AllMusic {
         PlayRuntime.stop();
         DataSql.stop();
         log.info("§d[AllMusic3]§2§e已停止，感谢使用");
-    }
-
-    /**
-     * 获取音乐API
-     *
-     * @return 音乐API
-     */
-    public static APIMain getMusicApi() {
-        return apiMusic;
     }
 
     /**

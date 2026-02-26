@@ -8,10 +8,12 @@ public class SearchPageObj {
     private final List<SearchMusicObj> resData;
     private final int maxpage;
     private int page = 0;
+    private final String api;
 
-    public SearchPageObj(List<SearchMusicObj> resData, int maxpage) {
+    public SearchPageObj(List<SearchMusicObj> resData, int maxpage, String api) {
         this.resData = resData;
         this.maxpage = maxpage;
+        this.api = api;
     }
 
     public String getSong(int index) {
@@ -51,5 +53,9 @@ public class SearchPageObj {
 
     public int getPage() {
         return page;
+    }
+
+    public String getApi() {
+        return api;
     }
 }

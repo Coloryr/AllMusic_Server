@@ -29,6 +29,7 @@ lib
 **/allmusic/comm/
 **/allmusic/buffercodec/
 **/allmusic/server/core/
+**/allmusic/server/netapi/
 **/allmusic/server/bstats/
 **/allmusic/client/core/
 **/allmusic/client/core/player/decoder/mp3/

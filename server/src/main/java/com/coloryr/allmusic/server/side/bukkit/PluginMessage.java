@@ -2,8 +2,8 @@ package com.coloryr.allmusic.server.side.bukkit;
 
 import com.coloryr.allmusic.server.AllMusicBukkit;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.music.play.TopLyricSave;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
+import com.coloryr.allmusic.server.core.music.TopLyricSave;
 import com.coloryr.allmusic.server.core.objs.music.TopSongInfoObj;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataInput;
