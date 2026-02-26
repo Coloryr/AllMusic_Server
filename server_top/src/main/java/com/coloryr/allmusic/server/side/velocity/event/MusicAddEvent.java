@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.side.velocity.event;
 
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.velocitypowered.api.command.CommandSource;
 
 /**
@@ -10,7 +10,7 @@ public class MusicAddEvent {
     /**
      * 添加的音乐
      */
-    private final MusicObj music;
+    private final PlayerAddMusicObj music;
     /**
      * 添加者
      */
@@ -20,7 +20,7 @@ public class MusicAddEvent {
      */
     private boolean cancel = false;
 
-    public MusicAddEvent(MusicObj id, CommandSource player) {
+    public MusicAddEvent(PlayerAddMusicObj id, CommandSource player) {
         this.music = id;
         this.player = player;
     }
@@ -37,7 +37,7 @@ public class MusicAddEvent {
         return player;
     }
 
-    public MusicObj getMusic() {
+    public PlayerAddMusicObj getMusic() {
         return music;
     }
 }

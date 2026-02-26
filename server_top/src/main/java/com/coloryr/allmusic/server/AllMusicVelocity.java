@@ -25,15 +25,12 @@ public class AllMusicVelocity {
     public final ProxyServer server;
     public final Path dataDirectory;
     private final Logger logger;
-    private final MetricsVelocity.Factory metricsFactory;
-    private MetricsVelocity metricsVelocity;
 
     @Inject
-    public AllMusicVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory, MetricsVelocity.Factory metricsFactory) {
+    public AllMusicVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
         this.server = server;
         this.logger = logger;
         this.dataDirectory = dataDirectory;
-        this.metricsFactory = metricsFactory;
     }
 
     @Subscribe
@@ -52,14 +49,12 @@ public class AllMusicVelocity {
         server.getChannelRegistrar().register(channelBC);
         server.getCommandManager().register(meta, new CommandVelocity());
         server.getEventManager().register(this, new ListenerVelocity());
-        metricsVelocity = metricsFactory.make(this, 6720);
 
         AllMusic.start();
     }
 
     @Subscribe
     public void onStop(ProxyShutdownEvent event) {
-        metricsVelocity.shutdown();
         AllMusic.stop();
     }
 }

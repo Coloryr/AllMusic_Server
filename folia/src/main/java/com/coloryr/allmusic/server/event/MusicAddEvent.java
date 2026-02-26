@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.event;
 
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -15,7 +16,7 @@ public class MusicAddEvent extends Event implements Cancellable {
     /**
      * 添加的音乐
      */
-    private final MusicObj music;
+    private final PlayerAddMusicObj music;
     /**
      * 添加者
      */
@@ -25,38 +26,16 @@ public class MusicAddEvent extends Event implements Cancellable {
      */
     private boolean cancel = false;
 
-    public MusicAddEvent(MusicObj id, CommandSender player) {
+    public MusicAddEvent(PlayerAddMusicObj id, CommandSender player) {
         this.music = id;
         this.player = player;
-    }
-
-    /**
-     * 事件是否被取消
-     *
-     * @return 是否被取消
-     * @deprecated 请使用 {@link #isCancelled()}
-     */
-    @Deprecated(since = "3.3.1")
-    public boolean isCancel() {
-        return cancel;
-    }
-
-    /**
-     * 设置事件是否被取消
-     *
-     * @param cancel 是否取消事件
-     * @deprecated 请使用 {@link #setCancelled(boolean)}
-     */
-    @Deprecated(since = "3.3.1")
-    public void setCancel(boolean cancel) {
-        this.cancel = cancel;
     }
 
     public CommandSender getPlayer() {
         return player;
     }
 
-    public MusicObj getMusic() {
+    public PlayerAddMusicObj getMusic() {
         return music;
     }
 

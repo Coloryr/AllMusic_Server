@@ -4,8 +4,9 @@ import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.AllMusicBC;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
@@ -321,7 +322,7 @@ public class SideBC extends BaseSide implements IEconomy {
     }
 
     @Override
-    public boolean onMusicAdd(Object obj, MusicObj music) {
+    public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
         ProxyServer.getInstance().getPluginManager().callEvent(event);
         return event.isCancel();

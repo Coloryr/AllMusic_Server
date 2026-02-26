@@ -4,8 +4,8 @@ import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.AllMusicVelocity;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.play.PlayMusic;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
@@ -314,7 +314,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public boolean onMusicAdd(Object obj, MusicObj music) {
+    public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSource) obj);
         AllMusicVelocity.plugin.server.getEventManager().fire(event).join();
         return event.isCancel();

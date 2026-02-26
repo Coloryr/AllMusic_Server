@@ -3,7 +3,7 @@ package com.coloryr.allmusic.server;
 import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
@@ -154,7 +154,7 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public boolean onMusicAdd(Object obj, MusicObj music) {
+    public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         ServerCommandSource source = (ServerCommandSource) obj;
         return MusicAddEvent.EVENT.invoker().interact(source.getPlayer(), music) != ActionResult.PASS;
     }

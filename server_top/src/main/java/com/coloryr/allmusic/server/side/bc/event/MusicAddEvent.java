@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.side.bc.event;
 
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Event;
 
@@ -11,7 +11,7 @@ public class MusicAddEvent extends Event {
     /**
      * 添加的音乐
      */
-    private final MusicObj music;
+    private final PlayerAddMusicObj music;
     /**
      * 添加者
      */
@@ -21,7 +21,7 @@ public class MusicAddEvent extends Event {
      */
     private boolean cancel = false;
 
-    public MusicAddEvent(MusicObj id, CommandSender player) {
+    public MusicAddEvent(PlayerAddMusicObj id, CommandSender player) {
         this.music = id;
         this.player = player;
     }
@@ -38,7 +38,7 @@ public class MusicAddEvent extends Event {
         return player;
     }
 
-    public MusicObj getMusic() {
+    public PlayerAddMusicObj getMusic() {
         return music;
     }
 }

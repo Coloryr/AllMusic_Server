@@ -27,6 +27,6 @@ public class CommandSearchApi extends ACommand {
         }
 
         AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.startSearch);
-        CommandEX.searchMusicApi(sender, name, args,false);
+        CommandEX.searchMusicApi(sender, name, args, false);
     }
 }

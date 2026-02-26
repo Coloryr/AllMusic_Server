@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.event;
 
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,5 +20,5 @@ public interface MusicAddEvent {
                 return ActionResult.PASS;
             });
 
-    ActionResult interact(PlayerEntity player, MusicObj music);
+    ActionResult interact(PlayerEntity player, PlayerAddMusicObj music);
 }

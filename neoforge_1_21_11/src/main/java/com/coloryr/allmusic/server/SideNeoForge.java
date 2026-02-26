@@ -4,7 +4,7 @@ import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.comm.MusicCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
@@ -156,7 +156,7 @@ public class SideNeoForge extends BaseSide {
     }
 
     @Override
-    public boolean onMusicAdd(Object obj, MusicObj music) {
+    public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         CommandSourceStack source = (CommandSourceStack) obj;
         MusicAddEvent event = new MusicAddEvent(music, source.getPlayer());
         NeoForge.EVENT_BUS.post(event);

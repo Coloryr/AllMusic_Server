@@ -22,6 +22,7 @@ public class MusicSearch {
                     IMusicApi api = AllMusic.MUSIC_APIS.get(obj.api);
                     if (api == null) {
                         AllMusic.side.sendMessageTask(obj.sender, AllMusic.getMessage().musicPlay.error2);
+                        return;
                     }
                     SearchPageObj search = api.search(obj.args, obj.isDefault);
                     if (search == null)

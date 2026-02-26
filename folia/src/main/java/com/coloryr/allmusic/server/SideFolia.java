@@ -4,6 +4,7 @@ import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
@@ -178,7 +179,7 @@ public class SideFolia extends BaseSide {
     }
 
     @Override
-    public boolean onMusicAdd(Object obj, MusicObj music) {
+    public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         //不要改这个，有事件在其他线程触发
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
         Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, ()->{

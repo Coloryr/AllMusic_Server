@@ -59,7 +59,7 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
         String remaining = builder.getRemaining().trim();
 
         for (String s : results) {
-            if (s.startsWith(remaining)){
+            if (s.startsWith(remaining)) {
                 builder.suggest(s);
             }
         }

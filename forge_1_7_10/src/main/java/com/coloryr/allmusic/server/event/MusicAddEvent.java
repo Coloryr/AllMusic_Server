@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.event;
 
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import cpw.mods.fml.common.eventhandler.Cancelable;
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.command.ICommandSender;
@@ -10,13 +10,13 @@ public class MusicAddEvent extends Event {
     /**
      * 添加的音乐
      */
-    private final MusicObj music;
+    private final PlayerAddMusicObj music;
     /**
      * 添加者
      */
     private final ICommandSender player;
 
-    public MusicAddEvent(MusicObj id, ICommandSender player) {
+    public MusicAddEvent(PlayerAddMusicObj id, ICommandSender player) {
         this.music = id;
         this.player = player;
     }
@@ -25,7 +25,7 @@ public class MusicAddEvent extends Event {
         return player;
     }
 
-    public MusicObj getMusic() {
+    public PlayerAddMusicObj getMusic() {
         return music;
     }
 }

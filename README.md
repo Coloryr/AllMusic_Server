@@ -195,10 +195,12 @@ Forge/Fabric/NeoForge类服务器
     - addMusicCost         点歌花费
     - useCost              启用花费
 - sendDelay                Hud信息更新延迟
+- defaultApi               默认音乐API
 
 ## 指令说明
 普通玩家指令  
 - /music [音乐ID/网易云分享链接] 点歌
+- /music [音乐API] [音乐ID] 点歌
 - /music stop 停止播放歌曲
 - /music list 查看歌曲队列
 - /music cancel [序号] 取消你的点歌
@@ -209,6 +211,7 @@ Forge/Fabric/NeoForge类服务器
 - /music mute 不再参与点歌，再输入一次恢复
 - /music mute list 不接收空闲列表点歌，再输入一次恢复
 - /music search [歌名] 搜索歌曲
+- /music search [音乐API] [歌名] 搜索歌曲
 - /music select [序列] 选择歌曲
 - /music nextpage 切换下一页歌曲搜索结果
 - /music lastpage 切换上一页歌曲搜索结果
@@ -233,16 +236,18 @@ Forge/Fabric/NeoForge类服务器
 - /music reload 重读配置文件
 - /music next 强制切歌
 - /music ban [ID] 禁止点这首歌
+- /music ban [音乐API] [ID] 禁止点这首歌
 - /music unban [ID] 解禁点这首歌
+- /music unban [音乐API] [ID] 解禁点这首歌
 - /music banplayer [ID] 禁止某位玩家点歌
 - /music unbanplayer [ID] 解禁某位玩家点歌
-- /music url [url] 播放一首自定义歌曲
 - /music delete [序号] 删除队列中的歌曲
 - /music addlist [歌单ID] 添加歌单到空闲列表
 - /music clearlist 清空空闲歌单
 - /music clearban 清空禁止点歌列表
 - /music clearbanplayer 清空禁止点歌玩家列表
 - /music test [ID] 测试歌曲内容解析
+- /music test [音乐API] [ID] 测试歌曲内容解析
 
 若开启权限后  
 - 点歌需要权限`allmusic.addmusic`
