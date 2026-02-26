@@ -8,6 +8,7 @@ public class AllMusicApi {
 
     /**
      * 注册音乐API
+     *
      * @param api 音乐API
      * @return 返回序号
      */
@@ -18,6 +19,7 @@ public class AllMusicApi {
 
     /**
      * 获取默认音乐API
+     *
      * @return 音乐API
      */
     public static IMusicApi getApiMusic() {
@@ -26,6 +28,7 @@ public class AllMusicApi {
 
     /**
      * 获取某个音乐API
+     *
      * @param api 音乐API
      * @return 音乐API
      */

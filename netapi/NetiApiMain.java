@@ -2,15 +2,13 @@ package com.coloryr.allmusic.server.netapi;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.IMusicApi;
-import com.coloryr.allmusic.server.core.decoder.flac.FlacDecoder;
-import com.coloryr.allmusic.server.core.decoder.flac.StreamInfo;
-import com.coloryr.allmusic.server.core.decoder.mp3.Bitstream;
-import com.coloryr.allmusic.server.core.decoder.mp3.Header;
 import com.coloryr.allmusic.server.core.music.LyricSave;
-import com.coloryr.allmusic.server.core.music.MusicHttpClient;
 import com.coloryr.allmusic.server.core.objs.HttpResObj;
-import com.coloryr.allmusic.server.core.objs.MediaType;
 import com.coloryr.allmusic.server.core.objs.SearchMusicObj;
+import com.coloryr.allmusic.server.core.objs.message.ARG;
+import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
+import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
+import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.utils.Function;
 import com.coloryr.allmusic.server.netapi.obj.music.info.InfoObj;
 import com.coloryr.allmusic.server.netapi.obj.music.list.DataObj;
@@ -19,15 +17,8 @@ import com.coloryr.allmusic.server.netapi.obj.music.search.SearchDataObj;
 import com.coloryr.allmusic.server.netapi.obj.music.search.songs;
 import com.coloryr.allmusic.server.netapi.obj.music.trialinfo.TrialInfoObj;
 import com.coloryr.allmusic.server.netapi.obj.program.info.PrInfoObj;
-import com.coloryr.allmusic.server.core.objs.message.ARG;
-import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
-import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.google.gson.JsonObject;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +90,8 @@ public class NetiApiMain implements IMusicApi {
                 TrialInfoObj obj = AllMusic.gson.fromJson(res.data, TrialInfoObj.class);
                 return new SongInfoObj(temp.getAuthor(), temp.getName(),
                         id, temp.getAlia(), player, temp.getAl(), isList, temp.getLength(),
-                        temp.getPicUrl(), obj.isTrial(), obj.getFreeTrialInfo());
+                        temp.getPicUrl(), obj.isTrial(), obj.getFreeTrialInfo(),
+                        getId());
             }
         }
         return null;
@@ -130,7 +122,7 @@ public class NetiApiMain implements IMusicApi {
             if (temp.isOk()) {
                 return new SongInfoObj(temp.getAuthor(), temp.getName(),
                         temp.getId(), temp.getAlia(), player, "电台", isList, temp.getLength(),
-                        null, false, null);
+                        null, false, null, getId());
             } else {
                 AllMusic.log.warning("§d[AllMusic3]§c歌曲信息获取为空");
             }

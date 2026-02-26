@@ -1,9 +1,8 @@
 package com.coloryr.allmusic.server.core.objs.music;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.MediaType;
-import com.coloryr.allmusic.server.netapi.obj.music.trialinfo.freeTrialInfo;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
+import com.coloryr.allmusic.server.netapi.obj.music.trialinfo.freeTrialInfo;
 
 public class SongInfoObj {
     /**
@@ -61,27 +60,17 @@ public class SongInfoObj {
      */
     protected boolean isUrl;
     /**
-     * 音乐类型
-     */
-    protected MediaType mediaType;
-
-    /**
      * 音乐API
      */
     protected String api;
 
-    public SongInfoObj(String name, String url, int length, MediaType type) {
-        this.length = length;
-        playerUrl = url;
-        this.name = name;
-        id = alia = call = al = author = picUrl = "";
-        isList = false;
-        isUrl = true;
-        mediaType = type;
+    public SongInfoObj() {
+
     }
 
     public SongInfoObj(String Author, String Name, String ID, String Alia, String Call, String Al,
-                       boolean isList, long Length, String picUrl, boolean isTrial, freeTrialInfo trialInfo) {
+                       boolean isList, long Length, String picUrl, boolean isTrial, freeTrialInfo trialInfo,
+                       String api) {
         this.author = Author;
         this.name = Name;
         this.id = ID;
@@ -93,7 +82,7 @@ public class SongInfoObj {
         this.length = Length;
         this.isTrial = isTrial;
         this.trialInfo = trialInfo;
-        this.mediaType = MediaType.Mp3;
+        this.api = api;
     }
 
     public boolean isUrl() {
@@ -164,10 +153,6 @@ public class SongInfoObj {
 
     public boolean isNull() {
         return name == null;
-    }
-
-    public MediaType getMediaType() {
-        return mediaType;
     }
 
     public String getApi() {

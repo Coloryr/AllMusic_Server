@@ -1,13 +1,7 @@
 package com.coloryr.allmusic.server.core.music;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.decoder.flac.FlacDecoder;
-import com.coloryr.allmusic.server.core.decoder.flac.StreamInfo;
-import com.coloryr.allmusic.server.core.decoder.mp3.Bitstream;
-import com.coloryr.allmusic.server.core.decoder.mp3.Header;
 import com.coloryr.allmusic.server.core.objs.CookieObj;
-import com.coloryr.allmusic.server.core.objs.MediaType;
-import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
@@ -22,8 +16,6 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.util.Timeout;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.time.Instant;
 import java.util.List;

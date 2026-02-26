@@ -2,9 +2,9 @@ package com.coloryr.allmusic.server.core.music;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.IMusicApi;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
+import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
@@ -208,8 +208,6 @@ public class PlayMusic {
         return pushPlayer.contains(player);
     }
 
-    ;
-
     /**
      * 添加点歌任务
      *
@@ -225,7 +223,7 @@ public class PlayMusic {
                 PlayerAddMusicObj obj = tasks.poll();
                 if (obj != null) {
                     IMusicApi api = AllMusic.MUSIC_APIS.get(obj.api);
-                    if(api != null) {
+                    if (api != null) {
                         addMusic(obj.sender, obj.id, api, obj.name, obj.isDefault);
                     }
                 }
@@ -411,7 +409,8 @@ public class PlayMusic {
 
     /**
      * 是否在播放列表中
-     * @param id 音乐编号
+     *
+     * @param id  音乐编号
      * @param api 音乐API编号
      * @return 是否在列表种
      */
@@ -459,6 +458,7 @@ public class PlayMusic {
 
     /**
      * 检查这个空闲歌是否已经放了
+     *
      * @param music 空闲音乐
      * @return 是否已经放过了
      */

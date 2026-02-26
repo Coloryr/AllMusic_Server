@@ -3,7 +3,6 @@ package com.coloryr.allmusic.server.core.command.sub;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.IMusicApi;
 import com.coloryr.allmusic.server.core.command.ACommand;
-import com.coloryr.allmusic.server.core.utils.Function;
 
 public class CommandAddList extends ACommand {
     @Override

@@ -10,6 +10,7 @@ public class SearchObj {
     public String cantNext;
     public String cantLast;
     public String startSearch;
+    public String error1;
 
     public static SearchObj make() {
         SearchObj obj = new SearchObj();

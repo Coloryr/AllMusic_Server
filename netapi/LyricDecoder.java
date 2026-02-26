@@ -1,9 +1,9 @@
 package com.coloryr.allmusic.server.netapi;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.netapi.obj.music.lyric.WLyricObj;
 import com.coloryr.allmusic.server.core.objs.music.LyricItemObj;
 import com.coloryr.allmusic.server.core.utils.Function;
+import com.coloryr.allmusic.server.netapi.obj.music.lyric.WLyricObj;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -15,9 +15,11 @@ public class LyricDecoder {
     public boolean isHave = false;
     public boolean isHaveK = false;
     public Map<Long, String> kly = new LinkedHashMap<>();
+
     public Map<Long, LyricItemObj> getTemp() {
         return temp;
     }
+
     public Map<Long, String> getKLyric() {
         return kly;
     }

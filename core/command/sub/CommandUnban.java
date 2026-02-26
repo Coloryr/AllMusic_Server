@@ -5,7 +5,6 @@ import com.coloryr.allmusic.server.core.IMusicApi;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.sql.Cache;
 import com.coloryr.allmusic.server.core.sql.DataSql;
-import com.coloryr.allmusic.server.core.utils.Function;
 
 import java.util.ArrayList;
 import java.util.Collections;

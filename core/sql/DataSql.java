@@ -53,7 +53,7 @@ public class DataSql {
 
     private static final String table1 = "CREATE TABLE IF NOT EXISTS \"allmusic_list\" (\n" +
             "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-            "  \"sid\" TEXT(40)\n" +
+            "  \"sid\" TEXT(40),\n" +
             "  \"api\" TEXT(40)\n" +
             ");";
 
@@ -69,7 +69,7 @@ public class DataSql {
 
     private static final String table4 = "CREATE TABLE IF NOT EXISTS \"allmusic_banlist\" (\n" +
             "  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-            "  \"sid\" TEXT(40)\n" +
+            "  \"sid\" TEXT(40),\n" +
             "  \"api\" TEXT(40)\n" +
             ");";
 

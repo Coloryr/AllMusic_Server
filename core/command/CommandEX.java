@@ -8,7 +8,6 @@ import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
-import com.coloryr.allmusic.server.core.utils.Function;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +43,7 @@ public class CommandEX {
         commandList.put("vote", new CommandVote());
         commandList.put("mute", new CommandMute());
         commandList.put("search", new CommandSearch());
+        commandList.put("searchapi", new CommandSearchApi());
         commandList.put("select", new CommandSelect());
         commandList.put("nextpage", new CommandNextPage());
         commandList.put("lastpage", new CommandLastPage());
@@ -79,6 +79,32 @@ public class CommandEX {
         obj.name = name;
         obj.args = args;
         obj.isDefault = isDefault;
+        obj.api = AllMusic.getConfig().defaultApi;
+
+        if (AllMusic.side.onMusicAdd(sender, obj)) {
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.cancel);
+            return;
+        }
+
+        MusicSearch.addSearch(obj);
+    }
+
+    /**
+     * 搜索音乐
+     *
+     * @param sender    发送者
+     * @param name      用户名
+     * @param args      参数
+     * @param isDefault 是否是默认点歌方式
+     */
+    public static void searchMusicApi(Object sender, String name, String[] args, boolean isDefault) {
+        PlayerAddMusicObj obj = new PlayerAddMusicObj();
+        obj.sender = sender;
+        obj.name = name;
+        obj.args = new String[args.length - 1];
+        System.arraycopy(args, 1, obj.args, 0, obj.args.length);
+        obj.isDefault = isDefault;
+        obj.api = args[0];
 
         if (AllMusic.side.onMusicAdd(sender, obj)) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().addMusic.cancel);
@@ -137,7 +163,7 @@ public class CommandEX {
      *
      * @param sender 发送者
      * @param name   用户名
-     * @param arg   参数
+     * @param arg    参数
      */
     public static void addMusic(Object sender, String name, String api, String arg) {
         String musicID;
@@ -176,6 +202,7 @@ public class CommandEX {
                     obj.id = musicID;
                     obj.name = name;
                     obj.isDefault = false;
+                    obj.api = api;
 
                     if (AllMusic.side.onMusicAdd(sender, obj)) {
                         AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.cancel);
@@ -236,7 +263,11 @@ public class CommandEX {
                         break;
                     case 0:
                     default:
-                        DataSql.task(() -> addMusic(sender, name, AllMusic.getConfig().defaultApi, args[0]));
+                        if (args.length == 1) {
+                            DataSql.task(() -> addMusic(sender, name, AllMusic.getConfig().defaultApi, args[0]));
+                        } else if (args.length == 2) {
+                            DataSql.task(() -> addMusic(sender, name, args[0], args[1]));
+                        }
                 }
             }
         } catch (Exception e) {

@@ -4,8 +4,6 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import java.util.Random;
-
 public class FunCore {
     public static void addMusic() {
         if (AllMusic.getConfig().funConfig.rain) {
