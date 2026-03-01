@@ -1,8 +1,9 @@
-package com.coloryr.allmusic.server.core;
+package com.coloryr.allmusic.server.core.utils;
 
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.codec.HudType;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
+import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.IMusicApi;
 
 public class AllMusicApi {
 
