@@ -9,11 +9,14 @@ import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import io.netty.buffer.ByteBuf;
+import net.kyori.adventure.text.Component;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SCustomPayloadPlayPacket;
+import net.minecraft.network.play.server.STitlePacket;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -97,10 +100,12 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, Component data) {
         if (player instanceof ServerPlayerEntity) {
             ServerPlayerEntity player1 = (ServerPlayerEntity) player;
-            ForgeApi.sendBar(player1, data);
+            ITextComponent textComponent = AllMusicServer.parse(data);
+            STitlePacket pack = new STitlePacket(STitlePacket.Type.ACTIONBAR, textComponent);
+            player1.connection.send(pack);
         }
     }
 
@@ -110,49 +115,24 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
+    public void broadcast(Component message) {
+        ITextComponent textComponent = AllMusicServer.parse(message);
         for (ServerPlayerEntity player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendMessage(new StringTextComponent(message), UUID.randomUUID());
+                player.sendMessage(textComponent, UUID.randomUUID());
             }
         }
     }
 
     @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
+    public void sendMessage(Object obj, Component message) {
+        if (obj instanceof CommandSource) {
+            CommandSource sender = (CommandSource) obj;
+            ITextComponent textComponent = AllMusicServer.parse(message);
+            sender.sendSuccess(textComponent, false);
         }
-        ForgeApi.sendMessageBqRun(message, end, command);
     }
 
-    @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        CommandSource sender = (CommandSource) obj;
-        sender.sendSuccess(new StringTextComponent(message), false);
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ForgeApi.sendMessageRun((CommandSource) obj, message, end, command);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ForgeApi.sendMessageSuggest((CommandSource) obj, message, end, command);
-    }
 
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
@@ -169,12 +149,7 @@ public class SideForge extends BaseSide {
     private void send(ServerPlayerEntity players, ByteBuf data) {
         if (players == null)
             return;
-        try {
-            runTask(() -> PacketDistributor.PLAYER.with(() -> players)
-                    .send(new SCustomPayloadPlayPacket(AllMusicServer.channel, new PacketBuffer(data))));
-        } catch (Exception e) {
-            AllMusic.log.warning("§c数据发送发生错误");
-            e.printStackTrace();
-        }
+        runTask(() -> PacketDistributor.PLAYER.with(() -> players)
+                .send(new SCustomPayloadPlayPacket(AllMusicServer.channel, new PacketBuffer(data))));
     }
 }

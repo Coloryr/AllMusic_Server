@@ -1,15 +1,13 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.core.side.IMyLogger;
+import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
+import net.kyori.adventure.text.Component;
+import net.minecraft.network.chat.MutableComponent;
 
-public class LogForge implements IMyLogger {
+public class LogForge implements IAllMusicLogger {
     @Override
-    public void warning(String data) {
-        AllMusicServer.LOGGER.warn(data);
-    }
-
-    @Override
-    public void info(String data) {
-        AllMusicServer.LOGGER.info(data);
+    public void data(Component data) {
+        MutableComponent component = AllMusicServer.parse(data);
+        AllMusicServer.server.sendSystemMessage(component);
     }
 }

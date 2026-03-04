@@ -9,10 +9,12 @@ import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import io.netty.buffer.ByteBuf;
+import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.PacketDistributor;
@@ -94,9 +96,10 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, Component data) {
         if (player instanceof ServerPlayer player1) {
-            ForgeApi.sendBar(player1, data);
+            var pack = new ClientboundSetActionBarTextPacket(AllMusicServer.parse(data));
+            player1.connection.send(pack);
         }
     }
 
@@ -106,48 +109,20 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
+    public void broadcast(Component message) {
+        MutableComponent component = AllMusicServer.parse(message);
         for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendSystemMessage(Component.literal(message));
+                player.sendSystemMessage(component);
             }
         }
     }
 
     @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
+    public void sendMessage(Object obj, Component message) {
+        if (obj instanceof CommandSourceStack stack) {
+            stack.sendSystemMessage(AllMusicServer.parse(message));
         }
-        ForgeApi.sendMessageBqRun(message, end, command);
-    }
-
-    @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        CommandSourceStack sender = (CommandSourceStack) obj;
-        sender.sendSystemMessage(Component.literal(message));
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ForgeApi.sendMessageRun((CommandSourceStack) obj, message, end, command);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ForgeApi.sendMessageSuggest((CommandSourceStack) obj, message, end, command);
     }
 
     @Override
@@ -170,14 +145,7 @@ public class SideForge extends BaseSide {
     private void send(ServerPlayer players, ByteBuf data) {
         if (players == null)
             return;
-        try {
-            runTask(() -> PacketDistributor.PLAYER.with(
-                    () -> players
-            ).send(new ClientboundCustomPayloadPacket(AllMusicServer.channel,
-                    new FriendlyByteBuf(data))));
-        } catch (Exception e) {
-            AllMusic.log.warning("§c数据发送发生错误");
-            e.printStackTrace();
-        }
+        runTask(() -> PacketDistributor.PLAYER.with(() -> players)
+                .send(new ClientboundCustomPayloadPacket(AllMusicServer.channel, new FriendlyByteBuf(data))));
     }
 }

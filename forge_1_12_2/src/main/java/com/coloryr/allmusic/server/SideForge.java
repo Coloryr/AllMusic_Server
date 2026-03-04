@@ -10,10 +10,13 @@ import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import io.netty.buffer.ByteBuf;
+import net.kyori.adventure.text.Component;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.SPacketTitle;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
@@ -102,10 +105,12 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, Component data) {
         if (player instanceof EntityPlayerMP) {
             EntityPlayerMP player1 = (EntityPlayerMP) player;
-            ForgeApi.sendBar(player1, data);
+            ITextComponent textComponent = AllMusicServer.parse(data);
+            SPacketTitle pack = new SPacketTitle(SPacketTitle.Type.ACTIONBAR, textComponent);
+            player1.connection.sendPacket(pack);
         }
     }
 
@@ -115,48 +120,22 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
+    public void broadcast(Component message) {
+        ITextComponent textComponent = AllMusicServer.parse(message);
         for (EntityPlayerMP player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName(), null, false)) {
-                player.sendMessage(new TextComponentString(message));
+                player.sendMessage(textComponent);
             }
         }
     }
 
     @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
+    public void sendMessage(Object obj, Component message) {
+        if (obj instanceof ICommandSender) {
+            ICommandSender sender = (ICommandSender) obj;
+            ITextComponent textComponent = AllMusicServer.parse(message);
+            sender.sendMessage(textComponent);
         }
-        ForgeApi.sendMessageBqRun(message, end, command);
-    }
-
-    @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ICommandSender sender = (ICommandSender) obj;
-        sender.sendMessage(new TextComponentString(message));
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ForgeApi.sendMessageRun((ICommandSender) obj, message, end, command);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ForgeApi.sendMessageSuggest((ICommandSender) obj, message, end, command);
     }
 
     @Override
@@ -174,14 +153,9 @@ public class SideForge extends BaseSide {
     private void send(EntityPlayerMP players, ByteBuf data) {
         if (players == null)
             return;
-        try {
-            FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(data), "allmusic:channel");
-            packet.setTarget(Side.CLIENT);
-            runTask(() -> AllMusicServer.channel.sendTo(packet, players));
-        } catch (Exception e) {
-            AllMusic.log.warning("§c数据发送发生错误");
-            e.printStackTrace();
-        }
+        FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(data), "allmusic:channel");
+        packet.setTarget(Side.CLIENT);
+        runTask(() -> AllMusicServer.channel.sendTo(packet, players));
     }
 }
 

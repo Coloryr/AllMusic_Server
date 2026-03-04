@@ -1,15 +1,15 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.core.side.IMyLogger;
+import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
+import net.kyori.adventure.text.Component;
+import net.minecraft.util.text.ITextComponent;
 
-public class LogForge implements IMyLogger {
-    @Override
-    public void warning(String data) {
-        AllMusicServer.LOGGER.warn(data);
-    }
+import java.util.UUID;
 
+public class LogForge implements IAllMusicLogger {
     @Override
-    public void info(String data) {
-        AllMusicServer.LOGGER.info(data);
+    public void data(Component data) {
+        ITextComponent textComponent = AllMusicServer.parse(data);
+        AllMusicServer.server.sendMessage(textComponent, UUID.randomUUID());
     }
 }

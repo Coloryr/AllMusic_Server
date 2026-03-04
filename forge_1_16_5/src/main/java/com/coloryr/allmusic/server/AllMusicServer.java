@@ -2,9 +2,12 @@ package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.mojang.brigadier.CommandDispatcher;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -33,6 +36,14 @@ public class AllMusicServer {
 
     public static final String dir = "config/allmusic_server/";
 
+    private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.builder()
+            .build();
+
+    public static ITextComponent parse(Component input) {
+        String json = GSON_SERIALIZER.serialize(input);
+        return ITextComponent.Serializer.fromJson(json);
+    }
+
     public AllMusicServer() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -46,8 +57,6 @@ public class AllMusicServer {
     private void commonSetup(final FMLCommonSetupEvent event) {
         AllMusic.log = new LogForge();
         AllMusic.side = new SideForge();
-
-        new AllMusic().init(new File(dir));
     }
 
     @SubscribeEvent
@@ -60,7 +69,7 @@ public class AllMusicServer {
     @SubscribeEvent
     public void onServerStarting(FMLServerStartedEvent event) {
         server = event.getServer();
-
+        AllMusic.init(new File(dir));
         AllMusic.start();
         Tasks.init();
     }
