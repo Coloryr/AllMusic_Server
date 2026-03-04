@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
+
+archivesBaseName = "[paper]AllMusic_Server"
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        url = 'https://repo.helpch.at/releases/'
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
+    compileOnly 'me.clip:placeholderapi:2.11.6'
+    compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
+    compileOnly 'net.kyori:adventure-text-minimessage:4.26.1'
+
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.6'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+}
+
+shadowJar {
+    relocate 'org.apache.hc.core5', 'com.coloryr.allmusic.server.lib.org.apache.hc.core5'
+    relocate 'org.apache.hc.client5', 'com.coloryr.allmusic.server.lib.org.apache.hc.client5'
+    relocate 'com.google.gson', 'com.coloryr.allmusic.server.lib.com.google.gson'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("plugin.yml") {
+        expand "version": project.version
+    }
+}

@@ -40,7 +40,7 @@ public class PlayRuntime {
      * 启动歌曲工作
      */
     public static void start() {
-        Thread taskT = new Thread(PlayRuntime::task, "AllMusicPlay");
+        Thread taskT = new Thread(PlayRuntime::musicPlayTask, "AllMusicPlay");
         isRun = true;
         taskT.start();
 
@@ -212,7 +212,7 @@ public class PlayRuntime {
         }
     }
 
-    private static void task() {
+    private static void musicPlayTask() {
         while (isRun) {
             try {
                 if (PlayMusic.getListSize() == 0) {
@@ -269,7 +269,7 @@ public class PlayRuntime {
                                         .replace(ARG.musicAl, HudUtils.messageLimit(music.getAl()))
                                         .replace(ARG.musicAlia, HudUtils.messageLimit(music.getAlia()))
                                         .replace(ARG.player, music.getCall());
-                                AllMusic.side.sendBar(info);
+                                AllMusic.side.sendBarInTask(info);
                             } else {
                                 String info = AllMusic.getMessage().musicPlay.nowPlay
                                         .replace(ARG.musicName, music.getName())
@@ -307,7 +307,7 @@ public class PlayRuntime {
                     clear();
                 }
             } catch (Exception e) {
-                AllMusic.log.warning("§c歌曲播放出现错误");
+                AllMusic.log.warning("<red>歌曲播放出现错误");
                 e.printStackTrace();
             }
         }

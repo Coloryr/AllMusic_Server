@@ -19,8 +19,8 @@ public class ClickObj {
 
     public void init() {
         if (clickRun == null)
-            clickRun = "§b[§n点我选择§r§b]";
+            clickRun = "<aqua>[<underlined>点我选择</underlined>]";
         if (clickCheck == null)
-            clickCheck = "§b[§n点我查看§r§b]";
+            clickCheck = "<aqua>[<underlined>点我查看</underlined>]";
     }
 }

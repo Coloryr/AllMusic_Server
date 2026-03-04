@@ -7,8 +7,8 @@ import java.util.List;
 public class SearchPageObj {
     private final List<SearchMusicObj> resData;
     private final int maxpage;
-    private int page = 0;
     private final String api;
+    private int page = 0;
 
     public SearchPageObj(List<SearchMusicObj> resData, int maxpage, String api) {
         this.resData = resData;
@@ -17,7 +17,7 @@ public class SearchPageObj {
     }
 
     public String getSong(int index) {
-        return resData.get(index).id;
+        return resData.get(index).id();
     }
 
     public SearchMusicObj getRes(int a) {

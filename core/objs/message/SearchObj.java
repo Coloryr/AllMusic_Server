@@ -10,7 +10,8 @@ public class SearchObj {
     public String cantNext;
     public String cantLast;
     public String startSearch;
-    public String error1;
+    public String lastPage;
+    public String nextPage;
 
     public static SearchObj make() {
         SearchObj obj = new SearchObj();
@@ -36,28 +37,36 @@ public class SearchObj {
             return true;
         if (cantLast == null)
             return true;
+        if (lastPage == null)
+            return true;
+        if (nextPage == null)
+            return true;
         return startSearch == null;
     }
 
     public void init() {
         if (startSearch == null)
-            startSearch = "§d[AllMusic3]§e正在排队搜歌";
+            startSearch = "<light_purple>[AllMusic3]<yellow>正在排队搜歌";
         if (noPer == null)
-            noPer = "§d[AllMusic3]§c你没有权限搜歌";
+            noPer = "<light_purple>[AllMusic3]<red>你没有权限搜歌";
         if (cantSearch == null)
-            cantSearch = "§d[AllMusic3]§c无法搜索歌曲：" + ARG.name;
+            cantSearch = "<light_purple>[AllMusic3]<red>无法搜索歌曲：" + ARG.name;
         if (res == null)
-            res = "§d[AllMusic3]§e搜索结果";
+            res = "<light_purple>[AllMusic3]<yellow>搜索结果";
         if (emptySearch == null)
-            emptySearch = "§d[AllMusic3]§c你没有搜索音乐";
+            emptySearch = "<light_purple>[AllMusic3]<red>你没有搜索音乐";
         if (errorNum == null)
-            errorNum = "§d[AllMusic3]§c请输入正确的序号";
+            errorNum = "<light_purple>[AllMusic3]<red>请输入正确的序号";
         if (choice == null)
-            choice = "§d[AllMusic3]§e你选择了序号：" + ARG.index;
+            choice = "<light_purple>[AllMusic3]<yellow>你选择了序号：" + ARG.index;
         if (cantNext == null)
-            cantNext = "§d[AllMusic3]§c无法下一页";
+            cantNext = "<light_purple>[AllMusic3]<red>无法下一页";
         if (cantLast == null)
-            cantLast = "§d[AllMusic3]§c无法上一页";
+            cantLast = "<light_purple>[AllMusic3]<red>无法上一页";
+        if (lastPage == null)
+            lastPage = "<light_purple>[AllMusic3]<dark_green>输入/music lastpage上一页";
+        if (nextPage == null)
+            nextPage = "<light_purple>[AllMusic3]<dark_green>输入/music nextpage下一页";
     }
 }
 

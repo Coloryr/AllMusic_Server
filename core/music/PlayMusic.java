@@ -277,7 +277,7 @@ public class PlayMusic {
                             .replace(ARG.musicAl, HudUtils.messageLimit(info.getAl()))
                             .replace(ARG.musicAlia, HudUtils.messageLimit(info.getAlia()))
                             .replace(ARG.player, info.getCall());
-                    AllMusic.side.sendBar(data);
+                    AllMusic.side.sendBarInTask(data);
                 } else {
                     String data = AllMusic.getMessage().musicPlay.addMusic
                             .replace(ARG.musicName, info.getName())
@@ -300,7 +300,7 @@ public class PlayMusic {
             if (isList) {
                 error++;
             }
-            AllMusic.log.warning("§d[AllMusic3]§c歌曲信息解析错误");
+            AllMusic.log.warning("<light_purple>[AllMusic3]<red>歌曲信息解析错误");
             e.printStackTrace();
         }
     }

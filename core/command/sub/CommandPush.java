@@ -17,11 +17,11 @@ public class CommandPush extends ACommand {
     public void execute(Object sender, String name, String[] args) {
         if (AllMusic.getConfig().needPermission &&
                 !AllMusic.side.checkPermission(sender, PermissionList.PERMISSION_PUSH)) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.noPermission);
+            AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().push.noPermission));
             return;
         }
         if (PlayMusic.getListSize() == 0 && PlayMusic.getIdleListSize() == 0) {
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.emptyPlay);
+            AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().musicPlay.emptyPlay));
         }
         SongInfoObj music = null;
         if (args.length == 1) {
@@ -77,7 +77,8 @@ public class CommandPush extends ACommand {
                     .replace(ARG.time, String.valueOf(AllMusic.getConfig().voteTime))
                     .replace(ARG.musicName, music.getName())
                     .replace(ARG.musicAuthor, music.getAuthor()));
-            AllMusic.side.broadcastWithRun(AllMusic.getMessage().push.bq1, AllMusic.getMessage().push.bq2, "/music push");
+            AllMusic.side.broadcast(AllMusic.miniMessage(AllMusic.getMessage().push.bq1)
+                    .append(AllMusic.miniMessageRun(AllMusic.getMessage().push.bq2, "/music push")));
         } else {
             if (music != null) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.err3);

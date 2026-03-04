@@ -88,54 +88,54 @@ public class HelpNormalObj {
 
     public void init() {
         if (head == null)
-            head = "§d[AllMusic3]§e帮助手册";
+            head = "<light_purple>[AllMusic3]<yellow>帮助手册";
         if (base == null)
-            base = "§d[AllMusic3]§e/music [音乐ID] 来点歌";
+            base = "<light_purple>[AllMusic3]<yellow>/music [音乐ID] 来点歌";
         if (stop == null)
-            stop = "§d[AllMusic3]§e/music stop 停止播放歌曲";
+            stop = "<light_purple>[AllMusic3]<yellow>/music stop 停止播放歌曲";
         if (list == null)
-            list = "§d[AllMusic3]§e/music list 查看歌曲队列";
+            list = "<light_purple>[AllMusic3]<yellow>/music list 查看歌曲队列";
         if (cancel == null)
-            cancel = "§d[AllMusic3]§e/music cancel (序号) 取消你的点歌";
+            cancel = "<light_purple>[AllMusic3]<yellow>/music cancel (序号) 取消你的点歌";
         if (vote == null)
-            vote = "§d[AllMusic3]§e/music vote 投票切歌";
+            vote = "<light_purple>[AllMusic3]<yellow>/music vote 投票切歌";
         if (vote1 == null)
-            vote1 = "§d[AllMusic3]§e/music vote cancel 取消发起的切歌";
+            vote1 = "<light_purple>[AllMusic3]<yellow>/music vote cancel 取消发起的切歌";
         if (push == null)
-            push = "§d[AllMusic3]§e/music push (序号) 投票将歌曲插入到队列头";
+            push = "<light_purple>[AllMusic3]<yellow>/music push (序号) 投票将歌曲插入到队列头";
         if (push1 == null)
-            push1 = "§d[AllMusic3]§e/music push cancel 取消发起的插歌";
+            push1 = "<light_purple>[AllMusic3]<yellow>/music push cancel 取消发起的插歌";
         if (mute == null)
-            mute = "§d[AllMusic3]§e/music mute 不再参与点歌";
+            mute = "<light_purple>[AllMusic3]<yellow>/music mute 不再参与点歌";
         if (mutelist == null)
-            mutelist = "§d[AllMusic3]§e/music mute list 不再接收空闲列表点歌";
+            mutelist = "<light_purple>[AllMusic3]<yellow>/music mute list 不再接收空闲列表点歌";
         if (search == null)
-            search = "§d[AllMusic3]§e/music search [歌名] 搜索歌曲";
+            search = "<light_purple>[AllMusic3]<yellow>/music search [歌名] 搜索歌曲";
         if (select == null)
-            select = "§d[AllMusic3]§e/music select [序列] 选择歌曲";
+            select = "<light_purple>[AllMusic3]<yellow>/music select [序列] 选择歌曲";
         if (nextpage == null)
-            nextpage = "§d[AllMusic3]§e/music nextpage 切换下一页歌曲搜索结果";
+            nextpage = "<light_purple>[AllMusic3]<yellow>/music nextpage 切换下一页歌曲搜索结果";
         if (lastpage == null)
-            lastpage = "§d[AllMusic3]§e/music lastpage 切换上一页歌曲搜索结果";
+            lastpage = "<light_purple>[AllMusic3]<yellow>/music lastpage 切换上一页歌曲搜索结果";
         if (hud9 == null)
-            hud9 = "§d[AllMusic3]§e/music hud enable 启用/关闭全部界面";
+            hud9 = "<light_purple>[AllMusic3]<yellow>/music hud enable 启用/关闭全部界面";
         if (hud10 == null)
-            hud10 = "§d[AllMusic3]§e/music hud reset 重置全部界面";
+            hud10 = "<light_purple>[AllMusic3]<yellow>/music hud reset 重置全部界面";
         if (hud1 == null)
-            hud1 = "§d[AllMusic3]§e/music hud [位置] enable 启用关闭单一界面";
+            hud1 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] enable 启用关闭单一界面";
         if (hud2 == null)
-            hud2 = "§d[AllMusic3]§e/music hud [位置] pos [x] [y] 设置某个界面的位置";
+            hud2 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] pos [x] [y] 设置某个界面的位置";
         if (hud6 == null)
-            hud6 = "§d[AllMusic3]§e/music hud [位置] dir [对齐方式] 设置某个界面的对齐方式";
+            hud6 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] dir [对齐方式] 设置某个界面的对齐方式";
         if (hud7 == null)
-            hud7 = "§d[AllMusic3]§e/music hud [位置] color [颜色HEX] 设置某个界面的颜色";
+            hud7 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] color [颜色HEX] 设置某个界面的颜色";
         if (hud8 == null)
-            hud8 = "§d[AllMusic3]§e/music hud [位置] reset 重置单一界面";
+            hud8 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] reset 重置单一界面";
         if (hud3 == null)
-            hud3 = "§d[AllMusic3]§e/music hud pic size [尺寸] 设置图片尺寸";
+            hud3 = "<light_purple>[AllMusic3]<yellow>/music hud pic size [尺寸] 设置图片尺寸";
         if (hud4 == null)
-            hud4 = "§d[AllMusic3]§e/music hud pic rotate [开关] 设置图片旋转模式";
+            hud4 = "<light_purple>[AllMusic3]<yellow>/music hud pic rotate [开关] 设置图片旋转模式";
         if (hud5 == null)
-            hud5 = "§d[AllMusic3]§e/music hud pic speed [数值] 设置图片旋转速度";
+            hud5 = "<light_purple>[AllMusic3]<yellow>/music hud pic speed [数值] 设置图片旋转速度";
     }
 }

@@ -92,7 +92,7 @@ public class DataSql {
      */
     public static void init() {
         try {
-            AllMusic.log.info("正在初始化数据库");
+            AllMusic.log.info("<light_purple>[AllMusic3]<yellow>正在初始化数据库");
             if (connection != null)
                 connection.close();
             Class.forName("org.sqlite.JDBC");
@@ -107,6 +107,7 @@ public class DataSql {
             stat.close();
 
             Cache.updateData();
+            AllMusic.log.info("<light_purple>[AllMusic3]<yellow>数据库初始化完成");
         } catch (Exception e) {
             e.printStackTrace();
         }

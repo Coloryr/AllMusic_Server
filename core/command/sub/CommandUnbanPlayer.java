@@ -17,7 +17,7 @@ public class CommandUnbanPlayer implements ICommand {
             return;
         }
         DataSql.removeBanPlayer(args[1]);
-        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§2已解封玩家" + args[1] + "点歌");
+        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>已解封玩家" + args[1] + "点歌");
     }
 
     @Override

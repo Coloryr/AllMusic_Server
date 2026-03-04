@@ -18,23 +18,15 @@ public class CommandEX {
 
     public static final Map<String, ICommand> commandList = new HashMap<>();
     public static final Map<String, ICommand> commandAdminList = new HashMap<>();
-    private static final List<String> normal = new ArrayList<String>() {{
-        this.addAll(commandList.keySet());
-    }};
+    private static final List<String> normal = new ArrayList<>();
     /**
      * 管理员的指令
      */
-    private static final List<String> admin = new ArrayList<String>() {{
-        this.addAll(commandAdminList.keySet());
-    }};
+    private static final List<String> admin = new ArrayList<>();
     /**
      * 搜歌的指令
      */
-    private static final List<String> search = new ArrayList<String>() {{
-        this.add("select");
-        this.add("nextpage");
-        this.add("lastpage");
-    }};
+    private static final List<String> search = new ArrayList<>();
 
     static {
         commandList.put("stop", new CommandStop());
@@ -63,6 +55,13 @@ public class CommandEX {
         commandAdminList.put("clearban", new CommandClearBanList());
         commandAdminList.put("clearbanplayer", new CommandClearBanPlayerList());
         commandAdminList.put("test", new CommandTest());
+
+        normal.addAll(commandList.keySet());
+        admin.addAll(commandAdminList.keySet());
+
+        search.add("select");
+        search.add("nextpage");
+        search.add("lastpage");
     }
 
     /**

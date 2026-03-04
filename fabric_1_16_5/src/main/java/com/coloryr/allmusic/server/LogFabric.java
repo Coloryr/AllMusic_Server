@@ -1,8 +1,8 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.core.side.IMyLogger;
+import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
 
-public class LogFabric implements IMyLogger {
+public class LogFabric implements IAllMusicLogger {
     @Override
     public void warning(String data) {
         AllMusicServer.LOGGER.warn(data);

@@ -17,7 +17,7 @@ public class CommandBanPlayer implements ICommand {
             return;
         }
         DataSql.addBanPlayer(args[1]);
-        AllMusic.side.sendMessage(sender, "§d[AllMusic3]§2已禁止玩家" + args[1] + "点歌");
+        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>已禁止玩家" + args[1] + "点歌");
     }
 
     @Override

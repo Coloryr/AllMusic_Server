@@ -8,15 +8,13 @@ import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
-import com.coloryr.allmusic.server.mixin.IGetCommandOutput;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.kyori.adventure.text.Component;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Util;
 
 import java.io.File;
 import java.util.Collection;
@@ -90,7 +88,9 @@ public class SideFabric extends BaseSide {
     public void sendBar(Object player, String data) {
         if (player instanceof ServerPlayerEntity) {
             ServerPlayerEntity player1 = (ServerPlayerEntity) player;
-            FabricApi.sendBar(player1, data);
+
+            Component data1 = AllMusic.miniMessage(data);
+            AllMusicServer.adventure.audience(player1).sendActionBar(data1);
         }
     }
 
@@ -114,8 +114,11 @@ public class SideFabric extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
+
+        Component data1 = AllMusic.miniMessage(message);
+
         for (ServerPlayerEntity player : AllMusicServer.server.getPlayerManager().getPlayerList()) {
-            player.sendMessage(Text.of(message), false);
+            AllMusicServer.adventure.audience(player).sendMessage(data1);
         }
     }
 
@@ -124,7 +127,11 @@ public class SideFabric extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        FabricApi.sendMessageBqRun(message, end, command);
+
+        Component data1 = AllMusic.miniMessage(message).append(AllMusic.miniMessageRun(end, message));
+        for (ServerPlayerEntity player : AllMusicServer.server.getPlayerManager().getPlayerList()) {
+            AllMusicServer.adventure.audience(player).sendActionBar(data1);
+        }
     }
 
     @Override
@@ -132,9 +139,10 @@ public class SideFabric extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        IGetCommandOutput output = (IGetCommandOutput) obj;
-        if (!output.getSilent()) {
-            output.getOutput().sendSystemMessage(Text.of(message), Util.NIL_UUID);
+        if (obj instanceof ServerCommandSource) {
+            ServerCommandSource sender = (ServerCommandSource) obj;
+            Component data1 = AllMusic.miniMessage(message);
+            AllMusicServer.adventure.audience(sender).sendMessage(data1);
         }
     }
 
@@ -143,7 +151,12 @@ public class SideFabric extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        FabricApi.sendMessageRun((ServerCommandSource) obj, message, end, command);
+
+        if (obj instanceof ServerCommandSource) {
+            ServerCommandSource sender = (ServerCommandSource) obj;
+            Component data1 = AllMusic.miniMessage(message).append(AllMusic.miniMessageRun(end, message));
+            AllMusicServer.adventure.audience(sender).sendMessage(data1);
+        }
     }
 
     @Override
@@ -151,7 +164,12 @@ public class SideFabric extends BaseSide {
         if (message == null || message.isEmpty()) {
             return;
         }
-        FabricApi.sendMessageSuggest((ServerCommandSource) obj, message, end, command);
+
+        if (obj instanceof ServerCommandSource) {
+            ServerCommandSource sender = (ServerCommandSource) obj;
+            Component data1 = AllMusic.miniMessage(message).append(AllMusic.miniMessageSuggest(end, message));
+            AllMusicServer.adventure.audience(sender).sendMessage(data1);
+        }
     }
 
     @Override

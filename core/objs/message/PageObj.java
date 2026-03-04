@@ -24,10 +24,10 @@ public class PageObj {
 
     public void init() {
         if (choice == null)
-            choice = "§e" + ARG.index + "->" + ARG.musicName + " | " + ARG.musicAuthor + " | " + ARG.musicAl;
+            choice = "<yellow>" + ARG.index + "->" + ARG.musicName + " | " + ARG.musicAuthor + " | " + ARG.musicAl;
         if (next == null)
-            next = "§e[§n点我下一页§r§e]";
+            next = "<yellow>[<underlined>点我下一页</underlined>]";
         if (last == null)
-            last = "§e[§n点我上一页§r§e]";
+            last = "<yellow>[<underlined>点我上一页</underlined>]";
     }
 }

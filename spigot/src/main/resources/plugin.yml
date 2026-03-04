@@ -1,0 +1,11 @@
+name: AllMusic3
+main: com.coloryr.allmusic.server.AllMusicBukkit
+author: Color_yr
+version: ${version}
+softdepend: [PlaceholderAPI, Vault, Essentials, CMI]
+api-version: 1.13
+
+commands:
+  music:
+    description: AllMusic3
+    usage: §4[AllMusic3]§6/music help

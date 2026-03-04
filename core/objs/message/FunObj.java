@@ -18,6 +18,6 @@ public class FunObj {
 
     public void init() {
         if (rain == null)
-            rain = "§d[AllMusic3]§e天空开始变得湿润";
+            rain = "<light_purple>[AllMusic3]<yellow>天空开始变得湿润";
     }
 }

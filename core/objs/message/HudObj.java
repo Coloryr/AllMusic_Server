@@ -61,17 +61,17 @@ public class HudObj {
 
     public void init() {
         if (state == null)
-            state = "§d[AllMusic3]§e设置信息位置：" + ARG.hud + "，状态：" + ARG.state;
+            state = "<light_purple>[AllMusic3]<yellow>设置信息位置：" + ARG.hud + "，状态：" + ARG.state;
         if (set == null)
-            set = "§d[AllMusic3]§e已设置[" + ARG.hud + "]的坐标为[" + ARG.x + ", " + ARG.y + "]";
+            set = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的坐标为[" + ARG.x + ", " + ARG.y + "]";
         if (set1 == null)
-            set1 = "§d[AllMusic3]§e已设置[" + ARG.hud + "]的对齐方式为[" + ARG.dir + "]";
+            set1 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的对齐方式为[" + ARG.dir + "]";
         if (set2 == null)
-            set2 = "§d[AllMusic3]§e已设置[" + ARG.hud + "]的颜色为[" + ARG.color + "]";
+            set2 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的颜色为[" + ARG.color + "]";
         if (set3 == null)
-            set3 = "§d[AllMusic3]§e已设置[" + ARG.hud + "]的阴影为[" + ARG.state + "]";
+            set3 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的阴影为[" + ARG.state + "]";
         if (reset == null)
-            reset = "§d[AllMusic3]§e界面[" + ARG.hud + "]恢复至默认位置";
+            reset = "<light_purple>[AllMusic3]<yellow>界面[" + ARG.hud + "]恢复至默认位置";
         if (emptyMusic == null)
             emptyMusic = "没有播放的音乐";
         if (emptyList == null)
@@ -79,11 +79,11 @@ public class HudObj {
         if (emptyLyric == null)
             emptyLyric = "无歌词";
         if (picSize == null)
-            picSize = "§d[AllMusic3]§e设置图片尺寸为[" + ARG.size + "]";
+            picSize = "<light_purple>[AllMusic3]<yellow>设置图片尺寸为[" + ARG.size + "]";
         if (picRotate == null)
-            picRotate = "§d[AllMusic3]§e设置图片旋转为[" + ARG.state + "]";
+            picRotate = "<light_purple>[AllMusic3]<yellow>设置图片旋转为[" + ARG.state + "]";
         if (picSpeed == null)
-            picSpeed = "§d[AllMusic3]§e设置图片旋转速度为[" + ARG.size + "]";
+            picSpeed = "<light_purple>[AllMusic3]<yellow>设置图片旋转速度为[" + ARG.size + "]";
         if (music == null)
             music = ARG.name + " " + ARG.allTime + "/" + ARG.nowTime
                     + "\n" + ARG.musicAuthor + "\n" + ARG.musicAlia + "\n" + ARG.musicAl

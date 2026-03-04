@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+def getVersionFromFile() {
+    def versionFile = file('../version')
+    if (versionFile.exists()) {
+        return versionFile.text.trim()
+    } else {
+        throw new GradleException("Version file not found: ${versionFile.absolutePath}")
+    }
+}
+
+version = getVersionFromFile()
+
+archivesBaseName = "[bukkit_spigot]AllMusic_Server"
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name 'Spigot'
+        url 'https://hub.spigotmc.org/nexus/content/groups/public'
+    }
+    maven {
+        url = 'https://repo.helpch.at/releases/'
+    }
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.20-R0.1-SNAPSHOT'
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
+    compileOnly 'me.clip:placeholderapi:2.11.6'
+
+    compile 'org.apache.httpcomponents.client5:httpclient5:5.6'
+    compile 'com.google.code.gson:gson:2.10.1'
+    compile 'net.kyori:adventure-text-minimessage:4.26.1'
+    compile "net.kyori:adventure-platform-bukkit:4.4.1"
+}
+
+shadowJar {
+    relocate 'org.apache.hc.core5', 'com.coloryr.allmusic.server.lib.org.apache.hc.core5'
+    relocate 'org.apache.hc.client5', 'com.coloryr.allmusic.server.lib.org.apache.hc.client5'
+    relocate 'com.google.gson', 'com.coloryr.allmusic.server.lib.com.google.gson'
+    relocate 'net.kyori', 'com.coloryr.allmusic.server.lib.net.kyori'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("plugin.yml") {
+        expand "version": project.version
+    }
+}

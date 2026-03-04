@@ -32,7 +32,7 @@ public class NetApiHttpClient {
 
     public static HttpResObj get(String path, String data) {
         try {
-            data = URLEncoder.encode(data, StandardCharsets.UTF_8.toString());
+            data = URLEncoder.encode(data, StandardCharsets.UTF_8);
             HttpGet request = new HttpGet(path + data);
             request.setHeader("referer", "https://music.163.com");
             request.setHeader("content-type", "application/json;charset=UTF-8");
@@ -44,7 +44,7 @@ public class NetApiHttpClient {
                 int httpCode = response.getCode();
                 HttpEntity entity = response.getEntity();
                 if (entity == null) {
-                    AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
+                    AllMusic.log.warning("<light_purple>[AllMusic3]<red>获取网页错误");
                     return null;
                 }
                 InputStream inputStream = entity.getContent();
@@ -57,16 +57,16 @@ public class NetApiHttpClient {
                 }
                 inputStream.close();
                 EntityUtils.consume(entity);
-                String data1 = result.toString(StandardCharsets.UTF_8.toString());
+                String data1 = result.toString(StandardCharsets.UTF_8);
                 if (!ok) {
-                    AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
+                    AllMusic.log.warning("<light_purple>[AllMusic3]<red>服务器返回错误：" + data1);
                 }
                 // 保存 cookies
                 MusicHttpClient.saveCookies(cookieStore);
                 return new HttpResObj(data1, ok);
             }
         } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
+            AllMusic.log.warning("<light_purple>[AllMusic3]<red>获取网页错误");
             e.printStackTrace();
         }
         return null;
@@ -143,7 +143,7 @@ public class NetApiHttpClient {
                 int httpCode = response.getCode();
                 HttpEntity entity = response.getEntity();
                 if (entity == null) {
-                    AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
+                    AllMusic.log.warning("<light_purple>[AllMusic3]<red>获取网页错误");
                     return null;
                 }
                 InputStream inputStream = entity.getContent();
@@ -154,17 +154,17 @@ public class NetApiHttpClient {
                 while ((length = inputStream.read(buffer)) != -1) {
                     result.write(buffer, 0, length);
                 }
-                String data1 = result.toString(StandardCharsets.UTF_8.toString());
+                String data1 = result.toString(StandardCharsets.UTF_8);
                 EntityUtils.consume(entity);
                 if (!ok) {
-                    AllMusic.log.warning("§d[AllMusic3]§c服务器返回错误：" + data1);
+                    AllMusic.log.warning("<light_purple>[AllMusic3]<red>服务器返回错误：" + data1);
                 }
                 // 保存 cookies
                 MusicHttpClient.saveCookies(cookieStore);
                 return new HttpResObj(data1, ok);
             }
         } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic3]§c获取网页错误");
+            AllMusic.log.warning("<light_purple>[AllMusic3]<red>获取网页错误");
             e.printStackTrace();
         }
         return null;
