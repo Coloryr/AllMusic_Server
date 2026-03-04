@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "package": "net.kyori.adventure.platform.fabric.impl.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ClientboundStatusResponsePacketMixin",
+    "CommandSourceStackMixin",
+    "ComponentSerializerMixin",
+    "EntityMixin",
+    "FriendlyByteBufMixin",
+    "GameProfileMixin",
+    "MinecraftServerMixin",
+    "PacketEncoderMixin",
+    "PlayerListMixin",
+    "PlayerMixin",
+    "RconConsoleSourceMixin",
+    "ServerBossEventMixin",
+    "ServerGamePacketListenerImplMixin",
+    "ServerPlayerMixin",
+    "StyleSerializerMixin"
+  ],
+  "client": [
+    "client.BossHealthOverlayMixin",
+    "client.LocalPlayerMixin",
+    "client.OptionsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

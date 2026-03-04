@@ -20,10 +20,18 @@
 	"entrypoints": {
 		"server": [
 			"com.coloryr.allmusic.server.AllMusicServer"
+		],
+		"main": [
+			"net.kyori.adventure.platform.fabric.impl.AdventureCommon"
+		],
+		"preLaunch": [
+			"net.kyori.adventure.platform.fabric.impl.AdventurePrelaunch"
 		]
 	},
 	"mixins": [
-		"allmusic_server.mixins.json"
+		"allmusic_server.mixins.json",
+		"adventure-platform-fabric.accessor.mixins.json",
+		"adventure-platform-fabric.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",

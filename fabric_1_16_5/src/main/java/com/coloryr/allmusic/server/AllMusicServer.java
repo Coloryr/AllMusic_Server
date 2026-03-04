@@ -5,8 +5,8 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.kyori.adventure.platform.fabric.FabricServerAudiences;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,9 +14,9 @@ import java.io.File;
 
 public class AllMusicServer implements DedicatedServerModInitializer {
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
-    public static final Identifier ID = new Identifier("allmusic", "channel");
+    public static final ResourceLocation ID = new ResourceLocation("allmusic", "channel");
     public static MinecraftServer server;
-    public static FabricServerAudiences adventure;
+    public static FabricServerAudiences audiences;
 
     public static final String dir = "allmusic_server/";
 
@@ -26,18 +26,18 @@ public class AllMusicServer implements DedicatedServerModInitializer {
         AllMusic.log = new LogFabric();
         AllMusic.side = new SideFabric();
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> CommandFabric.instance.register(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
+                CommandFabric.instance.register(dispatcher));
 
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
-            adventure = FabricServerAudiences.of(a);
-            new AllMusic().init(new File(dir));
             server = a;
+            audiences = FabricServerAudiences.of(server);
+            AllMusic.init(new File(dir));
             AllMusic.start();
             Tasks.init();
         });
 
         ServerLifecycleEvents.SERVER_STOPPING.register((a) -> {
-            adventure = null;
             AllMusic.stop();
         });
     }
