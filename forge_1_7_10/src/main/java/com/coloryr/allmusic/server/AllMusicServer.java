@@ -12,8 +12,11 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,9 +30,17 @@ public class AllMusicServer {
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
     public static MinecraftServer server;
     public static FMLEventChannel channel;
-    public static Queue<Runnable> queue = new ConcurrentLinkedQueue<>();
 
     public static final String dir = "config/allmusic_server/";
+
+    private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.builder()
+            .downsampleColors()
+            .build();
+
+    public static IChatComponent parse(Component input) {
+        String json = GSON_SERIALIZER.serialize(input);
+        return IChatComponent.Serializer.func_150699_a(json);
+    }
 
     @Mod.EventHandler
     private void commonSetup(final FMLPreInitializationEvent event) {

@@ -11,11 +11,13 @@ import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
+import net.kyori.adventure.text.Component;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.io.File;
@@ -102,10 +104,11 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, Component data) {
         if (player instanceof EntityPlayerMP) {
             EntityPlayerMP player1 = (EntityPlayerMP) player;
-            ForgeApi.sendBar(player1, data);
+            IChatComponent textComponent = AllMusicServer.parse(data);
+            player1.addChatMessage(textComponent);
         }
     }
 
@@ -115,49 +118,23 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
+    public void broadcast(Component message) {
+        IChatComponent textComponent = AllMusicServer.parse(message);
         for (Object player1 : AllMusicServer.server.getConfigurationManager().playerEntityList) {
             EntityPlayerMP player = (EntityPlayerMP) player1;
             if (!AllMusic.isSkip(player.getCommandSenderName(), null, false)) {
-                player.addChatMessage(new ChatComponentText(message));
+                player.addChatMessage(textComponent);
             }
         }
     }
 
     @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
+    public void sendMessage(Object obj, Component message) {
+        if(obj instanceof ICommandSender) {
+            IChatComponent textComponent = AllMusicServer.parse(message);
+            ICommandSender sender = (ICommandSender) obj;
+            sender.addChatMessage(textComponent);
         }
-        ForgeApi.sendMessageBqRun(message, end, command);
-    }
-
-    @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ICommandSender sender = (ICommandSender) obj;
-        sender.addChatMessage(new ChatComponentText(message));
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ForgeApi.sendMessageRun((ICommandSender) obj, message, end, command);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        ForgeApi.sendMessageSuggest((ICommandSender) obj, message, end, command);
     }
 
     @Override
@@ -175,14 +152,9 @@ public class SideForge extends BaseSide {
     private void send(EntityPlayerMP players, ByteBuf data) {
         if (players == null)
             return;
-        try {
-            FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(data), "allmusic:channel");
-            packet.setTarget(Side.CLIENT);
-            runTask(() -> AllMusicServer.channel.sendTo(packet, players));
-        } catch (Exception e) {
-            AllMusic.log.warning("§c数据发送发生错误");
-            e.printStackTrace();
-        }
+        FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(data), "allmusic:channel");
+        packet.setTarget(Side.CLIENT);
+        runTask(() -> AllMusicServer.channel.sendTo(packet, players));
     }
 }
 
