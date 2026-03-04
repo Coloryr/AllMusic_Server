@@ -1,1 +1,1 @@
-net.kyori.adventure.platform.fabric.impl.service.GsonComponentSerializerProviderImpl
+com.coloryr.allmusic.server.adventure.impl.service.GsonComponentSerializerProviderImpl

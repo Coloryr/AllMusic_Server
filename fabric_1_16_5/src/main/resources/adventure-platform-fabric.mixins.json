@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "net.kyori.adventure.platform.fabric.impl.mixin",
+  "package": "com.coloryr.allmusic.server.adventure.impl.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "ClientboundStatusResponsePacketMixin",

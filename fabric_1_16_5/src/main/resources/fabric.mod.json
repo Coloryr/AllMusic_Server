@@ -22,10 +22,10 @@
 			"com.coloryr.allmusic.server.AllMusicServer"
 		],
 		"main": [
-			"net.kyori.adventure.platform.fabric.impl.AdventureCommon"
+			"com.coloryr.allmusic.server.adventure.impl.AdventureCommon"
 		],
 		"preLaunch": [
-			"net.kyori.adventure.platform.fabric.impl.AdventurePrelaunch"
+			"com.coloryr.allmusic.server.adventure.impl.AdventurePrelaunch"
 		]
 	},
 	"mixins": [

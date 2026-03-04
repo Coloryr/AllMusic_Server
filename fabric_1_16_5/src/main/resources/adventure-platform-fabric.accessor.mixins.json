@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "net.kyori.adventure.platform.fabric.impl.accessor",
+  "package": "com.coloryr.allmusic.server.adventure.impl.accessor",
   "refmap": "adventure-platform-fabric-accessor-refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
@@ -9,7 +9,7 @@
     "ComponentSerializerAccess",
     "ConnectionAccess",
     "ServerboundClientInformationPacketAccess",
-    "SoundSourceAccess",
+    "SoundSourceAccess"
   ],
   "client": [
     "client.AbstractSoundInstanceAccess"
