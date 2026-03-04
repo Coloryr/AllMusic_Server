@@ -13,7 +13,6 @@ import java.io.File;
 
 public class AllMusicServer implements DedicatedServerModInitializer {
     public static MinecraftServer server;
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
 
     public static final Identifier ID = new Identifier("allmusic", "channel");
 
@@ -24,15 +23,12 @@ public class AllMusicServer implements DedicatedServerModInitializer {
         AllMusic.log = new LogFabric();
         AllMusic.side = new SideFabric();
 
-        new AllMusic().init(new File(dir));
-
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> CommandFabric.instance.register(dispatcher));
 
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
             server = a;
-
+            AllMusic.init(new File(dir));
             AllMusic.start();
-
             Tasks.init();
         });
 

@@ -20,8 +20,6 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import io.netty.buffer.ByteBuf;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -131,32 +129,13 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void broadcast(String data) {
-        if (data == null || data.isEmpty())
-            return;
-        Component message = Component.text(data);
+    public void broadcast(Component data) {
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             if (skip(player)) {
                 continue;
             }
 
-            player.sendMessage(message);
-        }
-    }
-
-    @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty())
-            return;
-        TextComponent endtext = Component.text(end)
-                .clickEvent(ClickEvent.runCommand(command));
-        TextComponent send = Component.text(message).append(endtext);
-        for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
-            if (skip(player)) {
-                continue;
-            }
-
-            player.sendMessage(send);
+            player.sendMessage(data);
         }
     }
 
@@ -218,11 +197,10 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, Component data) {
         if (player instanceof Player) {
             Player player1 = (Player) player;
-            Component message = Component.text(data);
-            player1.sendActionBar(message);
+            player1.sendActionBar(data);
         }
     }
 
@@ -232,33 +210,11 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty())
-            return;
-        CommandSource sender = (CommandSource) obj;
-        sender.sendMessage(Component.text(message));
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty())
-            return;
-        CommandSource sender = (CommandSource) obj;
-        TextComponent endtext = Component.text(end)
-                .clickEvent(ClickEvent.runCommand(command));
-        TextComponent send = Component.text(message).append(endtext);
-        sender.sendMessage(send);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty())
-            return;
-        CommandSource sender = (CommandSource) obj;
-        TextComponent endtext = Component.text(end)
-                .clickEvent(ClickEvent.suggestCommand(command));
-        TextComponent send = Component.text(message).append(endtext);
-        sender.sendMessage(send);
+    public void sendMessage(Object obj, Component message) {
+        if(obj instanceof CommandSource) {
+            CommandSource source = (CommandSource) obj;
+            source.sendMessage(message);
+        }
     }
 
     @Override
@@ -345,12 +301,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     private void send(Player players, ByteBuf data) {
         if (players == null)
             return;
-        try {
-            runTask(() -> players.sendPluginMessage(AllMusicVelocity.channel, data.array()));
-        } catch (Exception e) {
-            AllMusic.log.warning("§d[AllMusic]§c数据发送发生错误");
-            e.printStackTrace();
-        }
+        runTask(() -> players.sendPluginMessage(AllMusicVelocity.channel, data.array()));
     }
 
     private boolean skip(Player player) {
@@ -389,7 +340,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
             }
         }
         if (toServer == null) {
-            AllMusic.log.warning("§d[AllMusic]§c没有找到目标服务器");
+            AllMusic.log.data("<light_purple>[AllMusic3]<red>没有找到目标服务器");
             return false;
         }
 
@@ -412,7 +363,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
                     Thread.sleep(1);
                     count++;
                 } else if (res == 0) {
-                    AllMusic.log.warning("§d[AllMusic]§c后端经济插件错误");
+                    AllMusic.log.data("<light_purple>[AllMusic3]<red>后端经济插件错误");
                     SendToBackend.remove(uuid);
                     return false;
                 } else if (res == 1) {
@@ -423,12 +374,12 @@ public class SideVelocity extends BaseSide implements IEconomy {
                     return true;
                 }
             } catch (Exception e) {
-                AllMusic.log.warning("§d[AllMusic]§c经济数据发送错误");
+                AllMusic.log.data("<light_purple>[AllMusic3]<red>经济数据发送错误");
                 e.printStackTrace();
             }
         } while (count < 100);
 
-        AllMusic.log.warning("§d[AllMusic]§c经济数据请求超时");
+        AllMusic.log.data("<light_purple>[AllMusic3]<red>经济数据请求超时");
 
         return false;
     }

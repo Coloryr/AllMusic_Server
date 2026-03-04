@@ -17,7 +17,7 @@ public class SearchPageObj {
     }
 
     public String getSong(int index) {
-        return resData.get(index).id();
+        return resData.get(index).id;
     }
 
     public SearchMusicObj getRes(int a) {

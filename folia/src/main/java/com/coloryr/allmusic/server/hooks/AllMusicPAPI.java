@@ -29,7 +29,7 @@ public class AllMusicPAPI extends PlaceholderExpansion {
 
     @Override
     public boolean register() {
-        AllMusic.log.info("§e正在挂钩PlaceholderAPI");
+        AllMusic.log.data("<light_purple>[AllMusic3]<yellow>正在挂钩PlaceholderAPI");
         return super.register();
     }
 

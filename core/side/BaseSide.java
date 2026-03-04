@@ -171,7 +171,7 @@ public abstract class BaseSide {
         try {
             send(player1, CommandType.POS, null, pos);
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic]<red>清空Hud发生出错");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>清空Hud发生出错");
             e.printStackTrace();
         }
     }
@@ -189,7 +189,7 @@ public abstract class BaseSide {
         try {
             send(player, CommandType.STOP, null, 0);
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic]<red>停止指令发送出错");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
             e.printStackTrace();
         }
     }
@@ -204,7 +204,7 @@ public abstract class BaseSide {
                 send(player, CommandType.STOP, null, 0);
             }
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic]<red>停止指令发送出错");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
             e.printStackTrace();
         }
     }
@@ -225,7 +225,7 @@ public abstract class BaseSide {
                 return;
             send(player1, CommandType.PLAY, url, 0);
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic]<red>歌曲指令发送出错");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲指令发送出错");
             e.printStackTrace();
         }
     }
@@ -249,7 +249,7 @@ public abstract class BaseSide {
                     continue;
                 send(player, CommandType.LYRIC, data, 0);
             } catch (Exception e) {
-                AllMusic.log.warning("<light_purple>[AllMusic]<red>歌词发送出错");
+                AllMusic.log.data("<light_purple>[AllMusic]<red>歌词发送出错");
                 e.printStackTrace();
             }
         }
@@ -274,7 +274,7 @@ public abstract class BaseSide {
                     continue;
                 send(player, CommandType.INFO, data, 0);
             } catch (Exception e) {
-                AllMusic.log.warning("<light_purple>[AllMusic]<red>歌词信息发送出错");
+                AllMusic.log.data("<light_purple>[AllMusic]<red>歌词信息发送出错");
                 e.printStackTrace();
             }
         }
@@ -296,7 +296,7 @@ public abstract class BaseSide {
             String data = AllMusic.gson.toJson(obj);
             send(player, CommandType.HUD_DATA, data, 0);
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic]<red>界面位置发送出错");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>界面位置发送出错");
             e.printStackTrace();
         }
     }
@@ -330,7 +330,7 @@ public abstract class BaseSide {
                     break;
             }
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic]<red>停止指令发送出错");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
             e.printStackTrace();
         }
     }
@@ -354,7 +354,7 @@ public abstract class BaseSide {
                     continue;
                 send(player, CommandType.LIST, data, 0);
             } catch (Exception e) {
-                AllMusic.log.warning("<light_purple>[AllMusic]<red>歌曲列表发送出错");
+                AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲列表发送出错");
                 e.printStackTrace();
             }
         }
@@ -374,7 +374,7 @@ public abstract class BaseSide {
                 String data = AllMusic.gson.toJson(obj);
                 send(player, CommandType.HUD_DATA, data, 0);
             } catch (Exception e1) {
-                AllMusic.log.warning("<light_purple>[AllMusic]<red>数据发送发生错误");
+                AllMusic.log.data("<light_purple>[AllMusic]<red>数据发送发生错误");
                 e1.printStackTrace();
             }
         }
@@ -396,7 +396,7 @@ public abstract class BaseSide {
                     continue;
                 sendBar(player, data);
             } catch (Exception e1) {
-                AllMusic.log.warning("<light_purple>[AllMusic]<red>数据发送发生错误");
+                AllMusic.log.data("<light_purple>[AllMusic]<red>数据发送发生错误");
                 e1.printStackTrace();
             }
         }
@@ -419,7 +419,7 @@ public abstract class BaseSide {
                 send(player, CommandType.PLAY, url, 0);
                 AllMusic.addNowPlayPlayer(name);
             } catch (Exception e) {
-                AllMusic.log.warning("<light_purple>[AllMusic]<red>歌曲指令发送出错");
+                AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲指令发送出错");
                 e.printStackTrace();
             }
         }
@@ -444,7 +444,7 @@ public abstract class BaseSide {
             try {
                 send(player, CommandType.IMG, url, 0);
             } catch (Exception e) {
-                AllMusic.log.warning("<light_purple>[AllMusic]<red>图片指令发送出错");
+                AllMusic.log.data("<light_purple>[AllMusic]<red>图片指令发送出错");
                 e.printStackTrace();
             }
         }
@@ -465,7 +465,7 @@ public abstract class BaseSide {
         try {
             send(player1, CommandType.IMG, url, 0);
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic]<red>图片指令发送出错");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>图片指令发送出错");
             e.printStackTrace();
         }
     }
@@ -482,7 +482,7 @@ public abstract class BaseSide {
         try {
             send(player, CommandType.CLEAR, null, 0);
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic]<red>清空Hud发生出错");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>清空Hud发生出错");
             e.printStackTrace();
         }
     }
@@ -495,7 +495,7 @@ public abstract class BaseSide {
             try {
                 send(player, CommandType.CLEAR, null, 0);
             } catch (Exception e) {
-                AllMusic.log.warning("<light_purple>[AllMusic]<red>清空Hud发生出错");
+                AllMusic.log.data("<light_purple>[AllMusic]<red>清空Hud发生出错");
                 e.printStackTrace();
             }
         }

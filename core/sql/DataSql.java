@@ -92,7 +92,7 @@ public class DataSql {
      */
     public static void init() {
         try {
-            AllMusic.log.info("<light_purple>[AllMusic3]<yellow>正在初始化数据库");
+            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>正在初始化数据库");
             if (connection != null)
                 connection.close();
             Class.forName("org.sqlite.JDBC");
@@ -107,8 +107,9 @@ public class DataSql {
             stat.close();
 
             Cache.updateData();
-            AllMusic.log.info("<light_purple>[AllMusic3]<yellow>数据库初始化完成");
+            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>数据库初始化完成");
         } catch (Exception e) {
+            AllMusic.log.data("<light_purple>[AllMusic3]<red>数据库初始化错误，请删除关闭服务器删除数据库，再启动服务器");
             e.printStackTrace();
         }
     }
@@ -183,7 +184,7 @@ public class DataSql {
             stat.execute(sql);
             stat.close();
         } catch (Exception e) {
-            AllMusic.log.info(sql);
+            AllMusic.log.data(sql);
             e.printStackTrace();
         }
     }
@@ -241,7 +242,7 @@ public class DataSql {
                 stat.close();
             }
         } catch (Exception e) {
-            AllMusic.log.info(sql);
+            AllMusic.log.data(sql);
             e.printStackTrace();
         }
     }
@@ -251,7 +252,6 @@ public class DataSql {
      */
     public static HudPosObj readHud(String name) {
         try {
-            AllMusic.log.info("正在读取玩家数据:" + name);
             if (connection.isReadOnly() || connection.isClosed()) {
                 init();
             }
@@ -302,7 +302,6 @@ public class DataSql {
 
             return obj;
         } catch (Exception e) {
-            AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
         }
 
@@ -331,7 +330,6 @@ public class DataSql {
             obj.api = api;
             return obj;
         } catch (Exception e) {
-            AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
         }
         return null;
@@ -359,7 +357,6 @@ public class DataSql {
             obj.api = index1;
             return obj;
         } catch (Exception e) {
-            AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
         }
         return null;
@@ -384,7 +381,6 @@ public class DataSql {
             stat.close();
             return count;
         } catch (Exception e) {
-            AllMusic.log.warning("数据库读取错误，请删除关闭服务器删除数据库，在启动服务器");
             e.printStackTrace();
         }
         return 0;
@@ -393,7 +389,6 @@ public class DataSql {
     public static void addIdleList(List<String> list, String api) {
         task(() -> {
             try {
-                AllMusic.log.info("添加" + list.size() + "首歌到空闲歌单");
                 if (connection.isReadOnly() || connection.isClosed()) {
                     init();
                 }

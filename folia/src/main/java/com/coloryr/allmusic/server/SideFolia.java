@@ -3,14 +3,13 @@ package com.coloryr.allmusic.server;
 import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import com.coloryr.allmusic.server.hooks.CitizensNPC;
-import com.coloryr.allmusic.server.hooks.SpigotApi;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -41,13 +40,9 @@ public class SideFolia extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, Component data) {
         if (player instanceof Player player1) {
-            if (AllMusicFolia.spigotSet) {
-                SpigotApi.sendBar(player1, data);
-            } else {
-                sendMessage(player1, data);
-            }
+            player1.sendActionBar(data);
         }
     }
 
@@ -57,24 +52,11 @@ public class SideFolia extends BaseSide {
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
+    public void broadcast(Component message) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.isSkip(player.getName(), null, false)) {
                 player.sendMessage(message);
             }
-        }
-    }
-
-    @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            SpigotApi.sendMessageBqRun(player, message, end, command);
         }
     }
 
@@ -92,37 +74,9 @@ public class SideFolia extends BaseSide {
     }
 
     @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        CommandSender sender = (CommandSender) obj;
-        sender.sendMessage(message);
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        if (AllMusicFolia.spigotSet) {
-            SpigotApi.sendMessageRun(obj, message, end, command);
-        } else {
-            if (!message.isEmpty())
-                sendMessage(obj, message);
-        }
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        if (AllMusicFolia.spigotSet) {
-            SpigotApi.sendMessageSuggest(obj, message, end, command);
-        } else {
-            if (!message.isEmpty())
-                sendMessage(obj, message);
+    public void sendMessage(Object obj, Component message) {
+        if(obj instanceof CommandSender sender) {
+            sender.sendMessage(message);
         }
     }
 
@@ -191,13 +145,8 @@ public class SideFolia extends BaseSide {
     @Override
     public void send(Object player, CommandType type, String data, int data1) {
         if (AllMusic.isRun && player instanceof Player player1) {
-            try {
-                runTask(() ->
-                        player1.sendPluginMessage(AllMusicFolia.plugin, AllMusic.channel, MusicPacketCodec.pack(type, data, data1).array()));
-            } catch (Exception e) {
-                AllMusic.log.warning("§c数据发送发生错误");
-                e.printStackTrace();
-            }
+            runTask(() -> player1.sendPluginMessage(AllMusicFolia.plugin, AllMusic.channel,
+                    MusicPacketCodec.pack(type, data, data1).array()));
         }
     }
 

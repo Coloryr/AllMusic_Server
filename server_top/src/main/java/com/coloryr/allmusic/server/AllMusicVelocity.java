@@ -36,10 +36,10 @@ public class AllMusicVelocity {
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         plugin = this;
-        AllMusic.log = new LogVelocity(logger);
+        AllMusic.log = new LogVelocity();
         AllMusic.side = new SideVelocity();
 
-        new AllMusic().init(dataDirectory.toFile());
+        AllMusic.init(dataDirectory.toFile());
 
         CommandMeta meta = server.getCommandManager().metaBuilder("music")
                 .build();

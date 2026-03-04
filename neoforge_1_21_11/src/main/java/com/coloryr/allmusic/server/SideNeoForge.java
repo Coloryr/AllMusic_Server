@@ -92,9 +92,9 @@ public class SideNeoForge extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, net.kyori.adventure.text.Component data) {
         if (player instanceof ServerPlayer player1) {
-            NeoForgeApi.sendBar(player1, data);
+            AllMusicServer.audiences.audience(player1).sendActionBar(data);
         }
     }
 
@@ -104,48 +104,19 @@ public class SideNeoForge extends BaseSide {
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
+    public void broadcast(net.kyori.adventure.text.Component message) {
         for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendSystemMessage(Component.literal(message));
+                AllMusicServer.audiences.audience(player).sendActionBar(message);
             }
         }
     }
 
     @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
+    public void sendMessage(Object obj, net.kyori.adventure.text.Component message) {
+        if(obj instanceof CommandSourceStack source) {
+            AllMusicServer.audiences.audience(source).sendActionBar(message);
         }
-        NeoForgeApi.sendMessageBqRun(message, end, command);
-    }
-
-    @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        CommandSourceStack source = (CommandSourceStack) obj;
-        source.sendSystemMessage(Component.literal(message));
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        NeoForgeApi.sendMessageRun((CommandSourceStack) obj, message, end, command);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        NeoForgeApi.sendMessageSuggest((CommandSourceStack) obj, message, end, command);
     }
 
     @Override

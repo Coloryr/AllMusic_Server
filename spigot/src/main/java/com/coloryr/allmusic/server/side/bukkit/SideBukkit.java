@@ -71,28 +71,11 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public void broadcast(String data) {
-        if (data == null || data.isEmpty())
-            return;
-        Component message = AllMusic.miniMessage(data);
+    public void broadcast(Component data) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!AllMusic.isSkip(player.getName(), null, false)) {
-                AllMusicBukkit.adventure.player(player).sendMessage(message);
+                AllMusicBukkit.adventure.player(player).sendMessage(data);
             }
-        }
-    }
-
-    @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty())
-            return;
-        Component data1 = AllMusic.miniMessageRun(end, command);
-        Component data2 = AllMusic.miniMessage(message);
-        data2 = data2.append(data1);
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (AllMusic.isSkip(player.getName(), null, true))
-                continue;
-            AllMusicBukkit.adventure.player(player).sendMessage(data2);
         }
     }
 
@@ -149,16 +132,10 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        Component data1 = AllMusic.miniMessage(message);
-
+    public void sendBar(Object player, Component message) {
         if (player instanceof Player) {
             Player player1 = (Player) player;
-            AllMusicBukkit.adventure.player(player1).sendActionBar(data1);
+            AllMusicBukkit.adventure.player(player1).sendActionBar(message);
         }
     }
 
@@ -168,49 +145,10 @@ public class SideBukkit extends BaseSide {
     }
 
     @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty())
-            return;
-
-        Component data2 = AllMusic.miniMessage(message);
-
-        if (obj instanceof Player) {
-            Player sender = (Player) obj;
-            AllMusicBukkit.adventure.player(sender).sendMessage(data2);
-        }
-        else if (obj instanceof CommandSender) {
+    public void sendMessage(Object obj, Component message) {
+        if (obj instanceof CommandSender) {
             CommandSender sender = (CommandSender) obj;
-            AllMusicBukkit.adventure.sender(sender).sendMessage(data2);
-        }
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty())
-            return;
-
-        Component data1 = AllMusic.miniMessageRun(end, command);
-        Component data2 = AllMusic.miniMessage(message);
-        data2 = data2.append(data1);
-
-        if (obj instanceof Player) {
-            Player player = (Player) obj;
-            AllMusicBukkit.adventure.player(player).sendMessage(data2);
-        }
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty())
-            return;
-
-        Component data1 = AllMusic.miniMessageSuggest(end, command);
-        Component data2 = AllMusic.miniMessage(message);
-        data2 = data2.append(data1);
-
-        if (obj instanceof Player) {
-            Player player = (Player) obj;
-            AllMusicBukkit.adventure.player(player).sendMessage(data2);
+            AllMusicBukkit.adventure.sender(sender).sendMessage(message);
         }
     }
 

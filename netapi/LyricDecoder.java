@@ -154,8 +154,8 @@ public class LyricDecoder {
                 try {
                     temp5 = (Integer.parseInt(temp8[1]) / 10 * 10);
                 } catch (Exception e) {
-                    AllMusic.log.warning("不支持的Ktv歌词");
-                    AllMusic.log.warning("请带上音乐ID联系开发者");
+                    AllMusic.log.data("不支持的Ktv歌词");
+                    AllMusic.log.data("请带上音乐ID联系开发者");
                     return null;
                 }
 

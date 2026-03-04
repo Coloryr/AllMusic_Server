@@ -1,4 +1,11 @@
 package com.coloryr.allmusic.server.core.objs;
 
-public record HttpResObj(String data, boolean ok) {
+public class HttpResObj {
+    public final String data;
+    public final boolean ok;
+
+    public HttpResObj(String data, boolean ok) {
+        this.data = data;
+        this.ok = ok;
+    }
 }

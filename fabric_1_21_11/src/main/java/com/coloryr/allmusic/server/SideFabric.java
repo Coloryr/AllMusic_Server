@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.comm.MusicCodec;
+import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
@@ -91,9 +92,9 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, net.kyori.adventure.text.Component data) {
         if (player instanceof ServerPlayer player1) {
-            FabricApi.sendBar(player1, data);
+            player1.sendActionBar(data);
         }
     }
 
@@ -103,48 +104,19 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
+    public void broadcast(net.kyori.adventure.text.Component message) {
         for (var player : AllMusicServer.server.getPlayerList().getPlayers()) {
-            if (!com.coloryr.allmusic.server.core.AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendSystemMessage(Component.literal(message), false);
+            if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
+                player.sendMessage(message);
             }
         }
     }
 
     @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
+    public void sendMessage(Object obj, net.kyori.adventure.text.Component message) {
+        if (obj instanceof CommandSourceStack source) {
+            source.sendMessage(message);
         }
-        FabricApi.sendMessageBqRun(message, end, command);
-    }
-
-    @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        CommandSourceStack source = (CommandSourceStack) obj;
-        source.sendSystemMessage(Component.literal(message));
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        FabricApi.sendMessageRun((CommandSourceStack) obj, message, end, command);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        FabricApi.sendMessageSuggest((CommandSourceStack) obj, message, end, command);
     }
 
     @Override
@@ -161,11 +133,6 @@ public class SideFabric extends BaseSide {
     private void send(ServerPlayer players, MusicPack data) {
         if (players == null)
             return;
-        try {
-            runTask(() -> ServerPlayNetworking.send(players, new MusicCodec(data)));
-        } catch (Exception e) {
-            com.coloryr.allmusic.server.core.AllMusic.log.warning("§c数据发送发生错误");
-            e.printStackTrace();
-        }
+        runTask(() -> ServerPlayNetworking.send(players, new MusicCodec(data)));
     }
 }

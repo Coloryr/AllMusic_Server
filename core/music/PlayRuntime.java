@@ -307,7 +307,7 @@ public class PlayRuntime {
                     clear();
                 }
             } catch (Exception e) {
-                AllMusic.log.warning("<red>歌曲播放出现错误");
+                AllMusic.log.data("<red>歌曲播放出现错误");
                 e.printStackTrace();
             }
         }

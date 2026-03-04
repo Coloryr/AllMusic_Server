@@ -27,12 +27,6 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
-
-	maven {
-		name = 'sonatype-oss-snapshots1'
-		url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-		mavenContent { snapshotsOnly() }
-	}
 }
 
 dependencies {
@@ -44,9 +38,11 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-	modImplementation include('net.kyori:adventure-platform-fabric:4.0.0') // for Minecraft 1.21.11
+//	modImplementation include('net.kyori:adventure-platform-fabric:5.3.0') // for Minecraft 1.21.11
 
 	include modImplementation('net.kyori:adventure-text-minimessage:4.26.1')
+	include modImplementation('net.kyori:adventure-api:4.26.1')
+	include modImplementation('net.kyori:adventure-key:4.26.1')
 	include modImplementation('org.apache.httpcomponents.client5:httpclient5:5.6')
 	include modImplementation('org.apache.httpcomponents.core5:httpcore5:5.4')
 	include modImplementation('org.apache.httpcomponents.core5:httpcore5-h2:5.4')

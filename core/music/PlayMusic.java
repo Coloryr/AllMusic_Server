@@ -229,7 +229,7 @@ public class PlayMusic {
                 }
                 Thread.sleep(10);
             } catch (Exception e) {
-                AllMusic.log.warning("歌曲处理出现问题");
+                AllMusic.log.data("歌曲处理出现问题");
                 e.printStackTrace();
             }
         }
@@ -251,7 +251,7 @@ public class PlayMusic {
                     .replace(ARG.musicId, id);
             AllMusic.side.sendMessageTask(sender, text);
         }
-        AllMusic.log.info("玩家：" + player + " 点歌：" + id);
+        AllMusic.log.data("<light_purple>[AllMusic3]<yellow>玩家：" + player + " 点歌：" + id);
         try {
             SongInfoObj info = api.getMusic(id, player, isList);
             if (info == null) {
@@ -300,7 +300,7 @@ public class PlayMusic {
             if (isList) {
                 error++;
             }
-            AllMusic.log.warning("<light_purple>[AllMusic3]<red>歌曲信息解析错误");
+            AllMusic.log.data("<light_purple>[AllMusic3]<red>歌曲信息解析错误");
             e.printStackTrace();
         }
     }

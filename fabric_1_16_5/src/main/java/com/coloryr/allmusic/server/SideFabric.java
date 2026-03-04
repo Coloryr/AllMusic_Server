@@ -85,12 +85,10 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, Component data) {
         if (player instanceof ServerPlayerEntity) {
             ServerPlayerEntity player1 = (ServerPlayerEntity) player;
-
-            Component data1 = AllMusic.miniMessage(data);
-            AllMusicServer.adventure.audience(player1).sendActionBar(data1);
+            AllMusicServer.adventure.audience(player1).sendActionBar(data);
         }
     }
 
@@ -110,65 +108,17 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        Component data1 = AllMusic.miniMessage(message);
-
+    public void broadcast(Component message) {
         for (ServerPlayerEntity player : AllMusicServer.server.getPlayerManager().getPlayerList()) {
-            AllMusicServer.adventure.audience(player).sendMessage(data1);
+            AllMusicServer.adventure.audience(player).sendMessage(message);
         }
     }
 
     @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        Component data1 = AllMusic.miniMessage(message).append(AllMusic.miniMessageRun(end, message));
-        for (ServerPlayerEntity player : AllMusicServer.server.getPlayerManager().getPlayerList()) {
-            AllMusicServer.adventure.audience(player).sendActionBar(data1);
-        }
-    }
-
-    @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
+    public void sendMessage(Object obj, Component message) {
         if (obj instanceof ServerCommandSource) {
             ServerCommandSource sender = (ServerCommandSource) obj;
-            Component data1 = AllMusic.miniMessage(message);
-            AllMusicServer.adventure.audience(sender).sendMessage(data1);
-        }
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        if (obj instanceof ServerCommandSource) {
-            ServerCommandSource sender = (ServerCommandSource) obj;
-            Component data1 = AllMusic.miniMessage(message).append(AllMusic.miniMessageRun(end, message));
-            AllMusicServer.adventure.audience(sender).sendMessage(data1);
-        }
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-
-        if (obj instanceof ServerCommandSource) {
-            ServerCommandSource sender = (ServerCommandSource) obj;
-            Component data1 = AllMusic.miniMessage(message).append(AllMusic.miniMessageSuggest(end, message));
-            AllMusicServer.adventure.audience(sender).sendMessage(data1);
+            AllMusicServer.adventure.audience(sender).sendMessage(message);
         }
     }
 

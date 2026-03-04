@@ -14,38 +14,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AllMusicFolia extends JavaPlugin {
     public static Plugin plugin;
     public static AllMusicPAPI PAPI;
-    public static boolean spigotSet;
     private static PluginMessage pluginMessage;
 
     @Override
     public void onEnable() {
         plugin = this;
-        AllMusic.log = new LogFolia(getLogger());
+        AllMusic.log = new LogFolia();
         AllMusic.side = new SideFolia();
 
-        try {
-            Class.forName("net.md_5.bungee.api.chat.BaseComponent");
-            Class test = Class.forName("org.bukkit.command.CommandSender");
-            test.getMethod("spigot");
-            AllMusic.log.info("§2Spigot已支持");
-            spigotSet = true;
-        } catch (Exception e) {
-            AllMusic.log.info("§2Spigot不支持");
-        }
-
-        new AllMusic().init(plugin.getDataFolder());
+        AllMusic.init(plugin.getDataFolder());
         if (!AllMusic.isRun) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
-        }
-
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            PAPI = new AllMusicPAPI(this);
-            if (!PAPI.register()) {
-                AllMusic.log.info("§2PAPI支持已启动");
-            }
-        } else {
-            AllMusic.log.info("§2PAPI未挂钩");
         }
 
         if (Bukkit.getPluginManager().getPlugin("Vault") != null
@@ -54,18 +34,27 @@ public class AllMusicFolia extends JavaPlugin {
                 VaultHook vault = new VaultHook();
                 AllMusic.economy = vault;
                 if (vault.setupEconomy()) {
-                    AllMusic.log.info("§2Vault支持已启动");
+                    AllMusic.log.data("<light_purple>[AllMusic3]<yellow>Vault支持已启动");
                 } else {
-                    AllMusic.log.info("§2Vault未挂钩");
+                    AllMusic.log.data("<light_purple>[AllMusic3]<yellow>Vault未挂钩");
                     AllMusic.economy = null;
                 }
             } catch (Exception e) {
-                AllMusic.log.info("§2Vault未挂钩");
+                AllMusic.log.data("<light_purple>[AllMusic3]<yellow>Vault未挂钩");
                 AllMusic.economy = null;
             }
         } else {
-            AllMusic.log.info("§2Vault未挂钩");
+            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>Vault未挂钩");
             AllMusic.economy = null;
+        }
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            PAPI = new AllMusicPAPI(this);
+            if (!PAPI.register()) {
+                AllMusic.log.data("<light_purple>[AllMusic3]<yellow>PAPI支持已启动");
+            }
+        } else {
+            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>PAPI未挂钩");
         }
 
         if (AllMusic.getConfig().topPAPI) {
@@ -74,7 +63,7 @@ public class AllMusicFolia extends JavaPlugin {
             pluginMessage = new PluginMessage();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channelBC);
             getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);
-            AllMusic.log.info("§2设置为顶层模式");
+            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>设置为顶层模式");
         } else {
             CommandFolia command = new CommandFolia();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);

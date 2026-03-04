@@ -1,5 +1,6 @@
 package com.coloryr.allmusic.server;
 
+import com.coloryr.allmusic.server.core.AllMusic;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -10,28 +11,26 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 public class AllMusicServer implements DedicatedServerModInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
     public static final String dir = "allmusic_server/";
     public static MinecraftServer server;
 
     @Override
     public void onInitializeServer() {
-        com.coloryr.allmusic.server.core.AllMusic.log = new LogFabric();
-        com.coloryr.allmusic.server.core.AllMusic.side = new SideFabric();
-
-        new com.coloryr.allmusic.server.core.AllMusic().init(new File(dir));
+        AllMusic.log = new LogFabric();
+        AllMusic.side = new SideFabric();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment)
                 -> CommandFabric.instance.register(dispatcher));
 
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
             server = a;
-            com.coloryr.allmusic.server.core.AllMusic.start();
+            AllMusic.init(new File(dir));
+            AllMusic.start();
             Tasks.init();
         });
 
         ServerLifecycleEvents.SERVER_STOPPING.register((a) -> {
-            com.coloryr.allmusic.server.core.AllMusic.stop();
+            AllMusic.stop();
         });
     }
 }

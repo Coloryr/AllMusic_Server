@@ -80,7 +80,7 @@ public class MusicHttpClient {
             int httpCode = response.getCode();
             HttpEntity entity = response.getEntity();
             if (entity == null) {
-                AllMusic.log.warning("<light_purple>[AllMusic3]<red>获取网页错误");
+                AllMusic.log.data("<light_purple>[AllMusic3]<red>获取网页错误");
                 return null;
             }
             InputStream inputStream = entity.getContent();
@@ -96,7 +96,7 @@ public class MusicHttpClient {
             // 注意：需要调用者关闭 InputStream
             return inputStream;
         } catch (Exception e) {
-            AllMusic.log.warning("<light_purple>[AllMusic3]<red>获取网页错误");
+            AllMusic.log.data("<light_purple>[AllMusic3]<red>获取网页错误");
             e.printStackTrace();
         }
         return null;

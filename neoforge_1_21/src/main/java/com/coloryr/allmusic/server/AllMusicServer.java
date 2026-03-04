@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server;
 import com.coloryr.allmusic.comm.AllMusicInit;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.mojang.brigadier.CommandDispatcher;
+import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.api.distmarker.Dist;
@@ -23,14 +24,13 @@ public class AllMusicServer {
     public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
     public static MinecraftServer server;
 
+    public static MinecraftServerAudiences audiences;
     public static final String dir = "config/allmusic_server/";
 
     @SubscribeEvent
     public static void commonSetup(final FMLCommonSetupEvent event) {
         AllMusic.log = new LogForge();
         AllMusic.side = new SideNeoForge();
-
-        new AllMusic().init(new File(dir));
     }
 
     @EventBusSubscriber(modid = AllMusicInit.MODID, value = Dist.DEDICATED_SERVER)
@@ -45,7 +45,8 @@ public class AllMusicServer {
         @SubscribeEvent
         public static void onServerStarting(ServerStartedEvent event) {
             server = event.getServer();
-
+            audiences = MinecraftServerAudiences.of(server);
+            new AllMusic().init(new File(dir));
             AllMusic.start();
             Tasks.init();
         }

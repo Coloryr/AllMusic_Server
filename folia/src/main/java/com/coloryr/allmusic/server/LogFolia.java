@@ -1,23 +1,14 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.core.side.IMyLogger;
+import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 
 import java.util.logging.Logger;
 
-public class LogFolia implements IMyLogger {
-    private final Logger Logger;
-
-    public LogFolia(Logger Logger) {
-        this.Logger = Logger;
-    }
-
+public class LogFolia implements IAllMusicLogger {
     @Override
-    public void warning(String data) {
-        Logger.warning(data);
-    }
-
-    @Override
-    public void info(String data) {
-        Logger.info(data);
+    public void data(Component data) {
+        Bukkit.getConsoleSender().sendMessage(data);
     }
 }

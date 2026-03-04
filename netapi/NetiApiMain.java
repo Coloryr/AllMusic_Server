@@ -27,11 +27,11 @@ public class NetiApiMain implements IMusicApi {
     private boolean isUpdate;
 
     public NetiApiMain() {
-        AllMusic.log.info("<light_purple>[AllMusic3]<yellow>正在初始化网络爬虫");
+        AllMusic.log.data("<light_purple>[AllMusic3]<yellow>正在初始化网络爬虫");
 
         HttpResObj res = NetApiHttpClient.get("https://music.163.com", "");
-        if (res == null || !res.ok()) {
-            AllMusic.log.info("<light_purple>[AllMusic3]<red>初始化net api失败");
+        if (res == null || !res.ok) {
+            AllMusic.log.data("<light_purple>[AllMusic3]<red>初始化net api失败");
         }
     }
 
@@ -76,18 +76,18 @@ public class NetiApiMain implements IMusicApi {
         params.addProperty("c", "[{\"id\":" + id + "}]");
 
         HttpResObj res = NetApiHttpClient.post("https://music.163.com/api/v3/song/detail", params, EncryptType.WEAPI, null);
-        if (res != null && res.ok()) {
-            InfoObj temp = AllMusic.gson.fromJson(res.data(), InfoObj.class);
+        if (res != null && res.ok) {
+            InfoObj temp = AllMusic.gson.fromJson(res.data, InfoObj.class);
             if (temp.isOk()) {
                 params = new JsonObject();
                 params.addProperty("ids", "[" + id + "]");
                 params.addProperty("br", "320000");
                 res = NetApiHttpClient.post("https://music.163.com/weapi/song/enhance/player/url", params, EncryptType.WEAPI, null);
-                if (res == null || !res.ok()) {
-                    AllMusic.log.warning("<light_purple>[AllMusic3]<red>版权检索失败");
+                if (res == null || !res.ok) {
+                    AllMusic.log.data("<light_purple>[AllMusic3]<red>版权检索失败");
                     return null;
                 }
-                TrialInfoObj obj = AllMusic.gson.fromJson(res.data(), TrialInfoObj.class);
+                TrialInfoObj obj = AllMusic.gson.fromJson(res.data, TrialInfoObj.class);
                 return new SongInfoObj(temp.getAuthor(), temp.getName(),
                         id, temp.getAlia(), player, temp.getAl(), isList, temp.getLength(),
                         temp.getPicUrl(), obj.isTrial(), obj.getFreeTrialInfo(),
@@ -117,14 +117,14 @@ public class NetiApiMain implements IMusicApi {
         JsonObject params = new JsonObject();
         params.addProperty("id", id);
         HttpResObj res = NetApiHttpClient.post("https://music.163.com/api/dj/program/detail", params, EncryptType.WEAPI, null);
-        if (res != null && res.ok()) {
-            PrInfoObj temp = AllMusic.gson.fromJson(res.data(), PrInfoObj.class);
+        if (res != null && res.ok) {
+            PrInfoObj temp = AllMusic.gson.fromJson(res.data, PrInfoObj.class);
             if (temp.isOk()) {
                 return new SongInfoObj(temp.getAuthor(), temp.getName(),
                         temp.getId(), temp.getAlia(), player, "电台", isList, temp.getLength(),
                         null, false, null, getId());
             } else {
-                AllMusic.log.warning("<light_purple>[AllMusic3]<red>歌曲信息获取为空");
+                AllMusic.log.data("<light_purple>[AllMusic3]<red>歌曲信息获取为空");
             }
         }
         return info;
@@ -142,12 +142,12 @@ public class NetiApiMain implements IMusicApi {
         params.addProperty("level", "lossless");
         params.addProperty("encodeType", "aac");
         HttpResObj res = NetApiHttpClient.post("https://music.163.com/weapi/song/enhance/player/url/v1", params, EncryptType.WEAPI, null);
-        if (res != null && res.ok()) {
+        if (res != null && res.ok) {
             try {
-                TrialInfoObj obj = AllMusic.gson.fromJson(res.data(), TrialInfoObj.class);
+                TrialInfoObj obj = AllMusic.gson.fromJson(res.data, TrialInfoObj.class);
                 return obj.getUrl();
             } catch (Exception e) {
-                AllMusic.log.warning("<light_purple>[AllMusic3]<red>播放连接解析错误：" + res.data());
+                AllMusic.log.data("<light_purple>[AllMusic3]<red>播放连接解析错误：" + res.data);
                 e.printStackTrace();
             }
         }
@@ -167,14 +167,14 @@ public class NetiApiMain implements IMusicApi {
             params.addProperty("n", 100000);
             params.addProperty("s", 8);
             HttpResObj res = NetApiHttpClient.post("https://music.163.com/api/v6/playlist/detail", params, EncryptType.API, null);
-            if (res != null && res.ok())
+            if (res != null && res.ok)
                 try {
                     isUpdate = true;
-                    DataObj obj = AllMusic.gson.fromJson(res.data(), DataObj.class);
+                    DataObj obj = AllMusic.gson.fromJson(res.data, DataObj.class);
                     DataSql.addIdleList(obj.getPlaylist(), getId());
                     AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().musicPlay.listMusic.get.replace(ARG.name, obj.getName()));
                 } catch (Exception e) {
-                    AllMusic.log.warning("<light_purple>[AllMusic3]<red>歌曲列表获取错误");
+                    AllMusic.log.data("<light_purple>[AllMusic3]<red>歌曲列表获取错误");
                     e.printStackTrace();
                 }
             isUpdate = false;
@@ -202,13 +202,13 @@ public class NetiApiMain implements IMusicApi {
         params.addProperty("rtv", 0);
         HttpResObj res = NetApiHttpClient.post("https://interface3.music.163.com/eapi/song/lyric/v1",
                 params, EncryptType.EAPI, "/api/song/lyric/v1");
-        if (res != null && res.ok()) {
+        if (res != null && res.ok) {
             try {
-                WLyricObj obj = AllMusic.gson.fromJson(res.data(), WLyricObj.class);
+                WLyricObj obj = AllMusic.gson.fromJson(res.data, WLyricObj.class);
                 LyricDecoder temp = new LyricDecoder();
                 for (int times = 0; times < 3; times++) {
                     if (temp.check(obj)) {
-                        AllMusic.log.warning("<light_purple>[AllMusic3]<red>歌词解析错误，正在进行第" + times + "重试");
+                        AllMusic.log.data("<light_purple>[AllMusic3]<red>歌词解析错误，正在进行第" + times + "重试");
                     } else {
                         if (temp.isHave) {
                             lyric.setHaveLyric(AllMusic.getConfig().sendLyric);
@@ -221,9 +221,9 @@ public class NetiApiMain implements IMusicApi {
                     }
                     Thread.sleep(1000);
                 }
-                AllMusic.log.warning("<light_purple>[AllMusic3]<red>歌词解析失败");
+                AllMusic.log.data("<light_purple>[AllMusic3]<red>歌词解析失败");
             } catch (Exception e) {
-                AllMusic.log.warning("<light_purple>[AllMusic3]<red>歌词解析错误");
+                AllMusic.log.data("<light_purple>[AllMusic3]<red>歌词解析错误");
                 e.printStackTrace();
             }
         }
@@ -255,8 +255,8 @@ public class NetiApiMain implements IMusicApi {
         params.addProperty("offset", 0);
 
         HttpResObj res = NetApiHttpClient.post("https://music.163.com/weapi/search/get", params, EncryptType.WEAPI, null);
-        if (res != null && res.ok()) {
-            SearchDataObj obj = AllMusic.gson.fromJson(res.data(), SearchDataObj.class);
+        if (res != null && res.ok) {
+            SearchDataObj obj = AllMusic.gson.fromJson(res.data, SearchDataObj.class);
             if (obj != null && obj.isOk()) {
                 List<songs> res1 = obj.getResult();
                 SearchMusicObj item;
@@ -268,7 +268,7 @@ public class NetiApiMain implements IMusicApi {
                 maxpage = res1.size() / 10;
                 return new SearchPageObj(resData, maxpage, getId());
             } else {
-                AllMusic.log.warning("<light_purple>[AllMusic3]<red>歌曲搜索出现错误");
+                AllMusic.log.data("<light_purple>[AllMusic3]<red>歌曲搜索出现错误");
 
             }
         }

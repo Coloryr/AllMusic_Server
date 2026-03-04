@@ -15,7 +15,7 @@ def getVersionFromFile() {
 
 version = getVersionFromFile()
 
-archivesBaseName = "[bungeecord_velocity]AllMusic_Server"
+archivesBaseName = "[velocity]AllMusic_Server"
 
 repositories {
     mavenCentral()
@@ -43,7 +43,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'net.md-5:bungeecord-api:1.20-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7.1"
     compileOnly 'me.clip:placeholderapi:2.11.6'
 
@@ -51,8 +50,11 @@ dependencies {
     compile 'org.apache.httpcomponents.client5:httpclient5:5.6'
     compile 'com.google.code.gson:gson:2.11.0'
 
+    compileOnly 'io.netty:netty-all:4.1.109.Final'
     compileOnly 'com.velocitypowered:velocity-api:3.0.0'
     annotationProcessor 'com.velocitypowered:velocity-api:3.0.0'
+
+    compileOnly 'net.kyori:adventure-text-minimessage:4.26.1'
 }
 
 shadowJar {

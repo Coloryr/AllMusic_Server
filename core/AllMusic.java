@@ -30,6 +30,7 @@ import java.util.*;
 public class AllMusic {
     public static final Gson gson = new GsonBuilder()
             .disableHtmlEscaping()
+            .setPrettyPrinting()
             .create();
     public static final Random random = new Random();
 
@@ -111,7 +112,7 @@ public class AllMusic {
     public static void configCheck() {
         if (config == null || config.check()) {
             config = ConfigObj.make();
-            log.warning("<light_purple>[AllMusic3]<red>配置文件config.json错误，已覆盖");
+            log.data("<light_purple>[AllMusic3]<red>配置文件config.json错误，已覆盖");
             saveConfig();
         }
     }
@@ -122,7 +123,7 @@ public class AllMusic {
     private static void messageCheck() {
         if (message == null || message.check()) {
             message = MessageObj.make();
-            log.warning("<light_purple>[AllMusic3]<red>配置文件message.json错误，已覆盖");
+            log.data("<light_purple>[AllMusic3]<red>配置文件message.json错误，已覆盖");
             saveMessage();
         }
     }
@@ -205,7 +206,7 @@ public class AllMusic {
      */
     public static ConfigObj getConfig() {
         if (config == null) {
-            log.warning("<light_purple>[AllMusic3]<red>配置文件config.json错误，已使用默认配置文件");
+            log.data("<light_purple>[AllMusic3]<red>配置文件config.json错误，已使用默认配置文件");
             config = ConfigObj.make();
         }
         return config;
@@ -218,7 +219,7 @@ public class AllMusic {
      */
     public static MessageObj getMessage() {
         if (message == null) {
-            log.warning("<light_purple>[AllMusic3]<red>配置文件message.json错误，已使用默认配置文件");
+            log.data("<light_purple>[AllMusic3]<red>配置文件message.json错误，已使用默认配置文件");
             message = MessageObj.make();
         }
         return message;
@@ -288,7 +289,7 @@ public class AllMusic {
      */
     public static void saveConfig() {
         try {
-            String data = new GsonBuilder().setPrettyPrinting().create().toJson(config);
+            String data = gson.toJson(config);
             FileOutputStream out = new FileOutputStream(configFile);
             OutputStreamWriter write = new OutputStreamWriter(
                     out, StandardCharsets.UTF_8);
@@ -296,14 +297,14 @@ public class AllMusic {
             write.close();
             out.close();
         } catch (Exception e) {
-            log.warning("<light_purple>[AllMusic3]<red>配置文件保存错误");
+            log.data("<light_purple>[AllMusic3]<red>配置文件保存错误");
             e.printStackTrace();
         }
     }
 
     public static void saveMessage() {
         try {
-            String data = new GsonBuilder().setPrettyPrinting().create().toJson(message);
+            String data = gson.toJson(message);
             FileOutputStream out = new FileOutputStream(messageFile);
             OutputStreamWriter write = new OutputStreamWriter(
                     out, StandardCharsets.UTF_8);
@@ -311,7 +312,7 @@ public class AllMusic {
             write.close();
             out.close();
         } catch (Exception e) {
-            log.warning("<light_purple>[AllMusic3]<red>配置文件保存错误");
+            log.data("<light_purple>[AllMusic3]<red>配置文件保存错误");
             e.printStackTrace();
         }
     }
@@ -321,14 +322,14 @@ public class AllMusic {
      */
     public static void saveCookie() {
         try {
-            String data = new GsonBuilder().setPrettyPrinting().create().toJson(cookie);
+            String data = gson.toJson(cookie);
             FileOutputStream out = new FileOutputStream(cookieFile);
             OutputStreamWriter write = new OutputStreamWriter(
                     out, StandardCharsets.UTF_8);
             write.write(data);
             write.close();
         } catch (Exception e) {
-            log.warning("<light_purple>[AllMusic3]<red>配置文件保存错误");
+            log.data("<light_purple>[AllMusic3]<red>配置文件保存错误");
             e.printStackTrace();
         }
     }
@@ -347,7 +348,7 @@ public class AllMusic {
         MusicSearch.start();
         DataSql.start();
 
-        log.info("<light_purple>[AllMusic3]<yellow>已启动-" + version);
+        log.data("<light_purple>[AllMusic3]<yellow>已启动-" + version);
     }
 
     /**
@@ -361,7 +362,7 @@ public class AllMusic {
         PlayMusic.stop();
         PlayRuntime.stop();
         DataSql.stop();
-        log.info("<light_purple>[AllMusic3]<dark_green><yellow>已停止，感谢使用");
+        log.data("<light_purple>[AllMusic3]<dark_green><yellow>已停止，感谢使用");
     }
 
     /**
@@ -372,30 +373,30 @@ public class AllMusic {
             InputStreamReader reader = new InputStreamReader(
                     Files.newInputStream(configFile.toPath()), StandardCharsets.UTF_8);
             BufferedReader bf = new BufferedReader(reader);
-            config = new Gson().fromJson(bf, ConfigObj.class);
+            config = gson.fromJson(bf, ConfigObj.class);
             bf.close();
             reader.close();
             configCheck();
 
             reader = new InputStreamReader(Files.newInputStream(messageFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
-            message = new Gson().fromJson(bf, MessageObj.class);
+            message = gson.fromJson(bf, MessageObj.class);
             bf.close();
             reader.close();
             messageCheck();
 
-            log.info("<light_purple>[AllMusic3]<yellow>当前语言配置文件版本为：" + messageVersion
+            log.data("<light_purple>[AllMusic3]<yellow>当前语言配置文件版本为：" + messageVersion
                     + "，你的语言文件版本为：" + message.version);
 
             if (!message.version.equalsIgnoreCase(messageVersion)) {
-                log.warning("<light_purple>[AllMusic3]<red>语言文件版本号错误，运行可能会发生问题，请删除后重载");
+                log.data("<light_purple>[AllMusic3]<red>语言文件版本号错误，运行可能会发生问题，请删除后重载");
             }
 
             reader = new InputStreamReader(Files.newInputStream(cookieFile.toPath()), StandardCharsets.UTF_8);
             bf = new BufferedReader(reader);
             Type listType = new TypeToken<ArrayList<CookieObj>>() {
             }.getType();
-            cookie = new Gson().fromJson(bf, listType);
+            cookie = gson.fromJson(bf, listType);
             bf.close();
             reader.close();
             if (cookie == null) {
@@ -403,14 +404,14 @@ public class AllMusic {
                 saveCookie();
             }
 
-            log.info("<light_purple>[AllMusic3]<yellow>当前插件配置文件版本为：" + configVersion
+            log.data("<light_purple>[AllMusic3]<yellow>当前插件配置文件版本为：" + configVersion
                     + "，你的配置文件版本为：" + config.version);
 
             if (!AllMusic.configVersion.equalsIgnoreCase(config.version)) {
-                log.warning("<light_purple>[AllMusic3]<red>请及时更新配置文件");
+                log.data("<light_purple>[AllMusic3]<red>请及时更新配置文件");
             }
         } catch (Exception e) {
-            log.warning("<light_purple>[AllMusic3]<red>读取配置文件错误");
+            log.data("<light_purple>[AllMusic3]<red>读取配置文件错误");
             e.printStackTrace();
         }
     }
@@ -465,8 +466,8 @@ public class AllMusic {
      *
      * @param file 配置文件文件夹
      */
-    public void init(File file) {
-        log.info("<light_purple>[AllMusic3]<dark_green><yellow>正在启动，感谢使用，本插件交流群：571239090");
+    public static void init(File file) {
+        log.data("<light_purple>[AllMusic3]<yellow>正在启动，感谢使用，本插件交流群：571239090");
         try {
             if (!file.exists())
                 file.mkdir();
@@ -491,7 +492,7 @@ public class AllMusic {
             isRun = true;
         } catch (IOException e) {
             isRun = false;
-            log.warning("<light_purple>[AllMusic3]<red>启动失败");
+            log.data("<light_purple>[AllMusic3]<red>启动失败");
             e.printStackTrace();
         }
     }

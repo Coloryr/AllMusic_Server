@@ -36,7 +36,7 @@ public class MusicSearch {
                 }
                 Thread.sleep(100);
             } catch (Exception e) {
-                AllMusic.log.warning("搜歌出现问题");
+                AllMusic.log.data("搜歌出现问题");
                 e.printStackTrace();
             }
         }
@@ -75,9 +75,9 @@ public class MusicSearch {
             item = search.getRes(a + search.getPage() * 10);
             info = AllMusic.getMessage().page.choice;
             info = info.replace(ARG.index, "" + (a + 1))
-                    .replace(ARG.musicName, item.name())
-                    .replace(ARG.musicAuthor, item.author())
-                    .replace(ARG.musicAl, item.al());
+                    .replace(ARG.musicName, item.name)
+                    .replace(ARG.musicAuthor, item.author)
+                    .replace(ARG.musicAl, item.al);
             AllMusic.side.sendMessage(sender, AllMusic.miniMessage(info)
                     .append(AllMusic.miniMessageRun(AllMusic.getMessage().click.clickRun, "/music select " + (a + 1))));
         }

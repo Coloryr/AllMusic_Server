@@ -1,7 +1,12 @@
 package com.coloryr.allmusic.server.core.side;
 
-public interface IAllMusicLogger {
-    void warning(String data);
+import com.coloryr.allmusic.server.core.AllMusic;
+import net.kyori.adventure.text.Component;
 
-    void info(String data);
+public interface IAllMusicLogger {
+    default void data(String data) {
+        data(AllMusic.miniMessage(data));
+    }
+
+    void data(Component data);
 }
