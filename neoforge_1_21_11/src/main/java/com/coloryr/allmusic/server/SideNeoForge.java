@@ -9,8 +9,8 @@ import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
+import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.PermissionSet;
 import net.neoforged.neoforge.common.NeoForge;
@@ -92,7 +92,7 @@ public class SideNeoForge extends BaseSide {
     }
 
     @Override
-    public void sendBar(Object player, net.kyori.adventure.text.Component data) {
+    public void sendBar(Object player, Component data) {
         if (player instanceof ServerPlayer player1) {
             AllMusicServer.audiences.audience(player1).sendActionBar(data);
         }
@@ -104,7 +104,7 @@ public class SideNeoForge extends BaseSide {
     }
 
     @Override
-    public void broadcast(net.kyori.adventure.text.Component message) {
+    public void broadcast(Component message) {
         for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
                 AllMusicServer.audiences.audience(player).sendActionBar(message);
@@ -113,7 +113,7 @@ public class SideNeoForge extends BaseSide {
     }
 
     @Override
-    public void sendMessage(Object obj, net.kyori.adventure.text.Component message) {
+    public void sendMessage(Object obj, Component message) {
         if(obj instanceof CommandSourceStack source) {
             AllMusicServer.audiences.audience(source).sendActionBar(message);
         }
@@ -137,11 +137,6 @@ public class SideNeoForge extends BaseSide {
     private void send(ServerPlayer players, MusicPack data) {
         if (players == null)
             return;
-        try {
-            runTask(() -> PacketDistributor.sendToPlayer(players, new MusicCodec(data)));
-        } catch (Exception e) {
-            AllMusic.log.warning("§c数据发送发生错误");
-            e.printStackTrace();
-        }
+        runTask(() -> PacketDistributor.sendToPlayer(players, new MusicCodec(data)));
     }
 }

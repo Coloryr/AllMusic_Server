@@ -44,7 +44,7 @@ public class AllMusicServer {
     public static void onServerStarting(ServerStartedEvent event) {
         audiences = MinecraftServerAudiences.of(event.getServer());
         server = event.getServer();
-        new AllMusic().init(new File(dir));
+        AllMusic.init(new File(dir));
         AllMusic.start();
         Tasks.init();
     }
