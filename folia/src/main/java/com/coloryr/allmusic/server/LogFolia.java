@@ -4,8 +4,6 @@ import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 
-import java.util.logging.Logger;
-
 public class LogFolia implements IAllMusicLogger {
     @Override
     public void data(Component data) {
