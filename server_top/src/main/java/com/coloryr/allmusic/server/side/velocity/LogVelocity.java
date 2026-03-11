@@ -7,6 +7,6 @@ import net.kyori.adventure.text.Component;
 public class LogVelocity implements IAllMusicLogger {
     @Override
     public void data(Component data) {
-        AllMusicVelocity.plugin.server.sendMessage(data);
+        AllMusicVelocity.plugin.server.getConsoleCommandSource().sendMessage(data);
     }
 }
