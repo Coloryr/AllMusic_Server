@@ -20,7 +20,7 @@ public class PlayMusic {
      */
     private static final List<SongInfoObj> playList = new ArrayList<>();
     private static final Queue<PlayerAddMusicObj> tasks = new ConcurrentLinkedQueue<>();
-    private static final Queue<MusicObj> deep = new PriorityQueue<>();
+    private static final Queue<MusicObj> deep = new ConcurrentLinkedQueue<>();
     /**
      * 切歌投票的玩家
      */
