@@ -1,4 +1,0 @@
-name: AllMusic3
-main: com.coloryr.allmusic.server.AllMusicBC
-author: Color_yr
-version: ${version}

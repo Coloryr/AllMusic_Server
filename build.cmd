@@ -16,8 +16,8 @@ set "PROJECTS[10]=fabric_1_21_6"
 set "PROJECTS[11]=fabric_1_21_11"
 set "PROJECTS[12]=fabric_26_1"
 set "PROJECTS[13]=folia"
-set "PROJECTS[14]=server"
-set "PROJECTS[15]=server_top"
+set "PROJECTS[14]=paper"
+set "PROJECTS[15]=velocity"
 
 set /a ARRAY_LENGTH=15
 set /a LENGTH="%ARRAY_LENGTH%"+1

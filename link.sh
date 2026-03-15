@@ -7,7 +7,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 mkdir -p "$ROOT_DIR/build/libs"
 
 # 定义数组
-array=("folia" "server_top" "server" \
+array=("folia" "velocity" "paper" \
        "fabric_1_16_5" "fabric_1_20_1" "fabric_1_21" "fabric_1_21_6" "fabric_26_1" \
        "forge_1_7_10" "forge_1_12_2" "forge_1_16_5" "forge_1_20_1" \
        "neoforge_1_21" "neoforge_1_21_6")
@@ -26,7 +26,7 @@ for dir in "${array[@]}"; do
 done
 
 # 第二个数组
-array1=("folia" "server_top" \
+array1=("folia" "velocity" \
         "fabric_1_16_5" "fabric_1_20_1" "fabric_1_21" "fabric_1_21_6" "fabric_26_1" \
         "forge_1_7_10" "forge_1_12_2" "forge_1_16_5" "forge_1_20_1" \
         "neoforge_1_21" "neoforge_1_21_6")
@@ -39,7 +39,7 @@ for dir in "${array1[@]}"; do
 done
 
 # 第三个数组
-array2=("folia" "server_top" "server")
+array2=("folia" "velocity" "paper")
 
 # 为第三个数组创建符号链接
 for dir in "${array2[@]}"; do

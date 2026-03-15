@@ -86,11 +86,11 @@ jobs:
     - name: build
       shell: cmd
       run: |
-        link.cmd && cd server_top && gradlew shadowJar
+        link.cmd && cd velocity && gradlew shadowJar
     - name: update
       uses: actions/upload-artifact@v4
       with:
-        name: "allmusic_server_bungeecord_velocity"
+        name: "allmusic_server_velocity"
         path: build/libs/
   build_fabric_1_16_5:
     runs-on: windows-latest

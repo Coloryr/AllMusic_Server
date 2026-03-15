@@ -19,22 +19,11 @@ archivesBaseName = "[velocity]AllMusic_Server"
 
 repositories {
     mavenCentral()
-
-    maven {
-        name 'Spigot'
-        url 'https://hub.spigotmc.org/nexus/content/groups/public'
-    }
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
     maven {
         url 'https://jitpack.io'
-    }
-    maven {
-        url ' https://mvnrepository.com/artifact/mysql/mysql-connector-java'
-    }
-    maven {
-        url 'https://maven.citizensnpcs.co/repo'
     }
     maven {
         name = 'papermc'
@@ -65,12 +54,4 @@ shadowJar {
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("bungee.yml") {
-        expand "version": project.version
-    }
 }
