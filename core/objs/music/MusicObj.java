@@ -1,7 +1,5 @@
 package com.coloryr.allmusic.server.core.objs.music;
 
-import org.jspecify.annotations.NonNull;
-
 public class MusicObj implements Comparable {
     /**
      * 音乐编号
@@ -13,7 +11,7 @@ public class MusicObj implements Comparable {
     public String api;
 
     @Override
-    public int compareTo(@NonNull Object o) {
+    public int compareTo(Object o) {
         if (o instanceof MusicObj) {
             MusicObj obj = (MusicObj) o;
             int result = this.id.compareTo(obj.id);

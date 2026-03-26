@@ -453,12 +453,12 @@ public class AllMusic {
 
     public static Component miniMessageRun(String input, String command) {
         Component component = miniMessage(input);
-        return component.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, ClickEvent.Payload.string(command)));
+        return component.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, command));
     }
 
     public static Component miniMessageSuggest(String input, String command) {
         Component component = miniMessage(input);
-        return component.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, ClickEvent.Payload.string(command)));
+        return component.clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, command));
     }
 
     /**
