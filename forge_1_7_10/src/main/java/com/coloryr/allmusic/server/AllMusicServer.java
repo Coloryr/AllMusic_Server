@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -75,7 +76,7 @@ public class AllMusicServer {
 
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        AllMusic.removeNowPlayPlayer(event.player.getCommandSenderName());
+        PlayMusic.removeNowPlayPlayer(event.player.getCommandSenderName());
     }
 
     @SubscribeEvent

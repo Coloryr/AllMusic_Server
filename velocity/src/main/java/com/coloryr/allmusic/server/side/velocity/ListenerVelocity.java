@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.side.velocity;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.google.common.io.ByteArrayDataInput;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
@@ -11,7 +12,7 @@ import com.velocitypowered.api.proxy.ServerConnection;
 public class ListenerVelocity {
     @Subscribe
     public void onDisconnectEvent(final DisconnectEvent event) {
-        AllMusic.removeNowPlayPlayer(event.getPlayer().getUsername());
+        PlayMusic.removeNowPlayPlayer(event.getPlayer().getUsername());
     }
 
     @Subscribe

@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
@@ -82,7 +83,7 @@ public class AllMusicNeoForge {
 
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        AllMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
+        PlayMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
     }
 
     @SubscribeEvent
