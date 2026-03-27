@@ -18,7 +18,6 @@ public class PlayRuntime {
      */
     private static int count = 0;
     private static int ping = 0;
-    private static boolean isRun;
     /**
      * 歌曲更新计数器
      */
@@ -28,22 +27,20 @@ public class PlayRuntime {
      */
     private static ScheduledExecutorService service;
     /**
-     * 歌词定时器
-     */
-    private static ScheduledExecutorService service1;
-    /**
      * 事务定时器
      */
     private static ScheduledExecutorService service2;
+
+    private static boolean isPlay;
 
     /**
      * 启动歌曲工作
      */
     public static void start() {
-        Thread taskT = new Thread(PlayRuntime::musicPlayTask, "AllMusicPlay");
-        isRun = true;
-        taskT.start();
+        new Thread(PlayRuntime::musicPlayTask, "allMusic_play").start();
 
+        service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(PlayRuntime::time1, 0, 10, TimeUnit.MILLISECONDS);
         service2 = Executors.newSingleThreadScheduledExecutor();
         service2.scheduleAtFixedRate(PlayRuntime::time3, 0, 1, TimeUnit.SECONDS);
     }
@@ -52,40 +49,22 @@ public class PlayRuntime {
      * 停止歌曲工作
      */
     public static void stop() {
-        closeTimer();
-        if (service2 != null) {
-            service2.shutdown();
-            service2 = null;
-        }
-        isRun = false;
-        PlayMusic.musicLessTime = 0;
-    }
-
-    private static void closeTimer() {
         if (service != null) {
             service.shutdown();
             service = null;
         }
-        if (service1 != null) {
-            service1.shutdown();
-            service1 = null;
+        if (service2 != null) {
+            service2.shutdown();
+            service2 = null;
         }
-    }
-
-    private static void startTimer() {
-        service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(PlayRuntime::time1, 0, 10, TimeUnit.MILLISECONDS);
-        if (PlayMusic.lyric != null && PlayMusic.lyric.isHaveLyric()) {
-            service1 = Executors.newSingleThreadScheduledExecutor();
-            service1.scheduleAtFixedRate(PlayRuntime::time2, 0, 2, TimeUnit.MILLISECONDS);
-        }
+        PlayMusic.musicLessTime = 0;
     }
 
     /**
      * 清空歌曲数据
      */
     private static void clear() {
-        closeTimer();
+        isPlay = false;
         PlayMusic.musicNowTime = 0;
         PlayMusic.musicAllTime = 0;
         PlayMusic.musicLessTime = 0;
@@ -102,37 +81,35 @@ public class PlayRuntime {
      * 歌曲时间定时器
      */
     private static void time1() {
-        PlayMusic.musicNowTime += 10;
-        count++;
-        if (count == 100) {
-            PlayMusic.musicLessTime--;
-            count = 0;
+        if (isPlay) {
+            PlayMusic.musicNowTime += 10;
+            count++;
+            if (count == 100) {
+                PlayMusic.musicLessTime--;
+                count = 0;
+            }
         }
-    }
 
-    /**
-     * 歌词更新
-     */
-    private static void time2() {
-        try {
-            if (PlayMusic.lyric == null)
-                return;
-            boolean res = PlayMusic.lyric
-                    .checkTime(PlayMusic.musicNowTime, AllMusic.getConfig().ktvMode);
-            if (res) {
-                times = 0;
-                HudUtils.sendHudLyricData();
-                AllMusic.side.updateLyric();
-            } else {
-                times++;
-                if (times == AllMusic.getConfig().sendDelay / 2 && PlayMusic.lyric != null) {
+        if (PlayMusic.lyric != null && PlayMusic.lyric.isHaveLyric()) {
+            try {
+                if (PlayMusic.lyric == null)
+                    return;
+                boolean res = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime, AllMusic.getConfig().ktvMode);
+                if (res) {
                     times = 0;
                     HudUtils.sendHudLyricData();
                     AllMusic.side.updateLyric();
+                } else {
+                    times++;
+                    if (times == AllMusic.getConfig().sendDelay / 2 && PlayMusic.lyric != null) {
+                        times = 0;
+                        HudUtils.sendHudLyricData();
+                        AllMusic.side.updateLyric();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -213,7 +190,8 @@ public class PlayRuntime {
     }
 
     private static void musicPlayTask() {
-        while (isRun) {
+        AllMusic.log.data("歌曲播放线程启动");
+        while (AllMusic.isRun) {
             try {
                 if (PlayMusic.getListSize() == 0) {
                     if (PlayMusic.error >= 10) {
@@ -258,7 +236,7 @@ public class PlayRuntime {
 
                     if (PlayMusic.nowPlayMusic.getLength() != 0) {
                         PlayMusic.musicAllTime = PlayMusic.musicLessTime = (PlayMusic.nowPlayMusic.getLength() / 1000) + 3;
-                        startTimer();
+                        isPlay = true;
                         AllMusic.side.sendMusic(PlayMusic.url);
                         if (!AllMusic.getConfig().mutePlayMessage) {
                             SongInfoObj music = PlayMusic.nowPlayMusic;
@@ -311,5 +289,6 @@ public class PlayRuntime {
                 e.printStackTrace();
             }
         }
+        AllMusic.log.data("歌曲播放线程停止");
     }
 }

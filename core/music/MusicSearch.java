@@ -12,10 +12,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MusicSearch {
     private static final Queue<PlayerAddMusicObj> tasks = new ConcurrentLinkedQueue<>();
-    private static boolean isRun;
 
     private static void task() {
-        while (isRun) {
+        AllMusic.log.data("歌曲搜索线程启动");
+        while (AllMusic.isRun) {
             try {
                 PlayerAddMusicObj obj = tasks.poll();
                 if (obj != null) {
@@ -40,16 +40,11 @@ public class MusicSearch {
                 e.printStackTrace();
             }
         }
+        AllMusic.log.data("歌曲搜索线程停止");
     }
 
     public static void start() {
-        Thread taskT = new Thread(MusicSearch::task, "AllMusic_search");
-        isRun = true;
-        taskT.start();
-    }
-
-    public static void stop() {
-        isRun = false;
+        new Thread(MusicSearch::task, "allmusic_search").start();
     }
 
     public static void addSearch(PlayerAddMusicObj obj) {

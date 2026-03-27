@@ -47,7 +47,7 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.8.0";
+    public static final String version = "3.9.0";
     /**
      * 配置文件版本号
      */
@@ -338,6 +338,8 @@ public class AllMusic {
      * 启动插件
      */
     public static void start() {
+        isRun = true;
+
         MusicHttpClient.init();
 
         IMusicApi api = new NetiApiMain();
@@ -355,13 +357,14 @@ public class AllMusic {
      * 停止插件
      */
     public static void stop() {
+        isRun = false;
+
         PlayMusic.clearVote();
         PlayMusic.clearPush();
-        side.sendStop();
-        MusicSearch.stop();
-        PlayMusic.stop();
+        PlayMusic.clear();
         PlayRuntime.stop();
         DataSql.stop();
+        side.sendStop();
         log.data("<light_purple>[AllMusic3]<dark_green><yellow>已停止，感谢使用");
     }
 

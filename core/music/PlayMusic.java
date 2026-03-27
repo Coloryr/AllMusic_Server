@@ -77,24 +77,13 @@ public class PlayMusic {
      * 插歌目标
      */
     private static SongInfoObj push;
-    private static boolean isRun;
     private static int idleNow;
-
-    /**
-     * 停止歌曲逻辑
-     */
-    public static void stop() {
-        PlayMusic.clear();
-        isRun = false;
-    }
 
     /**
      * 开始歌曲逻辑
      */
     public static void start() {
-        Thread addT = new Thread(PlayMusic::task, "AllMusicList");
-        isRun = true;
-        addT.start();
+        new Thread(PlayMusic::task, "allmusic_task").start();
     }
 
     /**
@@ -218,7 +207,8 @@ public class PlayMusic {
     }
 
     private static void task() {
-        while (isRun) {
+        AllMusic.log.data("歌曲处理线程启动");
+        while (AllMusic.isRun) {
             try {
                 PlayerAddMusicObj obj = tasks.poll();
                 if (obj != null) {
@@ -233,6 +223,7 @@ public class PlayMusic {
                 e.printStackTrace();
             }
         }
+        AllMusic.log.data("歌曲处理线程关闭");
     }
 
     /**
