@@ -1,41 +1,29 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-public class AllMusicFabric implements ModInitializer {
-    public static MinecraftServer server;
-    public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
-
-    public static final Identifier ID = Identifier.fromNamespaceAndPath("allmusic", "channel");
-
+public class AllMusicServer implements DedicatedServerModInitializer {
     public static final String dir = "allmusic_server/";
+    public static MinecraftServer server;
 
     @Override
-    public void onInitialize() {
+    public void onInitializeServer() {
         AllMusic.log = new LogFabric();
         AllMusic.side = new SideFabric();
-
-        new AllMusic().init(new File(dir));
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment)
                 -> CommandFabric.instance.register(dispatcher));
 
-        PayloadTypeRegistry.playS2C().register(PackPayload.ID, PackPayload.CODEC);
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
             server = a;
-
+            AllMusic.init(new File(dir));
             AllMusic.start();
-
             Tasks.init();
         });
 

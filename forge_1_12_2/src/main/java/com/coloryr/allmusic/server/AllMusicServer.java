@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.command.ServerCommandManager;
@@ -70,7 +71,7 @@ public class AllMusicServer {
 
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        AllMusic.removeNowPlayPlayer(event.player.getName());
+        PlayMusic.removeNowPlayPlayer(event.player.getName());
     }
 
     @SubscribeEvent

@@ -19,7 +19,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.coloryr.allmusic.server.AllMusicFabric"
+      "com.coloryr.allmusic.comm.AllMusicInit"
+    ],
+    "server": [
+      "com.coloryr.allmusic.server.AllMusicServer"
     ]
   },
   "mixins": [

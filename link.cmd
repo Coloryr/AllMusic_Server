@@ -48,7 +48,7 @@ for %%i in (%array3%) do (
     if not exist "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3" mklink /j "onejar\%%i\src\main\resources\com\coloryr\allmusic\client\core\player\decoder\mp3" "client\mp3"
 )
 
-set array4=fabric_1_21 fabric_1_21_6 fabric_1_21_11 ^
+set array4=fabric_1_21 fabric_1_21_6 fabric_1_21_11 fabric_26_1 ^
 neoforge_1_21 neoforge_1_21_6 neoforge_1_21_11
 
 for %%i in (%array4%) do (

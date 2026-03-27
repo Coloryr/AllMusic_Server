@@ -1,15 +1,16 @@
 package com.coloryr.allmusic.server;
 
+import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.comm.MusicCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.objs.enums.ComType;
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
+import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.world.InteractionResult;
@@ -20,7 +21,7 @@ import java.util.Collection;
 public class SideFabric extends BaseSide {
     @Override
     public void runTask(Runnable run) {
-        AllMusicFabric.server.execute(run);
+        AllMusicServer.server.execute(run);
     }
 
     @Override
@@ -50,8 +51,8 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean needPlay(boolean islist) {
-        for (var player : AllMusicFabric.server.getPlayerList().getPlayers()) {
-            if (!AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
+        for (var player : AllMusicServer.server.getPlayerList().getPlayers()) {
+            if (!com.coloryr.allmusic.server.core.AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
                 return true;
             }
         }
@@ -60,7 +61,7 @@ public class SideFabric extends BaseSide {
 
     @Override
     public Collection<?> getPlayers() {
-        return AllMusicFabric.server.getPlayerList().getPlayers();
+        return AllMusicServer.server.getPlayerList().getPlayers();
     }
 
     @Override
@@ -78,72 +79,43 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public void send(Object player, ComType type, String data, int data1) {
+    public void send(Object player, CommandType type, String data, int data1) {
         if (player instanceof ServerPlayer player1) {
-            send(player1, new PackPayload(type, data, data1));
+            send(player1, new MusicPack(type, data, data1));
         }
     }
 
     @Override
     public Object getPlayer(String player) {
-        return AllMusicFabric.server.getPlayerList().getPlayer(player);
+        return AllMusicServer.server.getPlayerList().getPlayer(player);
     }
 
     @Override
-    public void sendBar(Object player, String data) {
+    public void sendBar(Object player, net.kyori.adventure.text.Component data) {
         if (player instanceof ServerPlayer player1) {
-            FabricApi.sendBar(player1, data);
+            player1.sendActionBar(data);
         }
     }
 
     @Override
     public File getFolder() {
-        return new File(AllMusicFabric.dir);
+        return new File(AllMusicServer.dir);
     }
 
     @Override
-    public void broadcast(String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        for (var player : AllMusicFabric.server.getPlayerList().getPlayers()) {
+    public void broadcast(net.kyori.adventure.text.Component message) {
+        for (var player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendSystemMessage(Component.literal(message), false);
+                player.sendMessage(message);
             }
         }
     }
 
     @Override
-    public void broadcastWithRun(String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
+    public void sendMessage(Object obj, net.kyori.adventure.text.Component message) {
+        if (obj instanceof CommandSourceStack source) {
+            source.sendMessage(message);
         }
-        FabricApi.sendMessageBqRun(message, end, command);
-    }
-
-    @Override
-    public void sendMessage(Object obj, String message) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        CommandSourceStack source = (CommandSourceStack) obj;
-        source.sendSystemMessage(Component.literal(message));
-    }
-
-    @Override
-    public void sendMessageRun(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        FabricApi.sendMessageRun((CommandSourceStack) obj, message, end, command);
-    }
-
-    @Override
-    public void sendMessageSuggest(Object obj, String message, String end, String command) {
-        if (message == null || message.isEmpty()) {
-            return;
-        }
-        FabricApi.sendMessageSuggest((CommandSourceStack) obj, message, end, command);
     }
 
     @Override
@@ -152,19 +124,14 @@ public class SideFabric extends BaseSide {
     }
 
     @Override
-    public boolean onMusicAdd(Object obj, MusicObj music) {
+    public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         CommandSourceStack source = (CommandSourceStack) obj;
         return MusicAddEvent.EVENT.invoker().interact(source.getPlayer(), music) != InteractionResult.PASS;
     }
 
-    private void send(ServerPlayer players, PackPayload data) {
+    private void send(ServerPlayer players, MusicPack data) {
         if (players == null)
             return;
-        try {
-            runTask(() -> ServerPlayNetworking.send(players, data));
-        } catch (Exception e) {
-            AllMusic.log.warning("§c数据发送发生错误");
-            e.printStackTrace();
-        }
+        runTask(() -> ServerPlayNetworking.send(players, new MusicCodec(data)));
     }
 }

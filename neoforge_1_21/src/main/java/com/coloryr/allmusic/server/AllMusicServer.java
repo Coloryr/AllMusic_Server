@@ -2,6 +2,7 @@ package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.comm.AllMusicInit;
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.mojang.brigadier.CommandDispatcher;
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.commands.CommandSourceStack;
@@ -58,7 +59,7 @@ public class AllMusicServer {
 
         @SubscribeEvent
         public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-            AllMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
+            PlayMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
         }
 
         @SubscribeEvent

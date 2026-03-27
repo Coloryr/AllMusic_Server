@@ -1,15 +1,12 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.core.side.IMyLogger;
+import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
+import net.kyori.adventure.text.Component;
 
-public class LogFabric implements IMyLogger {
-    @Override
-    public void warning(String data) {
-        AllMusicFabric.LOGGER.warn(data);
-    }
 
+public class LogFabric implements IAllMusicLogger {
     @Override
-    public void info(String data) {
-        AllMusicFabric.LOGGER.info(data);
+    public void data(Component data) {
+        AllMusicServer.server.sendMessage(data);
     }
 }
