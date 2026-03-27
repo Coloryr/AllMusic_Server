@@ -14,7 +14,7 @@ public class CommandNextPage extends ACommand {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.noPer);
             return;
         }
-        SearchPageObj obj = AllMusic.getSearch(name);
+        SearchPageObj obj = MusicSearch.getSearch(name);
         if (obj == null) {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().search.emptySearch);
         } else if (obj.nextPage()) {

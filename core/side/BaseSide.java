@@ -4,6 +4,7 @@ import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
@@ -182,7 +183,7 @@ public abstract class BaseSide {
      * @param name 用户名
      */
     public final void sendStop(String name) {
-        AllMusic.removeNowPlayPlayer(name);
+        PlayMusic.removeNowPlayPlayer(name);
         Object player = getPlayer(name);
         if (player == null)
             return;
@@ -198,7 +199,7 @@ public abstract class BaseSide {
      * 发送停止指令
      */
     public final void sendStop() {
-        AllMusic.clearNowPlayer();
+        PlayMusic.clearNowPlayer();
         try {
             for (Object player : getPlayers()) {
                 send(player, CommandType.STOP, null, 0);
@@ -216,7 +217,7 @@ public abstract class BaseSide {
      * @param url    地址
      */
     public final void sendMusic(String player, String url) {
-        AllMusic.addNowPlayPlayer(player);
+        PlayMusic.addNowPlayPlayer(player);
         Object player1 = getPlayer(player);
         if (player1 == null)
             return;
@@ -417,7 +418,7 @@ public abstract class BaseSide {
                 continue;
             try {
                 send(player, CommandType.PLAY, url, 0);
-                AllMusic.addNowPlayPlayer(name);
+                PlayMusic.addNowPlayPlayer(name);
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲指令发送出错");
                 e.printStackTrace();

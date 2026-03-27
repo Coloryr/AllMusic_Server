@@ -738,6 +738,13 @@ public class DataSql {
      */
     public static void stop() {
         semaphore.release();
+        try {
+            if (connection != null && connection.isClosed()) {
+                connection.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void run() {

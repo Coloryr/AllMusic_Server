@@ -57,15 +57,6 @@ public class AllMusic {
      */
     public static final String messageVersion = "210";
     /**
-     * 搜歌结果
-     * 玩家名 结果
-     */
-    private static final Map<String, SearchPageObj> searchSave = new HashMap<>();
-    /**
-     * 正在播放的玩家
-     */
-    private static final Set<String> nowPlayPlayer = new HashSet<>();
-    /**
      * 日志
      */
     public static IAllMusicLogger log;
@@ -129,15 +120,6 @@ public class AllMusic {
     }
 
     /**
-     * 获取正在播放的玩家列表
-     *
-     * @return 列表
-     */
-    public static Set<String> getNowPlayPlayer() {
-        return nowPlayPlayer;
-    }
-
-    /**
      * 检查是否需要放歌
      *
      * @param name      用户名
@@ -156,7 +138,7 @@ public class AllMusic {
                 return true;
             if (!checkPlay)
                 return false;
-            return AllMusic.containNowPlay(name);
+            return PlayMusic.containNowPlay(name);
         } catch (NoSuchElementException e) {
             return true;
         }
@@ -182,21 +164,10 @@ public class AllMusic {
                 return true;
             if (!checkPlay)
                 return false;
-            return AllMusic.containNowPlay(name);
+            return PlayMusic.containNowPlay(name);
         } catch (NoSuchElementException e) {
             return true;
         }
-    }
-
-    /**
-     * 是否存在正在播放的玩家
-     *
-     * @param player 用户名
-     * @return 是否存在
-     */
-    public static boolean containNowPlay(String player) {
-        player = player.toLowerCase();
-        return !nowPlayPlayer.contains(player);
     }
 
     /**
@@ -223,65 +194,6 @@ public class AllMusic {
             message = MessageObj.make();
         }
         return message;
-    }
-
-    /**
-     * 添加搜歌结果
-     *
-     * @param player 用户名
-     * @param page   结果
-     */
-    public static void addSearch(String player, SearchPageObj page) {
-        player = player.toLowerCase();
-        searchSave.put(player, page);
-    }
-
-    /**
-     * 获取搜歌结果
-     *
-     * @param player 用户名
-     * @return 结果
-     */
-    public static SearchPageObj getSearch(String player) {
-        player = player.toLowerCase();
-        return searchSave.get(player);
-    }
-
-    /**
-     * 删除搜歌结果
-     *
-     * @param player 用户名
-     */
-    public static void removeSearch(String player) {
-        player = player.toLowerCase();
-        searchSave.remove(player);
-    }
-
-    /**
-     * 添加正在播放的玩家
-     *
-     * @param player 用户名
-     */
-    public static void addNowPlayPlayer(String player) {
-        player = player.toLowerCase();
-        nowPlayPlayer.add(player);
-    }
-
-    /**
-     * 删除正在播放的玩家
-     *
-     * @param player 用户名
-     */
-    public static void removeNowPlayPlayer(String player) {
-        player = player.toLowerCase();
-        nowPlayPlayer.remove(player);
-    }
-
-    /**
-     * 清空正在播放玩家的列表
-     */
-    public static void clearNowPlayer() {
-        nowPlayPlayer.clear();
     }
 
     /**
@@ -358,10 +270,6 @@ public class AllMusic {
      */
     public static void stop() {
         isRun = false;
-
-        PlayMusic.clearVote();
-        PlayMusic.clearPush();
-        PlayMusic.clear();
         PlayRuntime.stop();
         DataSql.stop();
         side.sendStop();
@@ -427,7 +335,7 @@ public class AllMusic {
     public static void joinPlay(String player) {
         DataSql.task(() -> {
             String player1 = player.toLowerCase();
-            if (DataSql.checkMutePlayer(player1) || nowPlayPlayer.contains(player1)) {
+            if (DataSql.checkMutePlayer(player1) || PlayMusic.containNowPlay(player1)) {
                 return;
             }
             if (DataSql.checkMuteListPlayer(player1) && PlayMusic.nowPlayMusic != null

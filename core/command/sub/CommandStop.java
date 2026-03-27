@@ -3,6 +3,7 @@ package com.coloryr.allmusic.server.core.command.sub;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.CommandEX;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class CommandStop extends ACommand {
     @Override
     public List<String> tab(Object player, String name, String[] args, int index) {
         if (args.length == index || (args.length == index + 1) && CommandEX.checkAdmin(player, name)) {
-            return new ArrayList<>(AllMusic.getNowPlayPlayer());
+            return new ArrayList<>(PlayMusic.getNowPlayPlayer());
         } else {
             return Collections.emptyList();
         }

@@ -22,6 +22,10 @@ public class PlayMusic {
     private static final Queue<PlayerAddMusicObj> tasks = new ConcurrentLinkedQueue<>();
     private static final Queue<MusicObj> deep = new ConcurrentLinkedQueue<>();
     /**
+     * 正在播放的玩家
+     */
+    private static final Set<String> nowPlayPlayer = new HashSet<>();
+    /**
      * 切歌投票的玩家
      */
     private static final Set<String> votePlayer = new HashSet<>();
@@ -77,7 +81,10 @@ public class PlayMusic {
      * 插歌目标
      */
     private static SongInfoObj push;
-    private static int idleNow;
+    /**
+     * 空闲列表取出的歌曲序号
+     */
+    private static int idleIndex;
 
     /**
      * 开始歌曲逻辑
@@ -223,6 +230,13 @@ public class PlayMusic {
                 e.printStackTrace();
             }
         }
+        nowPlayPlayer.clear();
+        votePlayer.clear();
+        pushPlayer.clear();
+        playList.clear();
+        clearVote();
+        clearPush();
+
         AllMusic.log.data("歌曲处理线程关闭");
     }
 
@@ -492,10 +506,10 @@ public class PlayMusic {
                 music = DataSql.readListItem();
             }
         } else {
-            music = DataSql.readListItem(idleNow);
-            idleNow++;
-            if (idleNow >= len) {
-                idleNow = 0;
+            music = DataSql.readListItem(idleIndex);
+            idleIndex++;
+            if (idleIndex >= len) {
+                idleIndex = 0;
             }
         }
         return music;
@@ -524,6 +538,53 @@ public class PlayMusic {
         }
 
         return list1.get(index);
+    }
+
+    /**
+     * 获取正在播放的玩家列表
+     *
+     * @return 列表
+     */
+    public static Set<String> getNowPlayPlayer() {
+        return nowPlayPlayer;
+    }
+
+    /**
+     * 是否存在正在播放的玩家
+     *
+     * @param player 用户名
+     * @return 是否存在
+     */
+    public static boolean containNowPlay(String player) {
+        player = player.toLowerCase();
+        return !nowPlayPlayer.contains(player);
+    }
+
+    /**
+     * 添加正在播放的玩家
+     *
+     * @param player 用户名
+     */
+    public static void addNowPlayPlayer(String player) {
+        player = player.toLowerCase();
+        nowPlayPlayer.add(player);
+    }
+
+    /**
+     * 删除正在播放的玩家
+     *
+     * @param player 用户名
+     */
+    public static void removeNowPlayPlayer(String player) {
+        player = player.toLowerCase();
+        nowPlayPlayer.remove(player);
+    }
+
+    /**
+     * 清空正在播放玩家的列表
+     */
+    public static void clearNowPlayer() {
+        nowPlayPlayer.clear();
     }
 }
 

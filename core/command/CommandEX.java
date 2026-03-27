@@ -288,7 +288,7 @@ public class CommandEX {
             if (checkAdmin(sender, name)) {
                 arguments.addAll(admin);
             }
-            if (AllMusic.getSearch(name) != null) {
+            if (MusicSearch.getSearch(name) != null) {
                 return search;
             }
         } else {
@@ -298,7 +298,7 @@ public class CommandEX {
                     arguments.addAll(admin);
                 }
                 if (arg[0] == null || arg[0].isEmpty()) {
-                    if (AllMusic.getSearch(name) != null) {
+                    if (MusicSearch.getSearch(name) != null) {
                         return search;
                     }
                 }
