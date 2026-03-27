@@ -357,6 +357,10 @@ public class AllMusic {
         });
     }
 
+    public static void removeNowPlayPlayer(String player) {
+        PlayMusic.removeNowPlayPlayer(player);
+    }
+
     public static Component miniMessage(String input) {
         MiniMessage mm = MiniMessage.miniMessage();
         return mm.deserialize(input);
