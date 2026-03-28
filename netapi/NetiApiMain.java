@@ -139,7 +139,7 @@ public class NetiApiMain implements IMusicApi {
     public String getPlayUrl(String id) {
         JsonObject params = new JsonObject();
         params.addProperty("ids", "[" + id + "]");
-        params.addProperty("level", "lossless");
+        params.addProperty("level", "exhigh");
         params.addProperty("encodeType", "aac");
         HttpResObj res = NetApiHttpClient.post("https://music.163.com/weapi/song/enhance/player/url/v1", params, EncryptType.WEAPI, null);
         if (res != null && res.ok) {
