@@ -246,7 +246,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
     @Override
     public void runTask(Runnable run, int delay) {
         AllMusicVelocity.plugin.server.getScheduler().buildTask(AllMusicVelocity.plugin, run)
-                .delay(delay, TimeUnit.MICROSECONDS).schedule();
+                .delay(delay, TimeUnit.MILLISECONDS).schedule();
     }
 
     @Override

@@ -258,7 +258,7 @@ public class PlayRuntime {
                                 AllMusic.side.broadcastInTask(info);
                             }
                         }
-                        if (!PlayMusic.nowPlayMusic.isUrl() && PlayMusic.nowPlayMusic.getPicUrl() != null) {
+                        if (PlayMusic.nowPlayMusic.getPicUrl() != null) {
                             AllMusic.side.sendPic(PlayMusic.nowPlayMusic.getPicUrl());
                         }
                         if (PlayMusic.nowPlayMusic.isTrial()) {

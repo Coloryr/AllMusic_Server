@@ -56,10 +56,6 @@ public class SongInfoObj {
      */
     protected boolean isList;
     /**
-     * 是否是Url歌曲
-     */
-    protected boolean isUrl;
-    /**
      * 音乐API
      */
     protected String api;
@@ -83,10 +79,6 @@ public class SongInfoObj {
         this.isTrial = isTrial;
         this.trialInfo = trialInfo;
         this.api = api;
-    }
-
-    public boolean isUrl() {
-        return isUrl;
     }
 
     public boolean isTrial() {

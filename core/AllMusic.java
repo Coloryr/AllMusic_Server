@@ -338,8 +338,7 @@ public class AllMusic {
             if (DataSql.checkMutePlayer(player1) || PlayMusic.containNowPlay(player1)) {
                 return;
             }
-            if (DataSql.checkMuteListPlayer(player1) && PlayMusic.nowPlayMusic != null
-                    && PlayMusic.nowPlayMusic.isList()) {
+            if (DataSql.checkMuteListPlayer(player1)) {
                 return;
             }
 
@@ -348,12 +347,36 @@ public class AllMusic {
                 if (music != null && PlayMusic.url != null) {
                     AllMusic.side.sendHudPos(player1);
                     AllMusic.side.sendMusic(player1, PlayMusic.url);
-                    if (!music.isUrl()) {
-                        AllMusic.side.sendPic(player1, music.getPicUrl());
-                    }
+                    AllMusic.side.sendPic(player1, music.getPicUrl());
                     AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime);
                 }
             }, 20);
+        });
+    }
+
+    public static void joinPlay(String player, String server) {
+        DataSql.task(() -> {
+            if (server != null && AllMusic.getConfig().muteServer.contains(server)) {
+                return;
+            }
+
+            String player1 = player.toLowerCase();
+            if (DataSql.checkMutePlayer(player1)) {
+                return;
+            }
+            if (DataSql.checkMuteListPlayer(player1)) {
+                return;
+            }
+
+            AllMusic.side.runTask(() -> {
+                SongInfoObj music = PlayMusic.nowPlayMusic;
+                if (music != null && PlayMusic.url != null) {
+                    AllMusic.side.sendHudPos(player1);
+                    AllMusic.side.sendMusic(player1, PlayMusic.url);
+                    AllMusic.side.sendPic(player1, music.getPicUrl());
+                    AllMusic.side.runTask(() -> AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime), 50);
+                }
+            });
         });
     }
 

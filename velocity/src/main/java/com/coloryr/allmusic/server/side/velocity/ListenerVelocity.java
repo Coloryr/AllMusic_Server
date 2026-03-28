@@ -6,8 +6,12 @@ import com.google.common.io.ByteArrayDataInput;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
+
+import java.util.Optional;
 
 public class ListenerVelocity {
     @Subscribe
@@ -16,10 +20,13 @@ public class ListenerVelocity {
     }
 
     @Subscribe
-    public void onServerPostConnectEvent(ServerPostConnectEvent event) {
+    public void onPostLoginEvent(PostLoginEvent event) {
         AllMusic.side.runTask(() -> {
-            AllMusic.joinPlay(event.getPlayer().getUsername());
-        }, 500);
+            Player player = event.getPlayer();
+            Optional<ServerConnection> serverConnection = player.getCurrentServer();
+            serverConnection.ifPresent(connection ->
+                    AllMusic.joinPlay(event.getPlayer().getUsername(), connection.getServerInfo().getName()));
+        }, 1000);
     }
 
     @Subscribe

@@ -50,8 +50,4 @@ public class TopSongInfoObj extends SongInfoObj {
     public void setTrialInfo(freeTrialInfo trialInfo) {
         this.trialInfo = trialInfo;
     }
-
-    public void setUrl(boolean url) {
-        isUrl = url;
-    }
 }
