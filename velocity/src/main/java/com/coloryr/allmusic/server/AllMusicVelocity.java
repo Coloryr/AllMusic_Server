@@ -37,7 +37,9 @@ public class AllMusicVelocity {
     public void onProxyInitialization(ProxyInitializeEvent event) {
         plugin = this;
         AllMusic.log = new LogVelocity();
-        AllMusic.side = new SideVelocity();
+        SideVelocity side = new SideVelocity();
+        AllMusic.side = side;
+        AllMusic.economy = side;
 
         AllMusic.init(dataDirectory.toFile());
 

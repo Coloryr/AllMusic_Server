@@ -18,6 +18,7 @@ import com.velocitypowered.api.permission.PermissionSubject;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import io.netty.buffer.ByteBuf;
 import net.kyori.adventure.text.Component;
 
@@ -333,8 +334,8 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
         SendToBackend.put(uuid, -1);
         String server = AllMusic.getConfig().economy.backend;
-        ServerConnection toServer = null;
-        for (ServerConnection connection : TopServers) {
+        RegisteredServer toServer = null;
+        for (RegisteredServer connection : AllMusicVelocity.plugin.server.getAllServers()) {
             if (connection.getServerInfo().getName().equalsIgnoreCase(server)) {
                 toServer = connection;
             }

@@ -31,7 +31,7 @@ public class PluginMessage implements PluginMessageListener {
         lyric = (TopLyricSave) PlayMusic.lyric;
 
         service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(PluginMessage::clear, 0, 30, TimeUnit.SECONDS);
+        service.scheduleAtFixedRate(PluginMessage::clear, 0, 10, TimeUnit.SECONDS);
     }
 
     private static void clear() {
