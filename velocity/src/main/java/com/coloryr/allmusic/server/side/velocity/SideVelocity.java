@@ -346,7 +346,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
         }
 
         out.writeUTF(uuid);
-        out.write(cost);
+        out.writeInt(cost);
         out.writeUTF(name);
 
         toServer.sendPluginMessage(AllMusicVelocity.channelBC, out.toByteArray());

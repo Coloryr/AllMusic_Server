@@ -107,16 +107,16 @@ public class PluginMessage implements PluginMessageListener {
                 String name = in.readUTF();
 
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.write(12);
+                out.writeInt(12);
                 out.writeUTF(uuid);
                 if (AllMusic.economy == null) {
-                    out.write(0);
+                    out.writeInt(0);
                     sendPack(out);
                 } else if (!AllMusic.economy.check(name, cost)) {
-                    out.write(1);
+                    out.writeInt(1);
                     sendPack(out);
                 } else {
-                    out.write(2);
+                    out.writeInt(2);
                     sendPack(out);
                 }
                 break;
@@ -127,16 +127,16 @@ public class PluginMessage implements PluginMessageListener {
                 String name = in.readUTF();
 
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.write(13);
+                out.writeInt(13);
                 out.writeUTF(uuid);
                 if (AllMusic.economy == null) {
-                    out.write(0);
+                    out.writeInt(0);
                     sendPack(out);
                 } else if (!AllMusic.economy.cost(name, cost)) {
-                    out.write(1);
+                    out.writeInt(1);
                     sendPack(out);
                 } else {
-                    out.write(2);
+                    out.writeInt(2);
                     sendPack(out);
                 }
                 break;
