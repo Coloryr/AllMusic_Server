@@ -1,0 +1,24 @@
+modLoader="javafml"
+loaderVersion="[2,)"
+license="GPL-3.0"
+
+[[mods]]
+modId="allmusic"
+version="${version}"
+displayName="AllMusic Server"
+authors="Color_yr"
+description='''AllMusic Server Mod'''
+
+[[dependencies.allmusic]]
+modId="neoforge"
+type="required"
+versionRange="[21.6.20-beta,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.allmusic]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.6]"
+ordering="NONE"
+side="BOTH"
