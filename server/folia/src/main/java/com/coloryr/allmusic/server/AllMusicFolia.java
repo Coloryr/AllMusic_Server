@@ -57,7 +57,7 @@ public class AllMusicFolia extends JavaPlugin {
             AllMusic.log.data("<light_purple>[AllMusic3]<yellow>PAPI未挂钩");
         }
 
-        if (AllMusic.getConfig().topPAPI) {
+        if (AllMusic.getConfig().topAPI) {
             PlayMusic.nowPlayMusic = new TopSongInfoObj();
             PlayMusic.lyric = new TopLyricSave();
             pluginMessage = new PluginMessage();
@@ -78,7 +78,7 @@ public class AllMusicFolia extends JavaPlugin {
     @Override
     public void onDisable() {
         AllMusic.isRun = false;
-        if (AllMusic.getConfig().topPAPI)
+        if (AllMusic.getConfig().topAPI)
             pluginMessage.stop();
         else
             AllMusic.stop();

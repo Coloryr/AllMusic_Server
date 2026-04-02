@@ -87,6 +87,10 @@ public class ConfigObj {
      */
     public boolean ktvMode;
     /**
+     * 歌曲音质
+     */
+    public String musicBR;
+    /**
      * 配置文件版本号
      */
     public String version;

@@ -132,7 +132,7 @@ Forge/Fabric/NeoForge类服务器
 - playListRandom           是否空闲歌单随机播放
 - sendLyric                是否发送歌词到客户端
 - needPermission           是否指令需要权限
-- topPAPI                  是否启用顶层模式，用于和BC交换数据
+- topAPI                  是否启用顶层模式，用于和BC交换数据
 - mutePlayMessage          是否不发送播放信息
 - muteAddMessage           是否不发送点歌信息
 - showInBar                是否将信息限制在bar处
