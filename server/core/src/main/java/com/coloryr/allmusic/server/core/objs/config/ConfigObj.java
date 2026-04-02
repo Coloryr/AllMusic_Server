@@ -69,7 +69,7 @@ public class ConfigObj {
     /**
      * 顶层模式，用于和BC交换数据
      */
-    public boolean topPAPI;
+    public boolean topAPI;
     /**
      * 不发送播放信息
      */
@@ -86,10 +86,6 @@ public class ConfigObj {
      * K歌歌词
      */
     public boolean ktvMode;
-    /**
-     * 歌曲音质
-     */
-    public String musicBR;
     /**
      * 配置文件版本号
      */
@@ -182,9 +178,8 @@ public class ConfigObj {
         muteAddMessage = false;
         showInBar = false;
         defaultAddMusic = 0;
-        musicBR = "320000";
         defaultApi = "netapi";
-        topPAPI = false;
+        topAPI = false;
         limit = LimitObj.make();
         economy = EconomyObj.make();
         funConfig = FunConfigObj.make();
