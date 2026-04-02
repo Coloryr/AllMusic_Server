@@ -55,7 +55,7 @@ public class AllMusicPAPI extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String identifier) {
-        if (AllMusic.getConfig().topPAPI) {
+        if (AllMusic.getConfig().topAPI) {
             if (!PluginMessage.update) {
                 PluginMessage.startUpdate();
                 return "";
