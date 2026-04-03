@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.mixin;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerPlayerMixin {
     @Inject(at = @At("HEAD"), method = "remove")
     private void remove(ServerPlayerEntity entity, CallbackInfo info) {
-        AllMusic.removeNowPlayPlayer(entity.getName().getString());
+        PlayMusic.removeNowPlayPlayer(entity.getName().getString());
     }
 
     @Inject(at = @At("TAIL"), method = "onPlayerConnect")

@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.enums.ComType;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
@@ -88,7 +89,7 @@ public class AllMusicNeoForge implements IPlayPayloadHandler<PackData> {
 
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        AllMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
+        PlayMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
     }
 
     @SubscribeEvent
