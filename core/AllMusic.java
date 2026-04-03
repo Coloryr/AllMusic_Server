@@ -7,7 +7,6 @@ import com.coloryr.allmusic.server.core.music.PlayRuntime;
 import com.coloryr.allmusic.server.core.objs.CookieObj;
 import com.coloryr.allmusic.server.core.objs.config.ConfigObj;
 import com.coloryr.allmusic.server.core.objs.message.MessageObj;
-import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
@@ -51,11 +50,11 @@ public class AllMusic {
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "206";
+    public static final String configVersion = "207";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "210";
+    public static final String messageVersion = "211";
     /**
      * 日志
      */
@@ -348,9 +347,9 @@ public class AllMusic {
                     AllMusic.side.sendHudPos(player1);
                     AllMusic.side.sendMusic(player1, PlayMusic.url);
                     AllMusic.side.sendPic(player1, music.getPicUrl());
-                    AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime);
+                    AllMusic.side.runTask(() -> AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime), 20);
                 }
-            }, 20);
+            });
         });
     }
 
@@ -376,7 +375,7 @@ public class AllMusic {
                     AllMusic.side.sendPic(player1, music.getPicUrl());
                     AllMusic.side.runTask(() -> AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime), 50);
                 }
-            });
+            }, AllMusic.config.joinDelay);
         });
     }
 

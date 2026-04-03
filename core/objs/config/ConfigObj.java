@@ -118,6 +118,10 @@ public class ConfigObj {
      * 信息更新延迟
      */
     public int sendDelay;
+    /**
+     * 中途加入延迟
+     */
+    public int joinDelay;
 
     public static ConfigObj make() {
         ConfigObj config = new ConfigObj();
@@ -165,6 +169,7 @@ public class ConfigObj {
         maxPlayList = 10;
         minVote = 3;
         voteTime = 30;
+
         adminList = new HashSet<>();
         adminList.add("color_yr");
         muteServer = new HashSet<>();
@@ -188,6 +193,7 @@ public class ConfigObj {
         ktvLyricDelay = 0;
         lyricDelay = 0;
         sendDelay = 1000;
+        joinDelay = 1000;
         version = AllMusic.configVersion;
     }
 }

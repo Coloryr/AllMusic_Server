@@ -41,6 +41,7 @@ public class CommandEX {
         commandList.put("lastpage", new CommandLastPage());
         commandList.put("hud", new CommandHud());
         commandList.put("push", new CommandPush());
+        commandList.put("join", new CommandJoin());
         commandList.put("cancel", new CommandCancel());
 
         commandAdminList.put("reload", new CommandReload());

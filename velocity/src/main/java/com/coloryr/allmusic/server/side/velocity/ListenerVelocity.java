@@ -21,12 +21,10 @@ public class ListenerVelocity {
 
     @Subscribe
     public void onPostLoginEvent(PostLoginEvent event) {
-        AllMusic.side.runTask(() -> {
-            Player player = event.getPlayer();
-            Optional<ServerConnection> serverConnection = player.getCurrentServer();
-            serverConnection.ifPresent(connection ->
-                    AllMusic.joinPlay(event.getPlayer().getUsername(), connection.getServerInfo().getName()));
-        }, 1000);
+        Player player = event.getPlayer();
+        Optional<ServerConnection> serverConnection = player.getCurrentServer();
+        serverConnection.ifPresent(connection ->
+                AllMusic.joinPlay(event.getPlayer().getUsername(), connection.getServerInfo().getName()));
     }
 
     @Subscribe

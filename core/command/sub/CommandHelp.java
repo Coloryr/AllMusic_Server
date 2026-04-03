@@ -56,6 +56,8 @@ public class CommandHelp extends ACommand {
                 .append(AllMusic.miniMessageSuggest(AllMusic.getMessage().click.clickCheck, "/music hud pic rotate ")));
         AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().help.normal.hud5)
                 .append(AllMusic.miniMessageSuggest(AllMusic.getMessage().click.clickCheck, "/music hud pic speed ")));
+        AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().help.normal.join)
+                .append(AllMusic.miniMessageRun(AllMusic.getMessage().click.clickRun, "/music join")));
         if (AllMusic.side.checkPermission(sender)) {
             AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().help.admin.reload)
                     .append(AllMusic.miniMessageRun(AllMusic.getMessage().click.clickRun, "/music reload")));

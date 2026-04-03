@@ -141,6 +141,20 @@ public class SideVelocity extends BaseSide implements IEconomy {
     }
 
     @Override
+    public void joinPlay(String name) {
+        Optional<Player> player = AllMusicVelocity.plugin.server.getPlayer(name);
+        if (player.isPresent()) {
+            Player player1 = player.get();
+            Optional<ServerConnection> server = player1.getCurrentServer();
+            if (server.isPresent()) {
+                AllMusic.joinPlay(name, server.get().getServerInfo().getName());
+            } else {
+                AllMusic.joinPlay(name);
+            }
+        }
+    }
+
+    @Override
     public boolean needPlay(boolean islist) {
         for (Player player : AllMusicVelocity.plugin.server.getAllPlayers()) {
             String server = null;
