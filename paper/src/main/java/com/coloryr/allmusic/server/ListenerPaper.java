@@ -1,4 +1,4 @@
-package com.coloryr.allmusic.server.side.bukkit;
+package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class ListenerBukkit implements Listener {
+public class ListenerPaper implements Listener {
     @EventHandler
     public void onPlayerQuitEvent(final PlayerQuitEvent e) {
         PlayMusic.removeNowPlayPlayer(e.getPlayer().getName());

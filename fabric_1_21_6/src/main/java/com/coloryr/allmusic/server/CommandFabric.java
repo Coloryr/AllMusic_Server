@@ -8,24 +8,24 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
-public class CommandFabric implements Command<ServerCommandSource>, Predicate<ServerCommandSource>, SuggestionProvider<ServerCommandSource> {
+public class CommandFabric implements Command<CommandSourceStack>, Predicate<CommandSourceStack>, SuggestionProvider<CommandSourceStack> {
     public static CommandFabric instance = new CommandFabric();
 
-    public void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(((CommandManager.literal("music").requires(this)).executes(this))
-                .then(CommandManager.argument("args", StringArgumentType.greedyString())
+    public void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(((Commands.literal("music").requires(this)).executes(this))
+                .then(Commands.argument("args", StringArgumentType.greedyString())
                         .suggests(this).executes(this)));
     }
 
     @Override
-    public int run(CommandContext<ServerCommandSource> context) {
+    public int run(CommandContext<CommandSourceStack> context) {
         var item = context.getSource();
 
         var input = context.getInput();
@@ -33,18 +33,18 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
         var arg = new String[temp.length - 1];
         System.arraycopy(temp, 1, arg, 0, arg.length);
 
-        CommandEX.execute(item, context.getSource().getName(), arg);
+        CommandEX.execute(item, context.getSource().getTextName(), arg);
 
         return 0;
     }
 
     @Override
-    public boolean test(ServerCommandSource stack) {
+    public boolean test(CommandSourceStack stack) {
         return true;
     }
 
     @Override
-    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
         var item = context.getSource();
 
         var input = context.getInput();
@@ -54,12 +54,12 @@ public class CommandFabric implements Command<ServerCommandSource>, Predicate<Se
 
         builder = builder.createOffset(builder.getInput().lastIndexOf(32) + 1);
 
-        List<String> results = CommandEX.getTabList(item, item.getName(), arg);
+        List<String> results = CommandEX.getTabList(item, item.getTextName(), arg);
 
         String remaining = builder.getRemaining().trim();
 
         for (String s : results) {
-            if (s.startsWith(remaining)) {
+            if (s.startsWith(remaining)){
                 builder.suggest(s);
             }
         }

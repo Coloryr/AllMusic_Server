@@ -1,4 +1,4 @@
-package com.coloryr.allmusic.server.side.bukkit.hooks;
+package com.coloryr.allmusic.server.hooks;
 
 import com.coloryr.allmusic.server.core.sql.IEconomy;
 import net.milkbowl.vault.economy.Economy;

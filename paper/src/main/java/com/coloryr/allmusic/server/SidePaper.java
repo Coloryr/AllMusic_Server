@@ -1,14 +1,13 @@
-package com.coloryr.allmusic.server.side.bukkit;
+package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.codec.CommandType;
-import com.coloryr.allmusic.server.AllMusicBukkit;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
-import com.coloryr.allmusic.server.side.bukkit.event.MusicAddEvent;
-import com.coloryr.allmusic.server.side.bukkit.event.MusicPlayEvent;
-import com.coloryr.allmusic.server.side.bukkit.hooks.CitizensNPC;
+import com.coloryr.allmusic.server.event.MusicAddEvent;
+import com.coloryr.allmusic.server.event.MusicPlayEvent;
+import com.coloryr.allmusic.server.hooks.CitizensNPC;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -23,7 +22,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
-public class SideBukkit extends BaseSide {
+public class SidePaper extends BaseSide {
     private static Class ByteBufC;
     private static Class UnpooledC;
     private static Method bufferM;
@@ -138,7 +137,7 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public File getFolder() {
-        return AllMusicBukkit.plugin.getDataFolder();
+        return AllMusicPaper.plugin.getDataFolder();
     }
 
     @Override
@@ -152,7 +151,7 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public void runTask(Runnable run) {
-        Bukkit.getScheduler().runTask(AllMusicBukkit.plugin, run);
+        Bukkit.getScheduler().runTask(AllMusicPaper.plugin, run);
     }
 
     @Override
@@ -186,13 +185,13 @@ public class SideBukkit extends BaseSide {
 
     @Override
     public void runTask(Runnable run, int delay) {
-        Bukkit.getScheduler().runTaskLater(AllMusicBukkit.plugin, run, delay);
+        Bukkit.getScheduler().runTaskLater(AllMusicPaper.plugin, run, delay);
     }
 
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
         MusicPlayEvent event = new MusicPlayEvent(obj);
-        Bukkit.getScheduler().callSyncMethod(AllMusicBukkit.plugin, () -> {
+        Bukkit.getScheduler().callSyncMethod(AllMusicPaper.plugin, () -> {
             Bukkit.getPluginManager().callEvent(event);
             if (!event.isCancel()) {
                 FunCore.addMusic();
@@ -205,7 +204,7 @@ public class SideBukkit extends BaseSide {
     @Override
     public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
-        Bukkit.getScheduler().callSyncMethod(AllMusicBukkit.plugin, () -> {
+        Bukkit.getScheduler().callSyncMethod(AllMusicPaper.plugin, () -> {
             Bukkit.getPluginManager().callEvent(event);
             return event;
         });
@@ -217,7 +216,7 @@ public class SideBukkit extends BaseSide {
             return;
 
         if (AllMusic.isRun) {
-            runTask(() -> players.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channel, data));
+            runTask(() -> players.sendPluginMessage(AllMusicPaper.plugin, AllMusic.channel, data));
         }
     }
 

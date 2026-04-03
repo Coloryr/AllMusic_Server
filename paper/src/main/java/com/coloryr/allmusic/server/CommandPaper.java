@@ -1,4 +1,4 @@
-package com.coloryr.allmusic.server.side.bukkit;
+package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.command.CommandEX;
 import org.bukkit.command.Command;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Locale;
 
-public class CommandBukkit implements CommandExecutor, TabExecutor {
+public class CommandPaper implements CommandExecutor, TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, @NotNull String[] args) {

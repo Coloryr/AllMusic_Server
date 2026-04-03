@@ -1,4 +1,4 @@
-package com.coloryr.allmusic.server.side.bukkit;
+package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import org.bukkit.Bukkit;

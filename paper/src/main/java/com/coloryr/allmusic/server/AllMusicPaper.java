@@ -4,15 +4,14 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.music.TopLyricSave;
 import com.coloryr.allmusic.server.core.objs.music.TopSongInfoObj;
-import com.coloryr.allmusic.server.side.bukkit.*;
-import com.coloryr.allmusic.server.side.bukkit.hooks.AllMusicPAPI;
-import com.coloryr.allmusic.server.side.bukkit.hooks.VaultHook;
+import com.coloryr.allmusic.server.hooks.AllMusicPAPI;
+import com.coloryr.allmusic.server.hooks.VaultHook;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class AllMusicBukkit extends JavaPlugin {
+public class AllMusicPaper extends JavaPlugin {
     public static Plugin plugin;
     public static AllMusicPAPI PAPI;
     private static PluginMessage pluginMessage;
@@ -20,8 +19,8 @@ public class AllMusicBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        AllMusic.log = new LogBukkit();
-        AllMusic.side = new SideBukkit();
+        AllMusic.log = new LogPaper();
+        AllMusic.side = new SidePaper();
 
         AllMusic.init(plugin.getDataFolder());
         if (!AllMusic.isRun) {
@@ -66,12 +65,12 @@ public class AllMusicBukkit extends JavaPlugin {
             getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);
             AllMusic.log.data("<light_purple>[AllMusic3]<yellow>设置为顶层模式");
         } else {
-            CommandBukkit command = new CommandBukkit();
+            CommandPaper command = new CommandPaper();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);
             PluginCommand command1 = Bukkit.getPluginCommand("music");
             command1.setExecutor(command);
             command1.setTabCompleter(command);
-            Bukkit.getPluginManager().registerEvents(new ListenerBukkit(), this);
+            Bukkit.getPluginManager().registerEvents(new ListenerPaper(), this);
             AllMusic.start();
         }
     }
