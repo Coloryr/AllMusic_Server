@@ -151,16 +151,10 @@ public abstract class BaseSide {
     public abstract void broadcast(Component data);
 
     /**
-     * 重新发送播放包
-     * @param data 播放包
-     */
-    public abstract void joinPlay(String data);
-
-    /**
      * 重载
      */
     public final void reload() {
-        new AllMusic().init(getFolder());
+        AllMusic.init(getFolder());
     }
 
     /**

@@ -6,6 +6,6 @@ import com.coloryr.allmusic.server.core.command.ACommand;
 public class CommandJoin extends ACommand {
     @Override
     public void execute(Object sender, String name, String[] args) {
-        AllMusic.side.joinPlay(name);
+        AllMusic.joinPlayNow(name);
     }
 }

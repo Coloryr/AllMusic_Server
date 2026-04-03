@@ -332,9 +332,18 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void joinPlay(String player) {
+        AllMusic.side.runTask(() -> joinPlayNow(player), AllMusic.config.joinDelay);
+    }
+
+    public static void joinPlayNow(String player) {
         DataSql.task(() -> {
             String player1 = player.toLowerCase();
-            if (DataSql.checkMutePlayer(player1) || PlayMusic.containNowPlay(player1)) {
+            Object player2 = AllMusic.side.getPlayer(player1);
+            String server = AllMusic.side.getPlayerServer(player2);
+            if (server != null && AllMusic.getConfig().muteServer.contains(server)) {
+                return;
+            }
+            if (DataSql.checkMutePlayer(player1)) {
                 return;
             }
             if (DataSql.checkMuteListPlayer(player1)) {
@@ -350,32 +359,6 @@ public class AllMusic {
                     AllMusic.side.runTask(() -> AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime), 20);
                 }
             });
-        });
-    }
-
-    public static void joinPlay(String player, String server) {
-        DataSql.task(() -> {
-            if (server != null && AllMusic.getConfig().muteServer.contains(server)) {
-                return;
-            }
-
-            String player1 = player.toLowerCase();
-            if (DataSql.checkMutePlayer(player1)) {
-                return;
-            }
-            if (DataSql.checkMuteListPlayer(player1)) {
-                return;
-            }
-
-            AllMusic.side.runTask(() -> {
-                SongInfoObj music = PlayMusic.nowPlayMusic;
-                if (music != null && PlayMusic.url != null) {
-                    AllMusic.side.sendHudPos(player1);
-                    AllMusic.side.sendMusic(player1, PlayMusic.url);
-                    AllMusic.side.sendPic(player1, music.getPicUrl());
-                    AllMusic.side.runTask(() -> AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime), 50);
-                }
-            }, AllMusic.config.joinDelay);
         });
     }
 
