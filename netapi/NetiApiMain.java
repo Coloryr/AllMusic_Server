@@ -205,16 +205,16 @@ public class NetiApiMain implements IMusicApi {
         if (res != null && res.ok) {
             try {
                 WLyricObj obj = AllMusic.gson.fromJson(res.data, WLyricObj.class);
-                LyricDecoder temp = new LyricDecoder();
+                LyricDecoder docoder = new LyricDecoder();
                 for (int times = 0; times < 3; times++) {
-                    if (temp.check(obj)) {
+                    if (docoder.check(obj)) {
                         AllMusic.log.data("<light_purple>[AllMusic3]<red>歌词解析错误，正在进行第" + times + "重试");
                     } else {
-                        if (temp.isHave) {
+                        if (docoder.isHave) {
                             lyric.setHaveLyric(AllMusic.getConfig().sendLyric);
-                            lyric.setLyric(temp.getTemp());
-                            if (temp.isHaveK) {
-                                lyric.setKlyric(temp.getKLyric());
+                            lyric.setLyric(docoder.getLyrics());
+                            if (docoder.isHaveK) {
+                                lyric.setKlyric(docoder.getKLyric());
                             }
                         }
                         return lyric;

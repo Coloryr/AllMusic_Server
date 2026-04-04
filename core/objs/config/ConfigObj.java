@@ -3,8 +3,7 @@ package com.coloryr.allmusic.server.core.objs.config;
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.server.core.AllMusic;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 配置文件对象
@@ -122,6 +121,10 @@ public class ConfigObj {
      * 中途加入延迟
      */
     public int joinDelay;
+    /**
+     * 歌词正则替换
+     */
+    public Map<String, String> lyricReplace;
 
     public static ConfigObj make() {
         ConfigObj config = new ConfigObj();
@@ -160,6 +163,10 @@ public class ConfigObj {
             saveConfig = true;
             cost = CostObj.make();
         }
+        if (lyricReplace == null) {
+            saveConfig = true;
+            lyricReplace = new HashMap<>();
+        }
 
         return saveConfig;
     }
@@ -194,6 +201,7 @@ public class ConfigObj {
         lyricDelay = 0;
         sendDelay = 1000;
         joinDelay = 1000;
+        lyricReplace = new HashMap<>();
         version = AllMusic.configVersion;
     }
 }

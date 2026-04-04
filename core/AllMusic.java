@@ -12,6 +12,7 @@ import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.core.utils.StringReplacer;
 import com.coloryr.allmusic.server.netapi.NetiApiMain;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,7 +55,7 @@ public class AllMusic {
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "211";
+    public static final String messageVersion = "212";
     /**
      * 日志
      */
@@ -95,6 +96,14 @@ public class AllMusic {
      * 语言文件
      */
     private static File messageFile;
+    /**
+     * 正则替换器
+     */
+    private static StringReplacer replacer;
+
+    public static StringReplacer getReplacer() {
+        return replacer;
+    }
 
     /**
      * 检查配置文件完整性
@@ -319,6 +328,13 @@ public class AllMusic {
 
             if (!AllMusic.configVersion.equalsIgnoreCase(config.version)) {
                 log.data("<light_purple>[AllMusic3]<red>请及时更新配置文件");
+            }
+
+            if (!config.lyricReplace.isEmpty()) {
+                for (Map.Entry<String, String> item : config.lyricReplace.entrySet()) {
+                    replacer.put(item.getKey(), item.getValue());
+            replacer = new StringReplacer();
+                }
             }
         } catch (Exception e) {
             log.data("<light_purple>[AllMusic3]<red>读取配置文件错误");

@@ -59,7 +59,7 @@ public class VoteObj {
         if (doVote == null)
             doVote = "<light_purple>[AllMusic3]<yellow>已发起切歌投票";
         if (bq == null)
-            bq = "<light_purple>[AllMusic3]<yellow>" + ARG.player + "发起了切歌投票，" + ARG.time + "秒后结束，输入/music vote 同意切歌。";
+            bq = "<light_purple>[AllMusic3]<yellow>" + ARG.player + "发起了切歌投票，" + ARG.time + "秒后结束，输入/music vote 同意切歌，需要至少" + ARG.countAll + "名玩家同意才会切歌。";
         if (bq1 == null)
             bq1 = "<light_purple>[AllMusic3]<yellow>或者点击 ";
         if (bq2 == null)
@@ -67,7 +67,7 @@ public class VoteObj {
         if (agree == null)
             agree = "<light_purple>[AllMusic3]<yellow>你同意切歌";
         if (bqAgree == null)
-            bqAgree = "<light_purple>[AllMusic3]<yellow>" + ARG.player + "同意切歌，共有" + ARG.count + "名玩家同意切歌。";
+            bqAgree = "<light_purple>[AllMusic3]<yellow>" + ARG.player + "同意切歌，共有" + ARG.count + "名玩家同意切歌，需要至少" + ARG.countAll + "名玩家同意才会切歌。";
         if (arAgree == null)
             arAgree = "<light_purple>[AllMusic3]<yellow>你已申请切歌";
         if (timeOut == null)

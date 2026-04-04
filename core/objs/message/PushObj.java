@@ -71,7 +71,7 @@ public class PushObj {
         if (doVote == null)
             doVote = "<light_purple>[AllMusic3]<yellow>已发起插歌投票";
         if (bq == null)
-            bq = "<light_purple>[AllMusic3]<yellow>" + ARG.player + "发起了插歌投票，将曲目" + ARG.musicName + "-" + ARG.musicAuthor + "调整到下一首播放，" + ARG.time + "秒后结束，输入/music push 同意插歌。";
+            bq = "<light_purple>[AllMusic3]<yellow>" + ARG.player + "发起了插歌投票，将曲目" + ARG.musicName + "-" + ARG.musicAuthor + "调整到下一首播放，" + ARG.time + "秒后结束，输入/music push 同意插歌，需要至少" + ARG.countAll + "名玩家同意才会插歌。";
         if (bq1 == null)
             bq1 = "<light_purple>[AllMusic3]<yellow>或者点击 ";
         if (bq2 == null)
@@ -79,7 +79,7 @@ public class PushObj {
         if (agree == null)
             agree = "<light_purple>[AllMusic3]<yellow>你同意插歌";
         if (bqAgree == null)
-            bqAgree = "<light_purple>[AllMusic3]<yellow>" + ARG.player + "同意插歌，共有" + ARG.count + "名玩家同意插歌。";
+            bqAgree = "<light_purple>[AllMusic3]<yellow>" + ARG.player + "同意插歌，共有" + ARG.count + "名玩家同意插歌，需要至少" + ARG.countAll + "名玩家同意才会插歌。";
         if (arAgree == null)
             arAgree = "<light_purple>[AllMusic3]<yellow>你已申请插歌";
         if (timeOut == null)

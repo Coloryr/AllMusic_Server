@@ -11,13 +11,13 @@ import java.util.regex.Pattern;
 
 public class LyricDecoder {
     private static final Pattern p = Pattern.compile("\\(([0-9]+),[0-9]+.[0-9]\\)");
-    private final Map<Long, LyricItemObj> temp = new LinkedHashMap<>();
+    private final Map<Long, LyricItemObj> lyrics = new LinkedHashMap<>();
     public boolean isHave = false;
     public boolean isHaveK = false;
     public Map<Long, String> kly = new LinkedHashMap<>();
 
-    public Map<Long, LyricItemObj> getTemp() {
-        return temp;
+    public Map<Long, LyricItemObj> getLyrics() {
+        return lyrics;
     }
 
     public Map<Long, String> getKLyric() {
@@ -62,11 +62,17 @@ public class LyricDecoder {
             isHaveK = true;
         }
 
-        for (Map.Entry<Long, String> item : temp.entrySet()) {
-            this.temp.put(item.getKey(), new LyricItemObj(item.getValue(),
-                    haveT ? temp1.get(item.getKey()) : null));
+        if (isHaveK) {
+            for (Map.Entry<Long, String> item : temp.entrySet()) {
+                this.lyrics.put(item.getKey(), new LyricItemObj(item.getValue(), haveT ? temp1.get(item.getKey()) : null));
+            }
+        } else {
+            for (Map.Entry<Long, String> item : temp.entrySet()) {
+                String value = AllMusic.getReplacer().replace(item.getValue());
+                String value1 = AllMusic.getReplacer().replace(temp1.get(item.getKey()));
+                this.lyrics.put(item.getKey(), new LyricItemObj(value, haveT ? value1 : null));
+            }
         }
-
 
         isHave = true;
         return false;

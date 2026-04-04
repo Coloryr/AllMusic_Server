@@ -4,6 +4,7 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.command.PermissionList;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
+import com.coloryr.allmusic.server.core.music.PlayRuntime;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.sql.DataSql;
@@ -72,11 +73,12 @@ public class CommandPush extends ACommand {
             PlayMusic.startPush(name, music);
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.doVote);
             String data = AllMusic.getMessage().push.bq;
-            AllMusic.side.broadcast(data
-                    .replace(ARG.player, name)
+            data = data.replace(ARG.player, name)
                     .replace(ARG.time, String.valueOf(AllMusic.getConfig().voteTime))
                     .replace(ARG.musicName, music.getName())
-                    .replace(ARG.musicAuthor, music.getAuthor()));
+                    .replace(ARG.musicAuthor, music.getAuthor())
+                    .replace(ARG.countAll, String.valueOf(PlayRuntime.getMiniVote()));
+            AllMusic.side.broadcast(data);
             AllMusic.side.broadcast(AllMusic.miniMessage(AllMusic.getMessage().push.bq1)
                     .append(AllMusic.miniMessageRun(AllMusic.getMessage().push.bq2, "/music push")));
         } else {
@@ -89,7 +91,8 @@ public class CommandPush extends ACommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.agree);
                 String data = AllMusic.getMessage().push.bqAgree;
                 data = data.replace(ARG.player, name)
-                        .replace(ARG.count, String.valueOf(PlayMusic.getVoteCount()));
+                        .replace(ARG.count, String.valueOf(PlayMusic.getVoteCount()))
+                        .replace(ARG.countAll, String.valueOf(PlayRuntime.getMiniVote()));
                 AllMusic.side.broadcast(data);
             } else {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.arAgree);
