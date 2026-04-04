@@ -121,13 +121,10 @@ dependencies {
 
     implementation('org.apache.httpcomponents.client5:httpclient5:5.6')
     implementation('org.xerial:sqlite-jdbc:3.51.1.0')
-    implementation('net.kyori:adventure-platform-mod-shared:6.6.0')
+    implementation('net.kyori:adventure-platform-neoforge:6.6.0')
     implementation('net.kyori:adventure-text-minimessage:4.26.1')
 
-    jarJar(group: 'net.kyori', name: 'adventure-platform-mod-shared', version: '[6.0,6.1)')
-    jarJar(group: 'net.kyori', name: 'adventure-text-minimessage', version: '[4.26.1,4.27)')
-    jarJar(group: 'net.kyori', name: 'adventure-api', version: '[4.26.1,4.27)')
-    jarJar(group: 'net.kyori', name: 'adventure-key', version: '[4.26.1,4.27)')
+    jarJar(group: 'net.kyori', name: 'adventure-platform-neoforge', version: '[6.6.0,6.7)')
     jarJar(group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '[5.6,6.0)')
     jarJar(group: 'org.apache.httpcomponents.core5', name: 'httpcore5', version: '[5.4,6.0)')
     jarJar(group: 'org.apache.httpcomponents.core5', name: 'httpcore5-h2', version: '[5.4,6.0)')
