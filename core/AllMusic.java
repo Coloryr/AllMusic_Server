@@ -330,10 +330,10 @@ public class AllMusic {
                 log.data("<light_purple>[AllMusic3]<red>请及时更新配置文件");
             }
 
+            replacer = new StringReplacer();
             if (!config.lyricReplace.isEmpty()) {
                 for (Map.Entry<String, String> item : config.lyricReplace.entrySet()) {
                     replacer.put(item.getKey(), item.getValue());
-            replacer = new StringReplacer();
                 }
             }
         } catch (Exception e) {
