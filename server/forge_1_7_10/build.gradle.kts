@@ -37,7 +37,7 @@ tasks {
         relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
     }
 
-    configurations.shadow.get().setExtendsFrom(listOf(configurations.shadowImplementation.get()))
+    configurations.shadow.get().setExtendsFrom(listOf(configurations.named("shadowImplementation").get()))
 
     build {
         dependsOn(shadowJar)

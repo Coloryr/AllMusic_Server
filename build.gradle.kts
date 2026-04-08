@@ -18,6 +18,10 @@ allprojects {
     java.sourceCompatibility = JavaVersion.VERSION_1_8
     java.targetCompatibility = JavaVersion.VERSION_1_8
 
+    val shadowImplementation = configurations.maybeCreate("shadowImplementation")
+    configurations.named("shadow").get().extendsFrom(shadowImplementation)
+    configurations.named("implementation").get().extendsFrom(shadowImplementation)
+
     repositories {
         mavenCentral()
         maven("https://oss.sonatype.org/content/groups/public/")

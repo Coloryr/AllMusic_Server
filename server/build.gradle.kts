@@ -1,8 +1,6 @@
 subprojects {
-    val shadowImplementation: Configuration by configurations.creating
-    configurations.shadow.get().extendsFrom(shadowImplementation)
-    configurations.implementation.get().extendsFrom(shadowImplementation)
-
+    val shadowImplementation by configurations.getting
+    
     dependencies {
         if (this@subprojects.name != "core")
             shadowImplementation(project(":server:core"))

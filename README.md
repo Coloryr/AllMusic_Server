@@ -71,8 +71,9 @@ Forge/Fabric/NeoForge类服务器
 6. 打开插件配置文件，覆盖`cookie.json`重启服务器
 
 ## 构建
-1. 安装JDK25
-2. 使用 `gradlew build` 构建
+1. 安装JDK25、Git
+2. 使用 `git submodule update --init --recursive` 初始化项目
+3. 使用 `gradlew build` 构建
 
 ## PAPI变量  
 > %allmusic_now_music_name% 歌曲名字  

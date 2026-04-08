@@ -4,7 +4,7 @@ license="GPL-3.0"
 issueTrackerURL="https://github.com/Coloryr/AllMusic_Server/issues/"
 
 [[mods]]
-modId="allmusic"
+modId="allmusic_server"
 version="${version}"
 displayName="AllMusic Server"
 displayURL="https://github.com/Coloryr/AllMusic_Server/"
@@ -12,14 +12,14 @@ logoFile="icon.png"
 authors="Color_yr"
 description='''AllMusic Server Mod'''
 
-[[dependencies.allmusic]]
+[[dependencies.allmusic_server]]
 modId="neoforge"
 type="required"
 versionRange="[21.0.167,)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.allmusic]]
+[[dependencies.allmusic_server]]
 modId="minecraft"
 type="required"
 versionRange="[1.21,1.21.1)"
