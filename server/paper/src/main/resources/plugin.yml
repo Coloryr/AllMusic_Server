@@ -1,5 +1,5 @@
 name: AllMusic3
-main: com.coloryr.allmusic.server.AllMusicBukkit
+main: com.coloryr.allmusic.server.AllMusicPaper
 author: Color_yr
 version: ${version}
 softdepend: [PlaceholderAPI, Vault, Essentials, CMI]

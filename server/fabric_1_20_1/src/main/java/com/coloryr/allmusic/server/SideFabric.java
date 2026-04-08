@@ -11,10 +11,9 @@ import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import io.netty.buffer.ByteBuf;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.kyori.adventure.text.Component;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
 
 import java.io.File;
 import java.util.Collection;
@@ -35,14 +34,13 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean checkPermission(Object player) {
-        CommandSourceStack source = (CommandSourceStack) player;
-        return source.hasPermission(2);
+        ServerPlayer source = (ServerPlayer) player;
+        return source.hasPermissions(2);
     }
 
     @Override
     public boolean isPlayer(Object player) {
-        CommandSourceStack source = (CommandSourceStack) player;
-        return source.isPlayer();
+        return player instanceof ServerPlayer;
     }
 
     @Override
@@ -94,7 +92,7 @@ public class SideFabric extends BaseSide {
     @Override
     public void sendBar(Object player, Component data) {
         if (player instanceof ServerPlayer player1) {
-            player1.displayClientMessage(AllMusicServer.parse(data), true);
+            player1.sendActionBar(data);
         }
     }
 
@@ -105,10 +103,9 @@ public class SideFabric extends BaseSide {
 
     @Override
     public void broadcast(Component message) {
-        var component = AllMusicServer.parse(message);
         for (var player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false)) {
-                player.sendSystemMessage(component);
+                player.sendMessage(message);
             }
         }
     }
@@ -116,19 +113,19 @@ public class SideFabric extends BaseSide {
     @Override
     public void sendMessage(Object obj, Component message) {
         if (obj instanceof CommandSourceStack source) {
-            source.sendSystemMessage(AllMusicServer.parse(message));
+            source.sendMessage(message);
         }
     }
 
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
-        return MusicPlayEvent.EVENT.invoker().interact(obj) != InteractionResult.PASS;
+        return !MusicPlayEvent.EVENT.invoker().interact(obj);
     }
 
     @Override
     public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         CommandSourceStack source = (CommandSourceStack) obj;
-        return MusicAddEvent.EVENT.invoker().interact(source.getPlayer(), music) != InteractionResult.PASS;
+        return !MusicAddEvent.EVENT.invoker().interact(source.getPlayer(), music);
     }
 
     private void send(ServerPlayer players, ByteBuf data) {

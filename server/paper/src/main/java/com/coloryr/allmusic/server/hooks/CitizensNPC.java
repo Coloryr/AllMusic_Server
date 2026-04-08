@@ -1,4 +1,4 @@
-package com.coloryr.allmusic.server.side.bukkit.hooks;
+package com.coloryr.allmusic.server.hooks;
 
 import org.bukkit.entity.Entity;
 

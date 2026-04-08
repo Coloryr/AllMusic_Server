@@ -8,8 +8,8 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.commands.Commands;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -59,7 +59,7 @@ public class CommandFabric implements Command<CommandSourceStack>, Predicate<Com
         String remaining = builder.getRemaining().trim();
 
         for (String s : results) {
-            if (s.startsWith(remaining)) {
+            if (s.startsWith(remaining)){
                 builder.suggest(s);
             }
         }

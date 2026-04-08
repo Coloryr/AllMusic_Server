@@ -5,6 +5,7 @@ import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.mojang.brigadier.CommandDispatcher;
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -36,32 +37,42 @@ public class AllMusicServer {
 
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
-        LOGGER.info("注册指令");
-        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
-        CommandNeoForge.instance.register(dispatcher);
+        if (event.getCommandSelection() != Commands.CommandSelection.INTEGRATED) {
+            LOGGER.info("注册指令");
+            CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+            CommandNeoForge.instance.register(dispatcher);
+        }
     }
 
     @SubscribeEvent
     public static void onServerStarting(ServerStartedEvent event) {
-        server = event.getServer();
-        audiences = MinecraftServerAudiences.of(server);
-        AllMusic.init(new File(dir));
-        AllMusic.start();
-        Tasks.init();
+        if (event.getServer().isDedicatedServer()) {
+            audiences = MinecraftServerAudiences.of(event.getServer());
+            server = event.getServer();
+            AllMusic.init(new File(dir));
+            AllMusic.start();
+            Tasks.init();
+        }
     }
 
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
-        AllMusic.stop();
+        if (event.getServer().isDedicatedServer()) {
+            AllMusic.stop();
+        }
     }
 
     @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        PlayMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
+        if (server != null) {
+            PlayMusic.removeNowPlayPlayer(event.getEntity().getName().getString());
+        }
     }
 
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        AllMusic.joinPlay(event.getEntity().getName().getString());
+        if (server != null) {
+            AllMusic.joinPlay(event.getEntity().getName().getString());
+        }
     }
 }

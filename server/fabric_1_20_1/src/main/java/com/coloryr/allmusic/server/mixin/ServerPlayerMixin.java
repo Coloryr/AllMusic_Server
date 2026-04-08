@@ -18,7 +18,7 @@ public class ServerPlayerMixin {
     }
 
     @Inject(at = @At("TAIL"), method = "placeNewPlayer")
-    private void add(Connection connection, ServerPlayer player, CallbackInfo info) {
-        AllMusic.joinPlay(player.getName().getString());
+    private void add(Connection connection, ServerPlayer serverPlayer, CallbackInfo ci) {
+        AllMusic.joinPlay(serverPlayer.getName().getString());
     }
 }

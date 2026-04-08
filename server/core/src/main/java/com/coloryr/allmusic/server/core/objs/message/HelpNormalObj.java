@@ -26,6 +26,7 @@ public class HelpNormalObj {
     public String hud8;
     public String hud9;
     public String hud10;
+    public String join;
 
     public static HelpNormalObj make() {
         HelpNormalObj obj = new HelpNormalObj();
@@ -83,6 +84,8 @@ public class HelpNormalObj {
             return true;
         if (lastpage == null)
             return true;
+        if (join == null)
+            return true;
         return hud5 == null;
     }
 
@@ -137,5 +140,7 @@ public class HelpNormalObj {
             hud4 = "<light_purple>[AllMusic3]<yellow>/music hud pic rotate [开关] 设置图片旋转模式";
         if (hud5 == null)
             hud5 = "<light_purple>[AllMusic3]<yellow>/music hud pic speed [数值] 设置图片旋转速度";
+        if (join == null)
+            join = "<light_purple>[AllMusic3]<yellow>/music join 重新播放当前歌曲";
     }
 }

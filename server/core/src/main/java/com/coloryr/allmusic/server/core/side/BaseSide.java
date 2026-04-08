@@ -154,7 +154,7 @@ public abstract class BaseSide {
      * 重载
      */
     public final void reload() {
-        new AllMusic().init(getFolder());
+        AllMusic.init(getFolder());
     }
 
     /**

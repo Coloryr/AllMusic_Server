@@ -12,6 +12,7 @@ import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
 import com.coloryr.allmusic.server.core.sql.DataSql;
 import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.core.utils.StringReplacer;
 import com.coloryr.allmusic.server.netapi.NetiApiMain;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,11 +51,11 @@ public class AllMusic {
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "206";
+    public static final String configVersion = "207";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "210";
+    public static final String messageVersion = "212";
     /**
      * 日志
      */
@@ -95,6 +96,14 @@ public class AllMusic {
      * 语言文件
      */
     private static File messageFile;
+    /**
+     * 正则替换器
+     */
+    private static StringReplacer replacer;
+
+    public static StringReplacer getReplacer() {
+        return replacer;
+    }
 
     /**
      * 检查配置文件完整性
@@ -320,6 +329,13 @@ public class AllMusic {
             if (!AllMusic.configVersion.equalsIgnoreCase(config.version)) {
                 log.data("<light_purple>[AllMusic3]<red>请及时更新配置文件");
             }
+
+            replacer = new StringReplacer();
+            if (!config.lyricReplace.isEmpty()) {
+                for (Map.Entry<String, String> item : config.lyricReplace.entrySet()) {
+                    replacer.put(item.getKey(), item.getValue());
+                }
+            }
         } catch (Exception e) {
             log.data("<light_purple>[AllMusic3]<red>读取配置文件错误");
             e.printStackTrace();
@@ -332,34 +348,17 @@ public class AllMusic {
      * @param player 用户名
      */
     public static void joinPlay(String player) {
-        DataSql.task(() -> {
-            String player1 = player.toLowerCase();
-            if (DataSql.checkMutePlayer(player1) || PlayMusic.containNowPlay(player1)) {
-                return;
-            }
-            if (DataSql.checkMuteListPlayer(player1)) {
-                return;
-            }
-
-            AllMusic.side.runTask(() -> {
-                SongInfoObj music = PlayMusic.nowPlayMusic;
-                if (music != null && PlayMusic.url != null) {
-                    AllMusic.side.sendHudPos(player1);
-                    AllMusic.side.sendMusic(player1, PlayMusic.url);
-                    AllMusic.side.sendPic(player1, music.getPicUrl());
-                    AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime);
-                }
-            }, 20);
-        });
+        AllMusic.side.runTask(() -> joinPlayNow(player), AllMusic.config.joinDelay);
     }
 
-    public static void joinPlay(String player, String server) {
+    public static void joinPlayNow(String player) {
         DataSql.task(() -> {
+            String player1 = player.toLowerCase();
+            Object player2 = AllMusic.side.getPlayer(player1);
+            String server = AllMusic.side.getPlayerServer(player2);
             if (server != null && AllMusic.getConfig().muteServer.contains(server)) {
                 return;
             }
-
-            String player1 = player.toLowerCase();
             if (DataSql.checkMutePlayer(player1)) {
                 return;
             }
@@ -373,7 +372,7 @@ public class AllMusic {
                     AllMusic.side.sendHudPos(player1);
                     AllMusic.side.sendMusic(player1, PlayMusic.url);
                     AllMusic.side.sendPic(player1, music.getPicUrl());
-                    AllMusic.side.runTask(() -> AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime), 50);
+                    AllMusic.side.runTask(() -> AllMusic.side.sendPos(player1, (int) PlayMusic.musicNowTime), 20);
                 }
             });
         });

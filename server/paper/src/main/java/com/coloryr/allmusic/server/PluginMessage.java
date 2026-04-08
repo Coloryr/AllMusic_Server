@@ -1,6 +1,5 @@
-package com.coloryr.allmusic.server.side.bukkit;
+package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.server.AllMusicBukkit;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.music.TopLyricSave;
@@ -42,7 +41,7 @@ public class PluginMessage implements PluginMessageListener {
         Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
         if (player == null)
             return;
-        player.sendPluginMessage(AllMusicBukkit.plugin, AllMusic.channelBC, out.toByteArray());
+        player.sendPluginMessage(AllMusicPaper.plugin, AllMusic.channelBC, out.toByteArray());
     }
 
     public static void startUpdate() {

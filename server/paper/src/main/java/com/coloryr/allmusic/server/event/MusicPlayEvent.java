@@ -1,4 +1,4 @@
-package com.coloryr.allmusic.server.side.bukkit.event;
+package com.coloryr.allmusic.server.event;
 
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import org.bukkit.event.Event;

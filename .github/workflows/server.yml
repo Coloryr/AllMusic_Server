@@ -38,6 +38,7 @@ jobs:
       run: |
         link.cmd && cd folia && gradlew shadowJar
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_folia"
@@ -63,6 +64,7 @@ jobs:
       run: |
         link.cmd && cd paper && gradlew shadowJar
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_paper"
@@ -88,6 +90,7 @@ jobs:
       run: |
         link.cmd && cd velocity && gradlew shadowJar
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_velocity"
@@ -113,6 +116,7 @@ jobs:
       run: |
         link.cmd && cd fabric_1_16_5 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_fabric_1_16_5"
@@ -138,6 +142,7 @@ jobs:
       run: |
         link.cmd && cd fabric_1_20_1 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_fabric_1_20_1"
@@ -163,6 +168,7 @@ jobs:
       run: |
         link.cmd && cd fabric_1_21 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_fabric_1_21"
@@ -213,6 +219,7 @@ jobs:
       run: |
         link.cmd && cd fabric_1_21_11 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_fabric_1_21_11"
@@ -263,6 +270,7 @@ jobs:
       run: |
         link.cmd && cd forge_1_7_10 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_forge_1_7_10"
@@ -288,6 +296,7 @@ jobs:
       run: |
         link.cmd && cd forge_1_12_2 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_forge_1_12_2"
@@ -313,6 +322,7 @@ jobs:
       run: |
         link.cmd && cd forge_1_16_5 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_forge_1_16_5"
@@ -338,6 +348,7 @@ jobs:
       run: |
         link.cmd && cd forge_1_20_1 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_forge_1_20_1"
@@ -363,6 +374,7 @@ jobs:
       run: |
         link.cmd && cd neoforge_1_21 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_neoforge_1_21"
@@ -388,6 +400,7 @@ jobs:
       run: |
         link.cmd && cd neoforge_1_21_6 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_neoforge_1_21_6"
@@ -413,6 +426,7 @@ jobs:
       run: |
         link.cmd && cd neoforge_1_21_11 && gradlew build
     - name: update
+      if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
       uses: actions/upload-artifact@v4
       with:
         name: "allmusic_server_neoforge_1_21_11"

@@ -19,7 +19,7 @@ public class ServerPlayerMixin {
     }
 
     @Inject(at = @At("TAIL"), method = "placeNewPlayer")
-    private void add(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo info) {
-        AllMusic.joinPlay(player.getName().getString());
+    private void add(Connection connection, ServerPlayer serverPlayer, CommonListenerCookie commonListenerCookie, CallbackInfo ci) {
+        AllMusic.joinPlay(serverPlayer.getName().getString());
     }
 }
