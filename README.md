@@ -71,12 +71,9 @@ Forge/Fabric/NeoForge类服务器
 6. 打开插件配置文件，覆盖`cookie.json`重启服务器
 
 ## 构建
-**需要在Windows系统下**  
-安装JDK25
-
-打开cmd执行`build.cmd`或者直接双击`build.cmd`
-
-选择构建项目
+1. 安装JDK25、Git
+2. 使用 `git submodule update --init --recursive` 初始化项目
+3. 使用 `gradlew build` 构建
 
 ## PAPI变量  
 > %allmusic_now_music_name% 歌曲名字  
@@ -136,7 +133,7 @@ Forge/Fabric/NeoForge类服务器
 - playListRandom           是否空闲歌单随机播放
 - sendLyric                是否发送歌词到客户端
 - needPermission           是否指令需要权限
-- topPAPI                  是否启用顶层模式，用于和BC交换数据
+- topAPI                  是否启用顶层模式，用于和BC交换数据
 - mutePlayMessage          是否不发送播放信息
 - muteAddMessage           是否不发送点歌信息
 - showInBar                是否将信息限制在bar处

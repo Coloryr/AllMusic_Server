@@ -1,0 +1,12 @@
+{
+  "id": "allmusic",
+  "name": "AllMusic3",
+  "version": "${version}",
+  "description": "全服点歌插件",
+  "url": "https://github.com/Coloryr/AllMusic_Server",
+  "authors": [
+    "Color_yr"
+  ],
+  "dependencies": [],
+  "main": "com.coloryr.allmusic.server.AllMusicVelocity"
+}
