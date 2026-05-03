@@ -12,7 +12,7 @@ import java.io.File;
 public class AllMusicServer implements DedicatedServerModInitializer {
     public static MinecraftServer server;
 
-    public static final ResourceLocation ID = new ResourceLocation("allmusic", "channel");
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("allmusic", "channel");
 
     public static final String dir = "allmusic_server/";
 

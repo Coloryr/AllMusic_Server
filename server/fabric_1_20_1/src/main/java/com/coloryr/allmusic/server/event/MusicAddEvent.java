@@ -20,5 +20,11 @@ public interface MusicAddEvent {
                 return InteractionResult.PASS;
             });
 
+    /**
+     * 音乐添加事件，返回PASS表示通过
+     * @param player 玩家
+     * @param music 歌曲信息
+     * @return 是否通过
+     */
     InteractionResult interact(ServerPlayer player, PlayerAddMusicObj music);
 }

@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
 
 import java.io.File;
 import java.util.Collection;
@@ -120,13 +121,13 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
-        return !MusicPlayEvent.EVENT.invoker().interact(obj);
+        return MusicPlayEvent.EVENT.invoker().interact(obj) != InteractionResult.PASS;
     }
 
     @Override
     public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         CommandSourceStack source = (CommandSourceStack) obj;
-        return !MusicAddEvent.EVENT.invoker().interact(source.getPlayer(), music);
+        return MusicAddEvent.EVENT.invoker().interact(source.getPlayer(), music) != InteractionResult.PASS;
     }
 
     private void send(ServerPlayer players, MusicPack data) {

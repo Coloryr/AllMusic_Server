@@ -8,10 +8,10 @@ java.targetCompatibility = JavaVersion.VERSION_17
 dependencies {
     minecraft("com.mojang:minecraft:1.20.1")
     mappings(loom.officialMojangMappings())
-    modCompileOnly("net.fabricmc:fabric-loader:0.16.10")
+    modImplementation("net.fabricmc:fabric-loader:0.16.10")
 
-    modCompileOnly("net.fabricmc.fabric-api:fabric-api:0.92.3+1.20.1")
-    modCompileOnly("net.kyori:adventure-platform-fabric:5.9.0")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.92.3+1.20.1")
+    modImplementation("net.kyori:adventure-platform-fabric:5.9.0")
 
     shadowImplementation("net.kyori:adventure-text-minimessage:4.26.1")
     shadowImplementation("net.kyori:adventure-api:4.26.1")

@@ -19,5 +19,10 @@ public interface MusicPlayEvent {
                 return InteractionResult.PASS;
             });
 
+    /**
+     * 音乐播放事件，返回PASS表示通过
+     * @param music 歌曲信息
+     * @return 是否通过
+     */
     InteractionResult interact(SongInfoObj music);
 }

@@ -14,6 +14,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
 
 import java.io.File;
 import java.util.Collection;
@@ -123,7 +124,7 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean onMusicPlay(SongInfoObj obj) {
-        return MusicPlayEvent.EVENT.invoker().interact(obj);
+        return MusicPlayEvent.EVENT.invoker().interact(obj) != InteractionResult.PASS;
     }
 
     @Override
@@ -133,7 +134,7 @@ public class SideFabric extends BaseSide {
         if (sender.getEntity() instanceof ServerPlayer) {
             entity = (ServerPlayer) sender.getEntity();
         }
-        return MusicAddEvent.EVENT.invoker().interact(entity, music);
+        return MusicAddEvent.EVENT.invoker().interact(entity, music) != InteractionResult.PASS;
     }
 
     private void send(ServerPlayer players, ByteBuf data) {
