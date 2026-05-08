@@ -1,15 +1,15 @@
 plugins {
-    id("dev.architectury.loom") version "1.13-SNAPSHOT"
-    id("architectury-plugin") version "3.4-SNAPSHOT"
+    id("dev.architectury.loom") version Versions.architecturyLoom
+//    id("architectury-plugin") version "3.5-SNAPSHOT"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_21
 java.targetCompatibility = JavaVersion.VERSION_21
 
-architectury {
-  platformSetupLoomIde()
-  neoForge()
-}
+//architectury {
+//  platformSetupLoomIde()
+//  neoForge()
+//}
 
 repositories {
     maven("https://maven.neoforged.net/releases/")
