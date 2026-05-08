@@ -45,7 +45,7 @@ tasks {
     remapJar {
         inputFile.set(shadowJar.get().archiveFile)
         archiveFileName.set("[neoforge-1.21.11]AllMusic_Server-${project.version}.jar")
-        destinationDirectory.set(file("${parent!!.projectDir}/target"))
+        destinationDirectory.set(file("${parent!!.projectDir}/../build"))
     }
 
     build {

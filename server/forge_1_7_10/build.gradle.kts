@@ -31,7 +31,7 @@ tasks {
 
     shadowJar {
         archiveFileName.set("[forge-1.7.10]AllMusic_Server-${project.version}.jar")
-        destinationDirectory.set(file("${parent!!.projectDir}/target"))
+        destinationDirectory.set(file("${parent!!.projectDir}/../build"))
 
         relocate("net.kyori", "com.coloryr.allmusic.libs.net.kyori")
         relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")

@@ -19,6 +19,6 @@ tasks {
 
     shadowJar {
         archiveFileName.set("[velocity]AllMusic_Server-${project.version}.jar")
-        destinationDirectory.set(file("${parent!!.projectDir}/target"))
+        destinationDirectory.set(file("${parent!!.projectDir}/../build"))
     }
 }

@@ -24,6 +24,6 @@ tasks {
 
     shadowJar {
         archiveFileName.set("[folia]AllMusic_Server-${project.version}.jar")
-        destinationDirectory.set(file("${parent!!.projectDir}/target"))
+        destinationDirectory.set(file("${parent!!.projectDir}/../build"))
     }
 }
