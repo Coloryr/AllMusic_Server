@@ -232,13 +232,14 @@ public class CommandHudSet extends AHudCommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
             }
-            if (!HudUtils.setColor(name, type, args[3])) {
+            int color = HudUtils.setColor(name, type, args[3]);
+            if (color == -1) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
             }
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set2
                     .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                    .replace(ARG.color, args[3]));
+                    .replace(ARG.color, String.format("%06X", color & 0xFFFFFF)));
         }
     }
 

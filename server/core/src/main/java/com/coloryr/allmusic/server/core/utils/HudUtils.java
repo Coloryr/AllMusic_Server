@@ -462,7 +462,7 @@ public class HudUtils {
         return type;
     }
 
-    public static boolean setColor(String player, HudType type, String arg) {
+    public static int setColor(String player, HudType type, String arg) {
         int color;
         try {
             if (arg.startsWith("0x")) {
@@ -473,8 +473,10 @@ public class HudUtils {
                 color = Integer.parseUnsignedInt(arg);
             }
         } catch (Exception ignored) {
-            return false;
+            return -1;
         }
+
+        color = (color & -67108864) == 0 ? color | 0xFF000000 : color;
 
         HudPosObj obj = get(player);
         if (obj == null)
@@ -498,7 +500,7 @@ public class HudUtils {
         addAndSave(player, obj);
         HudUtils.sendHudPos(player);
 
-        return true;
+        return color;
     }
 
     public static boolean setShadow(String name, HudType pos, String arg) {

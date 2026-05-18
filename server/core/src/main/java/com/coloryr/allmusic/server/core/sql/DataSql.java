@@ -30,23 +30,27 @@ public class DataSql {
             "  \"info_dir\" integer(6),\n" +
             "  \"info_shadow\" integer(1),\n" +
             "  \"info_enable\" integer(1),\n" +
+            "  \"info_alpha\" float,\n" +
             "  \"lyric_x\" integer(6),\n" +
             "  \"lyric_y\" integer(6),\n" +
             "  \"lyric_color\" integer(20),\n" +
             "  \"lyric_dir\" integer(6),\n" +
             "  \"lyric_shadow\" integer(1),\n" +
             "  \"lyric_enable\" integer(1),\n" +
+            "  \"lyric_alpha\" float,\n" +
             "  \"list_x\" integer(6),\n" +
             "  \"list_y\" integer(6),\n" +
             "  \"list_color\" integer(20),\n" +
             "  \"list_dir\" integer(6),\n" +
             "  \"list_shadow\" integer(1),\n" +
             "  \"list_enable\" integer(1),\n" +
+            "  \"list_alpha\" float,\n" +
             "  \"pic_x\" integer(6),\n" +
             "  \"pic_y\" integer(6),\n" +
             "  \"pic_dir\" integer(6),\n" +
             "  \"pic_size\" integer(6),\n" +
             "  \"pic_enable\" integer(1),\n" +
+            "  \"pic_alpha\" float,\n" +
             "  \"pic_rotate\" integer(1),\n" +
             "  \"pic_rotate_speed\" integer(6)\n" +
             ");";
@@ -161,22 +165,26 @@ public class DataSql {
                     "info_dir=" + hud.info.dir.ordinal() + "," +
                     "info_shadow=" + (hud.info.shadow ? 1 : 0) + "," +
                     "info_enable=" + (hud.info.enable ? 1 : 0) + "," +
+                    "info_alpha=" + hud.info.alpha + "," +
                     "lyric_x=" + hud.lyric.x + "," +
                     "lyric_y=" + hud.lyric.y + "," +
                     "lyric_color=" + hud.lyric.color + "," +
                     "lyric_dir=" + hud.lyric.dir.ordinal() + "," +
                     "lyric_shadow=" + (hud.lyric.shadow ? 1 : 0) + "," +
                     "lyric_enable=" + (hud.lyric.enable ? 1 : 0) + "," +
+                    "lyric_alpha=" + hud.lyric.alpha + "," +
                     "list_x=" + hud.list.x + "," +
                     "list_y=" + hud.list.y + "," +
                     "list_color=" + hud.list.color + "," +
                     "list_dir=" + hud.list.dir.ordinal() + "," +
                     "list_shadow=" + (hud.list.shadow ? 1 : 0) + "," +
                     "list_enable=" + (hud.list.enable ? 1 : 0) + "," +
+                    "list_alpha=" + hud.list.alpha + "," +
                     "pic_x=" + hud.pic.x + "," +
                     "pic_y=" + hud.pic.y + "," +
                     "pic_dir=" + hud.pic.dir.ordinal() + "," +
                     "pic_enable=" + (hud.pic.enable ? 1 : 0) + "," +
+                    "pic_alpha=" + hud.pic.alpha + "," +
                     "pic_size=" + hud.pic.color + "," +
                     "pic_rotate=" + (hud.pic.shadow ? 1 : 0) + "," +
                     "pic_rotate_speed=" + hud.picRotateSpeed + " WHERE name='" + name + "'";
@@ -205,11 +213,13 @@ public class DataSql {
                 update(name, hud);
             } else {
                 Statement stat = connection.createStatement();
-                sql = "INSERT INTO allmusic (name,info_x,info_y," +
-                        "info_enable,lyric_x,lyric_y,lyric_enable,list_x,list_y,list_enable," +
+                sql = "INSERT INTO allmusic (name," +
+                        "info_x,info_y,info_enable,lyric_x,lyric_y,lyric_enable," +
+                        "list_x,list_y,list_enable," +
                         "pic_x,pic_y,pic_enable,pic_size,pic_rotate,pic_rotate_speed," +
                         "info_color,info_dir,info_shadow,lyric_color,lyric_dir," +
-                        "lyric_shadow,list_color,list_dir,list_shadow,pic_dir)" +
+                        "lyric_shadow,list_color,list_dir,list_shadow,pic_dir," +
+                        "info_alpha,lyric_alpha,list_alpha,pic_alpha)" +
                         "VALUES ('" + name + "'," +
                         hud.info.x + "," +
                         hud.info.y + "," +
@@ -235,7 +245,11 @@ public class DataSql {
                         hud.list.color + "," +
                         hud.list.dir.ordinal() + "," +
                         (hud.list.shadow ? 1 : 0) + "," +
-                        hud.pic.dir.ordinal() +
+                        hud.pic.dir.ordinal() + "," +
+                        hud.info.alpha + "," +
+                        hud.lyric.alpha + "," +
+                        hud.list.alpha + "," +
+                        hud.pic.alpha +
                         ")";
                 stat.execute(sql);
                 stat.close();
@@ -258,7 +272,8 @@ public class DataSql {
             ResultSet set = stat.executeQuery("SELECT info_x,info_y,info_enable,lyric_x," +
                     "lyric_y,lyric_enable,list_x,list_y,list_enable,pic_x,pic_y,pic_enable,pic_size," +
                     "pic_rotate,pic_rotate_speed,info_color,info_dir,info_shadow,lyric_color," +
-                    "lyric_dir,lyric_shadow,list_color,list_dir,list_shadow,pic_dir FROM allmusic WHERE name='" + name + "'");
+                    "lyric_dir,lyric_shadow,list_color,list_dir,list_shadow,pic_dir," +
+                    "info_alpha,lyric_alpha,list_alpha,pic_alpha FROM allmusic WHERE name='" + name + "'");
             HudDirType[] vas = HudDirType.values();
             HudPosObj obj = null;
             if (set.next()) {
@@ -296,6 +311,10 @@ public class DataSql {
                 obj.list.dir = vas[set.getInt(23)];
                 obj.list.shadow = set.getInt(24) == 1;
                 obj.pic.dir = vas[set.getInt(25)];
+                obj.info.alpha = set.getFloat(26);
+                obj.lyric.alpha = set.getFloat(27);
+                obj.list.alpha = set.getFloat(28);
+                obj.pic.alpha = set.getFloat(29);
             }
             stat.close();
 
