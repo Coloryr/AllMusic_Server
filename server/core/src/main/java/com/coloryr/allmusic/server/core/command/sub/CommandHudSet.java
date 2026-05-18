@@ -20,6 +20,7 @@ public class CommandHudSet extends AHudCommand {
         this.add("enable");
         this.add("pos");
         this.add("dir");
+        this.add("alpha");
         this.add("reset");
     }};
     private static final List<String> pic = new ArrayList<String>() {{
@@ -42,6 +43,7 @@ public class CommandHudSet extends AHudCommand {
         commandList.put("enable", new HudEnable(type));
         commandList.put("reset", new HudReset(type));
         commandList.put("pos", new HudPos(type));
+        commandList.put("alpha", new HudAlpha(type));
         commandList.put("dir", new HudDir(type));
         if (type == HudType.PIC) {
             commandList.put("size", new PicSize());
@@ -148,8 +150,35 @@ public class CommandHudSet extends AHudCommand {
 
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.set
                         .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                        .replace(ARG.x, args[3])
-                        .replace(ARG.y, args[4]));
+                        .replace(ARG.x, String.valueOf(obj.x))
+                        .replace(ARG.y, String.valueOf(obj.y)));
+            } catch (Exception e) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+            }
+        }
+    }
+
+    private static class HudAlpha extends AHudCommand {
+        public HudAlpha(HudType type) {
+            super(type);
+        }
+
+        @Override
+        public void execute(Object sender, String name, String[] args) {
+            try {
+                if (args.length != 4) {
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                    return;
+                }
+                HudItemPosObj obj = HudUtils.setHudAlpha(name, type, args[3]);
+                if (obj == null) {
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().command.error);
+                    return;
+                }
+
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.set4
+                        .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
+                        .replace(ARG.alpha, String.valueOf(obj.alpha)));
             } catch (Exception e) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             }

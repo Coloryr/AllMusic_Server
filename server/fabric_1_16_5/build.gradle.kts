@@ -8,14 +8,16 @@ dependencies {
     modCompileOnly("net.fabricmc:fabric-loader:0.18.5")
 
     modCompileOnly("net.fabricmc.fabric-api:fabric-api:0.42.0+1.16")
-    modCompileOnly("net.kyori:adventure-platform-fabric:4.0.0")
 
-    shadowImplementation("net.kyori:adventure-text-minimessage:4.26.1")
-    shadowImplementation("net.kyori:adventure-api:4.26.1")
-    shadowImplementation("net.kyori:adventure-text-serializer-gson:4.8.1")
-    shadowImplementation("net.kyori:adventure-text-serializer-legacy:4.8.1")
-    shadowImplementation("net.kyori:adventure-text-serializer-plain:4.8.1")
-    shadowImplementation("net.kyori:adventure-key:4.8.1")
+    shadowImplementation("net.kyori:adventure-platform-api:4.0.0")
+    shadowImplementation("net.kyori:adventure-text-minimessage:${Versions.minimessage}")
+    shadowImplementation("net.kyori:adventure-api:${Versions.minimessage}")
+    shadowImplementation("net.kyori:adventure-text-serializer-gson:${Versions.adventure}")
+    shadowImplementation("net.kyori:adventure-text-serializer-legacy:${Versions.adventure}")
+    shadowImplementation("net.kyori:adventure-text-serializer-plain:${Versions.adventure}")
+    shadowImplementation("net.kyori:adventure-key:${Versions.adventure}")
+
+    include("org.xerial:sqlite-jdbc:${Versions.sqlite}")
 }
 
 tasks {
@@ -29,7 +31,7 @@ tasks {
 
     shadowJar {
         relocate("net.kyori", "com.coloryr.allmusic.libs.net.kyori")
-        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
+//        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
     }
 
     remapJar {

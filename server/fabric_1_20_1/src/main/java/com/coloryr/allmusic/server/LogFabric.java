@@ -6,6 +6,6 @@ import net.kyori.adventure.text.Component;
 public class LogFabric implements IAllMusicLogger {
     @Override
     public void data(Component data) {
-        AllMusicServer.server.sendSystemMessage(AllMusicServer.parse(data));
+        AllMusicServer.server.sendMessage(data);
     }
 }

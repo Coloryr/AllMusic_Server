@@ -1,8 +1,8 @@
 dependencies {
-    shadowImplementation("org.apache.httpcomponents.client5:httpclient5:5.6")
-    shadowImplementation("org.apache.httpcomponents.core5:httpcore5:5.4")
-    shadowImplementation("org.apache.httpcomponents.core5:httpcore5-h2:5.4")
+    shadowImplementation("org.apache.httpcomponents.client5:httpclient5:${Versions.httpclient5}")
+    shadowImplementation("org.apache.httpcomponents.core5:httpcore5:${Versions.httpcore5}")
+    shadowImplementation("org.apache.httpcomponents.core5:httpcore5-h2:${Versions.httpcore5_h2}")
 
-    compileOnly("com.google.code.gson:gson:2.11.0")
-    compileOnly("net.kyori:adventure-text-minimessage:4.26.1")
+    compileOnly("com.google.code.gson:gson:${Versions.gson}")
+    compileOnly("net.kyori:adventure-text-minimessage:${Versions.minimessage}")
 }

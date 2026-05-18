@@ -81,7 +81,7 @@ public class SideFabric extends BaseSide {
 
     @Override
     public Object getPlayer(String player) {
-        return null;
+        return AllMusicServer.server.getPlayerList().getPlayerByName(player);
     }
 
     @Override
@@ -99,6 +99,9 @@ public class SideFabric extends BaseSide {
 
     @Override
     public boolean needPlay(boolean islist) {
+        if (AllMusicServer.server == null || AllMusicServer.server.getPlayerList() == null) {
+            return false;
+        }
         for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
             if (!AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
                 return true;

@@ -47,15 +47,15 @@ public class AllMusic {
     /**
      * 插件版本号
      */
-    public static final String version = "3.9.0";
+    public static final String version = "4.0.0";
     /**
      * 配置文件版本号
      */
-    public static final String configVersion = "207";
+    public static final String configVersion = "400";
     /**
      * 语言文件配置版本号
      */
-    public static final String messageVersion = "212";
+    public static final String messageVersion = "400";
     /**
      * 日志
      */

@@ -10,6 +10,7 @@ public class ARG {
     public static String cost = "%Cost%";
     public static String index = "%Index%";
     public static String state = "%State%";
+    public static String alpha = "%Alpha%";
     public static String x = "%X%";
     public static String y = "%Y%";
     public static String dir = "%Dir%";

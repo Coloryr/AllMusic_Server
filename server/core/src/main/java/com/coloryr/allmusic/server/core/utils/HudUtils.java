@@ -51,24 +51,25 @@ public class HudUtils {
     }
 
     /**
-     * 设置玩家Hud位置
+     * 设置组件位置
      *
      * @param player 用户名
      * @param pos    位置
      * @param x      x
      * @param y      y
-     * @return 位置数据
+     * @return 组件数据
      */
     public static HudItemPosObj setHudPos(String player, HudType pos, String x, String y) {
         HudPosObj obj = get(player);
         if (obj == null)
             obj = AllMusic.getConfig().defaultHud.copy();
-        HudItemPosObj posOBJ = new HudItemPosObj(0, 0, HudDirType.TOP_LEFT, 0xffffff, false, true);
+
         if (!Function.isInteger(x) && !Function.isInteger(y))
             return null;
         int x1 = Integer.parseInt(x);
         int y1 = Integer.parseInt(y);
 
+        HudItemPosObj posOBJ;
         switch (pos) {
             case LYRIC:
                 posOBJ = obj.lyric;
@@ -81,9 +82,53 @@ public class HudUtils {
                 break;
             case PIC:
                 posOBJ = obj.pic;
+                break;
+            default:
+                return null;
         }
         posOBJ.x = x1;
         posOBJ.y = y1;
+
+        addAndSave(player, obj);
+        HudUtils.sendHudPos(player);
+        return posOBJ;
+    }
+
+    /**
+     * 设置组件透明度
+     * @param player 用户名
+     * @param pos 位置
+     * @param alpha 透明度
+     * @return 组件数据
+     */
+    public static HudItemPosObj setHudAlpha(String player, HudType pos, String alpha) {
+        HudPosObj obj = get(player);
+        if (obj == null)
+            obj = AllMusic.getConfig().defaultHud.copy();
+        if (!Function.isInteger(alpha))
+            return null;
+        float alpha1 = Float.parseFloat(alpha);
+        if (alpha1 > 1 || alpha1 < 0) {
+            alpha1 = 1;
+        }
+        HudItemPosObj posOBJ;
+        switch (pos) {
+            case LYRIC:
+                posOBJ = obj.lyric;
+                break;
+            case LIST:
+                posOBJ = obj.list;
+                break;
+            case INFO:
+                posOBJ = obj.info;
+                break;
+            case PIC:
+                posOBJ = obj.pic;
+                break;
+            default:
+                return null;
+        }
+        posOBJ.alpha = alpha1;
 
         addAndSave(player, obj);
         HudUtils.sendHudPos(player);

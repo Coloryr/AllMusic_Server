@@ -6,8 +6,6 @@ subprojects {
             shadowImplementation(project(":server:core"))
         shadowImplementation(project(":codec"))
         shadowImplementation(project(":codec:buffercodec"))
-
-        shadowImplementation("org.xerial:sqlite-jdbc:3.51.1.0")
     }
 
     tasks {

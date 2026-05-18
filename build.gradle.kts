@@ -12,7 +12,7 @@ allprojects {
     apply(plugin = "com.gradleup.shadow")
 
     group = "com.coloryr"
-    version = "3.9.2"
+    version = "4.0.0"
 
     // 设置项目JDK版本
     java.sourceCompatibility = JavaVersion.VERSION_1_8

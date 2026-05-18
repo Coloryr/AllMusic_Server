@@ -6,6 +6,7 @@ public class HudObj {
     public String set1;
     public String set2;
     public String set3;
+    public String set4;
     public String reset;
     public String emptyMusic;
     public String emptyList;
@@ -35,6 +36,8 @@ public class HudObj {
         if (set2 == null)
             return true;
         if (set3 == null)
+            return true;
+        if (set4 == null)
             return true;
         if (reset == null)
             return true;
@@ -70,6 +73,8 @@ public class HudObj {
             set2 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的颜色为[" + ARG.color + "]";
         if (set3 == null)
             set3 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的阴影为[" + ARG.state + "]";
+        if (set4 == null)
+            set4 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的透明度为[" + ARG.alpha + "]";
         if (reset == null)
             reset = "<light_purple>[AllMusic3]<yellow>界面[" + ARG.hud + "]恢复至默认位置";
         if (emptyMusic == null)
