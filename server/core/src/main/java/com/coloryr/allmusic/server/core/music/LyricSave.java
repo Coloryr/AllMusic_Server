@@ -82,6 +82,7 @@ public class LyricSave {
         KtvLyric temp = klyric.get(time);
         if (temp != null) {
             ktvNow = temp;
+            kly = 0.0f;
         }
 
         kUpdate(time);
