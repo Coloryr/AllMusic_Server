@@ -3,7 +3,8 @@ package com.coloryr.allmusic.server.core.command.sub;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.BanSave;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 
 public class CommandNext extends ACommand {
 
@@ -11,6 +12,6 @@ public class CommandNext extends ACommand {
     public void execute(Object sender, String name, String[] args) {
         PlayMusic.musicLessTime = 1;
         AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>已强制切歌");
-        DataSql.removeMutePlayer(name);
+        BanSave.removeMutePlayer(name);
     }
 }

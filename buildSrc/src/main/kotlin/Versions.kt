@@ -5,7 +5,6 @@ object Versions {
     const val httpcore5 = "5.4.2"
     const val httpcore5_h2 = "5.4.2"
     const val gson = "2.14.0"
-    const val sqlite = "3.53.1.0"
     const val minimessage = "4.26.1"
     const val adventure = "4.8.1"
 }

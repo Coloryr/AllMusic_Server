@@ -7,7 +7,8 @@ import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.music.PlayRuntime;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.BanSave;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +99,7 @@ public class CommandPush extends ACommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().push.arAgree);
             }
         }
-        DataSql.removeMutePlayer(name);
+        BanSave.removeMutePlayer(name);
     }
 
     @Override

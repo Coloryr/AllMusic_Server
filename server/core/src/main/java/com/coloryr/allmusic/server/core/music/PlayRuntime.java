@@ -21,7 +21,7 @@ public class PlayRuntime {
     /**
      * 歌曲更新计数器
      */
-    private static int times = 0;
+    private static long times = 0;
     /**
      * 歌曲定时器
      */
@@ -77,6 +77,7 @@ public class PlayRuntime {
         HudUtils.sendHudListData();
     }
 
+
     /**
      * 歌曲时间定时器
      */
@@ -94,17 +95,17 @@ public class PlayRuntime {
             try {
                 if (PlayMusic.lyric == null)
                     return;
-                boolean res = PlayMusic.lyric.checkTime(PlayMusic.musicNowTime, AllMusic.getConfig().ktvMode);
+                boolean res = PlayMusic.lyric.lyricGetNext(PlayMusic.musicNowTime);
                 if (res) {
-                    times = 0;
                     HudUtils.sendHudLyricData();
                     AllMusic.side.updateLyric();
-                } else {
-                    times++;
-                    if (times == AllMusic.getConfig().sendDelay / 2 && PlayMusic.lyric != null) {
-                        times = 0;
-                        HudUtils.sendHudLyricData();
-                        AllMusic.side.updateLyric();
+                }
+
+                if (AllMusic.getConfig().ktvMode) {
+                    PlayMusic.lyric.updateKtv(PlayMusic.musicNowTime);
+                    if ((PlayMusic.musicNowTime - times) > AllMusic.getConfig().ktvSendDelay) {
+                        times = PlayMusic.musicNowTime;
+                        HudUtils.sendHudKtv();
                     }
                 }
             } catch (Exception e) {

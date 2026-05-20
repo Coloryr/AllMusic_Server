@@ -2,6 +2,8 @@ package com.coloryr.allmusic.server.core;
 
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.codec.HudType;
+import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 public class AllMusicApi {
@@ -58,6 +60,16 @@ public class AllMusicApi {
     }
 
     /**
+     * 更新玩家Hud歌词
+     *
+     * @param name 用户名
+     * @param pack  位置
+     */
+    public static void sendLyric(String name, MusicPack.LyricMusicPack pack) {
+        AllMusic.side.sendLyric(name, pack);
+    }
+
+    /**
      * 发送图片
      *
      * @param name 用户名
@@ -77,13 +89,13 @@ public class AllMusicApi {
     }
 
     /**
-     * 获取玩家Hud信息，这个操作会读取数据库，首次读取会有一点卡
+     * 获取玩家Hud信息
      *
      * @param player 玩家
      * @return Hud信息
      */
     public static HudPosObj getHud(String player) {
-        return HudUtils.get(player);
+        return HudSave.getOrNew(player);
     }
 
     /**
@@ -93,6 +105,6 @@ public class AllMusicApi {
      * @param hud    Hud信息
      */
     public static void setHud(String player, HudPosObj hud) {
-        HudUtils.set(player, hud);
+        HudSave.update(player, hud);
     }
 }

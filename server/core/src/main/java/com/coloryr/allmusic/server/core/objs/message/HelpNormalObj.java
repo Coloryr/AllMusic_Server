@@ -26,6 +26,8 @@ public class HelpNormalObj {
     public String hud8;
     public String hud9;
     public String hud10;
+    public String hud11;
+    public String hud12;
     public String join;
 
     public static HelpNormalObj make() {
@@ -86,6 +88,10 @@ public class HelpNormalObj {
             return true;
         if (join == null)
             return true;
+        if (hud11 == null)
+            return true;
+        if (hud12 == null)
+            return true;
         return hud5 == null;
     }
 
@@ -134,6 +140,10 @@ public class HelpNormalObj {
             hud7 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] color [颜色HEX] 设置某个界面的颜色";
         if (hud8 == null)
             hud8 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] reset 重置单一界面";
+        if (hud11 == null)
+            hud11 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] alpha 设置透明度";
+        if (hud12 == null)
+            hud12 = "<light_purple>[AllMusic3]<yellow>/music hud [位置] loop [模式] 设置文字滚动模式";
         if (hud3 == null)
             hud3 = "<light_purple>[AllMusic3]<yellow>/music hud pic size [尺寸] 设置图片尺寸";
         if (hud4 == null)

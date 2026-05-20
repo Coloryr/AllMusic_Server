@@ -8,7 +8,8 @@ import com.coloryr.allmusic.server.core.objs.SearchMusicObj;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SearchPageObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.HudSave;
+import com.coloryr.allmusic.server.core.saves.MusicListSave;
 import com.coloryr.allmusic.server.core.utils.Function;
 import com.coloryr.allmusic.server.netapi.obj.music.info.InfoObj;
 import com.coloryr.allmusic.server.netapi.obj.music.list.DataObj;
@@ -171,7 +172,7 @@ public class NetiApiMain implements IMusicApi {
                 try {
                     isUpdate = true;
                     DataObj obj = AllMusic.gson.fromJson(res.data, DataObj.class);
-                    DataSql.addIdleList(obj.getPlaylist(), getId());
+                    MusicListSave.addIdleList(obj.getPlaylist(), getId());
                     AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().musicPlay.listMusic.get.replace(ARG.name, obj.getName()));
                 } catch (Exception e) {
                     AllMusic.log.data("<light_purple>[AllMusic3]<red>歌曲列表获取错误");

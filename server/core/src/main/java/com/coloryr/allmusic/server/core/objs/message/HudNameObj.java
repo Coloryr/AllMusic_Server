@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.core.objs.message;
 
-import com.coloryr.allmusic.codec.HudDirType;
+import com.coloryr.allmusic.codec.HudPosType;
 import com.coloryr.allmusic.codec.HudType;
 
 public class HudNameObj {
@@ -83,7 +83,7 @@ public class HudNameObj {
         return null;
     }
 
-    public String getDir(HudDirType data) {
+    public String getDir(HudPosType data) {
         if (data == null) {
             return all;
         }

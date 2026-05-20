@@ -3,27 +3,23 @@ package com.coloryr.allmusic.server.core.music;
 import com.coloryr.allmusic.server.core.objs.music.LyricItemObj;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class LyricSave {
     public int lastIndex = 0;
     protected boolean haveLyric;
-    protected String lly = "";
-    protected String kly = "";
-    protected String tly = "";
+    protected float kly = 0;
+    protected LyricItemObj now;
     private Map<Long, LyricItemObj> lyric;
-    private Map<Long, String> klyric;
-    private LyricItemObj now;
-    private long last;
-    private String kNow;
+    private Map<Long, KtvLyric> klyric;
+    private KtvLyric ktvNow;
 
     public LyricSave() {
         haveLyric = false;
         lyric = new HashMap<>();
     }
 
-    public void setKlyric(Map<Long, String> klyric) {
+    public void setKlyric(Map<Long, KtvLyric> klyric) {
         this.klyric = klyric;
     }
 
@@ -36,7 +32,7 @@ public class LyricSave {
     }
 
     public String getLyric() {
-        return lly;
+        return now.lyric;
     }
 
     public void setLyric(Map<Long, LyricItemObj> lyric) {
@@ -44,69 +40,76 @@ public class LyricSave {
     }
 
     public String getTlyric() {
-        return tly;
+        return now.tlyric;
     }
 
-    public String getKly() {
+    public float getKly() {
         return kly;
     }
 
-    public boolean kUpdate() {
-        if (lastIndex >= now.lyric.length()) {
-            kly = now.lyric;
-            lly = "";
-        } else if (kNow != null) {
-            int index = now.lyric.toLowerCase(Locale.ROOT).indexOf(kNow, lastIndex);
-            if (index != -1) {
-                lastIndex = index + kNow.length();
+    public void kUpdate(long playNow) {
+        if (now == null || now.lyric == null || now.lyric.isEmpty()
+                || ktvNow == null || ktvNow.items == null || ktvNow.items.isEmpty()) {
+            kly = 0.0f;
+        }
 
-                kly = now.lyric.substring(0, lastIndex);
-                lly = now.lyric.substring(lastIndex);
-                return true;
+        // 查找当前时间落在哪个 KTV 字的时间段内
+        for (int i = 0; i < ktvNow.items.size(); i++) {
+            KtvLyric.KtvItem item = ktvNow.items.get(i);
+            if (playNow >= item.start && playNow < item.start + item.time) {
+                // 当前字内的进度
+                float progressInChar = (float) (playNow - item.start) / item.time;
+                // 整体进度 = (已完成的字 + 当前字的进度) / 总字数
+                kly = (i + progressInChar) / ktvNow.items.size();
+                lastIndex = i;  // 记录当前字索引，可选
             }
-        } else {
-            kly = "";
         }
 
-        return false;
+        // 如果时间超过了最后一个字
+        if (playNow >= ktvNow.start + ktvNow.time) {
+            kly = 1.0f;
+            lastIndex = ktvNow.items.size();
+        }
+
+        // 还没到第一个字的时间
+        kly = 0.0f;
+        lastIndex = 0;
     }
 
-    public boolean ktv(long time) {
-        if (last == time || klyric == null)
-            return false;
+    private void ktvGetNext(long time) {
+        if (klyric == null)
+            return;
 
-        String temp = klyric.get(time);
+        KtvLyric temp = klyric.get(time);
         if (temp != null) {
-            kNow = temp.toLowerCase(Locale.ROOT);
-            last = time;
-            return kUpdate();
+            ktvNow = temp;
         }
 
-        return false;
+        kUpdate(time);
     }
 
-    public boolean checkTime(long playNow, boolean ktv) {
+    public boolean lyricGetNext(long playNow) {
         if (lyric == null)
             return false;
 
-        boolean res = false;
         LyricItemObj temp = lyric.get(playNow);
-        if (temp != null) {
-            now = temp;
-            lly = now.lyric;
-            tly = now.tlyric;
-            if (tly == null)
-                tly = "";
-            kly = null;
+        if (temp != null && now != temp) {
+            now = temp.copy();
+            if (now.tlyric == null) {
+                now.tlyric = "";
+            }
+            kly = 0.0f;
             lastIndex = 0;
-            kUpdate();
+            ktvGetNext(playNow);
             return true;
         }
 
-        if (ktv && now != null) {
-            res = ktv(playNow);
-        }
+        return false;
+    }
 
-        return res;
+    public void updateKtv(long playNow) {
+        if (now != null) {
+            kUpdate(playNow);
+        }
     }
 }

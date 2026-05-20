@@ -16,8 +16,6 @@ dependencies {
     shadowImplementation("net.kyori:adventure-text-serializer-legacy:${Versions.adventure}")
     shadowImplementation("net.kyori:adventure-text-serializer-plain:${Versions.adventure}")
     shadowImplementation("net.kyori:adventure-key:${Versions.adventure}")
-
-    include("org.xerial:sqlite-jdbc:${Versions.sqlite}")
 }
 
 tasks {

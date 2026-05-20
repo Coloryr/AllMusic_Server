@@ -7,7 +7,9 @@ import com.coloryr.allmusic.server.core.music.MusicSearch;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.BanSave;
+import com.coloryr.allmusic.server.core.saves.HudSave;
+import com.coloryr.allmusic.server.core.saves.SaveTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -179,13 +181,13 @@ public class CommandEX {
         if (api1.checkId(musicID)) {
             if (PlayMusic.getListSize() >= AllMusic.getConfig().maxPlayList) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.listFull);
-            } else if (DataSql.checkBanMusic(musicID)) {
+            } else if (BanSave.checkBanMusic(musicID, api)) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.banMusic);
             } else if (PlayMusic.haveMusic(musicID, api)) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.existMusic);
             } else if (PlayMusic.isPlayerMax(name)) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.playerToMany);
-            } else if (DataSql.checkBanPlayer(name)) {
+            } else if (BanSave.checkBanPlayer(name)) {
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().addMusic.playerBan);
             } else {
                 if (checkMoney(sender, name, AllMusic.getConfig().cost.addMusicCost)) {
@@ -195,7 +197,7 @@ public class CommandEX {
                         AllMusic.getMessage().cost.addMusic)) {
                     return;
                 }
-                DataSql.removeMutePlayer(name);
+                BanSave.removeMutePlayer(name);
                 if (AllMusic.side.needPlay(false)) {
                     PlayerAddMusicObj obj = new PlayerAddMusicObj();
                     obj.sender = sender;
@@ -264,9 +266,9 @@ public class CommandEX {
                     case 0:
                     default:
                         if (args.length == 1) {
-                            DataSql.task(() -> addMusic(sender, name, AllMusic.getConfig().defaultApi, args[0]));
+                            SaveTask.task(() -> addMusic(sender, name, AllMusic.getConfig().defaultApi, args[0]));
                         } else if (args.length == 2) {
-                            DataSql.task(() -> addMusic(sender, name, args[0], args[1]));
+                            SaveTask.task(() -> addMusic(sender, name, args[0], args[1]));
                         }
                 }
             }

@@ -2,8 +2,8 @@ package com.coloryr.allmusic.server.core.command.sub;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ICommand;
-import com.coloryr.allmusic.server.core.sql.Cache;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.BanSave;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +16,7 @@ public class CommandBanPlayer implements ICommand {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             return;
         }
-        DataSql.addBanPlayer(args[1]);
+        BanSave.addBanPlayer(args[1]);
         AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>已禁止玩家" + args[1] + "点歌");
     }
 
@@ -26,7 +26,7 @@ public class CommandBanPlayer implements ICommand {
             List<String> list = new ArrayList<>();
             for (Object item : AllMusic.side.getPlayers()) {
                 String name1 = AllMusic.side.getPlayerName(item);
-                if (name1 != null && !Cache.haveBan(name1)) {
+                if (name1 != null && !BanSave.haveBanPlayer(name1)) {
                     list.add(name1);
                 }
             }

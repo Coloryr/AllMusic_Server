@@ -16,8 +16,9 @@ public class HudObj {
     public String picSpeed;
     public String music;
     public String lyric;
+    public String tlyric;
     public String list;
-    public String ktv;
+    public String klyric;
 
     public static HudObj make() {
         HudObj obj = new HudObj();
@@ -53,13 +54,15 @@ public class HudObj {
             return true;
         if (lyric == null)
             return true;
+        if (tlyric == null)
+            return true;
         if (list == null)
             return true;
         if (picRotate == null)
             return true;
         if (picSpeed == null)
             return true;
-        return ktv == null;
+        return klyric == null;
     }
 
     public void init() {
@@ -94,9 +97,11 @@ public class HudObj {
                     + "\n" + ARG.musicAuthor + "\n" + ARG.musicAlia + "\n" + ARG.musicAl
                     + "\nby: " + ARG.player;
         if (lyric == null)
-            lyric = ARG.lyric + "\n" + ARG.tlyric;
-        if (ktv == null)
-            ktv = "§e" + ARG.klyric + "§f" + ARG.lyric + "§r\n" + ARG.tlyric;
+            lyric = ARG.lyric;
+        if (tlyric == null)
+            tlyric = ARG.lyric;
+        if (klyric == null)
+            klyric = "§e" + ARG.lyric;
         if (list == null)
             list = "播放列表里面有" + ARG.size + "首歌\n" + ARG.list;
     }

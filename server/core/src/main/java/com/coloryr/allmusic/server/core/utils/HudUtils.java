@@ -1,55 +1,15 @@
 package com.coloryr.allmusic.server.core.utils;
 
-import com.coloryr.allmusic.codec.HudDirType;
-import com.coloryr.allmusic.codec.HudItemPosObj;
-import com.coloryr.allmusic.codec.HudPosObj;
-import com.coloryr.allmusic.codec.HudType;
+import com.coloryr.allmusic.codec.*;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.LyricSave;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.config.LimitObj;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.sql.DataSql;
-
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 
 public class HudUtils {
-    private static final Map<String, HudPosObj> HudList = new ConcurrentHashMap<>();
-
-    /**
-     * 获取玩家的Hud储存
-     *
-     * @param name 玩家名
-     * @return Hud储存
-     */
-    public static HudPosObj get(String name) {
-        name = name.toLowerCase(Locale.ROOT);
-        if (!HudList.containsKey(name)) {
-            HudPosObj obj1 = DataSql.readHud(name);
-            if (obj1 == null) {
-                HudPosObj obj = AllMusic.getConfig().defaultHud.copy();
-                HudList.put(name, obj);
-                String finalName = name;
-                DataSql.task(() -> DataSql.addUser(finalName, obj));
-                return obj;
-            }
-
-            HudList.put(name, obj1);
-            return obj1;
-        }
-        return HudList.get(name);
-    }
-
-    public static void addAndSave(String name, HudPosObj hud) {
-        name = name.toLowerCase(Locale.ROOT);
-        HudList.put(name, hud);
-        String finalName = name;
-        DataSql.task(() -> DataSql.addUser(finalName, hud));
-    }
-
     /**
      * 设置组件位置
      *
@@ -59,17 +19,15 @@ public class HudUtils {
      * @param y      y
      * @return 组件数据
      */
-    public static HudItemPosObj setHudPos(String player, HudType pos, String x, String y) {
-        HudPosObj obj = get(player);
-        if (obj == null)
-            obj = AllMusic.getConfig().defaultHud.copy();
+    public static HudBasePosObj setHudPos(String player, HudType pos, String x, String y) {
+        HudPosObj obj = HudSave.getOrNew(player);
 
         if (!Function.isInteger(x) && !Function.isInteger(y))
             return null;
         int x1 = Integer.parseInt(x);
         int y1 = Integer.parseInt(y);
 
-        HudItemPosObj posOBJ;
+        HudBasePosObj posOBJ;
         switch (pos) {
             case LYRIC:
                 posOBJ = obj.lyric;
@@ -89,29 +47,29 @@ public class HudUtils {
         posOBJ.x = x1;
         posOBJ.y = y1;
 
-        addAndSave(player, obj);
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
         return posOBJ;
     }
 
     /**
      * 设置组件透明度
+     *
      * @param player 用户名
-     * @param pos 位置
-     * @param alpha 透明度
+     * @param pos    位置
+     * @param alpha  透明度
      * @return 组件数据
      */
-    public static HudItemPosObj setHudAlpha(String player, HudType pos, String alpha) {
-        HudPosObj obj = get(player);
-        if (obj == null)
-            obj = AllMusic.getConfig().defaultHud.copy();
+    public static HudBasePosObj setHudAlpha(String player, HudType pos, String alpha) {
+        HudPosObj obj = HudSave.getOrNew(player);
+
         if (!Function.isInteger(alpha))
             return null;
         float alpha1 = Float.parseFloat(alpha);
         if (alpha1 > 1 || alpha1 < 0) {
             alpha1 = 1;
         }
-        HudItemPosObj posOBJ;
+        HudBasePosObj posOBJ;
         switch (pos) {
             case LYRIC:
                 posOBJ = obj.lyric;
@@ -130,7 +88,7 @@ public class HudUtils {
         }
         posOBJ.alpha = alpha1;
 
-        addAndSave(player, obj);
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
         return posOBJ;
     }
@@ -202,27 +160,38 @@ public class HudUtils {
      * 更新Hud的歌词数据
      */
     public static void sendHudLyricData() {
-        String info;
+        String lyr;
+        String tran;
+        String ktv;
         LyricSave obj = PlayMusic.lyric;
         if (obj == null) {
-            info = AllMusic.getMessage().hud.emptyLyric;
+            lyr = AllMusic.getMessage().hud.emptyLyric;
+            tran = "";
+            ktv = "";
         } else {
             String lyric = obj.getLyric();
             String tLyric = obj.getTlyric();
-            String kLyric = obj.getKly();
-            if (!AllMusic.getConfig().ktvMode) {
-                info = AllMusic.getMessage().hud.lyric
-                        .replace(ARG.lyric, lyric == null ? "" : lyric)
-                        .replace(ARG.tlyric, tLyric != null ? tLyric : "");
-            } else {
-                info = AllMusic.getMessage().hud.ktv
-                        .replace(ARG.lyric, lyric != null ? lyric : "")
-                        .replace(ARG.klyric, kLyric != null ? kLyric : "")
-                        .replace(ARG.tlyric, tLyric != null ? tLyric : "");
-            }
+            lyr = AllMusic.getMessage().hud.lyric
+                    .replace(ARG.lyric, lyric == null ? "" : lyric);
+            tran = AllMusic.getMessage().hud.tlyric
+                    .replace(ARG.lyric, tLyric == null ? "" : tLyric);
+            ktv = AllMusic.getMessage().hud.klyric
+                    .replace(ARG.lyric, lyric == null ? "" : lyric);
         }
 
-        AllMusic.side.sendHudLyric(info);
+        AllMusic.side.sendHudLyric(new MusicPack.LyricMusicPack(lyr, tran, ktv));
+    }
+
+    public static void sendHudKtv() {
+        float kLyric;
+        LyricSave obj = PlayMusic.lyric;
+        if (obj == null) {
+            kLyric = 0.0f;
+        } else {
+            kLyric = obj.getKly();
+
+        }
+        AllMusic.side.sendHudKtv(kLyric);
     }
 
     /**
@@ -233,7 +202,7 @@ public class HudUtils {
      * @return 设置结果
      */
     public static boolean setHudEnable(String player, HudType pos, String arg) {
-        HudPosObj obj = get(player);
+        HudPosObj obj = HudSave.getOrNew(player);
         boolean res = false;
         boolean value = false;
         boolean have = false;
@@ -245,41 +214,32 @@ public class HudUtils {
                 return false;
             }
         }
-        if (obj == null) {
-            obj = AllMusic.getConfig().defaultHud.copy();
+        if (pos == null) {
             if (have) {
                 res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = value;
+            } else if (obj.info.enable && obj.list.enable && obj.lyric.enable && obj.pic.enable) {
+                obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = false;
             } else {
                 res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = true;
             }
         } else {
-            if (pos == null) {
-                if (have) {
-                    res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = value;
-                } else if (obj.info.enable && obj.list.enable && obj.lyric.enable && obj.pic.enable) {
-                    obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = false;
-                } else {
-                    res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = true;
-                }
-            } else {
-                switch (pos) {
-                    case INFO:
-                        res = obj.info.enable = have ? value : !obj.info.enable;
-                        break;
-                    case LIST:
-                        res = obj.list.enable = have ? value : !obj.list.enable;
-                        break;
-                    case LYRIC:
-                        res = obj.lyric.enable = have ? value : !obj.lyric.enable;
-                        break;
-                    case PIC:
-                        res = obj.pic.enable = have ? value : !obj.pic.enable;
-                        break;
-                }
+            switch (pos) {
+                case INFO:
+                    res = obj.info.enable = have ? value : !obj.info.enable;
+                    break;
+                case LIST:
+                    res = obj.list.enable = have ? value : !obj.list.enable;
+                    break;
+                case LYRIC:
+                    res = obj.lyric.enable = have ? value : !obj.lyric.enable;
+                    break;
+                case PIC:
+                    res = obj.pic.enable = have ? value : !obj.pic.enable;
+                    break;
             }
         }
 
-        addAndSave(player, obj);
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
 
         return res;
@@ -309,11 +269,6 @@ public class HudUtils {
     public static void sendHudPos(String player) {
         AllMusic.side.runTask(() -> {
             try {
-                HudPosObj obj = get(player);
-                if (obj == null) {
-                    obj = AllMusic.getConfig().defaultHud.copy();
-                    addAndSave(player, obj);
-                }
                 AllMusic.side.sendHudPos(player);
             } catch (Exception e1) {
                 AllMusic.log.data("<light_purple>[AllMusic3]<red>数据发送发生错误");
@@ -328,14 +283,14 @@ public class HudUtils {
      * @param player 用户名
      */
     public static void reset(String player) {
-        HudPosObj obj = AllMusic.getConfig().defaultHud.copy();
-        addAndSave(player, obj);
+        HudPosObj obj = HudSave.defaultHud.copy();
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
     }
 
     public static void reset(String player, HudType type) {
-        HudPosObj obj = AllMusic.getConfig().defaultHud.copy();
-        HudPosObj obj1 = get(player);
+        HudPosObj obj = HudSave.defaultHud.copy();
+        HudPosObj obj1 = HudSave.getOrNew(player);
         switch (type) {
             case INFO:
                 obj1.info = obj.info;
@@ -348,11 +303,10 @@ public class HudUtils {
                 break;
             case PIC:
                 obj1.pic = obj.pic;
-                obj1.picRotateSpeed = obj.picRotateSpeed;
                 break;
         }
 
-        addAndSave(player, obj1);
+        HudSave.update(player, obj1);
         HudUtils.sendHudPos(player);
     }
 
@@ -364,15 +318,13 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicSize(String player, String size) {
-        HudPosObj obj = get(player);
-        if (obj == null)
-            obj = AllMusic.getConfig().defaultHud.copy();
+        HudPosObj obj = HudSave.getOrNew(player);
         if (!Function.isInteger(size))
             return false;
 
-        obj.pic.color = Integer.parseInt(size);
+        obj.pic.size = Integer.parseInt(size);
 
-        addAndSave(player, obj);
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
         return true;
     }
@@ -385,19 +337,17 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicRotate(String player, String open) {
-        HudPosObj obj = get(player);
-        if (obj == null)
-            obj = AllMusic.getConfig().defaultHud.copy();
+        HudPosObj obj = HudSave.getOrNew(player);
 
         if (open != null) {
-            obj.pic.shadow = Boolean.parseBoolean(open);
+            obj.pic.rotate = Boolean.parseBoolean(open);
         } else {
-            obj.pic.shadow = !obj.pic.shadow;
+            obj.pic.rotate = !obj.pic.rotate;
         }
 
-        addAndSave(player, obj);
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
-        return obj.pic.shadow;
+        return obj.pic.rotate;
     }
 
     /**
@@ -408,27 +358,25 @@ public class HudUtils {
      * @return 结果
      */
     public static boolean setPicRotateSpeed(String player, String size) {
-        HudPosObj obj = get(player);
-        if (obj == null)
-            obj = AllMusic.getConfig().defaultHud.copy();
+        HudPosObj obj = HudSave.getOrNew(player);
         if (!Function.isInteger(size))
             return false;
 
-        obj.picRotateSpeed = Integer.parseInt(size);
+        obj.pic.speed = Integer.parseInt(size);
 
-        addAndSave(player, obj);
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
         return true;
     }
 
-    public static HudDirType setDir(String player, HudType hud, String arg) {
-        HudDirType type = null;
+    public static HudPosType setPos(String player, HudType hud, String arg) {
+        HudPosType type = null;
         try {
             if (Function.isInteger(arg)) {
                 int index = Integer.parseInt(arg);
-                type = HudDirType.values()[index];
+                type = HudPosType.values()[index];
             } else {
-                type = HudDirType.valueOf(arg);
+                type = HudPosType.valueOf(arg);
             }
         } catch (Exception ignored) {
 
@@ -437,26 +385,23 @@ public class HudUtils {
             return null;
         }
 
-        HudPosObj obj = get(player);
-        if (obj == null)
-            obj = AllMusic.getConfig().defaultHud.copy();
-
+        HudPosObj obj = HudSave.getOrNew(player);
         switch (hud) {
             case INFO:
-                obj.info.dir = type;
+                obj.info.pos = type;
                 break;
             case LIST:
-                obj.list.dir = type;
+                obj.list.pos = type;
                 break;
             case LYRIC:
-                obj.lyric.dir = type;
+                obj.lyric.pos = type;
                 break;
             case PIC:
-                obj.pic.dir = type;
+                obj.pic.pos = type;
                 break;
         }
 
-        addAndSave(player, obj);
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
 
         return type;
@@ -478,10 +423,7 @@ public class HudUtils {
 
         color = (color & -67108864) == 0 ? color | 0xFF000000 : color;
 
-        HudPosObj obj = get(player);
-        if (obj == null)
-            obj = AllMusic.getConfig().defaultHud.copy();
-
+        HudPosObj obj = HudSave.getOrNew(player);
         switch (type) {
             case INFO:
                 obj.info.color = color;
@@ -493,18 +435,17 @@ public class HudUtils {
                 obj.lyric.color = color;
                 break;
             case PIC:
-                obj.pic.color = color;
-                break;
+                return -1;
         }
 
-        addAndSave(player, obj);
+        HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
 
         return color;
     }
 
     public static boolean setShadow(String name, HudType pos, String arg) {
-        HudPosObj obj = get(name);
+        HudPosObj obj = HudSave.getOrNew(name);
         boolean res = false;
         boolean value = false;
         boolean have = false;
@@ -516,49 +457,33 @@ public class HudUtils {
                 return false;
             }
         }
-        if (obj == null) {
-            obj = AllMusic.getConfig().defaultHud.copy();
+
+        if (pos == null) {
             if (have) {
-                res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = value;
+                res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = value;
+            } else if (obj.info.shadow && obj.list.shadow && obj.lyric.shadow) {
+                obj.info.shadow = obj.list.shadow = obj.lyric.shadow = false;
             } else {
-                res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = true;
+                res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = true;
             }
         } else {
-            if (pos == null) {
-                if (have) {
-                    res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = value;
-                } else if (obj.info.shadow && obj.list.shadow && obj.lyric.shadow && obj.pic.shadow) {
-                    obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = false;
-                } else {
-                    res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = obj.pic.shadow = true;
-                }
-            } else {
-                switch (pos) {
-                    case INFO:
-                        res = obj.info.shadow = have ? value : !obj.info.shadow;
-                        break;
-                    case LIST:
-                        res = obj.list.shadow = have ? value : !obj.list.shadow;
-                        break;
-                    case LYRIC:
-                        res = obj.lyric.shadow = have ? value : !obj.lyric.shadow;
-                        break;
-                    case PIC:
-                        res = obj.pic.shadow = have ? value : !obj.pic.shadow;
-                        break;
-                }
+            switch (pos) {
+                case INFO:
+                    res = obj.info.shadow = have ? value : !obj.info.shadow;
+                    break;
+                case LIST:
+                    res = obj.list.shadow = have ? value : !obj.list.shadow;
+                    break;
+                case LYRIC:
+                    res = obj.lyric.shadow = have ? value : !obj.lyric.shadow;
+                    break;
             }
         }
 
-        addAndSave(name, obj);
+        HudSave.update(name, obj);
         HudUtils.sendHudPos(name);
 
         return res;
-    }
-
-    public static void set(String name, HudPosObj obj) {
-        addAndSave(name, obj);
-        HudUtils.sendHudPos(name);
     }
 
     public static String infoLimit(String info) {
@@ -583,5 +508,34 @@ public class HudUtils {
             message = message.substring(0, limit.messageLimitSize - 1) + limit.limitText;
 
         return message;
+    }
+
+    public static String setLoop(String name, HudType type, String arg) {
+        LoopType loop;
+        try {
+            loop = LoopType.valueOf(arg);
+        } catch (Exception ignored) {
+            return null;
+        }
+
+        HudPosObj obj = HudSave.getOrNew(name);
+        switch (type) {
+            case INFO:
+                obj.info.loop = loop;
+                break;
+            case LIST:
+                obj.list.loop = loop;
+                break;
+            case LYRIC:
+                obj.lyric.loop = loop;
+                break;
+            case PIC:
+                return null;
+        }
+
+        HudSave.update(name, obj);
+        HudUtils.sendHudPos(name);
+
+        return loop.toString();
     }
 }

@@ -30,7 +30,7 @@ public class LyricObj {
         if (data == null)
             data = ARG.lyric;
         if (tdata == null)
-            tdata = ARG.lyric + "(" + ARG.tlyric + ")";
+            tdata = ARG.lyric + "(" + ARG.lyric + ")";
         if (empty1 == null)
             empty1 = "没有歌词";
         if (empty2 == null)

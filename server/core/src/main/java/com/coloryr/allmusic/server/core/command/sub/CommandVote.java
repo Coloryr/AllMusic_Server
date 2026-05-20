@@ -6,7 +6,8 @@ import com.coloryr.allmusic.server.core.command.PermissionList;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.music.PlayRuntime;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.BanSave;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 
 public class CommandVote extends ACommand {
     @Override
@@ -60,6 +61,6 @@ public class CommandVote extends ACommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().vote.arAgree);
             }
         }
-        DataSql.removeMutePlayer(name);
+        BanSave.removeMutePlayer(name);
     }
 }

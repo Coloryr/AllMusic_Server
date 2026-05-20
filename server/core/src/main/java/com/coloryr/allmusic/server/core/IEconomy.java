@@ -1,4 +1,4 @@
-package com.coloryr.allmusic.server.core.sql;
+package com.coloryr.allmusic.server.core;
 
 public interface IEconomy {
     /**

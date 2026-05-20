@@ -1,6 +1,6 @@
 package com.coloryr.allmusic.server.side.bukkit.hooks;
 
-import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.core.IEconomy;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;

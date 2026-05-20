@@ -8,7 +8,7 @@ import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
-import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.core.IEconomy;
 import com.coloryr.allmusic.server.side.velocity.event.MusicAddEvent;
 import com.coloryr.allmusic.server.side.velocity.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;

@@ -8,10 +8,12 @@ import com.coloryr.allmusic.server.core.objs.CookieObj;
 import com.coloryr.allmusic.server.core.objs.config.ConfigObj;
 import com.coloryr.allmusic.server.core.objs.message.MessageObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
+import com.coloryr.allmusic.server.core.saves.BanSave;
+import com.coloryr.allmusic.server.core.saves.MusicListSave;
+import com.coloryr.allmusic.server.core.saves.SaveTask;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
-import com.coloryr.allmusic.server.core.sql.DataSql;
-import com.coloryr.allmusic.server.core.sql.IEconomy;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 import com.coloryr.allmusic.server.core.utils.StringReplacer;
 import com.coloryr.allmusic.server.netapi.NetiApiMain;
 import com.google.gson.Gson;
@@ -137,12 +139,11 @@ public class AllMusic {
      */
     public static boolean isSkip(String name, String server, boolean checkPlay) {
         try {
-            name = name.toLowerCase();
-            if (server != null && AllMusic.getConfig().muteServer.contains(server))
+            if (server != null && BanSave.haveBanServer(server))
                 return true;
-            if (DataSql.checkMutePlayer(name))
+            if (BanSave.checkMutePlayer(name))
                 return true;
-            if (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList() && DataSql.checkMuteListPlayer(name))
+            if (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList() && BanSave.checkMuteListPlayer(name))
                 return true;
             if (!checkPlay)
                 return false;
@@ -164,11 +165,11 @@ public class AllMusic {
     public static boolean isSkip(String name, String server, boolean checkPlay, boolean islist) {
         try {
             name = name.toLowerCase();
-            if (server != null && AllMusic.getConfig().muteServer.contains(server))
+            if (server != null && BanSave.haveBanServer(server))
                 return true;
-            if (DataSql.checkMutePlayer(name))
+            if (BanSave.checkMutePlayer(name))
                 return true;
-            if (islist && DataSql.checkMuteListPlayer(name))
+            if (islist && BanSave.checkMuteListPlayer(name))
                 return true;
             if (!checkPlay)
                 return false;
@@ -217,7 +218,7 @@ public class AllMusic {
             write.close();
             out.close();
         } catch (Exception e) {
-            log.data("<light_purple>[AllMusic3]<red>配置文件保存错误");
+            log.data("<light_purple>[AllMusic3]<red>配置文件config.json保存错误");
             e.printStackTrace();
         }
     }
@@ -232,7 +233,7 @@ public class AllMusic {
             write.close();
             out.close();
         } catch (Exception e) {
-            log.data("<light_purple>[AllMusic3]<red>配置文件保存错误");
+            log.data("<light_purple>[AllMusic3]<red>配置文件message.json保存错误");
             e.printStackTrace();
         }
     }
@@ -249,7 +250,7 @@ public class AllMusic {
             write.write(data);
             write.close();
         } catch (Exception e) {
-            log.data("<light_purple>[AllMusic3]<red>配置文件保存错误");
+            log.data("<light_purple>[AllMusic3]<red>配置文件cookie.json保存错误");
             e.printStackTrace();
         }
     }
@@ -268,7 +269,7 @@ public class AllMusic {
         PlayMusic.start();
         PlayRuntime.start();
         MusicSearch.start();
-        DataSql.start();
+        SaveTask.start();
 
         log.data("<light_purple>[AllMusic3]<yellow>已启动-" + version);
     }
@@ -279,7 +280,7 @@ public class AllMusic {
     public static void stop() {
         isRun = false;
         PlayRuntime.stop();
-        DataSql.stop();
+        SaveTask.stop();
         side.sendStop();
         log.data("<light_purple>[AllMusic3]<dark_green><yellow>已停止，感谢使用");
     }
@@ -336,6 +337,10 @@ public class AllMusic {
                     replacer.put(item.getKey(), item.getValue());
                 }
             }
+
+            BanSave.loadBan();
+            HudSave.loadHud();
+            MusicListSave.loadMusic();
         } catch (Exception e) {
             log.data("<light_purple>[AllMusic3]<red>读取配置文件错误");
             e.printStackTrace();
@@ -352,17 +357,17 @@ public class AllMusic {
     }
 
     public static void joinPlayNow(String player) {
-        DataSql.task(() -> {
+        SaveTask.task(() -> {
             String player1 = player.toLowerCase();
             Object player2 = AllMusic.side.getPlayer(player1);
             String server = AllMusic.side.getPlayerServer(player2);
-            if (server != null && AllMusic.getConfig().muteServer.contains(server)) {
+            if (server != null && BanSave.haveBanServer(server)) {
                 return;
             }
-            if (DataSql.checkMutePlayer(player1)) {
+            if (BanSave.checkMutePlayer(player1)) {
                 return;
             }
-            if (DataSql.checkMuteListPlayer(player1)) {
+            if (BanSave.checkMuteListPlayer(player1)) {
                 return;
             }
 
@@ -403,14 +408,9 @@ public class AllMusic {
         try {
             if (!file.exists())
                 file.mkdir();
-            if (configFile == null)
-                configFile = new File(file, "config.json");
-            if (messageFile == null)
-                messageFile = new File(file, "message.json");
-            if (cookieFile == null)
-                cookieFile = new File(file, "cookie.json");
-            if (DataSql.sqlFile == null)
-                DataSql.sqlFile = new File(file, "data.db");
+            configFile = new File(file, "config.json");
+            messageFile = new File(file, "message.json");
+            cookieFile = new File(file, "cookie.json");
             if (!configFile.exists()) {
                 configFile.createNewFile();
             }
@@ -420,6 +420,11 @@ public class AllMusic {
             if (!cookieFile.exists()) {
                 cookieFile.createNewFile();
             }
+
+            BanSave.init(file);
+            HudSave.init(file);
+            MusicListSave.init(file);
+
             loadConfig();
             isRun = true;
         } catch (IOException e) {

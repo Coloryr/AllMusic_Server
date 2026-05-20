@@ -50,6 +50,8 @@ public class CommandHelp extends ACommand {
                 .append(AllMusic.miniMessageSuggest(AllMusic.getMessage().click.clickCheck, "/music hud ")));
         AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().help.normal.hud8)
                 .append(AllMusic.miniMessageSuggest(AllMusic.getMessage().click.clickCheck, "/music hud ")));
+        AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().help.normal.hud11)
+                .append(AllMusic.miniMessageSuggest(AllMusic.getMessage().click.clickCheck, "/music hud ")));
         AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().help.normal.hud3)
                 .append(AllMusic.miniMessageSuggest(AllMusic.getMessage().click.clickCheck, "/music hud pic size ")));
         AllMusic.side.sendMessage(sender, AllMusic.miniMessage(AllMusic.getMessage().help.normal.hud4)

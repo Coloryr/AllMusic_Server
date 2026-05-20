@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.core.command.sub;
 
-import com.coloryr.allmusic.codec.HudDirType;
+import com.coloryr.allmusic.codec.HudBasePosObj;
+import com.coloryr.allmusic.codec.HudPosType;
 import com.coloryr.allmusic.codec.HudItemPosObj;
 import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.AllMusic;
@@ -52,6 +53,7 @@ public class CommandHudSet extends AHudCommand {
         } else {
             commandList.put("color", new HudColor(type));
             commandList.put("shadow", new HudShadow(type));
+            commandList.put("loop", new HudLoop(type));
         }
     }
 
@@ -142,7 +144,7 @@ public class CommandHudSet extends AHudCommand {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                     return;
                 }
-                HudItemPosObj obj = HudUtils.setHudPos(name, type, args[3], args[4]);
+                HudBasePosObj obj = HudUtils.setHudPos(name, type, args[3], args[4]);
                 if (obj == null) {
                     AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().command.error);
                     return;
@@ -170,7 +172,7 @@ public class CommandHudSet extends AHudCommand {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                     return;
                 }
-                HudItemPosObj obj = HudUtils.setHudAlpha(name, type, args[3]);
+                HudBasePosObj obj = HudUtils.setHudAlpha(name, type, args[3]);
                 if (obj == null) {
                     AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().command.error);
                     return;
@@ -187,7 +189,7 @@ public class CommandHudSet extends AHudCommand {
 
     private static class HudDir extends AHudCommand {
         private static final List<String> dir = new ArrayList<String>() {{
-            for (HudDirType type : HudDirType.values()) {
+            for (HudPosType type : HudPosType.values()) {
                 this.add(type.name());
             }
         }};
@@ -202,7 +204,7 @@ public class CommandHudSet extends AHudCommand {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
             }
-            HudDirType type1 = HudUtils.setDir(name, type, args[3]);
+            HudPosType type1 = HudUtils.setPos(name, type, args[3]);
             if (type1 == null) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                 return;
@@ -259,6 +261,36 @@ public class CommandHudSet extends AHudCommand {
                 return;
             }
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+        }
+
+        @Override
+        public List<String> tab(Object player, String name, String[] args, int index) {
+            if (args.length == index + 1) {
+                return tf;
+            }
+            return Collections.emptyList();
+        }
+    }
+
+    private static class HudLoop extends AHudCommand {
+        public HudLoop(HudType type) {
+            super(type);
+        }
+
+        @Override
+        public void execute(Object sender, String name, String[] args) {
+            if (args.length != 4) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                return;
+            }
+            String loop = HudUtils.setLoop(name, type, args[3]);
+            if (loop == null) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                return;
+            }
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set2
+                    .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
+                    .replace(ARG.color, loop));
         }
 
         @Override

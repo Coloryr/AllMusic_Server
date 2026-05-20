@@ -7,7 +7,8 @@ import com.coloryr.allmusic.server.core.objs.message.ARG;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.HudSave;
+import com.coloryr.allmusic.server.core.saves.MusicListSave;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 
 import java.util.*;
@@ -454,11 +455,11 @@ public class PlayMusic {
 
     public static void clearIdleList() {
         deep.clear();
-        DataSql.clearIdleList();
+        MusicListSave.clearIdleList();
     }
 
     public static int getIdleListSize() {
-        return DataSql.getListSize();
+        return MusicListSave.getListSize();
     }
 
     /**
@@ -483,12 +484,12 @@ public class PlayMusic {
      */
     public static MusicObj getIdleMusic() {
         MusicObj music;
-        int len = DataSql.getListSize();
+        int len = MusicListSave.getListSize();
         if (len == 0)
             return null;
         if (AllMusic.getConfig().playListRandom) {
             if (len == 1)
-                return DataSql.readListItem();
+                return MusicListSave.readListItem();
             if (len > 10) {
                 int size = AllMusic.getConfig().playListEscapeDeep;
                 if (size > len / 2) {
@@ -498,15 +499,15 @@ public class PlayMusic {
                     deep.poll();
                 }
                 do {
-                    music = DataSql.readListItem();
+                    music = MusicListSave.readListItem();
                 }
                 while (checkDeep(music));
                 deep.add(music);
             } else {
-                music = DataSql.readListItem();
+                music = MusicListSave.readListItem();
             }
         } else {
-            music = DataSql.readListItem(idleIndex);
+            music = MusicListSave.readListItem(idleIndex);
             idleIndex++;
             if (idleIndex >= len) {
                 idleIndex = 0;

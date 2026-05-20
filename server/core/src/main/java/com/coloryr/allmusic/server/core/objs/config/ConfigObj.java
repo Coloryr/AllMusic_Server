@@ -3,7 +3,10 @@ package com.coloryr.allmusic.server.core.objs.config;
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.server.core.AllMusic;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 配置文件对象
@@ -30,6 +33,10 @@ public class ConfigObj {
      */
     public int lyricDelay;
     /**
+     * KTV歌词更新延迟
+     */
+    public int ktvSendDelay;
+    /**
      * 默认添加歌曲方式
      */
     public int defaultAddMusic;
@@ -41,10 +48,6 @@ public class ConfigObj {
      * 管理员ID列表
      */
     public Set<String> adminList;
-    /**
-     * 不参与点歌的服务器列表
-     */
-    public Set<String> muteServer;
     /**
      * 玩家点歌后是否直接从空闲歌单切换至玩家歌曲
      */
@@ -94,10 +97,6 @@ public class ConfigObj {
      */
     public String version;
     /**
-     * 默认的Hud配置
-     */
-    public HudPosObj defaultHud;
-    /**
      * 经济插件挂钩
      */
     public EconomyObj economy;
@@ -143,14 +142,6 @@ public class ConfigObj {
             saveConfig = true;
             adminList = new HashSet<>();
         }
-        if (defaultHud == null) {
-            saveConfig = true;
-            defaultHud = HudPosObj.make();
-        }
-        if (muteServer == null) {
-            saveConfig = true;
-            muteServer = new HashSet<>();
-        }
         if (economy == null || economy.check()) {
             saveConfig = true;
             economy = EconomyObj.make();
@@ -180,16 +171,14 @@ public class ConfigObj {
         maxPlayList = 10;
         minVote = 3;
         voteTime = 30;
-
         adminList = new HashSet<>();
         adminList.add("color_yr");
-        muteServer = new HashSet<>();
         playListSwitch = true;
         playListRandom = true;
         playListEscapeDeep = 40;
+        ktvSendDelay = 50;
         sendLyric = true;
         needPermission = false;
-        defaultHud = HudPosObj.make();
         mutePlayMessage = false;
         muteAddMessage = false;
         showInBar = false;

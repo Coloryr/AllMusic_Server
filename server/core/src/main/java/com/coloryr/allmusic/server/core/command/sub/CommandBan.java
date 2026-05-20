@@ -5,7 +5,8 @@ import com.coloryr.allmusic.server.core.IMusicApi;
 import com.coloryr.allmusic.server.core.command.ACommand;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.BanSave;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +39,7 @@ public class CommandBan extends ACommand {
         }
 
         if (api.checkId(musicID)) {
-            DataSql.addBanMusic(musicID, api.getId());
+            BanSave.addBanMusic(musicID, api.getId());
             AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>音乐API " + api.getId() + " 已禁止点歌" + musicID);
         } else {
             AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>请输入有效的ID");

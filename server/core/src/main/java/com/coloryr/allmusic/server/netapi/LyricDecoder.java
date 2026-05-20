@@ -1,6 +1,7 @@
 package com.coloryr.allmusic.server.netapi;
 
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.KtvLyric;
 import com.coloryr.allmusic.server.core.objs.music.LyricItemObj;
 import com.coloryr.allmusic.server.core.utils.Function;
 import com.coloryr.allmusic.server.netapi.obj.music.lyric.WLyricObj;
@@ -14,13 +15,13 @@ public class LyricDecoder {
     private final Map<Long, LyricItemObj> lyrics = new LinkedHashMap<>();
     public boolean isHave = false;
     public boolean isHaveK = false;
-    public Map<Long, String> kly = new LinkedHashMap<>();
+    public Map<Long, KtvLyric> kly = new LinkedHashMap<>();
 
     public Map<Long, LyricItemObj> getLyrics() {
         return lyrics;
     }
 
-    public Map<Long, String> getKLyric() {
+    public Map<Long, KtvLyric> getKLyric() {
         return kly;
     }
 
@@ -54,9 +55,9 @@ public class LyricDecoder {
         if (temp2 != null && !temp2.isEmpty()) {
             String[] klyric = temp2.split("\n");
             for (String item : klyric) {
-                Map<Long, String> temp4 = getKTime(item, obj.getVersion());
+                KtvLyric temp4 = getKTime(item, obj.getVersion());
                 if (temp4 != null) {
-                    kly.putAll(temp4);
+                    kly.put(temp4.start, temp4);
                 }
             }
             isHaveK = true;
@@ -127,8 +128,7 @@ public class LyricDecoder {
         return res;
     }
 
-    private Map<Long, String> getKTime(String lyric, boolean yrc) {
-        Map<Long, String> res = new LinkedHashMap<>();
+    private KtvLyric getKTime(String lyric, boolean yrc) {
         if (!lyric.startsWith("[") || !lyric.contains("]("))
             return null;
 
@@ -146,16 +146,21 @@ public class LyricDecoder {
         String temp = Function.getString(lyric, "[", "]");
         String[] temp11 = temp.split(",");
         long now = Integer.parseInt(temp11[0]) / 10 * 10;
+        long time = Integer.parseInt(temp11[1]) / 10 * 10;
+
+        KtvLyric ktv = new KtvLyric();
+        ktv.start = now;
+        ktv.time = time;
         for (int a = 1; a < datas.length; a++) {
-            String data = datas[a];
+            KtvLyric.KtvItem item = new KtvLyric.KtvItem();
+            item.key = datas[a];
             String temp3 = temp1111.get(a - 1);
             String[] temp8 = temp3.split(",");
             long temp5;
             if (yrc) {
-                temp5 = (Integer.parseInt(temp8[0]) / 10 * 10);
-                if (temp5 > 0 && temp5 + AllMusic.getConfig().ktvLyricDelay > 0)
-                    temp5 += (AllMusic.getConfig().ktvLyricDelay / 10 * 10);
-                res.put(temp5, data);
+                item.start = (Integer.parseInt(temp8[0]) / 10 * 10);
+                item.time = (Integer.parseInt(temp8[1]) / 10 * 10);
+                ktv.items.add(item);
             } else {
                 try {
                     temp5 = (Integer.parseInt(temp8[1]) / 10 * 10);
@@ -165,13 +170,12 @@ public class LyricDecoder {
                     return null;
                 }
 
-                if (temp5 > 0 && temp5 + AllMusic.getConfig().ktvLyricDelay > 0)
-                    temp5 += (AllMusic.getConfig().ktvLyricDelay / 10 * 10);
-                res.put(now, data);
+                item.start = now;
+                item.time = temp5;
                 now += temp5;
             }
         }
 
-        return res;
+        return ktv;
     }
 }

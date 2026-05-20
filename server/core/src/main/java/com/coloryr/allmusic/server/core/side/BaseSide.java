@@ -3,10 +3,12 @@ package com.coloryr.allmusic.server.core.side;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.codec.HudType;
+import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 import com.coloryr.allmusic.server.core.utils.HudUtils;
 import net.kyori.adventure.text.Component;
 
@@ -89,11 +91,9 @@ public abstract class BaseSide {
      * 向玩家发送数据包
      *
      * @param player 玩家
-     * @param type   数据
-     * @param data   数据
-     * @param data1  数据
+     * @param pack   数据
      */
-    public abstract void send(Object player, CommandType type, String data, int data1);
+    public abstract void send(Object player, MusicPack pack);
 
     /**
      * 根据名字获取玩家
@@ -170,7 +170,7 @@ public abstract class BaseSide {
         if (AllMusic.isSkip(player, getPlayerServer(player), true))
             return;
         try {
-            send(player1, CommandType.POS, null, pos);
+            send(player1, new MusicPack.IntMusicPack(CommandType.POS, pos));
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>清空Hud发生出错");
             e.printStackTrace();
@@ -188,7 +188,7 @@ public abstract class BaseSide {
         if (player == null)
             return;
         try {
-            send(player, CommandType.STOP, null, 0);
+            send(player, new MusicPack(CommandType.STOP));
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
             e.printStackTrace();
@@ -202,7 +202,7 @@ public abstract class BaseSide {
         PlayMusic.clearNowPlayer();
         try {
             for (Object player : getPlayers()) {
-                send(player, CommandType.STOP, null, 0);
+                send(player, new MusicPack(CommandType.STOP));
             }
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
@@ -224,7 +224,7 @@ public abstract class BaseSide {
         try {
             if (AllMusic.isSkip(player, getPlayerServer(player), false))
                 return;
-            send(player1, CommandType.PLAY, url, 0);
+            send(player1, new MusicPack.StringMusicPack(CommandType.PLAY, url));
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲指令发送出错");
             e.printStackTrace();
@@ -234,9 +234,9 @@ public abstract class BaseSide {
     /**
      * 发送Hud的歌词数据
      *
-     * @param data 数据
+     * @param pack 数据
      */
-    public final void sendHudLyric(String data) {
+    public final void sendHudLyric(MusicPack.LyricMusicPack pack) {
         for (Object player : getPlayers()) {
             String name = getPlayerName(player);
             if (name == null)
@@ -245,10 +245,35 @@ public abstract class BaseSide {
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 continue;
             try {
-                HudPosObj obj = HudUtils.get(name);
+                HudPosObj obj = HudSave.getOrNew(name);
                 if (!obj.lyric.enable)
                     continue;
-                send(player, CommandType.LYRIC, data, 0);
+                send(player, pack);
+            } catch (Exception e) {
+                AllMusic.log.data("<light_purple>[AllMusic]<red>歌词发送出错");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 发送Hud的歌词数据
+     *
+     * @param state 数据
+     */
+    public final void sendHudKtv(float state) {
+        for (Object player : getPlayers()) {
+            String name = getPlayerName(player);
+            if (name == null)
+                continue;
+            name = name.toLowerCase(Locale.ROOT);
+            if (AllMusic.isSkip(name, getPlayerServer(player), true))
+                continue;
+            try {
+                HudPosObj obj = HudSave.getOrNew(name);
+                if (!obj.lyric.enable)
+                    continue;
+                send(player, new MusicPack.FloatMusicPack(CommandType.LYRIC_STATE, state));
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>歌词发送出错");
                 e.printStackTrace();
@@ -270,10 +295,10 @@ public abstract class BaseSide {
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 continue;
             try {
-                HudPosObj obj = HudUtils.get(name);
+                HudPosObj obj = HudSave.getOrNew(name);
                 if (!obj.lyric.enable)
                     continue;
-                send(player, CommandType.INFO, data, 0);
+                send(player, new MusicPack.StringMusicPack(CommandType.INFO, data));
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>歌词信息发送出错");
                 e.printStackTrace();
@@ -293,9 +318,9 @@ public abstract class BaseSide {
         if (AllMusic.isSkip(name, null, false))
             return;
         try {
-            HudPosObj obj = HudUtils.get(name);
+            HudPosObj obj = HudSave.getOrNew(name);
             String data = AllMusic.gson.toJson(obj);
-            send(player, CommandType.HUD_DATA, data, 0);
+            send(player, new MusicPack.StringMusicPack(CommandType.HUD_DATA, data));
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>界面位置发送出错");
             e.printStackTrace();
@@ -321,15 +346,32 @@ public abstract class BaseSide {
                 return;
             switch (pos) {
                 case INFO:
-                    send(player, CommandType.INFO, data, 0);
+                    send(player, new MusicPack.StringMusicPack(CommandType.INFO, data));
                     break;
                 case LIST:
-                    send(player, CommandType.LIST, data, 0);
-                    break;
-                case LYRIC:
-                    send(player, CommandType.LYRIC, data, 0);
+                    send(player, new MusicPack.StringMusicPack(CommandType.LIST, data));
                     break;
             }
+        } catch (Exception e) {
+            AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 发送Hud数据
+     *
+     * @param name 用户名
+     * @param pack 数据
+     */
+    public final void sendLyric(String name, MusicPack.LyricMusicPack pack) {
+        try {
+            Object player = getPlayer(name);
+            if (player == null)
+                return;
+            if (AllMusic.isSkip(name, getPlayerServer(player), true))
+                return;
+            send(player, pack);
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
             e.printStackTrace();
@@ -350,10 +392,10 @@ public abstract class BaseSide {
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 continue;
             try {
-                HudPosObj obj = HudUtils.get(name);
+                HudPosObj obj = HudSave.getOrNew(name);
                 if (!obj.list.enable)
                     continue;
-                send(player, CommandType.LIST, data, 0);
+                send(player, new MusicPack.StringMusicPack(CommandType.LIST, data));
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲列表发送出错");
                 e.printStackTrace();
@@ -371,9 +413,9 @@ public abstract class BaseSide {
                 continue;
             name = name.toLowerCase(Locale.ROOT);
             try {
-                HudPosObj obj = HudUtils.get(name);
+                HudPosObj obj = HudSave.getOrNew(name);
                 String data = AllMusic.gson.toJson(obj);
-                send(player, CommandType.HUD_DATA, data, 0);
+                send(player, new MusicPack.StringMusicPack(CommandType.HUD_DATA, data));
             } catch (Exception e1) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>数据发送发生错误");
                 e1.printStackTrace();
@@ -417,7 +459,7 @@ public abstract class BaseSide {
             if (AllMusic.isSkip(name, getPlayerServer(player), false))
                 continue;
             try {
-                send(player, CommandType.PLAY, url, 0);
+                send(player, new MusicPack.StringMusicPack(CommandType.PLAY, url));
                 PlayMusic.addNowPlayPlayer(name);
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲指令发送出错");
@@ -439,11 +481,11 @@ public abstract class BaseSide {
             name = name.toLowerCase(Locale.ROOT);
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 continue;
-            HudPosObj obj = HudUtils.get(name);
+            HudPosObj obj = HudSave.getOrNew(name);
             if (!obj.pic.enable)
                 continue;
             try {
-                send(player, CommandType.IMG, url, 0);
+                send(player, new MusicPack.StringMusicPack(CommandType.IMG, url));
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>图片指令发送出错");
                 e.printStackTrace();
@@ -464,7 +506,7 @@ public abstract class BaseSide {
         if (AllMusic.isSkip(player, getPlayerServer(player), true))
             return;
         try {
-            send(player1, CommandType.IMG, url, 0);
+            send(player1, new MusicPack.StringMusicPack(CommandType.IMG, url));
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>图片指令发送出错");
             e.printStackTrace();
@@ -481,7 +523,7 @@ public abstract class BaseSide {
         if (player == null)
             return;
         try {
-            send(player, CommandType.CLEAR, null, 0);
+            send(player, new MusicPack(CommandType.CLEAR));
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>清空Hud发生出错");
             e.printStackTrace();
@@ -494,7 +536,7 @@ public abstract class BaseSide {
     public final void clearHud() {
         for (Object player : getPlayers()) {
             try {
-                send(player, CommandType.CLEAR, null, 0);
+                send(player, new MusicPack(CommandType.CLEAR));
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>清空Hud发生出错");
                 e.printStackTrace();

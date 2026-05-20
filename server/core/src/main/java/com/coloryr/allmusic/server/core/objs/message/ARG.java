@@ -21,8 +21,6 @@ public class ARG {
     public static String nowTime = "%NowTime%";
     public static String player = "%Player%";
     public static String lyric = "%Lyric%";
-    public static String tlyric = "%Tlyric%";
-    public static String klyric = "%KLyric%";
     public static String list = "%List%";
     public static String count = "%Count%";
     public static String countAll = "%CountAll%";

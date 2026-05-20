@@ -3,8 +3,8 @@ package com.coloryr.allmusic.server.core.command.sub;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.IMusicApi;
 import com.coloryr.allmusic.server.core.command.ACommand;
-import com.coloryr.allmusic.server.core.sql.Cache;
-import com.coloryr.allmusic.server.core.sql.DataSql;
+import com.coloryr.allmusic.server.core.saves.BanSave;
+import com.coloryr.allmusic.server.core.saves.HudSave;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,19 +40,10 @@ public class CommandUnban extends ACommand {
 
         if (api.checkId(musicID)) {
             api.setList(musicID, sender);
-            DataSql.removeBanMusic(args[1]);
+            BanSave.removeBanMusic(args[1], api.getId());
             AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>音乐API " + api.getId() + "已解封点歌" + musicID);
         } else {
             AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>请输入有效的ID");
         }
-    }
-
-    @Override
-    public List<String> tab(Object player, String name, String[] args, int index) {
-        if (args.length == index || (args.length == index + 1)) {
-            return new ArrayList<>(Cache.banMusic);
-        }
-
-        return Collections.emptyList();
     }
 }
