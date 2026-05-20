@@ -248,7 +248,7 @@ public class HudUtils {
     /**
      * 清空Hud数据
      */
-    public static void clearHud() {
+    public static void sendClearHud() {
         AllMusic.side.clearHud();
     }
 
@@ -257,7 +257,7 @@ public class HudUtils {
      *
      * @param player 用户名
      */
-    public static void clearHud(String player) {
+    public static void sendClearHud(String player) {
         AllMusic.side.clearHud(player);
     }
 

@@ -71,7 +71,7 @@ public class PlayRuntime {
         PlayMusic.lyric = null;
         PlayMusic.nowPlayMusic = null;
         AllMusic.side.updateInfo();
-        HudUtils.clearHud();
+        HudUtils.sendClearHud();
         HudUtils.sendHudNowData();
         HudUtils.sendHudLyricData();
         HudUtils.sendHudListData();
@@ -99,6 +99,10 @@ public class PlayRuntime {
                 if (res) {
                     HudUtils.sendHudLyricData();
                     AllMusic.side.updateLyric();
+                    if (AllMusic.getConfig().ktvMode) {
+                        PlayMusic.lyric.updateKtv(PlayMusic.musicNowTime);
+                        HudUtils.sendHudKtv();
+                    }
                 }
 
                 if (AllMusic.getConfig().ktvMode) {
@@ -206,6 +210,7 @@ public class PlayRuntime {
                     }
                     Thread.sleep(1000);
                 } else {
+                    HudUtils.sendClearHud();
                     HudUtils.sendHudNowData();
                     HudUtils.sendHudLyricData();
                     HudUtils.sendHudListData();

@@ -1,6 +1,5 @@
 package com.coloryr.allmusic.server.core.objs.config;
 
-import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.server.core.AllMusic;
 
 import java.util.HashMap;

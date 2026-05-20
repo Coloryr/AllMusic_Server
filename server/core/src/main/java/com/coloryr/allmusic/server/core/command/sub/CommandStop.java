@@ -20,7 +20,7 @@ public class CommandStop extends ACommand {
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().musicPlay.stopPlaying);
         }
         AllMusic.side.sendStop(name);
-        HudUtils.clearHud(name);
+        HudUtils.sendClearHud(name);
     }
 
     @Override

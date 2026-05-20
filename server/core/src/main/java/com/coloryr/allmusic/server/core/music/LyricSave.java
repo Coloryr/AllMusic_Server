@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LyricSave {
-    public int lastIndex = 0;
     protected boolean haveLyric;
     protected float kly = 0;
     protected LyricItemObj now;
@@ -51,29 +50,29 @@ public class LyricSave {
         if (now == null || now.lyric == null || now.lyric.isEmpty()
                 || ktvNow == null || ktvNow.items == null || ktvNow.items.isEmpty()) {
             kly = 0.0f;
+            return;
         }
 
-        // 查找当前时间落在哪个 KTV 字的时间段内
+        if (playNow < ktvNow.start) {
+            kly = 0.0f;
+            return;
+        }
+
+        if (playNow >= ktvNow.start + ktvNow.time) {
+            kly = 1.0f;
+            return;
+        }
+
         for (int i = 0; i < ktvNow.items.size(); i++) {
             KtvLyric.KtvItem item = ktvNow.items.get(i);
             if (playNow >= item.start && playNow < item.start + item.time) {
-                // 当前字内的进度
                 float progressInChar = (float) (playNow - item.start) / item.time;
-                // 整体进度 = (已完成的字 + 当前字的进度) / 总字数
                 kly = (i + progressInChar) / ktvNow.items.size();
-                lastIndex = i;  // 记录当前字索引，可选
+                return;
             }
         }
 
-        // 如果时间超过了最后一个字
-        if (playNow >= ktvNow.start + ktvNow.time) {
-            kly = 1.0f;
-            lastIndex = ktvNow.items.size();
-        }
-
-        // 还没到第一个字的时间
         kly = 0.0f;
-        lastIndex = 0;
     }
 
     private void ktvGetNext(long time) {
@@ -99,8 +98,6 @@ public class LyricSave {
                 now.tlyric = "";
             }
             kly = 0.0f;
-            lastIndex = 0;
-            ktvGetNext(playNow);
             return true;
         }
 
@@ -108,8 +105,6 @@ public class LyricSave {
     }
 
     public void updateKtv(long playNow) {
-        if (now != null) {
-            kUpdate(playNow);
-        }
+        ktvGetNext(playNow);
     }
 }
