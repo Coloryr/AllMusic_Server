@@ -96,6 +96,7 @@ public class PlayRuntime {
                 if (res) {
                     HudUtils.sendHudLyricData();
                     AllMusic.side.updateLyric();
+                    AllMusic.side.sendHudKtv();
                 }
 
                 if (AllMusic.getConfig().ktvMode) {
