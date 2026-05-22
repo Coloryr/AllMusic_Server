@@ -296,7 +296,7 @@ public class PlayMusic {
             }
             if (AllMusic.getConfig().playListSwitch
                     && (PlayMusic.nowPlayMusic != null && PlayMusic.nowPlayMusic.isList())) {
-                PlayMusic.musicLessTime = 1;
+                PlayMusic.musicLessTime = 10;
                 if (!isList) {
                     AllMusic.side.broadcastInTask(AllMusic.getMessage().musicPlay.switchMusic);
                 }

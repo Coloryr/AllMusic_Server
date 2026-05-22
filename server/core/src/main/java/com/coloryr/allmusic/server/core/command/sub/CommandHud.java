@@ -19,6 +19,7 @@ public class CommandHud extends ACommand {
         this.add("info");
         this.add("list");
         this.add("lyric");
+        this.add("state");
         this.add("pic");
     }};
     private final Map<String, ICommand> commandList = new HashMap<>();
@@ -29,6 +30,7 @@ public class CommandHud extends ACommand {
         commandList.put("info", new CommandHudSet(HudType.INFO));
         commandList.put("list", new CommandHudSet(HudType.LIST));
         commandList.put("lyric", new CommandHudSet(HudType.LYRIC));
+        commandList.put("state", new CommandHudSet(HudType.STATE));
         commandList.put("pic", new CommandHudSet(HudType.PIC));
     }
 
@@ -70,7 +72,7 @@ public class CommandHud extends ACommand {
             if (args.length == 2 || args.length == 3) {
                 boolean temp = HudUtils.setHudEnable(name, null, args.length == 3 ? args[2] : null);
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.state
-                        .replace(ARG.state, temp ? "启用" : "关闭")
+                        .replace(ARG.value, temp ? AllMusic.getMessage().hudList.enable : AllMusic.getMessage().hudList.disable)
                         .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(null)));
                 return;
             }

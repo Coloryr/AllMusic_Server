@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server.netapi;
 
 import com.coloryr.allmusic.server.core.AllMusic;
-import com.coloryr.allmusic.server.core.music.KtvLyric;
+import com.coloryr.allmusic.codec.KtvLyricObj;
 import com.coloryr.allmusic.server.core.objs.music.LyricItemObj;
 import com.coloryr.allmusic.server.core.utils.Function;
 import com.coloryr.allmusic.server.netapi.obj.music.lyric.WLyricObj;
@@ -15,13 +15,13 @@ public class LyricDecoder {
     private final Map<Long, LyricItemObj> lyrics = new LinkedHashMap<>();
     public boolean isHave = false;
     public boolean isHaveK = false;
-    public Map<Long, KtvLyric> kly = new LinkedHashMap<>();
+    public Map<Long, KtvLyricObj> kly = new LinkedHashMap<>();
 
     public Map<Long, LyricItemObj> getLyrics() {
         return lyrics;
     }
 
-    public Map<Long, KtvLyric> getKLyric() {
+    public Map<Long, KtvLyricObj> getKLyric() {
         return kly;
     }
 
@@ -55,7 +55,7 @@ public class LyricDecoder {
         if (temp2 != null && !temp2.isEmpty()) {
             String[] klyric = temp2.split("\n");
             for (String item : klyric) {
-                KtvLyric temp4 = getKTime(item, obj.getVersion());
+                KtvLyricObj temp4 = getKTime(item, obj.getVersion());
                 if (temp4 != null) {
                     kly.put(temp4.start, temp4);
                 }
@@ -65,13 +65,13 @@ public class LyricDecoder {
 
         if (isHaveK) {
             for (Map.Entry<Long, String> item : temp.entrySet()) {
-                this.lyrics.put(item.getKey(), new LyricItemObj(item.getValue(), haveT ? temp1.get(item.getKey()) : null));
+                this.lyrics.put(item.getKey(), new LyricItemObj(item.getValue(), haveT ? temp1.get(item.getKey()) : null, item.getKey()));
             }
         } else {
             for (Map.Entry<Long, String> item : temp.entrySet()) {
                 String value = AllMusic.getReplacer().replace(item.getValue());
                 String value1 = AllMusic.getReplacer().replace(temp1.get(item.getKey()));
-                this.lyrics.put(item.getKey(), new LyricItemObj(value, haveT ? value1 : null));
+                this.lyrics.put(item.getKey(), new LyricItemObj(value, haveT ? value1 : null, item.getKey()));
             }
         }
 
@@ -121,14 +121,14 @@ public class LyricDecoder {
                 milt /= 10;
             }
             time = Long.parseLong(min) * 60 * 1000 + Long.parseLong(sec) * 1000 + milt * 10;
-            if (time > 0 && time + AllMusic.getConfig().lyricDelay > 0)
-                time += AllMusic.getConfig().lyricDelay / 10 * 10;
+//            if (time > 0 && time + AllMusic.getConfig().lyricDelay > 0)
+//                time += AllMusic.getConfig().lyricDelay / 10 * 10;
             res.put(time, Function.getString(s, "]", null));
         }
         return res;
     }
 
-    private KtvLyric getKTime(String lyric, boolean yrc) {
+    private KtvLyricObj getKTime(String lyric, boolean yrc) {
         if (!lyric.startsWith("[") || !lyric.contains("]("))
             return null;
 
@@ -148,12 +148,13 @@ public class LyricDecoder {
         long now = Integer.parseInt(temp11[0]) / 10 * 10;
         long time = Integer.parseInt(temp11[1]) / 10 * 10;
 
-        KtvLyric ktv = new KtvLyric();
+        KtvLyricObj ktv = new KtvLyricObj();
         ktv.start = now;
         ktv.time = time;
         for (int a = 1; a < datas.length; a++) {
-            KtvLyric.KtvItem item = new KtvLyric.KtvItem();
+            KtvLyricObj.KtvItem item = new KtvLyricObj.KtvItem();
             item.key = datas[a];
+            ktv.charCount += item.key.length();
             String temp3 = temp1111.get(a - 1);
             String[] temp8 = temp3.split(",");
             long temp5;

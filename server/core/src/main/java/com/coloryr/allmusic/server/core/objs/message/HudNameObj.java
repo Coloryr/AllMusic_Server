@@ -7,6 +7,7 @@ public class HudNameObj {
     public String list;
     public String lyric;
     public String info;
+    public String state;
     public String all;
     public String pic;
     public String picRoute;
@@ -34,6 +35,8 @@ public class HudNameObj {
         if (list == null)
             return true;
         if (lyric == null)
+            return true;
+        if (state == null)
             return true;
         if (info == null)
             return true;
@@ -79,6 +82,8 @@ public class HudNameObj {
                 return lyric;
             case LIST:
                 return list;
+            case STATE:
+                return state;
         }
         return null;
     }
@@ -113,6 +118,8 @@ public class HudNameObj {
     public void init() {
         if (list == null)
             list = "待播放列表";
+        if (state == null)
+            state = "播放进度";
         if (lyric == null)
             lyric = "歌词";
         if (info == null)

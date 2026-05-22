@@ -4,12 +4,13 @@ import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.codec.KtvLyricObj;
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.music.LyricSave;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.saves.HudSave;
-import com.coloryr.allmusic.server.core.utils.HudUtils;
 import net.kyori.adventure.text.Component;
 
 import java.io.File;
@@ -258,10 +259,10 @@ public abstract class BaseSide {
 
     /**
      * 发送Hud的歌词数据
-     *
-     * @param state 数据
      */
-    public final void sendHudKtv(float state) {
+    public final void sendHudKtv() {
+        MusicPack.LyricKtvMusicPack pack = new MusicPack.LyricKtvMusicPack(PlayMusic.musicNowTime, PlayMusic.lyric.getKtvNow());
+
         for (Object player : getPlayers()) {
             String name = getPlayerName(player);
             if (name == null)
@@ -273,7 +274,7 @@ public abstract class BaseSide {
                 HudPosObj obj = HudSave.getOrNew(name);
                 if (!obj.lyric.enable)
                     continue;
-                send(player, new MusicPack.FloatMusicPack(CommandType.LYRIC_STATE, state));
+                send(player, pack);
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>歌词发送出错");
                 e.printStackTrace();
@@ -296,9 +297,29 @@ public abstract class BaseSide {
                 continue;
             try {
                 HudPosObj obj = HudSave.getOrNew(name);
-                if (!obj.lyric.enable)
+                if (!obj.info.enable)
                     continue;
                 send(player, new MusicPack.StringMusicPack(CommandType.INFO, data));
+            } catch (Exception e) {
+                AllMusic.log.data("<light_purple>[AllMusic]<red>歌词信息发送出错");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public final void sendHudTime(MusicPack.TimeMusicPack pack) {
+        for (Object player : getPlayers()) {
+            String name = getPlayerName(player);
+            if (name == null)
+                continue;
+            name = name.toLowerCase(Locale.ROOT);
+            if (AllMusic.isSkip(name, getPlayerServer(player), true))
+                continue;
+            try {
+                HudPosObj obj = HudSave.getOrNew(name);
+                if (!obj.state.enable)
+                    continue;
+                send(player, pack);
             } catch (Exception e) {
                 AllMusic.log.data("<light_purple>[AllMusic]<red>歌词信息发送出错");
                 e.printStackTrace();

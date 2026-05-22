@@ -41,6 +41,9 @@ public class HudUtils {
             case PIC:
                 posOBJ = obj.pic;
                 break;
+            case STATE:
+                posOBJ = obj.state;
+                break;
             default:
                 return null;
         }
@@ -94,6 +97,42 @@ public class HudUtils {
     }
 
     /**
+     * 设置组件透明度
+     *
+     * @param player 用户名
+     * @param pos    位置
+     * @param width  最大宽度
+     * @return 组件数据
+     */
+    public static int setHudHudMaxWidth(String player, HudType pos, String width) {
+        HudPosObj obj = HudSave.getOrNew(player);
+
+        if (!Function.isInteger(width))
+            return -1;
+        int maxwidth = Integer.parseInt(width);
+        if (maxwidth <= 0) {
+            return -1;
+        }
+        switch (pos) {
+            case LYRIC:
+                obj.lyric.maxWidth = maxwidth;
+                break;
+            case LIST:
+                obj.list.maxWidth = maxwidth;
+                break;
+            case INFO:
+                obj.info.maxWidth = maxwidth;
+                break;
+            default:
+                return -1;
+        }
+
+        HudSave.update(player, obj);
+        HudUtils.sendHudPos(player);
+        return maxwidth;
+    }
+
+    /**
      * 更新Hud的List数据
      */
     public static void sendHudListData() {
@@ -116,23 +155,11 @@ public class HudUtils {
                 list.append(now).append("\n");
             }
             info = AllMusic.getMessage().hud.list
-                    .replace(ARG.size, String.valueOf(PlayMusic.getList().size()))
+                    .replace(ARG.value, String.valueOf(PlayMusic.getList().size()))
                     .replace(ARG.list, list.toString());
         }
 
         AllMusic.side.sendHudList(info);
-    }
-
-    /**
-     * 时间转换
-     *
-     * @param time 时间
-     * @return 结果
-     */
-    private static String tranTime(long time) {
-        long m = time / 60;
-        long s = time - m * 60;
-        return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
     }
 
     /**
@@ -145,8 +172,6 @@ public class HudUtils {
         } else {
             info = AllMusic.getMessage().hud.music
                     .replace(ARG.name, infoLimit(PlayMusic.nowPlayMusic.getName()))
-                    .replace(ARG.allTime, tranTime(PlayMusic.musicAllTime))
-                    .replace(ARG.nowTime, tranTime(PlayMusic.musicNowTime / 1000))
                     .replace(ARG.musicAuthor, infoLimit(PlayMusic.nowPlayMusic.getAuthor()))
                     .replace(ARG.musicAlia, infoLimit(PlayMusic.nowPlayMusic.getAlia()))
                     .replace(ARG.musicAl, infoLimit(PlayMusic.nowPlayMusic.getAl()))
@@ -154,6 +179,11 @@ public class HudUtils {
         }
 
         AllMusic.side.sendHudInfo(info);
+    }
+
+    public static void sendHudTime() {
+        MusicPack.TimeMusicPack pack = new MusicPack.TimeMusicPack(PlayMusic.musicAllTime, PlayMusic.musicNowTime);
+        AllMusic.side.sendHudTime(pack);
     }
 
     /**
@@ -180,18 +210,6 @@ public class HudUtils {
         }
 
         AllMusic.side.sendHudLyric(new MusicPack.LyricMusicPack(lyr, tran, ktv));
-    }
-
-    public static void sendHudKtv() {
-        float kLyric;
-        LyricSave obj = PlayMusic.lyric;
-        if (obj == null) {
-            kLyric = 0.0f;
-        } else {
-            kLyric = obj.getKly();
-
-        }
-        AllMusic.side.sendHudKtv(kLyric);
     }
 
     /**
@@ -525,9 +543,6 @@ public class HudUtils {
                 break;
             case LIST:
                 obj.list.loop = loop;
-                break;
-            case LYRIC:
-                obj.lyric.loop = loop;
                 break;
             case PIC:
                 return null;

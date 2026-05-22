@@ -4,12 +4,15 @@ public class LyricItemObj {
     public String lyric;
     public String tlyric;
 
-    public LyricItemObj(String lyric, String tlyric) {
+    public long start;
+
+    public LyricItemObj(String lyric, String tlyric, long start) {
         this.lyric = lyric;
         this.tlyric = tlyric;
+        this.start = start;
     }
 
     public LyricItemObj copy() {
-        return new LyricItemObj(this.lyric, this.tlyric);
+        return new LyricItemObj(this.lyric, this.tlyric, this.start);
     }
 }

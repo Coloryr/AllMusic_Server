@@ -7,6 +7,8 @@ public class HudObj {
     public String set2;
     public String set3;
     public String set4;
+    public String set5;
+    public String set6;
     public String reset;
     public String emptyMusic;
     public String emptyList;
@@ -40,6 +42,10 @@ public class HudObj {
             return true;
         if (set4 == null)
             return true;
+        if (set5 == null)
+            return true;
+        if (set6 == null)
+            return true;
         if (reset == null)
             return true;
         if (emptyMusic == null)
@@ -67,17 +73,21 @@ public class HudObj {
 
     public void init() {
         if (state == null)
-            state = "<light_purple>[AllMusic3]<yellow>设置信息位置：" + ARG.hud + "，状态：" + ARG.state;
+            state = "<light_purple>[AllMusic3]<yellow>设置信息位置：" + ARG.hud + "，状态：" + ARG.value;
         if (set == null)
             set = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的坐标为[" + ARG.x + ", " + ARG.y + "]";
         if (set1 == null)
-            set1 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的对齐方式为[" + ARG.dir + "]";
+            set1 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的对齐方式为[" + ARG.value + "]";
         if (set2 == null)
-            set2 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的颜色为[" + ARG.color + "]";
+            set2 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的颜色为[" + ARG.value + "]";
         if (set3 == null)
-            set3 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的阴影为[" + ARG.state + "]";
+            set3 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的阴影为[" + ARG.value + "]";
         if (set4 == null)
-            set4 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的透明度为[" + ARG.alpha + "]";
+            set4 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的透明度为[" + ARG.value + "]";
+        if (set5 == null)
+            set5 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的循环模式为[" + ARG.value + "]";
+        if (set6 == null)
+            set6 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的最大宽度为[" + ARG.value + "]";
         if (reset == null)
             reset = "<light_purple>[AllMusic3]<yellow>界面[" + ARG.hud + "]恢复至默认位置";
         if (emptyMusic == null)
@@ -87,22 +97,21 @@ public class HudObj {
         if (emptyLyric == null)
             emptyLyric = "无歌词";
         if (picSize == null)
-            picSize = "<light_purple>[AllMusic3]<yellow>设置图片尺寸为[" + ARG.size + "]";
+            picSize = "<light_purple>[AllMusic3]<yellow>设置图片尺寸为[" + ARG.value + "]";
         if (picRotate == null)
-            picRotate = "<light_purple>[AllMusic3]<yellow>设置图片旋转为[" + ARG.state + "]";
+            picRotate = "<light_purple>[AllMusic3]<yellow>设置图片旋转为[" + ARG.value + "]";
         if (picSpeed == null)
-            picSpeed = "<light_purple>[AllMusic3]<yellow>设置图片旋转速度为[" + ARG.size + "]";
+            picSpeed = "<light_purple>[AllMusic3]<yellow>设置图片旋转速度为[" + ARG.value + "]";
         if (music == null)
-            music = ARG.name + " " + ARG.allTime + "/" + ARG.nowTime
-                    + "\n" + ARG.musicAuthor + "\n" + ARG.musicAlia + "\n" + ARG.musicAl
+            music = ARG.name + " " + ARG.musicAuthor + "\n" + ARG.musicAlia + "\n" + ARG.musicAl
                     + "\nby: " + ARG.player;
         if (lyric == null)
             lyric = ARG.lyric;
         if (tlyric == null)
             tlyric = ARG.lyric;
         if (klyric == null)
-            klyric = "§e" + ARG.lyric;
+            klyric = "§b" + ARG.lyric;
         if (list == null)
-            list = "播放列表里面有" + ARG.size + "首歌\n" + ARG.list;
+            list = "播放列表里面有" + ARG.value + "首歌\n" + ARG.list;
     }
 }

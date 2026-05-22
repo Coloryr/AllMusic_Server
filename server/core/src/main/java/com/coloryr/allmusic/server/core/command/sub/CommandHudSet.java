@@ -2,7 +2,7 @@ package com.coloryr.allmusic.server.core.command.sub;
 
 import com.coloryr.allmusic.codec.HudBasePosObj;
 import com.coloryr.allmusic.codec.HudPosType;
-import com.coloryr.allmusic.codec.HudItemPosObj;
+import com.coloryr.allmusic.codec.HudStatePosObj;
 import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.command.ACommand;
@@ -32,6 +32,8 @@ public class CommandHudSet extends AHudCommand {
     private static final List<String> info = new ArrayList<String>() {{
         this.add("color");
         this.add("shadow");
+        this.add("loop");
+        this.add("maxwidth");
     }};
     private static final List<String> tf = new ArrayList<String>() {{
         this.add("true");
@@ -54,6 +56,7 @@ public class CommandHudSet extends AHudCommand {
             commandList.put("color", new HudColor(type));
             commandList.put("shadow", new HudShadow(type));
             commandList.put("loop", new HudLoop(type));
+            commandList.put("maxwidth", new HudMaxWidth(type));
         }
     }
 
@@ -101,7 +104,7 @@ public class CommandHudSet extends AHudCommand {
             if (args.length == 3 || args.length == 4) {
                 boolean temp = HudUtils.setHudEnable(name, type, args.length == 4 ? args[3] : null);
                 AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.state
-                        .replace(ARG.state, temp
+                        .replace(ARG.value, temp
                                 ? AllMusic.getMessage().hudList.enable
                                 : AllMusic.getMessage().hudList.disable)
                         .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type)));
@@ -178,9 +181,36 @@ public class CommandHudSet extends AHudCommand {
                     return;
                 }
 
-                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.set4
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.set5
                         .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                        .replace(ARG.alpha, String.valueOf(obj.alpha)));
+                        .replace(ARG.value, String.valueOf(obj.alpha)));
+            } catch (Exception e) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+            }
+        }
+    }
+
+    private static class HudMaxWidth extends AHudCommand {
+        public HudMaxWidth(HudType type) {
+            super(type);
+        }
+
+        @Override
+        public void execute(Object sender, String name, String[] args) {
+            try {
+                if (args.length != 4) {
+                    AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                    return;
+                }
+                int width = HudUtils.setHudHudMaxWidth(name, type, args[3]);
+                if (width == -1) {
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().command.error);
+                    return;
+                }
+
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.set6
+                        .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
+                        .replace(ARG.value, String.valueOf(width)));
             } catch (Exception e) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             }
@@ -211,7 +241,7 @@ public class CommandHudSet extends AHudCommand {
             }
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set1
                     .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                    .replace(ARG.dir, AllMusic.getMessage().hudList.getDir(type1)));
+                    .replace(ARG.value, AllMusic.getMessage().hudList.getDir(type1)));
         }
 
         @Override
@@ -241,7 +271,7 @@ public class CommandHudSet extends AHudCommand {
             }
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set2
                     .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                    .replace(ARG.color, String.format("%06X", color & 0xFFFFFF)));
+                    .replace(ARG.value, String.format("%06X", color & 0xFFFFFF)));
         }
     }
 
@@ -255,7 +285,7 @@ public class CommandHudSet extends AHudCommand {
             if (args.length == 3 || args.length == 4) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set3
                         .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                        .replace(ARG.state, HudUtils.setShadow(name, type, args.length == 4 ? args[3] : null)
+                        .replace(ARG.value, HudUtils.setShadow(name, type, args.length == 4 ? args[3] : null)
                                 ? AllMusic.getMessage().hudList.enable
                                 : AllMusic.getMessage().hudList.disable));
                 return;
@@ -290,7 +320,7 @@ public class CommandHudSet extends AHudCommand {
             }
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set2
                     .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                    .replace(ARG.color, loop));
+                    .replace(ARG.value, loop));
         }
 
         @Override
@@ -310,7 +340,7 @@ public class CommandHudSet extends AHudCommand {
                 return;
             }
             AllMusic.side.sendMessage(sender,
-                    AllMusic.getMessage().hud.picSize.replace(ARG.size, args[2]));
+                    AllMusic.getMessage().hud.picSize.replace(ARG.value, args[2]));
         }
     }
 
@@ -319,7 +349,7 @@ public class CommandHudSet extends AHudCommand {
         public void execute(Object sender, String name, String[] args) {
             if (args.length == 3 || args.length == 4) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.picRotate
-                        .replace(ARG.state, HudUtils.setPicRotate(name, args.length == 4 ? args[3] : null)
+                        .replace(ARG.value, HudUtils.setPicRotate(name, args.length == 4 ? args[3] : null)
                                 ? AllMusic.getMessage().hudList.enable
                                 : AllMusic.getMessage().hudList.disable));
                 return;
@@ -344,7 +374,7 @@ public class CommandHudSet extends AHudCommand {
                 return;
             }
             AllMusic.side.sendMessage(sender,
-                    AllMusic.getMessage().hud.picSpeed.replace(ARG.size, args[3]));
+                    AllMusic.getMessage().hud.picSpeed.replace(ARG.value, args[3]));
         }
     }
 }

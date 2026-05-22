@@ -32,10 +32,6 @@ public class ConfigObj {
      */
     public int lyricDelay;
     /**
-     * KTV歌词更新延迟
-     */
-    public int ktvSendDelay;
-    /**
      * 默认添加歌曲方式
      */
     public int defaultAddMusic;
@@ -175,7 +171,6 @@ public class ConfigObj {
         playListSwitch = true;
         playListRandom = true;
         playListEscapeDeep = 40;
-        ktvSendDelay = 50;
         sendLyric = true;
         needPermission = false;
         mutePlayMessage = false;

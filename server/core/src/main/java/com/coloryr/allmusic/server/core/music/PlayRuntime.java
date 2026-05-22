@@ -19,10 +19,6 @@ public class PlayRuntime {
     private static int count = 0;
     private static int ping = 0;
     /**
-     * 歌曲更新计数器
-     */
-    private static long times = 0;
-    /**
      * 歌曲定时器
      */
     private static ScheduledExecutorService service;
@@ -73,6 +69,7 @@ public class PlayRuntime {
         AllMusic.side.updateInfo();
         HudUtils.sendClearHud();
         HudUtils.sendHudNowData();
+        HudUtils.sendHudTime();
         HudUtils.sendHudLyricData();
         HudUtils.sendHudListData();
     }
@@ -84,10 +81,10 @@ public class PlayRuntime {
     private static void time1() {
         if (isPlay) {
             PlayMusic.musicNowTime += 10;
-            count++;
-            if (count == 100) {
-                PlayMusic.musicLessTime--;
-                count = 0;
+            if (PlayMusic.musicLessTime >= 10) {
+                PlayMusic.musicLessTime -= 10;
+            } else {
+                PlayMusic.musicLessTime = 0;
             }
         }
 
@@ -99,17 +96,11 @@ public class PlayRuntime {
                 if (res) {
                     HudUtils.sendHudLyricData();
                     AllMusic.side.updateLyric();
-                    if (AllMusic.getConfig().ktvMode) {
-                        PlayMusic.lyric.updateKtv(PlayMusic.musicNowTime);
-                        HudUtils.sendHudKtv();
-                    }
                 }
 
                 if (AllMusic.getConfig().ktvMode) {
-                    PlayMusic.lyric.updateKtv(PlayMusic.musicNowTime);
-                    if ((PlayMusic.musicNowTime - times) > AllMusic.getConfig().ktvSendDelay) {
-                        times = PlayMusic.musicNowTime;
-                        HudUtils.sendHudKtv();
+                    if (PlayMusic.lyric.ktvGetNext(PlayMusic.musicNowTime)) {
+                        AllMusic.side.sendHudKtv();
                     }
                 }
             } catch (Exception e) {
@@ -212,6 +203,7 @@ public class PlayRuntime {
                 } else {
                     HudUtils.sendClearHud();
                     HudUtils.sendHudNowData();
+                    HudUtils.sendHudTime();
                     HudUtils.sendHudLyricData();
                     HudUtils.sendHudListData();
                     AllMusic.side.sendHudUtilsAll();
@@ -239,7 +231,7 @@ public class PlayRuntime {
                         PlayMusic.lyric = new LyricSave();
 
                     if (PlayMusic.nowPlayMusic.getLength() != 0) {
-                        PlayMusic.musicAllTime = PlayMusic.musicLessTime = (PlayMusic.nowPlayMusic.getLength() / 1000) + 3;
+                        PlayMusic.musicAllTime = PlayMusic.musicLessTime = PlayMusic.nowPlayMusic.getLength();
                         isPlay = true;
                         AllMusic.side.sendMusic(PlayMusic.url);
                         if (!AllMusic.getConfig().mutePlayMessage) {
@@ -275,9 +267,10 @@ public class PlayRuntime {
 
                         while (PlayMusic.musicLessTime > 0) {
                             HudUtils.sendHudNowData();
+                            HudUtils.sendHudTime();
                             HudUtils.sendHudListData();
                             if (PlayMusic.nowPlayMusic == null || !AllMusic.side.needPlay(PlayMusic.nowPlayMusic.isList())) {
-                                PlayMusic.musicLessTime = 1;
+                                PlayMusic.musicLessTime = 10;
                             }
                             Thread.sleep(AllMusic.getConfig().sendDelay);
                         }
