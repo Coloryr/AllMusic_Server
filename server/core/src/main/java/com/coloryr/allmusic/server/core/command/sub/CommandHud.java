@@ -16,17 +16,25 @@ public class CommandHud extends ACommand {
     private static final List<String> hudlist = new ArrayList<String>() {{
         this.add("enable");
         this.add("reset");
+        this.add("alpha");
         this.add("info");
         this.add("list");
         this.add("lyric");
         this.add("state");
         this.add("pic");
     }};
+
+    public static final List<String> tf = new ArrayList<String>() {{
+        this.add("true");
+        this.add("false");
+    }};
+
     private final Map<String, ICommand> commandList = new HashMap<>();
 
     public CommandHud() {
         commandList.put("enable", new HudEnable());
         commandList.put("reset", new HudReset());
+        commandList.put("alpha", new HudAlpha());
         commandList.put("info", new CommandHudSet(HudType.INFO));
         commandList.put("list", new CommandHudSet(HudType.LIST));
         commandList.put("lyric", new CommandHudSet(HudType.LYRIC));
@@ -61,12 +69,37 @@ public class CommandHud extends ACommand {
         return Collections.emptyList();
     }
 
-    private static class HudEnable extends ACommand {
-        private static final List<String> tf = new ArrayList<String>() {{
-            this.add("true");
-            this.add("false");
-        }};
+    private static class HudAlpha extends ACommand {
+        @Override
+        public void execute(Object sender, String name, String[] args) {
+            if (args.length == 3) {
+                try {
+                    float temp = HudUtils.setHudAlpha(name, null, args[2]);
+                    if (temp == -1) {
+                        AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                        return;
+                    }
+                    AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.state
+                            .replace(ARG.value, String.valueOf(temp))
+                            .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(null)));
+                    return;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+        }
 
+        @Override
+        public List<String> tab(Object player, String name, String[] args, int index) {
+            if (args.length == index + 1) {
+                return tf;
+            }
+            return Collections.emptyList();
+        }
+    }
+
+    private static class HudEnable extends ACommand {
         @Override
         public void execute(Object sender, String name, String[] args) {
             if (args.length == 2 || args.length == 3) {

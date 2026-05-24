@@ -63,37 +63,42 @@ public class HudUtils {
      * @param alpha  透明度
      * @return 组件数据
      */
-    public static HudBasePosObj setHudAlpha(String player, HudType pos, String alpha) {
+    public static float setHudAlpha(String player, HudType pos, String alpha) {
         HudPosObj obj = HudSave.getOrNew(player);
 
         if (!Function.isInteger(alpha))
-            return null;
+            return -1;
         float alpha1 = Float.parseFloat(alpha);
         if (alpha1 > 1 || alpha1 < 0) {
             alpha1 = 1;
         }
-        HudBasePosObj posOBJ;
         switch (pos) {
             case LYRIC:
-                posOBJ = obj.lyric;
+                obj.lyric.alpha = alpha1;
                 break;
             case LIST:
-                posOBJ = obj.list;
+                obj.list.alpha = alpha1;
                 break;
             case INFO:
-                posOBJ = obj.info;
+                obj.info.alpha = alpha1;
+                break;
+            case STATE:
+                obj.state.alpha = alpha1;
                 break;
             case PIC:
-                posOBJ = obj.pic;
+                obj.pic.alpha = alpha1;
                 break;
             default:
-                return null;
+                obj.list.alpha = alpha1;
+                obj.info.alpha = alpha1;
+                obj.lyric.alpha = alpha1;
+                obj.state.alpha = alpha1;
+                obj.pic.alpha = alpha1;
         }
-        posOBJ.alpha = alpha1;
 
         HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
-        return posOBJ;
+        return alpha1;
     }
 
     /**
@@ -528,13 +533,8 @@ public class HudUtils {
         return message;
     }
 
-    public static String setLoop(String name, HudType type, String arg) {
-        LoopType loop;
-        try {
-            loop = LoopType.valueOf(arg);
-        } catch (Exception ignored) {
-            return null;
-        }
+    public static boolean setLoop(String name, HudType type, String arg) {
+        boolean loop = Boolean.parseBoolean(arg);
 
         HudPosObj obj = HudSave.getOrNew(name);
         switch (type) {
@@ -544,13 +544,43 @@ public class HudUtils {
             case LIST:
                 obj.list.loop = loop;
                 break;
-            case PIC:
-                return null;
         }
 
         HudSave.update(name, obj);
         HudUtils.sendHudPos(name);
 
-        return loop.toString();
+        return loop;
+    }
+
+    public static int setGap(String name, HudType type, String arg) {
+        if (!Function.isInteger(arg))
+            return -1;
+        int gap = Integer.parseInt(arg);
+        if (gap <= 0) {
+            return -1;
+        }
+
+        HudPosObj obj = HudSave.getOrNew(name);
+        switch (type) {
+            case INFO:
+                obj.info.gap = gap;
+                break;
+            case LIST:
+                obj.list.gap = gap;
+                break;
+            case STATE:
+                obj.state.gap = gap;
+                break;
+            case LYRIC:
+                obj.lyric.gap = gap;
+                break;
+            case PIC:
+                return -1;
+        }
+
+        HudSave.update(name, obj);
+        HudUtils.sendHudPos(name);
+
+        return gap;
     }
 }

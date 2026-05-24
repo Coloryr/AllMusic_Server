@@ -33,12 +33,21 @@ public class CommandHudSet extends AHudCommand {
         this.add("color");
         this.add("shadow");
         this.add("loop");
+        this.add("gap");
         this.add("maxwidth");
     }};
-    private static final List<String> tf = new ArrayList<String>() {{
-        this.add("true");
-        this.add("false");
+    private static final List<String> state = new ArrayList<String>() {{
+        this.add("color");
+        this.add("shadow");
+        this.add("gap");
     }};
+    private static final List<String> lyric = new ArrayList<String>() {{
+        this.add("color");
+        this.add("shadow");
+        this.add("gap");
+        this.add("maxwidth");
+    }};
+
     private final Map<String, ICommand> commandList = new HashMap<>();
 
     public CommandHudSet(HudType type) {
@@ -52,10 +61,20 @@ public class CommandHudSet extends AHudCommand {
             commandList.put("size", new PicSize());
             commandList.put("rotate", new PicRotate());
             commandList.put("speed", new PicRotateSpeed());
-        } else {
+        } else if (type == HudType.INFO || type == HudType.LIST) {
             commandList.put("color", new HudColor(type));
             commandList.put("shadow", new HudShadow(type));
             commandList.put("loop", new HudLoop(type));
+            commandList.put("gap", new HudGap(type));
+            commandList.put("maxwidth", new HudMaxWidth(type));
+        } else if (type == HudType.STATE) {
+            commandList.put("color", new HudColor(type));
+            commandList.put("shadow", new HudShadow(type));
+            commandList.put("gap", new HudGap(type));
+        } else if (type == HudType.LYRIC) {
+            commandList.put("color", new HudColor(type));
+            commandList.put("shadow", new HudShadow(type));
+            commandList.put("gap", new HudGap(type));
             commandList.put("maxwidth", new HudMaxWidth(type));
         }
     }
@@ -80,8 +99,12 @@ public class CommandHudSet extends AHudCommand {
             List<String> list = new ArrayList<>(hud);
             if (type == HudType.PIC) {
                 list.addAll(pic);
-            } else {
+            } else if (type == HudType.INFO || type == HudType.LIST) {
                 list.addAll(info);
+            } else if (type == HudType.STATE) {
+                list.addAll(state);
+            } else if (type == HudType.LYRIC) {
+                list.addAll(lyric);
             }
 
             return list;
@@ -116,7 +139,7 @@ public class CommandHudSet extends AHudCommand {
         @Override
         public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
-                return tf;
+                return CommandHud.tf;
             }
             return Collections.emptyList();
         }
@@ -175,15 +198,15 @@ public class CommandHudSet extends AHudCommand {
                     AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
                     return;
                 }
-                HudBasePosObj obj = HudUtils.setHudAlpha(name, type, args[3]);
-                if (obj == null) {
+                float obj = HudUtils.setHudAlpha(name, type, args[3]);
+                if (obj == -1) {
                     AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().command.error);
                     return;
                 }
 
-                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.set5
+                AllMusic.side.sendMessageTask(sender, AllMusic.getMessage().hud.set4
                         .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                        .replace(ARG.value, String.valueOf(obj.alpha)));
+                        .replace(ARG.value, String.valueOf(obj)));
             } catch (Exception e) {
                 AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
             }
@@ -296,7 +319,7 @@ public class CommandHudSet extends AHudCommand {
         @Override
         public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
-                return tf;
+                return CommandHud.tf;
             }
             return Collections.emptyList();
         }
@@ -309,24 +332,51 @@ public class CommandHudSet extends AHudCommand {
 
         @Override
         public void execute(Object sender, String name, String[] args) {
-            if (args.length != 4) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+            if (args.length == 3 || args.length == 4) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set5
+                        .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
+                        .replace(ARG.value, HudUtils.setLoop(name, type, args.length == 4 ? args[3] : null)
+                                ? AllMusic.getMessage().hudList.enable
+                                : AllMusic.getMessage().hudList.disable));
                 return;
             }
-            String loop = HudUtils.setLoop(name, type, args[3]);
-            if (loop == null) {
-                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
-                return;
-            }
-            AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set2
-                    .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
-                    .replace(ARG.value, loop));
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
         }
 
         @Override
         public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
-                return tf;
+                return CommandHud.tf;
+            }
+            return Collections.emptyList();
+        }
+    }
+
+    private static class HudGap extends AHudCommand {
+        public HudGap(HudType type) {
+            super(type);
+        }
+
+        @Override
+        public void execute(Object sender, String name, String[] args) {
+            if (args.length != 4) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                return;
+            }
+            int loop = HudUtils.setGap(name, type, args[3]);
+            if (loop == -1) {
+                AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
+                return;
+            }
+            AllMusic.side.sendMessage(sender, AllMusic.getMessage().hud.set7
+                    .replace(ARG.hud, AllMusic.getMessage().hudList.getHud(type))
+                    .replace(ARG.value, String.valueOf(loop)));
+        }
+
+        @Override
+        public List<String> tab(Object player, String name, String[] args, int index) {
+            if (args.length == index + 1) {
+                return CommandHud.tf;
             }
             return Collections.emptyList();
         }
@@ -360,7 +410,7 @@ public class CommandHudSet extends AHudCommand {
         @Override
         public List<String> tab(Object player, String name, String[] args, int index) {
             if (args.length == index + 1) {
-                return tf;
+                return CommandHud.tf;
             }
             return Collections.emptyList();
         }

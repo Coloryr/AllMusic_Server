@@ -9,6 +9,7 @@ public class HudObj {
     public String set4;
     public String set5;
     public String set6;
+    public String set7;
     public String reset;
     public String emptyMusic;
     public String emptyList;
@@ -73,23 +74,25 @@ public class HudObj {
 
     public void init() {
         if (state == null)
-            state = "<light_purple>[AllMusic3]<yellow>设置信息位置：" + ARG.hud + "，状态：" + ARG.value;
+            state = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的状态为[<blue>" + ARG.value + "<yellow>]";
         if (set == null)
-            set = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的坐标为[" + ARG.x + ", " + ARG.y + "]";
+            set = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的坐标为[<blue>" + ARG.x + ", " + ARG.y + "<yellow>]";
         if (set1 == null)
-            set1 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的对齐方式为[" + ARG.value + "]";
+            set1 = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的对齐方式为[<blue>" + ARG.value + "<yellow>]";
         if (set2 == null)
-            set2 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的颜色为[" + ARG.value + "]";
+            set2 = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的颜色为[<blue>" + ARG.value + "<yellow>]";
         if (set3 == null)
-            set3 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的阴影为[" + ARG.value + "]";
+            set3 = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的阴影为[<blue>" + ARG.value + "<yellow>]";
         if (set4 == null)
-            set4 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的透明度为[" + ARG.value + "]";
+            set4 = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的透明度为[<blue>" + ARG.value + "<yellow>]";
         if (set5 == null)
-            set5 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的循环模式为[" + ARG.value + "]";
+            set5 = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的循环模式为[<blue>" + ARG.value + "<yellow>]";
         if (set6 == null)
-            set6 = "<light_purple>[AllMusic3]<yellow>已设置[" + ARG.hud + "]的最大宽度为[" + ARG.value + "]";
+            set6 = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的最大宽度为[<blue>" + ARG.value + "<yellow>]";
+        if (set7 == null)
+            set7 = "<light_purple>[AllMusic3]<yellow>已设置[<aqua>" + ARG.hud + "<yellow>]的间距为[<blue>" + ARG.value + "<yellow>]";
         if (reset == null)
-            reset = "<light_purple>[AllMusic3]<yellow>界面[" + ARG.hud + "]恢复至默认位置";
+            reset = "<light_purple>[AllMusic3]<yellow>界面[<aqua>" + ARG.hud + "<yellow>]恢复至默认位置";
         if (emptyMusic == null)
             emptyMusic = "没有播放的音乐";
         if (emptyList == null)
