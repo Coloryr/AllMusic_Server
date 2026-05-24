@@ -9,13 +9,15 @@ dependencies {
 
     modCompileOnly("net.fabricmc.fabric-api:fabric-api:0.42.0+1.16")
 
-    shadowImplementation("net.kyori:adventure-platform-api:4.0.0")
-    shadowImplementation("net.kyori:adventure-text-minimessage:${Versions.minimessage}")
-    shadowImplementation("net.kyori:adventure-api:${Versions.minimessage}")
-    shadowImplementation("net.kyori:adventure-text-serializer-gson:${Versions.adventure}")
-    shadowImplementation("net.kyori:adventure-text-serializer-legacy:${Versions.adventure}")
-    shadowImplementation("net.kyori:adventure-text-serializer-plain:${Versions.adventure}")
-    shadowImplementation("net.kyori:adventure-key:${Versions.adventure}")
+    modImplementation(include("net.kyori:examination-api:1.3.0")!!)
+    modImplementation(include("net.kyori:examination-string:1.3.0")!!)
+    modImplementation(include("net.kyori:adventure-platform-api:4.0.0")!!)
+    modImplementation(include("net.kyori:adventure-text-serializer-gson:4.9.3")!!)
+    modImplementation(include("net.kyori:adventure-text-serializer-legacy:4.9.3")!!)
+    modImplementation(include("net.kyori:adventure-text-serializer-plain:4.9.3")!!)
+    modImplementation(include("net.kyori:adventure-text-minimessage:4.26.1")!!)
+    modImplementation(include("net.kyori:adventure-api:4.26.1")!!)
+    modImplementation(include("net.kyori:adventure-key:4.26.1")!!)
 }
 
 tasks {
@@ -25,11 +27,6 @@ tasks {
                 "version" to project.version
             )
         }
-    }
-
-    shadowJar {
-        relocate("net.kyori", "com.coloryr.allmusic.libs.net.kyori")
-//        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
     }
 
     remapJar {

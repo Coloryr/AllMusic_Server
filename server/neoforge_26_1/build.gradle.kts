@@ -19,14 +19,7 @@ dependencies {
     minecraft("com.mojang:minecraft:26.1")
     neoForge("net.neoforged:neoforge:26.1.0.19-beta")
 
-    implementation("net.kyori:adventure-platform-neoforge:6.9.0")
-
-    shadowImplementation("net.kyori:adventure-text-minimessage:4.26.1")
-    shadowImplementation("net.kyori:adventure-api:4.26.1")
-    shadowImplementation("net.kyori:adventure-text-serializer-gson:4.8.1")
-    shadowImplementation("net.kyori:adventure-text-serializer-legacy:4.8.1")
-    shadowImplementation("net.kyori:adventure-text-serializer-plain:4.8.1")
-    shadowImplementation("net.kyori:adventure-key:4.8.1")
+    implementation(include("net.kyori:adventure-platform-neoforge:6.9.0")!!)
 }
 
 tasks {
@@ -37,20 +30,9 @@ tasks {
     }
 
     shadowJar {
-        relocate("net.kyori", "com.coloryr.allmusic.libs.net.kyori")
-        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
-
-//        inputFile.set(shadowJar.get().archiveFile)
-
         archiveFileName.set("[neoforge-26.1]AllMusic_Server-${project.version}.jar")
         destinationDirectory.set(file("${parent!!.projectDir}/../build"))
     }
-
-//    remapJar {
-//        inputFile.set(shadowJar.get().archiveFile)
-//        archiveFileName.set("[neoforge-1.21.11]AllMusic_Server-${project.version}.jar")
-//        destinationDirectory.set(file("${parent!!.projectDir}/../build"))
-//    }
 
     build {
         dependsOn(shadowJar)

@@ -37,7 +37,7 @@ tasks {
 
     shadowJar {
         relocate("net.kyori", "com.coloryr.allmusic.libs.net.kyori")
-        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
+//        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
     }
 
     remapJar {

@@ -97,12 +97,6 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     }
                     return PlayMusic.lyric.getTlyric();
                 }
-                case "klyric": {
-                    if (PlayMusic.lyric == null || PlayMusic.lyric.getKly() == null) {
-                        return AllMusic.getMessage().lyric.empty3;
-                    }
-                    return PlayMusic.lyric.getKly();
-                }
             }
         } else {
             switch (identifier) {
@@ -151,11 +145,6 @@ public class AllMusicPAPI extends PlaceholderExpansion {
                     if (PlayMusic.lyric == null)
                         return "";
                     return PlayMusic.lyric.getTlyric();
-                }
-                case "klyric": {
-                    if (PlayMusic.lyric == null)
-                        return "";
-                    return PlayMusic.lyric.getKly();
                 }
             }
         }

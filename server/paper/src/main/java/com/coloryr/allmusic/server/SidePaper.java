@@ -1,6 +1,8 @@
 package com.coloryr.allmusic.server;
 
+import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
@@ -23,52 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 public class SidePaper extends BaseSide {
-    private static Class ByteBufC;
-    private static Class UnpooledC;
-    private static Method bufferM;
-    private static Method writeByteM;
-    private static Method writeIntM;
-    private static Method writeBytesM;
-    private static Method arrayM;
-
-    static {
-        try {
-            ByteBufC = Class.forName("net.minecraft.util.io.netty.buffer.ByteBuf");
-        } catch (Exception e) {
-            try {
-                ByteBufC = Class.forName("io.netty.buffer.ByteBuf");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        }
-        if (ByteBufC != null) {
-            try {
-                arrayM = ByteBufC.getMethod("array");
-                writeByteM = ByteBufC.getMethod("writeByte", int.class);
-                writeIntM = ByteBufC.getMethod("writeInt", int.class);
-                writeBytesM = ByteBufC.getMethod("writeBytes", byte[].class);
-            } catch (NoSuchMethodException e1) {
-                e1.printStackTrace();
-            }
-        }
-        try {
-            UnpooledC = Class.forName("net.minecraft.util.io.netty.buffer.Unpooled");
-        } catch (Exception e) {
-            try {
-                UnpooledC = Class.forName("io.netty.buffer.Unpooled");
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        }
-        if (UnpooledC != null) {
-            try {
-                bufferM = UnpooledC.getMethod("buffer", int.class);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        }
-    }
-
     @Override
     public void broadcast(Component message) {
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -111,12 +67,10 @@ public class SidePaper extends BaseSide {
     }
 
     @Override
-    public void send(Object player, CommandType type, String data, int data1) {
+    public void send(Object player, MusicPack pack) {
         if (player instanceof Player player1) {
             try {
-                Object obj1 = pack(type, data, data1);
-                byte[] temp = (byte[]) arrayM.invoke(obj1);
-                send(player1, temp);
+                send(player1,  MusicPacketCodec.pack(pack).array());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -218,30 +172,5 @@ public class SidePaper extends BaseSide {
         if (AllMusic.isRun) {
             runTask(() -> players.sendPluginMessage(AllMusicPaper.plugin, AllMusic.channel, data));
         }
-    }
-
-    private void writeString(Object buf, String data) throws InvocationTargetException, IllegalAccessException {
-        byte[] temp = data.getBytes(StandardCharsets.UTF_8);
-        writeIntM.invoke(buf, temp.length);
-        writeBytesM.invoke(buf, temp);
-    }
-
-    private Object pack(CommandType type, String data, int data1) throws InvocationTargetException, IllegalAccessException {
-        Object buf = bufferM.invoke(null, 0);
-        writeByteM.invoke(buf, type.ordinal());
-        switch (type) {
-            case PLAY:
-            case IMG:
-            case INFO:
-            case LIST:
-            case LYRIC:
-            case HUD_DATA:
-                writeString(buf, data);
-                break;
-            case POS:
-                writeIntM.invoke(buf, data1);
-                break;
-        }
-        return buf;
     }
 }

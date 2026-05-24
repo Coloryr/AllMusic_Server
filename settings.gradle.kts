@@ -7,10 +7,6 @@ project(":codec:buffercodec").projectDir = file("client/codec/buffercodec")
 
 include(":client")
 project(":client").projectDir = file("client/client")
-include(":client:core")
-project(":client:core").projectDir = file("client/client/core")
-include(":client:core_gl")
-project(":client:core_gl").projectDir = file("client/client/core_gl")
 include(":client:fabric_1_16_5")
 project(":client:fabric_1_16_5").projectDir = file("client/client/fabric_1_16_5")
 include(":client:fabric_1_20_1")
@@ -41,7 +37,6 @@ include(":client:neoforge_26_1")
 project(":client:neoforge_26_1").projectDir = file("client/client/neoforge_26_1")
 
 include(":server")
-include(":server:core")
 
 include(":server:fabric_1_16_5")
 include(":server:fabric_1_20_1")

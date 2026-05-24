@@ -2,6 +2,7 @@ package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
@@ -92,10 +93,10 @@ public class SideForge extends BaseSide {
     }
 
     @Override
-    public void send(Object player, CommandType type, String data, int data1) {
+    public void send(Object player, MusicPack pack) {
         if (player instanceof EntityPlayerMP) {
             EntityPlayerMP player1 = (EntityPlayerMP) player;
-            send(player1, MusicPacketCodec.pack(type, data, data1));
+            send(player1, MusicPacketCodec.pack(pack));
         }
     }
 

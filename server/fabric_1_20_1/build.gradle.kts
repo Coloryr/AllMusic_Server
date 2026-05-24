@@ -13,18 +13,6 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.92.3+1.20.1")
 
     modImplementation(include("net.kyori:adventure-platform-fabric:5.9.0")!!)
-
-//    include("net.kyori:adventure-platform-fabric:5.9.0")?.let { modImplementation(it) }
-//    include("net.kyori:adventure-text-minimessage:4.26.1")?.let { modImplementation(it) }
-//    include("net.kyori:adventure-api:4.26.1")?.let { modImplementation(it) }
-//    include("net.kyori:adventure-key:4.26.1")?.let { modImplementation(it) }
-
-//    shadowImplementation("net.kyori:adventure-text-minimessage:4.26.1")
-//    shadowImplementation("net.kyori:adventure-api:4.26.1")
-//    shadowImplementation("net.kyori:adventure-text-serializer-gson:4.8.1")
-//    shadowImplementation("net.kyori:adventure-text-serializer-legacy:4.8.1")
-//    shadowImplementation("net.kyori:adventure-text-serializer-plain:4.8.1")
-//    shadowImplementation("net.kyori:adventure-key:4.8.1")
 }
 
 tasks {
@@ -34,11 +22,6 @@ tasks {
                 "version" to project.version
             )
         }
-    }
-
-    shadowJar {
-//        relocate("net.kyori", "com.coloryr.allmusic.libs.net.kyori")
-//        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
     }
 
     remapJar {

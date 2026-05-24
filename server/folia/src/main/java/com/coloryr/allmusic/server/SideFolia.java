@@ -2,6 +2,7 @@ package com.coloryr.allmusic.server;
 
 import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
@@ -143,10 +144,10 @@ public class SideFolia extends BaseSide {
     }
 
     @Override
-    public void send(Object player, CommandType type, String data, int data1) {
+    public void send(Object player, MusicPack pack) {
         if (AllMusic.isRun && player instanceof Player player1) {
             runTask(() -> player1.sendPluginMessage(AllMusicFolia.plugin, AllMusic.channel,
-                    MusicPacketCodec.pack(type, data, data1).array()));
+                    MusicPacketCodec.pack(pack).array()));
         }
     }
 

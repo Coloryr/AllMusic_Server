@@ -80,9 +80,9 @@ public class SideNeoForge extends BaseSide {
     }
 
     @Override
-    public void send(Object player, CommandType type, String data, int data1) {
+    public void send(Object player, MusicPack pack) {
         if (player instanceof ServerPlayer player1) {
-            send(player1, new MusicPack(type, data, data1));
+            send(player1, pack);
         }
     }
 
