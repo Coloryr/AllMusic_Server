@@ -32,9 +32,6 @@ public class HudUtils {
             case LYRIC:
                 posOBJ = obj.lyric;
                 break;
-            case LIST:
-                posOBJ = obj.list;
-                break;
             case INFO:
                 posOBJ = obj.info;
                 break;
@@ -72,28 +69,26 @@ public class HudUtils {
         if (alpha1 > 1 || alpha1 < 0) {
             alpha1 = 1;
         }
-        switch (pos) {
-            case LYRIC:
-                obj.lyric.alpha = alpha1;
-                break;
-            case LIST:
-                obj.list.alpha = alpha1;
-                break;
-            case INFO:
-                obj.info.alpha = alpha1;
-                break;
-            case STATE:
-                obj.state.alpha = alpha1;
-                break;
-            case PIC:
-                obj.pic.alpha = alpha1;
-                break;
-            default:
-                obj.list.alpha = alpha1;
-                obj.info.alpha = alpha1;
-                obj.lyric.alpha = alpha1;
-                obj.state.alpha = alpha1;
-                obj.pic.alpha = alpha1;
+        if (pos == null) {
+            obj.info.alpha = alpha1;
+            obj.lyric.alpha = alpha1;
+            obj.state.alpha = alpha1;
+            obj.pic.alpha = alpha1;
+        } else {
+            switch (pos) {
+                case LYRIC:
+                    obj.lyric.alpha = alpha1;
+                    break;
+                case INFO:
+                    obj.info.alpha = alpha1;
+                    break;
+                case STATE:
+                    obj.state.alpha = alpha1;
+                    break;
+                case PIC:
+                    obj.pic.alpha = alpha1;
+                    break;
+            }
         }
 
         HudSave.update(player, obj);
@@ -102,7 +97,7 @@ public class HudUtils {
     }
 
     /**
-     * 设置组件透明度
+     * 设置组件最大宽度
      *
      * @param player 用户名
      * @param pos    位置
@@ -122,9 +117,6 @@ public class HudUtils {
             case LYRIC:
                 obj.lyric.maxWidth = maxwidth;
                 break;
-            case LIST:
-                obj.list.maxWidth = maxwidth;
-                break;
             case INFO:
                 obj.info.maxWidth = maxwidth;
                 break;
@@ -135,36 +127,6 @@ public class HudUtils {
         HudSave.update(player, obj);
         HudUtils.sendHudPos(player);
         return maxwidth;
-    }
-
-    /**
-     * 更新Hud的List数据
-     */
-    public static void sendHudListData() {
-        String info;
-        if (PlayMusic.getListSize() == 0) {
-            info = AllMusic.getMessage().hud.emptyList;
-        } else {
-            String now;
-            StringBuilder list = new StringBuilder();
-            for (SongInfoObj info1 : PlayMusic.getList()) {
-                if (info1 == null)
-                    continue;
-                now = AllMusic.getMessage().musicPlay.musicInfo
-                        .replace(ARG.musicName, listLimit(info1.getName()))
-                        .replace(ARG.musicAuthor, listLimit(info1.getAuthor()))
-                        .replace(ARG.musicAl, listLimit(info1.getAl()))
-                        .replace(ARG.musicAlia, listLimit(info1.getAlia()))
-                        .replace(ARG.player, info1.getCall());
-
-                list.append(now).append("\n");
-            }
-            info = AllMusic.getMessage().hud.list
-                    .replace(ARG.value, String.valueOf(PlayMusic.getList().size()))
-                    .replace(ARG.list, list.toString());
-        }
-
-        AllMusic.side.sendHudList(info);
     }
 
     /**
@@ -239,25 +201,26 @@ public class HudUtils {
         }
         if (pos == null) {
             if (have) {
-                res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = value;
-            } else if (obj.info.enable && obj.list.enable && obj.lyric.enable && obj.pic.enable) {
-                obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = false;
+                res = obj.info.enable = obj.lyric.enable =
+                        obj.pic.enable = obj.state.enable = value;
+            } else if (obj.info.enable && obj.lyric.enable && obj.pic.enable && obj.state.enable) {
+                obj.info.enable = obj.lyric.enable = obj.pic.enable = obj.state.enable = false;
             } else {
-                res = obj.info.enable = obj.list.enable = obj.lyric.enable = obj.pic.enable = true;
+                res = obj.info.enable = obj.lyric.enable = obj.pic.enable = obj.state.enable = true;
             }
         } else {
             switch (pos) {
                 case INFO:
                     res = obj.info.enable = have ? value : !obj.info.enable;
                     break;
-                case LIST:
-                    res = obj.list.enable = have ? value : !obj.list.enable;
-                    break;
                 case LYRIC:
                     res = obj.lyric.enable = have ? value : !obj.lyric.enable;
                     break;
                 case PIC:
                     res = obj.pic.enable = have ? value : !obj.pic.enable;
+                    break;
+                case STATE:
+                    res = obj.state.enable = have ? value : !obj.state.enable;
                     break;
             }
         }
@@ -317,9 +280,6 @@ public class HudUtils {
         switch (type) {
             case INFO:
                 obj1.info = obj.info;
-                break;
-            case LIST:
-                obj1.list = obj.list;
                 break;
             case LYRIC:
                 obj1.lyric = obj.lyric;
@@ -413,9 +373,6 @@ public class HudUtils {
             case INFO:
                 obj.info.pos = type;
                 break;
-            case LIST:
-                obj.list.pos = type;
-                break;
             case LYRIC:
                 obj.lyric.pos = type;
                 break;
@@ -451,9 +408,6 @@ public class HudUtils {
             case INFO:
                 obj.info.color = color;
                 break;
-            case LIST:
-                obj.list.color = color;
-                break;
             case LYRIC:
                 obj.lyric.color = color;
                 break;
@@ -483,19 +437,16 @@ public class HudUtils {
 
         if (pos == null) {
             if (have) {
-                res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = value;
-            } else if (obj.info.shadow && obj.list.shadow && obj.lyric.shadow) {
-                obj.info.shadow = obj.list.shadow = obj.lyric.shadow = false;
+                res = obj.info.shadow = obj.state.shadow = obj.lyric.shadow = value;
+            } else if (obj.info.shadow && obj.lyric.shadow && obj.state.shadow) {
+                obj.info.shadow = obj.lyric.shadow = obj.state.shadow = false;
             } else {
-                res = obj.info.shadow = obj.list.shadow = obj.lyric.shadow = true;
+                res = obj.info.shadow = obj.lyric.shadow = obj.state.shadow = true;
             }
         } else {
             switch (pos) {
                 case INFO:
                     res = obj.info.shadow = have ? value : !obj.info.shadow;
-                    break;
-                case LIST:
-                    res = obj.list.shadow = have ? value : !obj.list.shadow;
                     break;
                 case LYRIC:
                     res = obj.lyric.shadow = have ? value : !obj.lyric.shadow;
@@ -541,9 +492,6 @@ public class HudUtils {
             case INFO:
                 obj.info.loop = loop;
                 break;
-            case LIST:
-                obj.list.loop = loop;
-                break;
         }
 
         HudSave.update(name, obj);
@@ -564,9 +512,6 @@ public class HudUtils {
         switch (type) {
             case INFO:
                 obj.info.gap = gap;
-                break;
-            case LIST:
-                obj.list.gap = gap;
                 break;
             case STATE:
                 obj.state.gap = gap;

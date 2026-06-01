@@ -80,8 +80,6 @@ public class HudNameObj {
                 return info;
             case LYRIC:
                 return lyric;
-            case LIST:
-                return list;
             case STATE:
                 return state;
         }

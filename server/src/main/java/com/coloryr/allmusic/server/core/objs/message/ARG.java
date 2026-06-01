@@ -15,7 +15,6 @@ public class ARG {
     public static String name = "%name%";
     public static String player = "%player%";
     public static String lyric = "%lyric%";
-    public static String list = "%list%";
     public static String count = "%count%";
     public static String countAll = "%count_all%";
     public static String time = "%time%";

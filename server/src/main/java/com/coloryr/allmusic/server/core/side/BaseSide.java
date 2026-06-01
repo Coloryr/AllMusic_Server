@@ -350,27 +350,16 @@ public abstract class BaseSide {
      * 发送Hud数据
      *
      * @param name 用户名
-     * @param pos  位置
      * @param data 信息
      */
-    public final void sendHud(String name, HudType pos, String data) {
+    public final void sendInfo(String name, String data) {
         try {
-            if (pos == HudType.PIC) {
-                return;
-            }
             Object player = getPlayer(name);
             if (player == null)
                 return;
             if (AllMusic.isSkip(name, getPlayerServer(player), true))
                 return;
-            switch (pos) {
-                case INFO:
-                    send(player, new MusicPack.StringMusicPack(CommandType.INFO, data));
-                    break;
-                case LIST:
-                    send(player, new MusicPack.StringMusicPack(CommandType.LIST, data));
-                    break;
-            }
+            send(player, new MusicPack.StringMusicPack(CommandType.INFO, data));
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
             e.printStackTrace();
@@ -394,31 +383,6 @@ public abstract class BaseSide {
         } catch (Exception e) {
             AllMusic.log.data("<light_purple>[AllMusic]<red>停止指令发送出错");
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * 发送Hud的歌曲列表数据
-     *
-     * @param data 数据
-     */
-    public final void sendHudList(String data) {
-        for (Object player : getPlayers()) {
-            String name = getPlayerName(player);
-            if (name == null)
-                continue;
-            name = name.toLowerCase(Locale.ROOT);
-            if (AllMusic.isSkip(name, getPlayerServer(player), true))
-                continue;
-            try {
-                HudPosObj obj = HudSave.getOrNew(name);
-                if (!obj.list.enable)
-                    continue;
-                send(player, new MusicPack.StringMusicPack(CommandType.LIST, data));
-            } catch (Exception e) {
-                AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲列表发送出错");
-                e.printStackTrace();
-            }
         }
     }
 

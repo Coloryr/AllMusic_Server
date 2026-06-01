@@ -22,7 +22,6 @@ public class CommandHud extends ACommand {
         this.add("reset");
         this.add("alpha");
         this.add("info");
-        this.add("list");
         this.add("lyric");
         this.add("state");
         this.add("pic");
@@ -34,7 +33,6 @@ public class CommandHud extends ACommand {
         commandList.put("reset", new HudReset());
         commandList.put("alpha", new HudAlpha());
         commandList.put("info", new CommandHudSet(HudType.INFO));
-        commandList.put("list", new CommandHudSet(HudType.LIST));
         commandList.put("lyric", new CommandHudSet(HudType.LYRIC));
         commandList.put("state", new CommandHudSet(HudType.STATE));
         commandList.put("pic", new CommandHudSet(HudType.PIC));
@@ -86,14 +84,6 @@ public class CommandHud extends ACommand {
                 }
             }
             AllMusic.side.sendMessage(sender, AllMusic.getMessage().command.error);
-        }
-
-        @Override
-        public List<String> tab(Object player, String name, String[] args, int index) {
-            if (args.length == index + 1) {
-                return tf;
-            }
-            return Collections.emptyList();
         }
     }
 

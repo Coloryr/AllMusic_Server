@@ -51,11 +51,10 @@ public class AllMusicApi {
      * 更新玩家Hud数据
      *
      * @param name 用户名
-     * @param pos  位置
      * @param data 数据
      */
-    public static void sendHud(String name, HudType pos, String data) {
-        AllMusic.side.sendHud(name, pos, data);
+    public static void sendInfo(String name, String data) {
+        AllMusic.side.sendInfo(name, data);
     }
 
     /**

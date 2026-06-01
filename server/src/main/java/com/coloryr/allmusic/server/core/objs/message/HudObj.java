@@ -20,7 +20,6 @@ public class HudObj {
     public String music;
     public String lyric;
     public String tlyric;
-    public String list;
     public String klyric;
 
     public static HudObj make() {
@@ -62,8 +61,6 @@ public class HudObj {
         if (lyric == null)
             return true;
         if (tlyric == null)
-            return true;
-        if (list == null)
             return true;
         if (picRotate == null)
             return true;
@@ -114,7 +111,5 @@ public class HudObj {
             tlyric = ARG.lyric;
         if (klyric == null)
             klyric = "§b" + ARG.lyric;
-        if (list == null)
-            list = "播放列表里面有" + ARG.value + "首歌\n" + ARG.list;
     }
 }

@@ -60,7 +60,7 @@ public class CommandHudSet extends AHudCommand {
             commandList.put("size", new PicSize());
             commandList.put("rotate", new PicRotate());
             commandList.put("speed", new PicRotateSpeed());
-        } else if (type == HudType.INFO || type == HudType.LIST) {
+        } else if (type == HudType.INFO) {
             commandList.put("color", new HudColor(type));
             commandList.put("shadow", new HudShadow(type));
             commandList.put("loop", new HudLoop(type));
@@ -98,7 +98,7 @@ public class CommandHudSet extends AHudCommand {
             List<String> list = new ArrayList<>(hud);
             if (type == HudType.PIC) {
                 list.addAll(pic);
-            } else if (type == HudType.INFO || type == HudType.LIST) {
+            } else if (type == HudType.INFO) {
                 list.addAll(info);
             } else if (type == HudType.STATE) {
                 list.addAll(state);

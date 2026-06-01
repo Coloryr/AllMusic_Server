@@ -71,7 +71,6 @@ public class PlayRuntime {
         HudUtils.sendHudNowData();
         HudUtils.sendHudTime();
         HudUtils.sendHudLyricData();
-        HudUtils.sendHudListData();
     }
 
 
@@ -206,7 +205,6 @@ public class PlayRuntime {
                     HudUtils.sendHudNowData();
                     HudUtils.sendHudTime();
                     HudUtils.sendHudLyricData();
-                    HudUtils.sendHudListData();
                     AllMusic.side.sendHudUtilsAll();
                     PlayMusic.nowPlayMusic = PlayMusic.remove(0);
                     if (AllMusic.side.onMusicPlay(PlayMusic.nowPlayMusic)) {
@@ -269,7 +267,6 @@ public class PlayRuntime {
                         while (PlayMusic.musicLessTime > 0) {
                             HudUtils.sendHudNowData();
                             HudUtils.sendHudTime();
-                            HudUtils.sendHudListData();
                             if (PlayMusic.nowPlayMusic == null || !AllMusic.side.needPlay(PlayMusic.nowPlayMusic.isList())) {
                                 PlayMusic.musicLessTime = 10;
                             }
