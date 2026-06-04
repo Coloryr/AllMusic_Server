@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
-import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
@@ -19,9 +18,6 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.ServerOperator;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 public class SidePaper extends BaseSide {

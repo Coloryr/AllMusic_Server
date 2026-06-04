@@ -41,7 +41,7 @@ public class MusicListSave {
     public static void musicListCheck() {
         if (musicObj == null || musicObj.check()) {
             musicObj = MusicListObj.make();
-            AllMusic.log.data("<light_purple>[AllMusic3]<red>配置文件hud.json错误，已覆盖");
+            AllMusic.log.data("<light_purple>[AllMusic3]<red>配置文件music.json错误，已覆盖");
             saveMusicList();
         }
     }

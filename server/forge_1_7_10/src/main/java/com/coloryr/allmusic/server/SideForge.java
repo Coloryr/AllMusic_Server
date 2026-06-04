@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.buffercodec.MusicPacketCodec;
-import com.coloryr.allmusic.codec.CommandType;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
@@ -17,7 +16,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.MinecraftForge;
 

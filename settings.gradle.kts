@@ -2,8 +2,6 @@ rootProject.name = "AllMusic"
 
 include(":codec")
 project(":codec").projectDir = file("client/codec")
-include(":codec:buffercodec")
-project(":codec:buffercodec").projectDir = file("client/codec/buffercodec")
 
 include(":client")
 project(":client").projectDir = file("client/client")
