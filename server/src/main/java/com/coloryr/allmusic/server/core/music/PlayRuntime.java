@@ -258,8 +258,8 @@ public class PlayRuntime {
                         }
                         if (PlayMusic.nowPlayMusic.isTrial()) {
                             AllMusic.side.broadcastInTask(AllMusic.getMessage().musicPlay.trail);
-                            PlayMusic.musicLessTime = PlayMusic.nowPlayMusic.getTrialInfo().getEnd();
-                            PlayMusic.musicNowTime = PlayMusic.nowPlayMusic.getTrialInfo().getStart();
+                            PlayMusic.musicLessTime = PlayMusic.nowPlayMusic.getTrialInfo().end;
+                            PlayMusic.musicNowTime = PlayMusic.nowPlayMusic.getTrialInfo().start;
                         }
 
                         AllMusic.side.updateInfo();

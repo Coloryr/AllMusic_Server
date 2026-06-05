@@ -14,8 +14,8 @@ import com.coloryr.allmusic.server.core.saves.MusicListSave;
 import com.coloryr.allmusic.server.core.saves.SaveTask;
 import com.coloryr.allmusic.server.core.side.BaseSide;
 import com.coloryr.allmusic.server.core.side.IAllMusicLogger;
+import com.coloryr.allmusic.server.core.utils.MusicApiLoader;
 import com.coloryr.allmusic.server.core.utils.StringReplacer;
-import com.coloryr.allmusic.server.netapi.NetiApiMain;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -98,6 +98,8 @@ public class AllMusic {
      * 语言文件
      */
     private static File messageFile;
+
+    private static File apis;
     /**
      * 正则替换器
      */
@@ -263,13 +265,20 @@ public class AllMusic {
 
         MusicHttpClient.init();
 
-        IMusicApi api = new NetiApiMain();
-        MUSIC_APIS.put(api.getId(), api);
-
         PlayMusic.start();
         PlayRuntime.start();
         MusicSearch.start();
         SaveTask.start();
+
+        List<IMusicApi> list = MusicApiLoader.loadFromDirectory(apis);
+        for (IMusicApi item : list) {
+            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>注册音乐API：" + item.getId());
+            MUSIC_APIS.put(item.getId(), item);
+        }
+
+        if (MUSIC_APIS.isEmpty()) {
+            AllMusic.log.data("<light_purple>[AllMusic3]<red>没有注册音乐");
+        }
 
         log.data("<light_purple>[AllMusic3]<yellow>已启动-" + version);
     }
@@ -406,8 +415,8 @@ public class AllMusic {
     public static void init(File file) {
         log.data("<light_purple>[AllMusic3]<yellow>正在启动，感谢使用，本插件交流群：571239090");
         try {
-            if (!file.exists())
-                file.mkdir();
+            file.mkdir();
+
             configFile = new File(file, "config.json");
             messageFile = new File(file, "message.json");
             cookieFile = new File(file, "cookie.json");
@@ -426,6 +435,10 @@ public class AllMusic {
             MusicListSave.init(file);
 
             loadConfig();
+
+            apis = new File(file, "api");
+            apis.mkdirs();
+
             isRun = true;
         } catch (IOException e) {
             isRun = false;

@@ -28,15 +28,13 @@ public class MusicHttpClient {
 
     public static void init() {
         try {
-            synchronized (com.coloryr.allmusic.server.netapi.NetApiHttpClient.class) {
-                RequestConfig requestConfig = RequestConfig.custom()
-                        .setConnectTimeout(Timeout.ofSeconds(CONNECT_TIMEOUT))
-                        .setResponseTimeout(Timeout.ofSeconds(READ_TIMEOUT))
-                        .build();
-                client = HttpClients.custom()
-                        .setDefaultRequestConfig(requestConfig)
-                        .build();
-            }
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setConnectTimeout(Timeout.ofSeconds(CONNECT_TIMEOUT))
+                    .setResponseTimeout(Timeout.ofSeconds(READ_TIMEOUT))
+                    .build();
+            client = HttpClients.custom()
+                    .setDefaultRequestConfig(requestConfig)
+                    .build();
         } catch (Exception e) {
             e.printStackTrace();
         }

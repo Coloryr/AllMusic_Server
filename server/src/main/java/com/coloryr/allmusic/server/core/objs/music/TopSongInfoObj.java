@@ -1,7 +1,5 @@
 package com.coloryr.allmusic.server.core.objs.music;
 
-import com.coloryr.allmusic.server.netapi.obj.music.trialinfo.freeTrialInfo;
-
 public class TopSongInfoObj extends SongInfoObj {
     public void setAl(String al) {
         this.al = al;
@@ -47,7 +45,7 @@ public class TopSongInfoObj extends SongInfoObj {
         isTrial = trial;
     }
 
-    public void setTrialInfo(freeTrialInfo trialInfo) {
+    public void setTrialInfo(TrialInfoObj trialInfo) {
         this.trialInfo = trialInfo;
     }
 }

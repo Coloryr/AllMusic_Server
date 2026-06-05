@@ -2,7 +2,6 @@ package com.coloryr.allmusic.server.core.objs.music;
 
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.message.ARG;
-import com.coloryr.allmusic.server.netapi.obj.music.trialinfo.freeTrialInfo;
 
 public class SongInfoObj {
     /**
@@ -44,7 +43,7 @@ public class SongInfoObj {
     /**
      * 试听数据
      */
-    protected freeTrialInfo trialInfo;
+    protected TrialInfoObj trialInfo;
     /**
      * 长度
      */
@@ -65,7 +64,7 @@ public class SongInfoObj {
     }
 
     public SongInfoObj(String Author, String Name, String ID, String Alia, String Call, String Al,
-                       boolean isList, long Length, String picUrl, boolean isTrial, freeTrialInfo trialInfo,
+                       boolean isList, long Length, String picUrl, boolean isTrial, TrialInfoObj trialInfo,
                        String api) {
         this.author = Author;
         this.name = Name;
@@ -89,7 +88,7 @@ public class SongInfoObj {
         return picUrl;
     }
 
-    public freeTrialInfo getTrialInfo() {
+    public TrialInfoObj getTrialInfo() {
         return trialInfo;
     }
 
