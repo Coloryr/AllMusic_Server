@@ -17,7 +17,7 @@ on:
       - '*'
 
 jobs:
-  build_onejar_fabric_1_16_5:
+  build_server:
     runs-on: windows-latest
     permissions:
       contents: read
