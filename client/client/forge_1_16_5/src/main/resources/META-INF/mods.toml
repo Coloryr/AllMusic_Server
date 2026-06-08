@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="GPL-3.0"
+issueTrackerURL="https://github.com/Coloryr/AllMusic_Client/issues"
+
+[[mods]]
+modId="allmusic_client"
+version="${version}"
+displayName="AllMusic Client"
+displayURL="https://github.com/Coloryr/AllMusic_Client"
+logoFile="icon.png"
+authors="Color_yr"
+description='''AllMusic Client Mod'''
+
+[[dependencies.allmusic_client]]
+modId="forge"
+mandatory=true
+versionRange="[36,)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.allmusic_client]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.16.5,)"
+ordering="NONE"
+side="CLIENT"

@@ -1,0 +1,20 @@
+[
+  {
+    "modid": "allmusic_client",
+    "name": "AllMusic Client",
+    "description": "AllMusic Client Mod",
+    "version": "${version}",
+    "mcversion": "1.7.10",
+    "url": "https://github.com/Coloryr/AllMusic_Client",
+    "updateUrl": "",
+    "authorList": [
+      "Color_yr"
+    ],
+    "credits": "This mod is use in allmusic",
+    "logoFile": "icon.png",
+    "screenshots": [],
+    "useDependencyInformation": true,
+    "requiredMods" : [],
+    "dependencies": []
+  }
+]

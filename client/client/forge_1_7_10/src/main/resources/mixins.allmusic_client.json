@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8.5-GTNH",
+  "package": "com.coloryr.allmusic.client.mixins",
+  "refmap": "mixins.allmusic_client.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [
+    "MixinSound", "MixinLibSound"
+  ],
+  "server": []
+}
