@@ -45,6 +45,10 @@ Forge/Fabric/NeoForge类服务器
 复制`[xxx-xxx]AllMusic_Client-4.0.0-all`到客户端的`mods`文件夹
 重启客户端
 
+## 音乐API
+目前没有内置音乐api需要自己安装，提供一个参考api https://github.com/Coloryr/netapi
+allmusic文件夹下的api文件夹放音乐api构建出来的jar
+
 ## 构建
 1. 安装JDK25、Git
 2. 使用 `git submodule update --init --recursive` 初始化项目
