@@ -16,11 +16,12 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   build_client:
     runs-on: windows-latest
-    permissions:
-      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "allmusic_client"
-          path: client/build/
+          path: build/
       - name: Create Pre-release and Upload Assets
         if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, 'debug')
         uses: softprops/action-gh-release@v1
@@ -51,6 +52,6 @@ jobs:
           name: "Pre-release ${{ github.ref_name }}"
           body: "自动构建的预发布版本"
           files: |
-            client/build/*.jar
+            build/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
