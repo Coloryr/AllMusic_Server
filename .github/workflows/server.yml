@@ -16,11 +16,12 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   build_server:
     runs-on: windows-latest
-    permissions:
-      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
