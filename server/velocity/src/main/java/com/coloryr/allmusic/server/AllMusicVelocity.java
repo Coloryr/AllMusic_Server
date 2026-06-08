@@ -20,12 +20,10 @@ public class AllMusicVelocity {
     public static ChannelIdentifier channelBC;
     public final ProxyServer server;
     public final Path dataDirectory;
-    private final Logger logger;
 
     @Inject
-    public AllMusicVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
+    public AllMusicVelocity(ProxyServer server, @DataDirectory Path dataDirectory) {
         this.server = server;
-        this.logger = logger;
         this.dataDirectory = dataDirectory;
     }
 

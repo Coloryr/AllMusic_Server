@@ -1,13 +1,13 @@
 modLoader="javafml"
 loaderVersion="[2,)"
 license="GPL-3.0"
-issueTrackerURL="https://github.com/Coloryr/AllMusic_Server/issues/"
+issueTrackerURL="https://github.com/Coloryr/AllMusic/issues/"
 
 [[mods]]
 modId="allmusic_server"
 version="${version}"
 displayName="AllMusic Server"
-displayURL="https://github.com/Coloryr/AllMusic_Server/"
+displayURL="https://github.com/Coloryr/AllMusic/"
 logoFile="icon.png"
 authors="Color_yr"
 description='''AllMusic Server Mod'''

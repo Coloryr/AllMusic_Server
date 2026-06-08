@@ -1,13 +1,10 @@
 <div align="center">
 
-![AllMusic_Server](https://socialify.git.ci/Coloryr/AllMusic_Server/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fgithub.com%2FColoryr%2FAllMusic_Server%2Fblob%2Fmain%2Fforge_1_12_2%2Fsrc%2Fmain%2Fresources%2Ficon.png%3Fraw%3Dtrue&name=1&owner=1&pattern=Signal&stargazers=1&theme=Auto)
-
-![](https://img.shields.io/bstats/players/6720?label=players&style=for-the-badge)
-![](https://img.shields.io/bstats/servers/6720?label=servers&style=for-the-badge)
+![AllMusic](https://socialify.git.ci/Coloryr/AllMusic/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fgithub.com%2FColoryr%2FAllMusic%2Fblob%2Fmain%2Fserver%2Fneoforge_26_1%2Fsrc%2Fmain%2Fresources%2Ficon.png%3Fraw%3Dtrue&name=1&owner=1&pattern=Signal&stargazers=1&theme=Auto)
 
 ![](https://img.shields.io/badge/Version-3.1.4-blue?style=for-the-badge)
-![](https://img.shields.io/github/actions/workflow/status/Coloryr/AllMusic_Server/gradle.yml?style=for-the-badge)
-![](https://img.shields.io/github/license/Coloryr/AllMusic_Server?style=for-the-badge)
+![](https://img.shields.io/github/actions/workflow/status/Coloryr/AllMusic/gradle.yml?style=for-the-badge)
+![](https://img.shields.io/github/license/Coloryr/AllMusic?style=for-the-badge)
 
 </div>
 
@@ -15,11 +12,7 @@
 
 注：需要配合客户端Mod使用  
 **不兼容旧版客户端Mod，需要新版客户端Mod**  
-**面板服不提供支持，请自己去问服务器商给不给你用**
-
-## 下载
-登录github账户  
-跳转到action中下载
+**如果面板服有问题，请自己去问服务器商给不给你用**
 
 插件支持的服务器
 - Paper
