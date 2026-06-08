@@ -11,18 +11,9 @@
 
 </div>
 
-**AllMusic 4.0制作中**
-暂时设想
-
-- 圆形图片渲染将分为3层 底层 圆形图片覆盖层 顶层，例如底层放唱片机，覆盖层放唱片覆盖，让其看起来像唱片，顶层指针唱片
-- 播放进度条3张图片 未播放 指针 已播放
-- 字体过长滚动，例如信息设置最大值后横向滚动，待播放列表纵向滚动，然后每一待播放显示一段时间
-- 删除音乐API，需要自己另外装
-- 删除sqlite，改用文件存储数据
-
 ![GIF.gif](img/GIF.gif)
 
-注：需要配合[客户端Mod](https://github.com/Coloryr/AllMusic_Client)使用  
+注：需要配合客户端Mod使用  
 **不兼容旧版客户端Mod，需要新版客户端Mod**  
 **面板服不提供支持，请自己去问服务器商给不给你用**
 
@@ -31,53 +22,34 @@
 跳转到action中下载
 
 插件支持的服务器
-- CatServer(LoliServer)
-- Spigot(CraftBukkit)
 - Paper
 - Folia
-- Bungeecord
 - Velocity
 
-兼容但未测试服务器
-- KCauldron
-- Uranium
-- Thermos
-
 模组支持的服务器
-- Forge(<1.20.1)
-- NeoForge(>=1.20.4)
-- Fabric(>=1.16.5)
+- Forge
+- NeoForge
+- Fabric
 
 ## 使用方法
 1. 安装AllMusic_Server
 
-Bukkit/Folia类服务器  
-复制`[bukkit_spigot_paper]AllMusic_Server-xxx-all.jar`到你的`plugins`文件夹  
-Bungeecord/Velocity类服务器  
-复制`[bungeecord_velocity]AllMusic_Server-xxx-all.jar`到你的`plugins`文件夹  
+Paper服务器  
+复制`[paper]AllMusic_Server-4.0.0-all.jar`到你的`plugins`文件夹  
+Velocity服务器  
+复制`[velocity]AllMusic_Server-4.0.0-all.jar`到你的`plugins`文件夹  
 Forge/Fabric/NeoForge类服务器  
-复制`[xxx-xxx]AllMusic_Server-xxx-all.jar`到你的`mods`文件夹  
+复制`[xxx-xxx]AllMusic_Server-4.0.0-all.jar`到你的`mods`文件夹  
 
-2. 安装[客户端mod](https://github.com/Coloryr/AllMusic_Client)  
-复制`[xxx-xxx]AllMusic_Client-3.0.0`到客户端的`mods`文件夹
+2. 安装客户端mod
+复制`[xxx-xxx]AllMusic_Client-4.0.0-all`到客户端的`mods`文件夹
 重启客户端
-
-## 播放VIP歌曲
-1. 手机号创建网易云账户并购买网易云音乐VIP
-2. 在配置文件给自己管理员然后/music reload
-   - bukkit/spigot/paper/folia 服务器给自己op是同样的效果
-   - forge/fabric/neoforge 服务器给自己等级权限2是同样的效果
-   - bc/velocity 需要配置文件写上自己的游戏名\
-3. 使用支持安装插件的浏览器，打开music.163.com登录账户
-4. 给浏览器安装插件 https://cookie-editor.com/
-5. 打开插件，然后复制cookie，选择json
-![](./img/pic1.png)
-6. 打开插件配置文件，覆盖`cookie.json`重启服务器
 
 ## 构建
 1. 安装JDK25、Git
 2. 使用 `git submodule update --init --recursive` 初始化项目
-3. 使用 `gradlew build` 构建
+3. 使用 `gradlew :server:buildServer` 构建服务器
+4. 使用 `gradlew :client:buildClient` 构建客户端
 
 ## PAPI变量  
 > %allmusic_now_music_name% 歌曲名字  
@@ -90,7 +62,6 @@ Forge/Fabric/NeoForge类服务器
 > %allmusic_music_list% 队列歌曲  
 > %allmusic_lyric% 歌词  
 > %allmusic_tlyric% 翻译的歌词
-> %allmusic_klyric% KTV歌词  
 
 ## 更新日志
 
@@ -117,6 +88,7 @@ Forge/Fabric/NeoForge类服务器
 3.4.1：修复点歌不生效问题
 3.5.0：改用httpclient5
 3.6.0：修改cookie设置方式
+4.0.0：全新字体渲染，拆分音乐API
 ```
 
 ## 配置文件说明
@@ -129,51 +101,17 @@ Forge/Fabric/NeoForge类服务器
 - defaultAddMusic          默认添加歌曲方式，1为搜歌
 - ktvLyricDelay            KTV模式歌词延迟，单位毫秒
 - adminList                管理员列表
-- muteServer               不参与点歌的服务器列表
-- mutePlayer               不参与点歌的玩家列表
-- banMusic                 禁止点歌ID列表，ID为音乐ID
-- banPlayer                禁止玩家点歌列表
 - playListSwitch           是否玩家点歌后是否直接从空闲歌单切换至玩家歌曲
 - playListRandom           是否空闲歌单随机播放
 - sendLyric                是否发送歌词到客户端
 - needPermission           是否指令需要权限
-- topAPI                  是否启用顶层模式，用于和BC交换数据
+- topAPI                   是否启用顶层模式，用于和BC交换数据
 - mutePlayMessage          是否不发送播放信息
 - muteAddMessage           是否不发送点歌信息
 - showInBar                是否将信息限制在bar处
 - ktvMode                  是否启用KTV歌词
 - musicBR                  歌曲音质
 - version                  配置文件版本号
-- defaultHud               默认Hud配置
-    - list                 播放列表Hud配置
-        - x                x轴间距
-        - y                y轴间距
-        - dir              对齐方式
-        - color            字体颜色
-        - shadow           是否显示字体阴影
-        - enable           是否启用
-    - lyric                歌词Hud配置
-        - x
-        - y
-        - dir  
-        - color 
-        - shadow 
-        - enable 
-    - info                 歌曲信息Hud配置
-        - x
-        - y
-        - dir
-        - color
-        - shadow
-        - enable
-    - pic                  图片显示配置
-        - x
-        - y
-        - dir
-        - color            图片尺寸
-        - shadow           是否开启图片旋转
-        - enable
-    - picRotateSpeed       图片旋转速度
 - economy                  经济扩展配置
     - mysqlUrl             目前无用
     - backend              目前无用
@@ -226,12 +164,6 @@ Forge/Fabric/NeoForge类服务器
 - /music hud pic size [尺寸] 设置图片尺寸
 - /music hud pic rotate [开关] 设置图片旋转模式
 - /music hud pic speed [数值] 设置图片旋转速度
-
-以下方式才是管理员  
-- 在配置文件给自己管理员
-- bukkit/spigot/paper/folia 服务器给自己op
-- forge/fabric/neoforge 服务器给自己等级权限2
-- bc/velocity 只能在配置文件写上自己的游戏名
 
 管理员指令 
 - /music reload 重读配置文件
