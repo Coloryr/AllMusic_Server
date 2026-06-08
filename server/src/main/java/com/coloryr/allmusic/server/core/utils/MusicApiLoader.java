@@ -48,7 +48,7 @@ public class MusicApiLoader {
             }
 
             URL url = jarFile.toURI().toURL();
-            try (URLClassLoader classLoader = new URLClassLoader(new URL[]{url}, Thread.currentThread().getContextClassLoader())) {
+            try (URLClassLoader classLoader = new URLClassLoader(new URL[]{url}, MusicApiLoader.class.getClassLoader())) {
                 for (String className : classNames) {
                     try {
                         Class<?> clazz = classLoader.loadClass(className);
