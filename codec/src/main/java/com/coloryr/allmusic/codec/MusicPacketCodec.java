@@ -109,7 +109,8 @@ public class MusicPacketCodec {
                         ktv.items.add(item);
                     }
                 }
-                return new MusicPack.LyricKtvMusicPack(state, ktv);
+                pack = new MusicPack.LyricKtvMusicPack(state, ktv);
+                break;
             case POS:
                 pack = new MusicPack.IntMusicPack(type1, buf.readInt());
                 break;

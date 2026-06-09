@@ -11,6 +11,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:0.18.6")
 
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.141.3+1.21.11")
+
+    compileOnly("icyllis.modernui:ModernUI-Fabric:26.1.2-3.13.0.4")
 }
 
 tasks {

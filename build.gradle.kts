@@ -29,6 +29,7 @@ allprojects {
         maven("https://repo.codemc.io/repository/maven-releases/")
         maven("https://repo.codemc.io/repository/maven-snapshots/")
         maven("https://jitpack.io/")
+        maven("https://maven.izzel.io/releases/")
     }
 
     dependencies {
