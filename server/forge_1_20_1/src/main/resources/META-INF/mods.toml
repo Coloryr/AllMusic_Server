@@ -15,7 +15,7 @@ description='''AllMusic Server Mod'''
 [[dependencies.allmusic_server]]
 modId="forge"
 mandatory=true
-versionRange="[46,)"
+versionRange="[47,)"
 ordering="NONE"
 side="BOTH"
 

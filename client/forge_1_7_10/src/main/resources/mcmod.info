@@ -5,7 +5,7 @@
     "description": "AllMusic Client Mod",
     "version": "${version}",
     "mcversion": "1.7.10",
-    "url": "https://github.com/Coloryr/AllMusic_Client",
+    "url": "https://github.com/Coloryr/AllMusic",
     "updateUrl": "",
     "authorList": [
       "Color_yr"

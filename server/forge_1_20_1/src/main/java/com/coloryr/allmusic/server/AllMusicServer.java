@@ -35,8 +35,6 @@ public class AllMusicServer {
     public static MinecraftServer server;
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
 
-    public static final String dir = "config/allmusic_server/";
-
     private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.builder()
             .build();
 
@@ -70,7 +68,7 @@ public class AllMusicServer {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         server = event.getServer();
-        AllMusic.init(new File(dir));
+        AllMusic.init(new File(AllMusic.));
         AllMusic.start();
         Tasks.init();
     }

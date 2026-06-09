@@ -1,13 +1,13 @@
 modLoader="javafml"
 loaderVersion="[2,)"
 license="GPL-3.0"
-issueTrackerURL="https://github.com/Coloryr/AllMusic_Client/issues"
+issueTrackerURL="https://github.com/Coloryr/AllMusic/issues"
 
 [[mods]]
 modId="allmusic"
 version="${version}"
 displayName="AllMusic Client"
-displayURL="https://github.com/Coloryr/AllMusic_Client/"
+displayURL="https://github.com/Coloryr/AllMusic/"
 logoFile="icon.png"
 authors="Color_yr"
 description='''AllMusic Client Mod'''
@@ -16,7 +16,7 @@ description='''AllMusic Client Mod'''
 modId="allmusic_client"
 version="${version}"
 displayName="AllMusic Client"
-displayURL="https://github.com/Coloryr/AllMusic_Client/"
+displayURL="https://github.com/Coloryr/AllMusic/"
 logoFile="icon.png"
 authors="Color_yr"
 description='''AllMusic Client Mod'''

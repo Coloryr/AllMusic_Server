@@ -18,7 +18,7 @@ repositories {
 dependencies {
     minecraft("com.mojang:minecraft:1.20.1")
     mappings(loom.officialMojangMappings())
-    forge("net.minecraftforge:forge:1.20.1-47.2.32")
+    forge("net.minecraftforge:forge:1.20.1-47.4.20")
 
     shadowImplementation("net.kyori:adventure-text-minimessage:4.26.1")
     shadowImplementation("net.kyori:adventure-api:4.26.1")
@@ -37,7 +37,6 @@ tasks {
 
     shadowJar {
         relocate("net.kyori", "com.coloryr.allmusic.libs.net.kyori")
-//        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
     }
 
     remapJar {
