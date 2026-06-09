@@ -28,10 +28,6 @@ tasks {
         }
     }
 
-    shadowJar {
-        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
-    }
-
     remapJar {
         inputFile.set(shadowJar.get().archiveFile)
         archiveFileName.set("[forge-1.20.1]AllMusic_Client-${project.version}.jar")
