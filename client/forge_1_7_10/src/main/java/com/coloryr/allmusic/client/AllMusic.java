@@ -37,30 +37,35 @@ import paulscode.sound.libraries.ChannelLWJGLOpenAL;
 @Mod(modid = "allmusic_client", version = "3.1.1", name = "AllMusic_Client", acceptedMinecraftVersions = "[1.7.10]")
 @SideOnly(Side.CLIENT)
 public class AllMusic implements AllMusicBridge {
+    public static final Logger LOGGER = LogManager.getLogger("AllMusic Client");
     public static SoundSystem sound;
 
-    public static final Logger LOGGER = LogManager.getLogger("AllMusic Client");
+    public static void runMain(Runnable runnable) {
+        FMLClientHandler.instance()
+                .getClient()
+                .func_152344_a(runnable);
+    }
 
     public void sendMessage(String data) {
         data = "[AllMusic Client]" + data;
         LOGGER.warn(data);
         String finalData = data;
         FMLClientHandler.instance()
-            .getClient()
-            .func_152344_a(
-                () -> FMLClientHandler.instance()
-                    .getClient().ingameGUI.getChatGUI()
-                        .addToSentMessages(finalData));
+                .getClient()
+                .func_152344_a(
+                        () -> FMLClientHandler.instance()
+                                .getClient().ingameGUI.getChatGUI()
+                                .addToSentMessages(finalData));
     }
 
     @Mod.EventHandler
     public void test(final FMLLoadCompleteEvent event) {
         Minecraft.getMinecraft().getSoundHandler();
 
-        Library library = ((IGetSoundHandler)sound).allMusic_Client$getSoundLibrary();
-        IGetSound sound1 = (IGetSound)library;
+        Library library = ((IGetSoundHandler) sound).allMusic_Client$getSoundLibrary();
+        IGetSound sound1 = (IGetSound) library;
         List<Channel> list = sound1.allMusic_Client$getStreamingChannels();
-        ChannelLWJGLOpenAL channel = (ChannelLWJGLOpenAL)list.get(list.size() - 1);
+        ChannelLWJGLOpenAL channel = (ChannelLWJGLOpenAL) list.get(list.size() - 1);
         AllMusicCore.init(new File("config").toPath(), this, channel.ALSource);
         AllMusicCore.glInit();
     }
@@ -69,10 +74,10 @@ public class AllMusic implements AllMusicBridge {
     public void preload(final FMLPreInitializationEvent evt) {
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance()
-            .bus()
-            .register(this);
+                .bus()
+                .register(this);
         NetworkRegistry.INSTANCE.newEventDrivenChannel("allmusic:channel")
-            .register(this);
+                .register(this);
     }
 
     @SubscribeEvent
@@ -90,8 +95,10 @@ public class AllMusic implements AllMusicBridge {
                         ex.printStackTrace();
                     }
                     FMLClientHandler.instance()
-                        .getClient()
-                        .func_152344_a(() -> { e.manager.stopSound(e.sound); });
+                            .getClient()
+                            .func_152344_a(() -> {
+                                e.manager.stopSound(e.sound);
+                            });
                 }).start();
         }
     }
@@ -170,7 +177,7 @@ public class AllMusic implements AllMusicBridge {
     public void drawPic(Object textureID, int size, int x, int y, int ang) {
         int a = size / 2;
 
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, (int)textureID);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, (int) textureID);
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         // GL11.glEnable(GL11.GL_ALPHA);
         GL11.glPushMatrix();
@@ -202,11 +209,5 @@ public class AllMusic implements AllMusicBridge {
     public void drawText(String item, int x, int y, int color, boolean shadow) {
         FontRenderer font = Minecraft.getMinecraft().fontRenderer;
         font.drawString(item, x, y, color, shadow);
-    }
-
-    public static void runMain(Runnable runnable) {
-        FMLClientHandler.instance()
-            .getClient()
-            .func_152344_a(runnable);
     }
 }

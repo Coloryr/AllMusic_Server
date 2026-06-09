@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "allmusic_client",
   "version": "${version}",
-
   "name": "AllMusic Client",
   "description": "AllMusic Client Mod",
   "authors": [
@@ -12,10 +11,8 @@
     "homepage": "https://github.com/Coloryr/AllMusic",
     "sources": "https://github.com/Coloryr/AllMusic"
   },
-
   "license": "GPL-3.0",
   "icon": "assets/allmusic_client/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -25,7 +22,6 @@
   "mixins": [
     "allmusic_client.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.15.11",
     "fabric-api": "*",
@@ -33,6 +29,5 @@
     "java": ">=17"
   },
   "suggests": {
-    
   }
 }

@@ -25,6 +25,7 @@ public class PCE extends Element {
     private int monoMixdownElementNumber, stereoMixdownElementNumber, matrixMixdownIDX;
     private boolean pseudoSurround;
     private byte[] commentFieldData;
+
     public PCE() {
         super();
         frontElements = new TaggedElement[MAX_FRONT_CHANNEL_ELEMENTS];

@@ -22,6 +22,9 @@ public class MiniMessage {
 
     // 颜色映射表
     private static final Map<String, ChatFormatting> COLOR_MAP = new HashMap<>();
+    // 装饰器映射
+    private static final Map<String, ChatFormatting> DECORATION_MAP = new HashMap<>();
+
     static {
         COLOR_MAP.put("black", ChatFormatting.BLACK);
         COLOR_MAP.put("dark_blue", ChatFormatting.DARK_BLUE);
@@ -41,8 +44,6 @@ public class MiniMessage {
         COLOR_MAP.put("white", ChatFormatting.WHITE);
     }
 
-    // 装饰器映射
-    private static final Map<String, ChatFormatting> DECORATION_MAP = new HashMap<>();
     static {
         DECORATION_MAP.put("bold", ChatFormatting.BOLD);
         DECORATION_MAP.put("italic", ChatFormatting.ITALIC);
@@ -272,11 +273,13 @@ public class MiniMessage {
             if (params.equalsIgnoreCase("saturation") && value != null) {
                 try {
                     saturation = Float.parseFloat(value);
-                } catch (NumberFormatException e) {}
+                } catch (NumberFormatException e) {
+                }
             } else if (params.equalsIgnoreCase("brightness") && value != null) {
                 try {
                     brightness = Float.parseFloat(value);
-                } catch (NumberFormatException e) {}
+                } catch (NumberFormatException e) {
+                }
             }
         }
 
@@ -325,7 +328,8 @@ public class MiniMessage {
                     style.rainbow = false;
                     style.gradientStart = TextColor.fromRgb((r1 << 16) | (g1 << 8) | b1);
                     style.gradientEnd = TextColor.fromRgb((r2 << 16) | (g2 << 8) | b2);
-                } catch (NumberFormatException e) {}
+                } catch (NumberFormatException e) {
+                }
             }
         }
     }
@@ -368,7 +372,8 @@ public class MiniMessage {
                     style.rainbow = false;
                     style.transitionStart = TextColor.fromRgb((r1 << 16) | (g1 << 8) | b1);
                     style.transitionEnd = TextColor.fromRgb((r2 << 16) | (g2 << 8) | b2);
-                } catch (NumberFormatException e) {}
+                } catch (NumberFormatException e) {
+                }
             }
         }
     }

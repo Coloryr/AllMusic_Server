@@ -1,11 +1,11 @@
 package com.coloryr.allmusic.client.core;
 
-import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.client.core.objs.ConfigObj;
 import com.coloryr.allmusic.client.core.player.AllMusicPlayer;
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.HudPosObj;
 import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.netty.buffer.ByteBuf;
@@ -190,7 +190,7 @@ public class AllMusicCore {
     /**
      * 解析数据包
      *
-     * @param pack  数据
+     * @param pack 数据
      */
     public static void packDo(MusicPack pack) {
         if (pack.type == CommandType.PLAY) {

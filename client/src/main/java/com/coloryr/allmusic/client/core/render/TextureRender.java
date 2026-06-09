@@ -13,9 +13,9 @@ public abstract class TextureRender {
     /**
      * 绘制图片
      *
-     * @param x       X坐标
-     * @param y       Y坐标
-     * @param alpha   透明度
+     * @param x     X坐标
+     * @param y     Y坐标
+     * @param alpha 透明度
      */
     public abstract void drawPic(float x, float y, float alpha);
 

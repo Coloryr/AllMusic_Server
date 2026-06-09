@@ -7,15 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TextFrameBuffer {
-    public void clear() {
-        texts.clear();
-    }
-
     protected final List<TextItem> texts = new ArrayList<>();
-
     protected int nowWidth, nowHeight;
     protected long offsetX;
     protected boolean isDraw;
+
+    // 最大公约数（GCD）
+    public static long gcd(long a, long b) {
+        while (b != 0) {
+            long temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    // 两数最小公倍数（LCM）
+    public static long lcm(long a, long b) {
+        return a / gcd(a, b) * b;   // 先除后乘防溢出
+    }
+
+    public void clear() {
+        texts.clear();
+    }
 
     public abstract void use();
 
@@ -32,21 +46,6 @@ public abstract class TextFrameBuffer {
     public abstract void draw(float alpha, int x, int y, int maxWidth, HudPosType dir);
 
     public abstract void drawWithState(float alpha, int x, int y, int maxWidth, float state, HudPosType dir);
-
-    // 最大公约数（GCD）
-    public static long gcd(long a, long b) {
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
-    }
-
-    // 两数最小公倍数（LCM）
-    public static long lcm(long a, long b) {
-        return a / gcd(a, b) * b;   // 先除后乘防溢出
-    }
 
     public void tick() {
         offsetX++;

@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "allmusic_client",
   "version": "${version}",
-
   "name": "AllMusic Client",
   "description": "AllMusic Client Mod",
   "authors": [
@@ -12,10 +11,8 @@
     "homepage": "https://github.com/Coloryr/AllMusic",
     "sources": "https://github.com/Coloryr/AllMusic"
   },
-
   "license": "GPL-3.0",
   "icon": "assets/allmusic_client/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [

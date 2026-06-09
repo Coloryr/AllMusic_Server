@@ -6,7 +6,6 @@ import com.coloryr.allmusic.client.core.render.PictureFrameBuffer;
 import com.coloryr.allmusic.codec.HudPosType;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.BlitRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import org.joml.Matrix3x2fStack;

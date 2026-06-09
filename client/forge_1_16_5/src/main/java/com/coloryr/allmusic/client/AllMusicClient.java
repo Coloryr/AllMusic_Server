@@ -5,18 +5,7 @@ import com.coloryr.allmusic.client.core.AllMusicCore;
 import com.coloryr.allmusic.client.core.render.PictureFrameBuffer;
 import com.coloryr.allmusic.client.core.render.TextFrameBuffer;
 import com.coloryr.allmusic.client.core.render.TextureRender;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -39,7 +28,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,10 +37,8 @@ import java.util.UUID;
 @Mod(AllMusicClient.MODID)
 public class AllMusicClient implements AllMusicBridge {
     public static final String MODID = "allmusic_client";
-
-    private static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
-
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Client");
+    private static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
 
     public AllMusicClient() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

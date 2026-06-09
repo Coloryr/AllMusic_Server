@@ -60,18 +60,21 @@ public interface AllMusicBridge {
 
     /**
      * 创建渲染层
+     *
      * @return 渲染层
      */
     TextFrameBuffer makeTextRender(String name);
 
     /**
      * 创建渲染层
+     *
      * @return 渲染层
      */
     TextureRender makeTextureRender(String file);
 
     /**
      * 创建图片渲染层
+     *
      * @param size 图片大小
      * @return 图片渲染
      */
@@ -79,6 +82,7 @@ public interface AllMusicBridge {
 
     /**
      * 读取文件
+     *
      * @param file 文件位置
      * @return 内容
      */
@@ -86,6 +90,7 @@ public interface AllMusicBridge {
 
     /**
      * 读取文件
+     *
      * @param file 文件位置
      * @return 内容
      */

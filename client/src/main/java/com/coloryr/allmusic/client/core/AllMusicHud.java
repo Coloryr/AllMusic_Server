@@ -3,8 +3,8 @@ package com.coloryr.allmusic.client.core;
 import com.coloryr.allmusic.client.core.render.PictureFrameBuffer;
 import com.coloryr.allmusic.client.core.render.TextFrameBuffer;
 import com.coloryr.allmusic.client.core.render.TextureRender;
-import com.coloryr.allmusic.codec.HudPosType;
 import com.coloryr.allmusic.codec.HudPosObj;
+import com.coloryr.allmusic.codec.HudPosType;
 import com.coloryr.allmusic.codec.KtvLyricObj;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 
@@ -21,6 +21,14 @@ import java.util.concurrent.*;
  * AllMusic信息显示
  */
 public class AllMusicHud {
+    private static final String PG1 = "textures/hud/pg1.png";
+    private static final String PG2 = "textures/hud/pg2.png";
+    private static final String PG3 = "textures/hud/pg3.png";
+    private static final String BG1 = "textures/hud/bg1.png";
+    private static final String BG2 = "textures/hud/bg2.png";
+    private static final String BG3 = "textures/hud/bg3.png";
+    private static final String PG_OFFSET = "textures/hud/offset.txt";
+    private static final String PIC_SCALE = "textures/hud/pic.txt";
     /**
      * 更新图片的链接
      */
@@ -30,42 +38,13 @@ public class AllMusicHud {
      */
     private final Semaphore semaphore = new Semaphore(0);
     /**
-     * 图片buffer
-     */
-    private byte[] sourceImage;
-    /**
-     * 图片buffer
-     */
-    private byte[] rotateImage;
-
-    /**
      * 图片大小
      */
     private final int size;
-
-    //显示信息
-    private String info = "";
-    private String lyric = "";
-    private String lyricTran = "";
-    private String lyricKtv = "";
-
-    private long allTime, nowTime;
-
-    public KtvLyricObj ktv = null;
-
-    private HudPosObj save;
-
-    private float lyricState = 0.0f;
-    private long lyricTime = -1;
-
-    private int pgOffset;
-    private float picScale;
-
     /**
      * 图片渲染
      */
     private final PictureFrameBuffer picRender;
-
     /**
      * 文字渲染
      */
@@ -74,25 +53,31 @@ public class AllMusicHud {
     private final TextFrameBuffer lyricRender;
     private final TextFrameBuffer lyricTranRender;
     private final TextFrameBuffer lyricKtvRender;
-
-    private static final String PG1 = "textures/hud/pg1.png";
-    private static final String PG2 = "textures/hud/pg2.png";
-    private static final String PG3 = "textures/hud/pg3.png";
-
-    private static final String BG1 = "textures/hud/bg1.png";
-    private static final String BG2 = "textures/hud/bg2.png";
-    private static final String BG3 = "textures/hud/bg3.png";
-
-    private static final String PG_OFFSET = "textures/hud/offset.txt";
-    private static final String PIC_SCALE = "textures/hud/pic.txt";
-
     private final TextureRender progress1;
     private final TextureRender progress2;
     private final TextureRender progress3;
-
     private final TextureRender bg1;
     private final TextureRender bg3;
-
+    public KtvLyricObj ktv = null;
+    /**
+     * 图片buffer
+     */
+    private byte[] sourceImage;
+    /**
+     * 图片buffer
+     */
+    private byte[] rotateImage;
+    //显示信息
+    private String info = "";
+    private String lyric = "";
+    private String lyricTran = "";
+    private String lyricKtv = "";
+    private long allTime, nowTime;
+    private HudPosObj save;
+    private float lyricState = 0.0f;
+    private long lyricTime = -1;
+    private int pgOffset;
+    private float picScale;
     private BufferedImage bg2;
 
     /**
@@ -177,6 +162,58 @@ public class AllMusicHud {
         long m = time / 60;
         long s = time - m * 60;
         return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    }
+
+    /**
+     * 绘制图片
+     *
+     * @param x   X坐标
+     * @param y   Y坐标
+     * @param dir 对齐方式
+     */
+    public static Point2f getPos(float width, float height, float x, float y, HudPosType dir) {
+        if (dir == null) {
+            return new Point2f(x, y);
+        }
+
+        float screenWidth = AllMusicCore.bridge.getScreenWidth();
+        float screenHeight = AllMusicCore.bridge.getScreenHeight();
+
+        float x1 = x;
+        float y1 = y;
+
+        switch (dir) {
+            case TOP_CENTER:
+                x1 = screenWidth / 2 - width / 2 + x;
+                break;
+            case TOP_RIGHT:
+                x1 = screenWidth - width - x;
+                break;
+            case LEFT:
+                y1 = screenHeight / 2 - height / 2 + y;
+                break;
+            case CENTER:
+                x1 = screenWidth / 2 - width / 2 + x;
+                y1 = screenHeight / 2 - height / 2 + y;
+                break;
+            case RIGHT:
+                x1 = screenWidth - width - x;
+                y1 = screenHeight / 2 - height / 2 + y;
+                break;
+            case BOTTOM_LEFT:
+                y1 = screenHeight - height - y;
+                break;
+            case BOTTOM_CENTER:
+                x1 = screenWidth / 2 - width / 2 + x;
+                y1 = screenHeight - height - y;
+                break;
+            case BOTTOM_RIGHT:
+                x1 = screenWidth - width - x;
+                y1 = screenHeight - height - y;
+                break;
+        }
+
+        return new Point2f(x1, y1);
     }
 
     /**
@@ -553,58 +590,6 @@ public class AllMusicHud {
                 bg3.drawPic(save.pic.x, save.pic.y, save.pic.size, save.pic.size, save.pic.pos, save.pic.alpha);
             }
         }
-    }
-
-    /**
-     * 绘制图片
-     *
-     * @param x    X坐标
-     * @param y    Y坐标
-     * @param dir  对齐方式
-     */
-    public static Point2f getPos(float width, float height, float x, float y, HudPosType dir) {
-        if (dir == null) {
-            return new Point2f(x, y);
-        }
-
-        float screenWidth = AllMusicCore.bridge.getScreenWidth();
-        float screenHeight = AllMusicCore.bridge.getScreenHeight();
-
-        float x1 = x;
-        float y1 = y;
-
-        switch (dir) {
-            case TOP_CENTER:
-                x1 = screenWidth / 2 - width / 2 + x;
-                break;
-            case TOP_RIGHT:
-                x1 = screenWidth - width - x;
-                break;
-            case LEFT:
-                y1 = screenHeight / 2 - height / 2 + y;
-                break;
-            case CENTER:
-                x1 = screenWidth / 2 - width / 2 + x;
-                y1 = screenHeight / 2 - height / 2 + y;
-                break;
-            case RIGHT:
-                x1 = screenWidth - width - x;
-                y1 = screenHeight / 2 - height / 2 + y;
-                break;
-            case BOTTOM_LEFT:
-                y1 = screenHeight - height - y;
-                break;
-            case BOTTOM_CENTER:
-                x1 = screenWidth / 2 - width / 2 + x;
-                y1 = screenHeight - height - y;
-                break;
-            case BOTTOM_RIGHT:
-                x1 = screenWidth - width - x;
-                y1 = screenHeight - height - y;
-                break;
-        }
-
-        return new Point2f(x1, y1);
     }
 
     public void setInfo(String info) {

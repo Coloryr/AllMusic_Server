@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.resources.metadata.texture.TextureMetadataSection;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
-import org.joml.Matrix3x2f;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL30;
 

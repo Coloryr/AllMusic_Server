@@ -13,7 +13,10 @@ import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
+import com.mojang.blaze3d.vertex.MeshData;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
@@ -22,8 +25,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.font.glyphs.BakedGlyph;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.*;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.gui.render.state.GlyphEffectRenderState;
+import net.minecraft.client.gui.render.state.GlyphRenderState;
+import net.minecraft.client.gui.render.state.GuiElementRenderState;
+import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.renderer.CachedOrthoProjectionMatrixBuffer;
+import net.minecraft.client.renderer.MappableRingBuffer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.fog.FogRenderer;
 import net.minecraft.network.chat.Component;
 import org.joml.Matrix3x2f;
@@ -318,7 +326,7 @@ public class CoreRenderTarget extends TextFrameBuffer {
         }
 
         private void executeDrawRange(Supplier<String> name, RenderTarget target, GpuBufferSlice buffer1, GpuBufferSlice buffer2,
-                GpuBuffer buffer3, VertexFormat.IndexType index, int count, CoreRenderTarget target1) {
+                                      GpuBuffer buffer3, VertexFormat.IndexType index, int count, CoreRenderTarget target1) {
             try (RenderPass renderpass = RenderSystem.getDevice()
                     .createCommandEncoder()
                     .createRenderPass(name, target.getColorTextureView(), OptionalInt.empty(),

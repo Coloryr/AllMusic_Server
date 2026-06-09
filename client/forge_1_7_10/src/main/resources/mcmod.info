@@ -14,7 +14,7 @@
     "logoFile": "icon.png",
     "screenshots": [],
     "useDependencyInformation": true,
-    "requiredMods" : [],
+    "requiredMods": [],
     "dependencies": []
   }
 ]

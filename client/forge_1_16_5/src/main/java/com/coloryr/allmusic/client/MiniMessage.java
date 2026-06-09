@@ -1,11 +1,7 @@
 package com.coloryr.allmusic.client;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
@@ -21,6 +17,8 @@ public class MiniMessage {
     );
 
     private static final Map<String, ChatFormatting> COLOR_MAP = new HashMap<>();
+    private static final Map<String, ChatFormatting> DECORATION_MAP = new HashMap<>();
+
     static {
         COLOR_MAP.put("black", ChatFormatting.BLACK);
         COLOR_MAP.put("dark_blue", ChatFormatting.DARK_BLUE);
@@ -40,7 +38,6 @@ public class MiniMessage {
         COLOR_MAP.put("white", ChatFormatting.WHITE);
     }
 
-    private static final Map<String, ChatFormatting> DECORATION_MAP = new HashMap<>();
     static {
         DECORATION_MAP.put("bold", ChatFormatting.BOLD);
         DECORATION_MAP.put("italic", ChatFormatting.ITALIC);
