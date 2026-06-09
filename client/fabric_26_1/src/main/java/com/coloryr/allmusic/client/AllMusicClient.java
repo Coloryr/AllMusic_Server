@@ -34,6 +34,8 @@ import java.nio.charset.StandardCharsets;
 public class AllMusicClient implements ClientModInitializer, AllMusicBridge {
     public static final String MODID = "allmusic_client";
 
+    public static boolean modui;
+
     public static final Identifier ID = Identifier.fromNamespaceAndPath("allmusic", "channel");
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Client");
     public static GuiGraphicsExtractor context;
@@ -57,31 +59,6 @@ public class AllMusicClient implements ClientModInitializer, AllMusicBridge {
 
     public int getFontHeight() {
         return Minecraft.getInstance().font.lineHeight;
-    }
-
-    public void drawText(String item, int x, int y, int color, boolean shadow) {
-        var hud = Minecraft.getInstance().font;
-        context.text(hud, item, x, y, color, shadow);
-    }
-
-    public void drawPic(Object texture, int size, int x, int y, int ang) {
-        Matrix3x2fStack stack = context.pose();
-        Matrix3x2fStack matrix = stack.pushMatrix();
-
-        int a = size / 2;
-
-        if (ang > 0) {
-            matrix.translation(x + a, y + a);
-            matrix.pushMatrix().rotate((float) Math.toRadians(ang));
-        } else {
-            matrix.translation(x + a, y + a);
-        }
-
-        context.blit(RenderPipelines.GUI_TEXTURED, ID, -a, -a, 0, 0, size, size, size, size, size, size);
-        stack.popMatrix();
-        if (ang > 0) {
-            stack.popMatrix();
-        }
     }
 
     public void sendMessage(String data) {
@@ -152,6 +129,10 @@ public class AllMusicClient implements ClientModInitializer, AllMusicBridge {
         ClientPlayNetworking.registerGlobalReceiver(MusicCodec.ID, (pack, handler) -> {
             AllMusicCore.packDo(pack.pack());
         });
+
+        if (FabricLoader.getInstance().isModLoaded("modernui")) {
+            modui = true;
+        }
 
         AllMusicCore.init(FabricLoader.getInstance().getConfigDir(), this);
     }

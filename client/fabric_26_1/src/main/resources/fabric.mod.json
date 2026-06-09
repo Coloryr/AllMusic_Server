@@ -38,6 +38,6 @@
     "fabric-api": "*"
   },
   "suggests": {
-    
+    "modernui": "*"
   }
 }

@@ -10,6 +10,8 @@ dependencies {
     implementation("net.fabricmc:fabric-loader:0.18.6")
 
     implementation("net.fabricmc.fabric-api:fabric-api:0.145.1+26.1")
+
+    compileOnly("icyllis.modernui:ModernUI-Fabric:26.1.2-3.13.0.4")
 }
 
 tasks {

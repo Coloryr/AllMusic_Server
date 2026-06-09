@@ -3,6 +3,7 @@ package com.coloryr.allmusic.client;
 import com.coloryr.allmusic.client.core.AllMusicHud;
 import com.coloryr.allmusic.client.core.Point2f;
 import com.coloryr.allmusic.client.core.render.TextFrameBuffer;
+import com.coloryr.allmusic.client.mui.CoreGuiRenderer;
 import com.coloryr.allmusic.codec.HudPosType;
 import com.mojang.blaze3d.ProjectionType;
 import com.mojang.blaze3d.buffers.GpuBuffer;
@@ -268,19 +269,22 @@ public class CoreRenderTarget extends TextFrameBuffer {
             this.renderState.forEachText((text) -> {
                 var pose = text.pose;
                 var scissor = text.scissor;
-                text.ensurePrepared().visit(new Font.GlyphVisitor() {
-                    public void acceptGlyph(TextRenderable.Styled glyph) {
-                        this.accept(glyph);
-                    }
+                Font.PreparedText preparedText = text.ensurePrepared();
+                if (AllMusicClient.modui) {
+                    CoreGuiRenderer.text(preparedText, renderState, pose, scissor);
+                } else {
+                    preparedText.visit(new Font.GlyphVisitor() {
+                        @Override
+                        public void acceptGlyph(TextRenderable.Styled glyph) {
+                            renderState.addGlyphToCurrentLayer(new GlyphRenderState(pose, glyph, scissor));
+                        }
 
-                    public void acceptEffect(TextRenderable effect) {
-                        this.accept(effect);
-                    }
-
-                    private void accept(TextRenderable glyph) {
-                        renderState.addGlyphToCurrentLayer(new GlyphRenderState(pose, glyph, scissor));
-                    }
-                });
+                        @Override
+                        public void acceptEffect(TextRenderable glyph) {
+                            renderState.addGlyphToCurrentLayer(new GlyphRenderState(pose, glyph, scissor));
+                        }
+                    });
+                }
             });
             this.renderState.sortElements(ELEMENT_SORT_COMPARATOR);
             this.previousScissorArea = null;
