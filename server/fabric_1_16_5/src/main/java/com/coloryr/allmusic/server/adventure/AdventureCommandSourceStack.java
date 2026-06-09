@@ -34,20 +34,20 @@ import org.jetbrains.annotations.NotNull;
  * @since 4.0.0
  */
 public interface AdventureCommandSourceStack extends ForwardingAudience.Single, Identified {
-  /**
-   * Send a result message to the command source.
-   *
-   * @param text The text to send
-   * @param sendToOps If this message should be sent to all ops listening
-   * @since 4.0.0
-   */
-  void sendSuccess(final @NotNull Component text, final boolean sendToOps);
+    /**
+     * Send a result message to the command source.
+     *
+     * @param text      The text to send
+     * @param sendToOps If this message should be sent to all ops listening
+     * @since 4.0.0
+     */
+    void sendSuccess(final @NotNull Component text, final boolean sendToOps);
 
-  /**
-   * Send an error message to the command source.
-   *
-   * @param text The error
-   * @since 4.0.0
-   */
-  void sendFailure(final @NotNull Component text);
+    /**
+     * Send an error message to the command source.
+     *
+     * @param text The error
+     * @since 4.0.0
+     */
+    void sendFailure(final @NotNull Component text);
 }

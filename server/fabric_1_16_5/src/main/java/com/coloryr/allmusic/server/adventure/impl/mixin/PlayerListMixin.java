@@ -23,11 +23,6 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,21 +36,27 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  * Replace the player list fields so we can safely access and iterate them off the server thread.
  */
 @Mixin(PlayerList.class)
 public class PlayerListMixin {
-  // @formatter:off
+    // @formatter:off
   @Shadow @Final @Mutable private List<ServerPlayer> players;
   @Shadow @Final @Mutable private Map<UUID, ServerPlayer> playersByUUID;
   // @formatter:on
 
-  @Inject(method = "<init>", at = @At("RETURN"), require = 0)
-  private void adventure$replacePlayerLists(final MinecraftServer server, final RegistryAccess.RegistryHolder tracker, final PlayerDataStorage handler, final int i,
-                                            final CallbackInfo ci) {
-    this.players = new CopyOnWriteArrayList<>();
-    this.playersByUUID = new ConcurrentHashMap<>();
-  }
+    @Inject(method = "<init>", at = @At("RETURN"), require = 0)
+    private void adventure$replacePlayerLists(final MinecraftServer server, final RegistryAccess.RegistryHolder tracker, final PlayerDataStorage handler, final int i,
+                                              final CallbackInfo ci) {
+        this.players = new CopyOnWriteArrayList<>();
+        this.playersByUUID = new ConcurrentHashMap<>();
+    }
 
 }

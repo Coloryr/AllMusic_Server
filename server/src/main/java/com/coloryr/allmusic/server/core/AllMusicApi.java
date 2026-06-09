@@ -1,7 +1,6 @@
 package com.coloryr.allmusic.server.core;
 
 import com.coloryr.allmusic.codec.HudPosObj;
-import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.server.core.saves.HudSave;
 

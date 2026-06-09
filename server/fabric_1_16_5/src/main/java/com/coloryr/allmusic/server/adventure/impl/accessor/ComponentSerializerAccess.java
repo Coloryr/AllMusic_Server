@@ -32,7 +32,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Component.Serializer.class)
 public interface ComponentSerializerAccess {
-  // @formatter:off
+    // @formatter:off
   @Accessor static Gson getGSON() {
     throw new AssertionError();
   }

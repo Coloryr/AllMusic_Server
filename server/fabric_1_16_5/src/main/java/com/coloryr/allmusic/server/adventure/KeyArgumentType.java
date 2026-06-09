@@ -37,36 +37,36 @@ import org.jetbrains.annotations.NotNull;
  * @since 4.0.0
  */
 public final class KeyArgumentType implements ArgumentType<Key> {
-  private static final KeyArgumentType INSTANCE = new KeyArgumentType();
+    private static final KeyArgumentType INSTANCE = new KeyArgumentType();
 
-  /**
-   * Get an argument type instance for {@link Key}s.
-   *
-   * @return key argument type
-   * @since 4.0.0
-   */
-  public static @NotNull KeyArgumentType key() {
-    return INSTANCE;
-  }
+    private KeyArgumentType() {
+    }
 
-  /**
-   * Get a {@link Key}-typed value from a parsed {@link CommandContext}.
-   *
-   * @param ctx context to get the value from
-   * @param id id the argument was taken from
-   * @return provided argument
-   * @since 4.0.0
-   */
-  public static @NotNull Key key(final @NotNull CommandContext<?> ctx, final @NotNull String id) {
-    return ctx.getArgument(id, Key.class);
-  }
+    /**
+     * Get an argument type instance for {@link Key}s.
+     *
+     * @return key argument type
+     * @since 4.0.0
+     */
+    public static @NotNull KeyArgumentType key() {
+        return INSTANCE;
+    }
 
-  private KeyArgumentType() {
-  }
+    /**
+     * Get a {@link Key}-typed value from a parsed {@link CommandContext}.
+     *
+     * @param ctx context to get the value from
+     * @param id  id the argument was taken from
+     * @return provided argument
+     * @since 4.0.0
+     */
+    public static @NotNull Key key(final @NotNull CommandContext<?> ctx, final @NotNull String id) {
+        return ctx.getArgument(id, Key.class);
+    }
 
-  @Override
-  public @NotNull Key parse(final @NotNull StringReader reader) throws CommandSyntaxException {
-    // TODO: do this without creating a ResourceLocation instance
-    return FabricAudiences.toAdventure(ResourceLocation.read(reader));
-  }
+    @Override
+    public @NotNull Key parse(final @NotNull StringReader reader) throws CommandSyntaxException {
+        // TODO: do this without creating a ResourceLocation instance
+        return FabricAudiences.toAdventure(ResourceLocation.read(reader));
+    }
 }

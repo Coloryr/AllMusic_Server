@@ -23,17 +23,16 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin;
 
-import com.google.common.collect.MapMaker;
-import java.util.Map;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.audience.ForwardingAudience;
-import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.permission.PermissionChecker;
 import com.coloryr.allmusic.server.adventure.FabricAudiences;
 import com.coloryr.allmusic.server.adventure.FabricServerAudiences;
 import com.coloryr.allmusic.server.adventure.impl.server.FabricServerAudiencesImpl;
 import com.coloryr.allmusic.server.adventure.impl.server.PlainAudience;
 import com.coloryr.allmusic.server.adventure.impl.server.RenderableAudience;
+import com.google.common.collect.MapMaker;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.permission.PermissionChecker;
 import net.kyori.adventure.pointer.Pointers;
 import net.kyori.adventure.util.TriState;
 import net.minecraft.server.MinecraftServer;
@@ -43,15 +42,16 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Map;
+
 @Mixin(RconConsoleSource.class)
 public abstract class RconConsoleSourceMixin implements RenderableAudience, ForwardingAudience.Single {
-  // @formatter:off
-  @Shadow @Final private StringBuffer buffer;
-  @Shadow @Final private MinecraftServer server;
-  // @formatter:off
-
-  private volatile Pointers adventure$pointers;
   private final Map<FabricAudiences, Audience> adventure$renderers = new MapMaker().weakKeys().makeMap();
+    // @formatter:off
+  @Shadow @Final private StringBuffer buffer;
+  // @formatter:off
+  @Shadow @Final private MinecraftServer server;
+  private volatile Pointers adventure$pointers;
 
   @Override
   public Audience renderUsing(final FabricServerAudiencesImpl controller) {

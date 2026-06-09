@@ -1,44 +1,40 @@
 {
-	"schemaVersion": 1,
-	"id": "allmusic_server",
-	"version": "${version}",
-
-	"name": "AllMusic Server",
-	"description": "AllMusic Server Mod",
-	"authors": [
-		"Color_yr"
-	],
-	"contact": {
-		"homepage": "https://github.com/Coloryr/AllMusic",
-		"sources": "https://github.com/Coloryr/AllMusic"
-	},
-
-	"license": "GPL-3.0",
-	"icon": "assets/allmusic_server/icon.png",
-
-	"environment": "*",
-	"entrypoints": {
-		"server": [
-			"com.coloryr.allmusic.server.AllMusicServer"
-		],
-		"main": [
-			"com.coloryr.allmusic.server.adventure.impl.AdventureCommon"
-		],
-		"preLaunch": [
-			"com.coloryr.allmusic.server.adventure.impl.AdventurePrelaunch"
-		]
-	},
-	"mixins": [
-		"allmusic_server.mixins.json",
-		"adventure-platform-fabric.accessor.mixins.json",
-		"adventure-platform-fabric.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.15.11",
-		"fabric": "*",
-		"minecraft": ">=1.16"
-	},
-	"suggests": {
-		
-	}
+  "schemaVersion": 1,
+  "id": "allmusic_server",
+  "version": "${version}",
+  "name": "AllMusic Server",
+  "description": "AllMusic Server Mod",
+  "authors": [
+    "Color_yr"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Coloryr/AllMusic",
+    "sources": "https://github.com/Coloryr/AllMusic"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/allmusic_server/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "server": [
+      "com.coloryr.allmusic.server.AllMusicServer"
+    ],
+    "main": [
+      "com.coloryr.allmusic.server.adventure.impl.AdventureCommon"
+    ],
+    "preLaunch": [
+      "com.coloryr.allmusic.server.adventure.impl.AdventurePrelaunch"
+    ]
+  },
+  "mixins": [
+    "allmusic_server.mixins.json",
+    "adventure-platform-fabric.accessor.mixins.json",
+    "adventure-platform-fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "fabric": "*",
+    "minecraft": ">=1.16"
+  },
+  "suggests": {
+  }
 }

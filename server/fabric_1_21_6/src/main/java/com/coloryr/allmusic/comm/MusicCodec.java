@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.comm;
 
-import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

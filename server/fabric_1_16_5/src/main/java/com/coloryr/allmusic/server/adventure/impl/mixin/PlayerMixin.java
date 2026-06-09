@@ -23,11 +23,11 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin;
 
+import com.coloryr.allmusic.server.adventure.impl.NonWrappingComponentSerializer;
+import com.coloryr.allmusic.server.adventure.impl.PointerProviderBridge;
 import com.mojang.authlib.GameProfile;
 import net.kyori.adventure.identity.Identified;
 import net.kyori.adventure.identity.Identity;
-import com.coloryr.allmusic.server.adventure.impl.NonWrappingComponentSerializer;
-import com.coloryr.allmusic.server.adventure.impl.PointerProviderBridge;
 import net.kyori.adventure.pointer.Pointers;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,49 +40,48 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity implements Identified, PointerProviderBridge {
-  // @formatter:off
+    // @formatter:off
   @Shadow @Final private GameProfile gameProfile;
-
-  @Shadow public abstract GameProfile shadow$getGameProfile();
+    private Pointers adventure$pointers;
   // @formatter:on
 
-  private Pointers adventure$pointers;
-
-  protected PlayerMixin(final EntityType<? extends LivingEntity> entityType, final Level level) {
-    super(entityType, level);
-  }
-
-  @Override
-  public @NotNull Identity identity() {
-    return (Identity) this.gameProfile;
-  }
-
-  @Override
-  public @NotNull Pointers adventure$pointers() {
-    Pointers pointers = this.adventure$pointers;
-    if (pointers == null) {
-      synchronized (this) {
-        if (this.adventure$pointers != null) {
-          return this.adventure$pointers;
-        }
-
-        final Pointers.Builder builder = Pointers.builder()
-          .withDynamic(Identity.NAME, () -> this.shadow$getGameProfile().getName())
-          .withDynamic(Identity.UUID, this::getUUID)
-          .withDynamic(Identity.DISPLAY_NAME, () -> NonWrappingComponentSerializer.INSTANCE.deserialize(this.getDisplayName()));
-
-        // add any extra data
-        this.adventure$populateExtraPointers(builder);
-
-        this.adventure$pointers = pointers = builder.build();
-      }
+    protected PlayerMixin(final EntityType<? extends LivingEntity> entityType, final Level level) {
+        super(entityType, level);
     }
 
-    return pointers;
-  }
+  @Shadow public abstract GameProfile shadow$getGameProfile();
 
-  protected void adventure$populateExtraPointers(final Pointers.Builder builder) {
-    // for overriding by implementations
-    // todo: support permissions here if Luck's permissions API is available
-  }
+    @Override
+    public @NotNull Identity identity() {
+        return (Identity) this.gameProfile;
+    }
+
+    @Override
+    public @NotNull Pointers adventure$pointers() {
+        Pointers pointers = this.adventure$pointers;
+        if (pointers == null) {
+            synchronized (this) {
+                if (this.adventure$pointers != null) {
+                    return this.adventure$pointers;
+                }
+
+                final Pointers.Builder builder = Pointers.builder()
+                        .withDynamic(Identity.NAME, () -> this.shadow$getGameProfile().getName())
+                        .withDynamic(Identity.UUID, this::getUUID)
+                        .withDynamic(Identity.DISPLAY_NAME, () -> NonWrappingComponentSerializer.INSTANCE.deserialize(this.getDisplayName()));
+
+                // add any extra data
+                this.adventure$populateExtraPointers(builder);
+
+                this.adventure$pointers = pointers = builder.build();
+            }
+        }
+
+        return pointers;
+    }
+
+    protected void adventure$populateExtraPointers(final Pointers.Builder builder) {
+        // for overriding by implementations
+        // todo: support permissions here if Luck's permissions API is available
+    }
 }

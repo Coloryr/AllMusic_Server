@@ -23,15 +23,16 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.client;
 
-import java.util.function.Function;
-import net.kyori.adventure.inventory.Book;
 import com.coloryr.allmusic.server.adventure.impl.WrappedComponent;
+import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.pointer.Pointered;
 import net.kyori.adventure.text.renderer.ComponentRenderer;
 import net.minecraft.client.gui.screens.inventory.BookViewScreen;
 import net.minecraft.network.chat.FormattedText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
@@ -43,23 +44,23 @@ import static java.util.Objects.requireNonNull;
  * an {@link net.minecraft.world.item.ItemStack}.</p>
  */
 public class AdventureBookAccess implements BookViewScreen.BookAccess {
-  private final Book book;
-  private final @Nullable Function<Pointered, ?> partition;
-  private final @Nullable ComponentRenderer<Pointered> renderer;
+    private final Book book;
+    private final @Nullable Function<Pointered, ?> partition;
+    private final @Nullable ComponentRenderer<Pointered> renderer;
 
-  public AdventureBookAccess(final @NotNull Book book, final @Nullable Function<Pointered, ?> partition, final @Nullable ComponentRenderer<Pointered> renderer) {
-    this.book = requireNonNull(book, "book");
-    this.partition = partition;
-    this.renderer = renderer;
-  }
+    public AdventureBookAccess(final @NotNull Book book, final @Nullable Function<Pointered, ?> partition, final @Nullable ComponentRenderer<Pointered> renderer) {
+        this.book = requireNonNull(book, "book");
+        this.partition = partition;
+        this.renderer = renderer;
+    }
 
-  @Override
-  public int getPageCount() {
-    return this.book.pages().size();
-  }
+    @Override
+    public int getPageCount() {
+        return this.book.pages().size();
+    }
 
-  @Override
-  public FormattedText getPageRaw(final int index) {
-    return new WrappedComponent(this.book.pages().get(index), this.partition, this.renderer);
-  }
+    @Override
+    public FormattedText getPageRaw(final int index) {
+        return new WrappedComponent(this.book.pages().get(index), this.partition, this.renderer);
+    }
 }

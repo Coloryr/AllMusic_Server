@@ -23,9 +23,9 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin;
 
+import com.coloryr.allmusic.server.adventure.impl.server.FriendlyByteBufBridge;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import com.coloryr.allmusic.server.adventure.impl.server.FriendlyByteBufBridge;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.PacketEncoder;
@@ -38,8 +38,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(PacketEncoder.class)
 public class PacketEncoderMixin {
-  @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/FriendlyByteBuf;writeVarInt(I)Lnet/minecraft/network/FriendlyByteBuf;"), locals = LocalCapture.CAPTURE_FAILHARD)
-  private void adventure$applyLocaleToBuffer(final ChannelHandlerContext ctx, final Packet<?> pkt, final ByteBuf orig, final CallbackInfo ci, final ConnectionProtocol unused$proto, final Integer unused$id, final FriendlyByteBuf buffer) {
-    ((FriendlyByteBufBridge) buffer).adventure$data(ctx.channel().attr(FriendlyByteBufBridge.CHANNEL_RENDER_DATA).get());
-  }
+    @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/FriendlyByteBuf;writeVarInt(I)Lnet/minecraft/network/FriendlyByteBuf;"), locals = LocalCapture.CAPTURE_FAILHARD)
+    private void adventure$applyLocaleToBuffer(final ChannelHandlerContext ctx, final Packet<?> pkt, final ByteBuf orig, final CallbackInfo ci, final ConnectionProtocol unused$proto, final Integer unused$id, final FriendlyByteBuf buffer) {
+        ((FriendlyByteBufBridge) buffer).adventure$data(ctx.channel().attr(FriendlyByteBufBridge.CHANNEL_RENDER_DATA).get());
+    }
 }

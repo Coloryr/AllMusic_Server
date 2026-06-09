@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;

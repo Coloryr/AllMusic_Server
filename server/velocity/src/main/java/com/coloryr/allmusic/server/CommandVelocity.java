@@ -33,9 +33,9 @@ public class CommandVelocity implements SimpleCommand {
         if (invocation.source() instanceof Player) {
             Player player = (Player) invocation.source();
             String name = player.getUsername();
-            if (args.length > 0 && args[args.length - 1] != null){
+            if (args.length > 0 && args[args.length - 1] != null) {
                 String r = args[args.length - 1].trim();
-                return CommandEX.getTabList(player,name,args).stream()
+                return CommandEX.getTabList(player, name, args).stream()
                         .filter(s -> s.startsWith(r))
                         .collect(Collectors.toList());
             }

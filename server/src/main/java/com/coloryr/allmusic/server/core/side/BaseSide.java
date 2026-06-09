@@ -2,7 +2,6 @@ package com.coloryr.allmusic.server.core.side;
 
 import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.HudPosObj;
-import com.coloryr.allmusic.codec.HudType;
 import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.music.PlayMusic;

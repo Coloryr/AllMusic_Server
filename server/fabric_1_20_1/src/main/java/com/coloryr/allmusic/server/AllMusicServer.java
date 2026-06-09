@@ -4,15 +4,14 @@ import com.coloryr.allmusic.server.core.AllMusic;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 
 import java.io.File;
 
 public class AllMusicServer implements DedicatedServerModInitializer {
-    public static MinecraftServer server;
-
     public static final ResourceLocation ID = new ResourceLocation("allmusic", "channel");
+    public static MinecraftServer server;
 
     @Override
     public void onInitializeServer() {

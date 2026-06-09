@@ -25,12 +25,11 @@ import java.io.File;
 @Mod(modid = "allmusic_server", version = AllMusic.version, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.12,)")
 public class AllMusicServer {
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
-    public static MinecraftServer server;
-    public static FMLEventChannel channel;
-
     private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.builder()
             .downsampleColors()
             .build();
+    public static MinecraftServer server;
+    public static FMLEventChannel channel;
 
     public static ITextComponent parse(Component input) {
         String json = GSON_SERIALIZER.serialize(input);

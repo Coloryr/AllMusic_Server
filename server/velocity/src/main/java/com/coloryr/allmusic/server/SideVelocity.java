@@ -1,13 +1,13 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
+import com.coloryr.allmusic.server.core.IEconomy;
 import com.coloryr.allmusic.server.core.music.PlayMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
 import com.coloryr.allmusic.server.core.side.BaseSide;
-import com.coloryr.allmusic.server.core.IEconomy;
 import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import com.google.common.io.ByteArrayDataOutput;
@@ -191,7 +191,7 @@ public class SideVelocity extends BaseSide implements IEconomy {
 
     @Override
     public void sendMessage(Object obj, Component message) {
-        if(obj instanceof CommandSource) {
+        if (obj instanceof CommandSource) {
             CommandSource source = (CommandSource) obj;
             source.sendMessage(message);
         }

@@ -39,10 +39,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerGamePacketListenerImplMixin {
 
-  // Initialize attribute tracking the player for component rendering
-  @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/server/level/ServerPlayer;connection:Lnet/minecraft/server/network/ServerGamePacketListenerImpl;", opcode = Opcodes.PUTFIELD))
-  private void adventure$initTracking(final MinecraftServer server, final Connection conn, final ServerPlayer player, final CallbackInfo ci) {
-    ((ConnectionAccess) conn).getChannel().attr(FriendlyByteBufBridge.CHANNEL_RENDER_DATA)
-      .set((Pointered) player);
-  }
+    // Initialize attribute tracking the player for component rendering
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/server/level/ServerPlayer;connection:Lnet/minecraft/server/network/ServerGamePacketListenerImpl;", opcode = Opcodes.PUTFIELD))
+    private void adventure$initTracking(final MinecraftServer server, final Connection conn, final ServerPlayer player, final CallbackInfo ci) {
+        ((ConnectionAccess) conn).getChannel().attr(FriendlyByteBufBridge.CHANNEL_RENDER_DATA)
+                .set((Pointered) player);
+    }
 }

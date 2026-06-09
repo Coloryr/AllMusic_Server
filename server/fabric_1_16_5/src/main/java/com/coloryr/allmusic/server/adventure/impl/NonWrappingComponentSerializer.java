@@ -29,35 +29,35 @@ import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.minecraft.network.chat.MutableComponent;
 
 public final class NonWrappingComponentSerializer implements ComponentSerializer<Component, Component, net.minecraft.network.chat.Component> {
-  public static final NonWrappingComponentSerializer INSTANCE = new NonWrappingComponentSerializer();
+    public static final NonWrappingComponentSerializer INSTANCE = new NonWrappingComponentSerializer();
 
-  private final ThreadLocal<Boolean> bypassIsAllowedFromServer = ThreadLocal.withInitial(() -> false);
+    private final ThreadLocal<Boolean> bypassIsAllowedFromServer = ThreadLocal.withInitial(() -> false);
 
-  private NonWrappingComponentSerializer() {
-  }
-
-  public boolean bypassIsAllowedFromServer() {
-    return this.bypassIsAllowedFromServer.get();
-  }
-
-  @Override
-  public Component deserialize(final net.minecraft.network.chat.Component input) {
-    if (input instanceof WrappedComponent) {
-      return ((WrappedComponent) input).wrapped();
+    private NonWrappingComponentSerializer() {
     }
 
-    return ComponentSerializerAccess.getGSON().fromJson(net.minecraft.network.chat.Component.Serializer.toJsonTree(input), Component.class);
-  }
-
-  @Override
-  public MutableComponent serialize(final Component component) {
-    this.bypassIsAllowedFromServer.set(true);
-    final MutableComponent mutableComponent;
-    try {
-      mutableComponent = net.minecraft.network.chat.Component.Serializer.fromJson(ComponentSerializerAccess.getGSON().toJsonTree(component));
-    } finally {
-      this.bypassIsAllowedFromServer.set(false);
+    public boolean bypassIsAllowedFromServer() {
+        return this.bypassIsAllowedFromServer.get();
     }
-    return mutableComponent;
-  }
+
+    @Override
+    public Component deserialize(final net.minecraft.network.chat.Component input) {
+        if (input instanceof WrappedComponent) {
+            return ((WrappedComponent) input).wrapped();
+        }
+
+        return ComponentSerializerAccess.getGSON().fromJson(net.minecraft.network.chat.Component.Serializer.toJsonTree(input), Component.class);
+    }
+
+    @Override
+    public MutableComponent serialize(final Component component) {
+        this.bypassIsAllowedFromServer.set(true);
+        final MutableComponent mutableComponent;
+        try {
+            mutableComponent = net.minecraft.network.chat.Component.Serializer.fromJson(ComponentSerializerAccess.getGSON().toJsonTree(component));
+        } finally {
+            this.bypassIsAllowedFromServer.set(false);
+        }
+        return mutableComponent;
+    }
 }

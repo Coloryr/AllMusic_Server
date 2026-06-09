@@ -24,20 +24,21 @@
 package com.coloryr.allmusic.server.adventure.impl.mixin;
 
 import com.mojang.authlib.GameProfile;
-import java.util.UUID;
 import net.kyori.adventure.identity.Identity;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.UUID;
+
 @Mixin(value = GameProfile.class, remap = false)
 public abstract class GameProfileMixin implements Identity {
-  // @formatter:off
+    // @formatter:off
   @Shadow public abstract UUID shadow$getId();
   // @formatter:on
 
-  @Override
-  public @NotNull UUID uuid() {
-    return this.shadow$getId();
-  }
+    @Override
+    public @NotNull UUID uuid() {
+        return this.shadow$getId();
+    }
 }

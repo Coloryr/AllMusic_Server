@@ -23,40 +23,41 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.server;
 
-import java.util.function.Consumer;
+import com.coloryr.allmusic.server.adventure.FabricAudiences;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.identity.Identity;
-import com.coloryr.allmusic.server.adventure.FabricAudiences;
 import net.kyori.adventure.pointer.Pointered;
 import net.kyori.adventure.pointer.Pointers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Consumer;
+
 public final class PlainAudience implements Audience {
-  private final FabricAudiences controller;
-  private final Pointered source;
-  private final Consumer<String> plainOutput;
+    private final FabricAudiences controller;
+    private final Pointered source;
+    private final Consumer<String> plainOutput;
 
-  public PlainAudience(final FabricAudiences controller, final Pointered source, final Consumer<String> plainOutput) {
-    this.controller = controller;
-    this.source = source;
-    this.plainOutput = plainOutput;
-  }
+    public PlainAudience(final FabricAudiences controller, final Pointered source, final Consumer<String> plainOutput) {
+        this.controller = controller;
+        this.source = source;
+        this.plainOutput = plainOutput;
+    }
 
-  @Override
-  public void sendMessage(final @NotNull Identity source, final @NotNull Component message, final @NotNull MessageType type) {
-    this.plainOutput.accept(PlainTextComponentSerializer.plainText().serialize(this.controller.renderer().render(message, this.source)));
-  }
+    @Override
+    public void sendMessage(final @NotNull Identity source, final @NotNull Component message, final @NotNull MessageType type) {
+        this.plainOutput.accept(PlainTextComponentSerializer.plainText().serialize(this.controller.renderer().render(message, this.source)));
+    }
 
-  @Override
-  public void sendActionBar(final @NotNull Component message) {
-    this.sendMessage(Identity.nil(), message);
-  }
+    @Override
+    public void sendActionBar(final @NotNull Component message) {
+        this.sendMessage(Identity.nil(), message);
+    }
 
-  @Override
-  public @NotNull Pointers pointers() {
-    return this.source.pointers();
-  }
+    @Override
+    public @NotNull Pointers pointers() {
+        return this.source.pointers();
+    }
 }

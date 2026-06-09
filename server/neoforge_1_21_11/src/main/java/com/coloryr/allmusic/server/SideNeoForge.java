@@ -1,6 +1,5 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.comm.MusicCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
@@ -100,7 +99,7 @@ public class SideNeoForge extends BaseSide {
 
     @Override
     public File getFolder() {
-        return new File(AllMusicServer.dir);
+        return new File(AllMusic.SERVER_DIR);
     }
 
     @Override
@@ -114,7 +113,7 @@ public class SideNeoForge extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, Component message) {
-        if(obj instanceof CommandSourceStack source) {
+        if (obj instanceof CommandSourceStack source) {
             AllMusicServer.audiences.audience(source).sendActionBar(message);
         }
     }

@@ -23,13 +23,12 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin.client;
 
-import java.util.Locale;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.audience.ForwardingAudience;
-import net.kyori.adventure.identity.Identity;
 import com.coloryr.allmusic.server.adventure.FabricClientAudiences;
 import com.coloryr.allmusic.server.adventure.impl.LocaleHolderBridge;
 import com.coloryr.allmusic.server.adventure.impl.mixin.PlayerMixin;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.pointer.Pointers;
 import net.kyori.adventure.sound.Sound;
 import net.minecraft.client.Minecraft;
@@ -42,41 +41,42 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Locale;
+
 @Mixin(LocalPlayer.class)
 public abstract class LocalPlayerMixin extends PlayerMixin implements ForwardingAudience.Single, LocaleHolderBridge {
-  // @formatter:off
-  @Shadow @Final protected Minecraft minecraft;
+    private final Audience adventure$default = FabricClientAudiences.of().audience();
   // @formatter:on
+    // @formatter:off
+  @Shadow @Final protected Minecraft minecraft;
 
-  // TODO: Do we want to enforce synchronization with the client thread?
-  private LocalPlayerMixin(final EntityType<? extends LivingEntity> type, final Level level) { // mixin will strip
-    super(type, level);
-  }
+    // TODO: Do we want to enforce synchronization with the client thread?
+    private LocalPlayerMixin(final EntityType<? extends LivingEntity> type, final Level level) { // mixin will strip
+        super(type, level);
+    }
 
-  private final Audience adventure$default = FabricClientAudiences.of().audience();
+    @Override
+    public @NotNull Audience audience() {
+        return this.adventure$default;
+    }
 
-  @Override
-  public @NotNull Audience audience() {
-    return this.adventure$default;
-  }
+    @Override
+    public @NotNull Pointers pointers() {
+        return this.audience().pointers();
+    }
 
-  @Override
-  public @NotNull Pointers pointers() {
-    return this.audience().pointers();
-  }
+    @Override
+    public void playSound(final @NotNull Sound sound) {
+        this.audience().playSound(sound, this.getX(), this.getY(), this.getZ());
+    }
 
-  @Override
-  public void playSound(final @NotNull Sound sound) {
-    this.audience().playSound(sound, this.getX(), this.getY(), this.getZ());
-  }
+    @Override
+    public @NotNull Locale adventure$locale() {
+        return ((LocaleHolderBridge) this.minecraft.options).adventure$locale();
+    }
 
-  @Override
-  public @NotNull Locale adventure$locale() {
-    return ((LocaleHolderBridge) this.minecraft.options).adventure$locale();
-  }
-
-  @Override
-  protected void adventure$populateExtraPointers(final Pointers.Builder builder) {
-    builder.withDynamic(Identity.LOCALE, this::adventure$locale);
-  }
+    @Override
+    protected void adventure$populateExtraPointers(final Pointers.Builder builder) {
+        builder.withDynamic(Identity.LOCALE, this::adventure$locale);
+    }
 }

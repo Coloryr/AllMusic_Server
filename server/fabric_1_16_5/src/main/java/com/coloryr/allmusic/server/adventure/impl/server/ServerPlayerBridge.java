@@ -27,12 +27,12 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 public interface ServerPlayerBridge {
-  /**
-   * Update the tab list header and footer.
-   *
-   * @param header header, null to leave unchanged
-   * @param footer footer, null to leave unchanged
-   * @since 4.0.0
-   */
-  void bridge$updateTabList(final @Nullable Component header, final @Nullable Component footer);
+    /**
+     * Update the tab list header and footer.
+     *
+     * @param header header, null to leave unchanged
+     * @param footer footer, null to leave unchanged
+     * @since 4.0.0
+     */
+    void bridge$updateTabList(final @Nullable Component header, final @Nullable Component footer);
 }

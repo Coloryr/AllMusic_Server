@@ -114,7 +114,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public File getFolder() {
-        return new File(AllMusicServer.dir);
+        return new File(AllMusic.SERVER_DIR);
     }
 
     @Override

@@ -23,24 +23,17 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin;
 
-import com.google.common.collect.MapMaker;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.audience.ForwardingAudience;
-import net.kyori.adventure.identity.Identity;
 import com.coloryr.allmusic.server.adventure.FabricServerAudiences;
 import com.coloryr.allmusic.server.adventure.PlayerLocales;
 import com.coloryr.allmusic.server.adventure.impl.LocaleHolderBridge;
 import com.coloryr.allmusic.server.adventure.impl.accessor.ClientboundTabListPacketAccess;
 import com.coloryr.allmusic.server.adventure.impl.accessor.ConnectionAccess;
 import com.coloryr.allmusic.server.adventure.impl.accessor.ServerboundClientInformationPacketAccess;
-import com.coloryr.allmusic.server.adventure.impl.server.FabricServerAudiencesImpl;
-import com.coloryr.allmusic.server.adventure.impl.server.FriendlyByteBufBridge;
-import com.coloryr.allmusic.server.adventure.impl.server.RenderableAudience;
-import com.coloryr.allmusic.server.adventure.impl.server.ServerPlayerAudience;
-import com.coloryr.allmusic.server.adventure.impl.server.ServerPlayerBridge;
+import com.coloryr.allmusic.server.adventure.impl.server.*;
+import com.google.common.collect.MapMaker;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.pointer.Pointers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -61,88 +54,91 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin extends PlayerMixin implements ForwardingAudience.Single, LocaleHolderBridge, RenderableAudience, ServerPlayerBridge {
-  // @formatter:off
+    private final Map<FabricServerAudiencesImpl, Audience> adventure$renderers = new MapMaker().weakKeys().makeMap();
+    // @formatter:off
   @Shadow @Final public MinecraftServer server;
-  @Shadow public ServerGamePacketListenerImpl connection;
   // @formatter:on
+  @Shadow public ServerGamePacketListenerImpl connection;
+    private Audience adventure$backing;
+    private Locale adventure$locale;
+    private Component adventure$tabListHeader = TextComponent.EMPTY;
+    private Component adventure$tabListFooter = TextComponent.EMPTY;
 
-  private Audience adventure$backing;
-  private Locale adventure$locale;
-  private final Map<FabricServerAudiencesImpl, Audience> adventure$renderers = new MapMaker().weakKeys().makeMap();
-  private Component adventure$tabListHeader = TextComponent.EMPTY;
-  private Component adventure$tabListFooter = TextComponent.EMPTY;
-
-  protected ServerPlayerMixin(final EntityType<? extends LivingEntity> entityType, final Level level) {
-    super(entityType, level);
-  }
-
-  @Inject(method = "<init>", at = @At("TAIL"))
-  private void adventure$init(final CallbackInfo ci) {
-    this.adventure$backing = FabricServerAudiences.of(this.server).audience(this);
-  }
-
-  @Override
-  public @NotNull Audience audience() {
-    return this.adventure$backing;
-  }
-
-  @Override
-  public Audience renderUsing(final FabricServerAudiencesImpl controller) {
-    return this.adventure$renderers.computeIfAbsent(controller, ctrl -> new ServerPlayerAudience((ServerPlayer) (Object) this, ctrl));
-  }
-
-  @Override
-  public @NotNull Locale adventure$locale() {
-    return this.adventure$locale;
-  }
-
-  @Override
-  protected void adventure$populateExtraPointers(final Pointers.Builder builder) {
-    builder.withDynamic(Identity.LOCALE, this::adventure$locale);
-  }
-
-  // Tab list
-
-  @Override
-  public void bridge$updateTabList(final @Nullable Component header, final @Nullable Component footer) {
-    if (header != null) {
-      this.adventure$tabListHeader = header;
+    protected ServerPlayerMixin(final EntityType<? extends LivingEntity> entityType, final Level level) {
+        super(entityType, level);
     }
-    if (footer != null) {
-      this.adventure$tabListFooter = footer;
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void adventure$init(final CallbackInfo ci) {
+        this.adventure$backing = FabricServerAudiences.of(this.server).audience(this);
     }
-    final ClientboundTabListPacket packet = new ClientboundTabListPacket();
-    ((ClientboundTabListPacketAccess) packet).setHeader(this.adventure$tabListHeader);
-    ((ClientboundTabListPacketAccess) packet).setFooter(this.adventure$tabListFooter);
 
-    this.connection.send(packet);
-  }
-
-
-  // Locale tracking
-
-  @Inject(method = "updateOptions", at = @At("HEAD"))
-  private void adventure$handleLocaleUpdate(final ServerboundClientInformationPacket information, final CallbackInfo ci) {
-    final String language = ((ServerboundClientInformationPacketAccess) information).getLanguage();
-    final @Nullable Locale locale = LocaleHolderBridge.toLocale(language);
-    if (!Objects.equals(this.adventure$locale, locale)) {
-      this.adventure$locale = locale;
-      PlayerLocales.CHANGED_EVENT.invoker().onLocaleChanged((ServerPlayer) (Object) this, locale);
+    @Override
+    public @NotNull Audience audience() {
+        return this.adventure$backing;
     }
-  }
 
-  // Player tracking for boss bars and rendering
+    @Override
+    public Audience renderUsing(final FabricServerAudiencesImpl controller) {
+        return this.adventure$renderers.computeIfAbsent(controller, ctrl -> new ServerPlayerAudience((ServerPlayer) (Object) this, ctrl));
+    }
 
-  @Inject(method = "restoreFrom", at = @At("RETURN"))
-  private void copyData(final ServerPlayer old, final boolean alive, final CallbackInfo ci) {
-    FabricServerAudiencesImpl.forEachInstance(controller -> controller.bossBars().replacePlayer(old, (ServerPlayer) (Object) this));
-    ((ConnectionAccess) this.connection.connection).getChannel().attr(FriendlyByteBufBridge.CHANNEL_RENDER_DATA).set(this);
-  }
+    @Override
+    public @NotNull Locale adventure$locale() {
+        return this.adventure$locale;
+    }
 
-  @Inject(method = "disconnect", at = @At("RETURN"))
-  private void adventure$removeBossBarsOnDisconnect(final CallbackInfo ci) {
-    FabricServerAudiencesImpl.forEachInstance(controller -> controller.bossBars().unsubscribeFromAll((ServerPlayer) (Object) this));
-  }
+    @Override
+    protected void adventure$populateExtraPointers(final Pointers.Builder builder) {
+        builder.withDynamic(Identity.LOCALE, this::adventure$locale);
+    }
+
+    // Tab list
+
+    @Override
+    public void bridge$updateTabList(final @Nullable Component header, final @Nullable Component footer) {
+        if (header != null) {
+            this.adventure$tabListHeader = header;
+        }
+        if (footer != null) {
+            this.adventure$tabListFooter = footer;
+        }
+        final ClientboundTabListPacket packet = new ClientboundTabListPacket();
+        ((ClientboundTabListPacketAccess) packet).setHeader(this.adventure$tabListHeader);
+        ((ClientboundTabListPacketAccess) packet).setFooter(this.adventure$tabListFooter);
+
+        this.connection.send(packet);
+    }
+
+
+    // Locale tracking
+
+    @Inject(method = "updateOptions", at = @At("HEAD"))
+    private void adventure$handleLocaleUpdate(final ServerboundClientInformationPacket information, final CallbackInfo ci) {
+        final String language = ((ServerboundClientInformationPacketAccess) information).getLanguage();
+        final @Nullable Locale locale = LocaleHolderBridge.toLocale(language);
+        if (!Objects.equals(this.adventure$locale, locale)) {
+            this.adventure$locale = locale;
+            PlayerLocales.CHANGED_EVENT.invoker().onLocaleChanged((ServerPlayer) (Object) this, locale);
+        }
+    }
+
+    // Player tracking for boss bars and rendering
+
+    @Inject(method = "restoreFrom", at = @At("RETURN"))
+    private void copyData(final ServerPlayer old, final boolean alive, final CallbackInfo ci) {
+        FabricServerAudiencesImpl.forEachInstance(controller -> controller.bossBars().replacePlayer(old, (ServerPlayer) (Object) this));
+        ((ConnectionAccess) this.connection.connection).getChannel().attr(FriendlyByteBufBridge.CHANNEL_RENDER_DATA).set(this);
+    }
+
+    @Inject(method = "disconnect", at = @At("RETURN"))
+    private void adventure$removeBossBarsOnDisconnect(final CallbackInfo ci) {
+        FabricServerAudiencesImpl.forEachInstance(controller -> controller.bossBars().unsubscribeFromAll((ServerPlayer) (Object) this));
+    }
 }

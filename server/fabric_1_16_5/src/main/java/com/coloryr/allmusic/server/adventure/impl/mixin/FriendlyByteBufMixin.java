@@ -35,18 +35,18 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(FriendlyByteBuf.class)
 public class FriendlyByteBufMixin implements FriendlyByteBufBridge {
-  private @Nullable Pointered adventure$data;
+    private @Nullable Pointered adventure$data;
 
-  @ModifyVariable(method = "writeComponent", at = @At("HEAD"), argsOnly = true)
-  private Component adventure$localizeComponent(final Component input) {
-    if (this.adventure$data != null && input instanceof WrappedComponent) {
-      return ((WrappedComponent) input).rendered(this.adventure$data);
+    @ModifyVariable(method = "writeComponent", at = @At("HEAD"), argsOnly = true)
+    private Component adventure$localizeComponent(final Component input) {
+        if (this.adventure$data != null && input instanceof WrappedComponent) {
+            return ((WrappedComponent) input).rendered(this.adventure$data);
+        }
+        return input;
     }
-    return input;
-  }
 
-  @Override
-  public void adventure$data(final @Nullable Pointered data) {
-    this.adventure$data = data;
-  }
+    @Override
+    public void adventure$data(final @Nullable Pointered data) {
+        this.adventure$data = data;
+    }
 }

@@ -23,26 +23,26 @@
  */
 package com.coloryr.allmusic.server.adventure.impl;
 
+import com.coloryr.allmusic.server.adventure.impl.accessor.SoundSourceAccess;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.bossbar.BossBar.Overlay;
-import com.coloryr.allmusic.server.adventure.impl.accessor.SoundSourceAccess;
 import net.kyori.adventure.sound.Sound;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
 
 public final class GameEnums {
-  public static final MappedRegistry<BossEvent.BossBarColor, BossBar.Color> BOSS_BAR_COLOR
-    = MappedRegistry.named(BossEvent.BossBarColor.class, BossEvent.BossBarColor::byName,
-    BossBar.Color.class, BossBar.Color.NAMES);
+    public static final MappedRegistry<BossEvent.BossBarColor, BossBar.Color> BOSS_BAR_COLOR
+            = MappedRegistry.named(BossEvent.BossBarColor.class, BossEvent.BossBarColor::byName,
+            BossBar.Color.class, BossBar.Color.NAMES);
 
-  public static final MappedRegistry<BossEvent.BossBarOverlay, Overlay> BOSS_BAR_OVERLAY
-    = MappedRegistry.named(BossEvent.BossBarOverlay.class, BossEvent.BossBarOverlay::byName,
-    Overlay.class, Overlay.NAMES);
+    public static final MappedRegistry<BossEvent.BossBarOverlay, Overlay> BOSS_BAR_OVERLAY
+            = MappedRegistry.named(BossEvent.BossBarOverlay.class, BossEvent.BossBarOverlay::byName,
+            Overlay.class, Overlay.NAMES);
 
-  public static final MappedRegistry<SoundSource, Sound.Source> SOUND_SOURCE
-    = MappedRegistry.named(SoundSource.class, key -> SoundSourceAccess.getNameMap().get(key),
-    Sound.Source.class, Sound.Source.NAMES);
+    public static final MappedRegistry<SoundSource, Sound.Source> SOUND_SOURCE
+            = MappedRegistry.named(SoundSource.class, key -> SoundSourceAccess.getNameMap().get(key),
+            Sound.Source.class, Sound.Source.NAMES);
 
-  private GameEnums() {
-  }
+    private GameEnums() {
+    }
 }

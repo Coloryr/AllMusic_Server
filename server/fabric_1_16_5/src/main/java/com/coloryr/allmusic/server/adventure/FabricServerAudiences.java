@@ -23,18 +23,19 @@
  */
 package com.coloryr.allmusic.server.adventure;
 
-import java.util.Locale;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.platform.AudienceProvider;
 import com.coloryr.allmusic.server.adventure.impl.AdventureCommon;
 import com.coloryr.allmusic.server.adventure.impl.server.FabricServerAudiencesImpl;
 import com.coloryr.allmusic.server.adventure.impl.server.MinecraftServerBridge;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.text.renderer.ComponentRenderer;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
 
 import static java.util.Objects.requireNonNull;
 
@@ -44,86 +45,86 @@ import static java.util.Objects.requireNonNull;
  * @since 4.0.0
  */
 public interface FabricServerAudiences extends AudienceProvider, FabricAudiences {
-  /**
-   * Get the shared audience provider for the server.
-   *
-   * <p>This provider will render messages using the global translation registry.</p>
-   *
-   * @param server server instance to work with
-   * @return common audience provider
-   * @since 4.0.0
-   */
-  static @NotNull FabricServerAudiences of(final @NotNull MinecraftServer server) {
-    return ((MinecraftServerBridge) server).adventure$globalProvider();
-  }
+    /**
+     * Get the shared audience provider for the server.
+     *
+     * <p>This provider will render messages using the global translation registry.</p>
+     *
+     * @param server server instance to work with
+     * @return common audience provider
+     * @since 4.0.0
+     */
+    static @NotNull FabricServerAudiences of(final @NotNull MinecraftServer server) {
+        return ((MinecraftServerBridge) server).adventure$globalProvider();
+    }
 
-  /**
-   * Create an audience provider for this server with customized settings.
-   *
-   * @param server the server
-   * @return audience provider builder
-   * @since 4.0.0
-   */
-  static @NotNull Builder builder(final @NotNull MinecraftServer server) {
-    return new FabricServerAudiencesImpl.Builder(requireNonNull(server, "server"));
-  }
+    /**
+     * Create an audience provider for this server with customized settings.
+     *
+     * @param server the server
+     * @return audience provider builder
+     * @since 4.0.0
+     */
+    static @NotNull Builder builder(final @NotNull MinecraftServer server) {
+        return new FabricServerAudiencesImpl.Builder(requireNonNull(server, "server"));
+    }
 
-  /**
-   * Get a customized audience provider for the server.
-   *
-   * <p>This provider will render messages using the global translation registry.</p>
-   *
-   * @param server server to work in
-   * @param renderer renderer for messages.
-   * @return new audience provider
-   * @since 4.0.0
-   * @deprecated for removal, use {@link #builder(MinecraftServer)} instead
-   */
-  @Deprecated
-  static @NotNull FabricServerAudiences of(final @NotNull MinecraftServer server, final @NotNull ComponentRenderer<Locale> renderer) {
-    return FabricServerAudiences.builder(server)
-      .componentRenderer(AdventureCommon.localePartition(), renderer)
-      .build();
-  }
+    /**
+     * Get a customized audience provider for the server.
+     *
+     * <p>This provider will render messages using the global translation registry.</p>
+     *
+     * @param server   server to work in
+     * @param renderer renderer for messages.
+     * @return new audience provider
+     * @since 4.0.0
+     * @deprecated for removal, use {@link #builder(MinecraftServer)} instead
+     */
+    @Deprecated
+    static @NotNull FabricServerAudiences of(final @NotNull MinecraftServer server, final @NotNull ComponentRenderer<Locale> renderer) {
+        return FabricServerAudiences.builder(server)
+                .componentRenderer(AdventureCommon.localePartition(), renderer)
+                .build();
+    }
 
-  /**
-   * Get an audience to send to a {@link CommandSourceStack}.
-   *
-   * <p>This will delegate to the native implementation by the command source, or
-   * otherwise use a wrapping implementation.</p>
-   *
-   * @param source source to send to.
-   * @return the audience
-   * @since 4.0.0
-   */
-  @NotNull AdventureCommandSourceStack audience(@NotNull CommandSourceStack source);
+    /**
+     * Get an audience to send to a {@link CommandSourceStack}.
+     *
+     * <p>This will delegate to the native implementation by the command source, or
+     * otherwise use a wrapping implementation.</p>
+     *
+     * @param source source to send to.
+     * @return the audience
+     * @since 4.0.0
+     */
+    @NotNull AdventureCommandSourceStack audience(@NotNull CommandSourceStack source);
 
-  /**
-   * Get an audience that will send to the provided {@link CommandSource}.
-   *
-   * <p>Depending on the specific source, the returned audience may only support
-   * a subset of abilities.</p>
-   *
-   * @param source source to send to
-   * @return an audience for the source
-   * @since 4.0.0
-   */
-  @NotNull Audience audience(@NotNull CommandSource source);
+    /**
+     * Get an audience that will send to the provided {@link CommandSource}.
+     *
+     * <p>Depending on the specific source, the returned audience may only support
+     * a subset of abilities.</p>
+     *
+     * @param source source to send to
+     * @return an audience for the source
+     * @since 4.0.0
+     */
+    @NotNull Audience audience(@NotNull CommandSource source);
 
-  /**
-   * Create an audience that will send to every listed player.
-   *
-   * @param players Players to send to.
-   * @return a new audience
-   * @since 4.0.0
-   */
-  @NotNull Audience audience(@NotNull Iterable<ServerPlayer> players);
+    /**
+     * Create an audience that will send to every listed player.
+     *
+     * @param players Players to send to.
+     * @return a new audience
+     * @since 4.0.0
+     */
+    @NotNull Audience audience(@NotNull Iterable<ServerPlayer> players);
 
-  /**
-   * Builder for {@link FabricServerAudiences} with custom attributes.
-   *
-   * @since 4.0.0
-   */
-  interface Builder extends AudienceProvider.Builder<FabricServerAudiences, Builder> {
-  }
+    /**
+     * Builder for {@link FabricServerAudiences} with custom attributes.
+     *
+     * @since 4.0.0
+     */
+    interface Builder extends AudienceProvider.Builder<FabricServerAudiences, Builder> {
+    }
 }

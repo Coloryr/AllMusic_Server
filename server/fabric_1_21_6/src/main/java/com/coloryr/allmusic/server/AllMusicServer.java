@@ -10,9 +10,8 @@ import net.minecraft.server.MinecraftServer;
 import java.io.File;
 
 public class AllMusicServer implements DedicatedServerModInitializer {
-    public static MinecraftServer server;
-
     public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("allmusic", "channel");
+    public static MinecraftServer server;
 
     @Override
     public void onInitializeServer() {

@@ -32,9 +32,9 @@ import static java.util.Objects.requireNonNull;
  * Accessor for our listener stored in the client HUD.
  */
 public interface BossHealthOverlayBridge {
-  @NotNull ClientBossBarListener adventure$listener(final @NotNull FabricClientAudiencesImpl controller);
+    static @NotNull ClientBossBarListener listener(final @NotNull BossHealthOverlay hud, final @NotNull FabricClientAudiencesImpl controller) {
+        return ((BossHealthOverlayBridge) requireNonNull(hud, "hud")).adventure$listener(controller);
+    }
 
-  static @NotNull ClientBossBarListener listener(final @NotNull BossHealthOverlay hud, final @NotNull FabricClientAudiencesImpl controller) {
-    return ((BossHealthOverlayBridge) requireNonNull(hud, "hud")).adventure$listener(controller);
-  }
+    @NotNull ClientBossBarListener adventure$listener(final @NotNull FabricClientAudiencesImpl controller);
 }

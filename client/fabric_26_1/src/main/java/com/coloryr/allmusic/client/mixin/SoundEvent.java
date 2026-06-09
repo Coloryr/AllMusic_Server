@@ -18,8 +18,7 @@ public class SoundEvent {
         if (AllMusicCore.isPlay()) {
             SoundSource data = sound.getSource();
             switch (data) {
-                case RECORDS, MUSIC:
-                {
+                case RECORDS, MUSIC: {
                     cir.cancel();
                     cir.setReturnValue(SoundEngine.PlayResult.NOT_STARTED);
                 }
@@ -38,7 +37,7 @@ public class SoundEvent {
     }
 
     @Inject(method = "reload", at = @At("RETURN"))
-    public void reload(CallbackInfo info){
+    public void reload(CallbackInfo info) {
         AllMusicCore.reload();
     }
 }

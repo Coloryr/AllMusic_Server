@@ -23,14 +23,15 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.accessor;
 
-import java.util.Map;
 import net.minecraft.sounds.SoundSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
+import java.util.Map;
+
 @Mixin(SoundSource.class)
 public interface SoundSourceAccess {
-  // @formatter:off
+    // @formatter:off
   @Accessor("BY_NAME") static Map<String, SoundSource> getNameMap() {
     throw new AssertionError();
   }

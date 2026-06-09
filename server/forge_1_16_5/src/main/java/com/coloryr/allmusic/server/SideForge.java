@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
@@ -11,16 +11,17 @@ import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import io.netty.buffer.ByteBuf;
 import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collection;
+import java.util.UUID;
 
 public class SideForge extends BaseSide {
 
@@ -57,7 +58,7 @@ public class SideForge extends BaseSide {
     @Override
     public boolean needPlay(boolean islist) {
         for (ServerPlayer player : AllMusicServer.server.getPlayerList().getPlayers()) {
-            if (!AllMusic.isSkip(player.getName().getString(), null,false, islist)) {
+            if (!AllMusic.isSkip(player.getName().getString(), null, false, islist)) {
                 return true;
             }
         }
@@ -109,7 +110,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public File getFolder() {
-        return new File(AllMusicServer.dir);
+        return new File(AllMusic.SERVER_DIR);
     }
 
     @Override

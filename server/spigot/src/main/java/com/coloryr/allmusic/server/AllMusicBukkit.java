@@ -15,8 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AllMusicBukkit extends JavaPlugin {
     public static Plugin plugin;
     public static AllMusicPAPI PAPI;
-    private static PluginMessage pluginMessage;
     public static BukkitAudiences adventure;
+    private static PluginMessage pluginMessage;
 
     @Override
     public void onEnable() {

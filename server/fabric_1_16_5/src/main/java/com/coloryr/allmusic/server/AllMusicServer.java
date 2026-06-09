@@ -1,10 +1,10 @@
 package com.coloryr.allmusic.server;
 
+import com.coloryr.allmusic.server.adventure.FabricServerAudiences;
 import com.coloryr.allmusic.server.core.AllMusic;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import com.coloryr.allmusic.server.adventure.FabricServerAudiences;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;

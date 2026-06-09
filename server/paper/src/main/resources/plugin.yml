@@ -2,7 +2,7 @@ name: allmusic
 main: com.coloryr.allmusic.server.AllMusicPaper
 author: Color_yr
 version: ${version}
-softdepend: [PlaceholderAPI, Vault, Essentials, CMI]
+softdepend: [ PlaceholderAPI, Vault, Essentials, CMI ]
 api-version: 1.13
 
 commands:

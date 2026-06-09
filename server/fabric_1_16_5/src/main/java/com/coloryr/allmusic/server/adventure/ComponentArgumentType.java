@@ -23,6 +23,7 @@
  */
 package com.coloryr.allmusic.server.adventure;
 
+import com.coloryr.allmusic.server.adventure.impl.accessor.ComponentSerializerAccess;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
@@ -30,13 +31,13 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Set;
-import com.coloryr.allmusic.server.adventure.impl.accessor.ComponentSerializerAccess;
 import net.kyori.adventure.text.Component;
 import net.minecraft.commands.arguments.ComponentArgument;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * An argument that takes JSON-format text.
@@ -49,52 +50,52 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class ComponentArgumentType implements ArgumentType<Component> {
 
-  private static final ComponentArgumentType INSTANCE = new ComponentArgumentType();
-  private static final Set<String> EXAMPLES = ImmutableSet.of(
-    "\"Hello world!\"",
-    "[\"Message\", {\"text\": \"example\", \"color\": \"#aabbcc\"}]"
-  );
+    private static final ComponentArgumentType INSTANCE = new ComponentArgumentType();
+    private static final Set<String> EXAMPLES = ImmutableSet.of(
+            "\"Hello world!\"",
+            "[\"Message\", {\"text\": \"example\", \"color\": \"#aabbcc\"}]"
+    );
 
-  /**
-   * Get the argument type for component arguments.
-   *
-   * @return argument type instance
-   * @since 4.0.0
-   */
-  public static @NotNull ComponentArgumentType component() {
-    return INSTANCE;
-  }
-
-  /**
-   * Get the component from the provided context.
-   *
-   * @param ctx Context to get from
-   * @param key argument key
-   * @return parsed component
-   * @since 4.0.0
-   */
-  public static @NotNull Component component(final @NotNull CommandContext<?> ctx, final @NotNull String key) {
-    return ctx.getArgument(key, Component.class);
-  }
-
-  private ComponentArgumentType() {
-  }
-
-  @Override
-  public @NotNull Component parse(final @NotNull StringReader reader) throws CommandSyntaxException {
-    try (final JsonReader json = new JsonReader(new java.io.StringReader(reader.getRemaining()))) {
-      final Component ret = ComponentSerializerAccess.getGSON().fromJson(json, Component.class);
-      reader.setCursor(reader.getCursor() + ComponentSerializerAccess.getPos(json));
-      return ret;
-    } catch (final JsonParseException | IOException ex) {
-      final String message = ex.getCause() == null ? ex.getMessage() : ex.getCause().getMessage();
-      throw ComponentArgument.ERROR_INVALID_JSON.createWithContext(reader, message);
+    private ComponentArgumentType() {
     }
-  }
 
-  @Override
-  public @NotNull Collection<String> getExamples() {
-    return EXAMPLES;
-  }
+    /**
+     * Get the argument type for component arguments.
+     *
+     * @return argument type instance
+     * @since 4.0.0
+     */
+    public static @NotNull ComponentArgumentType component() {
+        return INSTANCE;
+    }
+
+    /**
+     * Get the component from the provided context.
+     *
+     * @param ctx Context to get from
+     * @param key argument key
+     * @return parsed component
+     * @since 4.0.0
+     */
+    public static @NotNull Component component(final @NotNull CommandContext<?> ctx, final @NotNull String key) {
+        return ctx.getArgument(key, Component.class);
+    }
+
+    @Override
+    public @NotNull Component parse(final @NotNull StringReader reader) throws CommandSyntaxException {
+        try (final JsonReader json = new JsonReader(new java.io.StringReader(reader.getRemaining()))) {
+            final Component ret = ComponentSerializerAccess.getGSON().fromJson(json, Component.class);
+            reader.setCursor(reader.getCursor() + ComponentSerializerAccess.getPos(json));
+            return ret;
+        } catch (final JsonParseException | IOException ex) {
+            final String message = ex.getCause() == null ? ex.getMessage() : ex.getCause().getMessage();
+            throw ComponentArgument.ERROR_INVALID_JSON.createWithContext(reader, message);
+        }
+    }
+
+    @Override
+    public @NotNull Collection<String> getExamples() {
+        return EXAMPLES;
+    }
 
 }

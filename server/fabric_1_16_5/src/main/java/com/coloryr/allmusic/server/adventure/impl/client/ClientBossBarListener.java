@@ -23,58 +23,59 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.client;
 
-import java.util.Map;
-import java.util.UUID;
-import net.kyori.adventure.bossbar.BossBar;
 import com.coloryr.allmusic.server.adventure.impl.AbstractBossBarListener;
 import com.coloryr.allmusic.server.adventure.impl.accessor.ClientboundBossEventPacketAccess;
+import net.kyori.adventure.bossbar.BossBar;
 import net.minecraft.client.gui.components.LerpingBossEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
 import net.minecraft.world.BossEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+import java.util.UUID;
+
 public class ClientBossBarListener extends AbstractBossBarListener<LerpingBossEvent> {
-  private final Map<UUID, LerpingBossEvent> hudBars;
+    private final Map<UUID, LerpingBossEvent> hudBars;
 
-  public ClientBossBarListener(final FabricClientAudiencesImpl controller, final Map<UUID, LerpingBossEvent> hudBars) {
-    super(controller);
-    this.hudBars = hudBars;
-  }
-
-  @Override
-  protected LerpingBossEvent newBar(final @NotNull Component title,
-                                    final BossEvent.@NotNull BossBarColor color,
-                                    final BossEvent.@NotNull BossBarOverlay style,
-                                    final float progress) {
-    final ClientboundBossEventPacket pkt = new ClientboundBossEventPacket();
-    final ClientboundBossEventPacketAccess access = (ClientboundBossEventPacketAccess) pkt;
-    access.setId(UUID.randomUUID());
-    access.setName(title);
-    access.setColor(color);
-    access.setOverlay(style);
-    access.setPct(progress);
-    return new LerpingBossEvent(pkt); // the only constructor uses a packet, so we use that
-  }
-
-  public void add(final BossBar bar) {
-    final LerpingBossEvent mc = this.minecraftCreating(bar);
-    this.hudBars.put(mc.getId(), mc);
-  }
-
-  public void remove(final BossBar bar) {
-    final LerpingBossEvent mc = this.bars.remove(bar);
-    if (mc != null) {
-      bar.removeListener(this);
-      this.hudBars.remove(mc.getId());
+    public ClientBossBarListener(final FabricClientAudiencesImpl controller, final Map<UUID, LerpingBossEvent> hudBars) {
+        super(controller);
+        this.hudBars = hudBars;
     }
-  }
 
-  public void clear() {
-    for (final Map.Entry<BossBar, LerpingBossEvent> entry : this.bars.entrySet()) {
-      entry.getKey().removeListener(this);
-      this.hudBars.remove(entry.getValue().getId());
+    @Override
+    protected LerpingBossEvent newBar(final @NotNull Component title,
+                                      final BossEvent.@NotNull BossBarColor color,
+                                      final BossEvent.@NotNull BossBarOverlay style,
+                                      final float progress) {
+        final ClientboundBossEventPacket pkt = new ClientboundBossEventPacket();
+        final ClientboundBossEventPacketAccess access = (ClientboundBossEventPacketAccess) pkt;
+        access.setId(UUID.randomUUID());
+        access.setName(title);
+        access.setColor(color);
+        access.setOverlay(style);
+        access.setPct(progress);
+        return new LerpingBossEvent(pkt); // the only constructor uses a packet, so we use that
     }
-    this.bars.clear();
-  }
+
+    public void add(final BossBar bar) {
+        final LerpingBossEvent mc = this.minecraftCreating(bar);
+        this.hudBars.put(mc.getId(), mc);
+    }
+
+    public void remove(final BossBar bar) {
+        final LerpingBossEvent mc = this.bars.remove(bar);
+        if (mc != null) {
+            bar.removeListener(this);
+            this.hudBars.remove(mc.getId());
+        }
+    }
+
+    public void clear() {
+        for (final Map.Entry<BossBar, LerpingBossEvent> entry : this.bars.entrySet()) {
+            entry.getKey().removeListener(this);
+            this.hudBars.remove(entry.getValue().getId());
+        }
+        this.bars.clear();
+    }
 }

@@ -29,15 +29,9 @@ public class AllMusicServer {
     public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
     public static final String MODID = "allmusic_server";
     public static final Logger LOGGER = LoggerFactory.getLogger("AllMusic Server");
-    public static MinecraftServer server;
-
     private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.builder()
             .build();
-
-    public static MutableComponent parse(Component input) {
-        String json = GSON_SERIALIZER.serialize(input);
-        return MutableComponent.Serializer.fromJson(json);
-    }
+    public static MinecraftServer server;
 
     public AllMusicServer() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -45,6 +39,11 @@ public class AllMusicServer {
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    public static MutableComponent parse(Component input) {
+        String json = GSON_SERIALIZER.serialize(input);
+        return MutableComponent.Serializer.fromJson(json);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

@@ -1,6 +1,5 @@
 package com.coloryr.allmusic.server.event;
 
-import com.coloryr.allmusic.server.core.objs.music.MusicObj;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;

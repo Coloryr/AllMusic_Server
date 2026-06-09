@@ -3,8 +3,8 @@ plugins {
 //    id("architectury-plugin") version "3.5-SNAPSHOT"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_17
-java.targetCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
 
 //architectury {
 //    platformSetupLoomIde()
@@ -37,7 +37,7 @@ tasks {
 
     shadowJar {
         relocate("net.kyori", "com.coloryr.allmusic.libs.net.kyori")
-//        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
+        relocate("com.google.gson", "com.coloryr.allmusic.libs.com.google.gson")
     }
 
     remapJar {

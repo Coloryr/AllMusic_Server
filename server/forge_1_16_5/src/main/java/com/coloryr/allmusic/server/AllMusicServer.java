@@ -6,8 +6,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -28,15 +28,9 @@ public class AllMusicServer {
     public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
     public static final String MODID = "allmusic_server";
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
-    public static MinecraftServer server;
-
     private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.builder()
             .build();
-
-    public static net.minecraft.network.chat.Component parse(Component input) {
-        String json = GSON_SERIALIZER.serialize(input);
-        return net.minecraft.network.chat.Component.Serializer.fromJson(json);
-    }
+    public static MinecraftServer server;
 
     public AllMusicServer() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -44,6 +38,11 @@ public class AllMusicServer {
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    public static net.minecraft.network.chat.Component parse(Component input) {
+        String json = GSON_SERIALIZER.serialize(input);
+        return net.minecraft.network.chat.Component.Serializer.fromJson(json);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

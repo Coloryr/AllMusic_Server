@@ -26,12 +26,12 @@ package com.coloryr.allmusic.server.adventure.impl.server;
 import net.kyori.adventure.audience.Audience;
 
 public interface RenderableAudience extends Audience {
-  Audience renderUsing(final FabricServerAudiencesImpl controller);
+    Audience renderUsing(final FabricServerAudiencesImpl controller);
 
-  /**
-   * Refresh this audience, to update any actively displayed rendered content.
-   *
-   * @since 4.0.0
-   */
-  void refresh();
+    /**
+     * Refresh this audience, to update any actively displayed rendered content.
+     *
+     * @since 4.0.0
+     */
+    void refresh();
 }

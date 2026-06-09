@@ -23,25 +23,25 @@
  */
 package com.coloryr.allmusic.server.adventure.impl;
 
-import net.kyori.adventure.audience.Audience;
 import com.coloryr.allmusic.server.adventure.AdventureCommandSourceStack;
 import com.coloryr.allmusic.server.adventure.impl.server.FabricServerAudiencesImpl;
+import net.kyori.adventure.audience.Audience;
 import net.minecraft.commands.CommandSource;
 
 public interface AdventureCommandSourceStackInternal extends AdventureCommandSourceStack {
-  /**
-   * Set the audience to be delegated to.
-   *
-   * @param wrapped wrapped audience
-   * @param controller controller to render with
-   * @return the wrapped audience
-   */
-  AdventureCommandSourceStack adventure$audience(final Audience wrapped, final FabricServerAudiencesImpl controller);
+    /**
+     * Set the audience to be delegated to.
+     *
+     * @param wrapped    wrapped audience
+     * @param controller controller to render with
+     * @return the wrapped audience
+     */
+    AdventureCommandSourceStack adventure$audience(final Audience wrapped, final FabricServerAudiencesImpl controller);
 
-  /**
-   * The backing source for the command.
-   *
-   * @return backing source
-   */
-  CommandSource adventure$source();
+    /**
+     * The backing source for the command.
+     *
+     * @return backing source
+     */
+    CommandSource adventure$source();
 }

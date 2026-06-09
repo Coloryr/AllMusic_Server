@@ -1,6 +1,6 @@
 subprojects {
     val shadowImplementation by configurations.getting
-    
+
     dependencies {
         shadowImplementation(project(":server"))
         shadowImplementation(project(":codec"))

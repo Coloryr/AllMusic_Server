@@ -28,10 +28,10 @@ import org.jetbrains.annotations.NotNull;
 
 public interface PointerProviderBridge {
 
-  /**
-   * Get a shared instance of pointers.
-   *
-   * @return the pointers
-   */
-  @NotNull Pointers adventure$pointers();
+    /**
+     * Get a shared instance of pointers.
+     *
+     * @return the pointers
+     */
+    @NotNull Pointers adventure$pointers();
 }

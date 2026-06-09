@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
@@ -66,7 +66,7 @@ public class SidePaper extends BaseSide {
     public void send(Object player, MusicPack pack) {
         if (player instanceof Player player1) {
             try {
-                send(player1,  MusicPacketCodec.pack(pack).array());
+                send(player1, MusicPacketCodec.pack(pack).array());
             } catch (Exception e) {
                 e.printStackTrace();
             }

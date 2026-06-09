@@ -33,11 +33,11 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Style.Serializer.class)
 abstract class StyleSerializerMixin {
-  @Redirect(method = "getClickEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/ClickEvent$Action;isAllowedFromServer()Z"))
-  private static boolean adventure$redirectIsAllowedFromServer(final ClickEvent.@NotNull Action action) {
-    if (NonWrappingComponentSerializer.INSTANCE.bypassIsAllowedFromServer()) {
-      return true;
+    @Redirect(method = "getClickEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/ClickEvent$Action;isAllowedFromServer()Z"))
+    private static boolean adventure$redirectIsAllowedFromServer(final ClickEvent.@NotNull Action action) {
+        if (NonWrappingComponentSerializer.INSTANCE.bypassIsAllowedFromServer()) {
+            return true;
+        }
+        return action.isAllowedFromServer();
     }
-    return action.isAllowedFromServer();
-  }
 }

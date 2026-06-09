@@ -5,11 +5,7 @@ import com.coloryr.allmusic.client.core.AllMusicCore;
 import com.coloryr.allmusic.client.core.render.PictureFrameBuffer;
 import com.coloryr.allmusic.client.core.render.TextFrameBuffer;
 import com.coloryr.allmusic.client.core.render.TextureRender;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -31,20 +27,15 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
 
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 @Mod(AllMusicClient.MODID)
 public class AllMusicClient implements AllMusicBridge {
     public static final String MODID = "allmusic_client";
-
-    private static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
-
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Client");
+    private static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
 
     public AllMusicClient() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

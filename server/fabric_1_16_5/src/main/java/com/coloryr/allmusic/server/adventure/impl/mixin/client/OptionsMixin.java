@@ -23,30 +23,31 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin.client;
 
-import java.util.Locale;
-import java.util.Objects;
 import com.coloryr.allmusic.server.adventure.impl.LocaleHolderBridge;
 import net.minecraft.client.Options;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Locale;
+import java.util.Objects;
+
 @Mixin(Options.class)
 public class OptionsMixin implements LocaleHolderBridge {
-  // @formatter:off
+    // @formatter:off
   @Shadow public String languageCode;
   // @formatter:on
 
-  private String adventure$cachedLanguage;
-  private Locale adventure$cachedLocale;
+    private String adventure$cachedLanguage;
+    private Locale adventure$cachedLocale;
 
-  @Override
-  public Locale adventure$locale() {
-    final String language = this.languageCode;
-    if (Objects.equals(this.adventure$cachedLanguage, language)) {
-      return this.adventure$cachedLocale;
-    } else {
-      this.adventure$cachedLanguage = language;
-      return this.adventure$cachedLocale = LocaleHolderBridge.toLocale(language);
+    @Override
+    public Locale adventure$locale() {
+        final String language = this.languageCode;
+        if (Objects.equals(this.adventure$cachedLanguage, language)) {
+            return this.adventure$cachedLocale;
+        } else {
+            this.adventure$cachedLanguage = language;
+            return this.adventure$cachedLocale = LocaleHolderBridge.toLocale(language);
+        }
     }
-  }
 }

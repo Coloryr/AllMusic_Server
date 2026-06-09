@@ -23,9 +23,10 @@
  */
 package com.coloryr.allmusic.server.adventure.impl;
 
+import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+
 import java.lang.reflect.Method;
 import java.net.URL;
-import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 
 /**
  * Via i509VCB, a trick to get Brig onto the Knot classpath in order to properly mix in.
@@ -36,57 +37,57 @@ import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
  * <p>Original on GitHub at <a href="https://github.com/i509VCB/Fabric-Junkkyard/blob/ce278daa93804697c745a51af06ec812896ec2ad/src/main/java/me/i509/junkkyard/hacks/PreLaunchHacks.java">i509VCB/Fabric-Junkkyard</a></p>
  */
 public class AdventurePrelaunch implements PreLaunchEntrypoint {
-  @Override
-  public void onPreLaunch() {
-    // 在 Fabric 环境中，不需要特殊处理
-    if (isFabricEnvironment()) {
-      System.out.println("Adventure platform running in Fabric environment");
-      return;
+    private static boolean isFabricEnvironment() {
+        try {
+            Class.forName("net.fabricmc.loader.api.FabricLoader");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
-    // 非 Fabric 环境，执行原来的逻辑
-    try {
-      hackilyLoadForMixin("com.mojang.authlib.UserAuthentication");
-    } catch (final Exception e) {
-      throw new RuntimeException("Failed to setup Adventure platform", e);
-    }
-  }
+    static void hackilyLoadForMixin(final String pathOfAClass) throws Exception {
+        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        final URL url = Class.forName(pathOfAClass).getProtectionDomain().getCodeSource().getLocation();
 
-  private static boolean isFabricEnvironment() {
-    try {
-      Class.forName("net.fabricmc.loader.api.FabricLoader");
-      return true;
-    } catch (ClassNotFoundException e) {
-      return false;
+        // 尝试添加 URL
+        try {
+            Method addURLMethod = findAddURLMethod(classLoader);
+            if (addURLMethod != null) {
+                addURLMethod.invoke(classLoader, url);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to add URL, but continuing: " + e.getMessage());
+        }
     }
-  }
 
-  static void hackilyLoadForMixin(final String pathOfAClass) throws Exception {
-    final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-    final URL url = Class.forName(pathOfAClass).getProtectionDomain().getCodeSource().getLocation();
-
-    // 尝试添加 URL
-    try {
-      Method addURLMethod = findAddURLMethod(classLoader);
-      if (addURLMethod != null) {
-        addURLMethod.invoke(classLoader, url);
-      }
-    } catch (Exception e) {
-      System.err.println("Failed to add URL, but continuing: " + e.getMessage());
+    private static Method findAddURLMethod(ClassLoader classLoader) {
+        Class<?> clazz = classLoader.getClass();
+        while (clazz != null) {
+            try {
+                Method method = clazz.getDeclaredMethod("addURL", URL.class);
+                method.setAccessible(true);
+                return method;
+            } catch (NoSuchMethodException e) {
+                clazz = clazz.getSuperclass();
+            }
+        }
+        return null;
     }
-  }
 
-  private static Method findAddURLMethod(ClassLoader classLoader) {
-    Class<?> clazz = classLoader.getClass();
-    while (clazz != null) {
-      try {
-        Method method = clazz.getDeclaredMethod("addURL", URL.class);
-        method.setAccessible(true);
-        return method;
-      } catch (NoSuchMethodException e) {
-        clazz = clazz.getSuperclass();
-      }
+    @Override
+    public void onPreLaunch() {
+        // 在 Fabric 环境中，不需要特殊处理
+        if (isFabricEnvironment()) {
+            System.out.println("Adventure platform running in Fabric environment");
+            return;
+        }
+
+        // 非 Fabric 环境，执行原来的逻辑
+        try {
+            hackilyLoadForMixin("com.mojang.authlib.UserAuthentication");
+        } catch (final Exception e) {
+            throw new RuntimeException("Failed to setup Adventure platform", e);
+        }
     }
-    return null;
-  }
 }

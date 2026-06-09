@@ -113,7 +113,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public File getFolder() {
-        return new File(AllMusicServer.dir);
+        return new File(AllMusic.SERVER_DIR);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class SideForge extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, Component message) {
-        if(obj instanceof ICommandSender) {
+        if (obj instanceof ICommandSender) {
             IChatComponent textComponent = AllMusicServer.parse(message);
             ICommandSender sender = (ICommandSender) obj;
             sender.addChatMessage(textComponent);

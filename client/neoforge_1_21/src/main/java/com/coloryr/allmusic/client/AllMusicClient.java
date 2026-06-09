@@ -5,29 +5,17 @@ import com.coloryr.allmusic.client.core.AllMusicCore;
 import com.coloryr.allmusic.client.core.render.PictureFrameBuffer;
 import com.coloryr.allmusic.client.core.render.TextFrameBuffer;
 import com.coloryr.allmusic.client.core.render.TextureRender;
-import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.comm.AllMusicInit;
 import com.coloryr.allmusic.comm.MusicCodec;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.sounds.SoundSource;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -36,19 +24,12 @@ import net.neoforged.neoforge.client.event.sound.PlaySoundSourceEvent;
 import net.neoforged.neoforge.client.event.sound.PlayStreamingSourceEvent;
 import net.neoforged.neoforge.client.event.sound.SoundEngineLoadEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
 
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 @EventBusSubscriber(modid = AllMusicClient.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
@@ -69,45 +50,6 @@ public class AllMusicClient implements IPayloadHandler<MusicCodec>, AllMusicBrid
         AllMusicCore.reload();
     }
 
-    @EventBusSubscriber(modid = AllMusicInit.MODID, value = Dist.CLIENT)
-    public static class MusicEvent
-    {
-        @SubscribeEvent
-        public static void onTick(ClientTickEvent.Post event) {
-            AllMusicCore.tick();
-        }
-
-        @SubscribeEvent
-        public static void onSound(final PlaySoundSourceEvent e) {
-            if (!AllMusicCore.isPlay()) return;
-            SoundSource data = e.getSound().getSource();
-            switch (data) {
-                case MUSIC, RECORDS -> e.getChannel().stop();
-            }
-        }
-
-        @SubscribeEvent
-        public static void onSound(final PlayStreamingSourceEvent e) {
-            if (!AllMusicCore.isPlay()) return;
-            SoundSource data = e.getSound().getSource();
-            switch (data) {
-                case MUSIC, RECORDS -> e.getChannel().stop();
-            }
-        }
-
-        @SubscribeEvent
-        public static void onServerQuit(final ClientPlayerNetworkEvent.LoggingOut e) {
-            AllMusicCore.onServerQuit();
-        }
-
-        @SubscribeEvent
-        public static void onRenderOverlay(RenderGuiLayerEvent.Post e) {
-            if (e.getName().equals(VanillaGuiLayers.CAMERA_OVERLAYS)) {
-                AllMusicCore.hudUpdate();
-            }
-        }
-    }
-
     public void sendMessage(String data) {
         data = "[AllMusic Client]" + data;
         LOGGER.warn(data);
@@ -120,7 +62,7 @@ public class AllMusicClient implements IPayloadHandler<MusicCodec>, AllMusicBrid
     }
 
     @Override
-    public void handle(MusicCodec pack, IPayloadContext iPayloadContext)  {
+    public void handle(MusicCodec pack, IPayloadContext iPayloadContext) {
         try {
             AllMusicCore.packDo(pack.pack());
         } catch (Exception e) {
@@ -191,6 +133,44 @@ public class AllMusicClient implements IPayloadHandler<MusicCodec>, AllMusicBrid
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @EventBusSubscriber(modid = AllMusicInit.MODID, value = Dist.CLIENT)
+    public static class MusicEvent {
+        @SubscribeEvent
+        public static void onTick(ClientTickEvent.Post event) {
+            AllMusicCore.tick();
+        }
+
+        @SubscribeEvent
+        public static void onSound(final PlaySoundSourceEvent e) {
+            if (!AllMusicCore.isPlay()) return;
+            SoundSource data = e.getSound().getSource();
+            switch (data) {
+                case MUSIC, RECORDS -> e.getChannel().stop();
+            }
+        }
+
+        @SubscribeEvent
+        public static void onSound(final PlayStreamingSourceEvent e) {
+            if (!AllMusicCore.isPlay()) return;
+            SoundSource data = e.getSound().getSource();
+            switch (data) {
+                case MUSIC, RECORDS -> e.getChannel().stop();
+            }
+        }
+
+        @SubscribeEvent
+        public static void onServerQuit(final ClientPlayerNetworkEvent.LoggingOut e) {
+            AllMusicCore.onServerQuit();
+        }
+
+        @SubscribeEvent
+        public static void onRenderOverlay(RenderGuiLayerEvent.Post e) {
+            if (e.getName().equals(VanillaGuiLayers.CAMERA_OVERLAYS)) {
+                AllMusicCore.hudUpdate();
+            }
         }
     }
 }

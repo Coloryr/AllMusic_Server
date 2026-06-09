@@ -23,12 +23,10 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin.client;
 
-import com.google.common.collect.MapMaker;
-import java.util.Map;
-import java.util.UUID;
 import com.coloryr.allmusic.server.adventure.impl.client.BossHealthOverlayBridge;
 import com.coloryr.allmusic.server.adventure.impl.client.ClientBossBarListener;
 import com.coloryr.allmusic.server.adventure.impl.client.FabricClientAudiencesImpl;
+import com.google.common.collect.MapMaker;
 import net.minecraft.client.gui.components.BossHealthOverlay;
 import net.minecraft.client.gui.components.LerpingBossEvent;
 import org.jetbrains.annotations.NotNull;
@@ -39,23 +37,25 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Map;
+import java.util.UUID;
+
 @Mixin(BossHealthOverlay.class)
 public class BossHealthOverlayMixin implements BossHealthOverlayBridge {
-  // @formatter:off
-  @Shadow @Final private Map<UUID, LerpingBossEvent> events;
+    private final Map<FabricClientAudiencesImpl, ClientBossBarListener> adventure$listener = new MapMaker().weakKeys().makeMap();
   // @formatter:on
+    // @formatter:off
+  @Shadow @Final private Map<UUID, LerpingBossEvent> events;
 
-  private final Map<FabricClientAudiencesImpl, ClientBossBarListener> adventure$listener = new MapMaker().weakKeys().makeMap();
-
-  @Override
-  public @NotNull ClientBossBarListener adventure$listener(final @NotNull FabricClientAudiencesImpl controller) {
-    return this.adventure$listener.computeIfAbsent(controller, ctrl -> new ClientBossBarListener(ctrl, this.events));
-  }
-
-  @Inject(method = "reset", at = @At("HEAD"))
-  private void adventure$resetListener(final CallbackInfo ci) {
-    if (this.adventure$listener != null) {
-      this.adventure$listener.clear();
+    @Override
+    public @NotNull ClientBossBarListener adventure$listener(final @NotNull FabricClientAudiencesImpl controller) {
+        return this.adventure$listener.computeIfAbsent(controller, ctrl -> new ClientBossBarListener(ctrl, this.events));
     }
-  }
+
+    @Inject(method = "reset", at = @At("HEAD"))
+    private void adventure$resetListener(final CallbackInfo ci) {
+        if (this.adventure$listener != null) {
+            this.adventure$listener.clear();
+        }
+    }
 }

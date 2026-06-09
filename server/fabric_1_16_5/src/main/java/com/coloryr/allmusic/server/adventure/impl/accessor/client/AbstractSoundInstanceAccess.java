@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(AbstractSoundInstance.class)
 public interface AbstractSoundInstanceAccess {
-  // @formatter:off
+    // @formatter:off
   @Accessor void setLocation(final ResourceLocation loc);
   // @formatter:on
 }

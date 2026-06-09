@@ -23,30 +23,30 @@
  */
 package com.coloryr.allmusic.server.adventure.impl;
 
-import com.google.gson.JsonObject;
 import com.coloryr.allmusic.server.adventure.ComponentArgumentType;
 import com.coloryr.allmusic.server.adventure.impl.accessor.ComponentSerializerAccess;
+import com.google.gson.JsonObject;
 import net.minecraft.commands.synchronization.ArgumentSerializer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
 public class ComponentArgumentTypeSerializer implements ArgumentSerializer<ComponentArgumentType> {
 
-  private static final ResourceLocation SERIALIZER_GSON = new ResourceLocation("adventure", "gson");
+    private static final ResourceLocation SERIALIZER_GSON = new ResourceLocation("adventure", "gson");
 
-  @Override
-  public void serializeToNetwork(final ComponentArgumentType type, final FriendlyByteBuf buffer) {
-    buffer.writeResourceLocation(SERIALIZER_GSON);
-  }
+    @Override
+    public void serializeToNetwork(final ComponentArgumentType type, final FriendlyByteBuf buffer) {
+        buffer.writeResourceLocation(SERIALIZER_GSON);
+    }
 
-  @Override
-  public ComponentArgumentType deserializeFromNetwork(final FriendlyByteBuf buffer) {
-    buffer.readResourceLocation(); // TODO: Serializer type
-    return ComponentArgumentType.component();
-  }
+    @Override
+    public ComponentArgumentType deserializeFromNetwork(final FriendlyByteBuf buffer) {
+        buffer.readResourceLocation(); // TODO: Serializer type
+        return ComponentArgumentType.component();
+    }
 
-  @Override
-  public void serializeToJson(final ComponentArgumentType type, final JsonObject json) {
-    json.add("serializer", ComponentSerializerAccess.getGSON().toJsonTree(SERIALIZER_GSON));
-  }
+    @Override
+    public void serializeToJson(final ComponentArgumentType type, final JsonObject json) {
+        json.add("serializer", ComponentSerializerAccess.getGSON().toJsonTree(SERIALIZER_GSON));
+    }
 }

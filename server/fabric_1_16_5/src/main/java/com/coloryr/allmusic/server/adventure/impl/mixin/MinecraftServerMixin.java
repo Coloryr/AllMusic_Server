@@ -23,18 +23,17 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.mixin;
 
-import com.google.common.collect.MapMaker;
-import java.util.Map;
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.audience.ForwardingAudience;
-import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.permission.PermissionChecker;
 import com.coloryr.allmusic.server.adventure.FabricAudiences;
 import com.coloryr.allmusic.server.adventure.FabricServerAudiences;
 import com.coloryr.allmusic.server.adventure.impl.server.FabricServerAudiencesImpl;
 import com.coloryr.allmusic.server.adventure.impl.server.MinecraftServerBridge;
 import com.coloryr.allmusic.server.adventure.impl.server.PlainAudience;
 import com.coloryr.allmusic.server.adventure.impl.server.RenderableAudience;
+import com.google.common.collect.MapMaker;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.permission.PermissionChecker;
 import net.kyori.adventure.pointer.Pointers;
 import net.kyori.adventure.util.TriState;
 import net.minecraft.server.MinecraftServer;
@@ -44,52 +43,54 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Map;
+
 /**
  * Implement ComponentCommandOutput for output to the server console.
  */
 @Mixin(value = MinecraftServer.class)
 public abstract class MinecraftServerMixin implements MinecraftServerBridge, RenderableAudience, ForwardingAudience.Single {
-  // @formatter:off
+    // @formatter:off
   @Shadow @Final private static Logger LOGGER;
   // @formatter:on
 
-  private final FabricServerAudiencesImpl adventure$globalProvider = new FabricServerAudiencesImpl.Builder((MinecraftServer) (Object) this).build();
-  private final Map<FabricAudiences, Audience> adventure$renderers = new MapMaker().weakKeys().makeMap();
-  private final Audience adventure$backing = this.renderUsing(this.adventure$globalProvider);
-  private volatile Pointers adventure$pointers;
+    private final FabricServerAudiencesImpl adventure$globalProvider = new FabricServerAudiencesImpl.Builder((MinecraftServer) (Object) this).build();
+    private final Map<FabricAudiences, Audience> adventure$renderers = new MapMaker().weakKeys().makeMap();
+    private final Audience adventure$backing = this.renderUsing(this.adventure$globalProvider);
+    private volatile Pointers adventure$pointers;
 
-  @Override
-  public FabricServerAudiences adventure$globalProvider() {
-    return this.adventure$globalProvider;
-  }
-
-  @Override
-  public @NotNull Audience audience() {
-    return this.adventure$backing;
-  }
-
-  @Override
-  public Audience renderUsing(final FabricServerAudiencesImpl controller) {
-    return this.adventure$renderers.computeIfAbsent(controller, ctrl -> new PlainAudience(ctrl, this, LOGGER::info));
-  }
-
-  @Override
-  public @NotNull Pointers pointers() {
-    if (this.adventure$pointers == null) {
-      synchronized (this) {
-        if (this.adventure$pointers == null) {
-          return this.adventure$pointers = Pointers.builder()
-            .withStatic(Identity.NAME, "Server")
-            .withStatic(PermissionChecker.POINTER, perm -> TriState.TRUE)
-            .build();
-        }
-      }
+    @Override
+    public FabricServerAudiences adventure$globalProvider() {
+        return this.adventure$globalProvider;
     }
-    return this.adventure$pointers;
-  }
 
-  @Override
-  public void refresh() {
-    // nothing to refresh
-  }
+    @Override
+    public @NotNull Audience audience() {
+        return this.adventure$backing;
+    }
+
+    @Override
+    public Audience renderUsing(final FabricServerAudiencesImpl controller) {
+        return this.adventure$renderers.computeIfAbsent(controller, ctrl -> new PlainAudience(ctrl, this, LOGGER::info));
+    }
+
+    @Override
+    public @NotNull Pointers pointers() {
+        if (this.adventure$pointers == null) {
+            synchronized (this) {
+                if (this.adventure$pointers == null) {
+                    return this.adventure$pointers = Pointers.builder()
+                            .withStatic(Identity.NAME, "Server")
+                            .withStatic(PermissionChecker.POINTER, perm -> TriState.TRUE)
+                            .build();
+                }
+            }
+        }
+        return this.adventure$pointers;
+    }
+
+    @Override
+    public void refresh() {
+        // nothing to refresh
+    }
 }

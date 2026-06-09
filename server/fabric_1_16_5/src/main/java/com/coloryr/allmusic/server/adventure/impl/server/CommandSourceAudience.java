@@ -23,10 +23,10 @@
  */
 package com.coloryr.allmusic.server.adventure.impl.server;
 
+import com.coloryr.allmusic.server.adventure.FabricAudiences;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.identity.Identity;
-import com.coloryr.allmusic.server.adventure.FabricAudiences;
 import net.kyori.adventure.text.Component;
 import net.minecraft.commands.CommandSource;
 import org.jetbrains.annotations.NotNull;
@@ -35,21 +35,21 @@ import org.jetbrains.annotations.NotNull;
  * Audience implementation that can wrap a {@link CommandSource}.
  */
 final class CommandSourceAudience implements Audience {
-  private final CommandSource output;
-  private final FabricAudiences serializer;
+    private final CommandSource output;
+    private final FabricAudiences serializer;
 
-  CommandSourceAudience(final CommandSource output, final FabricAudiences serializer) {
-    this.output = output;
-    this.serializer = serializer;
-  }
+    CommandSourceAudience(final CommandSource output, final FabricAudiences serializer) {
+        this.output = output;
+        this.serializer = serializer;
+    }
 
-  @Override
-  public void sendMessage(final Identity source, final Component text, final MessageType type) {
-    this.output.sendMessage(this.serializer.toNative(text), source.uuid());
-  }
+    @Override
+    public void sendMessage(final Identity source, final Component text, final MessageType type) {
+        this.output.sendMessage(this.serializer.toNative(text), source.uuid());
+    }
 
-  @Override
-  public void sendActionBar(final @NotNull Component message) {
-    this.sendMessage(Identity.nil(), message);
-  }
+    @Override
+    public void sendActionBar(final @NotNull Component message) {
+        this.sendMessage(Identity.nil(), message);
+    }
 }

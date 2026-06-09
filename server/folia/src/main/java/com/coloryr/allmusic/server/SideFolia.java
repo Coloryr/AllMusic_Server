@@ -1,7 +1,7 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.codec.MusicPack;
+import com.coloryr.allmusic.codec.MusicPacketCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
 import com.coloryr.allmusic.server.core.objs.music.PlayerAddMusicObj;
 import com.coloryr.allmusic.server.core.objs.music.SongInfoObj;
@@ -75,7 +75,7 @@ public class SideFolia extends BaseSide {
 
     @Override
     public void sendMessage(Object obj, Component message) {
-        if(obj instanceof CommandSender sender) {
+        if (obj instanceof CommandSender sender) {
             sender.sendMessage(message);
         }
     }
@@ -122,7 +122,7 @@ public class SideFolia extends BaseSide {
     public boolean onMusicPlay(SongInfoObj obj) {
         //不要改这个，有事件在其他线程触发
         MusicPlayEvent event = new MusicPlayEvent(obj);
-        Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, ()->{
+        Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, () -> {
             Bukkit.getPluginManager().callEvent(event);
         });
         final boolean isCancelled = event.isCancelled();
@@ -136,7 +136,7 @@ public class SideFolia extends BaseSide {
     public boolean onMusicAdd(Object obj, PlayerAddMusicObj music) {
         //不要改这个，有事件在其他线程触发
         MusicAddEvent event = new MusicAddEvent(music, (CommandSender) obj);
-        Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, ()->{
+        Bukkit.getGlobalRegionScheduler().execute(AllMusicFolia.plugin, () -> {
             Bukkit.getPluginManager().callEvent(event);
         });
         return event.isCancelled();

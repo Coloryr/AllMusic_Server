@@ -1,6 +1,5 @@
 package com.coloryr.allmusic.server;
 
-import com.coloryr.allmusic.codec.CommandType;
 import com.coloryr.allmusic.codec.MusicPack;
 import com.coloryr.allmusic.comm.MusicCodec;
 import com.coloryr.allmusic.server.core.AllMusic;
@@ -11,7 +10,6 @@ import com.coloryr.allmusic.server.event.MusicAddEvent;
 import com.coloryr.allmusic.server.event.MusicPlayEvent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.world.InteractionResult;
@@ -100,7 +98,7 @@ public class SideFabric extends BaseSide {
 
     @Override
     public File getFolder() {
-        return new File(AllMusicServer.dir);
+        return new File(AllMusic.SERVER_DIR);
     }
 
     @Override

@@ -26,5 +26,5 @@ package com.coloryr.allmusic.server.adventure.impl.server;
 import com.coloryr.allmusic.server.adventure.FabricServerAudiences;
 
 public interface MinecraftServerBridge {
-  FabricServerAudiences adventure$globalProvider();
+    FabricServerAudiences adventure$globalProvider();
 }
