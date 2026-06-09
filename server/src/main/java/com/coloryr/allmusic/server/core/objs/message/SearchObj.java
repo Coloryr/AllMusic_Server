@@ -46,27 +46,27 @@ public class SearchObj {
 
     public void init() {
         if (startSearch == null)
-            startSearch = "<light_purple>[AllMusic3]<yellow>正在排队搜歌";
+            startSearch = "<light_purple>[AllMusic]<yellow>正在排队搜歌";
         if (noPer == null)
-            noPer = "<light_purple>[AllMusic3]<red>你没有权限搜歌";
+            noPer = "<light_purple>[AllMusic]<red>你没有权限搜歌";
         if (cantSearch == null)
-            cantSearch = "<light_purple>[AllMusic3]<red>无法搜索歌曲：" + ARG.name;
+            cantSearch = "<light_purple>[AllMusic]<red>无法搜索歌曲：" + ARG.name;
         if (res == null)
-            res = "<light_purple>[AllMusic3]<yellow>搜索结果";
+            res = "<light_purple>[AllMusic]<yellow>搜索结果";
         if (emptySearch == null)
-            emptySearch = "<light_purple>[AllMusic3]<red>你没有搜索音乐";
+            emptySearch = "<light_purple>[AllMusic]<red>你没有搜索音乐";
         if (errorNum == null)
-            errorNum = "<light_purple>[AllMusic3]<red>请输入正确的序号";
+            errorNum = "<light_purple>[AllMusic]<red>请输入正确的序号";
         if (choice == null)
-            choice = "<light_purple>[AllMusic3]<yellow>你选择了序号：" + ARG.index;
+            choice = "<light_purple>[AllMusic]<yellow>你选择了序号：" + ARG.index;
         if (cantNext == null)
-            cantNext = "<light_purple>[AllMusic3]<red>无法下一页";
+            cantNext = "<light_purple>[AllMusic]<red>无法下一页";
         if (cantLast == null)
-            cantLast = "<light_purple>[AllMusic3]<red>无法上一页";
+            cantLast = "<light_purple>[AllMusic]<red>无法上一页";
         if (lastPage == null)
-            lastPage = "<light_purple>[AllMusic3]<dark_green>输入/music lastpage上一页";
+            lastPage = "<light_purple>[AllMusic]<dark_green>输入/music lastpage上一页";
         if (nextPage == null)
-            nextPage = "<light_purple>[AllMusic3]<dark_green>输入/music nextpage下一页";
+            nextPage = "<light_purple>[AllMusic]<dark_green>输入/music nextpage下一页";
     }
 }
 

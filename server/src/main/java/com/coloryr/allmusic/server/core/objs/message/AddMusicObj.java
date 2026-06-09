@@ -43,24 +43,24 @@ public class AddMusicObj {
 
     public void init() {
         if (listFull == null)
-            listFull = "<light_purple>[AllMusic3]<red>错误，队列已满";
+            listFull = "<light_purple>[AllMusic]<red>错误，队列已满";
         if (playerToMany == null)
-            playerToMany = "<light_purple>[AllMusic3]<red>错误，你点了太多的歌";
+            playerToMany = "<light_purple>[AllMusic]<red>错误，你点了太多的歌";
         if (playerBan == null)
-            playerBan = "<light_purple>[AllMusic3]<red>错误，你已被禁止点歌";
+            playerBan = "<light_purple>[AllMusic]<red>错误，你已被禁止点歌";
         if (banMusic == null)
-            banMusic = "<light_purple>[AllMusic3]<red>错误，这首歌被禁点了";
+            banMusic = "<light_purple>[AllMusic]<red>错误，这首歌被禁点了";
         if (existMusic == null)
-            existMusic = "<light_purple>[AllMusic3]<red>错误，这首歌已经存在了";
+            existMusic = "<light_purple>[AllMusic]<red>错误，这首歌已经存在了";
         if (success == null)
-            success = "<light_purple>[AllMusic3]<dark_green>点歌成功";
+            success = "<light_purple>[AllMusic]<dark_green>点歌成功";
         if (noPlayer == null)
-            noPlayer = "<light_purple>[AllMusic3]<red>没有播放的玩家";
+            noPlayer = "<light_purple>[AllMusic]<red>没有播放的玩家";
         if (noID == null)
-            noID = "<light_purple>[AllMusic3]<red>错误，请输入歌曲数字ID";
+            noID = "<light_purple>[AllMusic]<red>错误，请输入歌曲数字ID";
         if (cancel == null)
-            cancel = "<light_purple>[AllMusic3]<yellow>点歌被取消";
+            cancel = "<light_purple>[AllMusic]<yellow>点歌被取消";
         if (timeOut == null)
-            timeOut = "<light_purple>[AllMusic3]<yellow>点歌被取消，音乐长度过长";
+            timeOut = "<light_purple>[AllMusic]<yellow>点歌被取消，音乐长度过长";
     }
 }

@@ -28,8 +28,6 @@ public class AllMusicServer {
     public static MinecraftServer server;
     public static FMLEventChannel channel;
 
-    public static final String dir = "config/allmusic_server/";
-
     private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.builder()
             .downsampleColors()
             .build();
@@ -50,12 +48,11 @@ public class AllMusicServer {
 
     @Mod.EventHandler
     public void onServerStarted(FMLServerStartedEvent event) {
-        AllMusic.init(new File(dir));
+        AllMusic.init(new File(AllMusic.SERVER_DIR));
         AllMusic.start();
         Tasks.init();
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event) {
         server = event.getServer();

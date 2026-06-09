@@ -23,18 +23,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(AllMusicServer.MODID)
 public class AllMusicServer {
     public static final ResourceLocation channel = new ResourceLocation("allmusic", "channel");
-    // Define mod id in a common place for everything to reference
     public static final String MODID = "allmusic_server";
-    // Directly reference a slf4j logger
     public static final Logger LOGGER = LogManager.getLogger("AllMusic Server");
     public static MinecraftServer server;
-    // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
-
-    public static final String dir = "config/allmusic_server/";
 
     private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.builder()
             .build();
@@ -47,10 +41,8 @@ public class AllMusicServer {
     public AllMusicServer() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -65,11 +57,10 @@ public class AllMusicServer {
         CommandForge.instance.register(dispatcher);
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(FMLServerStartedEvent event) {
         server = event.getServer();
-        AllMusic.init(new File(dir));
+        AllMusic.init(new File(AllMusic.SERVER_DIR));
         AllMusic.start();
         Tasks.init();
     }

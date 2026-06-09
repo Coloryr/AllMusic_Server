@@ -1,4 +1,4 @@
-name: AllMusic3
+name: allmusic
 main: com.coloryr.allmusic.server.AllMusicBukkit
 author: Color_yr
 version: ${version}
@@ -7,5 +7,5 @@ api-version: 1.13
 
 commands:
   music:
-    description: AllMusic3
-    usage: §4[AllMusic3]§6/music help
+    description: AllMusic
+    usage: §4[AllMusic]§6/music help

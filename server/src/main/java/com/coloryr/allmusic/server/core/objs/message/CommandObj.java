@@ -19,8 +19,8 @@ public class CommandObj {
 
     public void init() {
         if (error == null)
-            error = "<light_purple>[AllMusic3]<red>参数错误，请输入/music help获取帮助";
+            error = "<light_purple>[AllMusic]<red>参数错误，请输入/music help获取帮助";
         if (noPer == null)
-            noPer = "<light_purple>[AllMusic3]<red>你没有权限执行这个操作";
+            noPer = "<light_purple>[AllMusic]<red>你没有权限执行这个操作";
     }
 }

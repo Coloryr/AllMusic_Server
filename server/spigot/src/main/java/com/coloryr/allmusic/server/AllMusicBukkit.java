@@ -37,27 +37,27 @@ public class AllMusicBukkit extends JavaPlugin {
                 VaultHook vault = new VaultHook();
                 AllMusic.economy = vault;
                 if (vault.setupEconomy()) {
-                    AllMusic.log.data("<light_purple>[AllMusic3]<yellow>Vault支持已启动");
+                    AllMusic.log.data("<light_purple>[AllMusic]<yellow>Vault支持已启动");
                 } else {
-                    AllMusic.log.data("<light_purple>[AllMusic3]<yellow>Vault未挂钩");
+                    AllMusic.log.data("<light_purple>[AllMusic]<yellow>Vault未挂钩");
                     AllMusic.economy = null;
                 }
             } catch (Exception e) {
-                AllMusic.log.data("<light_purple>[AllMusic3]<yellow>Vault未挂钩");
+                AllMusic.log.data("<light_purple>[AllMusic]<yellow>Vault未挂钩");
                 AllMusic.economy = null;
             }
         } else {
-            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>Vault未挂钩");
+            AllMusic.log.data("<light_purple>[AllMusic]<yellow>Vault未挂钩");
             AllMusic.economy = null;
         }
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             PAPI = new AllMusicPAPI(this);
             if (!PAPI.register()) {
-                AllMusic.log.data("<light_purple>[AllMusic3]<yellow>PAPI支持已启动");
+                AllMusic.log.data("<light_purple>[AllMusic]<yellow>PAPI支持已启动");
             }
         } else {
-            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>PAPI未挂钩");
+            AllMusic.log.data("<light_purple>[AllMusic]<yellow>PAPI未挂钩");
         }
 
         if (AllMusic.getConfig().topAPI) {
@@ -66,7 +66,7 @@ public class AllMusicBukkit extends JavaPlugin {
             pluginMessage = new PluginMessage();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channelBC);
             getServer().getMessenger().registerIncomingPluginChannel(this, AllMusic.channelBC, pluginMessage);
-            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>设置为顶层模式");
+            AllMusic.log.data("<light_purple>[AllMusic]<yellow>设置为顶层模式");
         } else {
             CommandBukkit command = new CommandBukkit();
             getServer().getMessenger().registerOutgoingPluginChannel(this, AllMusic.channel);

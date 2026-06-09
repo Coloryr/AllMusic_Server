@@ -18,8 +18,6 @@ public class AllMusicServer implements DedicatedServerModInitializer {
     public static MinecraftServer server;
     public static FabricServerAudiences audiences;
 
-    public static final String dir = "allmusic_server/";
-
     @Override
     public void onInitializeServer() {
 
@@ -32,7 +30,7 @@ public class AllMusicServer implements DedicatedServerModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register((a) -> {
             server = a;
             audiences = FabricServerAudiences.of(server);
-            AllMusic.init(new File(dir));
+            AllMusic.init(new File(AllMusic.SERVER_DIR));
             AllMusic.start();
             Tasks.init();
         });

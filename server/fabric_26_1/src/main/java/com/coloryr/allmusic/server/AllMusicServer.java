@@ -9,7 +9,6 @@ import net.minecraft.server.MinecraftServer;
 import java.io.File;
 
 public class AllMusicServer implements DedicatedServerModInitializer {
-    public static final String dir = "allmusic_server/";
     public static MinecraftServer server;
 
     @Override
@@ -22,7 +21,7 @@ public class AllMusicServer implements DedicatedServerModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
             server = a;
-            AllMusic.init(new File(dir));
+            AllMusic.init(new File(AllMusic.SERVER_DIR));
             AllMusic.start();
             Tasks.init();
         });

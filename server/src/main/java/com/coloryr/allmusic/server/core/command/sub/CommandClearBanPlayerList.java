@@ -8,6 +8,6 @@ public class CommandClearBanPlayerList extends ACommand {
     @Override
     public void execute(Object sender, String name, String[] args) {
         BanSave.clearBanPlayer();
-        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>禁止玩家点歌列表已清空");
+        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic]<dark_green>禁止玩家点歌列表已清空");
     }
 }

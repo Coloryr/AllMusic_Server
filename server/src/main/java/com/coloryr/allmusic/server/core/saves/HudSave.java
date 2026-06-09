@@ -37,7 +37,7 @@ public class HudSave {
             write.close();
             out.close();
         } catch (Exception e) {
-            AllMusic.log.data("<light_purple>[AllMusic3]<red>配置文件hud.json保存错误");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>配置文件hud.json保存错误");
             e.printStackTrace();
         }
     }
@@ -45,7 +45,7 @@ public class HudSave {
     public static void defaultHudCheck() {
         if (defaultHud == null || defaultHud.check()) {
             defaultHud = HudPosObj.make();
-            AllMusic.log.data("<light_purple>[AllMusic3]<red>配置文件hud.json错误，已覆盖");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>配置文件hud.json错误，已覆盖");
             saveDefaultHud();
         }
     }
@@ -97,7 +97,7 @@ public class HudSave {
             write.write(data);
             write.close();
         } catch (Exception e) {
-            AllMusic.log.data("<light_purple>[AllMusic3]<red>玩家信息保存错误");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>玩家信息保存错误");
             e.printStackTrace();
         }
     }
