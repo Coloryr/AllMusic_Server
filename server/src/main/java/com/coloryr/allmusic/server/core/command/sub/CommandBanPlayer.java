@@ -16,7 +16,7 @@ public class CommandBanPlayer implements ICommand {
             return;
         }
         BanSave.addBanPlayer(args[1]);
-        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>已禁止玩家" + args[1] + "点歌");
+        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic]<dark_green>已禁止玩家" + args[1] + "点歌");
     }
 
     @Override

@@ -27,8 +27,6 @@ public class AllMusicServer {
     public static MinecraftServer server;
     public static MinecraftServerAudiences audiences;
 
-    public static final String dir = "config/allmusic_server/";
-
     @SubscribeEvent
     public static void commonSetup(final FMLCommonSetupEvent event) {
         AllMusic.log = new LogNeoForge();
@@ -38,7 +36,6 @@ public class AllMusicServer {
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         if (event.getCommandSelection() != Commands.CommandSelection.INTEGRATED) {
-            LOGGER.info("注册指令");
             CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
             CommandNeoForge.instance.register(dispatcher);
         }
@@ -49,7 +46,7 @@ public class AllMusicServer {
         if (event.getServer().isDedicatedServer()) {
             audiences = MinecraftServerAudiences.of(event.getServer());
             server = event.getServer();
-            AllMusic.init(new File(dir));
+            AllMusic.init(new File(AllMusic.SERVER_DIR));
             AllMusic.start();
             Tasks.init();
         }

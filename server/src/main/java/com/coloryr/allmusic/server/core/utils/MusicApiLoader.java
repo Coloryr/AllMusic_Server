@@ -24,7 +24,7 @@ public class MusicApiLoader {
         if (jarFiles == null) return instances;
 
         for (File jarFile : jarFiles) {
-            AllMusic.log.data("<light_purple>[AllMusic3]<yellow>尝试加载api：" + jarFile.getName());
+            AllMusic.log.data("<light_purple>[AllMusic]<yellow>尝试加载api：" + jarFile.getName());
             instances.addAll(loadFromJar(jarFile));
         }
         return instances;

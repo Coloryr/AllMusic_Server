@@ -10,7 +10,7 @@ public class CommandNext extends ACommand {
     @Override
     public void execute(Object sender, String name, String[] args) {
         PlayMusic.musicLessTime = 10;
-        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>已强制切歌");
+        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic]<dark_green>已强制切歌");
         BanSave.removeMutePlayer(name);
     }
 }

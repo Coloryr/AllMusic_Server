@@ -23,7 +23,7 @@ public class CommandUnban extends ACommand {
             api = AllMusic.MUSIC_APIS.get(args[1]);
             musicID = args[2];
         } else {
-            AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>错误的指令");
+            AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic]<dark_green>错误的指令");
         }
 
         if (api == null) {
@@ -36,9 +36,9 @@ public class CommandUnban extends ACommand {
         if (api.checkId(musicID)) {
             api.setList(musicID, sender);
             BanSave.removeBanMusic(args[1], api.getId());
-            AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>音乐API " + api.getId() + "已解封点歌" + musicID);
+            AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic]<dark_green>音乐API " + api.getId() + "已解封点歌" + musicID);
         } else {
-            AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>请输入有效的ID");
+            AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic]<dark_green>请输入有效的ID");
         }
     }
 }

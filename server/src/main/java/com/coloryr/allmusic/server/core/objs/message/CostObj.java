@@ -25,12 +25,12 @@ public class CostObj {
 
     public void init() {
         if (search == null)
-            search = "<light_purple>[AllMusic3]<yellow>你搜歌花费了" + ARG.cost;
+            search = "<light_purple>[AllMusic]<yellow>你搜歌花费了" + ARG.cost;
         if (addMusic == null)
-            addMusic = "<light_purple>[AllMusic3]<yellow>你点歌花费了" + ARG.cost;
+            addMusic = "<light_purple>[AllMusic]<yellow>你点歌花费了" + ARG.cost;
         if (noMoney == null)
-            noMoney = "<light_purple>[AllMusic3]<red>你没有足够的钱";
+            noMoney = "<light_purple>[AllMusic]<red>你没有足够的钱";
         if (costFail == null)
-            costFail = "<light_purple>[AllMusic3]<red>扣钱过程中错误";
+            costFail = "<light_purple>[AllMusic]<red>扣钱过程中错误";
     }
 }

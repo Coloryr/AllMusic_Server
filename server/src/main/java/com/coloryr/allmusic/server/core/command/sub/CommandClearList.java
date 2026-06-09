@@ -8,6 +8,6 @@ public class CommandClearList extends ACommand {
     @Override
     public void execute(Object sender, String name, String[] args) {
         PlayMusic.clearIdleList();
-        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic3]<dark_green>空闲音乐列表已清空");
+        AllMusic.side.sendMessage(sender, "<light_purple>[AllMusic]<dark_green>空闲音乐列表已清空");
     }
 }

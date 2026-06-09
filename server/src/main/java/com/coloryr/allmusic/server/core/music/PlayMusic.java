@@ -256,7 +256,7 @@ public class PlayMusic {
                     .replace(ARG.musicId, id);
             AllMusic.side.sendMessageTask(sender, text);
         }
-        AllMusic.log.data("<light_purple>[AllMusic3]<yellow>玩家：" + player + " 点歌：" + id);
+        AllMusic.log.data("<light_purple>[AllMusic]<yellow>玩家：" + player + " 点歌：" + id);
         try {
             SongInfoObj info = api.getMusic(id, player, isList);
             if (info == null) {
@@ -305,7 +305,7 @@ public class PlayMusic {
             if (isList) {
                 error++;
             }
-            AllMusic.log.data("<light_purple>[AllMusic3]<red>歌曲信息解析错误");
+            AllMusic.log.data("<light_purple>[AllMusic]<red>歌曲信息解析错误");
             e.printStackTrace();
         }
     }

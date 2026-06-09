@@ -69,43 +69,43 @@ public class MusicPlayObj {
 
     public void init() {
         if (stopPlaying == null)
-            stopPlaying = "<light_purple>[AllMusic3]<yellow>已停止你的音乐播放";
+            stopPlaying = "<light_purple>[AllMusic]<yellow>已停止你的音乐播放";
         if (emptyPlayingMusic == null)
-            emptyPlayingMusic = "<light_purple>[AllMusic3]<yellow>无正在播放的歌曲";
+            emptyPlayingMusic = "<light_purple>[AllMusic]<yellow>无正在播放的歌曲";
         if (nowPlay == null)
-            nowPlay = "<light_purple>[AllMusic3]<yellow>正在播放：" + ARG.musicName + " | " + ARG.musicAuthor
+            nowPlay = "<light_purple>[AllMusic]<yellow>正在播放：" + ARG.musicName + " | " + ARG.musicAuthor
                     + " by: " + ARG.player;
         if (emptyPlay == null)
-            emptyPlay = "<light_purple>[AllMusic3]<yellow>队列中无歌曲";
+            emptyPlay = "<light_purple>[AllMusic]<yellow>队列中无歌曲";
         if (listMusic == null)
             listMusic = ListMusicObj.make();
         if (emptyCanPlay == null)
-            emptyCanPlay = "<light_purple>[AllMusic3]<red>无法播放歌曲" + ARG.musicId + "可能该歌曲为VIP歌曲";
+            emptyCanPlay = "<light_purple>[AllMusic]<red>无法播放歌曲" + ARG.musicId + "可能该歌曲为VIP歌曲";
         if (mute == null)
-            mute = "<light_purple>[AllMusic3]<yellow>你不会再收到点歌了！想要再次参与点歌就点一首歌吧！或者再输入一次指令恢复";
+            mute = "<light_purple>[AllMusic]<yellow>你不会再收到点歌了！想要再次参与点歌就点一首歌吧！或者再输入一次指令恢复";
         if (mute1 == null)
-            mute1 = "<light_purple>[AllMusic3]<yellow>你不会再收到空闲歌单点歌了，再输入一次指令恢复";
+            mute1 = "<light_purple>[AllMusic]<yellow>你不会再收到空闲歌单点歌了，再输入一次指令恢复";
         if (mute2 == null)
-            mute2 = "<light_purple>[AllMusic3]<yellow>你将开始收到空闲歌单点歌";
+            mute2 = "<light_purple>[AllMusic]<yellow>你将开始收到空闲歌单点歌";
         if (mute3 == null)
-            mute3 = "<light_purple>[AllMusic3]<yellow>你将开始收到点歌";
+            mute3 = "<light_purple>[AllMusic]<yellow>你将开始收到点歌";
         if (switchMusic == null)
-            switchMusic = "<light_purple>[AllMusic3]<yellow>切换到玩家歌曲";
+            switchMusic = "<light_purple>[AllMusic]<yellow>切换到玩家歌曲";
         if (addMusic == null)
-            addMusic = "<light_purple>[AllMusic3]<yellow>音乐列表添加" + ARG.musicName + " | " + ARG.musicAuthor
+            addMusic = "<light_purple>[AllMusic]<yellow>音乐列表添加" + ARG.musicName + " | " + ARG.musicAuthor
                     + " | " + ARG.musicAl + " | " + ARG.musicAlia + " | by: " + ARG.player;
         if (checkMusic == null)
-            checkMusic = "<light_purple>[AllMusic3]<yellow>正在解析歌曲" + ARG.musicId;
+            checkMusic = "<light_purple>[AllMusic]<yellow>正在解析歌曲" + ARG.musicId;
         if (musicInfo == null)
             musicInfo = ARG.musicName + " | " + ARG.musicAuthor + " | " + ARG.musicAl
                     + " | " + ARG.musicAlia + " | by: " + ARG.player;
         if (trail == null)
-            trail = "<light_purple>[AllMusic3]<yellow>该音乐为试听音乐";
+            trail = "<light_purple>[AllMusic]<yellow>该音乐为试听音乐";
         if (cancel == null)
-            cancel = "<light_purple>[AllMusic3]<yellow>播放被取消";
+            cancel = "<light_purple>[AllMusic]<yellow>播放被取消";
         if (error1 == null)
-            error1 = "<light_purple>[AllMusic3]<red>未知音乐类型";
+            error1 = "<light_purple>[AllMusic]<red>未知音乐类型";
         if (error2 == null)
-            error2 = "<light_purple>[AllMusic3]<red>未知音乐API";
+            error2 = "<light_purple>[AllMusic]<red>未知音乐API";
     }
 }

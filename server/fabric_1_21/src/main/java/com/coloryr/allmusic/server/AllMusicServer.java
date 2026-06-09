@@ -13,8 +13,6 @@ import java.io.File;
 public class AllMusicServer implements DedicatedServerModInitializer {
     public static MinecraftServer server;
 
-    public static final String dir = "allmusic_server/";
-
     @Override
     public void onInitializeServer() {
         AllMusic.log = new LogFabric();
@@ -25,7 +23,7 @@ public class AllMusicServer implements DedicatedServerModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register((a) -> {
             server = a;
-            AllMusic.init(new File(dir));
+            AllMusic.init(new File(AllMusic.SERVER_DIR));
             AllMusic.start();
             Tasks.init();
         });
