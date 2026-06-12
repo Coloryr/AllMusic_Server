@@ -221,6 +221,7 @@ public class AllMusicHud {
      */
     private void picRotateTick() {
         if (save == null) return;
+        if (!save.pic.rotate) return;
         if (count < save.pic.speed) {
             count++;
             return;
