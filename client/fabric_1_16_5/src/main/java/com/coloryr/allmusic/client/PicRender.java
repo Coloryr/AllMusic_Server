@@ -64,7 +64,7 @@ public class PicRender extends PictureFrameBuffer {
 
         matrix = Matrix4f.createTranslateMatrix(point.x + a, point.y + a, 0);
 
-        if (ang > 0) {
+        if (rotate) {
             matrix.multiply(new Quaternion(0, 0, ang, true));
         }
 

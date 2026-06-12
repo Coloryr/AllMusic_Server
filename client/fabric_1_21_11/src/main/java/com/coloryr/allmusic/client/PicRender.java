@@ -48,7 +48,7 @@ public class PicRender extends PictureFrameBuffer {
 
         float a = (float) size / 2;
 
-        if (ang > 0) {
+        if (rotate) {
             matrix.translation(point.x + a, point.y + a);
             matrix.pushMatrix().rotate((float) Math.toRadians(ang));
         } else {
