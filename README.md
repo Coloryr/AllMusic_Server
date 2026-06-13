@@ -39,8 +39,9 @@ Forge/Fabric/NeoForge类服务器
 重启客户端
 
 ## 音乐API
-目前没有内置音乐api需要自己安装，提供一个参考api https://github.com/Coloryr/netapi
-allmusic文件夹下的api文件夹放音乐api构建出来的jar
+AllMusic不会内置音乐api，你想要正常使用需要自己安装
+这里提供一个参考api https://github.com/Coloryr/netapi
+`allmusic\api`文件夹放音乐api构建出来的jar，需要重启插件才能加载
 
 ## 构建
 1. 安装JDK25、Git
